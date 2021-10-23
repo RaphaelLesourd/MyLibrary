@@ -11,6 +11,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "cell"
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackviewConstrainsts()
@@ -20,6 +21,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
    
+    // MARK: - Subviews
     let bookCover = BookCoverImageView(frame: .zero)
     let titleView = CellTitleView()
     
@@ -34,6 +36,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     }()
     
 }
+// MARK: - Constraints
 extension VerticalCollectionViewCell {
     
     private func setStackviewConstrainsts() {

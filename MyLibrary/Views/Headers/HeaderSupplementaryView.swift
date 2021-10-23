@@ -10,6 +10,10 @@ import UIKit
 
 class HeaderSupplementaryView: UICollectionReusableView {
     
+    static let reuseIdentifier = "header"
+    static let kind = "header"
+    
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackviewConstrainsts()
@@ -18,19 +22,9 @@ class HeaderSupplementaryView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    static let reuseIdentifier = "header"
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .label
-        label.text = "My great book title"
-        label.numberOfLines = 1
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        return label
-    }()
-    
+  
+    // MARK: - Subviews
+    private let titleLabel = TextLabel(fontSize: 20, weight: .bold)
     private let actionButton: UIButton = {
         let button = UIButton()
         button.setTitle("view more", for: .normal)
@@ -49,10 +43,11 @@ class HeaderSupplementaryView: UICollectionReusableView {
         return stack
     }()
     
-    func configure(with title: String) {
+    func configureTitle(with title: String) {
         titleLabel.text = title
     }
 }
+// MARK: - Constraints
 extension HeaderSupplementaryView {
   
     private func setStackviewConstrainsts() {

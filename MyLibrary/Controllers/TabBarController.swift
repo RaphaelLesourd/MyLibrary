@@ -20,8 +20,19 @@ class TabBarController: UITabBarController {
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
-        UITabBar.appearance().barTintColor = .systemBackground
-        tabBar.tintColor = .appTintColor
+        if #available(iOS 15.0, *) {
+            let appearance = UITabBarAppearance()
+            appearance.backgroundEffect = UIBlurEffect(style: .regular)
+            appearance.stackedLayoutAppearance.selected.iconColor = .appTintColor
+            appearance.stackedLayoutAppearance.normal.iconColor = .secondaryLabel
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
+            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+            tabBar.scrollEdgeAppearance = appearance
+        } else {
+            view.backgroundColor = .systemBackground
+            tabBar.barTintColor = .systemBackground
+            tabBar.tintColor = .appTintColor
+        }
     }
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.

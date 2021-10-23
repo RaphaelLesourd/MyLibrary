@@ -7,9 +7,9 @@
 
 import Foundation
 import UIKit
-import SwiftUI
 
 class BookCardMainView: UIView {
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -29,7 +29,7 @@ class BookCardMainView: UIView {
         scrollView.alwaysBounceVertical = true
         scrollView.alwaysBounceHorizontal = false
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
