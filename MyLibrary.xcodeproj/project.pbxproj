@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC702724769B00DE9219 /* AppDelegate.swift */; };
 		81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC722724769B00DE9219 /* SceneDelegate.swift */; };
-		81C6CC752724769B00DE9219 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC742724769B00DE9219 /* ViewController.swift */; };
 		81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */; };
 		81C6CC7D2724769C00DE9219 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7C2724769C00DE9219 /* Assets.xcassets */; };
-		81C6CC802724769C00DE9219 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		81C6CC8B2724769D00DE9219 /* MyLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC8A2724769D00DE9219 /* MyLibraryTests.swift */; };
 		81C6CC952724769D00DE9219 /* MyLibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC942724769D00DE9219 /* MyLibraryUITests.swift */; };
 		81C6CC972724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC962724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift */; };
@@ -20,6 +19,17 @@
 		81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA6272477D200DE9219 /* HomeViewController.swift */; };
 		81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA8272477E200DE9219 /* NewViewController.swift */; };
 		81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCAA2724781100DE9219 /* SettingsViewController.swift */; };
+		81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB427247A2B00DE9219 /* PurchaseView.swift */; };
+		81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB527247A2B00DE9219 /* ActionButton.swift */; };
+		81C6CCBC27247A2B00DE9219 /* BookImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* BookImageView.swift */; };
+		81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB727247A2B00DE9219 /* CellTitleView.swift */; };
+		81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */; };
+		81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB927247A2B00DE9219 /* TextLabel.swift */; };
+		81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */; };
+		81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */; };
+		81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */; };
+		81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */; };
+		81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCC27247AF100DE9219 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +53,6 @@
 		81C6CC6D2724769B00DE9219 /* MyLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C6CC702724769B00DE9219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81C6CC722724769B00DE9219 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		81C6CC742724769B00DE9219 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		81C6CC7A2724769B00DE9219 /* MyLibrary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyLibrary.xcdatamodel; sourceTree = "<group>"; };
 		81C6CC7C2724769C00DE9219 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81C6CC7F2724769C00DE9219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +66,17 @@
 		81C6CCA6272477D200DE9219 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		81C6CCA8272477E200DE9219 /* NewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewViewController.swift; sourceTree = "<group>"; };
 		81C6CCAA2724781100DE9219 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		81C6CCB427247A2B00DE9219 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
+		81C6CCB527247A2B00DE9219 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		81C6CCB627247A2B00DE9219 /* BookImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookImageView.swift; sourceTree = "<group>"; };
+		81C6CCB727247A2B00DE9219 /* CellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTitleView.swift; sourceTree = "<group>"; };
+		81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailElementView.swift; sourceTree = "<group>"; };
+		81C6CCB927247A2B00DE9219 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
+		81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionViewCell.swift; sourceTree = "<group>"; };
+		81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalCollectionViewCell.swift; sourceTree = "<group>"; };
+		81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSupplementaryView.swift; sourceTree = "<group>"; };
+		81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		81C6CCCC27247AF100DE9219 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,14 +127,13 @@
 		81C6CC6F2724769B00DE9219 /* MyLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				81C6CCA32724774800DE9219 /* Controllers */,
-				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
-				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
-				81C6CC742724769B00DE9219 /* ViewController.swift */,
-				81C6CC7C2724769C00DE9219 /* Assets.xcassets */,
-				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
-				81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */,
+				81C6CCAD272479A200DE9219 /* Assets */,
+				81C6CCC927247AB100DE9219 /* Extensions */,
+				81C6CCAC2724799000DE9219 /* Helpers */,
+				81C6CCAE272479B300DE9219 /* Model */,
+				81C6CCB0272479CA00DE9219 /* Views */,
+				81C6CCA32724774800DE9219 /* Controllers */,
 			);
 			path = MyLibrary;
 			sourceTree = "<group>";
@@ -147,6 +166,97 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		81C6CCAC2724799000DE9219 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
+				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
+				81C6CCCC27247AF100DE9219 /* Colors.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		81C6CCAD272479A200DE9219 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CC7C2724769C00DE9219 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		81C6CCAE272479B300DE9219 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCAF272479B800DE9219 /* CoreData */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		81C6CCAF272479B800DE9219 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		81C6CCB0272479CA00DE9219 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCC227247A5000DE9219 /* Headers */,
+				81C6CCC127247A4300DE9219 /* Cells */,
+				81C6CCC027247A3B00DE9219 /* MainViews */,
+				81C6CCB327247A1600DE9219 /* ReusableElements */,
+				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		81C6CCB327247A1600DE9219 /* ReusableElements */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
+				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
+				81C6CCB627247A2B00DE9219 /* BookImageView.swift */,
+				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
+				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
+				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
+			);
+			path = ReusableElements;
+			sourceTree = "<group>";
+		};
+		81C6CCC027247A3B00DE9219 /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
+		81C6CCC127247A4300DE9219 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
+				81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		81C6CCC227247A5000DE9219 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		81C6CCC927247AB100DE9219 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -157,6 +267,7 @@
 				81C6CC692724769B00DE9219 /* Sources */,
 				81C6CC6A2724769B00DE9219 /* Frameworks */,
 				81C6CC6B2724769B00DE9219 /* Resources */,
+				81C6CCCE27247BE200DE9219 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -251,8 +362,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81C6CC802724769C00DE9219 /* LaunchScreen.storyboard in Resources */,
 				81C6CC7D2724769C00DE9219 /* Assets.xcassets in Resources */,
+				819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,19 +383,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		81C6CCCE27247BE200DE9219 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		81C6CC692724769B00DE9219 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81C6CC752724769B00DE9219 /* ViewController.swift in Sources */,
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
+				81C6CCBC27247A2B00DE9219 /* BookImageView.swift in Sources */,
+				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */,
+				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
+				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
+				81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */,
+				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
+				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
+				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
+				81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
+				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
+				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

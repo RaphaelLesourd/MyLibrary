@@ -9,14 +9,14 @@ import UIKit
 
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
-
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
         setupViewcontrollers()
     }
-
+    
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
@@ -28,18 +28,18 @@ class TabBarController: UITabBarController {
     private func setupViewcontrollers() {
         let homeIconImage = UIImage(systemName: "books.vertical.fill")!
         let homeViewController = createController(for: HomeViewController(),
-                                                  title: "Home",
-                                                  image: homeIconImage)
-
+                                                     title: "Home",
+                                                     image: homeIconImage)
+        
         let newIconImage = UIImage(systemName: "plus.app.fill")!
         let newViewController = createController(for: NewViewController(),
-                                                         title: "New",
-                                                         image: newIconImage)
-
+                                                    title: "New",
+                                                    image: newIconImage)
+        
         let settingsIconImage = UIImage(systemName: "gear")!
         let settingsViewController = createController(for: SettingsViewController(),
-                                                     title: "Settings",
-                                                     image: settingsIconImage)
+                                                         title: "Settings",
+                                                         image: settingsIconImage)
         viewControllers = [homeViewController,
                            newViewController,
                            settingsViewController]
