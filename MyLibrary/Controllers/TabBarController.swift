@@ -21,7 +21,7 @@ class TabBarController: UITabBarController {
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
         UITabBar.appearance().barTintColor = .systemBackground
-        tabBar.tintColor = .label
+        tabBar.tintColor = .appTintColor
     }
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.

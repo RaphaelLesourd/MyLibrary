@@ -11,4 +11,5 @@ import UIKit
 extension UIColor {
     
     static let viewControllerBackgroundColor: UIColor = .secondarySystemBackground
+    static let appTintColor: UIColor = .systemOrange
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
+		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
+		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
 		81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC702724769B00DE9219 /* AppDelegate.swift */; };
 		81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC722724769B00DE9219 /* SceneDelegate.swift */; };
 		81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
+		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		81C6CC6D2724769B00DE9219 /* MyLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C6CC702724769B00DE9219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81C6CC722724769B00DE9219 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +108,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		819C5DC127247F6700F1F8F2 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
+				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
+				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
 		81C6CC642724769A00DE9219 = {
 			isa = PBXGroup;
 			children = (
@@ -159,9 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
-				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
-				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
-				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
+				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				819C5DC127247F6700F1F8F2 /* Tabs */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -203,10 +216,10 @@
 		81C6CCB0272479CA00DE9219 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CCC227247A5000DE9219 /* Headers */,
 				81C6CCC127247A4300DE9219 /* Cells */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
-				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -228,6 +241,7 @@
 		81C6CCC027247A3B00DE9219 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
+				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -410,11 +424,13 @@
 			files = (
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
 				81C6CCBC27247A2B00DE9219 /* BookImageView.swift in Sources */,
+				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */,
+				819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */,
 				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,

@@ -24,7 +24,7 @@ class ActionButton: UIButton {
         configureButton(with: title, backgroundColor: backgroundColor)
     }
     
-    private func configureButton(with title: String = "", backgroundColor: UIColor = .systemOrange) {
+    private func configureButton(with title: String = "", backgroundColor: UIColor = .appTintColor) {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.filled()
