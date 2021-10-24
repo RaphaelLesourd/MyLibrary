@@ -53,7 +53,7 @@ class BookCardMainView: UIView {
     let purchaseDetailView = PurchaseView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let recommandButton = ActionButton(title: "Recommand this book")
+    let recommandButton = ActionButton(title: "Recommander cet oeuvre")
     let separatorLine: UIView = {
             let view = UIView()
             view.backgroundColor = .secondaryLabel

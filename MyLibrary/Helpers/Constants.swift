@@ -9,7 +9,8 @@ import Foundation
 
 /// Enum giving name to each section of the HomeController CollectionView for better readability
 enum HomeCollectionViewSections: Int, CaseIterable {
-    case reading
+    case categories
     case newEntry
-    case lastRead
+    case favorites
+    case recommanding
 }

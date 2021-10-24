@@ -13,6 +13,8 @@ class BookCoverImageButton: UIButton {
         super.init(frame: .zero)
         contentMode = .scaleAspectFill
         rounded(radius: 12, backgroundcolor: UIColor.label.withAlphaComponent(0.1))
+        let image = UIImage(named: "cover")
+        setImage(image, for: .normal)
         isUserInteractionEnabled = false
     }
     

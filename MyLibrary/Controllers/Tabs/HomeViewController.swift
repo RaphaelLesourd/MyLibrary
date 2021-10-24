@@ -11,24 +11,24 @@ class HomeViewController: UIViewController {
 
     // MARK: - Properties
     private var layoutComposer = LayoutComposer()
-    
+    let defaultCategories: [String] = ["Fantasy", "Roman", "Fiction", "Bd", "Historique"].sorted()
     // MARK: - Subviews
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let searchController = UISearchController(searchResultsController: nil)
-    
+ 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
-        configureSearchController()
     }
     
     // MARK: - Setup
     private func configureCollectionView() {
         let layout = layoutComposer.composeHomeCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CategoryCollectionViewCell.self,
+                                         forCellWithReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier)
         collectionView.register(VerticalCollectionViewCell.self,
                                          forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
         collectionView.register(HorizontalCollectionViewCell.self,
@@ -41,15 +41,6 @@ class HomeViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    // All setup functions below are set when the recipeListType is set to favorite.
-    private func configureSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = true
-        searchController.searchBar.placeholder = "Search"
-        searchController.automaticallyShowsSearchResultsController = true
-        self.navigationItem.searchController = searchController
-        self.definesPresentationContext = true
     }
 
     // MARK: - Navigation
@@ -72,12 +63,14 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch HomeCollectionViewSections(rawValue: section) {
-        case .reading:
-           return 1
+        case .categories:
+            return defaultCategories.count
         case .newEntry:
             return 10
-        case .lastRead:
+        case .favorites:
             return 30
+        case .recommanding:
+           return 5
         case nil:
             return 0
         }
@@ -85,19 +78,29 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch HomeCollectionViewSections(rawValue: indexPath.section) {
-        case .reading:
-           guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
-                                                               for: indexPath) as? VerticalCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure()
+        case .categories:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier,
+                                                                for: indexPath) as? CategoryCollectionViewCell  else {
+                return UICollectionViewCell() }
+            let category = defaultCategories[indexPath.item]
+            cell.configure(text: category)
             return cell
         case .newEntry:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? VerticalCollectionViewCell  else { return UICollectionViewCell() }
+                                                                for: indexPath) as? VerticalCollectionViewCell  else {
+                return UICollectionViewCell() }
             cell.configure()
             return cell
-        case .lastRead:
+        case .favorites:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
-                                                          for: indexPath) as? HorizontalCollectionViewCell  else { return UICollectionViewCell() }
+                                                          for: indexPath) as? HorizontalCollectionViewCell  else {
+                return UICollectionViewCell() }
+            cell.configure()
+            return cell
+        case .recommanding:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
+                                                                for: indexPath) as? VerticalCollectionViewCell  else {
+                return UICollectionViewCell() }
             cell.configure()
             return cell
         case nil:
@@ -113,11 +116,15 @@ extension HomeViewController: UICollectionViewDataSource {
             return HeaderSupplementaryView()
         }
         switch HomeCollectionViewSections(rawValue: indexPath.section) {
+        case .categories:
+            headerView.configureTitle(with: "Catégories")
         case .newEntry:
-            headerView.configureTitle(with: "Last read")
-        case .lastRead:
-            headerView.configureTitle(with: "Last addition")
-        case .none, .reading:
+            headerView.configureTitle(with: "Mes derniers ajouts")
+        case .favorites:
+            headerView.configureTitle(with: "Mes favoris")
+        case .recommanding:
+            headerView.configureTitle(with: "Recommandations")
+        case .none:
             break
         }
         headerView.actionButton.addTarget(self, action: #selector(showLibrary), for: .touchUpInside)
@@ -129,26 +136,6 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       showBookDetails()
-    }
-}
-// MARK: - Search result updater
-extension HomeViewController: UISearchResultsUpdating {
-    
-    /// Upadate the tableView according to the text entered in the UISearchControler textField
-    /// - Parameter searchController: Pass in the search controller used.
-   func updateSearchResults(for searchController: UISearchController) {
-      //  guard let searchText = searchController.searchBar.text else {return}
-       
-    }
-    
-    /// Filter the recipe searched
-    /// - Parameter searchText: Pass in the text used to filter recipes.
-    private func filterSearchedRecipes(for searchText: String) {
-        if searchText.isEmpty {
-            
-        } else {
-    
-        }
     }
 }
 // MARK: - Constraints

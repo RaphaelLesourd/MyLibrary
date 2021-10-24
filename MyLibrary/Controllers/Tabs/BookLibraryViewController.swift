@@ -10,10 +10,10 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     // MARK: - Properties
     private var layoutComposer = LayoutComposer()
-    
+   
     // MARK: - Subviews
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +64,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
         navigationController?.pushViewController(bookCardVC, animated: true)
     }
 }
+
 // MARK: - Constraints
 extension BookLibraryViewController {
     

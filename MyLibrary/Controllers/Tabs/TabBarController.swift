@@ -37,22 +37,34 @@ class TabBarController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewcontrollers() {
-        let homeIconImage = UIImage(systemName: "books.vertical.fill")!
+        let homeIconImage = UIImage(systemName: "house.fill")!
         let homeViewController = createController(for: HomeViewController(),
-                                                     title: "Home",
+                                                     title: "Acceuil",
                                                      image: homeIconImage)
+        
+        let libraryIconImage = UIImage(systemName: "books.vertical.fill")!
+        let libraryViewController = createController(for: BookLibraryViewController(),
+                                                     title: "Mes livres",
+                                                     image: libraryIconImage)
         
         let newIconImage = UIImage(systemName: "plus.app.fill")!
         let newViewController = createController(for: NewViewController(),
-                                                    title: "New",
+                                                    title: "Nouveau",
                                                     image: newIconImage)
         
-        let settingsIconImage = UIImage(systemName: "gear")!
+        let searchIconImage = UIImage(systemName: "magnifyingglass.circle.fill")!
+        let searchViewController = createController(for: SearchViewController(),
+                                                    title: "Chercher",
+                                                    image: searchIconImage)
+        
+        let settingsIconImage = UIImage(systemName: "gearshape.fill")!
         let settingsViewController = createController(for: SettingsViewController(),
-                                                         title: "Settings",
+                                                         title: "Réglages",
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,
+                           libraryViewController,
                            newViewController,
+                           searchViewController,
                            settingsViewController]
     }
     /// Adds tab with an icon image and a title.
@@ -67,7 +79,7 @@ class TabBarController: UITabBarController {
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
-        navController.navigationBar.prefersLargeTitles = false
+        navController.navigationBar.prefersLargeTitles = true
         rootViewController.navigationItem.title = title
         return navController
     }

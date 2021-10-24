@@ -1,5 +1,5 @@
 //
-//  NewViewController.swift
+//  SettingsViewController.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 23/10/2021.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class NewViewController: UIViewController {
+class SearchViewController: UIViewController {
 
     // MARK: - Properties
-    private let searchController = UISearchController(searchResultsController: nil)
-    
+      private let searchController = UISearchController(searchResultsController: nil)
+       
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class NewViewController: UIViewController {
     }
 }
 // MARK: - Search result updater
-extension NewViewController: UISearchBarDelegate {
+extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
            return

@@ -13,24 +13,22 @@ class LayoutComposer {
     private let interSectionSpace: CGFloat = 30
     private let sidesPadding: CGFloat = 13
     
-    func makeSingleCellLayoutSection() -> NSCollectionLayoutSection {
+    private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                                              heightDimension: .fractionalHeight(1)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(0.3)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(110), heightDimension: .absolute(40)),
             subitem: item,
             count: 1
         )
-        group.interItemSpacing = .fixed(CGFloat(20))
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPagingCentered
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: interSectionSpace, trailing: 0)
-        return section
+        group.interItemSpacing = .fixed(10)
+        return createSection(with: group, direction: true)
     }
     
-    func makeBookCardLayoutSection() -> NSCollectionLayoutSection {
+    private func makeBookCardLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                                            heightDimension: .fractionalHeight(1)))
+                                                                             heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(0.3)),
@@ -38,31 +36,23 @@ class LayoutComposer {
             count: 1
         )
         group.interItemSpacing = .fixed(20)
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: sidesPadding, bottom: interSectionSpace, trailing: sidesPadding)
-        section.boundarySupplementaryItems = [addHeader()]
-        return section
+        return createSection(with: group, direction: true)
     }
     
-    func makeVerticalLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
+    private func makeVerticalLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .fractionalHeight(0.3)))
+                                                                             heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30)
         let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .fractionalWidth(1)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(300)),
             subitem: item,
             count: numberItems
         )
-        group.interItemSpacing = .fixed(10)
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: sidesPadding, bottom: interSectionSpace, trailing: sidesPadding)
-        section.boundarySupplementaryItems = [addHeader()]
-        return section
+        group.interItemSpacing = .fixed(20)
+        return createSection(with: group, direction: true)
     }
     
-    func makeGridLayoutSection() -> NSCollectionLayoutSection {
+    private  func makeGridLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3),
                                                                              heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
@@ -72,12 +62,20 @@ class LayoutComposer {
             count: 3
         )
         group.interItemSpacing = .fixed(15)
+        return createSection(with: group, direction: false)
+    }
+    
+    private func createSection(with group: NSCollectionLayoutGroup, direction: Bool) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: sidesPadding, bottom: interSectionSpace, trailing: sidesPadding)
+        if direction == true {
+            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+        }
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: sidesPadding, bottom: interSectionSpace, trailing: sidesPadding)
+        section.boundarySupplementaryItems = [addHeader()]
         return section
     }
     
-    func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+    private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(30))
         return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
                                                            elementKind: HeaderSupplementaryView.kind, alignment: .top)
@@ -86,12 +84,12 @@ class LayoutComposer {
     func composeHomeCollectionViewLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
-            case .reading:
-                return self?.makeSingleCellLayoutSection()
-            case .newEntry:
+            case .categories:
+                return self?.makeCategoryLayoutSection()
+            case .recommanding, .newEntry:
                 return self?.makeBookCardLayoutSection()
-            case .lastRead:
-                return self?.makeVerticalLayoutSection(numberItems: 3)
+            case .favorites:
+                return self?.makeVerticalLayoutSection(numberItems: 2)
             case nil:
                 return nil
             }
@@ -100,7 +98,7 @@ class LayoutComposer {
     
     func composeBookLibraryLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ in
-           return self?.makeGridLayoutSection()
+            return self?.makeGridLayoutSection()
         }
     }
 }
