@@ -44,11 +44,6 @@ class HomeViewController: UIViewController {
     }
 
     // MARK: - Navigation
-    private func showBookDetails() {
-        let bookCardVC = BookCardViewController()
-        navigationController?.pushViewController(bookCardVC, animated: true)
-    }
-    
     @objc private func showLibrary() {
         let libraryVC = BookLibraryViewController()
         navigationController?.pushViewController(libraryVC, animated: true)

@@ -28,7 +28,6 @@ class NewViewController: UIViewController {
         searchController.definesPresentationContext = true
         searchController.automaticallyShowsSearchResultsController = true
         self.navigationItem.searchController = searchController
-        self.definesPresentationContext = true
     }
 }
 // MARK: - Search result updater

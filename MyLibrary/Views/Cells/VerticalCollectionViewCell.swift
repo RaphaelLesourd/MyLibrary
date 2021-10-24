@@ -37,7 +37,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     
     func configure() {
         titleView.titleLabel.text = "My great book title"
-        titleView.subtitleLabel.text = "Baest author"
+        titleView.subtitleLabel.text = "Best author"
     }
     
 }

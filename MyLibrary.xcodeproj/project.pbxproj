@@ -272,8 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */,
-				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
 				81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */,
+				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

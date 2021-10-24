@@ -14,3 +14,8 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     case favorites
     case recommanding
 }
+
+enum SearchCollectionViewSections: Int, CaseIterable {
+    case librarySearch
+    case apiSearch
+}
