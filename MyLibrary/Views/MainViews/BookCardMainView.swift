@@ -43,24 +43,24 @@ class BookCardMainView: UIView {
     }()
     
     // BookCard elements
-    let bookCover = BookCoverImageView(frame: .zero)
-    let recommandButton = ActionButton(title: "Recommand this book")
-    let separatorLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .secondaryLabel
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return view
-    }()
-    let titleLabel = TextLabel(maxLines: 2, fontSize: 21, weight: .semibold)
-    let authorLabel = TextLabel(fontSize: 16, weight: .regular)
-    let publisingDetailLabel = TextLabel()
+    let bookCover = BookCoverImageButton(frame: .zero)
+    let titleLabel = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
+    let authorLabel = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
+    let publisingDetailLabel = TextLabel(alignment: .center)
     let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
     let numberOfPagesView = BookDetailElementView(iconSytemName: "book")
     let languageView = BookDetailElementView(iconSytemName: "doc.append")
     let purchaseDetailView = PurchaseView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
+    let recommandButton = ActionButton(title: "Recommand this book")
+    let separatorLine: UIView = {
+            let view = UIView()
+            view.backgroundColor = .secondaryLabel
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        return view
+    }()
     
     // MARK: stackViews
     private let bookDetailStackView: UIStackView = {

@@ -22,7 +22,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     }
    
     // MARK: - Subviews
-    let bookCover = BookCoverImageView(frame: .zero)
+    let bookCover = BookCoverImageButton(frame: .zero)
     let titleView = CellTitleView()
     
     private let stackView: UIStackView = {
@@ -30,10 +30,15 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fill
-        stack.spacing = 10
+        stack.spacing = 2
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+    
+    func configure() {
+        titleView.titleLabel.text = "My great book title"
+        titleView.subtitleLabel.text = "Baest author"
+    }
     
 }
 // MARK: - Constraints

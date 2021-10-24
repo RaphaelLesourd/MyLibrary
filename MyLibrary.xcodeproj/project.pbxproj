@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
@@ -25,7 +26,7 @@
 		81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCAA2724781100DE9219 /* SettingsViewController.swift */; };
 		81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB427247A2B00DE9219 /* PurchaseView.swift */; };
 		81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB527247A2B00DE9219 /* ActionButton.swift */; };
-		81C6CCBC27247A2B00DE9219 /* BookImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* BookImageView.swift */; };
+		81C6CCBC27247A2B00DE9219 /* BookImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* BookImageButton.swift */; };
 		81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB727247A2B00DE9219 /* CellTitleView.swift */; };
 		81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */; };
 		81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB927247A2B00DE9219 /* TextLabel.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookLibraryViewController.swift; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutComposer.swift; sourceTree = "<group>"; };
@@ -76,7 +78,7 @@
 		81C6CCAA2724781100DE9219 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		81C6CCB427247A2B00DE9219 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		81C6CCB527247A2B00DE9219 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
-		81C6CCB627247A2B00DE9219 /* BookImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookImageView.swift; sourceTree = "<group>"; };
+		81C6CCB627247A2B00DE9219 /* BookImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookImageButton.swift; sourceTree = "<group>"; };
 		81C6CCB727247A2B00DE9219 /* CellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTitleView.swift; sourceTree = "<group>"; };
 		81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailElementView.swift; sourceTree = "<group>"; };
 		81C6CCB927247A2B00DE9219 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
 				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
+				8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -236,7 +239,7 @@
 			children = (
 				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
-				81C6CCB627247A2B00DE9219 /* BookImageView.swift */,
+				81C6CCB627247A2B00DE9219 /* BookImageButton.swift */,
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
 				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
@@ -429,8 +432,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
+				8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
-				81C6CCBC27247A2B00DE9219 /* BookImageView.swift in Sources */,
+				81C6CCBC27247A2B00DE9219 /* BookImageButton.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */,

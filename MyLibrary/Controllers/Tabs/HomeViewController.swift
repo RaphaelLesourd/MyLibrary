@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Subviews
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -21,11 +22,12 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
+        configureSearchController()
     }
     
     // MARK: - Setup
     private func configureCollectionView() {
-        let layout = layoutComposer.composeCollectionViewLayout()
+        let layout = layoutComposer.composeHomeCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(VerticalCollectionViewCell.self,
                                          forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
@@ -39,6 +41,26 @@ class HomeViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    // All setup functions below are set when the recipeListType is set to favorite.
+    private func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.searchBar.placeholder = "Search"
+        searchController.automaticallyShowsSearchResultsController = true
+        self.navigationItem.searchController = searchController
+        self.definesPresentationContext = true
+    }
+
+    // MARK: - Navigation
+    private func showBookDetails() {
+        let bookCardVC = BookCardViewController()
+        navigationController?.pushViewController(bookCardVC, animated: true)
+    }
+    
+    @objc private func showLibrary() {
+        let libraryVC = BookLibraryViewController()
+        navigationController?.pushViewController(libraryVC, animated: true)
     }
 }
 // MARK: - CollectionView Datasource
@@ -66,16 +88,17 @@ extension HomeViewController: UICollectionViewDataSource {
         case .reading:
            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
                                                                for: indexPath) as? VerticalCollectionViewCell else { return UICollectionViewCell() }
-            
+            cell.configure()
             return cell
         case .newEntry:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
                                                                 for: indexPath) as? VerticalCollectionViewCell  else { return UICollectionViewCell() }
-            
+            cell.configure()
             return cell
         case .lastRead:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
                                                           for: indexPath) as? HorizontalCollectionViewCell  else { return UICollectionViewCell() }
+            cell.configure()
             return cell
         case nil:
             return UICollectionViewCell()
@@ -97,6 +120,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case .none, .reading:
             break
         }
+        headerView.actionButton.addTarget(self, action: #selector(showLibrary), for: .touchUpInside)
         return headerView
     }
 }
@@ -104,8 +128,27 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let bookCardVC = BookCardViewController()
-        navigationController?.pushViewController(bookCardVC, animated: true)
+      showBookDetails()
+    }
+}
+// MARK: - Search result updater
+extension HomeViewController: UISearchResultsUpdating {
+    
+    /// Upadate the tableView according to the text entered in the UISearchControler textField
+    /// - Parameter searchController: Pass in the search controller used.
+   func updateSearchResults(for searchController: UISearchController) {
+      //  guard let searchText = searchController.searchBar.text else {return}
+       
+    }
+    
+    /// Filter the recipe searched
+    /// - Parameter searchText: Pass in the text used to filter recipes.
+    private func filterSearchedRecipes(for searchText: String) {
+        if searchText.isEmpty {
+            
+        } else {
+    
+        }
     }
 }
 // MARK: - Constraints

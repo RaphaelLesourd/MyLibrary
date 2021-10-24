@@ -16,8 +16,6 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         setBookCoverViewWidth()
         setTitleStackview()
-        setStackviewConstrainsts()
-        descriptionLabel.text = "This is such a great book about plants and how to make them grown the right way."
     }
     
     required init?(coder: NSCoder) {
@@ -25,49 +23,48 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     }
   
    // MARK: - Subviews
-    private let bookCover = BookCoverImageView(frame: .zero)
-    let titleView = CellTitleView()
-    private let descriptionLabel = TextLabel(maxLines: 2, fontSize: 13, weight: .regular)
+    private let bookCover = BookCoverImageButton(frame: .zero)
+    private let titleView = CellTitleView()
+    private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
    
     private let textStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .top
         stack.distribution = .fillProportionally
-        return stack
-    }()
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fill
-        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
-    }()    
+    }()
+
+    func configure() {
+        titleView.titleLabel.text = "My great book title"
+        titleView.subtitleLabel.text = "Best author"
+        descriptionLabel.text = "This is such a great book about plants and how to make them grown the right way."
+    }
 }
 // MARK: - Constraints
 extension HorizontalCollectionViewCell {
     
     private func setBookCoverViewWidth() {
-        bookCover.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(bookCover)
+        NSLayoutConstraint.activate([
+            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bookCover.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7)
+        ])
     }
     
     private func setTitleStackview() {
+        contentView.addSubview(textStackView)
         textStackView.addArrangedSubview(titleView)
         textStackView.addArrangedSubview(descriptionLabel)
-    }
-    
-    private func setStackviewConstrainsts() {
-        contentView.addSubview(stackView)
-        stackView.addArrangedSubview(bookCover)
-        stackView.addArrangedSubview(textStackView)
+        textStackView.setCustomSpacing(10, after: titleView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            textStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            textStackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
+            textStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

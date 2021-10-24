@@ -13,8 +13,6 @@ class PurchaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackviewConstrainsts()
-        purchaseDateLabel.text = "Purchased in July 1999"
-        purchasePriceLabel.text = "€45"
     }
     
     required init?(coder: NSCoder) {

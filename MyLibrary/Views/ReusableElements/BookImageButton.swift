@@ -8,13 +8,11 @@
 import Foundation
 import UIKit
 
-class BookCoverImageView: UIButton {
+class BookCoverImageButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         contentMode = .scaleAspectFill
-        rounded(radius: 12, backgroundcolor: UIColor.systemPink.withAlphaComponent(0.1))
-        let image = UIImage(named: "cover")
-        setImage(image, for: .normal)
+        rounded(radius: 12, backgroundcolor: UIColor.label.withAlphaComponent(0.1))
         isUserInteractionEnabled = false
     }
     
