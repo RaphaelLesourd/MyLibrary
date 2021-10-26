@@ -30,7 +30,7 @@ extension UIViewController {
     
     // MARK: - Navigation
     @objc func showNewBookController() {
-        let newBookController = WelcomeViewController()
+        let newBookController = NewViewController()
         newBookController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(newBookController, animated: true)
     }

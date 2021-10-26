@@ -6,22 +6,31 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var handle: AuthStateDidChangeListenerHandle?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            let tabController = TabBarController()
-            window.rootViewController = tabController
-            window.tintColor = .label
-            self.window = window
-            window.makeKeyAndVisible()
+        guard let windowScene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: windowScene)
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                let tabController = TabBarController()
+                window.rootViewController = tabController
+            } else {
+                let welcomeController = WelcomeViewController()
+                window.rootViewController = welcomeController
+            }
         }
+        window.tintColor = .label
+        self.window = window
+        window.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

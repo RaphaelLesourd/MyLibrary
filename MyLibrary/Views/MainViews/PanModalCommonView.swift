@@ -7,15 +7,11 @@
 
 import UIKit
 
-enum InterfaceType {
-    case login
-    case signup
-}
-
 class PanModalCommonView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setMainStackViewConstraints()
+        activateActionButton(false)
     }
     
     required init?(coder: NSCoder) {
@@ -25,26 +21,26 @@ class PanModalCommonView: UIView {
     // MARK: - Subviews
     private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
     private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 4, fontSize: 16, weight: .regular)
-    let emailTextField = TextField(placeholder: "Email",
+    let emailTextField = TextField(placeholder: Text.Account.email,
                                    keyBoardType: .emailAddress,
                                    returnKey: .next,
                                    correction: .no,
                                    capitalization: .none)
-    let confirmEmailTextField = TextField(placeholder: "Mot de passe",
-                                          keyBoardType: .emailAddress,
-                                          returnKey: .next,
-                                          correction: .no,
-                                          capitalization: .none)
-    let passwordTextField = TextField(placeholder: "Confirmez votre mot de passe",
+    let passwordTextField = TextField(placeholder: Text.Account.password,
                                       keyBoardType: .default,
                                       returnKey: .done,
                                       correction: .no,
                                       capitalization: .none)
+    let confirmPasswordTextField = TextField(placeholder: Text.Account.confirmPassword,
+                                          keyBoardType: .emailAddress,
+                                          returnKey: .next,
+                                          correction: .no,
+                                          capitalization: .none)
     let actionButton = ActionButton(title: "", tintColor: .appTintColor)
     
     let forgotPasswordButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Mot de passe oublié", for: .normal)
+        button.setTitle(Text.Account.forgotPassword, for: .normal)
         button.setTitleColor(UIColor.appTintColor, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
         return button
@@ -60,15 +56,20 @@ class PanModalCommonView: UIView {
         return stack
     }()
     
-    func configureUI(for type: InterfaceType) {
-        titleLabel.text = type == .login ? "Connexion" : "Inscription"
-        subtitleLabel.text = type == .login ? "Veuillez entrer votre email et votre mot de passe\npour vous connecter à votre compte." : "Veuillez entrer votre email et un mot de passe\npour créer un compte."
-        let buttonTitle = type == .login ? "Se connecter" : "S'inscrire"
+    func configureUI(for type: AccountInterfaceType) {
+        titleLabel.text = type == .login ? Text.Account.loginTitle : Text.Account.signupTitle
+        subtitleLabel.text = type == .login ? Text.Account.loginSubtitle : Text.Account.signupSubtitle
+        let buttonTitle = type == .login ? Text.Account.loginButtonTitle : Text.Account.signupButtonTitle
         actionButton.setTitle(buttonTitle, for: .normal)
-        confirmEmailTextField.isHidden = type == .login
+        confirmPasswordTextField.isHidden = type == .login
         forgotPasswordButton.isHidden = type == .signup
         let space: CGFloat = type == .login ? 5 : 50
-        mainStackView.setCustomSpacing(space, after: passwordTextField)
+        mainStackView.setCustomSpacing(space, after: confirmPasswordTextField)
+    }
+    
+    func activateActionButton(_ state: Bool) {
+        actionButton.alpha = state ? 1 : 0.5
+        actionButton.isUserInteractionEnabled = state
     }
 }
 // MARK: - Constraints
@@ -78,8 +79,8 @@ extension PanModalCommonView {
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(subtitleLabel)
         mainStackView.addArrangedSubview(emailTextField)
-        mainStackView.addArrangedSubview(confirmEmailTextField)
         mainStackView.addArrangedSubview(passwordTextField)
+        mainStackView.addArrangedSubview(confirmPasswordTextField)
         mainStackView.addArrangedSubview(forgotPasswordButton)
         mainStackView.addArrangedSubview(actionButton)
         

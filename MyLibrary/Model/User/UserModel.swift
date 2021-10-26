@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 struct UserModel {
+    var userID: String?
     var email: String?
-    var password: String?
     var userName: String?
-    var userImage: UIImage?
+    var photoURL: URL?
 }

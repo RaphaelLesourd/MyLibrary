@@ -31,12 +31,12 @@ class WelcomeViewController: UIViewController {
 
     // MARK: - Navigation
     @objc private func presentLoginViewController() {
-        let loginViewController = LoginViewController()
+        let loginViewController = SigningViewController(userManager: UserManager(), interfaceType: AccountInterfaceType.login)
         presentPanModal(loginViewController)
     }
     
     @objc private func presentSignupViewController() {
-        let signupViewController = SignupViewController()
+        let signupViewController = SigningViewController(userManager: UserManager(), interfaceType: AccountInterfaceType.signup)
         presentPanModal(signupViewController)
     }
 }

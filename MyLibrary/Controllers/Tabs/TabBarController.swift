@@ -53,7 +53,7 @@ class TabBarController: UITabBarController {
                                                     image: searchIconImage)
         
         let settingsIconImage = UIImage(systemName: "gearshape.fill")!
-        let settingsViewController = createController(for: SettingsViewController(),
+        let settingsViewController = createController(for: SettingsViewController(userManager: UserManager()),
                                                          title: "Réglages",
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,

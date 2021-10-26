@@ -48,7 +48,7 @@ class TextField: UITextField {
                    keyboardType: UIKeyboardType = .default,
                    returnKey: UIReturnKeyType = .done,
                    correction: UITextAutocorrectionType = .default,
-                   capitalization:  UITextAutocapitalizationType = .sentences){
+                   capitalization:  UITextAutocapitalizationType = .sentences) {
         self.keyboardType = .default
         self.returnKeyType = .done
         self.autocorrectionType = .default

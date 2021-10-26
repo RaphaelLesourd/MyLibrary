@@ -19,3 +19,8 @@ enum SearchCollectionViewSections: Int, CaseIterable {
     case librarySearch
     case apiSearch
 }
+
+enum AccountInterfaceType {
+    case login
+    case signup
+}
