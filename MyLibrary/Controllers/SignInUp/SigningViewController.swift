@@ -11,9 +11,9 @@ import PanModal
 class SigningViewController: UIViewController {
 
     // MARK: - Properties
-    let mainView = PanModalCommonView()
-    var interfaceType: AccountInterfaceType
-    var userManager: UserManagerProtocol
+    private let mainView = PanModalCommonView()
+    private var interfaceType: AccountInterfaceType
+    private var userManager: UserManagerProtocol
     
     // MARK: - Initializer
     init(userManager: UserManagerProtocol, interfaceType: AccountInterfaceType) {

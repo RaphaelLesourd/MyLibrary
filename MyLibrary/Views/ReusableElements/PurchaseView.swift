@@ -19,7 +19,7 @@ class PurchaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
    
-    let purchaseDateLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
+    let titleLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
     let purchasePriceLabel = TextLabel(color: .secondaryLabel,alignment: .right, fontSize: 20, weight: .semibold)
    
     private let stackView: UIStackView = {
@@ -36,7 +36,7 @@ class PurchaseView: UIView {
 extension PurchaseView {
     private func setStackviewConstrainsts() {
         addSubview(stackView)
-        stackView.addArrangedSubview(purchaseDateLabel)
+        stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(purchasePriceLabel)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

@@ -47,6 +47,7 @@
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
 		819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */; };
 		819C5DC92724811300F1F8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC82724811300F1F8F2 /* Constants.swift */; };
+		81C2AE5127285E4000AC69A8 /* Bauly in Frameworks */ = {isa = PBXBuildFile; productRef = 81C2AE5027285E4000AC69A8 /* Bauly */; };
 		81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC702724769B00DE9219 /* AppDelegate.swift */; };
 		81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC722724769B00DE9219 /* SceneDelegate.swift */; };
 		81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */; };
@@ -153,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81C2AE5127285E4000AC69A8 /* Bauly in Frameworks */,
 				8147515A2727D7320080C5BA /* FirebaseDatabase in Frameworks */,
 				814751542727D7320080C5BA /* FirebaseAppDistribution-Beta in Frameworks */,
 				814751642727D7320080C5BA /* FirebasePerformance in Frameworks */,
@@ -450,6 +452,7 @@
 				814751632727D7320080C5BA /* FirebasePerformance */,
 				814751652727D7320080C5BA /* FirebaseRemoteConfig */,
 				814751672727D7320080C5BA /* FirebaseStorage */,
+				81C2AE5027285E4000AC69A8 /* Bauly */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -528,6 +531,7 @@
 			packageReferences = (
 				810C447327270741007541C0 /* XCRemoteSwiftPackageReference "PanModal" */,
 				8147514A2727D7320080C5BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				81C2AE4F27285E3F00AC69A8 /* XCRemoteSwiftPackageReference "Bauly" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -1078,6 +1082,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		81C2AE4F27285E3F00AC69A8 /* XCRemoteSwiftPackageReference "Bauly" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wiencheck/Bauly.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.7;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1160,6 +1172,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8147514A2727D7320080C5BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		81C2AE5027285E4000AC69A8 /* Bauly */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81C2AE4F27285E3F00AC69A8 /* XCRemoteSwiftPackageReference "Bauly" */;
+			productName = Bauly;
 		};
 /* End XCSwiftPackageProductDependency section */
 

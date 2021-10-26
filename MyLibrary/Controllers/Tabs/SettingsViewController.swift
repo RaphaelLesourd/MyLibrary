@@ -33,14 +33,20 @@ class SettingsViewController: UIViewController {
         setSignOutButtonConstraints()
         setTargets()
     }
-
+    
     // MARK: - Setup
     private func setTargets() {
-        signoutButton.addTarget(self, action: #selector(signoutAccount), for: .touchUpInside)
+        signoutButton.addTarget(self, action: #selector(signoutRequest), for: .touchUpInside)
     }
     
     // MARK: - Targets
-    @objc private func signoutAccount() {
+    @objc private func signoutRequest() {
+        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { _ in
+            self.signoutAccount()
+        }
+    }
+    
+    private func signoutAccount() {
         userManger.logout { result in
             switch result {
             case .success(_):

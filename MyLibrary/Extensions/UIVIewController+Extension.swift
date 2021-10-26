@@ -11,10 +11,13 @@ import UIKit
 extension UIViewController {
     
     // MARK: - Alert
-    func presentAlert(withTitle title: String, message: String, actionHandler: ((UIAlertAction) -> Void)?) {
+    func presentAlert(withTitle title: String, message: String, withCancel: Bool = false, actionHandler: ((UIAlertAction) -> Void)?) {
       DispatchQueue.main.async {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: actionHandler))
+          if withCancel {
+              alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+          }
         self.present(alertController, animated: true)
       }
     }
