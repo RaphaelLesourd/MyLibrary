@@ -39,7 +39,7 @@ class ActionButton: UIButton {
             configuration = UIButton.Configuration.tinted()
             configuration?.image = UIImage(systemName: systemImage)
             configuration?.cornerStyle = .medium
-            configuration?.baseForegroundColor = .appTintColor
+            configuration?.baseForegroundColor = tintColor
             configuration?.baseBackgroundColor = tintColor
             configuration?.buttonSize = .large
             configuration?.titlePadding = 10
@@ -53,6 +53,7 @@ class ActionButton: UIButton {
             self.setTitle(title, for: .normal)
             self.titleLabel?.font = font
             self.rounded(radius: 10, backgroundcolor: tintColor)
+            self.setTitleColor(.white, for: .normal)
         }
     }
 }

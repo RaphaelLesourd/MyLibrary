@@ -20,6 +20,7 @@ class BookLibraryViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
+        addNewBookButton()
     }
     
     // MARK: - Setup
@@ -60,8 +61,7 @@ extension BookLibraryViewController: UICollectionViewDataSource {
 extension BookLibraryViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let bookCardVC = BookCardViewController()
-        navigationController?.pushViewController(bookCardVC, animated: true)
+       showBookDetails()
     }
 }
 

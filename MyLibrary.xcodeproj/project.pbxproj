@@ -9,9 +9,20 @@
 /* Begin PBXBuildFile section */
 		1E301945373240D54F2E7BE8 /* Pods_MyLibrary_MyLibraryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B699A690EB8D7788EA79FF4 /* Pods_MyLibrary_MyLibraryUITests.framework */; };
 		6A781DA5BBEBCDB8BBFDDDF9 /* Pods_MyLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B5A9173B71B19ACF00BB21 /* Pods_MyLibrary.framework */; };
+		810C44652726E541007541C0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44642726E541007541C0 /* UserManager.swift */; };
+		810C44672726E561007541C0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44662726E561007541C0 /* UserModel.swift */; };
+		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
+		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
+		810C44702726FF16007541C0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446F2726FF16007541C0 /* LoginViewController.swift */; };
+		810C44722726FF21007541C0 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44712726FF21007541C0 /* SignupViewController.swift */; };
+		810C447527270741007541C0 /* PanModal in Frameworks */ = {isa = PBXBuildFile; productRef = 810C447427270741007541C0 /* PanModal */; };
+		810C44772727102D007541C0 /* PanModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44762727102D007541C0 /* PanModalViewController.swift */; };
+		810C447927271351007541C0 /* PanModalCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* PanModalCommonView.swift */; };
+		810C447B2727189B007541C0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447A2727189B007541C0 /* TextField.swift */; };
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
+		81475148272735900080C5BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81475147272735900080C5BA /* String+Extension.swift */; };
 		8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
 		8171AF982725AD2A002F96B9 /* NewBookControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */; };
@@ -68,9 +79,20 @@
 		5CB562F6567EB5D955BF3433 /* Pods-MyLibrary-MyLibraryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLibrary-MyLibraryUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyLibrary-MyLibraryUITests/Pods-MyLibrary-MyLibraryUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		740D84C934EF0207250A1B5A /* Pods-MyLibrary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyLibrary.release.xcconfig"; path = "Target Support Files/Pods-MyLibrary/Pods-MyLibrary.release.xcconfig"; sourceTree = "<group>"; };
 		7B699A690EB8D7788EA79FF4 /* Pods_MyLibrary_MyLibraryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyLibrary_MyLibraryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		810C44642726E541007541C0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		810C44662726E561007541C0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		810C446A2726EAC4007541C0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeControllerMainView.swift; sourceTree = "<group>"; };
+		810C446E2726F81A007541C0 /* MyLibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLibrary.entitlements; sourceTree = "<group>"; };
+		810C446F2726FF16007541C0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		810C44712726FF21007541C0 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		810C44762727102D007541C0 /* PanModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalViewController.swift; sourceTree = "<group>"; };
+		810C447827271351007541C0 /* PanModalCommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalCommonView.swift; sourceTree = "<group>"; };
+		810C447A2727189B007541C0 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
+		81475147272735900080C5BA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookLibraryViewController.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerMainView.swift; sourceTree = "<group>"; };
@@ -116,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				810C447527270741007541C0 /* PanModal in Frameworks */,
 				6A781DA5BBEBCDB8BBFDDDF9 /* Pods_MyLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +162,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		810C44682726E59F007541C0 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				810C44642726E541007541C0 /* UserManager.swift */,
+				810C44662726E561007541C0 /* UserModel.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		810C44692726EAA3007541C0 /* SignInUp */ = {
+			isa = PBXGroup;
+			children = (
+				810C44762727102D007541C0 /* PanModalViewController.swift */,
+				810C446A2726EAC4007541C0 /* WelcomeViewController.swift */,
+				810C446F2726FF16007541C0 /* LoginViewController.swift */,
+				810C44712726FF21007541C0 /* SignupViewController.swift */,
+			);
+			path = SignInUp;
+			sourceTree = "<group>";
+		};
 		8124B9902725CB33004E9AE0 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +220,7 @@
 		81C6CC6F2724769B00DE9219 /* MyLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				810C446E2726F81A007541C0 /* MyLibrary.entitlements */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
 				81C6CCAD272479A200DE9219 /* Assets */,
 				81C6CCC927247AB100DE9219 /* Extensions */,
@@ -208,6 +252,7 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
@@ -238,6 +283,7 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				810C44682726E59F007541C0 /* User */,
 				81C6CCAF272479B800DE9219 /* CoreData */,
 			);
 			path = Model;
@@ -272,6 +318,7 @@
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
 				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
+				810C447A2727189B007541C0 /* TextField.swift */,
 			);
 			path = ReusableElements;
 			sourceTree = "<group>";
@@ -281,6 +328,8 @@
 			children = (
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
 				8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */,
+				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
+				810C447827271351007541C0 /* PanModalCommonView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -308,6 +357,7 @@
 			children = (
 				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
 				8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */,
+				81475147272735900080C5BA /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -322,7 +372,6 @@
 				FE2D835A5406987275F2A915 /* Pods-MyLibraryTests.debug.xcconfig */,
 				CC7E93C111C3DEFBA76EC3DF /* Pods-MyLibraryTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -354,6 +403,9 @@
 			dependencies = (
 			);
 			name = MyLibrary;
+			packageProductDependencies = (
+				810C447427270741007541C0 /* PanModal */,
+			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
 			productType = "com.apple.product-type.application";
@@ -428,6 +480,9 @@
 				Base,
 			);
 			mainGroup = 81C6CC642724769A00DE9219;
+			packageReferences = (
+				810C447327270741007541C0 /* XCRemoteSwiftPackageReference "PanModal" */,
+			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -564,6 +619,10 @@
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */,
+				810C44652726E541007541C0 /* UserManager.swift in Sources */,
+				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
+				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
+				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
@@ -574,15 +633,21 @@
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
+				81475148272735900080C5BA /* String+Extension.swift in Sources */,
+				810C44702726FF16007541C0 /* LoginViewController.swift in Sources */,
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
 				81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */,
+				810C44772727102D007541C0 /* PanModalViewController.swift in Sources */,
+				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
 				8171AF982725AD2A002F96B9 /* NewBookControllerMainView.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
+				810C44722726FF21007541C0 /* SignupViewController.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
+				810C44672726E561007541C0 /* UserModel.swift in Sources */,
 				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -753,11 +818,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyLibrary/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -782,11 +849,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyLibrary/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -945,6 +1014,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		810C447327270741007541C0 /* XCRemoteSwiftPackageReference "PanModal" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/slackhq/PanModal.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		810C447427270741007541C0 /* PanModal */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 810C447327270741007541C0 /* XCRemoteSwiftPackageReference "PanModal" */;
+			productName = PanModal;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */ = {

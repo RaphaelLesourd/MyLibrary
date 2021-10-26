@@ -29,6 +29,22 @@ class NewViewController: UIViewController {
         searchController.automaticallyShowsSearchResultsController = true
         self.navigationItem.searchController = searchController
     }
+    
+    private func addScannerButton() {
+        let infoButton = UIBarButtonItem(image: UIImage(systemName: "barcode.viewfinder"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showScannerController))
+        navigationItem.rightBarButtonItem = infoButton
+    }
+    
+    // MARK: - Navigation
+    @objc private func showScannerController() {
+        let barcodeScannerController = BarcodeScannerViewController()
+        barcodeScannerController.hidesBottomBarWhenPushed = true
+        barcodeScannerController.barcodeDelegate = self
+        navigationController?.pushViewController(barcodeScannerController, animated: true)
+    }
 }
 // MARK: - Search result updater
 extension NewViewController: UISearchBarDelegate {
@@ -38,5 +54,12 @@ extension NewViewController: UISearchBarDelegate {
         }
         searchController.searchBar.text = nil
         searchController.isActive = false
+    }
+}
+// MARK: - Barcode procol
+extension NewViewController: BarcodeProtocol {
+    
+    func processBarcode(with code: String) {
+        presentAlert(withTitle: "New Found barcode", message: code, actionHandler: nil)
     }
 }

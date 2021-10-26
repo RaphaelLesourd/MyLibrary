@@ -46,12 +46,7 @@ class TabBarController: UITabBarController {
         let libraryViewController = createController(for: BookLibraryViewController(),
                                                      title: "Mes livres",
                                                      image: libraryIconImage)
-        
-        let newIconImage = UIImage(systemName: "plus.app.fill")!
-        let newViewController = createController(for: NewViewController(),
-                                                    title: "Nouveau",
-                                                    image: newIconImage)
-        
+    
         let searchIconImage = UIImage(systemName: "magnifyingglass.circle.fill")!
         let searchViewController = createController(for: SearchViewController(),
                                                     title: "Chercher",
@@ -63,7 +58,7 @@ class TabBarController: UITabBarController {
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,
                            libraryViewController,
-                           newViewController,
+                         //  newViewController,
                            searchViewController,
                            settingsViewController]
     }

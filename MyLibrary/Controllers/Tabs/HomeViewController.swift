@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
+        addNewBookButton()
     }
     
     // MARK: - Setup

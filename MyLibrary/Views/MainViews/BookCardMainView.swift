@@ -107,7 +107,7 @@ extension BookCardMainView {
         bookCover.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
-            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
             bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7)
@@ -141,7 +141,7 @@ extension BookCardMainView {
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7)
+            mainStackView.heightAnchor.constraint(equalTo: contentView.heightAnchor)
         ])
     }
 }

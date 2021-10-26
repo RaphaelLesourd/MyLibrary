@@ -51,6 +51,21 @@ class SearchViewController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
+    private func addScannerButton() {
+        let infoButton = UIBarButtonItem(image: UIImage(systemName: "barcode.viewfinder"),
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showScannerController))
+        navigationItem.rightBarButtonItem = infoButton
+    }
+    
+    // MARK: - Navigation
+    @objc private func showScannerController() {
+        let barcodeScannerController = BarcodeScannerViewController()
+        barcodeScannerController.hidesBottomBarWhenPushed = true
+        barcodeScannerController.barcodeDelegate = self
+        navigationController?.pushViewController(barcodeScannerController, animated: true)
+    }
 }
 // MARK: - Search result updater
 extension SearchViewController: UISearchBarDelegate {
@@ -114,6 +129,13 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
       showBookDetails()
+    }
+}
+// MARK: - Barcode procol
+extension SearchViewController: BarcodeProtocol {
+    
+    func processBarcode(with code: String) {
+        presentAlert(withTitle: "Found barcode", message: code, actionHandler: nil)
     }
 }
 // MARK: - Constraints

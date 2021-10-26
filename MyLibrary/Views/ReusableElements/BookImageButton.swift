@@ -12,7 +12,7 @@ class BookCoverImageButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         contentMode = .scaleAspectFill
-        rounded(radius: 12, backgroundcolor: UIColor.label.withAlphaComponent(0.1))
+        rounded(radius: 7, backgroundcolor: UIColor.label.withAlphaComponent(0.1))
         let image = UIImage(named: "cover")
         setImage(image, for: .normal)
         isUserInteractionEnabled = false
