@@ -72,6 +72,7 @@ class SigningViewController: UIViewController {
     }
     
     private func createAccount() {
+        userManager.userName = mainView.userNameTextField.text ?? ""
         userManager.createAccount { [weak self] error in
             guard let self = self else { return }
             if let error = error {
@@ -147,10 +148,7 @@ extension SigningViewController: UITextFieldDelegate {
     }
 }
 extension SigningViewController: PanModalPresentable {
-    var panScrollable: UIScrollView? {
-        return nil
-    }
-    
+   
     var longFormHeight: PanModalHeight {
         let height: CGFloat = interfaceType == .login ? 140 : 100
         return .maxHeightWithTopInset(height)
@@ -159,4 +157,9 @@ extension SigningViewController: PanModalPresentable {
     var cornerRadius: CGFloat {
         return 20
     }
+    
+    var panScrollable: UIScrollView? {
+        return nil
+    }
+
 }

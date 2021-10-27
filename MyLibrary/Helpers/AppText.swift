@@ -11,10 +11,10 @@ enum Text {
     
     enum Account {
         static let loginTitle = "Connexion"
-        static let loginSubtitle = "Veuillez entrer votre email et votre mot de passe\npour vous connecter à votre compte."
+        static let loginSubtitle = "Veuillez entrer votre email et votre mot de passe pour vous connecter à votre compte."
         static let loginButtonTitle =  "Se connecter"
         static let signupTitle = "Inscription"
-        static let signupSubtitle = "Choisissez un mot de passe avec minimum 1 chiffre,\nun charactère spécial et minimum 6 lettres."
+        static let signupSubtitle = "Choisissez un mot de passe avec minimum 1 chiffre, un charactère spécial et minimum 6 lettres."
         static let signupButtonTitle = "S'inscrire"
         static let email = "Email"
         static let password = "Mot de passe"

@@ -10,10 +10,11 @@ import Firebase
 import FirebaseAuth
 
 protocol UserManagerProtocol {
-    var currentUser: UserModel? { get set }
+    var userName: String { get set }
     var userEmail: String { get set }
     var userPassword: String { get set }
     var confirmPassword: String { get set }
+    
     func canLogin() -> Bool
     func canCreateAccount() -> Bool
     func login(completion: @escaping (Error?) -> Void)
@@ -23,25 +24,49 @@ protocol UserManagerProtocol {
 }
 
 class UserManager: UserManagerProtocol {
-   
-    var currentUser: UserModel?
+    
+    var currentUser = CurrentUser.shared
+    var userName = String()
     var userEmail = String()
     var userPassword = String()
     var confirmPassword = String()
-
+    
     // create account
     func createAccount(completion: @escaping (Error?) -> Void) {
-        Auth.auth().createUser(withEmail: userEmail, password: userPassword) { authResult, error in
+        Auth.auth().createUser(withEmail: userEmail, password: userPassword) { [weak self] authResult, error in
             if let error = error {
                 completion(error)
-              return
+                return
             }
-            let newUserInfo = authResult?.user
-            self.currentUser?.email = newUserInfo?.email
+            self?.saveUser(with: authResult?.user) { error in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+        }
+    }
+    
+    private func saveUser(with user: User?, completion: @escaping (Error?) -> Void) {
+        guard let user = user else { return }
+        let email = user.email ?? ""
+        let displayName = userName
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        db.collection("User").document(uid).setData([
+            "email": email,
+            "displayName": displayName,
+            "uid": uid
+        ]) { error in
+            if let error = error {
+                completion(error)
+                return
+            }
             completion(nil)
         }
     }
-
+    
     // delete account
     
     // Log in
@@ -77,9 +102,9 @@ class UserManager: UserManagerProtocol {
     func canLogin() -> Bool {
         guard userEmail.validateEmail(),
               userPassword.validatePassword() else {
-            return false
-        }
-       return true
+                  return false
+              }
+        return true
     }
     
     func canCreateAccount() -> Bool {

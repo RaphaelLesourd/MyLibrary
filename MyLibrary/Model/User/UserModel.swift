@@ -9,9 +9,8 @@ import Foundation
 import UIKit
 
 struct UserModel {
-    var userID: String?
+    var id: String?
     var email: String?
-    var userName: String?
-    var userPassword: String?
+    var name: String?
     var photoURL: URL?
 }

@@ -23,7 +23,6 @@ class BookCardMainView: UIView {
     }
     
     // MARK: - Subviews
-    // ScrollView
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -63,6 +62,7 @@ class BookCardMainView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return button
     }()
+    
     let separatorLine: UIView = {
             let view = UIView()
             view.backgroundColor = .secondaryLabel

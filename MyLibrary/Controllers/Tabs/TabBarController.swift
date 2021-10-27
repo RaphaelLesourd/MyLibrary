@@ -7,36 +7,18 @@
 
 import UIKit
 import PanModal
+import FirebaseAuth
 
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
     
-    // MARK: Properties
-    private var userManager: UserManagerProtocol
-    
-    init(userManager: UserManagerProtocol) {
-        self.userManager = userManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    var currentUser = Auth.auth().currentUser
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
         setupViewcontrollers()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        guard userManager.currentUser?.userName == nil else { return }
-        let profileVC = ProfileViewController(userManager: UserManager())
-        presentPanModal(profileVC)
-    }
-   
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {

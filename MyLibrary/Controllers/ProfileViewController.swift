@@ -11,18 +11,9 @@ import PanModal
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
-    private var userManager: UserManagerProtocol
+    private var userManager: UserManagerProtocol?
     private let mainView = ProfileControllerMainView()
     
-    // MARK: - Intilizer
-    init(userManager: UserManagerProtocol) {
-        self.userManager = userManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     // MARK: - Lifecyle
     override func loadView() {
         view = mainView
@@ -51,7 +42,6 @@ class ProfileViewController: UIViewController {
             presentAlertBanner(as: .error, subtitle: "Nom d'utilisateur vide")
             return
         }
-        print(userName)
         dismiss(animated: true)
     }
 }

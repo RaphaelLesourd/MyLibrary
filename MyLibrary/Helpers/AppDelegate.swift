@@ -8,14 +8,23 @@
 import UIKit
 import CoreData
 import Firebase
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+   
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        keyboardSetup()
         FirebaseApp.configure()
         return true
+    }
+    
+    private func keyboardSetup() {
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.toolbarTintColor = .label
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Close"
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
     }
 
     // MARK: UISceneSession Lifecycle

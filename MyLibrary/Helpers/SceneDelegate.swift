@@ -13,14 +13,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var handle: AuthStateDidChangeListenerHandle?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
-                let tabController = TabBarController(userManager: UserManager())
+                let tabController = TabBarController()
                 window.rootViewController = tabController
             } else {
                 let welcomeController = WelcomeViewController()
