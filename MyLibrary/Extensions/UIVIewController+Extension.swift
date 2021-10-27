@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Bauly
 
 extension UIViewController {
     
@@ -20,6 +21,14 @@ extension UIViewController {
           }
         self.present(alertController, animated: true)
       }
+    }
+    
+    // MARK: - Banner
+    func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
+        Bauly.shared.forcePresent(configurationHandler: { bauly in
+            bauly.title = type.message
+            bauly.subtitle = subtitle
+        }, duration: 1, dismissAfter: 2, feedbackStyle: .medium)
     }
     
     // MARK: - NavigationBar

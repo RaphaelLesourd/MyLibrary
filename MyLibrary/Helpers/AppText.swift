@@ -24,4 +24,18 @@ enum Text {
         static let termOfUseMessage = "Conditions d'utilisation"
         static let otherConnectionTypeMessage = "Autres moyens de se connecter:"
     }
+    
+    enum Profile {
+        static let userName = "Nom d'utilisateur"
+        static let createProfileButtonTitle = "Créer un profil"
+    }
+    
+    enum ControllerTitle {
+        static let newBook = "Nouveau livre"
+        static let home = "Acceuil"
+        static let myBooks = "Mes livres"
+        static let search = "Chercher"
+        static let settings = "Réglages"
+        static let profile = "Profil"
+    }
 }

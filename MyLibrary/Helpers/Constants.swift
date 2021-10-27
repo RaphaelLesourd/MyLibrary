@@ -24,3 +24,20 @@ enum AccountInterfaceType {
     case login
     case signup
 }
+
+enum AlertBannerType {
+    case error
+    case success
+    case custom(String)
+    
+    var message: String {
+        switch self {
+        case .error:
+            return "Erreur!"
+        case .success:
+            return "Succés"
+        case .custom(let message):
+            return message
+        }
+    }
+}

@@ -22,7 +22,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     }
    
     // MARK: - Subviews
-    let bookCover = BookCoverImageButton(frame: .zero)
+    let bookCover = ImageButton(frame: .zero)
     let titleView = CellTitleView()
     
     private let stackView: UIStackView = {

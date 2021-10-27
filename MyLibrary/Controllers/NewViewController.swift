@@ -16,6 +16,7 @@ class NewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.newBook
         configureSearchController()
         addScannerButton()
     }
@@ -31,7 +32,7 @@ class NewViewController: UIViewController {
     }
     
     private func addScannerButton() {
-        let infoButton = UIBarButtonItem(image: UIImage(systemName: "barcode.viewfinder"),
+        let infoButton = UIBarButtonItem(image: Images.scanBarcode,
                                          style: .plain,
                                          target: self,
                                          action: #selector(showScannerController))

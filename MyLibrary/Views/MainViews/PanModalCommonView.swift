@@ -32,10 +32,10 @@ class PanModalCommonView: UIView {
                                       correction: .no,
                                       capitalization: .none)
     let confirmPasswordTextField = TextField(placeholder: Text.Account.confirmPassword,
-                                          keyBoardType: .emailAddress,
-                                          returnKey: .next,
-                                          correction: .no,
-                                          capitalization: .none)
+                                             keyBoardType: .emailAddress,
+                                             returnKey: .next,
+                                             correction: .no,
+                                             capitalization: .none)
     let actionButton = ActionButton(title: "", tintColor: .appTintColor)
     
     let forgotPasswordButton: UIButton = {
@@ -59,9 +59,25 @@ class PanModalCommonView: UIView {
     func configureUI(for type: AccountInterfaceType) {
         titleLabel.text = type == .login ? Text.Account.loginTitle : Text.Account.signupTitle
         subtitleLabel.text = type == .login ? Text.Account.loginSubtitle : Text.Account.signupSubtitle
-        let buttonTitle = type == .login ? Text.Account.loginButtonTitle : Text.Account.signupButtonTitle
+        
+        let buttonTitle = type == .login ? Text.Account.loginButtonTitle : Text.Profile.createProfileButtonTitle
         actionButton.setTitle(buttonTitle, for: .normal)
+#if targetEnvironment(simulator)
+        // Do Not enable '.password' or '.newPassword' or 'isSecureTextEntry' text content type on simulator as it ends up with annoying behaviour:
+        // 'Strong Password' yellow glitch preventing from editing field.
+        print("Simulator! not setting password-like text content type")
+#else
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.textContentType = .password
+        
+        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.autocapitalizationType = .none
+        confirmPasswordTextField.textContentType = .password
+#endif
+        
         confirmPasswordTextField.isHidden = type == .login
+        
         forgotPasswordButton.isHidden = type == .signup
         let space: CGFloat = type == .login ? 5 : 50
         mainStackView.setCustomSpacing(space, after: confirmPasswordTextField)

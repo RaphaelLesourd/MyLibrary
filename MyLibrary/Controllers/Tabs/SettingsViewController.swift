@@ -24,7 +24,7 @@ class SettingsViewController: UIViewController {
     }
     
     // MARK: - Properties
-    let signoutButton = ActionButton(title: "Déconnexion", systemImage: "rectangle.portrait.and.arrow.right.fill", tintColor: .systemRed)
+    let signoutButton = ActionButton(title: "Déconnexion", systemImage: "rectangle.portrait.and.arrow.right.fill", tintColor: .systemPurple)
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -41,19 +41,19 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Targets
     @objc private func signoutRequest() {
-        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { _ in
-            self.signoutAccount()
+        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { [weak self] _ in
+            self?.signoutAccount()
         }
     }
     
     private func signoutAccount() {
-        userManger.logout { result in
-            switch result {
-            case .success(_):
-                print("success")
-            case .failure(let error):
-                print(error.localizedDescription)
+        userManger.logout { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                return
             }
+            self.presentAlertBanner(as: .custom("A bientôt!"), subtitle: "")
         }
     }
 }

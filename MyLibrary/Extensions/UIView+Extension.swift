@@ -16,10 +16,10 @@ extension UIView {
     ///   - radius: Corner radius value, 17 by default.
     ///   - backgroundcolor: Color of the background, clear by default.
     ///   - withBlur: Boolean value if a blur effect should be added, true by default.
-    func rounded(radius: CGFloat = 17, backgroundcolor: UIColor = .clear) {
+    func rounded(radius: CGFloat = 17, backgroundColor: UIColor = .clear) {
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
-        self.backgroundColor = backgroundcolor
+        self.backgroundColor = backgroundColor
     }
     /// Add a shadow to a view.
     /// - Parameters:

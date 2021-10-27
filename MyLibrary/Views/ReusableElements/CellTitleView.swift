@@ -19,7 +19,7 @@ class CellTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
    
-    let titleLabel = TextLabel(maxLines: 1, fontSize: 14, weight: .bold)
+    let titleLabel = TextLabel(maxLines: 2, fontSize: 14, weight: .bold)
     let subtitleLabel = TextLabel(fontSize: 13, weight: .regular)
    
     private let stackView: UIStackView = {

@@ -10,14 +10,16 @@ import Firebase
 import FirebaseAuth
 
 protocol UserManagerProtocol {
+    var currentUser: UserModel? { get set }
     var userEmail: String { get set }
     var userPassword: String { get set }
     var confirmPassword: String { get set }
     func canLogin() -> Bool
     func canCreateAccount() -> Bool
-    func login(completion: @escaping (Result<Bool, Error>) -> Void)
-    func logout(completion: @escaping (Result<Bool, Error>) -> Void)
-    func createAccount(completion: @escaping (Result<Bool, Error>) -> Void)
+    func login(completion: @escaping (Error?) -> Void)
+    func logout(completion: @escaping (Error?) -> Void)
+    func createAccount(completion: @escaping (Error?) -> Void)
+    func sendPasswordReset(completion: @escaping (Error?) -> Void)
 }
 
 class UserManager: UserManagerProtocol {
@@ -28,42 +30,48 @@ class UserManager: UserManagerProtocol {
     var confirmPassword = String()
 
     // create account
-    func createAccount(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func createAccount(completion: @escaping (Error?) -> Void) {
         Auth.auth().createUser(withEmail: userEmail, password: userPassword) { authResult, error in
             if let error = error {
-                completion(.failure(error))
+                completion(error)
               return
             }
             let newUserInfo = authResult?.user
             self.currentUser?.email = newUserInfo?.email
-            completion(.success(true))
+            completion(nil)
         }
     }
 
     // delete account
     
     // Log in
-    func login(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func login(completion: @escaping (Error?) -> Void) {
         Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
             if let error = error {
-                completion(.failure(error))
+                completion(error)
             } else {
-                completion(.success(true))
+                dump(authResult?.user.email)
+                completion(nil)
             }
         }
     }
     
     // log out
-    func logout(completion: @escaping (Result<Bool, Error>) -> Void) {
+    func logout(completion: @escaping (Error?) -> Void) {
         do {
             try Auth.auth().signOut()
-            completion(.success(true))
+            completion(nil)
         } catch {
-            completion(.failure(error))
+            completion(error)
         }
     }
     
-    // reset password
+    // forgot password
+    func sendPasswordReset(completion: @escaping (Error?) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: userEmail) { error in
+            completion(error)
+        }
+    }
     
     // MARK: - Verifications
     func canLogin() -> Bool {

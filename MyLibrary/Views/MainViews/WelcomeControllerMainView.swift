@@ -25,7 +25,7 @@ class WelcomeControllerMainView: UIView {
     // MARK: - Subviews
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.alpha = 0.4
+        imageView.alpha = 0.3
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -53,7 +53,7 @@ class WelcomeControllerMainView: UIView {
     private let loginStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.distribution = .fill
+        stack.distribution = .fillEqually
         stack.alignment = .fill
         stack.spacing = 20
         return stack

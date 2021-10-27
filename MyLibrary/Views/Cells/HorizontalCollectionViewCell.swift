@@ -23,7 +23,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     }
   
    // MARK: - Subviews
-    private let bookCover = BookCoverImageButton(frame: .zero)
+    private let bookCover = ImageButton(frame: .zero)
     private let titleView = CellTitleView()
     private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
    

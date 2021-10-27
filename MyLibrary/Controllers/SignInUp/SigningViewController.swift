@@ -14,6 +14,8 @@ class SigningViewController: UIViewController {
     private let mainView = PanModalCommonView()
     private var interfaceType: AccountInterfaceType
     private var userManager: UserManagerProtocol
+    private var index = 0
+    private var textFields: [UITextField]?
     
     // MARK: - Initializer
     init(userManager: UserManagerProtocol, interfaceType: AccountInterfaceType) {
@@ -34,6 +36,7 @@ class SigningViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFields = [mainView.emailTextField, mainView.passwordTextField, mainView.confirmPasswordTextField]
         mainView.configureUI(for: interfaceType)
         addKeyboardDismissGesture()
         setDelegates()
@@ -48,31 +51,53 @@ class SigningViewController: UIViewController {
     
     private func setButtonTargets() {
         mainView.actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+        mainView.forgotPasswordButton.addTarget(self, action: #selector(resetPassWordRequest), for: .touchUpInside)
     }
+    
     // MARK: - Targets
     @objc private func actionButtonTapped() {
         interfaceType == .login ? loginToAccount() : createAccount()
     }
+    
     // MARK: - Account
     private func loginToAccount() {
-        userManager.login { result in
-            switch result {
-            case .success(_):
-                print("Logged in successfully")
-            case .failure(let error):
-                print(error.localizedDescription)
+        userManager.login { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                return
             }
+            self.presentAlertBanner(as: .success, subtitle: "Bienvenue")
         }
     }
     
     private func createAccount() {
-        userManager.createAccount { result in
-            switch result {
-            case .success(_):
-                print("Account created successFully")
-            case .failure(let error):
-                print(error.localizedDescription)
+        userManager.createAccount { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                return
             }
+            self.presentAlertBanner(as: .success, subtitle: "Compte ouvert")
+        }
+    }
+    
+    @objc private func resetPassWordRequest() {
+        presentAlert(withTitle: "Mot de passe oublié",
+                     message: "Etes-vous sûr de vouloir mettre votre mot de passe à jour?",
+                     withCancel: true) { [weak self] _ in
+            self?.resetPassword()
+        }
+    }
+    
+    private func resetPassword() {
+        userManager.sendPasswordReset { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                return
+            }
+            self.presentAlertBanner(as: .custom("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
         }
     }
 }
@@ -106,8 +131,19 @@ extension SigningViewController: UITextFieldDelegate {
         case .login:
             mainView.activateActionButton(userManager.canLogin())
         case .signup:
+            print(userManager.canCreateAccount())
             mainView.activateActionButton(userManager.canCreateAccount())
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let lastTextField = interfaceType == .login ? mainView.passwordTextField : mainView.confirmPasswordTextField
+        if textField == lastTextField {
+            textField.resignFirstResponder()
+        } else {
+            mainView.passwordTextField.becomeFirstResponder()
+        }
+        return true
     }
 }
 extension SigningViewController: PanModalPresentable {
@@ -116,7 +152,8 @@ extension SigningViewController: PanModalPresentable {
     }
     
     var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(150)
+        let height: CGFloat = interfaceType == .login ? 140 : 100
+        return .maxHeightWithTopInset(height)
     }
    
     var cornerRadius: CGFloat {

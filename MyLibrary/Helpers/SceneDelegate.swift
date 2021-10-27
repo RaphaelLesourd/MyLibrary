@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user != nil {
-                let tabController = TabBarController()
+                let tabController = TabBarController(userManager: UserManager())
                 window.rootViewController = tabController
             } else {
                 let welcomeController = WelcomeViewController()

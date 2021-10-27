@@ -20,6 +20,7 @@ class BookCardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = ""
         mainView.configure()
         addCommentButton()
     }

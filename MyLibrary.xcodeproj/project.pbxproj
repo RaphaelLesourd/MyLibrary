@@ -48,6 +48,8 @@
 		819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */; };
 		819C5DC92724811300F1F8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC82724811300F1F8F2 /* Constants.swift */; };
 		81C2AE5127285E4000AC69A8 /* Bauly in Frameworks */ = {isa = PBXBuildFile; productRef = 81C2AE5027285E4000AC69A8 /* Bauly */; };
+		81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE522729402700AC69A8 /* ProfileViewController.swift */; };
+		81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */; };
 		81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC702724769B00DE9219 /* AppDelegate.swift */; };
 		81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC722724769B00DE9219 /* SceneDelegate.swift */; };
 		81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */; };
@@ -60,7 +62,7 @@
 		81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCAA2724781100DE9219 /* SettingsViewController.swift */; };
 		81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB427247A2B00DE9219 /* PurchaseView.swift */; };
 		81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB527247A2B00DE9219 /* ActionButton.swift */; };
-		81C6CCBC27247A2B00DE9219 /* BookImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* BookImageButton.swift */; };
+		81C6CCBC27247A2B00DE9219 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* ImageButton.swift */; };
 		81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB727247A2B00DE9219 /* CellTitleView.swift */; };
 		81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */; };
 		81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB927247A2B00DE9219 /* TextLabel.swift */; };
@@ -117,6 +119,8 @@
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutComposer.swift; sourceTree = "<group>"; };
 		819C5DC82724811300F1F8F2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		81C2AE522729402700AC69A8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilecontrollerMainView.swift; sourceTree = "<group>"; };
 		81C6CC6D2724769B00DE9219 /* MyLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C6CC702724769B00DE9219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81C6CC722724769B00DE9219 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,7 +138,7 @@
 		81C6CCAA2724781100DE9219 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		81C6CCB427247A2B00DE9219 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		81C6CCB527247A2B00DE9219 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
-		81C6CCB627247A2B00DE9219 /* BookImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookImageButton.swift; sourceTree = "<group>"; };
+		81C6CCB627247A2B00DE9219 /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		81C6CCB727247A2B00DE9219 /* CellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTitleView.swift; sourceTree = "<group>"; };
 		81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailElementView.swift; sourceTree = "<group>"; };
 		81C6CCB927247A2B00DE9219 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
@@ -218,7 +222,6 @@
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
 				8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */,
-				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
 			);
@@ -285,7 +288,9 @@
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
+				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -346,7 +351,7 @@
 			children = (
 				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
-				81C6CCB627247A2B00DE9219 /* BookImageButton.swift */,
+				81C6CCB627247A2B00DE9219 /* ImageButton.swift */,
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
 				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
@@ -362,6 +367,7 @@
 				8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */,
 				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
 				810C447827271351007541C0 /* PanModalCommonView.swift */,
+				81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -665,7 +671,7 @@
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
 				8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
-				81C6CCBC27247A2B00DE9219 /* BookImageButton.swift in Sources */,
+				81C6CCBC27247A2B00DE9219 /* ImageButton.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */,
@@ -685,6 +691,7 @@
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
+				81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */,
 				81475148272735900080C5BA /* String+Extension.swift in Sources */,
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
@@ -698,6 +705,7 @@
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
+				81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
 				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
 			);

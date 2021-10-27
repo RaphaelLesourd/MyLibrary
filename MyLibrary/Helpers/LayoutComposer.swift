@@ -31,7 +31,7 @@ class LayoutComposer {
                                                                              heightDimension: .fractionalHeight(1)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.29), heightDimension: .fractionalHeight(0.3)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(200)),
             subitem: item,
             count: 1
         )

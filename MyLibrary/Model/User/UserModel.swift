@@ -12,5 +12,6 @@ struct UserModel {
     var userID: String?
     var email: String?
     var userName: String?
+    var userPassword: String?
     var photoURL: URL?
 }

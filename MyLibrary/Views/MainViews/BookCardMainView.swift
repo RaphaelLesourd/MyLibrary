@@ -43,7 +43,7 @@ class BookCardMainView: UIView {
     }()
     
     // BookCard elements
-    let bookCover = BookCoverImageButton(frame: .zero)
+    let bookCover = ImageButton(frame: .zero)
     let titleLabel = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
     let authorLabel = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
     let publisingDetailLabel = TextLabel(alignment: .center)
@@ -55,7 +55,14 @@ class BookCardMainView: UIView {
     let currentResellPriceView = PurchaseView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let recommandButton = ActionButton(title: "Recommander cet oeuvre")
+    let recommandButton = ActionButton(title: "Recommander")
+    let deleteBookButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Effacer ce livre de votre bibliothèque", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        return button
+    }()
     let separatorLine: UIView = {
             let view = UIView()
             view.backgroundColor = .secondaryLabel
@@ -152,7 +159,8 @@ extension BookCardMainView {
                                            currentResellPriceView,
                                            isbnLabel,
                                            commentLabel,
-                                           recommandButton]
+                                           recommandButton,
+                                           deleteBookButton]
         mainStackSubViews.forEach {  mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(2, after: titleLabel)
         mainStackView.setCustomSpacing(2, after: authorLabel)
@@ -160,6 +168,7 @@ extension BookCardMainView {
         mainStackView.setCustomSpacing(2, after: bookDetailStackView)
         mainStackView.setCustomSpacing(5, after: separatorLine)
         mainStackView.setCustomSpacing(5, after: purchaseDetailView)
+        mainStackView.setCustomSpacing(5, after: deleteBookButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

@@ -6,15 +6,35 @@
 //
 
 import UIKit
+import PanModal
 
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
+    
+    // MARK: Properties
+    private var userManager: UserManagerProtocol
+    
+    init(userManager: UserManagerProtocol) {
+        self.userManager = userManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
         setupViewcontrollers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard userManager.currentUser?.userName == nil else { return }
+        let profileVC = ProfileViewController(userManager: UserManager())
+        presentPanModal(profileVC)
     }
    
     // MARK: - Setup
@@ -37,28 +57,25 @@ class TabBarController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewcontrollers() {
-        let homeIconImage = UIImage(systemName: "house.fill")!
         let homeViewController = createController(for: HomeViewController(),
-                                                     title: "Acceuil",
-                                                     image: homeIconImage)
+                                                     title: Text.ControllerTitle.home,
+                                                     image: Images.homeIcon!)
         
-        let libraryIconImage = UIImage(systemName: "books.vertical.fill")!
+        let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
         let libraryViewController = createController(for: BookLibraryViewController(),
-                                                     title: "Mes livres",
+                                                        title: Text.ControllerTitle.myBooks,
                                                      image: libraryIconImage)
     
-        let searchIconImage = UIImage(systemName: "magnifyingglass.circle.fill")!
         let searchViewController = createController(for: SearchViewController(),
-                                                    title: "Chercher",
-                                                    image: searchIconImage)
+                                                       title: Text.ControllerTitle.search,
+                                                       image: Images.searchIcon!)
         
-        let settingsIconImage = UIImage(systemName: "gearshape.fill")!
+        let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
         let settingsViewController = createController(for: SettingsViewController(userManager: UserManager()),
-                                                         title: "Réglages",
+                                                         title: Text.ControllerTitle.settings,
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,
                            libraryViewController,
-                         //  newViewController,
                            searchViewController,
                            settingsViewController]
     }

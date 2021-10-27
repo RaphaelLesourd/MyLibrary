@@ -12,7 +12,7 @@ class ActionButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureButton(systemImage: "")
+        configureButton()
     }
     
     required init?(coder: NSCoder) {
@@ -31,10 +31,12 @@ class ActionButton: UIButton {
     }
     
     private func configureButton(with title: String = "",
-                                 systemImage: String,
+                                 systemImage: String = "",
                                  imagePlacement: NSDirectionalRectEdge = .leading,
                                  tintColor: UIColor = .appTintColor) {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
         if #available(iOS 15.0, *) {
             configuration = UIButton.Configuration.tinted()
             configuration?.image = UIImage(systemName: systemImage)
@@ -52,8 +54,9 @@ class ActionButton: UIButton {
         } else {
             self.setTitle(title, for: .normal)
             self.titleLabel?.font = font
-            self.rounded(radius: 10, backgroundcolor: tintColor)
-            self.setTitleColor(.white, for: .normal)
+            self.rounded(radius: 10, backgroundColor: tintColor.withAlphaComponent(0.2))
+            self.setTitleColor(tintColor, for: .normal)
+            self.titleEdgeInsets = UIEdgeInsets(top: 30, left: 20, bottom: 30, right: 20)
         }
     }
 }

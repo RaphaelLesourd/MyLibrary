@@ -12,7 +12,7 @@ class TextField: UITextField {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        self.rounded(radius: 12, backgroundcolor: .tertiarySystemBackground)
+        self.rounded(radius: 12, backgroundColor: .tertiarySystemBackground)
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 2))
         self.leftView = leftView
         self.leftViewMode = .always

@@ -25,18 +25,14 @@ class WelcomeViewController: UIViewController {
     
    // MARK: - Setup
     private func configureTargets() {
-        mainView.loginButton.addTarget(self, action: #selector(presentLoginViewController), for: .touchUpInside)
-        mainView.signupButton.addTarget(self, action: #selector(presentSignupViewController), for: .touchUpInside)
+        mainView.loginButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
+        mainView.signupButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
     }
 
     // MARK: - Navigation
-    @objc private func presentLoginViewController() {
-        let loginViewController = SigningViewController(userManager: UserManager(), interfaceType: AccountInterfaceType.login)
-        presentPanModal(loginViewController)
-    }
-    
-    @objc private func presentSignupViewController() {
-        let signupViewController = SigningViewController(userManager: UserManager(), interfaceType: AccountInterfaceType.signup)
-        presentPanModal(signupViewController)
+    @objc private func presentLoginViewController(_ sender: UIButton) {
+        let type: AccountInterfaceType = sender == mainView.loginButton ? .login : .signup
+        let signingController = SigningViewController(userManager: UserManager(), interfaceType: type)
+        presentPanModal(signingController)
     }
 }
