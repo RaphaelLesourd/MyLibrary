@@ -38,10 +38,10 @@ class SigningViewController: UIViewController {
         super.viewDidLoad()
         textFields = [mainView.emailTextField, mainView.passwordTextField, mainView.confirmPasswordTextField]
         mainView.configureUI(for: interfaceType)
-        addKeyboardDismissGesture()
         setDelegates()
         setButtonTargets()
     }
+    
     // MARK: - Setup
     private func setDelegates() {
         mainView.emailTextField.delegate = self
@@ -147,6 +147,7 @@ extension SigningViewController: UITextFieldDelegate {
         return true
     }
 }
+// MARK: - Panmodal Presentable
 extension SigningViewController: PanModalPresentable {
    
     var longFormHeight: PanModalHeight {

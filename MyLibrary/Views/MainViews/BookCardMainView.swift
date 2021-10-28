@@ -15,7 +15,6 @@ class BookCardMainView: UIView {
         super.init(frame: .zero)
         setScrollViewConstraints()
         setBookCoverConstraints()
-        setupBookDetailStackView()
         setupMainstackView()
     }
     required init?(coder: NSCoder) {
@@ -45,13 +44,11 @@ class BookCardMainView: UIView {
     let bookCover = ImageButton(frame: .zero)
     let titleLabel = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
     let authorLabel = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
-    let publisingDetailLabel = TextLabel(alignment: .center)
     let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
     let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
-    let numberOfPagesView = BookDetailElementView(iconSytemName: "book")
-    let languageView = BookDetailElementView(iconSytemName: "doc.append")
     let purchaseDetailView = PurchaseView()
     let currentResellPriceView = PurchaseView()
+    let bookDetailView = BookDetailView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
     let recommandButton = ActionButton(title: "Recommander")
@@ -72,14 +69,6 @@ class BookCardMainView: UIView {
     }()
     
     // MARK: stackViews
-    private let bookDetailStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fillProportionally
-        stack.alignment = .fill
-        return stack
-    }()
-    
     private let mainStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -90,14 +79,16 @@ class BookCardMainView: UIView {
         return stack
     }()
     
+    // MARK: - Configuration
     func configure() {
         titleLabel.text = "My great book"
         authorLabel.text = "Best Author"
-        publisingDetailLabel.text = "Publié par BestPublisher en 1999"
         categoryiesLabel.text = "Fiction"
         descriptionLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        numberOfPagesView.infoLabel.text = "123\npages"
-        languageView.infoLabel.text = "Anglais"
+        bookDetailView.publisherView.infoLabel.text = "BestPublishing"
+        bookDetailView.publishedDateView.infoLabel.text = "1997"
+        bookDetailView.numberOfPageView.infoLabel.text = "345"
+        bookDetailView.languageView.infoLabel.text = "Français"
         purchaseDetailView.titleLabel.text = "Date d'achat Juillet 1999"
         purchaseDetailView.purchasePriceLabel.text = "€35"
         currentResellPriceView.titleLabel.text = "Côte actuelle"
@@ -105,7 +96,6 @@ class BookCardMainView: UIView {
         
         isbnLabel.text = "ISBN 1234567891234"
         commentLabel.text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        
     }
 }
 // MARK: - Constraints
@@ -140,33 +130,23 @@ extension BookCardMainView {
         ])
     }
     
-    private func setupBookDetailStackView() {
-        bookDetailStackView.addArrangedSubview(numberOfPagesView)
-        bookDetailStackView.addArrangedSubview(languageView)
-    }
-    
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
         let mainStackSubViews: [UIView] = [titleLabel,
                                            authorLabel,
-                                           publisingDetailLabel,
                                            categoryiesLabel,
                                            descriptionLabel,
-                                           bookDetailStackView,
-                                           separatorLine,
+                                           bookDetailView,
+                                           isbnLabel,
                                            purchaseDetailView,
                                            currentResellPriceView,
-                                           isbnLabel,
                                            commentLabel,
                                            recommandButton,
                                            deleteBookButton]
         mainStackSubViews.forEach {  mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(2, after: titleLabel)
         mainStackView.setCustomSpacing(2, after: authorLabel)
-        mainStackView.setCustomSpacing(5, after: publisingDetailLabel)
-        mainStackView.setCustomSpacing(2, after: bookDetailStackView)
-        mainStackView.setCustomSpacing(5, after: separatorLine)
         mainStackView.setCustomSpacing(5, after: purchaseDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
         NSLayoutConstraint.activate([

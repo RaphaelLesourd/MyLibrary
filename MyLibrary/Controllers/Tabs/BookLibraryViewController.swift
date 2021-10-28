@@ -28,10 +28,10 @@ class BookLibraryViewController: UIViewController {
         let layout = layoutComposer.composeBookLibraryLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(VerticalCollectionViewCell.self,
-                                         forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
+                                forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
         collectionView.register(HeaderSupplementaryView.self,
-                                         forSupplementaryViewOfKind: HeaderSupplementaryView.kind,
-                                         withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
+                                forSupplementaryViewOfKind: HeaderSupplementaryView.kind,
+                                withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false

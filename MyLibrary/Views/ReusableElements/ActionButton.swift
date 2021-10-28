@@ -30,10 +30,10 @@ class ActionButton: UIButton {
                         tintColor: tintColor)
     }
     
-    private func configureButton(with title: String = "",
-                                 systemImage: String = "",
-                                 imagePlacement: NSDirectionalRectEdge = .leading,
-                                 tintColor: UIColor = .appTintColor) {
+    func configureButton(with title: String = "",
+                         systemImage: String = "",
+                         imagePlacement: NSDirectionalRectEdge = .leading,
+                         tintColor: UIColor = .appTintColor) {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 50).isActive = true

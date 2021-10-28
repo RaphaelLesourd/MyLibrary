@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.toolbarTintColor = .label
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Close"
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
 
     // MARK: UISceneSession Lifecycle

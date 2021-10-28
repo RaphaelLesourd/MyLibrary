@@ -99,7 +99,8 @@ extension SearchViewController: UICollectionViewDataSource {
         case .librarySearch, .apiSearch:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
                                                                 for: indexPath) as? HorizontalCollectionViewCell  else {
-                return UICollectionViewCell() }
+                return UICollectionViewCell()
+            }
             cell.configure()
             return cell
         case nil:
@@ -112,7 +113,8 @@ extension SearchViewController: UICollectionViewDataSource {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
                                                                                for: indexPath) as? HeaderSupplementaryView else {
-            return HeaderSupplementaryView() }
+            return HeaderSupplementaryView()
+        }
         switch SearchCollectionViewSections(rawValue: indexPath.section) {
         case .librarySearch:
             headerView.configureTitle(with: "Dans mes livres")

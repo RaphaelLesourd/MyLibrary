@@ -38,12 +38,18 @@ class WelcomeViewController: UIViewController {
     private func configureTargets() {
         mainView.loginButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
         mainView.signupButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
+        mainView.termOfUserButton.addTarget(self, action: #selector(showTermOfUse), for: .touchUpInside)
     }
 
-    // MARK: - Navigation
+    // MARK: - Targets
     @objc private func presentLoginViewController(_ sender: UIButton) {
         let type: AccountInterfaceType = sender == mainView.loginButton ? .login : .signup
         let signingController = SigningViewController(userManager: UserManager(), interfaceType: type)
         presentPanModal(signingController)
+    }
+    
+    @objc private func showTermOfUse() {
+        let termOfUseController = TextInputViewController()
+        presentPanModal(termOfUseController)
     }
 }

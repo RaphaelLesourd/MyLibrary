@@ -41,3 +41,8 @@ enum AlertBannerType {
         }
     }
 }
+
+enum TextInputType {
+    case description
+    case comment
+}

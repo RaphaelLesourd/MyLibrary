@@ -42,7 +42,7 @@ extension UIViewController {
     
     // MARK: - Navigation
     @objc func showNewBookController() {
-        let newBookController = NewViewController()
+        let newBookController = NewBookViewController()
         newBookController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(newBookController, animated: true)
     }
@@ -51,17 +51,6 @@ extension UIViewController {
         let bookCardVC = BookCardViewController()
         bookCardVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(bookCardVC, animated: true)
-    }
-    
-    // MARK: - Keyboard
-    func addKeyboardDismissGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
-    }
-
-    @objc func dismissKeyboard() {
-            view.endEditing(true)
     }
 
     // MARK: - Activity Indicator

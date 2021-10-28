@@ -8,6 +8,7 @@
 import UIKit
 
 class PanModalCommonView: UIView {
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setScrollViewConstraints()
@@ -80,6 +81,7 @@ class PanModalCommonView: UIView {
         return stack
     }()
     
+    // MARK: - Configuration
     func configureUI(for type: AccountInterfaceType) {
         titleLabel.text = type == .login ? Text.Account.loginTitle : Text.Account.signupTitle
         subtitleLabel.text = type == .login ? Text.Account.loginSubtitle : Text.Account.signupSubtitle

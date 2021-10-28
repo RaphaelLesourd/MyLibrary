@@ -10,15 +10,17 @@ import UIKit
 
 class PurchaseView: UIView {
    
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setStackviewConstrainsts()
+        setStackviewConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
    
+    // MARK: - Subviews
     let titleLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
     let purchasePriceLabel = TextLabel(color: .secondaryLabel,alignment: .right, fontSize: 20, weight: .semibold)
    
@@ -32,9 +34,9 @@ class PurchaseView: UIView {
         return stack
     }()
 }
-// MARK: - Extension
+// MARK: - Constraints
 extension PurchaseView {
-    private func setStackviewConstrainsts() {
+    private func setStackviewConstraints() {
         addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(purchasePriceLabel)

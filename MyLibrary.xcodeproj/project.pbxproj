@@ -14,6 +14,12 @@
 		810C44772727102D007541C0 /* SigningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44762727102D007541C0 /* SigningViewController.swift */; };
 		810C447927271351007541C0 /* PanModalCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* PanModalCommonView.swift */; };
 		810C447B2727189B007541C0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447A2727189B007541C0 /* TextField.swift */; };
+		812047F4272A604800E0A45B /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F3272A604800E0A45B /* BookDetailView.swift */; };
+		812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F6272A8AF700E0A45B /* TextInputViewController.swift */; };
+		812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */; };
+		812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */; };
+		812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */; };
+		81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FF272ADFC500E0A45B /* ImageStaticCell.swift */; };
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
@@ -59,7 +65,7 @@
 		81C6CC972724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC962724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift */; };
 		81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA42724776900DE9219 /* TabBarController.swift */; };
 		81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA6272477D200DE9219 /* HomeViewController.swift */; };
-		81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA8272477E200DE9219 /* NewViewController.swift */; };
+		81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA8272477E200DE9219 /* NewBookViewController.swift */; };
 		81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCAA2724781100DE9219 /* SettingsViewController.swift */; };
 		81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB427247A2B00DE9219 /* PurchaseView.swift */; };
 		81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB527247A2B00DE9219 /* ActionButton.swift */; };
@@ -100,6 +106,12 @@
 		810C44762727102D007541C0 /* SigningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningViewController.swift; sourceTree = "<group>"; };
 		810C447827271351007541C0 /* PanModalCommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalCommonView.swift; sourceTree = "<group>"; };
 		810C447A2727189B007541C0 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		812047F3272A604800E0A45B /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		812047F6272A8AF700E0A45B /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
+		812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputControllerMainView.swift; sourceTree = "<group>"; };
+		812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStaticCell.swift; sourceTree = "<group>"; };
+		812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStaticCell.swift; sourceTree = "<group>"; };
+		812047FF272ADFC500E0A45B /* ImageStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStaticCell.swift; sourceTree = "<group>"; };
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +142,7 @@
 		81C6CC962724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLibraryUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		81C6CCA42724776900DE9219 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		81C6CCA6272477D200DE9219 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		81C6CCA8272477E200DE9219 /* NewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewViewController.swift; sourceTree = "<group>"; };
+		81C6CCA8272477E200DE9219 /* NewBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookViewController.swift; sourceTree = "<group>"; };
 		81C6CCAA2724781100DE9219 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		81C6CCB427247A2B00DE9219 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		81C6CCB527247A2B00DE9219 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -208,6 +220,25 @@
 			path = SignInUp;
 			sourceTree = "<group>";
 		};
+		812047F5272A884100E0A45B /* SignInUp */ = {
+			isa = PBXGroup;
+			children = (
+				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
+				810C447827271351007541C0 /* PanModalCommonView.swift */,
+			);
+			path = SignInUp;
+			sourceTree = "<group>";
+		};
+		812047FE272ACE9B00E0A45B /* Static Cells */ = {
+			isa = PBXGroup;
+			children = (
+				812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */,
+				812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */,
+				812047FF272ADFC500E0A45B /* ImageStaticCell.swift */,
+			);
+			path = "Static Cells";
+			sourceTree = "<group>";
+		};
 		8124B9902725CB33004E9AE0 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,10 +308,11 @@
 			children = (
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
-				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
-				81C6CCA8272477E200DE9219 /* NewViewController.swift */,
-				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
+				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
+				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
+				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -327,6 +359,8 @@
 		81C6CCB0272479CA00DE9219 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				812047F3272A604800E0A45B /* BookDetailView.swift */,
+				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CCC227247A5000DE9219 /* Headers */,
 				81C6CCC127247A4300DE9219 /* Cells */,
@@ -343,7 +377,6 @@
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
 				81C6CCB627247A2B00DE9219 /* ImageButton.swift */,
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
-				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
 				810C447A2727189B007541C0 /* TextField.swift */,
 			);
@@ -353,11 +386,11 @@
 		81C6CCC027247A3B00DE9219 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
+				812047F5272A884100E0A45B /* SignInUp */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
 				8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */,
-				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
-				810C447827271351007541C0 /* PanModalCommonView.swift */,
 				81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */,
+				812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -365,6 +398,7 @@
 		81C6CCC127247A4300DE9219 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				812047FE272ACE9B00E0A45B /* Static Cells */,
 				8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */,
 				81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */,
 				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
@@ -597,13 +631,15 @@
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */,
-				81C6CCA9272477E200DE9219 /* NewViewController.swift in Sources */,
+				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				81C2AE5B27297A0700AC69A8 /* CurrentUser.swift in Sources */,
 				810C44652726E541007541C0 /* UserManager.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
+				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
+				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */,
@@ -611,7 +647,9 @@
 				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				8147516E2727E9490080C5BA /* Assets.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
+				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
+				812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
 				81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */,
@@ -624,9 +662,11 @@
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
 				8171AF982725AD2A002F96B9 /* NewBookControllerMainView.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
+				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */,
+				812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
 				81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,

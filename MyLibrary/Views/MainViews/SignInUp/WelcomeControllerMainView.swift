@@ -33,9 +33,16 @@ class WelcomeControllerMainView: UIView {
     
     private let titleLabel = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
     private let socialMedialoginLabel = TextLabel(color: .white, maxLines: 1, alignment: .center, fontSize: 18, weight: .regular)
-    private let termsOfUseLabel = TextLabel(color: .white, maxLines: 1, alignment: .center, fontSize: 14, weight: .regular)
     let loginButton = ActionButton(title: Text.Account.loginTitle, systemImage: "", imagePlacement: .leading, tintColor: .appTintColor)
     let signupButton = ActionButton(title: Text.Account.signupTitle, systemImage: "", imagePlacement: .leading, tintColor: .white)
+    
+    let termOfUserButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(Text.Account.termOfUseMessage, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        return button
+    }()
    
     let appleSignInButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton()
@@ -72,7 +79,6 @@ class WelcomeControllerMainView: UIView {
     private func configureUI() {
         backgroundImage.image = Images.welcomeScreen
         titleLabel.text = Text.Account.welcomeMessage
-        termsOfUseLabel.text = Text.Account.termOfUseMessage
         socialMedialoginLabel.text = Text.Account.otherConnectionTypeMessage
         loginStackView.addArrangedSubview(loginButton)
         loginStackView.addArrangedSubview(signupButton)
@@ -96,7 +102,7 @@ extension WelcomeControllerMainView {
         mainStackView.addArrangedSubview(loginStackView)
         mainStackView.addArrangedSubview(socialMedialoginLabel)
         mainStackView.addArrangedSubview(appleSignInButton)
-        mainStackView.addArrangedSubview(termsOfUseLabel)
+        mainStackView.addArrangedSubview(termOfUserButton)
         mainStackView.setCustomSpacing(50, after: loginStackView)
         mainStackView.setCustomSpacing(20, after: socialMedialoginLabel)
         NSLayoutConstraint.activate([

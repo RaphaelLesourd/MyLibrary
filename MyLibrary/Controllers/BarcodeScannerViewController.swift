@@ -153,7 +153,7 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
     do {
       try imageRequestHandler.perform([detectBarcodeRequest])
     } catch {
-      print(error)
+        presentAlertBanner(as: .error, subtitle: error.localizedDescription)
     }
   }
 }

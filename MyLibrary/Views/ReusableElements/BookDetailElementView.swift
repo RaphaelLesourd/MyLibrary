@@ -17,27 +17,18 @@ class BookDetailElementView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    convenience init(iconSytemName: String) {
+
+    convenience init(title: String) {
         self.init(frame: .zero)
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 40,
-                                                      weight: .light,
-                                                      scale: .medium)
-        icon.image = UIImage(systemName: iconSytemName, withConfiguration: imageConfig)
+        titleLabel.text = title.capitalized
     }
     
-    private let icon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .secondaryLabel
-        return imageView
-    }()
-    
-    let infoLabel = TextLabel(color: .secondaryLabel, maxLines: 2, fontSize: 14, weight: .light)
+    private let titleLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 12, weight: .light)
+    let infoLabel = TextLabel(alignment: .center, fontSize: 14, weight: .light)
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .horizontal
+        stack.axis = .vertical
         stack.alignment = .fill
         stack.distribution = .fillProportionally
         stack.spacing =  2
@@ -49,7 +40,7 @@ class BookDetailElementView: UIView {
 extension BookDetailElementView {
     private func setConstraints() {
         addSubview(stackView)
-        stackView.addArrangedSubview(icon)
+        stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(infoLabel)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

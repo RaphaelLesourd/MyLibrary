@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class ProfileControllerMainView: UIView {
-  
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -23,7 +23,6 @@ class ProfileControllerMainView: UIView {
     }
     
     // MARK: - Subviews
-    
     private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
     private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 4, fontSize: 16, weight: .regular)
     private let profileImageContainerView: UIView = {
