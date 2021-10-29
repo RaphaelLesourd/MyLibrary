@@ -11,7 +11,6 @@ import PanModal
 class ProfileViewController: UIViewController {
     
     // MARK: - Properties
-    private var userManager: UserManagerProtocol?
     private let mainView = ProfileControllerMainView()
     
     // MARK: - Lifecyle

@@ -28,7 +28,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
     private let isbnCell = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
     private let numberOfPagesCell = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
     private let languageCell = TextFieldStaticCell(placeholder: "Langue du livre")
-    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer", systemImage: "book.fill", tintColor: .appTintColor)
+    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer", systemImage: "arrow.down.doc.fill", tintColor: .appTintColor)
     private var descriptionCell = UITableViewCell()
     private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .numberPad)
     private let resellPriceCell = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
@@ -128,7 +128,8 @@ extension NewBookViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let textInpoutViewController = TextInputViewController()
+        let textInputViewController = TextInputViewController()
+        textInputViewController.newBookDelegate = self
         switch indexPath.section {
         case 0:
             if indexPath.row == 0 {
@@ -136,13 +137,15 @@ extension NewBookViewController {
             }
         case 2:
             if indexPath.row == 0 {
-                textInpoutViewController.textInpuType = .description
-                presentPanModal(textInpoutViewController)
+                textInputViewController.textInpuType = .description
+                textInputViewController.textViewText = bookDescription
+                presentPanModal(textInputViewController)
             }
         case 4:
             if indexPath.row == 0 {
-                textInpoutViewController.textInpuType = .comment
-                presentPanModal(textInpoutViewController)
+                textInputViewController.textInpuType = .comment
+                textInputViewController.textViewText = bookComment
+                presentPanModal(textInputViewController)
             }
         default:
             return

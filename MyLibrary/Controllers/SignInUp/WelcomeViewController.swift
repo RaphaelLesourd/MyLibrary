@@ -18,13 +18,14 @@ class WelcomeViewController: UIViewController {
         view = mainView
         view.backgroundColor = .black
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTargets()
 //        let button = UIButton(type: .roundedRect)
-//        button.frame = CGRect(x: 100, y: 200, width: 100, height: 30)
+//        button.frame = CGRect(x: 20, y: 50, width: 100, height: 30)
+//        button.setTitleColor(.white, for: .normal)
 //        button.setTitle("Test Crash", for: [])
-//        button.setTitleColor(.white, for: [])
 //        button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
 //        view.addSubview(button)
     }
@@ -32,7 +33,7 @@ class WelcomeViewController: UIViewController {
 //    @objc func crashButtonTapped(_ sender: AnyObject) {
 //          let numbers = [0]
 //          let _ = numbers[1]
-//    }
+//      }
     
    // MARK: - Setup
     private func configureTargets() {

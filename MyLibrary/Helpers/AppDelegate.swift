@@ -15,16 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        keyboardSetup()
+        configureKeyboard()
         FirebaseApp.configure()
         return true
     }
     
-    private func keyboardSetup() {
+    private func configureKeyboard() {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarTintColor = .label
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Close"
-        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Fermer"
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 40
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
 

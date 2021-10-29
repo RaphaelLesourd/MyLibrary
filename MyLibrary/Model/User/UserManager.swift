@@ -34,11 +34,12 @@ class UserManager: UserManagerProtocol {
     // create account
     func createAccount(completion: @escaping (Error?) -> Void) {
         Auth.auth().createUser(withEmail: userEmail, password: userPassword) { [weak self] authResult, error in
+            guard let self = self else { return }
             if let error = error {
                 completion(error)
                 return
             }
-            self?.saveUser(with: authResult?.user) { error in
+            self.saveUser(with: authResult?.user) { error in
                 if let error = error {
                     completion(error)
                     return
@@ -49,16 +50,12 @@ class UserManager: UserManagerProtocol {
     }
     
     private func saveUser(with user: User?, completion: @escaping (Error?) -> Void) {
-        guard let user = user else { return }
-        let email = user.email ?? ""
-        let displayName = userName
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let user = user, let uid = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
-        db.collection("User").document(uid).setData([
-            "email": email,
-            "displayName": displayName,
-            "uid": uid
-        ]) { error in
+        db.collection("User").document(uid).setData(["email": user.email ?? "",
+                                                     "displayName": userName,
+                                                     "uid": uid
+                                                    ]) { error in
             if let error = error {
                 completion(error)
                 return
@@ -68,6 +65,16 @@ class UserManager: UserManagerProtocol {
     }
     
     // delete account
+    private func deleteAccount(completion: @escaping (Error?) -> Void) {
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+            if let error = error {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        }
+    }
     
     // Log in
     func login(completion: @escaping (Error?) -> Void) {

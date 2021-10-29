@@ -35,6 +35,7 @@
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
 		819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */; };
 		819C5DC92724811300F1F8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC82724811300F1F8F2 /* Constants.swift */; };
+		81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* BookModel.swift */; };
 		81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */; };
 		81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE522729402700AC69A8 /* ProfileViewController.swift */; };
 		81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */; };
@@ -126,6 +127,7 @@
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutComposer.swift; sourceTree = "<group>"; };
 		819C5DC82724811300F1F8F2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		81A9BD85272BDE2900B7DA81 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		81C2AE522729402700AC69A8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilecontrollerMainView.swift; sourceTree = "<group>"; };
 		81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
@@ -204,8 +206,8 @@
 		810C44682726E59F007541C0 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				810C44642726E541007541C0 /* UserManager.swift */,
 				810C44662726E561007541C0 /* UserModel.swift */,
+				810C44642726E541007541C0 /* UserManager.swift */,
 				81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */,
 			);
 			path = User;
@@ -342,6 +344,7 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
 				810C44682726E59F007541C0 /* User */,
 				81C6CCAF272479B800DE9219 /* CoreData */,
 			);
@@ -598,7 +601,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run -gsp ${PROJECT_DIR}/MyLibrary/GoogleService-Info.plist\n\n";
+			shellScript = "\"${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 		81C6CCCE27247BE200DE9219 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -630,6 +633,7 @@
 				81C6CCBC27247A2B00DE9219 /* ImageButton.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
+				81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				81C2AE5B27297A0700AC69A8 /* CurrentUser.swift in Sources */,

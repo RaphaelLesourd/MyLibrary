@@ -14,8 +14,6 @@ class SigningViewController: UIViewController {
     private let mainView = PanModalCommonView()
     private var interfaceType: AccountInterfaceType
     private var userManager: UserManagerProtocol
-    private var index = 0
-    private var textFields: [UITextField]?
     
     // MARK: - Initializer
     init(userManager: UserManagerProtocol, interfaceType: AccountInterfaceType) {
@@ -36,7 +34,6 @@ class SigningViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFields = [mainView.emailTextField, mainView.passwordTextField, mainView.confirmPasswordTextField]
         mainView.configureUI(for: interfaceType)
         setDelegates()
         setButtonTargets()

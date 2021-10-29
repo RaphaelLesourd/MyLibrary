@@ -22,7 +22,7 @@ enum Text {
         static let forgotPassword = "Mot de passe oublié"
         static let welcomeMessage = "Bienvenue\ndans votre\nbibliothèque."
         static let termOfUseMessage = "Conditions d'utilisation"
-        static let otherConnectionTypeMessage = "Autres moyens de se connecter:"
+        static let otherConnectionTypeMessage = "Autres moyens de se connecter"
     }
     
     enum Profile {
