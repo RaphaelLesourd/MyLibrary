@@ -23,7 +23,7 @@
 		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
 		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
 		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
-		81242D54272D986100CB39B1 /* EarthQuakeServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */; };
+		81242D54272D986100CB39B1 /* SearchServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D50272D986100CB39B1 /* SearchServiceTestCase.swift */; };
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
@@ -41,7 +41,6 @@
 		81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* BookModel.swift */; };
 		81A9BD8C272BE38400B7DA81 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* NetworkService.swift */; };
 		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
-		81A9BD8F272BEFBF00B7DA81 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */; };
 		81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 81A9BD91272BF77F00B7DA81 /* AlamofireImage */; };
 		81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */; };
 		81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE522729402700AC69A8 /* ProfileViewController.swift */; };
@@ -123,7 +122,7 @@
 		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
-		81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthQuakeServiceTestCase.swift; sourceTree = "<group>"; };
+		81242D50272D986100CB39B1 /* SearchServiceTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchServiceTestCase.swift; sourceTree = "<group>"; };
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +139,6 @@
 		81A9BD85272BDE2900B7DA81 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		81A9BD8A272BE38400B7DA81 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
-		81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		81C2AE522729402700AC69A8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilecontrollerMainView.swift; sourceTree = "<group>"; };
 		81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
@@ -258,7 +256,7 @@
 		81242D4C272D984F00CB39B1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */,
+				81242D50272D986100CB39B1 /* SearchServiceTestCase.swift */,
 				81242D4E272D986000CB39B1 /* FakeData.swift */,
 				81242D4D272D986000CB39B1 /* MockURLProtocol.swift */,
 				81242D4F272D986000CB39B1 /* BookFakeData.json */,
@@ -380,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
-				81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */,
 				81A9BD89272BE37600B7DA81 /* Network */,
 				810C44682726E59F007541C0 /* User */,
 				81C6CCAF272479B800DE9219 /* CoreData */,
@@ -685,7 +682,6 @@
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
 				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
-				81A9BD8F272BEFBF00B7DA81 /* SearchManager.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */,
@@ -726,7 +722,7 @@
 			files = (
 				81242D52272D986100CB39B1 /* FakeData.swift in Sources */,
 				81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */,
-				81242D54272D986100CB39B1 /* EarthQuakeServiceTestCase.swift in Sources */,
+				81242D54272D986100CB39B1 /* SearchServiceTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

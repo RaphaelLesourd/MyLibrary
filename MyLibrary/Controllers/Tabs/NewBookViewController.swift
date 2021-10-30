@@ -104,7 +104,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
     
     // MARK: - Navigation
     @objc private func showSearchController() {
-        let searchController = SearchViewController(searchManager: SearchManager())
+        let searchController = SearchViewController(networkService: NetworkService())
         searchController.hidesBottomBarWhenPushed = true
         searchController.newBookBookDelegate = self
         searchController.searchType = .apiSearch

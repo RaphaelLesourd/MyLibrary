@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
 
     // MARK: - Navigation
     @objc private func showSearchController() {
-        let searchController = SearchViewController(searchManager: SearchManager())
+        let searchController = SearchViewController(networkService: NetworkService())
         searchController.hidesBottomBarWhenPushed = true
         searchController.searchType = .librarySearch
         navigationController?.pushViewController(searchController, animated: true)

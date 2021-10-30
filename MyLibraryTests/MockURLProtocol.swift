@@ -1,8 +1,8 @@
 //
 //  UrlProtocolMock.swift
-//  RecipleaseTests
+//  MyLibraryTests
 //
-//  Created by Birkyboy on 19/09/2021.
+//  Created by Birkyboy on 30/10/2021.
 //
 
 import Foundation
@@ -18,7 +18,6 @@ class MockURLProtocol: URLProtocol {
     override class func canonicalRequest(for request: URLRequest) -> URLRequest {
         return request
     }
-
     // Handler to test the request and return mock response.
     static var requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data?))?
 
@@ -26,7 +25,6 @@ class MockURLProtocol: URLProtocol {
         guard let handler = MockURLProtocol.requestHandler else {
             fatalError("Handler is unavailable.")
         }
-
         do {
             // Call handler with received request and capture the tuple of response and data.
             let (response, data) = try handler(request)

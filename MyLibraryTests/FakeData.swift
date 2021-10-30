@@ -1,23 +1,23 @@
 //
 //  FakeData.swift
-//  RecipleaseTests
+//  MyLibraryTests
 //
-//  Created by Birkyboy on 20/09/2021.
+//  Created by Birkyboy on 30/10/2021.
 //
 
 import Foundation
-@testable import WorldTraveler
+@testable import MyLibrary
 
 class FakeData {
 
-    static var quakeCorrectData: Data? {
+    static var bookCorrectData: Data? {
         let bundle = Bundle(for: FakeData.self)
-        let url = bundle.url(forResource: "QuakeFakeData", withExtension: "json")!
+        let url = bundle.url(forResource: "BookFakeData", withExtension: "json")!
         return try? Data(contentsOf: url)
     }
 
-    static let quakeIncorrectData = "incorrectData".data(using: .utf8)!
+    static let bookIncorrectData = "incorrectData".data(using: .utf8)!
     
-    class ApiError: Error {}
-    static let error = ApiError()
+//    class ApiError: Error {}
+//    static let error = Error()
 }

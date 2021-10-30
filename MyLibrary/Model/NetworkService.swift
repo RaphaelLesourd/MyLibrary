@@ -23,12 +23,10 @@ class NetworkService {
     }
     
     func getData(with parameters: AlamofireRouter, completion: @escaping (Result<BookModel, Error>) -> Void) {
-        
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .millisecondsSince1970
-        session.request(parameters)
+        session
+            .request(parameters)
             .validate()
-            .responseDecodable(of: BookModel.self, decoder: decoder) { response in
+            .responseDecodable(of: BookModel.self) { response in
                     switch response.result {
                     case .success(let jsonData):
                         completion(.success(jsonData))

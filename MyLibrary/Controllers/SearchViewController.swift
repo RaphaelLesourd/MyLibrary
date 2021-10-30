@@ -10,7 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Properties
-    var searchManager: SearchMangerProtocol
+    var networkService: NetworkProtocol
     private var layoutComposer = LayoutComposer()
     private lazy var dataSource = makeDataSource()
     typealias Snapshot = NSDiffableDataSourceSnapshot<SearchType, Item>
@@ -25,8 +25,8 @@ class SearchViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Initializer
-    init(searchManager: SearchMangerProtocol) {
-        self.searchManager = searchManager
+    init(networkService: NetworkProtocol) {
+        self.networkService = networkService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -81,10 +81,11 @@ class SearchViewController: UIViewController {
     
     // MARK: - API call
     private func getBooks(_ query: AlamofireRouter) {
-        searchManager.getBooks(with: query) { [weak self] result in
+        networkService.getData(with: query) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let books):
+                guard let books = books.items else { return }
                 self.searchedBooks = books
                 self.applySnapshot()
             case .failure(let error):
