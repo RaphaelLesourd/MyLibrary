@@ -20,6 +20,10 @@
 		812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */; };
 		812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */; };
 		81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047FF272ADFC500E0A45B /* ImageStaticCell.swift */; };
+		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
+		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
+		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
+		81242D54272D986100CB39B1 /* EarthQuakeServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */; };
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
@@ -29,13 +33,16 @@
 		8147516E2727E9490080C5BA /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Assets.swift */; };
 		8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
-		8171AF982725AD2A002F96B9 /* NewBookControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
 		819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */; };
 		819C5DC92724811300F1F8F2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC82724811300F1F8F2 /* Constants.swift */; };
 		81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* BookModel.swift */; };
+		81A9BD8C272BE38400B7DA81 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* NetworkService.swift */; };
+		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
+		81A9BD8F272BEFBF00B7DA81 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */; };
+		81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 81A9BD91272BF77F00B7DA81 /* AlamofireImage */; };
 		81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */; };
 		81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE522729402700AC69A8 /* ProfileViewController.swift */; };
 		81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */; };
@@ -70,7 +77,7 @@
 		81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCAA2724781100DE9219 /* SettingsViewController.swift */; };
 		81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB427247A2B00DE9219 /* PurchaseView.swift */; };
 		81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB527247A2B00DE9219 /* ActionButton.swift */; };
-		81C6CCBC27247A2B00DE9219 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* ImageButton.swift */; };
+		81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB627247A2B00DE9219 /* BookCover.swift */; };
 		81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB727247A2B00DE9219 /* CellTitleView.swift */; };
 		81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */; };
 		81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB927247A2B00DE9219 /* TextLabel.swift */; };
@@ -113,6 +120,10 @@
 		812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStaticCell.swift; sourceTree = "<group>"; };
 		812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStaticCell.swift; sourceTree = "<group>"; };
 		812047FF272ADFC500E0A45B /* ImageStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStaticCell.swift; sourceTree = "<group>"; };
+		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
+		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
+		81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarthQuakeServiceTestCase.swift; sourceTree = "<group>"; };
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
@@ -122,12 +133,14 @@
 		8147516D2727E9490080C5BA /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookLibraryViewController.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
-		8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerMainView.swift; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutComposer.swift; sourceTree = "<group>"; };
 		819C5DC82724811300F1F8F2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		81A9BD85272BDE2900B7DA81 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		81A9BD8A272BE38400B7DA81 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
+		81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		81C2AE522729402700AC69A8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilecontrollerMainView.swift; sourceTree = "<group>"; };
 		81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
@@ -148,7 +161,7 @@
 		81C6CCAA2724781100DE9219 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		81C6CCB427247A2B00DE9219 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
 		81C6CCB527247A2B00DE9219 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
-		81C6CCB627247A2B00DE9219 /* ImageButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		81C6CCB627247A2B00DE9219 /* BookCover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCover.swift; sourceTree = "<group>"; };
 		81C6CCB727247A2B00DE9219 /* CellTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTitleView.swift; sourceTree = "<group>"; };
 		81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailElementView.swift; sourceTree = "<group>"; };
 		81C6CCB927247A2B00DE9219 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
@@ -181,6 +194,7 @@
 				81C2AE5F2729BE9000AC69A8 /* Bauly in Frameworks */,
 				81C2AE7E2729BF7100AC69A8 /* FirebaseMessaging in Frameworks */,
 				81C2AE762729BF7100AC69A8 /* FirebaseFirestore in Frameworks */,
+				81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */,
 				81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */,
 				81C2AE742729BF7100AC69A8 /* FirebaseDynamicLinks in Frameworks */,
 			);
@@ -241,16 +255,36 @@
 			path = "Static Cells";
 			sourceTree = "<group>";
 		};
+		81242D4C272D984F00CB39B1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				81242D50272D986100CB39B1 /* EarthQuakeServiceTestCase.swift */,
+				81242D4E272D986000CB39B1 /* FakeData.swift */,
+				81242D4D272D986000CB39B1 /* MockURLProtocol.swift */,
+				81242D4F272D986000CB39B1 /* BookFakeData.json */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 		8124B9902725CB33004E9AE0 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
 				8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */,
-				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
+				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
 			);
 			path = Tabs;
+			sourceTree = "<group>";
+		};
+		81A9BD89272BE37600B7DA81 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				81A9BD8A272BE38400B7DA81 /* NetworkService.swift */,
+				81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		81C6CC642724769A00DE9219 = {
@@ -292,6 +326,7 @@
 		81C6CC892724769D00DE9219 /* MyLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
+				81242D4C272D984F00CB39B1 /* Network */,
 			);
 			path = MyLibraryTests;
 			sourceTree = "<group>";
@@ -310,9 +345,9 @@
 			children = (
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
+				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
-				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
 			);
@@ -345,6 +380,8 @@
 			isa = PBXGroup;
 			children = (
 				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
+				81A9BD8E272BEFBF00B7DA81 /* SearchManager.swift */,
+				81A9BD89272BE37600B7DA81 /* Network */,
 				810C44682726E59F007541C0 /* User */,
 				81C6CCAF272479B800DE9219 /* CoreData */,
 			);
@@ -378,7 +415,7 @@
 			children = (
 				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
-				81C6CCB627247A2B00DE9219 /* ImageButton.swift */,
+				81C6CCB627247A2B00DE9219 /* BookCover.swift */,
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
 				810C447A2727189B007541C0 /* TextField.swift */,
@@ -391,7 +428,6 @@
 			children = (
 				812047F5272A884100E0A45B /* SignInUp */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
-				8171AF972725AD2A002F96B9 /* NewBookControllerMainView.swift */,
 				81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */,
 				812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */,
 			);
@@ -465,6 +501,7 @@
 				81C2AE812729BF7100AC69A8 /* FirebaseRemoteConfig */,
 				81C2AE832729BF7100AC69A8 /* FirebaseStorage */,
 				81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */,
+				81A9BD91272BF77F00B7DA81 /* AlamofireImage */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -521,6 +558,7 @@
 					};
 					81C6CC852724769D00DE9219 = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1310;
 						TestTargetID = 81C6CC6C2724769B00DE9219;
 					};
 					81C6CC8F2724769D00DE9219 = {
@@ -544,6 +582,7 @@
 				81C2AE632729BED800AC69A8 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				81C2AE662729BF7100AC69A8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -571,6 +610,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81242D53272D986100CB39B1 /* BookFakeData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,7 +670,7 @@
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
 				8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
-				81C6CCBC27247A2B00DE9219 /* ImageButton.swift in Sources */,
+				81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* HorizontalCollectionViewCell.swift in Sources */,
 				81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */,
@@ -640,10 +680,12 @@
 				810C44652726E541007541C0 /* UserManager.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
+				81A9BD8C272BE38400B7DA81 /* NetworkService.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
 				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
+				81A9BD8F272BEFBF00B7DA81 /* SearchManager.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81C6CCBD27247A2B00DE9219 /* CellTitleView.swift in Sources */,
@@ -664,7 +706,7 @@
 				810C44772727102D007541C0 /* SigningViewController.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
-				8171AF982725AD2A002F96B9 /* NewBookControllerMainView.swift in Sources */,
+				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
@@ -682,6 +724,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81242D52272D986100CB39B1 /* FakeData.swift in Sources */,
+				81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */,
+				81242D54272D986100CB39B1 /* EarthQuakeServiceTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,7 +817,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -827,7 +872,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -906,6 +951,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
@@ -920,6 +966,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.birkyboy.MyLibraryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLibrary.app/MyLibrary";
@@ -931,6 +978,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
@@ -1039,6 +1087,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -1082,6 +1138,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		81A9BD91272BF77F00B7DA81 /* AlamofireImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
+		};
 		81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;

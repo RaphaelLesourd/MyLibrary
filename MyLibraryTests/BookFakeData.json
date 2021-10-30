@@ -1,0 +1,104 @@
+{
+    "kind": "books#volumes",
+    "totalItems": 1272,
+    "items": [
+        {
+            "kind": "books#volume",
+            "id": "yc1NDQAAQBAJ",
+            "etag": "cHScF19HbV4",
+            "selfLink": "https://www.googleapis.com/books/v1/volumes/yc1NDQAAQBAJ",
+            "volumeInfo": {
+                "title": "Tintin, Hergé et les autos",
+                "authors": [
+                    "Charles-Henri De Choiseul Praslin",
+                    "Andy Jacobs "
+                ],
+                "publisher": "Editions Moulinsart",
+                "publishedDate": "2005-05-02",
+                "description": "Hergé était amateur de voitures. Elles occupent une place capitale dans les Aventures de Tintin. 79 modèles sont clairement identifiables. Plus que des moyens de transport, ces véhicules deviennent des personnages secondaires, véritables acteurs des destinées des héros.",
+                "industryIdentifiers": [
+                    {
+                        "type": "ISBN_13",
+                        "identifier": "9782874240515"
+                    },
+                    {
+                        "type": "ISBN_10",
+                        "identifier": "2874240516"
+                    }
+                ],
+                "readingModes": {
+                    "text": false,
+                    "image": true
+                },
+                "pageCount": 70,
+                "printType": "BOOK",
+                "categories": [
+                    "Young Adult Nonfiction"
+                ],
+                "maturityRating": "NOT_MATURE",
+                "allowAnonLogging": true,
+                "contentVersion": "0.1.0.0.preview.1",
+                "panelizationSummary": {
+                    "containsEpubBubbles": false,
+                    "containsImageBubbles": false
+                },
+                "imageLinks": {
+                    "smallThumbnail": "http://books.google.com/books/content?id=yc1NDQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+                    "thumbnail": "http://books.google.com/books/content?id=yc1NDQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+                },
+                "language": "fr",
+                "previewLink": "http://books.google.fr/books?id=yc1NDQAAQBAJ&printsec=frontcover&dq=tintin&hl=&as_brr=6&cd=1&source=gbs_api",
+                "infoLink": "https://play.google.com/store/books/details?id=yc1NDQAAQBAJ&source=gbs_api",
+                "canonicalVolumeLink": "https://play.google.com/store/books/details?id=yc1NDQAAQBAJ"
+            },
+            "saleInfo": {
+                "country": "FR",
+                "saleability": "FOR_SALE",
+                "isEbook": true,
+                "listPrice": {
+                    "amount": 8.99,
+                    "currencyCode": "EUR"
+                },
+                "retailPrice": {
+                    "amount": 8.99,
+                    "currencyCode": "EUR"
+                },
+                "buyLink": "https://play.google.com/store/books/details?id=yc1NDQAAQBAJ&rdid=book-yc1NDQAAQBAJ&rdot=1&source=gbs_api",
+                "offers": [
+                    {
+                        "finskyOfferType": 1,
+                        "listPrice": {
+                            "amountInMicros": 8990000,
+                            "currencyCode": "EUR"
+                        },
+                        "retailPrice": {
+                            "amountInMicros": 8990000,
+                            "currencyCode": "EUR"
+                        },
+                        "giftable": true
+                    }
+                ]
+            },
+            "accessInfo": {
+                "country": "FR",
+                "viewability": "PARTIAL",
+                "embeddable": true,
+                "publicDomain": false,
+                "textToSpeechPermission": "ALLOWED",
+                "epub": {
+                    "isAvailable": false
+                },
+                "pdf": {
+                    "isAvailable": true,
+                    "acsTokenLink": "http://books.google.fr/books/download/Tintin_Herg%C3%A9_et_les_autos-sample-pdf.acsm?id=yc1NDQAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+                },
+                "webReaderLink": "http://play.google.com/books/reader?id=yc1NDQAAQBAJ&hl=&as_brr=6&printsec=frontcover&source=gbs_api",
+                "accessViewStatus": "SAMPLE",
+                "quoteSharingAllowed": false
+            },
+            "searchInfo": {
+                "textSnippet": "Hergé était amateur de voitures. Elles occupent une place capitale dans les Aventures de Tintin. 79 modèles sont clairement identifiables."
+            }
+        }
+    ]
+}

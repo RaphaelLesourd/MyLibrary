@@ -41,7 +41,13 @@ class BookCardMainView: UIView {
     }()
     
     // BookCard elements
-    let bookCover = ImageButton(frame: .zero)
+    let bookCover: BookCover = {
+        let image = BookCover(frame: .zero)
+        image.backgroundColor = .clear
+        image.contentMode = .scaleAspectFit
+        image.layer.masksToBounds = true
+        return image
+    }()
     let titleLabel = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
     let authorLabel = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
     let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
@@ -78,25 +84,6 @@ class BookCardMainView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-    
-    // MARK: - Configuration
-    func configure() {
-        titleLabel.text = "My great book"
-        authorLabel.text = "Best Author"
-        categoryiesLabel.text = "Fiction"
-        descriptionLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        bookDetailView.publisherView.infoLabel.text = "BestPublishing"
-        bookDetailView.publishedDateView.infoLabel.text = "1997"
-        bookDetailView.numberOfPageView.infoLabel.text = "345"
-        bookDetailView.languageView.infoLabel.text = "Français"
-        purchaseDetailView.titleLabel.text = "Date d'achat Juillet 1999"
-        purchaseDetailView.purchasePriceLabel.text = "€35"
-        currentResellPriceView.titleLabel.text = "Côte actuelle"
-        currentResellPriceView.purchasePriceLabel.text = "€43"
-        
-        isbnLabel.text = "ISBN 1234567891234"
-        commentLabel.text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    }
 }
 // MARK: - Constraints
 extension BookCardMainView {

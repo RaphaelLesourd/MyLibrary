@@ -14,14 +14,18 @@ struct BookModel: Decodable {
 
 // MARK: - Item
 struct Item: Decodable {
-    let kind: String?
+    let etag: String?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
 }
-
-// MARK: - SaleInfo
-struct SaleInfo: Decodable {
-    let country: String?
+extension Item: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(etag)
+    }
+    
+    static func == (lhs: Item, rhs: Item) -> Bool {
+        return lhs.etag == rhs.etag
+    }
 }
 
 // MARK: - VolumeInfo
@@ -45,6 +49,17 @@ struct VolumeInfo: Decodable {
     }
 }
 
+// MARK: - SaleInfo
+struct SaleInfo: Codable {
+    let retailPrice: SaleInfoListPrice?
+}
+
+// MARK: - SaleInfoListPrice
+struct SaleInfoListPrice: Codable {
+    let amount: Double?
+    let currencyCode: String?
+}
+
 // MARK: - IndustryIdentifier
 struct IndustryIdentifier: Decodable {
     let type, identifier: String?
@@ -52,5 +67,5 @@ struct IndustryIdentifier: Decodable {
 
 // MARK: - ImageLinks
 struct ImageLinks: Decodable {
-    let thumbnail: String?
+    let smallThumbnail, thumbnail, large, extralarge: String?
 }

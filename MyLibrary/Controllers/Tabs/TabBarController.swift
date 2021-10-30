@@ -48,9 +48,9 @@ class TabBarController: UITabBarController {
                                                         title: Text.ControllerTitle.myBooks,
                                                      image: libraryIconImage)
     
-        let searchViewController = createController(for: SearchViewController(),
-                                                       title: Text.ControllerTitle.search,
-                                                       image: Images.searchIcon!)
+        let newViewController = createController(for: NewBookViewController(),
+                                                       title: Text.ControllerTitle.newBook,
+                                                       image: Images.newBookIcon!)
         
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
         let settingsViewController = createController(for: SettingsViewController(userManager: UserManager()),
@@ -58,7 +58,7 @@ class TabBarController: UITabBarController {
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,
                            libraryViewController,
-                           searchViewController,
+                           newViewController,
                            settingsViewController]
     }
     /// Adds tab with an icon image and a title.

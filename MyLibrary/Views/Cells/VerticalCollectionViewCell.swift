@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class VerticalCollectionViewCell: UICollectionViewCell {
     
@@ -22,8 +23,9 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     }
    
     // MARK: - Subviews
-    let bookCover = ImageButton(frame: .zero)
-    let titleView = CellTitleView()
+    private let bookCover = BookCover(frame: .zero)
+    
+    private let titleView = CellTitleView()
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -35,11 +37,15 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    func configure() {
-        titleView.titleLabel.text = "My great book title"
-        titleView.subtitleLabel.text = "Best author"
+    func configure(with book: Item) {
+        titleView.titleLabel.text = book.volumeInfo?.title
+        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
+        guard let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) else { return }
+        bookCover.af.setImage(withURL: url,
+                              cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                              placeholderImage: Images.welcomeScreen,
+                              completion: nil)
     }
-    
 }
 // MARK: - Constraints
 extension VerticalCollectionViewCell {

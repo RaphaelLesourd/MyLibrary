@@ -10,8 +10,9 @@ import UIKit
 
 class HeaderSupplementaryView: UICollectionReusableView {
     
-    static let reuseIdentifier = "header"
-    static let kind = "header"
+    static var reuseIdentifier: String {
+        return String(describing: HeaderSupplementaryView.self)
+      }
     
     // MARK: - Initializer
     override init(frame: CGRect) {

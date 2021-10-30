@@ -22,7 +22,7 @@ class ImageStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Subview
-    let bookImage = ImageButton()
+    let bookImage = BookCover(frame: .zero)
 }
 // MARK: - Constraints
 extension ImageStaticCell {

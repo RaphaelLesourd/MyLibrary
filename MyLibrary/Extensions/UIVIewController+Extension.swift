@@ -31,28 +31,13 @@ extension UIViewController {
         }, duration: 1, dismissAfter: 2, feedbackStyle: .medium)
     }
     
-    // MARK: - NavigationBar
-    func addNewBookButton() {
-        let infoButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(showNewBookController))
-        navigationItem.rightBarButtonItem = infoButton
-    }
-    
     // MARK: - Navigation
-    @objc func showNewBookController() {
-        let newBookController = NewBookViewController()
-        newBookController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(newBookController, animated: true)
-    }
-    
-    @objc func showBookDetails() {
-        let bookCardVC = BookCardViewController()
+    func showBookDetails(with book: Item) {
+        let bookCardVC = BookCardViewController(book: book)
         bookCardVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(bookCardVC, animated: true)
     }
-
+ 
     // MARK: - Activity Indicator
     func showIndicator(_ indicator: UIActivityIndicatorView) {
         let barButton = UIBarButtonItem(customView: indicator)

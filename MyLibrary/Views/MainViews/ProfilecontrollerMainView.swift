@@ -32,8 +32,8 @@ class ProfileControllerMainView: UIView {
         return view
     }()
     
-    let profileImagebutton: ImageButton = {
-        let button = ImageButton(radius: 60, backgrounColor: .tertiarySystemBackground)
+    let profileImagebutton: BookCover = {
+        let button = BookCover(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -22,10 +22,10 @@ class BookDetailView: UIView {
     }
     
     // MARK: - Subviews
-    let publisherView = BookDetailElementView(title: "Editeur")
+    let publisherNameView = BookDetailElementView(title: "Editeur")
     let publishedDateView = BookDetailElementView(title: "Publié")
-    let numberOfPageView = BookDetailElementView(title: "Pages")
-    let languageView = BookDetailElementView(title: "Langue")
+    let numberOfPageView  = BookDetailElementView(title: "Pages")
+    let languageView      = BookDetailElementView(title: "Langue")
     
     private let stackView: UIStackView = {
         let stack = UIStackView()
@@ -39,11 +39,11 @@ class BookDetailView: UIView {
 }
 // MARK: - Constraints
 extension BookDetailView {
-    
+   
     private func setStackViewConstraints() {
         addSubview(stackView)
         stackView.addArrangedSubview(publishedDateView)
-        stackView.addArrangedSubview(publisherView)
+        stackView.addArrangedSubview(publisherNameView)
         stackView.addArrangedSubview(numberOfPageView)
         stackView.addArrangedSubview(languageView)
         NSLayoutConstraint.activate([

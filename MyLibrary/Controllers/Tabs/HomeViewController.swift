@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
-        addNewBookButton()
+        addSearchButton()
     }
     
     // MARK: - Setup
@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
         collectionView.register(HorizontalCollectionViewCell.self,
                                          forCellWithReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier)
         collectionView.register(HeaderSupplementaryView.self,
-                                         forSupplementaryViewOfKind: HeaderSupplementaryView.kind,
+                                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                          withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -43,11 +43,21 @@ class HomeViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    private func addSearchButton() {
+        let infoButton = UIBarButtonItem(image: Images.searchIcon,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showSearchController))
+        navigationItem.rightBarButtonItem = infoButton
+    }
 
     // MARK: - Navigation
-    @objc private func showLibrary() {
-        let libraryVC = BookLibraryViewController()
-        navigationController?.pushViewController(libraryVC, animated: true)
+    @objc private func showSearchController() {
+        let searchController = SearchViewController(searchManager: SearchManager())
+        searchController.hidesBottomBarWhenPushed = true
+        searchController.searchType = .librarySearch
+        navigationController?.pushViewController(searchController, animated: true)
     }
 }
 // MARK: - CollectionView Datasource
@@ -85,19 +95,19 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
                                                                 for: indexPath) as? VerticalCollectionViewCell  else {
                 return UICollectionViewCell() }
-            cell.configure()
+         //   cell.configure()
             return cell
         case .favorites:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
                                                           for: indexPath) as? HorizontalCollectionViewCell  else {
                 return UICollectionViewCell() }
-            cell.configure()
+           // cell.configure()
             return cell
         case .recommanding:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
                                                                 for: indexPath) as? VerticalCollectionViewCell  else {
                 return UICollectionViewCell() }
-            cell.configure()
+         //   cell.configure()
             return cell
         case nil:
             return UICollectionViewCell()
@@ -124,7 +134,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case .none:
             break
         }
-        headerView.actionButton.addTarget(self, action: #selector(showLibrary), for: .touchUpInside)
+     //   headerView.actionButton.addTarget(self, action: #selector(showLibrary), for: .touchUpInside)
         return headerView
     }
 }
@@ -132,7 +142,7 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      showBookDetails()
+     
     }
 }
 // MARK: - Constraints

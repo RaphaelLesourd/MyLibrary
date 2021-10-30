@@ -34,7 +34,7 @@ enum Text {
         static let newBook = "Nouveau livre"
         static let home = "Acceuil"
         static let myBooks = "Mes livres"
-        static let search = "Chercher"
+        static let search = "Recherche"
         static let settings = "Réglages"
         static let profile = "Profil"
     }

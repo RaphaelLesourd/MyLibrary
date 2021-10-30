@@ -31,4 +31,26 @@ extension String {
         let predicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
         return predicate.evaluate(with: self)
     }
+    
+    /// Return country name from country code in device language
+    var languageName: String {
+        let currentIdentifier = Locale.current.regionCode ?? ""
+        let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
+        return localeFromCurrentIdentifier.localizedString(forLanguageCode: self) ?? ""
+    }
+    
+    var currencySymbol: String {
+        let locale = NSLocale(localeIdentifier: self)
+        return locale.displayName(forKey: NSLocale.Key.currencySymbol, value: self) ?? ""
+    }
+    
+    var displayYearOnly: String {
+        let inputDateFormatter = DateFormatter()
+        inputDateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = inputDateFormatter.date(from: self) ?? Date()
+
+        let outputDateFormatter = DateFormatter()
+        outputDateFormatter.dateFormat = "yyyy"
+        return outputDateFormatter.string(from: date)
+    }
 }

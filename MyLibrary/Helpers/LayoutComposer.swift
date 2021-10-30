@@ -53,11 +53,10 @@ class LayoutComposer {
     }
     
     private  func makeGridLayoutSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.28),
-                                                                             heightDimension: .fractionalHeight(1)))
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(200)))
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.31)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200)),
             subitem: item,
             count: 3
         )
@@ -78,7 +77,8 @@ class LayoutComposer {
     private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(30))
         return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
-                                                           elementKind: HeaderSupplementaryView.kind, alignment: .top)
+                                                           elementKind: UICollectionView.elementKindSectionHeader,
+                                                           alignment: .top)
     }
     
     func composeHomeCollectionViewLayout() -> UICollectionViewLayout {
@@ -101,15 +101,5 @@ class LayoutComposer {
             return self?.makeGridLayoutSection()
         }
     }
-    
-    func composeSearchCollectionViewLayout() -> UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            switch SearchCollectionViewSections(rawValue: sectionIndex) {
-            case .librarySearch, .apiSearch:
-                return self?.makeVerticalLayoutSection(numberItems: 2)
-            case nil:
-                return nil
-            }
-        }
-    }
+
 }

@@ -20,7 +20,6 @@ class BookLibraryViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
-        addNewBookButton()
     }
     
     // MARK: - Setup
@@ -30,7 +29,7 @@ class BookLibraryViewController: UIViewController {
         collectionView.register(VerticalCollectionViewCell.self,
                                 forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
         collectionView.register(HeaderSupplementaryView.self,
-                                forSupplementaryViewOfKind: HeaderSupplementaryView.kind,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -61,7 +60,7 @@ extension BookLibraryViewController: UICollectionViewDataSource {
 extension BookLibraryViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       showBookDetails()
+      
     }
 }
 

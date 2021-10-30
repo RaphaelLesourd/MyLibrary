@@ -39,6 +39,9 @@ class BookDetailElementView: UIView {
 // MARK: - Extension
 extension BookDetailElementView {
     private func setConstraints() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
         addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(infoLabel)

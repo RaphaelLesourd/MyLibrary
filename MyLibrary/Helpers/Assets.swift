@@ -14,7 +14,8 @@ enum Images {
     static let homeIcon = UIImage(systemName: "house.fill")
     static let openBookIcon = UIImage(systemName: "book.fill")
     static let booksIcon = UIImage(systemName: "books.vertical.fill")
-    static let searchIcon = UIImage(systemName: "magnifyingglass.circle.fill")
+    static let searchIcon = UIImage(systemName: "magnifyingglass")
     static let newSettingsIcon = UIImage(systemName: "gearshape.fill")
     static let oldSettingsIcon = UIImage(systemName: "gear")
+    static let newBookIcon = UIImage(systemName: "plus.circle.fill")
 }

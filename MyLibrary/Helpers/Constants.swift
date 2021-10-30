@@ -15,7 +15,7 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     case recommanding
 }
 
-enum SearchCollectionViewSections: Int, CaseIterable {
+enum SearchType: Int, CaseIterable {
     case librarySearch
     case apiSearch
 }

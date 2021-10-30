@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class HorizontalCollectionViewCell: UICollectionViewCell {
     
@@ -23,7 +24,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     }
   
    // MARK: - Subviews
-    private let bookCover = ImageButton(frame: .zero)
+    private let bookCover = BookCover(frame: .zero)
     private let titleView = CellTitleView()
     private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
    
@@ -31,15 +32,29 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .top
-        stack.distribution = .fillProportionally
+        stack.distribution = .fill
+        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
+    
+    override func prepareForReuse() {
+        titleView.titleLabel.text = nil
+        titleView.subtitleLabel.text = nil
+        descriptionLabel.text = nil
+        bookCover.image = nil
+    }
 
-    func configure() {
-        titleView.titleLabel.text = "My great book title"
-        titleView.subtitleLabel.text = "Best author"
-        descriptionLabel.text = "This is such a great book about plants and how to make them grown the right way."
+    func configure(with book: Item) {
+        titleView.titleLabel.text = book.volumeInfo?.title
+        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
+        descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
+        if let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
+            bookCover.af.setImage(withURL: url,
+                                  cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                  placeholderImage: Images.welcomeScreen,
+                                  completion: nil)
+        }
     }
 }
 // MARK: - Constraints
@@ -60,9 +75,9 @@ extension HorizontalCollectionViewCell {
         contentView.addSubview(textStackView)
         textStackView.addArrangedSubview(titleView)
         textStackView.addArrangedSubview(descriptionLabel)
-        textStackView.setCustomSpacing(10, after: titleView)
         NSLayoutConstraint.activate([
             textStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            textStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
             textStackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
             textStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
