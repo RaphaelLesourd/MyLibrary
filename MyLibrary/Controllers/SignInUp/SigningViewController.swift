@@ -95,7 +95,7 @@ class SigningViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
                 return
             }
-            self.presentAlertBanner(as: .custom("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
+            self.presentAlertBanner(as: .customMessage("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
         }
     }
 }

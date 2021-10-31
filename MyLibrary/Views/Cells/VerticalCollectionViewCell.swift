@@ -10,8 +10,6 @@ import AlamofireImage
 
 class VerticalCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "cell"
-    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)

@@ -10,7 +10,7 @@ import PanModal
 import AlamofireImage
 
 protocol NewBookDelegate: AnyObject {
-    func displayBookDetail(for book: Item?)
+    var newBook: Item? { get set }
     var bookDescription: String? { get set }
     var bookComment: String? { get set }
 }
@@ -18,13 +18,18 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: UITableViewController, NewBookDelegate {
    
     // MARK: - Properties
-    var newBook: Item?
+   
+    var newBook: Item? {
+        didSet {
+            displayBookDetail()
+        }
+    }
     var bookDescription: String?
     var bookComment: String?
     private var sections: [[UITableViewCell]] = [[]]
-    
+    private var searchController = UISearchController()
+    private let resultController = SearchViewController(networkService: NetworkService())
     // MARK: - Subviews
-    private let searchController = UISearchController(searchResultsController: nil)
     private let bookImage = ImageStaticCell()
     private let bookTileCell = TextFieldStaticCell(placeholder: "Titre du livre")
     private let bookAuthorCell = TextFieldStaticCell(placeholder: "Nom de l'auteur")
@@ -44,16 +49,17 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         title = Text.ControllerTitle.newBook
         configureTableView()
         configureCells()
-        addSearchButton()
+        configureSearchController()
+        addNavigationBarButton()
     }
 
     // MARK: - Setup
-    private func addSearchButton() {
-        let infoButton = UIBarButtonItem(image: Images.searchIcon,
+    private func addNavigationBarButton() {
+        let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
                                          style: .plain,
                                          target: self,
-                                         action: #selector(showSearchController))
-        navigationItem.rightBarButtonItem = infoButton
+                                         action: #selector(showScannerController))
+        navigationItem.rightBarButtonItem = scannerButton
     }
     
     private func configureTableView() {
@@ -81,19 +87,30 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         return cell
     }
     
+    private func configureSearchController() {
+        searchController = UISearchController(searchResultsController: resultController)
+        searchController.searchBar.delegate = self
+        resultController.newBookDelegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Recherche"
+        searchController.definesPresentationContext = true
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = searchController
+    }
+   
     // MARK: - Data
-    func displayBookDetail(for book: Item?) {
-        guard let book = book else { return }
-        newBook = book
-        bookTileCell.textField.text = newBook?.volumeInfo?.title
-        bookAuthorCell.textField.text = newBook?.volumeInfo?.authors?.joined(separator: " ")
-        isbnCell.textField.text = "ISBN \(newBook?.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
-        numberOfPagesCell.textField.text = "\(newBook?.volumeInfo?.pageCount ?? 0) pages"
-        languageCell.textField.text = newBook?.volumeInfo?.language?.languageName
-        bookDescription = newBook?.volumeInfo?.volumeInfoDescription
-        if let url = newBook?.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
+    func displayBookDetail() {
+        guard let book = newBook else { return }
+        clearData()
+        bookTileCell.textField.text = book.volumeInfo?.title
+        bookAuthorCell.textField.text = book.volumeInfo?.authors?.joined(separator: " ")
+        isbnCell.textField.text = "ISBN \(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
+        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0) pages"
+        languageCell.textField.text = book.volumeInfo?.language?.languageName
+        bookDescription = book.volumeInfo?.volumeInfoDescription
+        if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
             bookImage.bookImage.af.setImage(withURL: imageUrl,
-                                            cacheKey: newBook?.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                            cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
                                             placeholderImage: Images.welcomeScreen)
         }
         if let currency = book.saleInfo?.retailPrice?.currencyCode,
@@ -102,22 +119,41 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         }
     }
     
+    private func clearData() {
+        searchController.isActive = false
+        resultController.searchedBooks.removeAll()
+        bookTileCell.textField.text = nil
+        bookAuthorCell.textField.text = nil
+        isbnCell.textField.text = nil
+        numberOfPagesCell.textField.text = nil
+        languageCell.textField.text = nil
+        bookDescription = nil
+        bookImage.bookImage.image = Images.emptyStateBookImage
+        purchasePriceCell.textField.text = nil
+        bookComment = nil
+        bookDescription = nil
+    }
+    
     // MARK: - Navigation
-    @objc private func showSearchController() {
-        let searchController = SearchViewController(networkService: NetworkService())
-        searchController.hidesBottomBarWhenPushed = true
-        searchController.newBookBookDelegate = self
-        searchController.searchType = .apiSearch
-        navigationController?.pushViewController(searchController, animated: true)
+    @objc private func showScannerController() {
+        let barcodeScannerController = BarcodeScannerViewController()
+        barcodeScannerController.barcodeDelegate = self
+        presentPanModal(barcodeScannerController)
     }
 }
 // MARK: - Barcode protocol
 extension NewBookViewController: BarcodeProtocol {
-    
     func processBarcode(with code: String) {
-        presentAlert(withTitle: "New Found barcode", message: code, actionHandler: nil)
+        resultController.getBooks(code)
     }
 }
+// MARK: - Searchbar delegate
+extension NewBookViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        resultController.currentSearchKeywords = searchController.searchBar.text ?? ""
+    }
+}
+
 // MARK: - TableView DataSource & Delegate
 extension NewBookViewController {
     

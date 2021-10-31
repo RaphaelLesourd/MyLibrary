@@ -12,6 +12,8 @@ class BookCardViewController: UIViewController {
 
     // MARK: - Properties
     private let mainView = BookCardMainView()
+    weak var newBookBookDelegate: NewBookDelegate?
+    var searchType: SearchType?
     var book: Item
     
     // MARK: - Intializers
@@ -34,6 +36,8 @@ class BookCardViewController: UIViewController {
         title = ""
         dispayBookData()
         addCommentButton()
+        setTargets()
+        configureUi()
     }
     
     // MARK: - Setup
@@ -43,6 +47,17 @@ class BookCardViewController: UIViewController {
                                          target: self,
                                          action: #selector(addComment))
         navigationItem.rightBarButtonItem = infoButton
+    }
+    
+    private func setTargets() {
+        mainView.actionButton.addTarget(self, action: #selector(returnToNewBookController), for: .touchUpInside)
+    }
+    
+    private func configureUi() {
+        mainView.commentLabel.isHidden = searchType == .apiSearch
+        mainView.deleteBookButton.isHidden = searchType == .apiSearch
+        let actionButtontitle = searchType == .apiSearch ? "Sauvegarder" : "Recommander"
+        mainView.actionButton.setTitle(actionButtontitle, for: .normal)
     }
     
     // MARK: - Data
@@ -81,5 +96,8 @@ class BookCardViewController: UIViewController {
     @objc private func addComment() {
         
     }
-  
+    
+    @objc private func returnToNewBookController() {
+        newBookBookDelegate?.newBook = book
+    }
 }

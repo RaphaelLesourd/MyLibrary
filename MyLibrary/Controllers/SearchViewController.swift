@@ -11,14 +11,19 @@ class SearchViewController: UIViewController {
     
     // MARK: - Properties
     var networkService: NetworkProtocol
+    weak var newBookDelegate: NewBookDelegate?
+    var searchType: SearchType?
     private var layoutComposer = LayoutComposer()
     private lazy var dataSource = makeDataSource()
     typealias Snapshot = NSDiffableDataSourceSnapshot<SearchType, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SearchType, Item>
-    weak var newBookBookDelegate: NewBookDelegate?
-    
-    var searchType: SearchType?
-    private var searchedBooks: [Item] = [] {
+    var currentSearchKeywords = "" {
+        didSet {
+            getBooks(currentSearchKeywords, fromIndex: 0)
+        }
+    }
+   
+    var searchedBooks: [Item] = [] {
         didSet {
             applySnapshot()
         }
@@ -26,7 +31,6 @@ class SearchViewController: UIViewController {
     
     // MARK: - Subviews
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Initializer
     init(networkService: NetworkProtocol) {
@@ -37,7 +41,7 @@ class SearchViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,73 +49,41 @@ class SearchViewController: UIViewController {
         title = Text.ControllerTitle.search
         configureCollectionView()
         setCollectionViewConstraints()
-        configureSearchController()
-        addScannerButton()
         applySnapshot(animatingDifferences: false)
     }
     
     // MARK: - Setup
-    func configureSearchController() {
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Recherche"
-        searchController.definesPresentationContext = true
-        self.navigationItem.hidesSearchBarWhenScrolling = true
-        self.navigationItem.searchController = searchController
-    }
-    
-    private func addScannerButton() {
-        let infoButton = UIBarButtonItem(image: Images.scanBarcode,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(showScannerController))
-        navigationItem.rightBarButtonItem = infoButton
-    }
-    
     private func configureCollectionView() {
         let layout = layoutComposer.composeBookLibraryLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(VerticalCollectionViewCell.self,
-                                forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
-        collectionView.register(HeaderSupplementaryView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
+        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(header: HeaderSupplementaryView.self)
         collectionView.delegate = self
-        collectionView.dataSource = makeDataSource()
+        collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // MARK: - API call
-    private func getBooks(_ query: String?) {
-        searchedBooks.removeAll()
-        networkService.getData(with: query) { [weak self] result in
+    func getBooks(_ query: String?, fromIndex: Int = 0) {
+        networkService.getData(with: query, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let books):
-                guard let books = books.items, !books.isEmpty else {
-                    self.presentAlertBanner(as: .custom("Oups!"), subtitle: "Rien trouvé")
-                    return
-                }
-                self.searchedBooks = books
+                self.handleList(for: books)
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }
         }
     }
-   
-    // MARK: - Navigation
-    @objc private func showScannerController() {
-        let barcodeScannerController = BarcodeScannerViewController()
-        barcodeScannerController.hidesBottomBarWhenPushed = true
-        barcodeScannerController.barcodeDelegate = self
-        navigationController?.pushViewController(barcodeScannerController, animated: true)
-    }
     
-    private func returnToNewBookController(with book: Item) {
-        newBookBookDelegate?.displayBookDetail(for: book)
-        navigationController?.popViewController(animated: true)
+    private func handleList(for books: BookModel) {
+        guard let bookList = books.items, !bookList.isEmpty else {
+            self.presentAlertBanner(as: .customMessage("Oups!"), subtitle: "Rien trouvé")
+            return
+        }
+        bookList.count > 1 ? searchedBooks.append(contentsOf: bookList) : (newBookDelegate?.newBook = bookList.first)
     }
 }
 // MARK: - CollectionView Datasource
@@ -121,10 +93,7 @@ extension SearchViewController {
         let dataSource = DataSource(
             collectionView: collectionView,
             cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
-                                                                    for: indexPath) as? VerticalCollectionViewCell else {
-                    return UICollectionViewCell()
-                }
+                let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                 cell.configure(with: books)
                 return cell
             })
@@ -142,37 +111,27 @@ extension SearchViewController {
     private func configureHeader(_ dataSource: SearchViewController.DataSource) {
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == UICollectionView.elementKindSectionHeader else { return nil }
-            
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                       withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
-                                                                       for: indexPath) as? HeaderSupplementaryView
+            let view: HeaderSupplementaryView = collectionView.dequeue(kind: kind, for: indexPath)
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            let title = section == .librarySearch ? "Dans mes livres" : "Trouvé"
-            view?.configureTitle(with: title)
-            view?.actionButton.isHidden = true
+            let title = section == .librarySearch ? "Dans mes livres" : ""
+            view.configureTitle(with: title)
+            view.actionButton.isHidden = true
             return view
         }
     }
 }
 // MARK: - CollectionView Delegate
 extension SearchViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            getBooks(currentSearchKeywords, fromIndex: indexPath.row - 1)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        searchType == .librarySearch ? showBookDetails(with: searchBook) : returnToNewBookController(with: searchBook)
-    }
-}
-// MARK: - Barcode procol
-extension SearchViewController: BarcodeProtocol {
-    func processBarcode(with code: String) {
-        getBooks(code)
-    }
-}
-// MARK: - Search result updater
-extension SearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchText = searchController.searchBar.text
-        getBooks(searchText)
-        searchController.isActive = false
+        newBookDelegate?.newBook = searchBook
     }
 }
 // MARK: - Constraints

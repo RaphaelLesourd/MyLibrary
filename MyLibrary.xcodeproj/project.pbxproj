@@ -51,6 +51,9 @@
 		81242D87272E773800CB39B1 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 81242D86272E773800CB39B1 /* FirebaseStorage */; };
 		81242D89272E773800CB39B1 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 81242D88272E773800CB39B1 /* FirebaseStorageCombine-Community */; };
 		81242D8B272E773800CB39B1 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81242D8A272E773800CB39B1 /* FirebaseStorageSwift-Beta */; };
+		81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */; };
+		81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */; };
+		81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */; };
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
@@ -58,7 +61,6 @@
 		8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 814751692727D80E0080C5BA /* GoogleService-Info.plist */; };
 		8147516C2727E67F0080C5BA /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516B2727E67F0080C5BA /* AppText.swift */; };
 		8147516E2727E9490080C5BA /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Assets.swift */; };
-		8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
@@ -136,6 +138,9 @@
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
 		81242D50272D986100CB39B1 /* SearchServiceTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchServiceTestCase.swift; sourceTree = "<group>"; };
 		81242D55272DB21200CB39B1 /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
+		81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
+		81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookLibraryViewController.swift; sourceTree = "<group>"; };
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
@@ -143,7 +148,6 @@
 		814751692727D80E0080C5BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8147516B2727E67F0080C5BA /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
 		8147516D2727E9490080C5BA /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
-		8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookLibraryViewController.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
@@ -293,7 +297,7 @@
 			children = (
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
-				8171AF9127253C64002F96B9 /* BookLibraryViewController.swift */,
+				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
 			);
@@ -368,8 +372,8 @@
 			children = (
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
-				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
+				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
@@ -481,6 +485,8 @@
 				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
 				8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */,
 				81475147272735900080C5BA /* String+Extension.swift */,
+				81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */,
+				81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -701,7 +707,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
-				8171AF9227253C64002F96B9 /* BookLibraryViewController.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
 				81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
@@ -710,6 +715,7 @@
 				8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				81C2AE5B27297A0700AC69A8 /* CurrentUser.swift in Sources */,
+				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
 				810C44652726E541007541C0 /* UserManager.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
@@ -737,12 +743,14 @@
 				81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */,
 				810C44772727102D007541C0 /* SigningViewController.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
+				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
+				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */,
 				812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */,

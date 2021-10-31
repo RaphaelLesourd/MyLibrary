@@ -37,5 +37,6 @@ class TextLabel: UILabel {
         numberOfLines = maxLines
         textAlignment =  alignment
         font = UIFont.systemFont(ofSize: fontSize, weight: weight)
+        text = "--"
     }
 }

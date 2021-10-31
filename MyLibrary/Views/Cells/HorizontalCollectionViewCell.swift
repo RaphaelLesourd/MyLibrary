@@ -10,8 +10,6 @@ import AlamofireImage
 
 class HorizontalCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "horizontalCell"
-    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)

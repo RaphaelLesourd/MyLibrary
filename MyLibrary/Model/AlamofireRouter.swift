@@ -13,7 +13,7 @@ import Alamofire
 enum AlamofireRouter: URLRequestConvertible {
     // cases
     case withIsbn(isbn: String)
-    case withKeyWord(words: String)
+    case withKeyWord(words: String, startIndex: Int)
     
     private var baseURL: String {
         switch self {
@@ -39,9 +39,10 @@ enum AlamofireRouter: URLRequestConvertible {
         switch self {
         case .withIsbn(isbn: let isbn):
             return ["q": "isbn:\(isbn)"]
-        case .withKeyWord(words: let words):
+        case .withKeyWord(words: let words, let startIndex):
             return ["q": words,
-                    "maxResults": 40,
+                    "startIndex": startIndex,
+                    "maxResults": 39,
                     "filter": "paid-ebooks",
                     "orderBy": "relevance"]
         }

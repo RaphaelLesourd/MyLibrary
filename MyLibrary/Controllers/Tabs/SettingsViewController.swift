@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
                 return
             }
-            self.presentAlertBanner(as: .custom("A bientôt!"), subtitle: "")
+            self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
         }
     }
 }

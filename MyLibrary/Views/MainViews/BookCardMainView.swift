@@ -57,7 +57,7 @@ class BookCardMainView: UIView {
     let bookDetailView = BookDetailView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let recommandButton = ActionButton(title: "Recommander")
+    let actionButton = ActionButton(title: "Recommander")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre de votre bibliothèque", for: .normal)
@@ -129,7 +129,7 @@ extension BookCardMainView {
                                            purchaseDetailView,
                                            currentResellPriceView,
                                            commentLabel,
-                                           recommandButton,
+                                           actionButton,
                                            deleteBookButton]
         mainStackSubViews.forEach {  mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(2, after: titleLabel)

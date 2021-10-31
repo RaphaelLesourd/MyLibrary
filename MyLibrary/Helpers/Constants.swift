@@ -28,7 +28,7 @@ enum AccountInterfaceType {
 enum AlertBannerType {
     case error
     case success
-    case custom(String)
+    case customMessage(String)
     
     var message: String {
         switch self {
@@ -36,7 +36,7 @@ enum AlertBannerType {
             return "Erreur!"
         case .success:
             return "Succés"
-        case .custom(let message):
+        case .customMessage(let message):
             return message
         }
     }

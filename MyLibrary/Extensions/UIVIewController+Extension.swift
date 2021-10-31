@@ -32,9 +32,10 @@ extension UIViewController {
     }
     
     // MARK: - Navigation
-    func showBookDetails(with book: Item) {
+    func showBookDetails(with book: Item, searchType: SearchType) {
         let bookCardVC = BookCardViewController(book: book)
         bookCardVC.hidesBottomBarWhenPushed = true
+        bookCardVC.searchType = searchType
         navigationController?.pushViewController(bookCardVC, animated: true)
     }
  

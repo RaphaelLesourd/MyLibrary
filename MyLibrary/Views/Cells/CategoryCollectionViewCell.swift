@@ -8,8 +8,7 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-    static let reuseIdentifier = "categoryCell"
-    
+
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)

@@ -8,6 +8,7 @@
 import UIKit
 import Vision
 import AVFoundation
+import PanModal
 
 /// Protocol to pass barcode string value back to the requesting controller.
 protocol BarcodeProtocol: AnyObject {
@@ -112,7 +113,8 @@ class BarcodeScannerViewController: UIViewController {
                     
                     print(potentialQRCode.payloadStringValue ?? "")
                     fetchedBarcode = potentialQRCode.payloadStringValue
-                    navigationController?.popViewController(animated: true)
+                    dismiss(animated: true)
+                  //  navigationController?.popViewController(animated: true)
                 }
             }
         }
@@ -156,4 +158,20 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
         presentAlertBanner(as: .error, subtitle: error.localizedDescription)
     }
   }
+}
+
+// MARK: - PanModal Extension
+extension BarcodeScannerViewController: PanModalPresentable {
+   
+    var shortFormHeight: PanModalHeight {
+        return .maxHeightWithTopInset(view.frame.height * 0.50)
+    }
+   
+    var cornerRadius: CGFloat {
+        return 20
+    }
+    
+    var panScrollable: UIScrollView? {
+        return nil
+    }
 }

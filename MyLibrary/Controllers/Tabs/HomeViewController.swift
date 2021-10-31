@@ -21,43 +21,23 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
-        addSearchButton()
+      //  addSearchButton()
     }
     
     // MARK: - Setup
     private func configureCollectionView() {
         let layout = layoutComposer.composeHomeCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CategoryCollectionViewCell.self,
-                                         forCellWithReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier)
-        collectionView.register(VerticalCollectionViewCell.self,
-                                         forCellWithReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier)
-        collectionView.register(HorizontalCollectionViewCell.self,
-                                         forCellWithReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier)
-        collectionView.register(HeaderSupplementaryView.self,
-                                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                         withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
+        
+        collectionView.register(cell: CategoryCollectionViewCell.self)
+        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(cell: HorizontalCollectionViewCell.self)
+        collectionView.register(header: HeaderSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private func addSearchButton() {
-        let infoButton = UIBarButtonItem(image: Images.searchIcon,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(showSearchController))
-        navigationItem.rightBarButtonItem = infoButton
-    }
-
-    // MARK: - Navigation
-    @objc private func showSearchController() {
-        let searchController = SearchViewController(networkService: NetworkService())
-        searchController.hidesBottomBarWhenPushed = true
-        searchController.searchType = .librarySearch
-        navigationController?.pushViewController(searchController, animated: true)
     }
 }
 // MARK: - CollectionView Datasource
@@ -85,28 +65,20 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch HomeCollectionViewSections(rawValue: indexPath.section) {
         case .categories:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? CategoryCollectionViewCell  else {
-                return UICollectionViewCell() }
+            let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
             let category = defaultCategories[indexPath.item]
             cell.configure(text: category)
             return cell
         case .newEntry:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? VerticalCollectionViewCell  else {
-                return UICollectionViewCell() }
+            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
          //   cell.configure()
             return cell
         case .favorites:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
-                                                          for: indexPath) as? HorizontalCollectionViewCell  else {
-                return UICollectionViewCell() }
+            let cell: HorizontalCollectionViewCell = collectionView.dequeue(for: indexPath)
            // cell.configure()
             return cell
         case .recommanding:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCollectionViewCell.reuseIdentifier,
-                                                                for: indexPath) as? VerticalCollectionViewCell  else {
-                return UICollectionViewCell() }
+            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
          //   cell.configure()
             return cell
         case nil:
@@ -117,11 +89,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                               withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
-                                                                               for: indexPath) as? HeaderSupplementaryView else {
-            return HeaderSupplementaryView()
-        }
+        let headerView: HeaderSupplementaryView = collectionView.dequeue(kind: kind, for: indexPath)
         switch HomeCollectionViewSections(rawValue: indexPath.section) {
         case .categories:
             headerView.configureTitle(with: "Catégories")
@@ -147,7 +115,6 @@ extension HomeViewController: UICollectionViewDelegate {
 }
 // MARK: - Constraints
 extension HomeViewController {
-    
     private func setCollectionViewConstraints() {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([

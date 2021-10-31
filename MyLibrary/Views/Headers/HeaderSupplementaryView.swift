@@ -9,11 +9,7 @@ import Foundation
 import UIKit
 
 class HeaderSupplementaryView: UICollectionReusableView {
-    
-    static var reuseIdentifier: String {
-        return String(describing: HeaderSupplementaryView.self)
-      }
-    
+
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
