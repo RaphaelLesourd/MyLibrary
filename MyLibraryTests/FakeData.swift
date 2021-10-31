@@ -18,6 +18,6 @@ class FakeData {
 
     static let bookIncorrectData = "incorrectData".data(using: .utf8)!
     
-//    class ApiError: Error {}
-//    static let error = Error()
+    class ApiError: Error {}
+    static let error = ApiError()
 }

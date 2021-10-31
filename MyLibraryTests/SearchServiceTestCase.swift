@@ -28,13 +28,14 @@ class RecipeServiceTestCase: XCTestCase {
         session = nil
     }
 
+    // MARK: - Success
     func test_givenAnISBN_whenRequestingBookList_thenSuccessResponse() {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         MockURLProtocol.requestHandler = { [self] request in
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: .withIsbn(isbn: "")) { (result: Result <BookModel, Error>) in
+        sut.getData(with: "9791234567891") { (result: Result <BookModel, ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
@@ -53,7 +54,7 @@ class RecipeServiceTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: .withKeyWord(words: "")) { (result: Result <BookModel, Error>) in
+        sut.getData(with: "Tintin") { (result: Result <BookModel, ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
@@ -65,7 +66,8 @@ class RecipeServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-
+    
+ // MARK: - Errors
     func test_givenAnISBN_whenRequestingBookList_thenDataError() {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         MockURLProtocol.requestHandler = { request in
@@ -73,12 +75,52 @@ class RecipeServiceTestCase: XCTestCase {
             return (response, FakeData.bookIncorrectData)
         }
 
-        sut.getData(with: .withIsbn(isbn: "")) { (result: Result <BookModel, Error>) in
+        sut.getData(with: "Tintin") { (result: Result <BookModel, ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
             case .failure(let error):
                 XCTAssertNotNil(error)
+                XCTAssertEqual(error, ApiError.afError(.responseSerializationFailed(reason: .decodingFailed(error: DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: ""))))))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    
+    func test_givenAnEmptyQuery_whenRequestingBookList_thenDataError() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: self.url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, FakeData.bookCorrectData)
+        }
+
+        sut.getData(with: "") { (result: Result <BookModel, ApiError>) in
+            switch result {
+            case .success(let books):
+                XCTAssertNil(books)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.emptyQuery.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func test_givenNilQuery_whenRequestingBookList_thenDataError() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: self.url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, FakeData.bookCorrectData)
+        }
+
+        sut.getData(with: nil) { (result: Result <BookModel, ApiError>) in
+            switch result {
+            case .success(let books):
+                XCTAssertNil(books)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.emptyQuery.description)
             }
             expectation.fulfill()
         }

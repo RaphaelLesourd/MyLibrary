@@ -9,11 +9,10 @@ import Foundation
 import Alamofire
 
 protocol NetworkProtocol {
-    func getData(with parameters: AlamofireRouter, completion: @escaping (Result<BookModel, Error>) -> Void)
+    func getData(with query: String?, completion: @escaping (Result<BookModel, ApiError>) -> Void)
 }
 
 class NetworkService {
-    
     // MARK: - Properties
     let session: Session
     
@@ -22,7 +21,12 @@ class NetworkService {
         self.session = session
     }
     
-    func getData(with parameters: AlamofireRouter, completion: @escaping (Result<BookModel, Error>) -> Void) {
+    func getData(with query: String?, completion: @escaping (Result<BookModel, ApiError>) -> Void) {
+        guard let query = query, !query.isEmpty else {
+            completion(.failure(.emptyQuery))
+            return
+        }
+        let parameters = isQueryIsbn(for: query)
         session
             .request(parameters)
             .validate()
@@ -32,9 +36,13 @@ class NetworkService {
                         completion(.success(jsonData))
                     case .failure(let error):
                         print(String(describing: error))
-                        completion(.failure(error))
+                        completion(.failure(.afError(error)))
                     }
             }
+    }
+    
+    private func isQueryIsbn(for keyword: String) -> AlamofireRouter {
+        return keyword.isIsbn ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword)
     }
 }
 

@@ -62,19 +62,19 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
         mainView.bookDetailView.numberOfPageView.infoLabel.text = "\(book?.pageCount ?? 0)"
         mainView.bookDetailView.languageView.infoLabel.text = book?.language?.languageName
-        mainView.purchaseDetailView.titleLabel.text = "Date d'achat Juillet 1999"
+        mainView.purchaseDetailView.titleLabel.text = ""
+        mainView.purchaseDetailView.purchasePriceLabel.text = ""
        
+        mainView.currentResellPriceView.titleLabel.text = "Prix de vente"
         if let currency = self.book.saleInfo?.retailPrice?.currencyCode,
            let price = self.book.saleInfo?.retailPrice?.amount {
-            mainView.purchaseDetailView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
+            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
         }
-        
-        mainView.currentResellPriceView.titleLabel.text = "Côte actuelle"
-        mainView.currentResellPriceView.purchasePriceLabel.text = "--"
+    
         if let isbn = book?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
         }
-        mainView.commentLabel.text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        mainView.commentLabel.text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla"
     }
     
     // MARK: - Navigation

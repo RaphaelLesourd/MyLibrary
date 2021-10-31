@@ -18,7 +18,11 @@ class SearchViewController: UIViewController {
     weak var newBookBookDelegate: NewBookDelegate?
     
     var searchType: SearchType?
-    private var searchedBooks: [Item] = []
+    private var searchedBooks: [Item] = [] {
+        didSet {
+            applySnapshot()
+        }
+    }
     
     // MARK: - Subviews
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -52,7 +56,7 @@ class SearchViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Recherche"
         searchController.definesPresentationContext = true
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.hidesSearchBarWhenScrolling = true
         self.navigationItem.searchController = searchController
     }
     
@@ -80,14 +84,17 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - API call
-    private func getBooks(_ query: AlamofireRouter) {
+    private func getBooks(_ query: String?) {
+        searchedBooks.removeAll()
         networkService.getData(with: query) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let books):
-                guard let books = books.items else { return }
+                guard let books = books.items, !books.isEmpty else {
+                    self.presentAlertBanner(as: .custom("Oups!"), subtitle: "Rien trouvé")
+                    return
+                }
                 self.searchedBooks = books
-                self.applySnapshot()
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }
@@ -140,7 +147,7 @@ extension SearchViewController {
                                                                        withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
                                                                        for: indexPath) as? HeaderSupplementaryView
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            let title = section == .librarySearch ? "Dans mes livres" : "\(self.searchedBooks.count) Trouvé en ligne"
+            let title = section == .librarySearch ? "Dans mes livres" : "Trouvé"
             view?.configureTitle(with: title)
             view?.actionButton.isHidden = true
             return view
@@ -157,14 +164,14 @@ extension SearchViewController: UICollectionViewDelegate {
 // MARK: - Barcode procol
 extension SearchViewController: BarcodeProtocol {
     func processBarcode(with code: String) {
-        getBooks(.withIsbn(isbn: code))
+        getBooks(code)
     }
 }
 // MARK: - Search result updater
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else { return }
-        getBooks(.withKeyWord(words: searchText))
+        let searchText = searchController.searchBar.text
+        getBooks(searchText)
         searchController.isActive = false
     }
 }

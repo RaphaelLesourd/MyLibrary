@@ -38,17 +38,15 @@ enum AlamofireRouter: URLRequestConvertible {
     private var parameters: [String: Any] {
         switch self {
         case .withIsbn(isbn: let isbn):
-            return ["q": "isbn:\(isbn)",
-                    "maxResults": 40,
-                    "filter": "paid-ebooks",
-                    "orderBy": "newest"]
+            return ["q": "isbn:\(isbn)"]
         case .withKeyWord(words: let words):
             return ["q": words,
                     "maxResults": 40,
                     "filter": "paid-ebooks",
-                    "orderBy": "newest"]
+                    "orderBy": "relevance"]
         }
     }
+
     // Conforming to URLRequestConvertible protocol, returning URLRequest
     func asURLRequest() throws -> URLRequest {
         let url = try baseURL.asURL()

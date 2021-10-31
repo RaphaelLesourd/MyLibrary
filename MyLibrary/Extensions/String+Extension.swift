@@ -53,4 +53,8 @@ extension String {
         outputDateFormatter.dateFormat = "yyyy"
         return outputDateFormatter.string(from: date)
     }
+    
+    var isIsbn: Bool {
+         return (self.count >= 10 ) && self.allSatisfy { $0.isNumber }
+       }
 }

@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 // MARK: - BookModel
-struct BookModel: Decodable {
+struct BookModel: Codable {
     let items: [Item]?
 }
 
 // MARK: - Item
-struct Item: Decodable {
+struct Item: Codable {
+    //  @DocumentID var id: String?
     let etag: String?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
@@ -22,14 +24,13 @@ extension Item: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(etag)
     }
-    
     static func == (lhs: Item, rhs: Item) -> Bool {
         return lhs.etag == rhs.etag
     }
 }
 
 // MARK: - VolumeInfo
-struct VolumeInfo: Decodable {
+struct VolumeInfo: Codable {
     let title: String?
     let authors: [String]?
     let publisher, publishedDate, volumeInfoDescription: String?
@@ -61,11 +62,11 @@ struct SaleInfoListPrice: Codable {
 }
 
 // MARK: - IndustryIdentifier
-struct IndustryIdentifier: Decodable {
+struct IndustryIdentifier: Codable {
     let type, identifier: String?
 }
 
 // MARK: - ImageLinks
-struct ImageLinks: Decodable {
+struct ImageLinks: Codable {
     let smallThumbnail, thumbnail, large, extralarge: String?
 }
