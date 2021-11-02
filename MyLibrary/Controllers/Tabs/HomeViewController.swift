@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 /// Enum giving name to each section of the HomeController CollectionView for better readability
 enum HomeCollectionViewSections: Int, CaseIterable {
     case categories
