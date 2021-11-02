@@ -7,6 +7,15 @@
 
 import UIKit
 
+
+/// Enum giving name to each section of the HomeController CollectionView for better readability
+enum HomeCollectionViewSections: Int, CaseIterable {
+    case categories
+    case newEntry
+    case favorites
+    case recommanding
+}
+
 class HomeViewController: UIViewController {
 
     // MARK: - Properties
@@ -21,14 +30,12 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         configureCollectionView()
         setCollectionViewConstraints()
-      //  addSearchButton()
     }
     
     // MARK: - Setup
     private func configureCollectionView() {
         let layout = layoutComposer.composeHomeCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collectionView.register(cell: CategoryCollectionViewCell.self)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(cell: HorizontalCollectionViewCell.self)

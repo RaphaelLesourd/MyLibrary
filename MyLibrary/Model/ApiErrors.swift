@@ -10,6 +10,7 @@ import Alamofire
 
 enum ApiError: Error {
     case emptyQuery
+    case noBooks
     case afError(AFError)
     
     var description: String {
@@ -17,7 +18,10 @@ enum ApiError: Error {
         case .emptyQuery:
             return "Votre recherche est vide"
         case .afError(let message):
+            print(message)
             return message.localizedDescription
+        case .noBooks:
+            return "Rien trouvé"
         }
     }
 }

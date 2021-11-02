@@ -18,39 +18,46 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: UITableViewController, NewBookDelegate {
    
     // MARK: - Properties
-   
+    private var searchController = UISearchController()
+    private let resultController = SearchViewController(networkService: NetworkService())
+    private var sections: [[UITableViewCell]] = [[]]
+    var bookDescription: String?
+    var bookComment: String?
+    var imagePicker: ImagePicker?
     var newBook: Item? {
         didSet {
             displayBookDetail()
         }
     }
-    var bookDescription: String?
-    var bookComment: String?
-    private var sections: [[UITableViewCell]] = [[]]
-    private var searchController = UISearchController()
-    private let resultController = SearchViewController(networkService: NetworkService())
+   
     // MARK: - Subviews
-    private let bookImage = ImageStaticCell()
+    private let bookImageCell = ImageStaticCell()
     private let bookTileCell = TextFieldStaticCell(placeholder: "Titre du livre")
     private let bookAuthorCell = TextFieldStaticCell(placeholder: "Nom de l'auteur")
+    private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
+    
     private let isbnCell = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
     private let numberOfPagesCell = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
     private let languageCell = TextFieldStaticCell(placeholder: "Langue du livre")
-    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer", systemImage: "arrow.down.doc.fill", tintColor: .appTintColor)
     private var descriptionCell = UITableViewCell()
+    
     private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .numberPad)
     private let resellPriceCell = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
+    
     private var commentCell = UITableViewCell()
+    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer", systemImage: "arrow.down.doc.fill", tintColor: .appTintColor)
    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.newBook
+        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         configureTableView()
-        configureCells()
+        composeTableView()
         configureSearchController()
         addNavigationBarButton()
+        setButtonTargets()
     }
 
     // MARK: - Setup
@@ -62,23 +69,32 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         navigationItem.rightBarButtonItem = scannerButton
     }
     
+    private func setButtonTargets() {
+        saveButtonCell.actionButton.addTarget(self, action: #selector(showBookCardViewController), for: .touchUpInside)
+    }
+    
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .viewControllerBackgroundColor
     }
     
-    private func configureCells() {
+    /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
+    private func composeTableView() {
         descriptionCell = createDefaultCell(with: "Description")
         commentCell = createDefaultCell(with: "Commentaire")
-        sections = [[bookImage],
+        sections = [[bookImageCell],
                     [bookTileCell, bookAuthorCell],
+                    [bookCategoryCell],
                     [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                     [purchasePriceCell, resellPriceCell],
                     [commentCell],
                     [saveButtonCell]
         ]
     }
-   
+    
+    /// Create a default cell user to open another controller/
+    /// - Parameter text: Cell title
+    /// - Returns: cell
     private func createDefaultCell(with text: String) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = text
@@ -104,14 +120,15 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         clearData()
         bookTileCell.textField.text = book.volumeInfo?.title
         bookAuthorCell.textField.text = book.volumeInfo?.authors?.joined(separator: " ")
+        bookCategoryCell.textField.text = book.volumeInfo?.categories?.first
         isbnCell.textField.text = "ISBN \(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0) pages"
         languageCell.textField.text = book.volumeInfo?.language?.languageName
         bookDescription = book.volumeInfo?.volumeInfoDescription
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
-            bookImage.bookImage.af.setImage(withURL: imageUrl,
+            bookImageCell.bookImage.af.setImage(withURL: imageUrl,
                                             cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                            placeholderImage: Images.welcomeScreen)
+                                            placeholderImage: Images.emptyStateBookImage)
         }
         if let currency = book.saleInfo?.retailPrice?.currencyCode,
            let price = book.saleInfo?.retailPrice?.amount {
@@ -124,11 +141,12 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         resultController.searchedBooks.removeAll()
         bookTileCell.textField.text = nil
         bookAuthorCell.textField.text = nil
+        bookCategoryCell.textField.text = nil
         isbnCell.textField.text = nil
         numberOfPagesCell.textField.text = nil
         languageCell.textField.text = nil
         bookDescription = nil
-        bookImage.bookImage.image = Images.emptyStateBookImage
+        bookImageCell.bookImage.image = Images.emptyStateBookImage
         purchasePriceCell.textField.text = nil
         bookComment = nil
         bookDescription = nil
@@ -140,16 +158,25 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         barcodeScannerController.barcodeDelegate = self
         presentPanModal(barcodeScannerController)
     }
+    
+    @objc private func showBookCardViewController() {
+        guard let book = newBook else { return }
+        showBookDetails(with: book, searchType: .librarySearch)
+        clearData()
+    }
 }
 // MARK: - Barcode protocol
 extension NewBookViewController: BarcodeProtocol {
     func processBarcode(with code: String) {
-        resultController.getBooks(code)
+        resultController.searchType = .barCodeSearch
+        resultController.currentSearchKeywords = code
     }
 }
 // MARK: - Searchbar delegate
 extension NewBookViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        resultController.searchedBooks.removeAll()
+        resultController.searchType = .apiSearch
         resultController.currentSearchKeywords = searchController.searchBar.text ?? ""
     }
 }
@@ -173,7 +200,7 @@ extension NewBookViewController {
         switch indexPath.section {
         case 0:
             if indexPath.row == 0 {
-                print("show image picker")
+                self.imagePicker?.present(from: bookImageCell.bookImage)
             }
         case 2:
             if indexPath.row == 0 {
@@ -194,5 +221,12 @@ extension NewBookViewController {
         textInputViewController.textInpuType = inputType
         textInputViewController.textViewText = inputType == .description ? bookDescription : bookComment
         presentPanModal(textInputViewController)
+    }
+}
+// MARK: - ImagePicker Delegate
+extension NewBookViewController: ImagePickerDelegate {
+    
+    func didSelect(image: UIImage?) {
+        self.bookImageCell.bookImage.image = image
     }
 }

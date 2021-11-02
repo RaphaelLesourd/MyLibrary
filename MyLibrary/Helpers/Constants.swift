@@ -7,17 +7,10 @@
 
 import Foundation
 
-/// Enum giving name to each section of the HomeController CollectionView for better readability
-enum HomeCollectionViewSections: Int, CaseIterable {
-    case categories
-    case newEntry
-    case favorites
-    case recommanding
-}
-
-enum SearchType: Int, CaseIterable {
+enum SearchType {
     case librarySearch
     case apiSearch
+    case barCodeSearch
 }
 
 enum AccountInterfaceType {
@@ -25,7 +18,7 @@ enum AccountInterfaceType {
     case signup
 }
 
-enum AlertBannerType {
+public enum AlertBannerType {
     case error
     case success
     case customMessage(String)

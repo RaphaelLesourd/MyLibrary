@@ -41,7 +41,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         guard let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) else { return }
         bookCover.af.setImage(withURL: url,
                               cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                              placeholderImage: Images.welcomeScreen,
+                              placeholderImage: Images.emptyStateBookImage,
                               completion: nil)
     }
 }

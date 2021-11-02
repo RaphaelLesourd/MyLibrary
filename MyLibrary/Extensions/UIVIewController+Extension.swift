@@ -24,7 +24,7 @@ extension UIViewController {
     }
     
     // MARK: - Banner
-    func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
+    public func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
         Bauly.shared.forcePresent(configurationHandler: { bauly in
             bauly.title = type.message
             bauly.subtitle = subtitle

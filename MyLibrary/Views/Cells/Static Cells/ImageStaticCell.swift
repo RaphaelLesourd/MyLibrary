@@ -33,8 +33,8 @@ extension ImageStaticCell {
             bookImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             bookImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookImage.heightAnchor.constraint(equalToConstant: 200),
-            bookImage.widthAnchor.constraint(equalToConstant: 150)
+            bookImage.heightAnchor.constraint(equalToConstant: 300),
+            bookImage.widthAnchor.constraint(equalTo: bookImage.heightAnchor, multiplier: 0.8)
         ])
     }
 }

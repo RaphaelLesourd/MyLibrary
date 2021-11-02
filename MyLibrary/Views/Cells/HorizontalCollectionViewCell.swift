@@ -50,7 +50,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         if let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
             bookCover.af.setImage(withURL: url,
                                   cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                  placeholderImage: Images.welcomeScreen,
+                                  placeholderImage: Images.emptyStateBookImage,
                                   completion: nil)
         }
     }

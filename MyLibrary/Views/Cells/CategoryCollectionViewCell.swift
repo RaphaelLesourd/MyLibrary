@@ -23,8 +23,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     private var categoryLabel = TextLabel(alignment: .center, fontSize: 16, weight: .medium)
     
-    func configure(text: String) {
-        categoryLabel.text = text
+    func configure(text: String?) {
+        categoryLabel.text = text ?? ""
     }
 }
 // MARK: - Constraints

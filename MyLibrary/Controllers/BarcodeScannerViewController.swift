@@ -79,7 +79,7 @@ class BarcodeScannerViewController: UIViewController {
                 presentAlert(withTitle: "Cannot Find Camera",
                              message: "There seems to be a problem with the camera on your device.",
                              actionHandler: { [weak self] _ in
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.dismiss(animated: true)
                 })
                 return nil
             }
@@ -110,11 +110,8 @@ class BarcodeScannerViewController: UIViewController {
                           potentialQRCode.symbology != .QR,
                           potentialQRCode.confidence > 0.9
                     else { return }
-                    
-                    print(potentialQRCode.payloadStringValue ?? "")
                     fetchedBarcode = potentialQRCode.payloadStringValue
                     dismiss(animated: true)
-                  //  navigationController?.popViewController(animated: true)
                 }
             }
         }
@@ -148,10 +145,7 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
     // TODO: Live Vision
     guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
 
-    let imageRequestHandler = VNImageRequestHandler(
-      cvPixelBuffer: pixelBuffer,
-      orientation: .right)
-
+    let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
     do {
       try imageRequestHandler.perform([detectBarcodeRequest])
     } catch {

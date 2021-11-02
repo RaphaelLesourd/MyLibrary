@@ -28,7 +28,7 @@ extension UICollectionView {
             return dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
     
-    func dequeue<T: HeaderSupplementaryView>(kind: String, for indexPath: IndexPath) -> T {
+    func dequeue<T: UICollectionReusableView>(kind: String, for indexPath: IndexPath) -> T {
         return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
     }
 }

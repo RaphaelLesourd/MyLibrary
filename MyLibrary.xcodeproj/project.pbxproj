@@ -72,6 +72,10 @@
 		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
 		81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 81A9BD91272BF77F00B7DA81 /* AlamofireImage */; };
 		81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */; };
+		81BC7ECC272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ECB272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift */; };
+		81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ECD273040F0009A1629 /* ImagePicker.swift */; };
+		81BC7ED1273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ED0273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift */; };
+		81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ED227305810009A1629 /* NSCollectionLayoutItem+Extension.swift */; };
 		81C2AE532729402700AC69A8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE522729402700AC69A8 /* ProfileViewController.swift */; };
 		81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */; };
 		81C2AE5B27297A0700AC69A8 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */; };
@@ -156,6 +160,10 @@
 		81A9BD85272BDE2900B7DA81 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		81A9BD8A272BE38400B7DA81 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
+		81BC7ECB272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingFooterSupplementaryView.swift; sourceTree = "<group>"; };
+		81BC7ECD273040F0009A1629 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		81BC7ED0273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInset+Extension.swift"; sourceTree = "<group>"; };
+		81BC7ED227305810009A1629 /* NSCollectionLayoutItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCollectionLayoutItem+Extension.swift"; sourceTree = "<group>"; };
 		81C2AE522729402700AC69A8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		81C2AE5627294EAF00AC69A8 /* ProfilecontrollerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilecontrollerMainView.swift; sourceTree = "<group>"; };
 		81C2AE5A27297A0700AC69A8 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
@@ -372,11 +380,11 @@
 			children = (
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
-				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
+				81C2AE522729402700AC69A8 /* ProfileViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -386,11 +394,9 @@
 			children = (
 				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
-				81C6CCCC27247AF100DE9219 /* Colors.swift */,
-				819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */,
 				819C5DC82724811300F1F8F2 /* Constants.swift */,
-				8147516B2727E67F0080C5BA /* AppText.swift */,
-				8147516D2727E9490080C5BA /* Assets.swift */,
+				819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */,
+				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -399,6 +405,9 @@
 			isa = PBXGroup;
 			children = (
 				81C6CC7C2724769C00DE9219 /* Assets.xcassets */,
+				81C6CCCC27247AF100DE9219 /* Colors.swift */,
+				8147516B2727E67F0080C5BA /* AppText.swift */,
+				8147516D2727E9490080C5BA /* Assets.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -428,7 +437,7 @@
 				812047F3272A604800E0A45B /* BookDetailView.swift */,
 				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
-				81C6CCC227247A5000DE9219 /* Headers */,
+				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				81C6CCC127247A4300DE9219 /* Cells */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
@@ -471,22 +480,25 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		81C6CCC227247A5000DE9219 /* Headers */ = {
+		81C6CCC227247A5000DE9219 /* Headers&Footers */ = {
 			isa = PBXGroup;
 			children = (
 				81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */,
+				81BC7ECB272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift */,
 			);
-			path = Headers;
+			path = "Headers&Footers";
 			sourceTree = "<group>";
 		};
 		81C6CCC927247AB100DE9219 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				81475147272735900080C5BA /* String+Extension.swift */,
 				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
 				8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */,
-				81475147272735900080C5BA /* String+Extension.swift */,
 				81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */,
 				81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */,
+				81BC7ED0273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift */,
+				81BC7ED227305810009A1629 /* NSCollectionLayoutItem+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -716,6 +728,7 @@
 				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				81C2AE5B27297A0700AC69A8 /* CurrentUser.swift in Sources */,
 				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
+				81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */,
 				810C44652726E541007541C0 /* UserManager.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
@@ -736,6 +749,7 @@
 				812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
+				81BC7ED1273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift in Sources */,
 				81C2AE5727294EAF00AC69A8 /* ProfilecontrollerMainView.swift in Sources */,
 				81475148272735900080C5BA /* String+Extension.swift in Sources */,
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
@@ -744,8 +758,10 @@
 				810C44772727102D007541C0 /* SigningViewController.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
+				81BC7ECC272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
+				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
@@ -936,6 +952,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyLibrary/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à botre phototèque pour que ous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -968,6 +985,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyLibrary/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à botre phototèque pour que ous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

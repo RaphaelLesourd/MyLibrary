@@ -22,18 +22,20 @@ class TabBarController: UITabBarController {
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
+        
+        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithDefaultBackground()
+        tabBarAppearance.backgroundColor = .tertiarySystemBackground
+        tabBarAppearance.stackedLayoutAppearance
+            .selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
+        tabBarAppearance.stackedLayoutAppearance
+            .normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        
         if #available(iOS 15.0, *) {
-            let appearance = UITabBarAppearance()
-            appearance.backgroundEffect = UIBlurEffect(style: .regular)
-            appearance.stackedLayoutAppearance.selected.iconColor = .label
-            appearance.stackedLayoutAppearance.normal.iconColor = .secondaryLabel
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
-            appearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-            tabBar.scrollEdgeAppearance = appearance
-        } else {
-            view.backgroundColor = .systemBackground
-            tabBar.barTintColor = .systemBackground
-            tabBar.tintColor = .label
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
     }
     /// Set up each viewControllers in the TabBar
