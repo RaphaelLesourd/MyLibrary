@@ -16,7 +16,7 @@ struct BookModel: Codable {
 
 // MARK: - Item
 struct Item: Codable {
-    //  @DocumentID var id: String?
+   // @DocumentID public var id: String?
     let etag: String?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
@@ -29,6 +29,28 @@ extension Item: Hashable {
         return lhs.etag == rhs.etag
     }
 }
+
+// extension Item: FirebaseConvertable {
+//    func toDocument() -> [String : Any] {
+//        [ "id": self.id,
+//          "email": self.email,
+//          "name": self.name,
+//          "photoURL": self.photoURL
+//        ]
+//    }
+//    init?(from document: [String: Any]) {
+//        guard let id = document["id"] as? String,
+//              let email = document["email"] as? String,
+//              let name = document["name"] as? String,
+//              let photoURL = document["photoURL"] as? URL else { return nil }
+//        self.init(id: id, email: email, name: name, photoURL: photoURL)
+//    }
+// }
+//
+// enum UserModel: Error, Equatable {
+//  case noUser
+//  case unknown(String)
+// }
 
 // MARK: - VolumeInfo
 struct VolumeInfo: Codable {

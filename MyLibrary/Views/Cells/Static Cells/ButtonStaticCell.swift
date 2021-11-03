@@ -20,9 +20,9 @@ class ButtonStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(title: String, systemImage: String = "", tintColor: UIColor) {
+    convenience init(title: String, systemImage: String = "", tintColor: UIColor, backgroundColor: UIColor) {
         self.init()
-        self.actionButton.configureButton(with: title, systemImage: systemImage, tintColor: tintColor)
+        self.actionButton.configureButton(with: title, systemImage: systemImage, tintColor: tintColor, backgroundColor: backgroundColor)
     }
     
     var actionButton = ActionButton()
@@ -35,7 +35,8 @@ extension ButtonStaticCell {
             actionButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             actionButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             actionButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            actionButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

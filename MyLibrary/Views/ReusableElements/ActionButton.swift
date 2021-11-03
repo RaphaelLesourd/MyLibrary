@@ -22,18 +22,21 @@ class ActionButton: UIButton {
     convenience init(title: String,
                      systemImage: String = "book.fill",
                      imagePlacement: NSDirectionalRectEdge = .leading,
-                     tintColor: UIColor = .systemOrange) {
+                     tintColor: UIColor = .appTintColor,
+                     backgroundColor: UIColor = .appTintColor) {
         self.init(frame:  .zero)
         configureButton(with: title,
                         systemImage: systemImage,
                         imagePlacement: imagePlacement,
-                        tintColor: tintColor)
+                        tintColor: tintColor,
+                        backgroundColor: backgroundColor)
     }
     
     func configureButton(with title: String = "",
                          systemImage: String = "",
                          imagePlacement: NSDirectionalRectEdge = .leading,
-                         tintColor: UIColor = .appTintColor) {
+                         tintColor: UIColor = .appTintColor,
+                         backgroundColor: UIColor = .appTintColor) {
         let font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -42,7 +45,7 @@ class ActionButton: UIButton {
             configuration?.image = UIImage(systemName: systemImage)
             configuration?.cornerStyle = .medium
             configuration?.baseForegroundColor = tintColor
-            configuration?.baseBackgroundColor = tintColor
+            configuration?.baseBackgroundColor = backgroundColor
             configuration?.buttonSize = .large
             configuration?.titlePadding = 10
             configuration?.image = UIImage(systemName: systemImage)

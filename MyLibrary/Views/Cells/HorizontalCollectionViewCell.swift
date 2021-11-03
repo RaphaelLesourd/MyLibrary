@@ -25,16 +25,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     private let bookCover = BookCover(frame: .zero)
     private let titleView = CellTitleView()
     private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
-   
-    private let textStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .top
-        stack.distribution = .fill
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let textStackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
     
     override func prepareForReuse() {
         titleView.titleLabel.text = nil

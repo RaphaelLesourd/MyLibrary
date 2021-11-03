@@ -23,7 +23,7 @@ class TextField: UITextField {
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.clear.cgColor
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 45).isActive = true
         configure()
     }
     

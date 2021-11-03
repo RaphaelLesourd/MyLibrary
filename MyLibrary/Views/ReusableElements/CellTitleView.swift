@@ -21,16 +21,7 @@ class CellTitleView: UIView {
    
     let titleLabel = TextLabel(fontSize: 14, weight: .bold)
     let subtitleLabel = TextLabel(fontSize: 13, weight: .regular)
-   
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.spacing =  5
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 5)
 }
 // MARK: - Extension
 extension CellTitleView {

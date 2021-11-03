@@ -13,7 +13,6 @@ class PanModalCommonView: UIView {
         super.init(frame: .zero)
         setScrollViewConstraints()
         setMainStackViewConstraints()
-        activateActionButton(false)
     }
     
     required init?(coder: NSCoder) {
@@ -71,16 +70,8 @@ class PanModalCommonView: UIView {
         return button
     }()
     
-    private let mainStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
+    private let mainStackView = StackView(axis: .vertical, spacing: 10)
+ 
     // MARK: - Configuration
     func configureUI(for type: AccountInterfaceType) {
         titleLabel.text = type == .login ? Text.Account.loginTitle : Text.Account.signupTitle
@@ -106,11 +97,6 @@ class PanModalCommonView: UIView {
         forgotPasswordButton.isHidden = type == .signup
         let space: CGFloat = type == .login ? 5 : 50
         mainStackView.setCustomSpacing(space, after: confirmPasswordTextField)
-    }
-    
-    func activateActionButton(_ state: Bool) {
-        actionButton.alpha = state ? 1 : 0.5
-        actionButton.isUserInteractionEnabled = state
     }
 }
 // MARK: - Constraints

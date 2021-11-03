@@ -38,18 +38,10 @@ class TextInputControllerMainView: UIView {
         textView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         return textView
     }()
+    
     let saveButton = ActionButton(title: "Sauvegarder", systemImage: "arrow.down.doc.fill")
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .fill
-        stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
+    private let stackView = StackView(axis: .vertical, spacing: 20)
+
 }
 // MARK: - Constraints
 extension TextInputControllerMainView {

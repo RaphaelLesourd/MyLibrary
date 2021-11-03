@@ -15,15 +15,14 @@ protocol NewBookDelegate: AnyObject {
     var bookComment: String? { get set }
 }
 
-class NewBookViewController: UITableViewController, NewBookDelegate {
+class NewBookViewController: StaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private var searchController = UISearchController()
     private let resultController = SearchViewController(networkService: NetworkService())
-    private var sections: [[UITableViewCell]] = [[]]
+    private var imagePicker: ImagePicker?
     var bookDescription: String?
     var bookComment: String?
-    var imagePicker: ImagePicker?
     var newBook: Item? {
         didSet {
             displayBookDetail()
@@ -39,21 +38,23 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
     private let isbnCell = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
     private let numberOfPagesCell = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
     private let languageCell = TextFieldStaticCell(placeholder: "Langue du livre")
-    private var descriptionCell = UITableViewCell()
+    private lazy var descriptionCell = createDefaultCell(with: "Description")
     
     private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .numberPad)
     private let resellPriceCell = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
     
-    private var commentCell = UITableViewCell()
-    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer", systemImage: "arrow.down.doc.fill", tintColor: .appTintColor)
+    private lazy var commentCell = createDefaultCell(with: "Commentaire")
+    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer",
+                                                  systemImage: "arrow.down.doc.fill",
+                                                  tintColor: .appTintColor,
+                                                  backgroundColor: .appTintColor)
    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.newBook
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
-        configureTableView()
+        imagePicker = ImagePicker(presentationController: self, delegate: self)
         composeTableView()
         configureSearchController()
         addNavigationBarButton()
@@ -72,16 +73,9 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
     private func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(showBookCardViewController), for: .touchUpInside)
     }
-    
-    private func configureTableView() {
-        tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.backgroundColor = .viewControllerBackgroundColor
-    }
-    
+
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
     private func composeTableView() {
-        descriptionCell = createDefaultCell(with: "Description")
-        commentCell = createDefaultCell(with: "Commentaire")
         sections = [[bookImageCell],
                     [bookTileCell, bookAuthorCell],
                     [bookCategoryCell],
@@ -92,17 +86,6 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         ]
     }
     
-    /// Create a default cell user to open another controller/
-    /// - Parameter text: Cell title
-    /// - Returns: cell
-    private func createDefaultCell(with text: String) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = text
-        cell.backgroundColor = .tertiarySystemBackground
-        cell.accessoryType = .disclosureIndicator
-        return cell
-    }
-    
     private func configureSearchController() {
         searchController = UISearchController(searchResultsController: resultController)
         searchController.searchBar.delegate = self
@@ -110,7 +93,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Recherche"
         searchController.definesPresentationContext = true
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.hidesSearchBarWhenScrolling = true
         self.navigationItem.searchController = searchController
     }
    
@@ -126,7 +109,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         languageCell.textField.text = book.volumeInfo?.language?.languageName
         bookDescription = book.volumeInfo?.volumeInfoDescription
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
-            bookImageCell.bookImage.af.setImage(withURL: imageUrl,
+            bookImageCell.pictureView.af.setImage(withURL: imageUrl,
                                             cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
                                             placeholderImage: Images.emptyStateBookImage)
         }
@@ -146,7 +129,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate {
         numberOfPagesCell.textField.text = nil
         languageCell.textField.text = nil
         bookDescription = nil
-        bookImageCell.bookImage.image = Images.emptyStateBookImage
+        bookImageCell.pictureView.image = Images.emptyStateBookImage
         purchasePriceCell.textField.text = nil
         bookComment = nil
         bookDescription = nil
@@ -183,30 +166,18 @@ extension NewBookViewController: UISearchBarDelegate {
 
 // MARK: - TableView DataSource & Delegate
 extension NewBookViewController {
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return sections[indexPath.section][indexPath.row]
-    }
-    
+   
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
             if indexPath.row == 0 {
-                self.imagePicker?.present(from: bookImageCell.bookImage)
+                self.imagePicker?.present(from: bookImageCell.pictureView)
             }
-        case 2:
+        case 3:
             if indexPath.row == 0 {
                 presentTextInputController(for: .description)
             }
-        case 4:
+        case 5:
             if indexPath.row == 0 {
                 presentTextInputController(for: .comment)
             }
@@ -227,6 +198,6 @@ extension NewBookViewController {
 extension NewBookViewController: ImagePickerDelegate {
     
     func didSelect(image: UIImage?) {
-        self.bookImageCell.bookImage.image = image
+        self.bookImageCell.pictureView.image = image
     }
 }

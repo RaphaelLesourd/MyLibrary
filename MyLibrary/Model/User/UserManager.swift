@@ -7,41 +7,42 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 protocol UserManagerProtocol {
-    var userName: String { get set }
-    var userEmail: String { get set }
-    var userPassword: String { get set }
-    var confirmPassword: String { get set }
-    
-    func canLogin() -> Bool
-    func canCreateAccount() -> Bool
-    func login(completion: @escaping (Error?) -> Void)
-    func logout(completion: @escaping (Error?) -> Void)
-    func createAccount(completion: @escaping (Error?) -> Void)
-    func sendPasswordReset(completion: @escaping (Error?) -> Void)
+    func createAccount(for newUser: NewUser?, completion: @escaping (UserError?) -> Void)
+    func login(with user: NewUser?, completion: @escaping (UserError?) -> Void)
+    func logout(completion: @escaping (UserError?) -> Void)
+    func sendPasswordReset(for email: String, completion: @escaping (UserError?) -> Void)
+    func saveUserDisplayName(_ name: String, completion: @escaping (UserError?) -> Void)
 }
 
 class UserManager: UserManagerProtocol {
-    
-    var currentUser = CurrentUser.shared
-    var userName = String()
-    var userEmail = String()
-    var userPassword = String()
-    var confirmPassword = String()
-    
+
+    let db: Firestore
+   
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
     // create account
-    func createAccount(completion: @escaping (Error?) -> Void) {
-        Auth.auth().createUser(withEmail: userEmail, password: userPassword) { [weak self] authResult, error in
+    func createAccount(for user: NewUser?, completion: @escaping (UserError?) -> Void) {
+        guard let user = user else { return }
+        
+        guard passwordMatch(with: user) == true else {
+            completion(.passwordMismatch)
+            return
+        }
+        Auth.auth().createUser(withEmail: user.email, password: user.password) { [weak self] _, error in
             guard let self = self else { return }
             if let error = error {
-                completion(error)
+                completion(.firebaseError(error))
                 return
             }
-            self.saveUser(with: authResult?.user) { error in
+            self.saveUserDisplayName(user.userName ?? "") { error in
                 if let error = error {
-                    completion(error)
+                    completion(.firebaseError(error))
                     return
                 }
                 completion(nil)
@@ -49,27 +50,28 @@ class UserManager: UserManagerProtocol {
         }
     }
     
-    private func saveUser(with user: User?, completion: @escaping (Error?) -> Void) {
-        guard let user = user, let uid = Auth.auth().currentUser?.uid else { return }
-        let db = Firestore.firestore()
-        db.collection("User").document(uid).setData(["email": user.email ?? "",
-                                                     "displayName": userName,
-                                                     "uid": uid
-                                                    ]) { error in
-            if let error = error {
-                completion(error)
-                return
+    func saveUserDisplayName(_ name: String, completion: @escaping (UserError?) -> Void) {
+        let user = Auth.auth().currentUser
+        if let user = user {
+            let changeRequest = user.createProfileChangeRequest()
+            
+            changeRequest.displayName = name
+            changeRequest.commitChanges { error in
+                if let error = error {
+                    completion(.firebaseError(error))
+                    return
+                }
+                completion(nil)
             }
-            completion(nil)
         }
     }
-    
+ 
     // delete account
-    private func deleteAccount(completion: @escaping (Error?) -> Void) {
+    private func deleteAccount(completion: @escaping (UserError?) -> Void) {
         let user = Auth.auth().currentUser
         user?.delete { error in
             if let error = error {
-                completion(error)
+                completion(.firebaseError(error))
             } else {
                 completion(nil)
             }
@@ -77,50 +79,52 @@ class UserManager: UserManagerProtocol {
     }
     
     // Log in
-    func login(completion: @escaping (Error?) -> Void) {
-        Auth.auth().signIn(withEmail: userEmail, password: userPassword) { authResult, error in
+    func login(with user: NewUser?, completion: @escaping (UserError?) -> Void) {
+        guard let user = user else { return }
+        Auth.auth().signIn(withEmail: user.email, password: user.password) { _, error in
             if let error = error {
-                completion(error)
+                completion(.firebaseError(error))
             } else {
-                dump(authResult?.user.email)
                 completion(nil)
             }
         }
     }
     
     // log out
-    func logout(completion: @escaping (Error?) -> Void) {
+    func logout(completion: @escaping (UserError?) -> Void) {
         do {
             try Auth.auth().signOut()
             completion(nil)
         } catch {
-            completion(error)
+            completion(.firebaseError(error))
         }
     }
     
     // forgot password
-    func sendPasswordReset(completion: @escaping (Error?) -> Void) {
-        Auth.auth().sendPasswordReset(withEmail: userEmail) { error in
-            completion(error)
+    func sendPasswordReset(for email: String, completion: @escaping (UserError?) -> Void) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                completion(.firebaseError(error))
+            }
+           completion(nil)
         }
     }
     
     // MARK: - Verifications
-    func canLogin() -> Bool {
-        guard userEmail.validateEmail(),
-              userPassword.validatePassword() else {
-                  return false
-              }
-        return true
+    private func passwordMatch(with user: NewUser) -> Bool {
+        return user.password == user.confirmPassword
     }
-    
-    func canCreateAccount() -> Bool {
-        guard userEmail.validateEmail(),
-              userPassword.validatePassword(),
-              confirmPassword.validatePassword(),
-              (userPassword == confirmPassword) else {
-                  return false
-              }
-        return true
+}
+
+enum UserError: Error {
+    case passwordMismatch
+    case firebaseError(Error)
+    var description: String {
+        switch self {
+        case .passwordMismatch:
+            return "Les mots de passes ne correspondent pas."
+        case .firebaseError(let error):
+            return error.localizedDescription
+        }
     }
 }

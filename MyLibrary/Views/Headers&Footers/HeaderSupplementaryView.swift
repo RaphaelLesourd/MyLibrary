@@ -30,16 +30,8 @@ class HeaderSupplementaryView: UICollectionReusableView {
         return button
     }()
     
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fill
-        stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
+    private let stackView = StackView(axis: .horizontal, spacing: 20)
+   
     func configureTitle(with title: String) {
         titleLabel.text = title
     }

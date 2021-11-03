@@ -14,7 +14,7 @@ class SigningViewController: UIViewController {
     private let mainView = PanModalCommonView()
     private var interfaceType: AccountInterfaceType
     private var userManager: UserManagerProtocol
-    
+   
     // MARK: - Initializer
     init(userManager: UserManagerProtocol, interfaceType: AccountInterfaceType) {
         self.userManager = userManager
@@ -58,10 +58,11 @@ class SigningViewController: UIViewController {
     
     // MARK: - Account
     private func loginToAccount() {
-        userManager.login { [weak self] error in
+        let user = createUser()
+        userManager.login(with: user) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             self.presentAlertBanner(as: .success, subtitle: "Bienvenue")
@@ -69,11 +70,11 @@ class SigningViewController: UIViewController {
     }
     
     private func createAccount() {
-        userManager.userName = mainView.userNameTextField.text ?? ""
-        userManager.createAccount { [weak self] error in
+        let user = createUser()
+        userManager.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             self.presentAlertBanner(as: .success, subtitle: "Compte ouvert")
@@ -89,14 +90,25 @@ class SigningViewController: UIViewController {
     }
     
     private func resetPassword() {
-        userManager.sendPasswordReset { [weak self] error in
+        guard let email = mainView.emailTextField.text else {
+            presentAlertBanner(as: .error, subtitle: "Email vide")
+            return
+        }
+        userManager.sendPasswordReset(for: email) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             self.presentAlertBanner(as: .customMessage("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
         }
+    }
+    
+    private func createUser() -> NewUser {
+        return NewUser(userName: mainView.userNameTextField.text ?? "",
+                       email: mainView.emailTextField.text ?? "",
+                       password: mainView.passwordTextField.text ?? "",
+                       confirmPassword: mainView.confirmPasswordTextField.text ?? "")
     }
 }
 // MARK: - TextField Delegate
@@ -108,32 +120,18 @@ extension SigningViewController: UITextFieldDelegate {
         switch textField {
         case mainView.emailTextField:
             valid = updatedString.validateEmail()
-            userManager.userEmail = updatedString
         case mainView.passwordTextField:
             valid = updatedString.validatePassword()
-            userManager.userPassword = updatedString
         case mainView.confirmPasswordTextField:
-            userManager.confirmPassword = updatedString
-            valid = updatedString.validatePassword() && (userManager.userPassword == userManager.confirmPassword)
+            valid =  updatedString.validatePassword()
         default:
             return true
         }
         textField.layer.borderWidth = updatedString.isEmpty ? 0 : 1
         textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
-        activateActionButton()
         return true
     }
-    
-    private func activateActionButton() {
-        switch interfaceType {
-        case .login:
-            mainView.activateActionButton(userManager.canLogin())
-        case .signup:
-            print(userManager.canCreateAccount())
-            mainView.activateActionButton(userManager.canCreateAccount())
-        }
-    }
-    
+  
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let lastTextField = interfaceType == .login ? mainView.passwordTextField : mainView.confirmPasswordTextField
         if textField == lastTextField {

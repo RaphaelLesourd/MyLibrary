@@ -73,17 +73,7 @@ class BookCardMainView: UIView {
             view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
-    
-    // MARK: stackViews
-    private let mainStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.alignment = .fill
-        stack.spacing = 30
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let mainStackView = StackView(axis: .vertical, spacing: 30)
 }
 // MARK: - Constraints
 extension BookCardMainView {

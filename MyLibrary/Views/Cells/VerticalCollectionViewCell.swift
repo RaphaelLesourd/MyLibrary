@@ -22,19 +22,9 @@ class VerticalCollectionViewCell: UICollectionViewCell {
    
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    
     private let titleView = CellTitleView()
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .fill
-        stack.spacing = 2
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
+    private let stackView = StackView(axis: .vertical, spacing: 2)
+
     func configure(with book: Item) {
         titleView.titleLabel.text = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first

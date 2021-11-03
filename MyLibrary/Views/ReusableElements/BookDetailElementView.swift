@@ -25,16 +25,7 @@ class BookDetailElementView: UIView {
     
     private let titleLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 12, weight: .light)
     let infoLabel = TextLabel(alignment: .center, fontSize: 14, weight: .light)
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.spacing =  2
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 2)
 }
 // MARK: - Extension
 extension BookDetailElementView {

@@ -22,19 +22,19 @@ class ImageStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Subview
-    let bookImage = BookCover(frame: .zero)
+    let pictureView = BookCover(frame: .zero)
 }
 // MARK: - Constraints
 extension ImageStaticCell {
     private func setButtonConstraints() {
-        contentView.addSubview(bookImage)
-        bookImage.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(pictureView)
+        pictureView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            bookImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bookImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            bookImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookImage.heightAnchor.constraint(equalToConstant: 300),
-            bookImage.widthAnchor.constraint(equalTo: bookImage.heightAnchor, multiplier: 0.8)
+            pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            pictureView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            pictureView.heightAnchor.constraint(equalToConstant: 300),
+            pictureView.widthAnchor.constraint(equalTo: pictureView.heightAnchor, multiplier: 0.8)
         ])
     }
 }
