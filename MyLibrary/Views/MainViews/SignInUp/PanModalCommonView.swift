@@ -74,16 +74,10 @@ class PanModalCommonView: UIView {
  
     // MARK: - Configuration
     func configureUI(for type: AccountInterfaceType) {
-        titleLabel.text = type == .login ? Text.Account.loginTitle : Text.Account.signupTitle
-        subtitleLabel.text = type == .login ? Text.Account.loginSubtitle : Text.Account.signupSubtitle
         
-        let buttonTitle = type == .login ? Text.Account.loginButtonTitle : Text.Profile.createProfileButtonTitle
-        actionButton.setTitle(buttonTitle, for: .normal)
-        userNameTextField.isHidden = type == .login
 #if targetEnvironment(simulator)
         // Do Not enable '.password' or '.newPassword' or 'isSecureTextEntry' text content type on simulator as it ends up with annoying behaviour:
         // 'Strong Password' yellow glitch preventing from editing field.
-        print("Simulator! not setting password-like text content type")
 #else
         passwordTextField.isSecureTextEntry = true
         passwordTextField.autocapitalizationType = .none
@@ -93,11 +87,34 @@ class PanModalCommonView: UIView {
         confirmPasswordTextField.autocapitalizationType = .none
         confirmPasswordTextField.textContentType = .password
 #endif
-        confirmPasswordTextField.isHidden = type == .login
+        userNameTextField.isHidden = type != .signup
+        confirmPasswordTextField.isHidden = type != .signup
         forgotPasswordButton.isHidden = type == .signup
-        let space: CGFloat = type == .login ? 5 : 50
+        let space: CGFloat = type != .signup ? 50 : 5
         mainStackView.setCustomSpacing(space, after: confirmPasswordTextField)
+        
+        switch type {
+        case .signup:
+            updateUiTexts(title: Text.Account.signupTitle,
+                          subtitle: Text.Account.signupSubtitle,
+                          buttonTitle: Text.Profile.createProfileButtonTitle)
+        case .login:
+            updateUiTexts(title: Text.Account.loginTitle,
+                          subtitle: Text.Account.loginSubtitle,
+                          buttonTitle: Text.Account.loginButtonTitle)
+        case .deleteAccount:
+            updateUiTexts(title: "Supprimer le compte",
+                          subtitle: "Veuillez vous re-authentifier avec votre email et mot de passe",
+                          buttonTitle: "Suppimer")
+        }
     }
+    
+    private func updateUiTexts(title: String, subtitle: String, buttonTitle: String) {
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        actionButton.setTitle(buttonTitle, for: .normal)
+    }
+    
 }
 // MARK: - Constraints
 extension PanModalCommonView {

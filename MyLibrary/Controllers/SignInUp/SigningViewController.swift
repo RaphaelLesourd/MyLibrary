@@ -53,12 +53,19 @@ class SigningViewController: UIViewController {
     
     // MARK: - Targets
     @objc private func actionButtonTapped() {
-        interfaceType == .login ? loginToAccount() : createAccount()
+        switch interfaceType {
+        case .login:
+            loginToAccount()
+        case .signup:
+            createAccount()
+        case .deleteAccount:
+            deleteAccount()
+        }
     }
     
     // MARK: - Account
     private func loginToAccount() {
-        let user = createUser()
+        let user = setUser()
         userManager.login(with: user) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
@@ -70,7 +77,7 @@ class SigningViewController: UIViewController {
     }
     
     private func createAccount() {
-        let user = createUser()
+        let user = setUser()
         userManager.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
@@ -104,11 +111,23 @@ class SigningViewController: UIViewController {
         }
     }
     
-    private func createUser() -> NewUser {
+    private func setUser() -> NewUser {
         return NewUser(userName: mainView.userNameTextField.text ?? "",
                        email: mainView.emailTextField.text ?? "",
                        password: mainView.passwordTextField.text ?? "",
                        confirmPassword: mainView.confirmPasswordTextField.text ?? "")
+    }
+    
+    private func deleteAccount() {
+        let user = setUser()
+        self.userManager.deleteAccount(with: user) { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
+        }
     }
 }
 // MARK: - TextField Delegate

@@ -85,15 +85,12 @@ class SettingsViewController: StaticTableViewController {
     }
     
     @objc private func deleteAccount() {
-        presentAlert(withTitle: "Supprimmer le compte", message: "Etes-vous sûr de vouloir supprimer votre compte?", withCancel: true) { _ in
-            self.userManager.deleteAccount { [weak self] error in
-                guard let self = self else { return }
-                if let error = error {
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
-                    return
-                }
-                self.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
-            }
+        presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
+                     message: "Vous allez devoir vous re-authentifier.",
+                     withCancel: true) { _ in
+            
+            let controller = SigningViewController(userManager: UserManager(), interfaceType: .deleteAccount)
+            self.presentPanModal(controller)
         }
     }
     

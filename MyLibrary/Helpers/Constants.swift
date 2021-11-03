@@ -16,6 +16,7 @@ enum SearchType {
 enum AccountInterfaceType {
     case login
     case signup
+    case deleteAccount
 }
 
 public enum AlertBannerType {
