@@ -35,11 +35,11 @@ class RecipeServiceTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "9791234567891") { (result: Result <BookModel, ApiError>) in
+        sut.getData(with: "9791234567891", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
-                XCTAssertEqual(books.items?.first?.volumeInfo?.title, "Tintin, Hergé et les autos")
+                XCTAssertEqual(books.first?.volumeInfo?.title, "Tintin, Hergé et les autos")
             case .failure(let error):
                 XCTAssertNil(error)
             }
@@ -54,13 +54,32 @@ class RecipeServiceTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "Tintin") { (result: Result <BookModel, ApiError>) in
+        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
-                XCTAssertEqual(books.items?.first?.volumeInfo?.title, "Tintin, Hergé et les autos")
+                XCTAssertEqual(books.first?.volumeInfo?.title, "Tintin, Hergé et les autos")
             case .failure(let error):
                 XCTAssertNil(error)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func test_givenKeywords_WhenRequestingBookList_thenResultReturned() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { [self] request in
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, FakeData.bookEmptyCorrectData)
+        }
+        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+            switch result {
+            case .success(let books):
+                XCTAssertNotNil(books)
+                XCTAssertEqual(books.count, 0)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.noBooks.description)
             }
             expectation.fulfill()
         }
@@ -75,7 +94,7 @@ class RecipeServiceTestCase: XCTestCase {
             return (response, FakeData.bookIncorrectData)
         }
 
-        sut.getData(with: "Tintin") { (result: Result <BookModel, ApiError>) in
+        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -96,7 +115,7 @@ class RecipeServiceTestCase: XCTestCase {
             return (response, FakeData.bookCorrectData)
         }
 
-        sut.getData(with: "") { (result: Result <BookModel, ApiError>) in
+        sut.getData(with: "", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -115,7 +134,7 @@ class RecipeServiceTestCase: XCTestCase {
             return (response, FakeData.bookCorrectData)
         }
 
-        sut.getData(with: nil) { (result: Result <BookModel, ApiError>) in
+        sut.getData(with: nil, fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)

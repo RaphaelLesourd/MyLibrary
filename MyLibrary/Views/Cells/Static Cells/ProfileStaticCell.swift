@@ -32,12 +32,12 @@ class ProfileStaticCell: UITableViewCell {
     
     let userNameTextField = TextField(placeholder: "Nom d'utilisateur",
                                       keyBoardType: .default, returnKey: .done, correction: .no, capitalization: .sentences)
-    let emailLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 14, weight: .regular)
+    let emailLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 15, weight: .regular)
     let saveProfileButton: UIButton = {
         let button = UIButton()
         button.setTitle("Mettre à jour", for: .normal)
         button.contentHorizontalAlignment = .right
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.setTitleColor(.label, for: .normal)
         return button
     }()

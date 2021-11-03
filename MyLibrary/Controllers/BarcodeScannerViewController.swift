@@ -24,7 +24,8 @@ class BarcodeScannerViewController: UIViewController {
     private var fetchedBarcode: String?
     weak var barcodeDelegate: BarcodeProtocol?
     
-    /// Create VNDetectBarcodesRequest variable.
+    /// Set up a VNDetectBarcodesRequest that will detect barcodes when called.
+    /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..
     private lazy var detectBarcodeRequest = VNDetectBarcodesRequest { request, error in
         guard error == nil else {
             self.presentAlert(withTitle: "Barcode error", message: error?.localizedDescription ?? "error", actionHandler: nil)
@@ -40,6 +41,7 @@ class BarcodeScannerViewController: UIViewController {
         checkPermissions()
         setupCameraLiveView()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         captureSession.stopRunning()
@@ -47,8 +49,8 @@ class BarcodeScannerViewController: UIViewController {
     }
     
     // MARK: - Camera
+    /// Prompt the user for permission to use the camera if not already authorized.
     private func checkPermissions() {
-        // TODO: Checking permissions
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [self] granted in
@@ -63,14 +65,21 @@ class BarcodeScannerViewController: UIViewController {
         }
     }
     
+    /// Setup camera session.
+    /// - captureSession is an instance of AVCaptureSession.
+    /// - With an AVCaptureSession, you can manage capture activity and coordinate how data flows from input devices to capture outputs.
     private func setupCameraLiveView() {
-        // TODO: Setup captureSession
         captureSession.sessionPreset = .hd1280x720
         guard let videoDeviceInput = addVideoInput() else { return }
         captureSession.addInput(videoDeviceInput)
         addCaptureOutput()
     }
     
+    /// Defines a Camera for Input
+    /// - Uses default wide angle camera, located on the rear of the iPhone.
+    /// - Making sure your app can use the camera as an input device for the capture session.
+    /// - If there’s a problem with the camera, show the user an error message.
+    /// - Returns: Rear wide angle camera as the input device for the capture session
     private func addVideoInput() -> AVCaptureDeviceInput? {
         let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         guard let device = videoDevice,
@@ -86,20 +95,25 @@ class BarcodeScannerViewController: UIViewController {
         return videoDeviceInput
     }
     
+    /// Set the output of your capture session to an instance of AVCaptureVideoDataOutput.
+    /// - AVCaptureVideoDataOutput is a capture output that records video and provides access to video frames for processing.
     private func addCaptureOutput() {
         let captureOutput = AVCaptureVideoDataOutput()
-        // TODO: Set video sample rate
+        // Set video sample rate
         captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
         captureOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.default))
         captureSession.addOutput(captureOutput)
-        
         configurePreviewLayer()
         captureSession.startRunning()
     }
     
     // MARK: - Vision
+    /// Analyze the result of the handled request.
+    /// - Get a list of potential barcodes from the request.
+    /// - Loop through the potential barcodes to analyze each one individually.
+    /// - A positive result is passed back to the previous view controller
+    /// - Parameter request: VNDetectBarcodesRequest from detectBarcodeRequest
     func processClassification(_ request: VNRequest) {
-        // TODO: Main logic
         guard let barcodes = request.results else { return }
         DispatchQueue.main.async { [self] in
             if captureSession.isRunning {
@@ -141,10 +155,12 @@ class BarcodeScannerViewController: UIViewController {
 }
 // MARK: - AVCaptureDelegation
 extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    /// Get an image out of sample buffer, like a page out of a flip book.
+    /// - Make a new VNImageRequestHandler using that image.
+    /// - Perform the detectBarcodeRequest using the handler.
   func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    // TODO: Live Vision
     guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-
     let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
     do {
       try imageRequestHandler.perform([detectBarcodeRequest])
@@ -156,15 +172,12 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
 
 // MARK: - PanModal Extension
 extension BarcodeScannerViewController: PanModalPresentable {
-   
     var shortFormHeight: PanModalHeight {
         return .maxHeightWithTopInset(view.frame.height * 0.50)
     }
-   
     var cornerRadius: CGFloat {
         return 20
     }
-    
     var panScrollable: UIScrollView? {
         return nil
     }

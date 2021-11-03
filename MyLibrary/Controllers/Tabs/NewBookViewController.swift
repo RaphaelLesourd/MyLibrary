@@ -92,8 +92,8 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         resultController.newBookDelegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Recherche"
-        searchController.definesPresentationContext = true
-        self.navigationItem.hidesSearchBarWhenScrolling = true
+        searchController.definesPresentationContext = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = searchController
     }
    

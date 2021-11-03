@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     private let refresherControl = UIRefreshControl()
     private var noMoreBooks: Bool?
     weak var newBookDelegate: NewBookDelegate?
-    var networkService: NetworkProtocol
+    private var networkService: NetworkProtocol
     var searchType: SearchType?
     var currentSearchKeywords = "" {
         didSet {

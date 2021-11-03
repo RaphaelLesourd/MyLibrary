@@ -21,7 +21,7 @@ class SettingsViewController: StaticTableViewController {
     private let signOutCell = ButtonStaticCell(title: "Déconnexion",
                                                systemImage: "rectangle.portrait.and.arrow.right.fill",
                                                tintColor: .systemPurple, backgroundColor: .systemPurple)
-    private let deleteAccountCell = ButtonStaticCell(title: "Suppriner son compte",
+    private let deleteAccountCell = ButtonStaticCell(title: "Supprimer son compte",
                                                      systemImage: "",
                                                      tintColor: .systemRed,
                                                      backgroundColor: .clear)
@@ -51,6 +51,7 @@ class SettingsViewController: StaticTableViewController {
         profileCell.profileImageButton.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
         profileCell.saveProfileButton.addTarget(self, action: #selector(saveProfile), for: .touchUpInside)
         signOutCell.actionButton.addTarget(self, action: #selector(signoutRequest), for: .touchUpInside)
+        deleteAccountCell.actionButton.addTarget(self, action: #selector(deleteAccount), for: .touchUpInside)
     }
     
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
@@ -67,8 +68,8 @@ class SettingsViewController: StaticTableViewController {
     }
     
     @objc private func signoutRequest() {
-        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { [weak self] _ in
-            self?.signoutAccount()
+        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { _ in
+            self.signoutAccount()
         }
     }
     
@@ -80,6 +81,19 @@ class SettingsViewController: StaticTableViewController {
                 return
             }
             self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
+        }
+    }
+    
+    @objc private func deleteAccount() {
+        presentAlert(withTitle: "Supprimmer le compte", message: "Etes-vous sûr de vouloir supprimer votre compte?", withCancel: true) { _ in
+            self.userManager.deleteAccount { [weak self] error in
+                guard let self = self else { return }
+                if let error = error {
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                    return
+                }
+                self.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
+            }
         }
     }
     
