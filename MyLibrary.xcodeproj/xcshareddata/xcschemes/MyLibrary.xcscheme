@@ -28,6 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO"
       codeCoverageEnabled = "YES">
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "unit_tests"
+            value = "true"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -36,16 +43,6 @@
                BlueprintIdentifier = "81C6CC852724769D00DE9219"
                BuildableName = "MyLibraryTests.xctest"
                BlueprintName = "MyLibraryTests"
-               ReferencedContainer = "container:MyLibrary.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "81C6CC8F2724769D00DE9219"
-               BuildableName = "MyLibraryUITests.xctest"
-               BlueprintName = "MyLibraryUITests"
                ReferencedContainer = "container:MyLibrary.xcodeproj">
             </BuildableReference>
          </TestableReference>

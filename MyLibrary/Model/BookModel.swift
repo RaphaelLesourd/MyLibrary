@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import FirebaseFirestoreSwift
 
 // MARK: - BookModel
 struct BookModel: Codable {
@@ -16,7 +15,6 @@ struct BookModel: Codable {
 
 // MARK: - Item
 struct Item: Codable {
-   // @DocumentID public var id: String?
     let etag: String?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?

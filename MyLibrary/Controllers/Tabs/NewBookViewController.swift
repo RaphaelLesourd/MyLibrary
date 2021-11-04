@@ -19,7 +19,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private var searchController = UISearchController()
-    private let resultController = SearchViewController(networkService: NetworkService())
+    private let resultController = SearchViewController(networkService: ApiManager())
     private var imagePicker: ImagePicker?
     var bookDescription: String?
     var bookComment: String?

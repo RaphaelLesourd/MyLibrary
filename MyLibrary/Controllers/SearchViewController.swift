@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     private let refresherControl = UIRefreshControl()
     private var noMoreBooks: Bool?
     weak var newBookDelegate: NewBookDelegate?
-    private var networkService: NetworkProtocol
+    private var networkService: ApiManagerProtocol
     var searchType: SearchType?
     var currentSearchKeywords = "" {
         didSet {
@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol
-    init(networkService: NetworkProtocol) {
+    init(networkService: ApiManagerProtocol) {
         self.networkService = networkService
         super.init(nibName: nil, bundle: nil)
     }

@@ -25,10 +25,12 @@ extension UICollectionView {
     }
     
     func dequeue<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
-            return dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
+            return dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier,
+                                       for: indexPath) as! T // swiftlint:disable:this force_cast
     }
     
     func dequeue<T: UICollectionReusableView>(kind: String, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.reuseIdentifier,
+                                                for: indexPath) as! T // swiftlint:disable:this force_cast
     }
 }

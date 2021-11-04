@@ -12,7 +12,8 @@ import FirebaseAuth
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
     
-    var currentUser = Auth.auth().currentUser
+    private var currentUser = Auth.auth().currentUser
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,8 @@ class TabBarController: UITabBarController {
                                                        image: Images.newBookIcon!)
         
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
-        let settingsViewController = createController(for: SettingsViewController(userManager: UserManager()),
+        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),
+                                                                                  userService: UserService()),
                                                          title: Text.ControllerTitle.settings,
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,

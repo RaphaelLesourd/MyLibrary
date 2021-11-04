@@ -8,11 +8,11 @@
 import Foundation
 import Alamofire
 
-protocol NetworkProtocol {
+protocol ApiManagerProtocol {
     func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void)
 }
 
-class NetworkService {
+class ApiManager {
     // MARK: - Properties
     let session: Session
     
@@ -60,4 +60,4 @@ class NetworkService {
     }
 }
 
-extension NetworkService: NetworkProtocol {}
+extension ApiManager: ApiManagerProtocol {}

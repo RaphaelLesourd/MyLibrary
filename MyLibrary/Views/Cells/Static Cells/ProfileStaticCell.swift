@@ -31,20 +31,18 @@ class ProfileStaticCell: UITableViewCell {
     }()
     
     let userNameTextField = TextField(placeholder: "Nom d'utilisateur",
-                                      keyBoardType: .default, returnKey: .done, correction: .no, capitalization: .sentences)
-    let emailLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 15, weight: .regular)
-    let saveProfileButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Mettre à jour", for: .normal)
-        button.contentHorizontalAlignment = .right
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        button.setTitleColor(.label, for: .normal)
-        return button
-    }()
+                                      keyBoardType: .default,
+                                      returnKey: .done,
+                                      correction: .no,
+                                      capitalization: .sentences)
+    let emailLabel = TextLabel(color: .secondaryLabel,
+                               maxLines: 1,
+                               alignment: .left,
+                               fontSize: 15,
+                               weight: .regular)
     
     private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 0)
-    private let profileStackView = StackView(axis: .horizontal, spacing: 10)
-    private let mainStackView = StackView(axis: .vertical, spacing: 10)
+    private let mainStackView = StackView(axis: .horizontal, spacing: 10)
   
 }
 extension ProfileStaticCell {
@@ -53,14 +51,13 @@ extension ProfileStaticCell {
         textStackView.addArrangedSubview(userNameTextField)
         textStackView.addArrangedSubview(emailLabel)
         
-        profileStackView.addArrangedSubview(profileImageButton)
-        profileStackView.addArrangedSubview(textStackView)
+        mainStackView.addArrangedSubview(profileImageButton)
+        mainStackView.addArrangedSubview(textStackView)
         
-        mainStackView.addArrangedSubview(profileStackView)
-        mainStackView.addArrangedSubview(saveProfileButton)
         NSLayoutConstraint.activate([
+            userNameTextField.heightAnchor.constraint(equalToConstant: 40),
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])

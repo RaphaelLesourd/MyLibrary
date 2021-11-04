@@ -11,7 +11,7 @@ import Alamofire
 class RecipeServiceTestCase: XCTestCase {
     
     private var session: Session!
-    private var sut: NetworkService!
+    private var sut: ApiManager!
     private let url = URL(string: "myDefaultURL")!
 
     override func setUp() {
@@ -19,7 +19,7 @@ class RecipeServiceTestCase: XCTestCase {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         session = Session(configuration: configuration)
-        sut = NetworkService(session: session)
+        sut = ApiManager(session: session)
     }
     
     override func tearDown() {

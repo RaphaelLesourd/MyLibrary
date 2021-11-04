@@ -13,10 +13,10 @@ class SigningViewController: UIViewController {
     // MARK: - Properties
     private let mainView = PanModalCommonView()
     private var interfaceType: AccountInterfaceType
-    private var userManager: UserManagerProtocol
+    private var userManager: AccountServiceProtocol
    
     // MARK: - Initializer
-    init(userManager: UserManagerProtocol, interfaceType: AccountInterfaceType) {
+    init(userManager: AccountServiceProtocol, interfaceType: AccountInterfaceType) {
         self.userManager = userManager
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
@@ -111,11 +111,11 @@ class SigningViewController: UIViewController {
         }
     }
     
-    private func setUser() -> NewUser {
-        return NewUser(userName: mainView.userNameTextField.text ?? "",
-                       email: mainView.emailTextField.text ?? "",
-                       password: mainView.passwordTextField.text ?? "",
-                       confirmPassword: mainView.confirmPasswordTextField.text ?? "")
+    private func setUser() -> AccountCredentials {
+        return AccountCredentials(userName: mainView.userNameTextField.text ?? "",
+                                  email: mainView.emailTextField.text ?? "",
+                                  password: mainView.passwordTextField.text ?? "",
+                                  confirmPassword: mainView.confirmPasswordTextField.text ?? "")
     }
     
     private func deleteAccount() {

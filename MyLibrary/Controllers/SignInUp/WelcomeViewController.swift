@@ -34,7 +34,7 @@ class WelcomeViewController: UIViewController {
     // MARK: - Targets
     @objc private func presentLoginViewController(_ sender: UIButton) {
         let type: AccountInterfaceType = sender == mainView.loginButton ? .login : .signup
-        let signingController = SigningViewController(userManager: UserManager(), interfaceType: type)
+        let signingController = SigningViewController(userManager: AccountService(), interfaceType: type)
         presentPanModal(signingController)
     }
     
