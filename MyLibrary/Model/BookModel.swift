@@ -7,19 +7,22 @@
 
 import Foundation
 import Combine
+import FirebaseFirestoreSwift
 
 // MARK: - BookModel
-struct BookModel: Decodable {
+struct BookModel: Codable {
     let items: [Item]?
 }
 // MARK: - Item
-struct Item: Decodable, Identifiable {
+struct Item: Codable, Identifiable {
+    @DocumentID var id: String?
     let collectionItemId = UUID()
-    var id: String?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
     
-    private enum CodingKeys : String, CodingKey { case volumeInfo, saleInfo }
+    private enum CodingKeys : String, CodingKey {
+        case volumeInfo, saleInfo
+    }
 }
 
 extension Item: Hashable {
@@ -91,7 +94,7 @@ extension Item {
 }
 
 // MARK: - VolumeInfo
-struct VolumeInfo: Decodable {
+struct VolumeInfo: Codable {
     let title: String?
     let authors: [String]?
     let publisher, publishedDate, volumeInfoDescription: String?
@@ -112,22 +115,22 @@ struct VolumeInfo: Decodable {
 }
 
 // MARK: - SaleInfo
-struct SaleInfo: Decodable {
+struct SaleInfo: Codable {
     let retailPrice: SaleInfoListPrice?
 }
 
 // MARK: - SaleInfoListPrice
-struct SaleInfoListPrice: Decodable {
+struct SaleInfoListPrice: Codable {
     let amount: Double?
     let currencyCode: String?
 }
 
 // MARK: - IndustryIdentifier
-struct IndustryIdentifier: Decodable {
+struct IndustryIdentifier: Codable {
     let type, identifier: String?
 }
 
 // MARK: - ImageLinks
-struct ImageLinks: Decodable {
+struct ImageLinks: Codable {
     let smallThumbnail, thumbnail: String?
 }

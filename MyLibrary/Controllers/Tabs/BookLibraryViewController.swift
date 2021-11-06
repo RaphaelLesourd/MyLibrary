@@ -92,13 +92,27 @@ class BookLibraryViewController: UIViewController {
             }
         }
     }
+    
+    private func showSelectedBook(_ snippet: Item) {
+        showIndicator(activityIndicator)
+        libraryService.retrieveBook(snippet) { [weak self] result in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            switch result {
+            case .success(let book):
+                self.showBookDetails(with: book, searchType: .librarySearch)
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView Delegate
 extension BookLibraryViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
+        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
+        showSelectedBook(selectedBook)
     }
 }
 

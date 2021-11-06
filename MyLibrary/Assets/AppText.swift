@@ -32,7 +32,7 @@ enum Text {
     
     enum ControllerTitle {
         static let newBook = "Nouveau livre"
-        static let home = "Acceuil"
+        static let home = "Accueil"
         static let myBooks = "Mes livres"
         static let search = "Recherche"
         static let settings = "Réglages"

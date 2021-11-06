@@ -12,13 +12,15 @@ class BookCardViewController: UIViewController {
 
     // MARK: - Properties
     private let mainView = BookCardMainView()
+    private var libraryService: LibraryServiceProtocol
     weak var newBookBookDelegate: NewBookDelegate?
     var searchType: SearchType?
     var book: Item
     
     // MARK: - Intializers
-    init(book: Item) {
+    init(book: Item, libraryService: LibraryServiceProtocol) {
         self.book = book
+        self.libraryService = libraryService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,7 +52,8 @@ class BookCardViewController: UIViewController {
     }
     
     private func setTargets() {
-        mainView.actionButton.addTarget(self, action: #selector(returnToNewBookController), for: .touchUpInside)
+       // mainView.actionButton.addTarget(self, action: #selector(returnToNewBookController), for: .touchUpInside)
+        mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
     }
     
     private func configureUi() {
@@ -83,13 +86,30 @@ class BookCardViewController: UIViewController {
         mainView.currentResellPriceView.titleLabel.text = "Prix de vente"
         if let currency = self.book.saleInfo?.retailPrice?.currencyCode,
            let price = self.book.saleInfo?.retailPrice?.amount {
-            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
+            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(Int(price))"
         }
     
         if let isbn = book?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
         }
-        mainView.commentLabel.text = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla"
+        mainView.commentLabel.text = ""
+    }
+    
+    @objc private func deleteBookAction() {
+        presentAlert(withTitle: "Effacer un livre", message: "Etes-vous sur de voulir éffacer ce livre?", withCancel: true) { [weak self] _ in
+            self?.deleteBook()
+        }
+    }
+    // MARK: - Api call
+    private func deleteBook() {
+        libraryService.deleteBook(book: book) { [weak self] error in
+            if let error = error {
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self?.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
     // MARK: - Navigation

@@ -13,7 +13,7 @@ import FirebaseFirestoreSwift
 protocol LibraryServiceProtocol {
     func createBook(with book: Item?, completion: @escaping (FirebaseError?) -> Void)
     func retrieveBook(_ snippet: Item, completion: @escaping (Result<Item, FirebaseError>) -> Void)
-    func deleteBook(bookID: String, completion: @escaping (FirebaseError?) -> Void)
+    func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
     func getSnippets(limitNumber: Int, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
 }
 
@@ -138,8 +138,27 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
     
-    func deleteBook(bookID: String, completion: @escaping (FirebaseError?) -> Void) {
-        
+    func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void) {
+        guard let user = user, let id = book.id else { return }
+        usersCollectionRef
+            .document(user.uid)
+            .collection(CollectionDocumentKey.books.rawValue)
+            .document(id).delete { error in
+                if let error = error {
+                    completion(.firebaseError(error))
+                    return
+                }
+            }
+        usersCollectionRef
+            .document(user.uid)
+            .collection(CollectionDocumentKey.snippets.rawValue)
+            .document(id).delete { error in
+                if let error = error {
+                    completion(.firebaseError(error))
+                    return
+                }
+                completion(nil)
+            }
     }
     
     func getSnippets(limitNumber: Int = 0, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
