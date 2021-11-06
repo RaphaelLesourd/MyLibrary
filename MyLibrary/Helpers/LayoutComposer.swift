@@ -95,7 +95,7 @@ class LayoutComposer {
     }
     
     // MARK: - Layouts
-    func composeHomeCollectionViewLayout() -> UICollectionViewLayout {
+    func composeHomeViewControllerLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:

@@ -20,7 +20,19 @@ class ApiManager {
     init(session: Session = .default) {
         self.session = session
     }
-    
+    /// Verifies is the query keyword is a en ISBN.
+    /// The .isIsbn string extension property checks if the string is composed only of number
+    /// and is the number of charters is more than 10 which correspond to an ISBN10 format;
+    /// - Parameters:
+    ///   - keyword: words being searched
+    ///   - fromIndex: Used for paging, index where the query should start.
+    /// - Returns: AlamofireRouter URLRequest
+    private func isQueryIsbn(for keyword: String, fromIndex: Int) -> AlamofireRouter {
+        return keyword.isIsbn ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
+    }
+}
+
+extension ApiManager: ApiManagerProtocol {
     /// Fetch Book data from API
     /// - Parameters:
     ///   - query: String of the words being searched
@@ -48,16 +60,4 @@ class ApiManager {
                 }
             }
     }
-    /// Verifies is the query keyword is a en ISBN.
-    /// The .isIsbn string extension property checks if the string is composed only of number
-    /// and is the number of charters is more than 10 which correspond to an ISBN10 format;
-    /// - Parameters:
-    ///   - keyword: words being searched
-    ///   - fromIndex: Used for paging, index where the query should start.
-    /// - Returns: AlamofireRouter URLRequest
-    private func isQueryIsbn(for keyword: String, fromIndex: Int) -> AlamofireRouter {
-        return keyword.isIsbn ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
-    }
 }
-
-extension ApiManager: ApiManagerProtocol {}

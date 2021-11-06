@@ -16,32 +16,52 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Properties
     private var layoutComposer = LayoutComposer()
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let activityIndicator = UIActivityIndicatorView()
     private let searchController = UISearchController(searchResultsController: nil)
+    private var footerView = LoadingFooterSupplementaryView()
   
-    private lazy var dataSource = makeDataSource()
     typealias Snapshot = NSDiffableDataSourceSnapshot<BookListSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
-    private var booksList: [Item] = [] {
+    private lazy var dataSource = makeDataSource()
+    private var libraryService: LibraryServiceProtocol
+    private var snippetsList: [Item] = [] {
         didSet {
             applySnapshot()
         }
     }
     
+    // MARK: - Initializer
+    init(libraryService: LibraryServiceProtocol) {
+        self.libraryService = libraryService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
+        configureViewController()
         configureCollectionView()
         setCollectionViewConstraints()
         configureSearchController()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getLastestBook()
+    }
     // MARK: - Setup
+    private func configureViewController() {
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.myBooks
+    }
     private func configureCollectionView() {
         let layout = layoutComposer.composeBookLibraryLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(header: HeaderSupplementaryView.self)
+        collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
@@ -57,6 +77,21 @@ class BookLibraryViewController: UIViewController {
         self.navigationItem.hidesSearchBarWhenScrolling = true
         self.navigationItem.searchController = searchController
     }
+    
+    // MARK: - Api call
+    private func getLastestBook() {
+        showIndicator(activityIndicator)
+        libraryService.getSnippets(limitNumber: 0) { [weak self] result in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            switch result {
+            case .success(let snippets):
+                self.snippetsList = snippets
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView Delegate
@@ -70,32 +105,30 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(
-            collectionView: collectionView,
-            cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
+        let dataSource = DataSource(collectionView: collectionView,
+                                    cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
                 let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                 cell.configure(with: books)
                 return cell
             })
-        configureHeader(dataSource)
+        configureFooter(dataSource)
         return dataSource
+    }
+    
+    /// Adds a footer to the collectionView.
+    /// - Parameter dataSource: datasource to add the footer
+    private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            self.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+            return self.footerView
+        }
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(BookListSection.allCases)
-        snapshot.appendItems(booksList)
+        snapshot.appendItems(snippetsList, toSection: .mybooks)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-    
-    private func configureHeader(_ dataSource: BookLibraryViewController.DataSource) {
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
-            let view: HeaderSupplementaryView = collectionView.dequeue(kind: kind, for: indexPath)
-            view.configureTitle(with: "")
-            view.actionButton.isHidden = true
-            return view
-        }
     }
 }
 

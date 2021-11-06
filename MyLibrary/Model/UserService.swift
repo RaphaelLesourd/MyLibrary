@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 protocol UserServiceProtocol {
     func createUserInDatabase(for user: CurrentUser?, completion: @escaping (FirebaseError?) -> Void)
-    func getSignedUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
+    func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
     func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void)
     func deleteUser(completion: @escaping (FirebaseError?) -> Void)
 }
@@ -24,7 +24,7 @@ class UserService {
     let user = Auth.auth().currentUser
     
     init() {
-        usersCollectionRef = db.collection(CollectionDocumentKey.user.rawValue)
+        usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     }
 }
 
@@ -33,7 +33,7 @@ extension UserService: UserServiceProtocol {
     // Create
     func createUserInDatabase(for user: CurrentUser?, completion: @escaping (FirebaseError?) -> Void) {
         guard let user = user else { return }
-        usersCollectionRef.document(user.id).setData(user.toDocument()) { error in
+        usersCollectionRef.document(user.id).setData(user.toDocument(id: user.id)) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
@@ -43,7 +43,7 @@ extension UserService: UserServiceProtocol {
     }
     
     // Retrieve
-    func getSignedUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
+    func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
         guard let user = user else { return }
         usersCollectionRef.document(user.uid).getDocument { (userData, error) in
             if let error = error {
@@ -51,7 +51,6 @@ extension UserService: UserServiceProtocol {
                 return
             }
             if let data = userData?.data() {
-                dump(data)
                 let currentUser = CurrentUser(firebaseUser: data)
                 completion(.success(currentUser))
             }
@@ -79,7 +78,6 @@ extension UserService: UserServiceProtocol {
     // Delete user
     func deleteUser(completion: @escaping (FirebaseError?) -> Void) {
         guard let user = user else { return }
-        print("DEBUG: \(user.uid)")
         usersCollectionRef.document(user.uid).delete { error in
             if let error = error {
                 completion(.firebaseError(error))

@@ -76,7 +76,7 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.publisher
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
         mainView.bookDetailView.numberOfPageView.infoLabel.text = "\(book?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text = book?.language?.languageName
+        mainView.bookDetailView.languageView.infoLabel.text = book?.language
         mainView.purchaseDetailView.titleLabel.text = ""
         mainView.purchaseDetailView.purchasePriceLabel.text = ""
        

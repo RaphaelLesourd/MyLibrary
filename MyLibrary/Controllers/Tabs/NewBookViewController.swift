@@ -20,6 +20,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     // MARK: - Properties
     private var searchController = UISearchController()
     private let resultController = SearchViewController(networkService: ApiManager())
+    private var libraryService: LibraryServiceProtocol
     private var imagePicker: ImagePicker?
     var bookDescription: String?
     var bookComment: String?
@@ -48,7 +49,23 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                                   systemImage: "arrow.down.doc.fill",
                                                   tintColor: .appTintColor,
                                                   backgroundColor: .appTintColor)
+    private lazy var  textFields = [bookTileCell.textField,
+                                    bookAuthorCell.textField,
+                                    bookCategoryCell.textField,
+                                    isbnCell.textField,
+                                    numberOfPagesCell.textField,
+                                    languageCell.textField,
+                                    purchasePriceCell.textField]
    
+    init(libraryService: LibraryServiceProtocol) {
+        self.libraryService = libraryService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,9 +76,14 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         configureSearchController()
         addNavigationBarButton()
         setButtonTargets()
+        setDelegates()
     }
 
     // MARK: - Setup
+    private func setDelegates() {
+        textFields.forEach { $0.delegate = self }
+    }
+    
     private func addNavigationBarButton() {
         let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
                                          style: .plain,
@@ -71,7 +93,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private func setButtonTargets() {
-        saveButtonCell.actionButton.addTarget(self, action: #selector(showBookCardViewController), for: .touchUpInside)
+        saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
     }
 
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
@@ -104,8 +126,8 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         bookTileCell.textField.text = book.volumeInfo?.title
         bookAuthorCell.textField.text = book.volumeInfo?.authors?.joined(separator: " ")
         bookCategoryCell.textField.text = book.volumeInfo?.categories?.first
-        isbnCell.textField.text = "ISBN \(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
-        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0) pages"
+        isbnCell.textField.text = "\(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
+        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
         languageCell.textField.text = book.volumeInfo?.language?.languageName
         bookDescription = book.volumeInfo?.volumeInfoDescription
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
@@ -113,26 +135,18 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                             cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
                                             placeholderImage: Images.emptyStateBookImage)
         }
-        if let currency = book.saleInfo?.retailPrice?.currencyCode,
-           let price = book.saleInfo?.retailPrice?.amount {
-            purchasePriceCell.textField.text = "\(currency.currencySymbol) \(price)"
+        if let price = book.saleInfo?.retailPrice?.amount {
+            purchasePriceCell.textField.text = "\(price)"
         }
     }
     
     private func clearData() {
         searchController.isActive = false
         resultController.searchedBooks.removeAll()
-        bookTileCell.textField.text = nil
-        bookAuthorCell.textField.text = nil
-        bookCategoryCell.textField.text = nil
-        isbnCell.textField.text = nil
-        numberOfPagesCell.textField.text = nil
-        languageCell.textField.text = nil
-        bookDescription = nil
         bookImageCell.pictureView.image = Images.emptyStateBookImage
-        purchasePriceCell.textField.text = nil
         bookComment = nil
         bookDescription = nil
+        textFields.forEach { $0.text = nil }
     }
     
     // MARK: - Navigation
@@ -142,10 +156,45 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         presentPanModal(barcodeScannerController)
     }
     
-    @objc private func showBookCardViewController() {
-        guard let book = newBook else { return }
-        showBookDetails(with: book, searchType: .librarySearch)
+    @objc private func saveBook() {
+        guard let newBook = newBook else {return}
+
+        let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
+                                    authors: [bookAuthorCell.textField.text ?? ""],
+                                    publisher: newBook.volumeInfo?.publisher,
+                                    publishedDate: newBook.volumeInfo?.publishedDate,
+                                    volumeInfoDescription: bookDescription,
+                                    industryIdentifiers: [IndustryIdentifier(type: "ISBN",
+                                                                             identifier: isbnCell.textField.text ?? "")],
+                                    pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
+                                    printType: newBook.volumeInfo?.printType,
+                                    categories: [bookCategoryCell.textField.text ?? ""],
+                                    ratingsCount: newBook.volumeInfo?.ratingsCount,
+                                    imageLinks: ImageLinks(smallThumbnail: newBook.volumeInfo?.imageLinks?.smallThumbnail,
+                                                           thumbnail: newBook.volumeInfo?.imageLinks?.thumbnail),
+                                    language: languageCell.textField.text ?? "--",
+                                    infoLink: newBook.volumeInfo?.infoLink)
+        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
+                                                               currencyCode: newBook.saleInfo?.retailPrice?.currencyCode))
+        let book = Item(volumeInfo: volumeInfo, saleInfo: saleInfo)
+        saveButtonCell.displayActivityIndicator(true)
+        libraryService.createBook(with: book, completion: { [weak self] error in
+            guard let self = self else { return }
+            self.saveButtonCell.displayActivityIndicator(false)
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
+        })
         clearData()
+    }
+}
+// MARK: - TextField Delegate
+extension NewBookViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 // MARK: - Barcode protocol

@@ -40,6 +40,7 @@ class ProfileStaticCell: UITableViewCell {
                                alignment: .left,
                                fontSize: 15,
                                weight: .regular)
+    let activityIndicator = UIActivityIndicatorView()
     
     private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 0)
     private let mainStackView = StackView(axis: .horizontal, spacing: 10)
@@ -53,6 +54,7 @@ extension ProfileStaticCell {
         
         mainStackView.addArrangedSubview(profileImageButton)
         mainStackView.addArrangedSubview(textStackView)
+        mainStackView.addArrangedSubview(activityIndicator)
         
         NSLayoutConstraint.activate([
             userNameTextField.heightAnchor.constraint(equalToConstant: 40),

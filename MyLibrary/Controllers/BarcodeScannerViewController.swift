@@ -130,6 +130,7 @@ class BarcodeScannerViewController: UIViewController {
             }
         }
     }
+    
     // MARK: - Handler
     /// Check if there is a barcode after scanning. If not NIl then it is passed back to the previous controller.
     private func barcodeResultHandler() {
@@ -137,7 +138,7 @@ class BarcodeScannerViewController: UIViewController {
         barcodeDelegate?.processBarcode(with: fetchedBarcode)
     }
     
-    // MARK: - Helper methods
+    // MARK: - Overlay
     private func configurePreviewLayer() {
         let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         cameraPreviewLayer.videoGravity = .resizeAspectFill
@@ -148,8 +149,8 @@ class BarcodeScannerViewController: UIViewController {
     
     /// Display alert tot the user when the use of camera is nt granted for any reasons.
     private func showPermissionsAlert() {
-      presentAlert(withTitle: "Camera Permissions",
-                   message: "Please open Settings and grant permission for this app to use your camera.",
+        presentAlert(withTitle: "Camera Permissions",
+                     message: "Please open Settings and grant permission for this app to use your camera.",
                    actionHandler: nil)
     }
 }

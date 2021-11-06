@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol FirebaseConvertable {
-  func toDocument() -> [String: Any]
-}
-
 struct CurrentUser {
     var id: String
     var displayName: String
@@ -18,13 +14,14 @@ struct CurrentUser {
     var photoURL: String
 }
 
-extension CurrentUser: FirebaseConvertable {
-    func toDocument() -> [String : Any] {
-        [UserDocumentKey.id.rawValue: self.id,
+extension CurrentUser {
+    func toDocument(id: String) -> [String : Any] {
+        [UserDocumentKey.id.rawValue: id,
          UserDocumentKey.username.rawValue: self.displayName,
          UserDocumentKey.email.rawValue: self.email,
          UserDocumentKey.photoURL.rawValue: self.photoURL]
     }
+    // Firebase document 
     init?(firebaseUser document: [String: Any]) {
         guard let id = document[UserDocumentKey.id.rawValue] as? String,
               let displayName = document[UserDocumentKey.username.rawValue] as? String,

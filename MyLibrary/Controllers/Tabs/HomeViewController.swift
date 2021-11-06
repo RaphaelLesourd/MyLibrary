@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 /// Enum giving name to each section of the HomeController CollectionView for better readability
 enum HomeCollectionViewSections: Int, CaseIterable {
@@ -18,105 +19,175 @@ enum HomeCollectionViewSections: Int, CaseIterable {
 class HomeViewController: UIViewController {
 
     // MARK: - Properties
-    private var layoutComposer = LayoutComposer()
-    let defaultCategories: [String] = ["Fantasy", "Roman", "Fiction", "Bd", "Historique"].sorted()
-    // MARK: - Subviews
+    typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, Item>
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
- 
+    private let activityIndicator = UIActivityIndicatorView()
+    private let refresherControl = UIRefreshControl()
+    private lazy var dataSource = makeDataSource()
+    private var layoutComposer = LayoutComposer()
+    private var libraryService: LibraryServiceProtocol
+    private var latestBooks: [Item] = []
+    private var favoriteBooks: [Item] = []
+    
+    // MARK: - Initializer
+    init(libraryService: LibraryServiceProtocol) {
+        self.libraryService = libraryService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
+        configureViewController()
+        configureRefresherControl()
         configureCollectionView()
         setCollectionViewConstraints()
+        applySnapshot(animatingDifferences: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getLastestBookSnippet()
     }
     
     // MARK: - Setup
+    private func configureViewController() {
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.home
+    }
+    
     private func configureCollectionView() {
-        let layout = layoutComposer.composeHomeCollectionViewLayout()
+        let layout = layoutComposer.composeHomeViewControllerLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cell: CategoryCollectionViewCell.self)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(cell: HorizontalCollectionViewCell.self)
         collectionView.register(header: HeaderSupplementaryView.self)
         collectionView.delegate = self
-        collectionView.dataSource = self
+        collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
+    
+    private func configureRefresherControl() {
+        refresherControl.tintColor = .label
+        collectionView.refreshControl = refresherControl
+        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+    }
+    
+    // MARK: - Api call
+    private func getLastestBookSnippet() {
+        showIndicator(activityIndicator)
+        libraryService.getSnippets(limitNumber: 10) { [weak self] result in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            switch result {
+            case .success(let snippets):
+                self.latestBooks = snippets
+                self.favoriteBooks = snippets
+                self.applySnapshot()
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    
+    private func showSelectedBook(_ snippet: Item) {
+        showIndicator(activityIndicator)
+        libraryService.retrieveBook(snippet) { [weak self] result in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            switch result {
+            case .success(let book):
+                self.showBookDetails(with: book, searchType: .librarySearch)
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    
+    // MARK: - Targets
+    @objc private func refreshBookList() {
+        getLastestBookSnippet()
+    }
 }
-// MARK: - CollectionView Datasource
-extension HomeViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return HomeCollectionViewSections.allCases.count
+// MARK: - DataSource
+extension HomeViewController {
+    /// Create diffable Datasource for the collectionView.
+    /// - configure the cell and in this case the footer.
+    /// - Returns: UICollectionViewDiffableDataSource
+    private func makeDataSource() -> DataSource {
+        let dataSource = DataSource(collectionView: collectionView,
+                                    cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            switch HomeCollectionViewSections(rawValue: indexPath.section) {
+            case .categories:
+                let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
+                cell.configure(text: item.volumeInfo?.categories?.first)
+                return cell
+            case .newEntry:
+                let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                cell.configure(with: item)
+                return cell
+            case .recommanding:
+                let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                cell.configure(with: item)
+                return cell
+            case .favorites:
+                let cell: HorizontalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                cell.configure(with: item)
+                return cell
+            case .none:
+                return nil
+            }
+        })
+        configureHeader(dataSource)
+        return dataSource
     }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch HomeCollectionViewSections(rawValue: section) {
-        case .categories:
-            return defaultCategories.count
-        case .newEntry:
-            return 10
-        case .favorites:
-            return 30
-        case .recommanding:
-           return 5
-        case nil:
-            return 0
+    /// Adds a header to the collectionView.
+    /// - Parameter dataSource: datasource to add the footer
+    private func configureHeader(_ dataSource: HomeViewController.DataSource) {
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            var headerTitle = ""
+            let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
+            switch HomeCollectionViewSections(rawValue: indexPath.section) {
+            case .categories:
+                headerTitle = "Catégories"
+            case .newEntry:
+                headerTitle = "Derniers ajouts"
+            case .recommanding:
+                headerTitle = "Recommandations"
+            case .favorites:
+                headerTitle = "Favoris"
+            case .none:
+                return nil
+            }
+            headerView.configureTitle(with: headerTitle)
+            return headerView
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch HomeCollectionViewSections(rawValue: indexPath.section) {
-        case .categories:
-            let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let category = defaultCategories[indexPath.item]
-            cell.configure(text: category)
-            return cell
-        case .newEntry:
-            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-         //   cell.configure()
-            return cell
-        case .favorites:
-            let cell: HorizontalCollectionViewCell = collectionView.dequeue(for: indexPath)
-           // cell.configure()
-            return cell
-        case .recommanding:
-            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-         //   cell.configure()
-            return cell
-        case nil:
-            return UICollectionViewCell()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView: HeaderSupplementaryView = collectionView.dequeue(kind: kind, for: indexPath)
-        switch HomeCollectionViewSections(rawValue: indexPath.section) {
-        case .categories:
-            headerView.configureTitle(with: "Catégories")
-        case .newEntry:
-            headerView.configureTitle(with: "Mes derniers ajouts")
-        case .favorites:
-            headerView.configureTitle(with: "Mes favoris")
-        case .recommanding:
-            headerView.configureTitle(with: "Recommandations")
-        case .none:
-            break
-        }
-     //   headerView.actionButton.addTarget(self, action: #selector(showLibrary), for: .touchUpInside)
-        return headerView
+    /// Set the data to th section of the collectionView, in this case only one section (main)
+    /// - Parameter animatingDifferences: Animate the collectionView with the changes applied.
+    private func applySnapshot(animatingDifferences: Bool = true) {
+        var snapshot = Snapshot()
+        snapshot.appendSections(HomeCollectionViewSections.allCases)
+        //        snapshot.appendItems(latestBooks, toSection: .categories)
+        snapshot.appendItems(latestBooks, toSection: .newEntry)
+        //        snapshot.appendItems(latestBooks, toSection: .recommanding)
+        snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     
+        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
+        showSelectedBook(selectedBook)
     }
 }
 // MARK: - Constraints

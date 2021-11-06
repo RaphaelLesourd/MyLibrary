@@ -42,16 +42,16 @@ class TabBarController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewcontrollers() {
-        let homeViewController = createController(for: HomeViewController(),
+        let homeViewController = createController(for: HomeViewController(libraryService: LibraryService()),
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.homeIcon!)
         
         let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
-        let libraryViewController = createController(for: BookLibraryViewController(),
+        let libraryViewController = createController(for: BookLibraryViewController(libraryService: LibraryService()),
                                                         title: Text.ControllerTitle.myBooks,
                                                      image: libraryIconImage)
     
-        let newViewController = createController(for: NewBookViewController(),
+        let newViewController = createController(for: NewBookViewController(libraryService: LibraryService()),
                                                        title: Text.ControllerTitle.newBook,
                                                        image: Images.newBookIcon!)
         

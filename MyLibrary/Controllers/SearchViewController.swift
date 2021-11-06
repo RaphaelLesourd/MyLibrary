@@ -20,8 +20,9 @@ class SearchViewController: UIViewController {
     private var layoutComposer = LayoutComposer()
     private let refresherControl = UIRefreshControl()
     private var noMoreBooks: Bool?
-    weak var newBookDelegate: NewBookDelegate?
+    private var footerView = LoadingFooterSupplementaryView()
     private var networkService: ApiManagerProtocol
+    weak var newBookDelegate: NewBookDelegate?
     var searchType: SearchType?
     var currentSearchKeywords = "" {
         didSet {
@@ -94,9 +95,11 @@ class SearchViewController: UIViewController {
     ///   - query: String passing search keywords, could be title, author or isbn
     ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
     private func getBooks(fromIndex: Int = 0) {
+        self.footerView.displayActivityIndicator(true)
         networkService.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
             self.refresherControl.endRefreshing()
+            self.footerView.displayActivityIndicator(false)
             switch result {
             case .success(let books):
                 self.handleList(for: books)
@@ -111,11 +114,21 @@ class SearchViewController: UIViewController {
     ///  - .barCodeSearch: send the first result back to newBookController
     /// - Parameter books: List of books fetch from API
     private func handleList(for books: [Item]) {
-        searchType == .apiSearch ? searchedBooks.append(contentsOf: books) : (newBookDelegate?.newBook = books.first)
+        switch searchType {
+        case .apiSearch:
+            books.isEmpty ? noMoreBooks = true : searchedBooks.append(contentsOf: books)
+        case .barCodeSearch:
+            newBookDelegate?.newBook = books.first
+        case .librarySearch:
+            return
+        case .none:
+            return
+        }
     }
     
     @objc private func refreshBookList() {
         searchedBooks.removeAll()
+        noMoreBooks = false
         getBooks()
     }
 }
@@ -148,8 +161,8 @@ extension SearchViewController {
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            let view: LoadingFooterSupplementaryView = collectionView.dequeue(kind: kind, for: indexPath)
-            return view
+            self.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+            return self.footerView
         }
     }
 }
@@ -158,34 +171,12 @@ extension SearchViewController: UICollectionViewDelegate {
     
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
         if indexPath.row == currentRow && noMoreBooks == false {
             getBooks(fromIndex: searchedBooks.count + 1)
-        }
-    }
-    /// Verifies if the footer is being displayed at the end of the collection view.
-    /// if the footer is displayed, the list of searchedBooks is not empty and there are books to fetch,
-    /// the activityIndicator within the footer is animated.
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplaySupplementaryView view: UICollectionReusableView,
-                        forElementKind elementKind: String, at indexPath: IndexPath) {
-        if elementKind == UICollectionView.elementKindSectionFooter {
-            if let loadingView = view as? LoadingFooterSupplementaryView {
-                let activityIndicatorVisible = !searchedBooks.isEmpty && noMoreBooks == false
-                loadingView.displayActivityIndicator(activityIndicatorVisible)
-            }
-        }
-    }
-    /// Verified if the footer ended being displayed, If so the activityIndicator within the footer
-    /// stop being nimated and is hidden.
-    func collectionView(_ collectionView: UICollectionView,
-                        didEndDisplayingSupplementaryView view: UICollectionReusableView,
-                        forElementOfKind elementKind: String, at indexPath: IndexPath) {
-        if elementKind == UICollectionView.elementKindSectionFooter {
-            if let loadingView = view as? LoadingFooterSupplementaryView {
-                loadingView.displayActivityIndicator(false)
-            }
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController

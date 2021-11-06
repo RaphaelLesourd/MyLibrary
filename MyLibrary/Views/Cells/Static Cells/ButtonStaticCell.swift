@@ -14,6 +14,8 @@ class ButtonStaticCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         setButtonConstraints()
+        setActivityIndicatorCosntraints()
+        activityIndicator.hidesWhenStopped = true
     }
     
     required init?(coder: NSCoder) {
@@ -22,12 +24,29 @@ class ButtonStaticCell: UITableViewCell {
     
     convenience init(title: String, systemImage: String = "", tintColor: UIColor, backgroundColor: UIColor) {
         self.init()
-        self.actionButton.configureButton(with: title, systemImage: systemImage, tintColor: tintColor, backgroundColor: backgroundColor)
+        self.actionButton.configureButton(with: title,
+                                          systemImage: systemImage,
+                                          tintColor: tintColor,
+                                          backgroundColor: backgroundColor)
     }
+    private let activityIndicator = UIActivityIndicatorView()
+    let actionButton = ActionButton()
     
-    var actionButton = ActionButton()
+    func displayActivityIndicator(_ state: Bool) {
+        state ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        actionButton.alpha = state ? 0.3 : 1
+        actionButton.isUserInteractionEnabled = !state
+    }
 }
 extension ButtonStaticCell {
+    private func setActivityIndicatorCosntraints() {
+        contentView.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+    }
     private func setButtonConstraints() {
         contentView.addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
@@ -35,8 +54,7 @@ extension ButtonStaticCell {
             actionButton.topAnchor.constraint(equalTo: contentView.topAnchor),
             actionButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             actionButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            actionButton.heightAnchor.constraint(equalToConstant: 40)
+            actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

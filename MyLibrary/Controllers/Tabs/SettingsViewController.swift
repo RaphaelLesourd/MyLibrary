@@ -8,7 +8,6 @@
 import UIKit
 import PanModal
 import FirebaseAuth
-import XCTest
 
 class SettingsViewController: StaticTableViewController {
 
@@ -16,7 +15,7 @@ class SettingsViewController: StaticTableViewController {
     private var accountService: AccountServiceProtocol
     private var userService: UserServiceProtocol
     private var imagePicker: ImagePicker?
-    
+    private var activityIndicator = UIActivityIndicatorView()
     // MARK: - Cell
     private lazy var profileCell = ProfileStaticCell()
     private let signOutCell = ButtonStaticCell(title: "Déconnexion",
@@ -41,7 +40,7 @@ class SettingsViewController: StaticTableViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
+        configureViewController()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
         composeTableView()
         setDelegates()
@@ -50,6 +49,11 @@ class SettingsViewController: StaticTableViewController {
     }
     
     // MARK: - Setup
+    private func configureViewController() {
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.settings
+    }
+    
     private func setDelegates() {
         profileCell.userNameTextField.delegate = self
     }
@@ -80,8 +84,10 @@ class SettingsViewController: StaticTableViewController {
     }
     
     private func signoutAccount() {
+        showIndicator(activityIndicator)
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -102,23 +108,28 @@ class SettingsViewController: StaticTableViewController {
     
     // MARK: - Data
     private func setProfileData() {
-        userService.getSignedUser { [weak self] result in
+        profileCell.activityIndicator.startAnimating()
+        userService.retrieveUser { [weak self] result in
+            guard let self = self else { return }
+            self.profileCell.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
                 if let currentUser = currentUser {
-                    self?.profileCell.emailLabel.text = "   \(currentUser.email)"
-                    self?.profileCell.userNameTextField.text = currentUser.displayName
+                    self.profileCell.emailLabel.text = "   \(currentUser.email)"
+                    self.profileCell.userNameTextField.text = currentUser.displayName
                 }
             case .failure(let error):
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
     
     private func saveUserName() {
         let username = profileCell.userNameTextField.text
+        profileCell.activityIndicator.startAnimating()
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
+            self.profileCell.activityIndicator.stopAnimating()
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return

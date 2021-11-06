@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import MyLibrary
+import CoreMedia
 
 class UserServiceTestCase: XCTestCase {
     
@@ -21,7 +22,7 @@ class UserServiceTestCase: XCTestCase {
         super.tearDown()
         sut = nil
     }
-
+    
   func test_givenNewUser_whenStoringData_thenItReturnsNoErrors() {
     let exp = self.expectation(description: "Waiting for async operation")
     let newUser = CurrentUser(id: "1", displayName: "raph", email: "raph@raph.com", photoURL: "")
@@ -42,7 +43,7 @@ class UserServiceTestCase: XCTestCase {
              // then
               XCTAssertNil(error)
 
-              self.sut?.getSignedUser(completion: { result in
+              self.sut?.retrieveUser(completion: { result in
                   switch result {
 
                   case .success(let user):
@@ -59,14 +60,11 @@ class UserServiceTestCase: XCTestCase {
         self.waitForExpectations(timeout: 10, handler: nil)
     }
 
-
     // MARK: - Errors
     func test_givenNoUser_whenRetrivingNonExistingUser_thenReturnError() {
-        
-        //let newUser = CurrentUser(id: "2", displayName: "raph", email: "raph@raph.com", photoURL: "")
         let exp = self.expectation(description: "Waiting for async operation")
         // when
-        self.sut?.getSignedUser(completion: { result in
+        self.sut?.retrieveUser(completion: { result in
             switch result {
             case .success(let user):
                 XCTAssertNil(user)
