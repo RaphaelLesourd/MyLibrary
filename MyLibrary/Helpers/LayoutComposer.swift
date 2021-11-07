@@ -74,7 +74,7 @@ class LayoutComposer {
         if horizontal == true {
             section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         }
-        section.contentInsets = .uniform(size: 10)
+        section.contentInsets = .init(top: 15, leading: 0, bottom: 50, trailing: 0)
         section.boundarySupplementaryItems = [addHeader()]
         return section
     }
@@ -95,7 +95,7 @@ class LayoutComposer {
     }
     
     // MARK: - Layouts
-    func composeHomeViewControllerLayout() -> UICollectionViewLayout {
+    func composeHomeCollectionViewLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:

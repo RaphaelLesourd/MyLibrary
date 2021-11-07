@@ -22,6 +22,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     private let resultController = SearchViewController(networkService: ApiManager())
     private var libraryService: LibraryServiceProtocol
     private var imagePicker: ImagePicker?
+    var isEditingBook = false
     var bookDescription: String?
     var bookComment: String?
     var newBook: Item? {
@@ -56,7 +57,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                     numberOfPagesCell.textField,
                                     languageCell.textField,
                                     purchasePriceCell.textField]
-   
+    
     init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
         super.init(nibName: nil, bundle: nil)
@@ -69,29 +70,29 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.newBook
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        configureUI()
         composeTableView()
         configureSearchController()
-        addNavigationBarButton()
         setButtonTargets()
         setDelegates()
     }
 
     // MARK: - Setup
-    private func setDelegates() {
-        textFields.forEach { $0.delegate = self }
-    }
-    
-    private func addNavigationBarButton() {
+    private func configureUI() {
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = isEditingBook ? "Modifier" : Text.ControllerTitle.newBook
         let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
                                          style: .plain,
                                          target: self,
                                          action: #selector(showScannerController))
-        navigationItem.rightBarButtonItem = scannerButton
+        navigationItem.rightBarButtonItem = isEditingBook ? nil : scannerButton
+        self.navigationItem.searchController = isEditingBook ? nil : searchController
     }
-    
+    private func setDelegates() {
+        textFields.forEach { $0.delegate = self }
+    }
+
     private func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
     }
@@ -116,7 +117,6 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         searchController.searchBar.placeholder = "Recherche"
         searchController.definesPresentationContext = false
         self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.searchController = searchController
     }
    
     // MARK: - Data
@@ -128,7 +128,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         bookCategoryCell.textField.text = book.volumeInfo?.categories?.first
         isbnCell.textField.text = "\(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        languageCell.textField.text = book.volumeInfo?.language?.languageName
+        languageCell.textField.text = book.volumeInfo?.language
         bookDescription = book.volumeInfo?.volumeInfoDescription
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
             bookImageCell.pictureView.af.setImage(withURL: imageUrl,
@@ -138,6 +138,41 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
         }
+    }
+    
+    @objc private func saveBook() {
+        guard let book = createBookDocument() else { return }
+        saveButtonCell.displayActivityIndicator(true)
+        libraryService.createBook(with: book, completion: { [weak self] error in
+            guard let self = self else { return }
+            self.saveButtonCell.displayActivityIndicator(false)
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
+        })
+        isEditingBook ? returnToPreviousController() :  clearData()
+    }
+    
+    private func createBookDocument() -> Item? {
+        guard let newBook = newBook else { return nil }
+        let isbn = isbnCell.textField.text ?? UUID().uuidString
+        let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
+                                    authors: [bookAuthorCell.textField.text ?? ""],
+                                    publisher: newBook.volumeInfo?.publisher,
+                                    publishedDate: newBook.volumeInfo?.publishedDate,
+                                    volumeInfoDescription: bookDescription,
+                                    industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
+                                    pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
+                                    categories: [bookCategoryCell.textField.text ?? ""],
+                                    ratingsCount: newBook.volumeInfo?.ratingsCount,
+                                    imageLinks: ImageLinks(smallThumbnail: newBook.volumeInfo?.imageLinks?.smallThumbnail,
+                                                           thumbnail: newBook.volumeInfo?.imageLinks?.thumbnail),
+                                    language: languageCell.textField.text ?? "--")
+        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
+                                                               currencyCode: newBook.saleInfo?.retailPrice?.currencyCode))
+        return Item(etag: isbn, volumeInfo: volumeInfo, saleInfo: saleInfo)
     }
     
     private func clearData() {
@@ -156,38 +191,9 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         presentPanModal(barcodeScannerController)
     }
     
-    @objc private func saveBook() {
-        guard let newBook = newBook else {return}
-
-        let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
-                                    authors: [bookAuthorCell.textField.text ?? ""],
-                                    publisher: newBook.volumeInfo?.publisher,
-                                    publishedDate: newBook.volumeInfo?.publishedDate,
-                                    volumeInfoDescription: bookDescription,
-                                    industryIdentifiers: [IndustryIdentifier(type: "ISBN",
-                                                                             identifier: isbnCell.textField.text ?? "")],
-                                    pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
-                                    printType: newBook.volumeInfo?.printType,
-                                    categories: [bookCategoryCell.textField.text ?? ""],
-                                    ratingsCount: newBook.volumeInfo?.ratingsCount,
-                                    imageLinks: ImageLinks(smallThumbnail: newBook.volumeInfo?.imageLinks?.smallThumbnail,
-                                                           thumbnail: newBook.volumeInfo?.imageLinks?.thumbnail),
-                                    language: languageCell.textField.text ?? "--",
-                                    infoLink: newBook.volumeInfo?.infoLink)
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
-                                                               currencyCode: newBook.saleInfo?.retailPrice?.currencyCode))
-        let book = Item(volumeInfo: volumeInfo, saleInfo: saleInfo)
-        saveButtonCell.displayActivityIndicator(true)
-        libraryService.createBook(with: book, completion: { [weak self] error in
-            guard let self = self else { return }
-            self.saveButtonCell.displayActivityIndicator(false)
-            if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
-        })
+    @objc func returnToPreviousController() {
         clearData()
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - TextField Delegate

@@ -20,11 +20,11 @@ class BookLibraryViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     private var footerView = LoadingFooterSupplementaryView()
   
-    typealias Snapshot = NSDiffableDataSourceSnapshot<BookListSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<BookListSection, BookSnippet>
+    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, BookSnippet>
     private lazy var dataSource = makeDataSource()
     private var libraryService: LibraryServiceProtocol
-    private var snippetsList: [Item] = [] {
+    private var snippetsList: [BookSnippet] = [] {
         didSet {
             applySnapshot()
         }
@@ -93,9 +93,9 @@ class BookLibraryViewController: UIViewController {
         }
     }
     
-    private func showSelectedBook(_ snippet: Item) {
-        showIndicator(activityIndicator)
-        libraryService.retrieveBook(snippet) { [weak self] result in
+    private func showSelectedBook(for id: String) {
+       showIndicator(activityIndicator)
+        libraryService.retrieveBook(for: id) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             switch result {
@@ -111,15 +111,15 @@ class BookLibraryViewController: UIViewController {
 // MARK: - CollectionView Delegate
 extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        showSelectedBook(selectedBook)
+        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.id else { return }
+        showSelectedBook(for: selectedBookId)
     }
 }
 
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView,
+        dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
                 let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                 cell.configure(with: books)

@@ -9,7 +9,8 @@ import Foundation
 
 enum CollectionDocumentKey: String {
     case books
-    case snippets
+    case bookSnippets = "snippets"
+    case favoriteSnippets
     case users
 }
 
@@ -21,7 +22,7 @@ enum UserDocumentKey: String {
 }
 
 enum BookDocumentKey: String {
-    case date
+    case date = "timestamp"
     case id
     case etag
     case title

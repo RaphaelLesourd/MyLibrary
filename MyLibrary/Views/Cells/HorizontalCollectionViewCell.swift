@@ -31,19 +31,18 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         titleView.titleLabel.text = nil
         titleView.subtitleLabel.text = nil
         descriptionLabel.text = nil
-        bookCover.image = nil
+        bookCover.image = Images.emptyStateBookImage
     }
 
-    func configure(with book: Item) {
-        titleView.titleLabel.text = book.volumeInfo?.title
-        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
-        descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
-        if let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
+    func configure(with book: BookSnippet) {
+            titleView.titleLabel.text = book.title
+            titleView.subtitleLabel.text = book.author
+            descriptionLabel.text = book.description
+            guard let imageUrl = book.photoURL, let url = URL(string: imageUrl) else { return }
             bookCover.af.setImage(withURL: url,
-                                  cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                  cacheKey: book.id,
                                   placeholderImage: Images.emptyStateBookImage,
                                   completion: nil)
-        }
     }
 }
 // MARK: - Constraints

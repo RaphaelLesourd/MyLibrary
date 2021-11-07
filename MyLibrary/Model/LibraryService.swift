@@ -9,12 +9,13 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import CloudKit
 
 protocol LibraryServiceProtocol {
     func createBook(with book: Item?, completion: @escaping (FirebaseError?) -> Void)
-    func retrieveBook(_ snippet: Item, completion: @escaping (Result<Item, FirebaseError>) -> Void)
+    func retrieveBook(for id: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func getSnippets(limitNumber: Int, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
+    func getSnippets(limitNumber: Int, completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void)
 }
 
 class LibraryService {
@@ -27,85 +28,67 @@ class LibraryService {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     }
     
-    private func saveDocument(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    private func saveDocument<T: Codable>(for document: T,
+                                          with id: String,
+                                          collection: CollectionDocumentKey,
+                                          completion: @escaping (FirebaseError?) -> Void) {
         guard let user = user else { return }
-        let uid = UUID().uuidString
-        usersCollectionRef
+        let bookRef = usersCollectionRef
             .document(user.uid)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .document(uid)
-            .setData(book.toDocument(id: uid)) { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
-            }
-        usersCollectionRef
-            .document(user.uid)
-            .collection(CollectionDocumentKey.snippets.rawValue)
-            .document(uid)
-            .setData(book.toSnippet(id: uid)) { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
-                completion(nil)
-            }
+            .collection(collection.rawValue)
+            .document(id)
+        do {
+            try bookRef.setData(from: document)
+            completion(nil)
+        } catch {
+            completion(.firebaseError(error))
+        }
     }
-
-    private func updateBook(book: Item, withID id: String, completion: @escaping (FirebaseError?) -> Void) {
+    
+    private func deleteDocument(with id: String,
+                                collection: CollectionDocumentKey,
+                                completion: @escaping (FirebaseError?) -> Void) {
         guard let user = user else { return }
-        usersCollectionRef
-            .document(user.uid)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .document(id)
-            .updateData(book.toDocument(id: id)) { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
-            }
-        usersCollectionRef
-            .document(user.uid)
-            .collection(CollectionDocumentKey.snippets.rawValue)
-            .document(id)
-            .updateData(book.toSnippet(id: id)) { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
-                completion(nil)
-            }
-
-    }
-}
-
-extension LibraryService: LibraryServiceProtocol {
-   
-    func createBook(with book: Item?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let user = user, let book = book else { return }
-        guard let isbn = book.volumeInfo?.industryIdentifiers?.first?.identifier else { return }
-        let docRef = usersCollectionRef
-            .document(user.uid)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .whereField(BookDocumentKey.isbn.rawValue, isEqualTo: isbn).limit(to: 1)
-       
-        docRef.getDocuments { (snapshot, error) in
+        usersCollectionRef.document(user.uid).collection(collection.rawValue).document(id).delete { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
             }
-            if let foundDoc = snapshot?.documents, !foundDoc.isEmpty {
-                self.updateBook(book: book, withID: foundDoc.first?.documentID ?? "") { error in
-                    if let error = error {
-                        completion(.firebaseError(error))
-                        return
-                    }
-                }
-                completion(nil)
+            completion(nil)
+        }
+    }
+}
+
+extension LibraryService: LibraryServiceProtocol {
+    
+    func createBook(with book: Item?, completion: @escaping (FirebaseError?) -> Void) {
+        guard let user = user, let book = book else { return }
+        guard let etag = book.etag else { return }
+        var uid = UUID().uuidString
+        
+        let docRef = usersCollectionRef
+            .document(user.uid)
+            .collection(CollectionDocumentKey.books.rawValue)
+            .whereField(BookDocumentKey.etag.rawValue, isEqualTo: etag)
+            .limit(to: 1)
+        docRef.getDocuments { [weak self] (snapshot, error) in
+            if let error = error {
+                completion(.firebaseError(error))
                 return
             }
-            self.saveDocument(for: book) { error in
+            if let foundDoc = snapshot?.documents,
+               !foundDoc.isEmpty,
+               let document = foundDoc.first {
+                uid = document.documentID
+            }
+            self?.saveDocument(for: book, with: uid, collection: .books) { error in
+                if let error = error {
+                    completion(.firebaseError(error))
+                    return
+                }
+            }
+            let snippet = book.createSnippet(with: uid)
+            self?.saveDocument(for: snippet, with: uid, collection: .bookSnippets) { error in
                 if let error = error {
                     completion(.firebaseError(error))
                     return
@@ -115,75 +98,98 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
     
-    func retrieveBook(_ snippet: Item, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
-        guard let user = user, let id = snippet.id else { return }
-    
+    func retrieveBook(for id: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+        guard let user = user else { return }
+        
         let docRef = usersCollectionRef
             .document(user.uid)
             .collection(CollectionDocumentKey.books.rawValue)
-            .whereField(BookDocumentKey.id.rawValue, isEqualTo: id).limit(to: 1)
-       
-        docRef.getDocuments { (snapshot, error) in
+            .document(id)
+        docRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            guard let snapshot = snapshot,
-                  let data = snapshot.documents.first?.data(),
-                    let book = Item(book: data) else {
-                        completion(.failure(.errorRetrievingBook))
-                        return
-                    }
-            completion(.success(book))
+            guard let querySnapshot = querySnapshot else {
+                completion(.failure(.nothingFound))
+                return
+            }
+            do {
+                if let document = try querySnapshot.data(as: Item.self) {
+                    completion(.success(document))
+                }
+            } catch {
+                completion(.failure(.firebaseError(error)))
+            }
         }
     }
     
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void) {
-        guard let user = user, let id = book.id else { return }
-        usersCollectionRef
+        guard let user = user, let etag = book.etag else { return }
+        let docRef = usersCollectionRef
             .document(user.uid)
             .collection(CollectionDocumentKey.books.rawValue)
-            .document(id).delete { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
+            .whereField(BookDocumentKey.etag.rawValue, isEqualTo: etag)
+            .limit(to: 1)
+        docRef.getDocuments { [weak self] (snapshot, error) in
+            if let error = error {
+                completion(.firebaseError(error))
+                return
             }
-        usersCollectionRef
-            .document(user.uid)
-            .collection(CollectionDocumentKey.snippets.rawValue)
-            .document(id).delete { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
+            if let foundDoc = snapshot?.documents,
+               !foundDoc.isEmpty,
+               let id = foundDoc.first?.documentID {
+                self?.deleteDocument(with: id, collection: .books, completion: { error in
+                    if let error = error {
+                        completion(.firebaseError(error))
+                        return
+                    }
+                })
+                self?.deleteDocument(with: id, collection: .bookSnippets, completion: { error in
+                    if let error = error {
+                        completion(.firebaseError(error))
+                        return
+                    }
+                })
+                self?.deleteDocument(with: id, collection: .favoriteSnippets, completion: { error in
+                    if let error = error {
+                        completion(.firebaseError(error))
+                        return
+                    }
+                })
                 completion(nil)
             }
+        }
     }
     
-    func getSnippets(limitNumber: Int = 0, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
+    func getSnippets(limitNumber: Int = 0, completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void) {
         guard let user = user else { return }
+        
         var docRef: Query = usersCollectionRef
             .document(user.uid)
-            .collection(CollectionDocumentKey.snippets.rawValue)
+            .collection(CollectionDocumentKey.bookSnippets.rawValue)
             .order(by: BookDocumentKey.date.rawValue, descending: true)
         if limitNumber > 0 {
             docRef = docRef.limit(to: limitNumber)
         }
-        docRef.getDocuments { snapshot, error in
+        docRef.getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            guard let snapshot = snapshot else { return }
-
-            var snippets: [Item] = []
-            snapshot.documents.forEach {
-                if let data = Item(book: $0.data()) {
-                    snippets.append(data)
+            guard let documents = querySnapshot?.documents else {
+                completion(.failure(.nothingFound))
+                return
+            }
+            let data = documents.compactMap { documents -> BookSnippet? in
+                do {
+                    return try documents.data(as: BookSnippet.self)
+                } catch {
+                    completion(.failure(.firebaseError(error)))
+                    return nil
                 }
             }
-            completion(.success(snippets))
+            completion(.success(data))
         }
     }
 }

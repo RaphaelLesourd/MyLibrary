@@ -23,14 +23,14 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
     private let titleView = CellTitleView()
-    private let stackView = StackView(axis: .vertical, spacing: 2)
+    private let stackView = StackView(axis: .vertical, spacing: 5)
 
-    func configure(with book: Item) {
-        titleView.titleLabel.text = book.volumeInfo?.title
-        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
-        guard let imageUrl = book.volumeInfo?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) else { return }
+    func configure(with book: BookSnippet) {
+        titleView.titleLabel.text = book.title
+        titleView.subtitleLabel.text = book.author
+        guard let imageUrl = book.photoURL, let url = URL(string: imageUrl) else { return }
         bookCover.af.setImage(withURL: url,
-                              cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                              cacheKey: book.id,
                               placeholderImage: Images.emptyStateBookImage,
                               completion: nil)
     }

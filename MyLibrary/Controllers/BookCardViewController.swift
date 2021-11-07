@@ -44,11 +44,11 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addCommentButton() {
-        let infoButton = UIBarButtonItem(image: UIImage(systemName: "quote.bubble"),
+        let editButton = UIBarButtonItem(image: UIImage(systemName: "quote.bubble"),
                                          style: .plain,
                                          target: self,
-                                         action: #selector(addComment))
-        navigationItem.rightBarButtonItem = infoButton
+                                         action: #selector(editBook))
+        navigationItem.rightBarButtonItem = editButton
     }
     
     private func setTargets() {
@@ -96,7 +96,7 @@ class BookCardViewController: UIViewController {
     }
     
     @objc private func deleteBookAction() {
-        presentAlert(withTitle: "Effacer un livre", message: "Etes-vous sur de voulir éffacer ce livre?", withCancel: true) { [weak self] _ in
+        presentAlert(withTitle: "Effacer un livre", message: "Etes-vous sur de vouloir effacer ce livre?", withCancel: true) { [weak self] _ in
             self?.deleteBook()
         }
     }
@@ -113,11 +113,10 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    @objc private func addComment() {
-        
-    }
-    
-    @objc private func returnToNewBookController() {
-        newBookBookDelegate?.newBook = book
+    @objc private func editBook() {
+        let newBookViewController = NewBookViewController(libraryService: LibraryService())
+        newBookViewController.newBook = book
+        newBookViewController.isEditingBook = true
+        navigationController?.pushViewController(newBookViewController, animated: true)
     }
 }

@@ -51,6 +51,7 @@ extension UserService: UserServiceProtocol {
                 return
             }
             if let data = userData?.data() {
+                dump(data)
                 let currentUser = CurrentUser(firebaseUser: data)
                 completion(.success(currentUser))
             }
