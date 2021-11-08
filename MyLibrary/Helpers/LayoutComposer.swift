@@ -30,13 +30,13 @@ class LayoutComposer {
     // Horizontal scroll single cell
     private func makeHorizontalBookCardLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 15)
+        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 5)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(200)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(130), heightDimension: .absolute(230)),
             subitem: item,
             count: 1
         )
-        group.interItemSpacing = .fixed(20)
+        group.interItemSpacing = .fixed(10)
         return createSection(with: group, horizontal: true)
     }
     
@@ -55,10 +55,10 @@ class LayoutComposer {
     
     // Vertical scroll grid layout with 3 cells per row
     private  func makeVerticalGridLayoutSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem.entireWidth(withHeight: .absolute(250))
+        let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .uniform(size: 0)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(250)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.3)),
             subitem: item,
             count: 3
         )
@@ -74,7 +74,7 @@ class LayoutComposer {
         if horizontal == true {
             section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         }
-        section.contentInsets = .init(top: 15, leading: 0, bottom: 50, trailing: 0)
+        section.contentInsets = .init(top: 10, leading: 10, bottom: 50, trailing: 10)
         section.boundarySupplementaryItems = [addHeader()]
         return section
     }

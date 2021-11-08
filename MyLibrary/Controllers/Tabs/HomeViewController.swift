@@ -28,6 +28,8 @@ class HomeViewController: UIViewController {
     private var libraryService: LibraryServiceProtocol
     private var latestBooks: [BookSnippet] = []
     private var favoriteBooks: [BookSnippet] = []
+    private var recommandedBooks: [BookSnippet] = []
+    private var categories: [BookSnippet] = []
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -45,7 +47,6 @@ class HomeViewController: UIViewController {
         configureViewController()
         configureRefresherControl()
         configureCollectionView()
-        setCollectionViewConstraints()
         applySnapshot(animatingDifferences: false)
     }
     
@@ -71,7 +72,8 @@ class HomeViewController: UIViewController {
         collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.frame = view.frame
+        view.addSubview(collectionView)
     }
     
     private func configureRefresherControl() {
@@ -83,7 +85,7 @@ class HomeViewController: UIViewController {
     // MARK: - Api call
     private func getLastestBookSnippet() {
         showIndicator(activityIndicator)
-        libraryService.getSnippets(limitNumber: 10) { [weak self] result in
+        libraryService.getSnippets(limitNumber: 10, favoriteBooks: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             switch result {
@@ -94,7 +96,7 @@ class HomeViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
-        libraryService.getSnippets(limitNumber: 10) { [weak self] result in
+        libraryService.getSnippets(limitNumber: 10, favoriteBooks: true) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             switch result {
@@ -181,8 +183,8 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
-        snapshot.appendItems(latestBooks, toSection: .categories)
-        snapshot.appendItems(latestBooks, toSection: .recommanding)
+     //   snapshot.appendItems(latestBooks, toSection: .categories)
+      //  snapshot.appendItems(latestBooks, toSection: .recommanding)
         snapshot.appendItems(favoriteBooks, toSection: .favorites)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
@@ -191,19 +193,7 @@ extension HomeViewController {
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.id else { return }
+        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.etag else { return }
         showSelectedBook(for: selectedBookId)
-    }
-}
-// MARK: - Constraints
-extension HomeViewController {
-    private func setCollectionViewConstraints() {
-        view.addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
     }
 }

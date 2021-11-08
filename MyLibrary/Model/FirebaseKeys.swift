@@ -7,10 +7,9 @@
 
 import Foundation
 
-enum CollectionDocumentKey: String {
+enum CollectionDocumentKey: String, CaseIterable {
     case books
-    case bookSnippets = "snippets"
-    case favoriteSnippets
+    case bookSnippets
     case users
 }
 
@@ -22,24 +21,7 @@ enum UserDocumentKey: String {
 }
 
 enum BookDocumentKey: String {
-    case date = "timestamp"
-    case id
+    case timestamp
     case etag
-    case title
-    case authors
-    case publisher
-    case publisherDate
-    case description
-    case isbn
-    case pageCount
-    case category
-    case rating
-    case photoURL
-    case language
-    case retailPrice
-    case currencyCode
-    
-    case ownerReview
     case favorite
-    case recommanded
 }

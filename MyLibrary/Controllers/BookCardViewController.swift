@@ -13,7 +13,12 @@ class BookCardViewController: UIViewController {
     // MARK: - Properties
     private let mainView = BookCardMainView()
     private var libraryService: LibraryServiceProtocol
-    weak var newBookBookDelegate: NewBookDelegate?
+    private weak var newBookBookDelegate: NewBookDelegate?
+    private var isFavorite = false {
+        didSet {
+            setFavoriteIcon(isFavorite)
+        }
+    }
     var searchType: SearchType?
     var book: Item
     
@@ -44,7 +49,7 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addCommentButton() {
-        let editButton = UIBarButtonItem(image: UIImage(systemName: "quote.bubble"),
+        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"),
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
@@ -52,8 +57,8 @@ class BookCardViewController: UIViewController {
     }
     
     private func setTargets() {
-       // mainView.actionButton.addTarget(self, action: #selector(returnToNewBookController), for: .touchUpInside)
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
+        mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
     }
     
     private func configureUi() {
@@ -79,27 +84,29 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.publisher
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
         mainView.bookDetailView.numberOfPageView.infoLabel.text = "\(book?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text = book?.language
+        mainView.bookDetailView.languageView.infoLabel.text = book?.language?.capitalized
         mainView.purchaseDetailView.titleLabel.text = ""
         mainView.purchaseDetailView.purchasePriceLabel.text = ""
        
         mainView.currentResellPriceView.titleLabel.text = "Prix de vente"
         if let currency = self.book.saleInfo?.retailPrice?.currencyCode,
            let price = self.book.saleInfo?.retailPrice?.amount {
-            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(Int(price))"
+            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
         }
     
         if let isbn = book?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
         }
         mainView.commentLabel.text = ""
-    }
-    
-    @objc private func deleteBookAction() {
-        presentAlert(withTitle: "Effacer un livre", message: "Etes-vous sur de vouloir effacer ce livre?", withCancel: true) { [weak self] _ in
-            self?.deleteBook()
+        if let favorite = self.book.favorite {
+            isFavorite = favorite
         }
     }
+    
+    private func setFavoriteIcon(_ favorite: Bool) {
+        mainView.favoriteButton.tintColor = favorite ? .systemOrange : .systemGray
+    }
+    
     // MARK: - Api call
     private func deleteBook() {
         libraryService.deleteBook(book: book) { [weak self] error in
@@ -111,12 +118,35 @@ class BookCardViewController: UIViewController {
             self?.navigationController?.popViewController(animated: true)
         }
     }
+
+    private func updateFavoriteState(for isFavorite: Bool) {
+        guard let bookId = book.etag else { return }
+        libraryService.addToFavorite(isFavorite, for: bookId) { [weak self] error in
+            if let error = error {
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+   
+    // MARK: - Targets
+    @objc private func favoriteButtonAction() {
+        isFavorite.toggle()
+        updateFavoriteState(for: isFavorite)
+        
+    }
     
+    @objc private func deleteBookAction() {
+        presentAlert(withTitle: "Effacer un livre",
+                     message: "Etes-vous sur de vouloir effacer ce livre?",
+                     withCancel: true) { [weak self] _ in
+            self?.deleteBook()
+        }
+    }
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookViewController = NewBookViewController(libraryService: LibraryService())
-        newBookViewController.newBook = book
-        newBookViewController.isEditingBook = true
-        navigationController?.pushViewController(newBookViewController, animated: true)
+        let newBookController = NewBookViewController(libraryService: LibraryService())
+        newBookController.newBook = book
+        newBookController.isEditingBook = true
+        navigationController?.pushViewController(newBookController, animated: true)
     }
 }

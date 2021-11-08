@@ -15,7 +15,7 @@ protocol NewBookDelegate: AnyObject {
     var bookComment: String? { get set }
 }
 
-class NewBookViewController: StaticTableViewController, NewBookDelegate {
+class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private var searchController = UISearchController()
@@ -70,12 +70,12 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setDelegates()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
-        configureUI()
         composeTableView()
         configureSearchController()
         setButtonTargets()
-        setDelegates()
+        configureUI()
     }
 
     // MARK: - Setup
@@ -169,10 +169,10 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                     ratingsCount: newBook.volumeInfo?.ratingsCount,
                                     imageLinks: ImageLinks(smallThumbnail: newBook.volumeInfo?.imageLinks?.smallThumbnail,
                                                            thumbnail: newBook.volumeInfo?.imageLinks?.thumbnail),
-                                    language: languageCell.textField.text ?? "--")
+                                    language: languageCell.textField.text ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
                                                                currencyCode: newBook.saleInfo?.retailPrice?.currencyCode))
-        return Item(etag: isbn, volumeInfo: volumeInfo, saleInfo: saleInfo)
+        return Item(etag: newBook.etag, favorite: false, volumeInfo: volumeInfo, saleInfo: saleInfo)
     }
     
     private func clearData() {
@@ -251,7 +251,6 @@ extension NewBookViewController {
 }
 // MARK: - ImagePicker Delegate
 extension NewBookViewController: ImagePickerDelegate {
-    
     func didSelect(image: UIImage?) {
         self.bookImageCell.pictureView.image = image
     }

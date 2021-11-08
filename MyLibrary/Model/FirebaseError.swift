@@ -16,7 +16,7 @@ enum FirebaseError: Error {
     var description: String {
         switch self {
         case .passwordMismatch:
-            return "Les mots de passes ne correspondent pas."
+            return "Les mots de passe ne correspondent pas."
         case .noUserName:
             return "Le nom d'utilisateur ne peux être vide."
         case .nothingFound:

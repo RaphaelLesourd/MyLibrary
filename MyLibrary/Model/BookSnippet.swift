@@ -11,15 +11,17 @@ import FirebaseFirestoreSwift
 
 struct BookSnippet: Codable, Identifiable {
     @DocumentID var id: String?
+    let etag: String?
     let timestamp: Double?
     let title: String?
     let author: String?
     let photoURL: String?
     let description: String?
+    let favorite: Bool?
     let diffableId = UUID()
     
     private enum CodingKeys : String, CodingKey {
-        case id, timestamp ,title ,author ,photoURL ,description
+        case etag, timestamp ,title ,author ,photoURL ,description, favorite
     }
 }
 extension BookSnippet: Hashable {

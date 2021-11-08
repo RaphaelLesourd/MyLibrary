@@ -9,7 +9,7 @@ import UIKit
 import PanModal
 import FirebaseAuth
 
-class SettingsViewController: StaticTableViewController {
+class SettingsViewController: CommonStaticTableViewController {
 
     // MARK: - Properties
     private var accountService: AccountServiceProtocol

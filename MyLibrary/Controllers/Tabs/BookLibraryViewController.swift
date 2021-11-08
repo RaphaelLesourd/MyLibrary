@@ -17,7 +17,6 @@ class BookLibraryViewController: UIViewController {
     private var layoutComposer = LayoutComposer()
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let activityIndicator = UIActivityIndicatorView()
-    private let searchController = UISearchController(searchResultsController: nil)
     private var footerView = LoadingFooterSupplementaryView()
   
     typealias Snapshot = NSDiffableDataSourceSnapshot<BookListSection, BookSnippet>
@@ -39,19 +38,19 @@ class BookLibraryViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureCollectionView()
-        setCollectionViewConstraints()
-        configureSearchController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         getLastestBook()
     }
+    
     // MARK: - Setup
     private func configureViewController() {
         view.backgroundColor = .viewControllerBackgroundColor
@@ -66,22 +65,14 @@ class BookLibraryViewController: UIViewController {
         collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.frame = view.frame
+        view.addSubview(collectionView)
     }
-    
-    func configureSearchController() {
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Recherche"
-        searchController.definesPresentationContext = true
-        self.navigationItem.hidesSearchBarWhenScrolling = true
-        self.navigationItem.searchController = searchController
-    }
-    
+  
     // MARK: - Api call
     private func getLastestBook() {
         showIndicator(activityIndicator)
-        libraryService.getSnippets(limitNumber: 0) { [weak self] result in
+        libraryService.getSnippets(limitNumber: 0, favoriteBooks: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             switch result {
@@ -111,7 +102,7 @@ class BookLibraryViewController: UIViewController {
 // MARK: - CollectionView Delegate
 extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.id else { return }
+        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.etag else { return }
         showSelectedBook(for: selectedBookId)
     }
 }
@@ -123,12 +114,10 @@ extension BookLibraryViewController {
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
                 let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                 cell.configure(with: books)
-                return cell
-            })
+                return cell })
         configureFooter(dataSource)
         return dataSource
     }
-    
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
@@ -143,26 +132,5 @@ extension BookLibraryViewController {
         snapshot.appendSections(BookListSection.allCases)
         snapshot.appendItems(snippetsList, toSection: .mybooks)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-}
-
-// MARK: - Searchbar delegate
-extension BookLibraryViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchText = searchController.searchBar.text
-        print(searchText ?? "")
-        searchController.searchBar.endEditing(true)
-    }
-}
-// MARK: - Constraints
-extension BookLibraryViewController {
-    private func setCollectionViewConstraints() {
-        view.addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
     }
 }

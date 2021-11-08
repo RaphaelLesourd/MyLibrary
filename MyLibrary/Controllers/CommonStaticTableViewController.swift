@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class StaticTableViewController: UITableViewController {
+class CommonStaticTableViewController: UITableViewController {
    
     // MARK: - Properties
     var sections: [[UITableViewCell]] = [[]]
@@ -40,7 +40,7 @@ class StaticTableViewController: UITableViewController {
 }
 
 // MARK: - TableView DataSource & Delegate
-extension StaticTableViewController {
+extension CommonStaticTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count

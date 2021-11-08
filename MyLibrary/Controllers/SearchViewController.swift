@@ -19,20 +19,16 @@ class SearchViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     private var layoutComposer = LayoutComposer()
     private let refresherControl = UIRefreshControl()
-    private var noMoreBooks: Bool?
     private var footerView = LoadingFooterSupplementaryView()
     private var networkService: ApiManagerProtocol
+    private var noMoreBooks: Bool?
     weak var newBookDelegate: NewBookDelegate?
     var searchType: SearchType?
+    var searchedBooks: [Item] = [] 
     var currentSearchKeywords = "" {
         didSet {
             noMoreBooks = false
             getBooks()
-        }
-    }
-    var searchedBooks: [Item] = [] {
-        didSet {
-            applySnapshot()
         }
     }
     
@@ -56,7 +52,6 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         configureViewController()
         configureCollectionView()
-        setCollectionViewConstraints()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
@@ -79,7 +74,8 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = dataSource
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.frame = view.frame
+        view.addSubview(collectionView)
     }
     
     private func configureRefresherControl() {
@@ -103,6 +99,7 @@ class SearchViewController: UIViewController {
             switch result {
             case .success(let books):
                 self.handleList(for: books)
+                self.applySnapshot()
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -141,12 +138,13 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookSnippet = BookSnippet(id: books.id,
+            let bookSnippet = BookSnippet(etag: books.etag,
                                           timestamp: 0,
                                           title: books.volumeInfo?.title,
                                           author: books.volumeInfo?.authors?.first,
                                           photoURL: books.volumeInfo?.imageLinks?.smallThumbnail,
-                                          description: books.volumeInfo?.volumeInfoDescription)
+                                          description: books.volumeInfo?.volumeInfoDescription,
+                                          favorite: false)
             cell.configure(with: bookSnippet)
             return cell
         })
@@ -190,17 +188,5 @@ extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
         newBookDelegate?.newBook = searchBook
-    }
-}
-// MARK: - Constraints
-extension SearchViewController {
-    private func setCollectionViewConstraints() {
-        view.addSubview(collectionView)
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        ])
     }
 }

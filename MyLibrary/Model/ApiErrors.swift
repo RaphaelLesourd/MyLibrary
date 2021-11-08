@@ -18,7 +18,6 @@ enum ApiError: Error {
         case .emptyQuery:
             return "Votre recherche est vide"
         case .afError(let message):
-            print(message)
             return message.localizedDescription
         case .noBooks:
             return "Rien trouvé"
