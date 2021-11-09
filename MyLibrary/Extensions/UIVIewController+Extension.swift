@@ -32,24 +32,22 @@ extension UIViewController {
     }
     
     // MARK: - Navigation
-    func showBookDetails(with book: Item, searchType: SearchType) {
-        let bookCardVC = BookCardViewController(book: book, libraryService: LibraryService())
+    func showBookDetails(bookid id: String, searchType: SearchType) {
+        let bookCardVC = BookCardViewController(libraryService: LibraryService())
         bookCardVC.hidesBottomBarWhenPushed = true
         bookCardVC.searchType = searchType
+        bookCardVC.showSelectedBook(for: id)
         navigationController?.pushViewController(bookCardVC, animated: true)
     }
  
     // MARK: - Activity Indicator
     func showIndicator(_ indicator: UIActivityIndicatorView) {
-        let barButton = UIBarButtonItem(customView: indicator)
-        self.navigationItem.setRightBarButton(barButton, animated: true)
         indicator.startAnimating()
     }
 
     func hideIndicator(_ indicator: UIActivityIndicatorView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             indicator.stopAnimating()
-            self.navigationItem.setRightBarButton(nil, animated: true)
         }
     }
 }

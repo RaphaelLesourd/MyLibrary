@@ -33,10 +33,10 @@ class TextLabel: UILabel {
                             alignment: NSTextAlignment = .left,
                             fontSize: CGFloat = 14,
                             weight: UIFont.Weight = .regular) {
-        textColor = color
-        numberOfLines = maxLines
-        textAlignment =  alignment
-        font = UIFont.systemFont(ofSize: fontSize, weight: weight)
-        text = "--"
+        self.textColor     = color
+        self.numberOfLines = maxLines
+        self.textAlignment = alignment
+        self.font          = UIFont.systemFont(ofSize: fontSize, weight: weight)
+        self.text          = "--"
     }
 }

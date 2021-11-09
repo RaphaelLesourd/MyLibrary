@@ -30,7 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.tintColor = .label
         self.window = window
         window.makeKeyAndVisible()
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

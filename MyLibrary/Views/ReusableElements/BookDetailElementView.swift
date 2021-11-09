@@ -22,10 +22,10 @@ class BookDetailElementView: UIView {
         self.init(frame: .zero)
         titleLabel.text = title.capitalized
     }
-    
+    private let stackView  = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 2)
     private let titleLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 12, weight: .light)
-    let infoLabel = TextLabel(alignment: .center, fontSize: 14, weight: .light)
-    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 2)
+    let infoLabel          = TextLabel(alignment: .center, fontSize: 14, weight: .light)
+    
 }
 // MARK: - Extension
 extension BookDetailElementView {

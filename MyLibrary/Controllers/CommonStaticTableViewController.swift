@@ -21,7 +21,6 @@ class CommonStaticTableViewController: UITableViewController {
     }
 
     // MARK: - Setup
-    
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .viewControllerBackgroundColor

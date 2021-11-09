@@ -24,4 +24,5 @@ enum BookDocumentKey: String {
     case timestamp
     case etag
     case favorite
+    case recommanding
 }

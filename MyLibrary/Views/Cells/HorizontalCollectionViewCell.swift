@@ -28,15 +28,16 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     private let textStackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
     
     override func prepareForReuse() {
-        titleView.titleLabel.text = nil
+        titleView.titleLabel.text    = nil
         titleView.subtitleLabel.text = nil
-        descriptionLabel.text = nil
-        bookCover.image = Images.emptyStateBookImage
+        descriptionLabel.text        = nil
+        bookCover.image              = Images.emptyStateBookImage
     }
 
     func configure(with book: BookSnippet) {
-            titleView.titleLabel.text = book.title
+            titleView.titleLabel.text    = book.title
             titleView.subtitleLabel.text = book.author
+        
             descriptionLabel.text = book.description
             guard let imageUrl = book.photoURL, let url = URL(string: imageUrl) else { return }
             bookCover.af.setImage(withURL: url,

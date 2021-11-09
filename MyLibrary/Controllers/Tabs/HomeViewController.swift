@@ -7,29 +7,24 @@
 
 import UIKit
 
-/// Enum giving name to each section of the HomeController CollectionView for better readability
-enum HomeCollectionViewSections: Int, CaseIterable {
-    case categories
-    case newEntry
-    case favorites
-    case recommanding
-}
-
 class HomeViewController: UIViewController {
 
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, BookSnippet>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, BookSnippet>
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let activityIndicator = UIActivityIndicatorView()
-    private let refresherControl = UIRefreshControl()
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, BookSnippet>
     private lazy var dataSource = makeDataSource()
+    
+    private var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let activityIndicator = UIActivityIndicatorView()
+    private let refresherControl  = UIRefreshControl()
+    
     private var layoutComposer = LayoutComposer()
-    private var libraryService: LibraryServiceProtocol
-    private var latestBooks: [BookSnippet] = []
-    private var favoriteBooks: [BookSnippet] = []
+    private var libraryService : LibraryServiceProtocol
+   
+    private var latestBooks     : [BookSnippet] = []
+    private var favoriteBooks   : [BookSnippet] = []
     private var recommandedBooks: [BookSnippet] = []
-    private var categories: [BookSnippet] = []
+    private var categories      : [BookSnippet] = []
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -45,78 +40,79 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-        configureRefresherControl()
         configureCollectionView()
+        configureRefresherControl()
+        addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         getLastestBookSnippet()
+        getFavoriteBookSnippet()
     }
-    
+  
     // MARK: - Setup
     private func configureViewController() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.home
     }
     
+    private func addNavigationBarButtons() {
+        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactorButton]
+    }
+    
     private func configureCollectionView() {
         let layout = layoutComposer.composeHomeCollectionViewLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         collectionView.register(cell: CategoryCollectionViewCell.self)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(cell: HorizontalCollectionViewCell.self)
         collectionView.register(header: HeaderSupplementaryView.self)
-        collectionView.delegate = self
-        collectionView.dataSource = dataSource
+        
+        collectionView.delegate                     = self
+        collectionView.dataSource                   = dataSource
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        collectionView.frame = view.frame
+        collectionView.backgroundColor              = .clear
+        collectionView.frame                        = view.frame
         view.addSubview(collectionView)
     }
     
     private func configureRefresherControl() {
-        refresherControl.tintColor = .label
-        collectionView.refreshControl = refresherControl
+        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
+        refresherControl.tintColor       = .label
+        collectionView.refreshControl    = refresherControl
         refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     // MARK: - Api call
     private func getLastestBookSnippet() {
         showIndicator(activityIndicator)
-        libraryService.getSnippets(limitNumber: 10, favoriteBooks: false) { [weak self] result in
+        libraryService.getSnippets(limitNumber: 10, listType: .newEntry, paginate: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
+            self.refresherControl.endRefreshing()
             switch result {
             case .success(let snippets):
-                self.latestBooks = snippets
-                self.applySnapshot()
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-        libraryService.getSnippets(limitNumber: 10, favoriteBooks: true) { [weak self] result in
-            guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            switch result {
-            case .success(let snippets):
-                self.favoriteBooks = snippets
-                self.applySnapshot()
+                DispatchQueue.main.async {
+                    self.latestBooks = snippets
+                    self.applySnapshot()
+                }
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
-    
-    private func showSelectedBook(for id: String) {
-       showIndicator(activityIndicator)
-        libraryService.retrieveBook(for: id) { [weak self] result in
+    private func getFavoriteBookSnippet() {
+        showIndicator(activityIndicator)
+        libraryService.getSnippets(limitNumber: 10, listType: .favorites, paginate: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
+            self.refresherControl.endRefreshing()
             switch result {
-            case .success(let book):
-                self.showBookDetails(with: book, searchType: .librarySearch)
+            case .success(let snippets):
+                DispatchQueue.main.async {
+                    self.favoriteBooks = snippets
+                    self.applySnapshot()
+                }
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -125,9 +121,22 @@ class HomeViewController: UIViewController {
     
     // MARK: - Targets
     @objc private func refreshBookList() {
+        getFavoriteBookSnippet()
         getLastestBookSnippet()
     }
+   
+    @objc private func showMoreBook(_ sender: UIButton) {
+        // FIXME: Temporary limit until implementation of categories
+        guard sender.tag != 2 else {
+            presentAlertBanner(as: .error, subtitle: "Il n'y pas de catégories pour le moment.")
+            return
+        }
+        let bookListVC = BookLibraryViewController(libraryService: LibraryService())
+        bookListVC.listType = HomeCollectionViewSections.allCases[sender.tag]
+        navigationController?.pushViewController(bookListVC, animated: true)
+    }
 }
+
 // MARK: - DataSource
 extension HomeViewController {
     /// Create diffable Datasource for the collectionView.
@@ -159,22 +168,13 @@ extension HomeViewController {
     /// Adds a header to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureHeader(_ dataSource: HomeViewController.DataSource) {
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            var headerTitle = ""
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
-            switch HomeCollectionViewSections(rawValue: indexPath.section) {
-            case .categories:
-                headerTitle = "Catégories"
-            case .newEntry:
-                headerTitle = "Derniers ajouts"
-            case .recommanding:
-                headerTitle = "Recommandations"
-            case .favorites:
-                headerTitle = "Favoris"
-            case .none:
-                return nil
+            if let headerTitle = HomeCollectionViewSections(rawValue: indexPath.section)?.title {
+                headerView.configureTitle(with: headerTitle)
             }
-            headerView.configureTitle(with: headerTitle)
+            headerView.actionButton.tag = indexPath.section
+            headerView.actionButton.addTarget(self, action: #selector(self?.showMoreBook(_:)), for: .touchUpInside)
             return headerView
         }
     }
@@ -183,10 +183,10 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
-     //   snapshot.appendItems(latestBooks, toSection: .categories)
-      //  snapshot.appendItems(latestBooks, toSection: .recommanding)
-        snapshot.appendItems(favoriteBooks, toSection: .favorites)
+      //  snapshot.appendItems(latestBooks, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
+        snapshot.appendItems(favoriteBooks, toSection: .favorites)
+      //  snapshot.appendItems(latestBooks, toSection: .recommanding)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -194,6 +194,6 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.etag else { return }
-        showSelectedBook(for: selectedBookId)
+        showBookDetails(bookid: selectedBookId, searchType: .librarySearch)
     }
 }

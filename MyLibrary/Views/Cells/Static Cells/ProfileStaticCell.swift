@@ -40,8 +40,7 @@ class ProfileStaticCell: UITableViewCell {
                                alignment: .left,
                                fontSize: 15,
                                weight: .regular)
-    let activityIndicator = UIActivityIndicatorView()
-    
+    let activityIndicator     = UIActivityIndicatorView()
     private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 0)
     private let mainStackView = StackView(axis: .horizontal, spacing: 10)
   

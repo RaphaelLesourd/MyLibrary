@@ -19,37 +19,40 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private var searchController = UISearchController()
-    private let resultController = SearchViewController(networkService: ApiManager())
-    private var libraryService: LibraryServiceProtocol
-    private var imagePicker: ImagePicker?
-    var isEditingBook = false
+    private let activityIndicator = UIActivityIndicatorView()
+    private let resultController  = SearchViewController(networkService: ApiManager())
+    
+    private var libraryService    : LibraryServiceProtocol
+    private var imagePicker       : ImagePicker?
+    
+    var isEditingBook  = false
     var bookDescription: String?
-    var bookComment: String?
+    var bookComment    : String?
     var newBook: Item? {
         didSet {
             displayBookDetail()
         }
     }
-   
+    
     // MARK: - Subviews
-    private let bookImageCell = ImageStaticCell()
-    private let bookTileCell = TextFieldStaticCell(placeholder: "Titre du livre")
-    private let bookAuthorCell = TextFieldStaticCell(placeholder: "Nom de l'auteur")
+    private let bookImageCell    = ImageStaticCell()
+    private let bookTileCell     = TextFieldStaticCell(placeholder: "Titre du livre")
+    private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
     private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
     
-    private let isbnCell = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
-    private let numberOfPagesCell = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
-    private let languageCell = TextFieldStaticCell(placeholder: "Langue du livre")
+    private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
+    private let numberOfPagesCell    = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
+    private let languageCell         = TextFieldStaticCell(placeholder: "Langue du livre")
     private lazy var descriptionCell = createDefaultCell(with: "Description")
     
     private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .numberPad)
-    private let resellPriceCell = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
+    private let resellPriceCell   = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
     
     private lazy var commentCell = createDefaultCell(with: "Commentaire")
-    private let saveButtonCell = ButtonStaticCell(title: "Enregistrer",
-                                                  systemImage: "arrow.down.doc.fill",
-                                                  tintColor: .appTintColor,
-                                                  backgroundColor: .appTintColor)
+    private let saveButtonCell   = ButtonStaticCell(title: "Enregistrer",
+                                                    systemImage: "arrow.down.doc.fill",
+                                                    tintColor: .appTintColor,
+                                                    backgroundColor: .appTintColor)
     private lazy var  textFields = [bookTileCell.textField,
                                     bookAuthorCell.textField,
                                     bookCategoryCell.textField,
@@ -72,21 +75,26 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         super.viewDidLoad()
         setDelegates()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        addNavigationBarButtons()
         composeTableView()
         configureSearchController()
         setButtonTargets()
         configureUI()
     }
-
+    
     // MARK: - Setup
+    private func addNavigationBarButtons() {
+        let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showScannerController))
+        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItems = isEditingBook ? [activityIndicactorButton] : [scannerButton, activityIndicactorButton]
+    }
+    
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? "Modifier" : Text.ControllerTitle.newBook
-        let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(showScannerController))
-        navigationItem.rightBarButtonItem = isEditingBook ? nil : scannerButton
         self.navigationItem.searchController = isEditingBook ? nil : searchController
     }
     private func setDelegates() {
@@ -111,29 +119,30 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private func configureSearchController() {
         searchController = UISearchController(searchResultsController: resultController)
-        searchController.searchBar.delegate = self
-        resultController.newBookDelegate = self
+        searchController.searchBar.delegate                   = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Recherche"
-        searchController.definesPresentationContext = false
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.placeholder                = "Recherche"
+        searchController.definesPresentationContext           = false
+        resultController.newBookDelegate                      = self
+        self.navigationItem.hidesSearchBarWhenScrolling       = false
     }
    
     // MARK: - Data
     func displayBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        bookTileCell.textField.text = book.volumeInfo?.title
-        bookAuthorCell.textField.text = book.volumeInfo?.authors?.joined(separator: " ")
-        bookCategoryCell.textField.text = book.volumeInfo?.categories?.first
-        isbnCell.textField.text = "\(book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--")"
+        bookTileCell.textField.text      = book.volumeInfo?.title
+        bookAuthorCell.textField.text    = book.volumeInfo?.authors?.joined(separator: " ")
+        bookCategoryCell.textField.text  = book.volumeInfo?.categories?.first
+        isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--"
+        languageCell.textField.text      = book.volumeInfo?.language
+        bookDescription                  = book.volumeInfo?.volumeInfoDescription
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        languageCell.textField.text = book.volumeInfo?.language
-        bookDescription = book.volumeInfo?.volumeInfoDescription
+        
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
             bookImageCell.pictureView.af.setImage(withURL: imageUrl,
-                                            cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                            placeholderImage: Images.emptyStateBookImage)
+                                                  cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                                  placeholderImage: Images.emptyStateBookImage)
         }
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
@@ -143,6 +152,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     @objc private func saveBook() {
         guard let book = createBookDocument() else { return }
         saveButtonCell.displayActivityIndicator(true)
+        dump(book.timestamp)
         libraryService.createBook(with: book, completion: { [weak self] error in
             guard let self = self else { return }
             self.saveButtonCell.displayActivityIndicator(false)
@@ -152,35 +162,39 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             }
             self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
         })
-        isEditingBook ? returnToPreviousController() :  clearData()
+        isEditingBook ? returnToPreviousController() : clearData()
     }
     
     private func createBookDocument() -> Item? {
-        guard let newBook = newBook else { return nil }
+        dump(newBook?.timestamp)
         let isbn = isbnCell.textField.text ?? UUID().uuidString
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
                                     authors: [bookAuthorCell.textField.text ?? ""],
-                                    publisher: newBook.volumeInfo?.publisher,
-                                    publishedDate: newBook.volumeInfo?.publishedDate,
+                                    publisher: newBook?.volumeInfo?.publisher,
+                                    publishedDate: newBook?.volumeInfo?.publishedDate,
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
                                     pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
                                     categories: [bookCategoryCell.textField.text ?? ""],
-                                    ratingsCount: newBook.volumeInfo?.ratingsCount,
-                                    imageLinks: ImageLinks(smallThumbnail: newBook.volumeInfo?.imageLinks?.smallThumbnail,
-                                                           thumbnail: newBook.volumeInfo?.imageLinks?.thumbnail),
+                                    ratingsCount: newBook?.volumeInfo?.ratingsCount,
+                                    imageLinks: ImageLinks(smallThumbnail: newBook?.volumeInfo?.imageLinks?.smallThumbnail,
+                                                           thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: languageCell.textField.text ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
-                                                               currencyCode: newBook.saleInfo?.retailPrice?.currencyCode))
-        return Item(etag: newBook.etag, favorite: false, volumeInfo: volumeInfo, saleInfo: saleInfo)
+                                                               currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode))
+        return Item(etag: newBook?.etag,
+                    favorite: newBook?.favorite ?? false,
+                    volumeInfo: volumeInfo,
+                    saleInfo: saleInfo,
+                    timestamp: newBook?.timestamp ?? Date().timeIntervalSince1970)
     }
     
     private func clearData() {
-        searchController.isActive = false
-        resultController.searchedBooks.removeAll()
+        searchController.isActive       = false
         bookImageCell.pictureView.image = Images.emptyStateBookImage
-        bookComment = nil
+        bookComment     = nil
         bookDescription = nil
+        resultController.searchedBooks.removeAll()
         textFields.forEach { $0.text = nil }
     }
     
@@ -244,8 +258,8 @@ extension NewBookViewController {
     private func presentTextInputController(for inputType: TextInputType) {
         let textInputViewController = TextInputViewController()
         textInputViewController.newBookDelegate = self
-        textInputViewController.textInpuType = inputType
-        textInputViewController.textViewText = inputType == .description ? bookDescription : bookComment
+        textInputViewController.textInpuType    = inputType
+        textInputViewController.textViewText    = inputType == .description ? bookDescription : bookComment
         presentPanModal(textInputViewController)
     }
 }

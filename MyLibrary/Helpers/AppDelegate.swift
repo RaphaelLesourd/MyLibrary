@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if ProcessInfo.processInfo.environment["unit_tests"] == "true" {
           print("Setting up Firebase emulator localhost:8080")
           let settings = Firestore.firestore().settings
-          settings.host = "localhost:8080"
-          settings.isPersistenceEnabled = false
-          settings.isSSLEnabled = false
+          settings.host                  = "localhost:8080"
+          settings.isPersistenceEnabled  = false
+          settings.isSSLEnabled          = false
           Firestore.firestore().settings = settings
         }
         
@@ -32,11 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func configureKeyboard() {
-        IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.toolbarTintColor = .label
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Fermer"
+        IQKeyboardManager.shared.enable                        = true
+        IQKeyboardManager.shared.toolbarTintColor              = .label
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText  = "Fermer"
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 60
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside    = true
     }
 
     // MARK: UISceneSession Lifecycle

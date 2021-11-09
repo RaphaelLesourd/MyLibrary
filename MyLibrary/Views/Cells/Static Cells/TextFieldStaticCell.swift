@@ -24,8 +24,8 @@ class TextFieldStaticCell: UITableViewCell {
     convenience init(placeholder: String, keyboardType: UIKeyboardType = .default) {
         self.init()
         textField.autocorrectionType = .no
-        textField.placeholder = placeholder
-        textField.keyboardType = keyboardType
+        textField.placeholder        = placeholder
+        textField.keyboardType       = keyboardType
     }
     
     let textField: UITextField = {

@@ -23,23 +23,23 @@ class TextInputControllerMainView: UIView {
     let textView: UITextView = {
         let textView = UITextView()
         textView.rounded(radius: 12, backgroundColor: .tertiarySystemBackground)
-        textView.autocorrectionType = .yes
-        textView.isEditable = true
-        textView.isSelectable = true
-        textView.alwaysBounceVertical = true
+        textView.autocorrectionType           = .yes
+        textView.isEditable                   = true
+        textView.isSelectable                 = true
+        textView.alwaysBounceVertical         = true
         textView.showsVerticalScrollIndicator = true
-        textView.isScrollEnabled = true
-        textView.textAlignment = .justified
-        textView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.isScrollEnabled              = true
+        textView.textAlignment                = .justified
+        textView.textContainerInset           = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        textView.font                         = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.textColor                    = .label
         textView.sizeToFit()
-        textView.textColor = .label
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         return textView
     }()
     
-    let saveButton = ActionButton(title: "Sauvegarder", systemImage: "arrow.down.doc.fill")
+    let saveButton        = ActionButton(title: "Sauvegarder", systemImage: "arrow.down.doc.fill")
     private let stackView = StackView(axis: .vertical, spacing: 20)
 
 }

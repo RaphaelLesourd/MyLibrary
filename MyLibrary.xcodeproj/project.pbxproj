@@ -250,15 +250,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		810C44682726E59F007541C0 /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				81792F642732F3E4005F863B /* AccountCredentials.swift */,
-				813B7C792733ADFD005BFBDB /* AccountService.swift */,
-			);
-			path = Account;
-			sourceTree = "<group>";
-		};
 		810C44692726EAA3007541C0 /* SignInUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,22 +294,11 @@
 		8124B9902725CB33004E9AE0 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
-				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
 			);
 			path = Tabs;
-			sourceTree = "<group>";
-		};
-		813B7C742733AAEF005BFBDB /* User */ = {
-			isa = PBXGroup;
-			children = (
-				810C44662726E561007541C0 /* UserModel.swift */,
-				813B7C702733A44F005BFBDB /* UserService.swift */,
-			);
-			name = User;
 			sourceTree = "<group>";
 		};
 		81A9BD89272BE37600B7DA81 /* Network */ = {
@@ -387,9 +367,11 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
+				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
@@ -424,10 +406,8 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81DE9CAD2736E28E00FF81C2 /* BookModel */,
+				81DE9CAD2736E28E00FF81C2 /* DataModel */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
-				810C44682726E59F007541C0 /* Account */,
-				813B7C742733AAEF005BFBDB /* User */,
 				81A9BD89272BE37600B7DA81 /* Network */,
 				81C6CCAF272479B800DE9219 /* CoreData */,
 			);
@@ -528,17 +508,21 @@
 				81DE9C9D2733BC4700FF81C2 /* FirebaseKeys.swift */,
 				81792F662732F93F005F863B /* FirebaseError.swift */,
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
+				813B7C702733A44F005BFBDB /* UserService.swift */,
+				813B7C792733ADFD005BFBDB /* AccountService.swift */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
 		};
-		81DE9CAD2736E28E00FF81C2 /* BookModel */ = {
+		81DE9CAD2736E28E00FF81C2 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				81792F642732F3E4005F863B /* AccountCredentials.swift */,
+				810C44662726E561007541C0 /* UserModel.swift */,
 				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
 				81DE9CB02737C43F00FF81C2 /* BookSnippet.swift */,
 			);
-			name = BookModel;
+			name = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -950,7 +934,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -983,7 +967,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;

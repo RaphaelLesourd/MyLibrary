@@ -21,8 +21,8 @@ class BarcodeScannerViewController: UIViewController {
     
     // MARK: - Properties
     private var captureSession = AVCaptureSession()
-    private var fetchedBarcode: String?
-    weak var barcodeDelegate: BarcodeProtocol?
+    private var fetchedBarcode : String?
+    weak var barcodeDelegate   : BarcodeProtocol?
     
     /// Set up a VNDetectBarcodesRequest that will detect barcodes when called.
     /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..

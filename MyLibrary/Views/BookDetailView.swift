@@ -26,16 +26,7 @@ class BookDetailView: UIView {
     let publishedDateView = BookDetailElementView(title: "Publié")
     let numberOfPageView  = BookDetailElementView(title: "Pages")
     let languageView      = BookDetailElementView(title: "Langue")
-    
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.spacing = 10
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
 }
 // MARK: - Constraints
 extension BookDetailView {

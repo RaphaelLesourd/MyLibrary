@@ -14,17 +14,21 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private var libraryService: LibraryServiceProtocol
     private weak var newBookBookDelegate: NewBookDelegate?
+    private let activityIndicator = UIActivityIndicatorView()
     private var isFavorite = false {
         didSet {
             setFavoriteIcon(isFavorite)
         }
     }
     var searchType: SearchType?
-    var book: Item
+    var book: Item? {
+        didSet {
+            dispayBookData()
+        }
+    }
     
     // MARK: - Intializers
-    init(book: Item, libraryService: LibraryServiceProtocol) {
-        self.book = book
+    init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
         super.init(nibName: nil, bundle: nil)
     }
@@ -41,19 +45,19 @@ class BookCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = ""
-        dispayBookData()
-        addCommentButton()
+        addNavigationBarButtons()
         setTargets()
         configureUi()
     }
-    
+
     // MARK: - Setup
-    private func addCommentButton() {
+    private func addNavigationBarButtons() {
         let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"),
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
-        navigationItem.rightBarButtonItem = editButton
+        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItems = [editButton, activityIndicactorButton]
     }
     
     private func setTargets() {
@@ -70,60 +74,84 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Data
     private func dispayBookData() {
-        let book = book.volumeInfo
-        if let imageUrl = book?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
-            mainView.bookCover.af.setImage(withURL: url,
-                                           cacheKey: book?.industryIdentifiers?.first?.identifier,
-                                           placeholderImage: Images.welcomeScreen,
-                                           completion: nil)
-        }
-        mainView.titleLabel.text = book?.title
-        mainView.authorLabel.text = book?.authors?.first
-        mainView.categoryiesLabel.text = book?.categories?.joined(separator: " ")
-        mainView.descriptionLabel.text = book?.volumeInfoDescription
+        let book = book?.volumeInfo
+        
+        mainView.titleLabel.text                                 = book?.title
+        mainView.authorLabel.text                                = book?.authors?.first
+        mainView.categoryiesLabel.text                           = book?.categories?.joined(separator: " ")
+        mainView.descriptionLabel.text                           = book?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.publisher
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
-        mainView.bookDetailView.numberOfPageView.infoLabel.text = "\(book?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text = book?.language?.capitalized
-        mainView.purchaseDetailView.titleLabel.text = ""
-        mainView.purchaseDetailView.purchasePriceLabel.text = ""
+        mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.pageCount ?? 0)"
+        mainView.bookDetailView.languageView.infoLabel.text      = book?.language?.capitalized
+        mainView.purchaseDetailView.titleLabel.text              = ""
+        mainView.purchaseDetailView.purchasePriceLabel.text      = ""
+        mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
+        mainView.commentLabel.text                               = ""
        
-        mainView.currentResellPriceView.titleLabel.text = "Prix de vente"
-        if let currency = self.book.saleInfo?.retailPrice?.currencyCode,
-           let price = self.book.saleInfo?.retailPrice?.amount {
+        if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
+           let price = self.book?.saleInfo?.retailPrice?.amount {
             mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
         }
-    
         if let isbn = book?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
         }
-        mainView.commentLabel.text = ""
-        if let favorite = self.book.favorite {
+        if let favorite = self.book?.favorite {
             isFavorite = favorite
+        }
+        if let imageUrl = book?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
+            mainView.bookCover.af.setImage(withURL: url,
+                                           cacheKey: book?.industryIdentifiers?.first?.identifier,
+                                           placeholderImage: Images.emptyStateBookImage,
+                                           completion: nil)
         }
     }
     
     private func setFavoriteIcon(_ favorite: Bool) {
-        mainView.favoriteButton.tintColor = favorite ? .systemOrange : .systemGray
+        mainView.favoriteButton.tintColor = favorite ? .systemPink : .systemGray
     }
     
     // MARK: - Api call
+    func showSelectedBook(for id: String) {
+       showIndicator(activityIndicator)
+       
+        libraryService.retrieveBook(for: id) { [weak self] result in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            switch result {
+            case .success(let book):
+                self.book = book
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    
     private func deleteBook() {
+        guard let book = book else { return }
+        showIndicator(activityIndicator)
+        
         libraryService.deleteBook(book: book) { [weak self] error in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
-            self?.navigationController?.popViewController(animated: true)
+            self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+            self.navigationController?.popViewController(animated: true)
         }
     }
 
     private func updateFavoriteState(for isFavorite: Bool) {
-        guard let bookId = book.etag else { return }
+        guard let bookId = book?.etag else { return }
+        showIndicator(activityIndicator)
+        
         libraryService.addToFavorite(isFavorite, for: bookId) { [weak self] error in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -132,7 +160,6 @@ class BookCardViewController: UIViewController {
     @objc private func favoriteButtonAction() {
         isFavorite.toggle()
         updateFavoriteState(for: isFavorite)
-        
     }
     
     @objc private func deleteBookAction() {
@@ -145,7 +172,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Navigation
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService())
-        newBookController.newBook = book
+        newBookController.newBook       = book
         newBookController.isEditingBook = true
         navigationController?.pushViewController(newBookController, animated: true)
     }

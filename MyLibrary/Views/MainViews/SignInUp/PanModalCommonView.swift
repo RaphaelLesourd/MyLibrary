@@ -79,19 +79,20 @@ class PanModalCommonView: UIView {
         // Do Not enable '.password' or '.newPassword' or 'isSecureTextEntry' text content type on simulator as it ends up with annoying behaviour:
         // 'Strong Password' yellow glitch preventing from editing field.
 #else
-        passwordTextField.isSecureTextEntry = true
+        passwordTextField.isSecureTextEntry      = true
         passwordTextField.autocapitalizationType = .none
-        passwordTextField.textContentType = .password
+        passwordTextField.textContentType        = .password
         
-        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.isSecureTextEntry      = true
         confirmPasswordTextField.autocapitalizationType = .none
-        confirmPasswordTextField.textContentType = .password
+        confirmPasswordTextField.textContentType        = .password
 #endif
-        userNameTextField.isHidden = type != .signup
+        userNameTextField.isHidden        = type != .signup
         confirmPasswordTextField.isHidden = type != .signup
-        forgotPasswordButton.isHidden = type == .signup
-        let space: CGFloat = type != .signup ? 50 : 5
-        mainStackView.setCustomSpacing(space, after: confirmPasswordTextField)
+        forgotPasswordButton.isHidden     = type == .signup
+        if type != .signup {
+            mainStackView.setCustomSpacing(50, after: confirmPasswordTextField)
+        }
         
         switch type {
         case .signup:
@@ -110,7 +111,7 @@ class PanModalCommonView: UIView {
     }
     
     private func updateUiTexts(title: String, subtitle: String, buttonTitle: String) {
-        titleLabel.text = title
+        titleLabel.text    = title
         subtitleLabel.text = subtitle
         actionButton.setTitle(buttonTitle, for: .normal)
     }

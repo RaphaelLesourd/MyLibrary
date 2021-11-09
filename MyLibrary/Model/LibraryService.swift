@@ -14,7 +14,8 @@ protocol LibraryServiceProtocol {
     func createBook(with book: Item?, completion: @escaping (FirebaseError?) -> Void)
     func retrieveBook(for id: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func getSnippets(limitNumber: Int, favoriteBooks: Bool, completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void)
+    func getSnippets(limitNumber: Int, listType: HomeCollectionViewSections, paginate: Bool,
+                     completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void)
     func addToFavorite(_ status: Bool, for id: String, completion: @escaping (FirebaseError?) -> Void)
 }
 
@@ -22,9 +23,11 @@ class LibraryService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
-    let db = Firestore.firestore()
+    let user              = Auth.auth().currentUser
+    let db                = Firestore.firestore()
+    var bookListener      : ListenerRegistration?
     let usersCollectionRef: CollectionReference
-    let user = Auth.auth().currentUser
+    private var lastSnippetFetched: QueryDocumentSnapshot?
     
     // MARK: - Initializer
     init() {
@@ -63,21 +66,31 @@ class LibraryService {
         }
     }
     
-    private func createQuery(with limitNumber: Int, order: BookDocumentKey, descending: Bool, favoriteBook: Bool) -> Query? {
+    private func createQuery(with limitNumber: Int,
+                             order: BookDocumentKey,
+                             descending: Bool,
+                             fetchMore: Bool,
+                             listType: HomeCollectionViewSections) -> Query? {
         guard let user = user else { return nil }
         var docRef = usersCollectionRef
             .document(user.uid)
             .collection(CollectionDocumentKey.bookSnippets.rawValue)
             .order(by: order.rawValue, descending: descending)
         
-        if limitNumber > 0 {
-            docRef = docRef.limit(to: limitNumber)
-        }
-        
-        if favoriteBook == true {
+        switch listType {
+        case .categories:
+            return nil
+        case .newEntry:
+            break
+        case .favorites:
             docRef = docRef.whereField(BookDocumentKey.favorite.rawValue, isEqualTo: true)
+        case .recommanding:
+            docRef = docRef.whereField(BookDocumentKey.recommanding.rawValue, isEqualTo: true)
         }
-        return docRef
+        if let lastSnippet = lastSnippetFetched, fetchMore == true {
+            docRef = docRef.start(afterDocument: lastSnippet)
+        }
+        return docRef.limit(to: limitNumber)
     }
 }
 // MARK: - LibraryServiceProtocol Extension
@@ -133,12 +146,12 @@ extension LibraryService: LibraryServiceProtocol {
     // MARK: Retrieve
     func retrieveBook(for id: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
         guard let user = user else { return }
-        
+        bookListener?.remove()
         let docRef = usersCollectionRef
             .document(user.uid)
             .collection(CollectionDocumentKey.books.rawValue)
             .document(id)
-        docRef.getDocument { querySnapshot, error in
+        bookListener = docRef.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
@@ -191,14 +204,17 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: Retrive Snippets
-    func getSnippets(limitNumber: Int = 0,
-                     favoriteBooks: Bool = false,
+    func getSnippets(limitNumber: Int,
+                     listType: HomeCollectionViewSections,
+                     paginate: Bool,
                      completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void) {
         guard let docRef = createQuery(with: limitNumber,
                                        order: .timestamp,
                                        descending: true,
-                                       favoriteBook: favoriteBooks) else { return }
-        docRef.getDocuments { (querySnapshot, error) in
+                                       fetchMore: paginate,
+                                       listType: listType) else { return }
+        
+        docRef.getDocuments { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
@@ -207,6 +223,8 @@ extension LibraryService: LibraryServiceProtocol {
                 completion(.failure(.nothingFound))
                 return
             }
+            self?.lastSnippetFetched = querySnapshot?.documents.last
+            
             let data = documents.compactMap { documents -> BookSnippet? in
                 do {
                     return try documents.data(as: BookSnippet.self)
@@ -218,10 +236,9 @@ extension LibraryService: LibraryServiceProtocol {
             completion(.success(data))
         }
     }
-   
+
     // MARK: - Favorite
     func addToFavorite(_ status: Bool, for id: String, completion: @escaping (FirebaseError?) -> Void) {
-        
         setFavoriteStatus(with: id, favoriteState: status, collection: .books) { error in
             if let error = error {
                 completion(.firebaseError(error))

@@ -32,7 +32,7 @@ class LayoutComposer {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 5)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(130), heightDimension: .absolute(230)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.30), heightDimension: .absolute(230)),
             subitem: item,
             count: 1
         )
@@ -40,7 +40,7 @@ class LayoutComposer {
         return createSection(with: group, horizontal: true)
     }
     
-    // Horizontal scroll layout of details cell
+    // Horizontal scroll layout, cell with description
     private func makeVerticalWithDetailLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 30)
@@ -49,21 +49,22 @@ class LayoutComposer {
             subitem: item,
             count: numberItems
         )
-        group.interItemSpacing = .fixed(20)
+        group.interItemSpacing = .fixed(10)
         return createSection(with: group, horizontal: true)
     }
     
     // Vertical scroll grid layout with 3 cells per row
     private  func makeVerticalGridLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
-        item.contentInsets = .uniform(size: 0)
+        item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.3)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.65)),
             subitem: item,
             count: 3
         )
-        group.interItemSpacing = .fixed(5)
+        group.interItemSpacing = .fixed(10)
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 5, leading: 7, bottom: 0, trailing: 7)
         section.boundarySupplementaryItems = [addFooter()]
         return section
     }
@@ -74,7 +75,7 @@ class LayoutComposer {
         if horizontal == true {
             section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         }
-        section.contentInsets = .init(top: 10, leading: 10, bottom: 50, trailing: 10)
+        section.contentInsets = .init(top: 10, leading: 7, bottom: 50, trailing: 7)
         section.boundarySupplementaryItems = [addHeader()]
         return section
     }

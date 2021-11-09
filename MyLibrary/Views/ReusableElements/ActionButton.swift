@@ -42,16 +42,16 @@ class ActionButton: UIButton {
         self.heightAnchor.constraint(equalToConstant: 50).isActive = true
         if #available(iOS 15.0, *) {
             configuration = UIButton.Configuration.tinted()
-            configuration?.image = UIImage(systemName: systemImage)
-            configuration?.cornerStyle = .medium
+            configuration?.image               = UIImage(systemName: systemImage)
+            configuration?.cornerStyle         = .medium
             configuration?.baseForegroundColor = tintColor
             configuration?.baseBackgroundColor = backgroundColor
-            configuration?.buttonSize = .large
-            configuration?.titlePadding = 10
-            configuration?.image = UIImage(systemName: systemImage)
-            configuration?.imagePadding = 10
-            configuration?.imagePlacement = imagePlacement
-            var container = AttributeContainer()
+            configuration?.buttonSize          = .large
+            configuration?.titlePadding        = 10
+            configuration?.image               = UIImage(systemName: systemImage)
+            configuration?.imagePadding        = 10
+            configuration?.imagePlacement      = imagePlacement
+            var container  = AttributeContainer()
             container.font = font
             configuration?.attributedTitle = AttributedString(title, attributes: container)
         } else {

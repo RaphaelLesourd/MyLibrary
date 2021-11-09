@@ -26,13 +26,11 @@ class TabBarController: UITabBarController {
         
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithDefaultBackground()
-        tabBarAppearance.backgroundColor = .tertiarySystemBackground
-        tabBarAppearance.stackedLayoutAppearance
-            .selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
-        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
-        tabBarAppearance.stackedLayoutAppearance
-            .normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
+        tabBarAppearance.backgroundColor                                      = .tertiarySystemBackground
+        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor           = UIColor.appTintColor
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes   = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor             = UIColor.secondaryLabel
         UITabBar.appearance().standardAppearance = tabBarAppearance
         
         if #available(iOS 15.0, *) {
@@ -49,15 +47,14 @@ class TabBarController: UITabBarController {
         let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
         let libraryViewController = createController(for: BookLibraryViewController(libraryService: LibraryService()),
                                                         title: Text.ControllerTitle.myBooks,
-                                                     image: libraryIconImage)
-    
+                                                        image: libraryIconImage)
+        
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService()),
-                                                       title: Text.ControllerTitle.newBook,
-                                                       image: Images.newBookIcon!)
+                                                    title: Text.ControllerTitle.newBook,
+                                                    image: Images.newBookIcon!)
         
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
-        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),
-                                                                                  userService: UserService()),
+        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(), userService: UserService()),
                                                          title: Text.ControllerTitle.settings,
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,
@@ -75,10 +72,10 @@ class TabBarController: UITabBarController {
                                   title: String,
                                   image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
-        navController.tabBarItem.title = title
-        navController.tabBarItem.image = image
+        navController.tabBarItem.title                 = title
+        navController.tabBarItem.image                 = image
         navController.navigationBar.prefersLargeTitles = true
-        rootViewController.navigationItem.title = title
+        rootViewController.navigationItem.title        = title
         return navController
     }
 }

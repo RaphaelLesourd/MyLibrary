@@ -21,18 +21,9 @@ class PurchaseView: UIView {
     }
    
     // MARK: - Subviews
-    let titleLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
+    let titleLabel         = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
     let purchasePriceLabel = TextLabel(color: .secondaryLabel,alignment: .right, fontSize: 20, weight: .semibold)
-   
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillProportionally
-        stack.spacing = 20
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
+    private let stackView  = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 20)
 }
 // MARK: - Constraints
 extension PurchaseView {

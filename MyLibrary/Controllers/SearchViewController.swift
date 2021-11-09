@@ -9,20 +9,20 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
-    enum ApiSearchSection: Hashable {
-        case main
-    }
-    
     // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<ApiSearchSection, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<ApiSearchSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<ApiSearchSection, Item>
     private lazy var dataSource = makeDataSource()
-    private var layoutComposer = LayoutComposer()
+
     private let refresherControl = UIRefreshControl()
-    private var footerView = LoadingFooterSupplementaryView()
+    private var footerView       = LoadingFooterSupplementaryView()
+    
+    private var layoutComposer = LayoutComposer()
     private var networkService: ApiManagerProtocol
     private var noMoreBooks: Bool?
+    
     weak var newBookDelegate: NewBookDelegate?
+    
     var searchType: SearchType?
     var searchedBooks: [Item] = [] 
     var currentSearchKeywords = "" {
@@ -70,18 +70,18 @@ class SearchViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.delegate = self
-        collectionView.dataSource = dataSource
-        collectionView.showsVerticalScrollIndicator = false
+        collectionView.frame           = view.frame
+        collectionView.delegate        = self
+        collectionView.dataSource      = dataSource
         collectionView.backgroundColor = .clear
-        collectionView.frame = view.frame
+        collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
     }
     
     private func configureRefresherControl() {
         refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
-        refresherControl.tintColor = .label
-        collectionView.refreshControl = refresherControl
+        refresherControl.tintColor       = .label
+        collectionView.refreshControl    = refresherControl
         refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
@@ -91,7 +91,8 @@ class SearchViewController: UIViewController {
     ///   - query: String passing search keywords, could be title, author or isbn
     ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
     private func getBooks(fromIndex: Int = 0) {
-        self.footerView.displayActivityIndicator(true)
+        footerView.displayActivityIndicator(true)
+        
         networkService.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
             self.refresherControl.endRefreshing()
@@ -138,13 +139,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookSnippet = BookSnippet(etag: books.etag,
-                                          timestamp: 0,
-                                          title: books.volumeInfo?.title,
-                                          author: books.volumeInfo?.authors?.first,
-                                          photoURL: books.volumeInfo?.imageLinks?.smallThumbnail,
-                                          description: books.volumeInfo?.volumeInfoDescription,
-                                          favorite: false)
+            let bookSnippet = books.createSnippet(with: books.etag ?? "")
             cell.configure(with: bookSnippet)
             return cell
         })

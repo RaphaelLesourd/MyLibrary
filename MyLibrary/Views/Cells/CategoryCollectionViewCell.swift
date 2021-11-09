@@ -23,6 +23,10 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     private var categoryLabel = TextLabel(alignment: .center, fontSize: 16, weight: .medium)
     
+    override func prepareForReuse() {
+        categoryLabel.text = nil
+    }
+    
     func configure(text: String?) {
         categoryLabel.text = text ?? ""
     }

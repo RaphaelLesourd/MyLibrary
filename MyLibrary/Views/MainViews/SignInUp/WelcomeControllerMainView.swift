@@ -30,10 +30,9 @@ class WelcomeControllerMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
-    private let titleLabel = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
+    private let titleLabel            = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
     private let socialMedialoginLabel = TextLabel(color: .white, maxLines: 1, alignment: .center, fontSize: 18, weight: .regular)
-    let loginButton = ActionButton(title: Text.Account.loginTitle, systemImage: "", imagePlacement: .leading, tintColor: .appTintColor)
+    let loginButton  = ActionButton(title: Text.Account.loginTitle, systemImage: "", imagePlacement: .leading, tintColor: .appTintColor)
     let signupButton = ActionButton(title: Text.Account.signupTitle, systemImage: "", imagePlacement: .leading,
                                     tintColor: .white, backgroundColor: .white)
     
@@ -59,11 +58,11 @@ class WelcomeControllerMainView: UIView {
     }()
     
     private let loginStackView = StackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
-    private let mainStackView = StackView(axis: .vertical, spacing: 100)
+    private let mainStackView  = StackView(axis: .vertical, spacing: 100)
  
     private func configureUI() {
-        backgroundImage.image = Images.welcomeScreen
-        titleLabel.text = Text.Account.welcomeMessage
+        backgroundImage.image      = Images.welcomeScreen
+        titleLabel.text            = Text.Account.welcomeMessage
         socialMedialoginLabel.text = Text.Account.otherConnectionTypeMessage
         loginStackView.addArrangedSubview(loginButton)
         loginStackView.addArrangedSubview(signupButton)

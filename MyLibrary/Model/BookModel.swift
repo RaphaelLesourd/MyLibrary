@@ -15,26 +15,27 @@ struct BookModel: Codable {
 }
 
 // MARK: - Item
-struct Item: Codable, Identifiable {
+struct Item: Codable {
     @DocumentID var id: String?
     let diffableId = UUID()
     let etag: String?
     let favorite: Bool?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
+    let timestamp: Double?
     
     private enum CodingKeys : String, CodingKey {
-        case etag, volumeInfo, saleInfo, favorite
+        case etag, volumeInfo, saleInfo, favorite, timestamp
     }
     
     func createSnippet(with id: String) -> BookSnippet {
         return BookSnippet(etag: id,
-                           timestamp: Date().timeIntervalSince1970,
+                           timestamp: timestamp,
                            title: volumeInfo?.title,
                            author: volumeInfo?.authors?.first,
                            photoURL: volumeInfo?.imageLinks?.thumbnail,
                            description: volumeInfo?.volumeInfoDescription,
-                           favorite: false)
+                           favorite: favorite)
     }
 }
 

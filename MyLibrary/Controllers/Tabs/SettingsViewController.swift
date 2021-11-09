@@ -12,15 +12,16 @@ import FirebaseAuth
 class SettingsViewController: CommonStaticTableViewController {
 
     // MARK: - Properties
-    private var accountService: AccountServiceProtocol
-    private var userService: UserServiceProtocol
-    private var imagePicker: ImagePicker?
+    private var accountService    : AccountServiceProtocol
+    private var userService       : UserServiceProtocol
+    private var imagePicker       : ImagePicker?
     private var activityIndicator = UIActivityIndicatorView()
+    
     // MARK: - Cell
-    private lazy var profileCell = ProfileStaticCell()
-    private let signOutCell = ButtonStaticCell(title: "Déconnexion",
-                                               systemImage: "rectangle.portrait.and.arrow.right.fill",
-                                               tintColor: .systemPurple, backgroundColor: .systemPurple)
+    private lazy var profileCell  = ProfileStaticCell()
+    private let signOutCell       = ButtonStaticCell(title: "Déconnexion",
+                                                     systemImage: "rectangle.portrait.and.arrow.right.fill",
+                                                     tintColor: .systemPurple, backgroundColor: .systemPurple)
     private let deleteAccountCell = ButtonStaticCell(title: "Supprimer son compte",
                                                      systemImage: "",
                                                      tintColor: .systemRed,
@@ -29,7 +30,7 @@ class SettingsViewController: CommonStaticTableViewController {
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol, userService: UserServiceProtocol) {
         self.accountService = accountService
-        self.userService = userService
+        self.userService    = userService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,8 +41,9 @@ class SettingsViewController: CommonStaticTableViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        configureViewController()
+        addNavigationBarButtons()
         composeTableView()
         setDelegates()
         setTargets()
@@ -49,6 +51,11 @@ class SettingsViewController: CommonStaticTableViewController {
     }
     
     // MARK: - Setup
+    private func addNavigationBarButtons() {
+        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactorButton]
+    }
+    
     private func configureViewController() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.settings
@@ -72,7 +79,6 @@ class SettingsViewController: CommonStaticTableViewController {
     }
     
     // MARK: - Targets
-    
     @objc private func presentImagePicker() {
         self.imagePicker?.present(from: profileCell.profileImageButton)
     }
@@ -83,32 +89,19 @@ class SettingsViewController: CommonStaticTableViewController {
         }
     }
     
-    private func signoutAccount() {
-        showIndicator(activityIndicator)
-        accountService.signOut { [weak self] error in
-            guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
-        }
-    }
-    
     @objc private func deleteAccount() {
         presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
                      message: "Vous allez devoir vous re-authentifier.",
                      withCancel: true) { _ in
-            
             let controller = SigningViewController(userManager: AccountService(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
     }
     
-    // MARK: - Data
+    // MARK: - Api call
     private func setProfileData() {
         profileCell.activityIndicator.startAnimating()
+        
         userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
             self.profileCell.activityIndicator.stopAnimating()
@@ -127,6 +120,7 @@ class SettingsViewController: CommonStaticTableViewController {
     private func saveUserName() {
         let username = profileCell.userNameTextField.text
         profileCell.activityIndicator.startAnimating()
+        
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
             self.profileCell.activityIndicator.stopAnimating()
@@ -137,10 +131,24 @@ class SettingsViewController: CommonStaticTableViewController {
             self.presentAlertBanner(as: .success, subtitle: "Nom d'utilisateur mis à jour.")
         }
     }
+    
+    private func signoutAccount() {
+        showIndicator(activityIndicator)
+        
+        accountService.signOut { [weak self] error in
+            guard let self = self else { return }
+            self.hideIndicator(self.activityIndicator)
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
+        }
+    }
 }
+
 // MARK: - ImagePicker Delegate
 extension SettingsViewController: ImagePickerDelegate {
-    
     func didSelect(image: UIImage?) {
         self.profileCell.profileImageButton.setImage(image, for: .normal)
     }
@@ -149,11 +157,8 @@ extension SettingsViewController: ImagePickerDelegate {
 // MARK: - TextField Delegate
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case profileCell.userNameTextField:
+        if textField == profileCell.userNameTextField {
             saveUserName()
-        default:
-            return true
         }
         textField.resignFirstResponder()
         return true

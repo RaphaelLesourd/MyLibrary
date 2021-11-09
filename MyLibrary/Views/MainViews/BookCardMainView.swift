@@ -32,7 +32,6 @@ class BookCardMainView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
     /// Create the contentView in the scrollView that will contain all the UI elements.
     private let contentView: UIView = {
         let view = UIView()
@@ -40,7 +39,6 @@ class BookCardMainView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     // BookCard elements
     let bookCover: BookCover = {
         let image = BookCover(frame: .zero)
@@ -54,20 +52,20 @@ class BookCardMainView: UIView {
         let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
         let image = Images.favoriteImage?.withConfiguration(configuration)
         button.setImage(image, for: .normal)
-        button.tintColor = .systemOrange
+        button.transform = CGAffineTransform.identity.rotated(by: .pi/5)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    let titleLabel = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
-    let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
-    let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
-    let purchaseDetailView = PurchaseView()
+    let titleLabel             = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
+    let authorLabel            = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
+    let categoryiesLabel       = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    let descriptionLabel       = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    let purchaseDetailView     = PurchaseView()
     let currentResellPriceView = PurchaseView()
-    let bookDetailView = BookDetailView()
-    let isbnLabel = TextLabel(color: .secondaryLabel)
-    let commentLabel = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let actionButton = ActionButton(title: "Recommander")
+    let bookDetailView         = BookDetailView()
+    let isbnLabel              = TextLabel(color: .secondaryLabel)
+    let commentLabel           = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
+    let actionButton           = ActionButton(title: "Recommander")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre de votre bibliothèque", for: .normal)

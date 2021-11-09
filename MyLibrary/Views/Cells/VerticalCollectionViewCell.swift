@@ -25,9 +25,16 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     private let titleView = CellTitleView()
     private let stackView = StackView(axis: .vertical, spacing: 5)
 
+    override func prepareForReuse() {
+        titleView.titleLabel.text    = nil
+        titleView.subtitleLabel.text = nil
+        bookCover.image              = Images.emptyStateBookImage
+    }
+    
     func configure(with book: BookSnippet) {
-        titleView.titleLabel.text = book.title
+        titleView.titleLabel.text    = book.title
         titleView.subtitleLabel.text = book.author
+        
         guard let imageUrl = book.photoURL, let url = URL(string: imageUrl) else { return }
         bookCover.af.setImage(withURL: url,
                               cacheKey: book.id,

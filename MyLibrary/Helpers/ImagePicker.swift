@@ -128,7 +128,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
     
     /// Hande user cancel action, return no image.
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.pickerController(picker, didSelect: nil)
+        self.pickerController(picker, didSelect: Images.emptyStateBookImage)
     }
     
     /// Handles the image when the user has selected one.
@@ -137,7 +137,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController,
                                       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else {
-            return self.pickerController(picker, didSelect: nil)
+            return self.pickerController(picker, didSelect: Images.emptyStateBookImage)
         }
         self.pickerController(picker, didSelect: image)
     }
