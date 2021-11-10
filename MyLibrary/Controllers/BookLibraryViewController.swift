@@ -23,11 +23,7 @@ class BookLibraryViewController: UIViewController {
     private var libraryService: LibraryServiceProtocol
     private var snippetsList  : [BookSnippet] = []
     private var noMoreBooks   = false
-    var listType: HomeCollectionViewSections = .newEntry {
-        didSet {
-            title = listType.title
-        }
-    }
+    var currentQuery: SnippetQuery?
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -46,11 +42,13 @@ class BookLibraryViewController: UIViewController {
         configureCollectionView()
         configureRefresherControl()
         addNavigationBarButtons()
-        getBooks(for: listType)
+        applySnapshot(animatingDifferences: false)
+        getBooks()
     }
 
     // MARK: - Setup
     private func configureViewController() {
+        title = currentQuery?.listType.title ?? "Mes livres"
         view.backgroundColor = .viewControllerBackgroundColor
     }
     
@@ -67,8 +65,9 @@ class BookLibraryViewController: UIViewController {
         collectionView.delegate                     = self
         collectionView.dataSource                   = dataSource
         collectionView.backgroundColor              = .clear
-        collectionView.frame                        = view.frame
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.frame                        = view.frame
+        collectionView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.addSubview(collectionView)
     }
     
@@ -80,11 +79,12 @@ class BookLibraryViewController: UIViewController {
     }
   
     // MARK: - Api call
-    private func getBooks(for listType: HomeCollectionViewSections, forMore: Bool = false) {
+    private func getBooks(nextPage: Bool = false) {
         showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
         
-        libraryService.getSnippets(limitNumber: 15, listType: listType, paginate: forMore) { [weak self] result in
+        let bookQuery = currentQuery ?? SnippetQuery.defaultAllBookQuery
+        libraryService.getSnippets(for: bookQuery, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
@@ -106,9 +106,9 @@ class BookLibraryViewController: UIViewController {
     
     // MARK: - Targets
     @objc private func refreshBookList() {
-        snippetsList.removeAll()
         noMoreBooks = false
-        getBooks(for: listType)
+        snippetsList.removeAll()
+        getBooks()
     }
 }
 
@@ -122,7 +122,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
         if indexPath.row == currentRow && noMoreBooks == false {
-           getBooks(for: listType, forMore: true)
+            getBooks(nextPage: true)
         }
     }
     

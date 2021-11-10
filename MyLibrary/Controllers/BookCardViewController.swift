@@ -49,7 +49,6 @@ class BookCardViewController: UIViewController {
         setTargets()
         configureUi()
     }
-
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"),
@@ -75,10 +74,9 @@ class BookCardViewController: UIViewController {
     // MARK: - Data
     private func dispayBookData() {
         let book = book?.volumeInfo
-        
         mainView.titleLabel.text                                 = book?.title
         mainView.authorLabel.text                                = book?.authors?.first
-        mainView.categoryiesLabel.text                           = book?.categories?.joined(separator: " ")
+        mainView.categoryiesLabel.text                           = book?.categories?.joined(separator: ", ")
         mainView.descriptionLabel.text                           = book?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.publisher
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
@@ -99,7 +97,7 @@ class BookCardViewController: UIViewController {
         if let favorite = self.book?.favorite {
             isFavorite = favorite
         }
-        if let imageUrl = book?.imageLinks?.smallThumbnail, let url = URL(string: imageUrl) {
+        if let imageUrl = book?.imageLinks?.thumbnail, let url = URL(string: imageUrl) {
             mainView.bookCover.af.setImage(withURL: url,
                                            cacheKey: book?.industryIdentifiers?.first?.identifier,
                                            placeholderImage: Images.emptyStateBookImage,

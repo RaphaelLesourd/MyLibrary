@@ -70,11 +70,12 @@ class SearchViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.frame           = view.frame
-        collectionView.delegate        = self
-        collectionView.dataSource      = dataSource
-        collectionView.backgroundColor = .clear
+        collectionView.delegate                     = self
+        collectionView.dataSource                   = dataSource
+        collectionView.backgroundColor              = .clear
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.frame                        = view.frame
+        collectionView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.addSubview(collectionView)
     }
     

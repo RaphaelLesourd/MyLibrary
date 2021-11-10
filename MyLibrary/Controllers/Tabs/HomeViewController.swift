@@ -20,6 +20,10 @@ class HomeViewController: UIViewController {
     
     private var layoutComposer = LayoutComposer()
     private var libraryService : LibraryServiceProtocol
+    
+    private let latestBookQuery   = SnippetQuery.latestBookQuery
+    private let favoriteBookQuery = SnippetQuery.favoriteBookQuery
+    private var currentQuery: SnippetQuery?
    
     private var latestBooks     : [BookSnippet] = []
     private var favoriteBooks   : [BookSnippet] = []
@@ -73,6 +77,7 @@ class HomeViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor              = .clear
         collectionView.frame                        = view.frame
+        collectionView.contentInset                 = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
         view.addSubview(collectionView)
     }
     
@@ -86,7 +91,8 @@ class HomeViewController: UIViewController {
     // MARK: - Api call
     private func getLastestBookSnippet() {
         showIndicator(activityIndicator)
-        libraryService.getSnippets(limitNumber: 10, listType: .newEntry, paginate: false) { [weak self] result in
+        
+        libraryService.getSnippets(for: latestBookQuery, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
@@ -103,7 +109,8 @@ class HomeViewController: UIViewController {
     }
     private func getFavoriteBookSnippet() {
         showIndicator(activityIndicator)
-        libraryService.getSnippets(limitNumber: 10, listType: .favorites, paginate: false) { [weak self] result in
+        
+        libraryService.getSnippets(for: favoriteBookQuery, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
@@ -126,14 +133,23 @@ class HomeViewController: UIViewController {
     }
    
     @objc private func showMoreBook(_ sender: UIButton) {
-        // FIXME: Temporary limit until implementation of categories
-        guard sender.tag != 2 else {
-            presentAlertBanner(as: .error, subtitle: "Il n'y pas de catégories pour le moment.")
-            return
-        }
         let bookListVC = BookLibraryViewController(libraryService: LibraryService())
-        bookListVC.listType = HomeCollectionViewSections.allCases[sender.tag]
-        navigationController?.pushViewController(bookListVC, animated: true)
+        switch HomeCollectionViewSections(rawValue: sender.tag) {
+        case .categories:
+            currentQuery = nil
+        case .newEntry:
+            currentQuery = latestBookQuery
+        case .recommanding:
+            currentQuery = nil
+        case .favorites:
+            currentQuery = favoriteBookQuery
+        case .none:
+            currentQuery = nil
+        }
+        if let currentQuery = currentQuery {
+            bookListVC.currentQuery = currentQuery
+            navigationController?.pushViewController(bookListVC, animated: true)
+        }
     }
 }
 
@@ -173,7 +189,7 @@ extension HomeViewController {
             if let headerTitle = HomeCollectionViewSections(rawValue: indexPath.section)?.title {
                 headerView.configureTitle(with: headerTitle)
             }
-            headerView.actionButton.tag = indexPath.section
+            headerView.actionButton.tag = HomeCollectionViewSections.allCases[indexPath.section].rawValue
             headerView.actionButton.addTarget(self, action: #selector(self?.showMoreBook(_:)), for: .touchUpInside)
             return headerView
         }

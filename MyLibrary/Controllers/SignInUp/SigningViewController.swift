@@ -156,7 +156,7 @@ extension SigningViewController: UITextFieldDelegate {
         if textField == lastTextField {
             textField.resignFirstResponder()
         } else {
-            mainView.passwordTextField.becomeFirstResponder()
+            textField.next?.becomeFirstResponder()
         }
         return true
     }

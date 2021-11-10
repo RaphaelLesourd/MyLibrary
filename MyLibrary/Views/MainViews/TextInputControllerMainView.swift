@@ -22,7 +22,7 @@ class TextInputControllerMainView: UIView {
     // MARK: - Subviews
     let textView: UITextView = {
         let textView = UITextView()
-        textView.rounded(radius: 12, backgroundColor: .tertiarySystemBackground)
+        textView.backgroundColor              = .clear
         textView.autocorrectionType           = .yes
         textView.isEditable                   = true
         textView.isSelectable                 = true
@@ -30,12 +30,9 @@ class TextInputControllerMainView: UIView {
         textView.showsVerticalScrollIndicator = true
         textView.isScrollEnabled              = true
         textView.textAlignment                = .justified
-        textView.textContainerInset           = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         textView.font                         = UIFont.systemFont(ofSize: 16, weight: .regular)
         textView.textColor                    = .label
         textView.sizeToFit()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.heightAnchor.constraint(equalToConstant: 250).isActive = true
         return textView
     }()
     
@@ -50,9 +47,10 @@ extension TextInputControllerMainView {
         stackView.addArrangedSubview(textView)
         stackView.addArrangedSubview(saveButton)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -313)
         ])
     }
 }

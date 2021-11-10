@@ -33,7 +33,6 @@ extension ImageStaticCell {
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pictureView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            pictureView.heightAnchor.constraint(equalToConstant: 300),
             pictureView.widthAnchor.constraint(equalTo: pictureView.heightAnchor, multiplier: 0.8)
         ])
     }

@@ -42,13 +42,11 @@ enum AlamofireRouter: URLRequestConvertible {
         case .withKeyWord(words: let words, let startIndex):
             return ["q": words,
                     "startIndex": startIndex,
-                    "maxResults": 39,
-              //      "printType" : "books",
+                    "maxResults": 40,
                     "filter": "paid-ebooks",
-                    "orderBy": "newest",
-                    "img": 1,
+                    "orderBy": "relevance",
                     "zoom": 0,
-                    "curl": false]
+                    "img": true]
         }
     }
 
@@ -57,7 +55,6 @@ enum AlamofireRouter: URLRequestConvertible {
         let url = try baseURL.asURL()
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
-        request.timeoutInterval = TimeInterval(100_000)
         return try URLEncoding.default.encode(request, with: parameters)
     }
 }

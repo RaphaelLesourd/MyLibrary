@@ -25,9 +25,9 @@ class BookCardMainView: UIView {
     // MARK: - Subviews
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.alwaysBounceVertical = true
-        scrollView.alwaysBounceHorizontal = false
-        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical           = true
+        scrollView.alwaysBounceHorizontal         = false
+        scrollView.showsVerticalScrollIndicator   = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -40,24 +40,9 @@ class BookCardMainView: UIView {
         return view
     }()
     // BookCard elements
-    let bookCover: BookCover = {
-        let image = BookCover(frame: .zero)
-        image.backgroundColor = .clear
-        image.contentMode = .scaleAspectFit
-        image.layer.masksToBounds = true
-        return image
-    }()
-    let favoriteButton: UIButton = {
-        let button = UIButton()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
-        let image = Images.favoriteImage?.withConfiguration(configuration)
-        button.setImage(image, for: .normal)
-        button.transform = CGAffineTransform.identity.rotated(by: .pi/5)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let bookCover              = BookCover(frame: .zero)
     let titleLabel             = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel            = TextLabel(alignment: .center, fontSize: 16, weight: .regular)
+    let authorLabel            = TextLabel(maxLines: 2, alignment: .center, fontSize: 16, weight: .regular)
     let categoryiesLabel       = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
     let descriptionLabel       = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
     let purchaseDetailView     = PurchaseView()
@@ -79,6 +64,15 @@ class BookCardMainView: UIView {
             view.translatesAutoresizingMaskIntoConstraints = false
             view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
+    }()
+    let favoriteButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
+        let image = Images.favoriteImage?.withConfiguration(configuration)
+        button.setImage(image, for: .normal)
+        button.transform = CGAffineTransform.identity.rotated(by: .pi/5)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     private let mainStackView = StackView(axis: .vertical, spacing: 30)
 }
@@ -109,8 +103,8 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7)
+            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
+            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
         ])
     }
     
@@ -138,7 +132,7 @@ extension BookCardMainView {
                                            commentLabel,
                                            actionButton,
                                            deleteBookButton]
-        mainStackSubViews.forEach {  mainStackView.addArrangedSubview($0) }
+        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(2, after: titleLabel)
         mainStackView.setCustomSpacing(2, after: authorLabel)
         mainStackView.setCustomSpacing(5, after: purchaseDetailView)

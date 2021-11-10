@@ -13,6 +13,7 @@ class ProfileStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        setProfileButtonConstraints()
         setStackViewConstraints()
     }
     
@@ -25,8 +26,6 @@ class ProfileStaticCell: UITableViewCell {
         button.contentMode = .scaleAspectFill
         button.rounded(radius: 30, backgroundColor: .tertiaryLabel)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
         return button
     }()
     
@@ -41,25 +40,33 @@ class ProfileStaticCell: UITableViewCell {
                                fontSize: 15,
                                weight: .regular)
     let activityIndicator     = UIActivityIndicatorView()
-    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 0)
-    private let mainStackView = StackView(axis: .horizontal, spacing: 10)
+    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -10)
+    private let mainStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
   
 }
 extension ProfileStaticCell {
+    private func setProfileButtonConstraints() {
+        contentView.addSubview(profileImageButton)
+        NSLayoutConstraint.activate([
+            profileImageButton.heightAnchor.constraint(equalToConstant: 60),
+            profileImageButton.widthAnchor.constraint(equalToConstant: 60),
+            profileImageButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            profileImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
+        ])
+    }
+    
     private func setStackViewConstraints() {
         contentView.addSubview(mainStackView)
         textStackView.addArrangedSubview(userNameTextField)
         textStackView.addArrangedSubview(emailLabel)
         
-        mainStackView.addArrangedSubview(profileImageButton)
         mainStackView.addArrangedSubview(textStackView)
         mainStackView.addArrangedSubview(activityIndicator)
         
         NSLayoutConstraint.activate([
-            userNameTextField.heightAnchor.constraint(equalToConstant: 40),
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
-            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            mainStackView.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }

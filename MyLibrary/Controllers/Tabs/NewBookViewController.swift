@@ -40,6 +40,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
     private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
     
+    private let publisherCell = TextFieldStaticCell(placeholder: "Editeur")
+    private let publishDateCell = TextFieldStaticCell(placeholder: "Date de parution")
+    
     private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
     private let numberOfPagesCell    = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
     private let languageCell         = TextFieldStaticCell(placeholder: "Langue du livre")
@@ -56,6 +59,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private lazy var  textFields = [bookTileCell.textField,
                                     bookAuthorCell.textField,
                                     bookCategoryCell.textField,
+                                    publisherCell.textField,
+                                    publishDateCell.textField,
                                     isbnCell.textField,
                                     numberOfPagesCell.textField,
                                     languageCell.textField,
@@ -110,6 +115,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         sections = [[bookImageCell],
                     [bookTileCell, bookAuthorCell],
                     [bookCategoryCell],
+                    [publisherCell, publishDateCell],
                     [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                     [purchasePriceCell, resellPriceCell],
                     [commentCell],
@@ -132,8 +138,10 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         guard let book = newBook else { return }
         clearData()
         bookTileCell.textField.text      = book.volumeInfo?.title
-        bookAuthorCell.textField.text    = book.volumeInfo?.authors?.joined(separator: " ")
+        bookAuthorCell.textField.text    = book.volumeInfo?.authors?.joined(separator: ", ")
         bookCategoryCell.textField.text  = book.volumeInfo?.categories?.first
+        publisherCell.textField.text     = book.volumeInfo?.publisher
+        publishDateCell.textField.text   = book.volumeInfo?.publishedDate?.displayYearOnly
         isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--"
         languageCell.textField.text      = book.volumeInfo?.language
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
@@ -170,8 +178,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         let isbn = isbnCell.textField.text ?? UUID().uuidString
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
                                     authors: [bookAuthorCell.textField.text ?? ""],
-                                    publisher: newBook?.volumeInfo?.publisher,
-                                    publishedDate: newBook?.volumeInfo?.publishedDate,
+                                    publisher: publisherCell.textField.text ?? "",
+                                    publishedDate: publishDateCell.textField.text ?? "",
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
                                     pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
@@ -242,11 +250,11 @@ extension NewBookViewController {
             if indexPath.row == 0 {
                 self.imagePicker?.present(from: bookImageCell.pictureView)
             }
-        case 3:
+        case 4:
             if indexPath.row == 0 {
                 presentTextInputController(for: .description)
             }
-        case 5:
+        case 6:
             if indexPath.row == 0 {
                 presentTextInputController(for: .comment)
             }
@@ -260,7 +268,7 @@ extension NewBookViewController {
         textInputViewController.newBookDelegate = self
         textInputViewController.textInpuType    = inputType
         textInputViewController.textViewText    = inputType == .description ? bookDescription : bookComment
-        presentPanModal(textInputViewController)
+        navigationController?.pushViewController(textInputViewController, animated: true)
     }
 }
 // MARK: - ImagePicker Delegate

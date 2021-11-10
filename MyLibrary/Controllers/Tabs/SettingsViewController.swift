@@ -21,7 +21,8 @@ class SettingsViewController: CommonStaticTableViewController {
     private lazy var profileCell  = ProfileStaticCell()
     private let signOutCell       = ButtonStaticCell(title: "Déconnexion",
                                                      systemImage: "rectangle.portrait.and.arrow.right.fill",
-                                                     tintColor: .systemPurple, backgroundColor: .systemPurple)
+                                                     tintColor: .systemPurple,
+                                                     backgroundColor: .systemPurple)
     private let deleteAccountCell = ButtonStaticCell(title: "Supprimer son compte",
                                                      systemImage: "",
                                                      tintColor: .systemRed,

@@ -24,9 +24,13 @@ class TextInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.textView.becomeFirstResponder()
         setTargets()
         displayData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainView.textView.becomeFirstResponder()
     }
     
     // MARK: - Setup

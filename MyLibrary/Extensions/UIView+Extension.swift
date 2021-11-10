@@ -17,9 +17,9 @@ extension UIView {
     ///   - backgroundcolor: Color of the background, clear by default.
     ///   - withBlur: Boolean value if a blur effect should be added, true by default.
     func rounded(radius: CGFloat = 17, backgroundColor: UIColor = .clear) {
-        self.layer.cornerRadius = radius
+        self.layer.cornerRadius  = radius
         self.layer.masksToBounds = true
-        self.backgroundColor = backgroundColor
+        self.backgroundColor     = backgroundColor
     }
     /// Add a shadow to a view.
     /// - Parameters:
@@ -31,12 +31,21 @@ extension UIView {
                    verticalOffset: CGFloat = 10,
                    radius: CGFloat = 20,
                    color: UIColor = .black) {
-        layer.masksToBounds = false
-        layer.shadowOffset = CGSize(width: 1, height: verticalOffset)
-        layer.shadowColor = color.cgColor
-        layer.shadowRadius = radius
-        layer.shadowOpacity = opacity
-        layer.shouldRasterize = true
+        layer.masksToBounds      = false
+        layer.shadowOffset       = CGSize(width: 1, height: verticalOffset)
+        layer.shadowColor        = color.cgColor
+        layer.shadowRadius       = radius
+        layer.shadowOpacity      = opacity
+        layer.shouldRasterize    = true
         layer.rasterizationScale = UIScreen.main.scale
+    }
+    /// Adds a blur effet to a view.
+    func addBlurEffect(blurStyle: UIBlurEffect.Style = .prominent, transparency: CGFloat = 0.7) {
+        let blurEffect          = UIBlurEffect(style: blurStyle)
+        let blurredEffectView   = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.alpha = transparency
+        blurredEffectView.frame = self.bounds
+        blurredEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(blurredEffectView)
     }
 }
