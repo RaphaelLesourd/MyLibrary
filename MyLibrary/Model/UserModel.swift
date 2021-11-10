@@ -14,4 +14,8 @@ struct CurrentUser: Codable {
     var displayName: String
     var email: String
     var photoURL: String
+    
+    private enum CodingKeys : String, CodingKey {
+        case userId, displayName, email, photoURL
+    }
 }

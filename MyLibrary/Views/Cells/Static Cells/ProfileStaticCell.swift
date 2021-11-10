@@ -56,13 +56,13 @@ extension ProfileStaticCell {
     }
     
     private func setStackViewConstraints() {
-        contentView.addSubview(mainStackView)
         textStackView.addArrangedSubview(userNameTextField)
         textStackView.addArrangedSubview(emailLabel)
         
         mainStackView.addArrangedSubview(textStackView)
         mainStackView.addArrangedSubview(activityIndicator)
         
+        contentView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),

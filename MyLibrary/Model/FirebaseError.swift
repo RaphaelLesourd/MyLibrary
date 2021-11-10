@@ -8,6 +8,7 @@
 import Foundation
 
 enum FirebaseError: Error {
+  
     case passwordMismatch
     case noUserName
     case nothingFound

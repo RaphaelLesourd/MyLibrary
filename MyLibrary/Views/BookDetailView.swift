@@ -32,11 +32,12 @@ class BookDetailView: UIView {
 extension BookDetailView {
    
     private func setStackViewConstraints() {
-        addSubview(stackView)
         stackView.addArrangedSubview(publishedDateView)
         stackView.addArrangedSubview(publisherNameView)
         stackView.addArrangedSubview(numberOfPageView)
         stackView.addArrangedSubview(languageView)
+        
+        addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),

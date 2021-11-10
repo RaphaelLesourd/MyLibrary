@@ -40,9 +40,10 @@ class HeaderSupplementaryView: UICollectionReusableView {
 extension HeaderSupplementaryView {
   
     private func setStackviewConstrainsts() {
-        addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(actionButton)
+        
+        addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),

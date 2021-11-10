@@ -34,8 +34,9 @@ class LoadingFooterSupplementaryView: UICollectionReusableView {
 extension LoadingFooterSupplementaryView {
   
     private func setStackviewConstrainsts() {
-        addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),

@@ -18,10 +18,10 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
-    private var searchController = UISearchController()
-    private let activityIndicator = UIActivityIndicatorView()
     private let resultController  = SearchViewController(networkService: ApiManager())
-    
+    private var searchController  = UISearchController()
+    private let activityIndicator = UIActivityIndicatorView()
+
     private var libraryService    : LibraryServiceProtocol
     private var imagePicker       : ImagePicker?
     
@@ -40,7 +40,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
     private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
     
-    private let publisherCell = TextFieldStaticCell(placeholder: "Editeur")
+    private let publisherCell   = TextFieldStaticCell(placeholder: "Editeur")
     private let publishDateCell = TextFieldStaticCell(placeholder: "Date de parution")
     
     private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)

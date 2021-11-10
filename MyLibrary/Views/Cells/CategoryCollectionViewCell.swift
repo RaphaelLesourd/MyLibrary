@@ -35,8 +35,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 extension CategoryCollectionViewCell {
     
     private func setLabelConstraints() {
-        contentView.addSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(categoryLabel)
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             categoryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

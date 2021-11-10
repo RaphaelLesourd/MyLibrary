@@ -27,8 +27,9 @@ class ImageStaticCell: UITableViewCell {
 // MARK: - Constraints
 extension ImageStaticCell {
     private func setButtonConstraints() {
-        contentView.addSubview(pictureView)
         pictureView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(pictureView)
         NSLayoutConstraint.activate([
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pictureView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

@@ -46,9 +46,10 @@ class VerticalCollectionViewCell: UICollectionViewCell {
 extension VerticalCollectionViewCell {
     
     private func setStackviewConstrainsts() {
-        contentView.addSubview(stackView)
         stackView.addArrangedSubview(bookCover)
         stackView.addArrangedSubview(titleView)
+        
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

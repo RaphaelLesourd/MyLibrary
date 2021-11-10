@@ -28,9 +28,10 @@ class PurchaseView: UIView {
 // MARK: - Constraints
 extension PurchaseView {
     private func setStackviewConstraints() {
-        addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(purchasePriceLabel)
+        
+        addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),

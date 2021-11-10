@@ -20,9 +20,9 @@ protocol UserServiceProtocol {
 class UserService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
-    let db = Firestore.firestore()
-    let usersCollectionRef: CollectionReference
-    let user = Auth.auth().currentUser
+    private let db = Firestore.firestore()
+    private let usersCollectionRef: CollectionReference
+    var userId = Auth.auth().currentUser?.uid
     
     // MARK: - Intializer
     init() {
@@ -33,11 +33,11 @@ class UserService {
 extension UserService: UserServiceProtocol {
 
     // MARK: Create
-    func createUserInDatabase(for user: CurrentUser?, completion: @escaping CompletionHandler) {
-        guard let user = user else { return }
-        let userRef = usersCollectionRef.document(user.userId)
+    func createUserInDatabase(for currentUser: CurrentUser?, completion: @escaping CompletionHandler) {
+        guard let currentUser = currentUser else { return }
+        let userRef = usersCollectionRef.document(currentUser.userId)
         do {
-            try userRef.setData(from: user)
+            try userRef.setData(from: currentUser)
             completion(nil)
         } catch {
             completion(.firebaseError(error))
@@ -46,8 +46,8 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Retrieve
     func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
-        guard let user = user else { return }
-        let userRef = usersCollectionRef.document(user.uid)
+        guard let userId = userId else { return }
+        let userRef = usersCollectionRef.document(userId)
         
         userRef.getDocument { querySnapshot, error in
             if let error = error {
@@ -70,12 +70,13 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Update
     func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
-        guard let user = user else { return }
-        guard let username = username, !username.isEmpty else {
+        guard let userId = userId,
+              let username = username,
+              !username.isEmpty else {
             completion(.noUserName)
             return
         }
-        usersCollectionRef.document(user.uid).updateData([UserDocumentKey.username.rawValue : username]) { error in
+        usersCollectionRef.document(userId).updateData([UserDocumentKey.username.rawValue : username]) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
@@ -88,8 +89,8 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Delete
     func deleteUser(completion: @escaping CompletionHandler) {
-        guard let user = user else { return }
-        usersCollectionRef.document(user.uid).delete { error in
+        guard let userId = userId else { return }
+        usersCollectionRef.document(userId).delete { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return

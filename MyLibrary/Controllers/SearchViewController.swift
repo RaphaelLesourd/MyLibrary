@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<ApiSearchSection, Item>
     private lazy var dataSource = makeDataSource()
 
+    private var collectionView   = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let refresherControl = UIRefreshControl()
     private var footerView       = LoadingFooterSupplementaryView()
     
@@ -31,10 +32,7 @@ class SearchViewController: UIViewController {
             getBooks()
         }
     }
-    
-    // MARK: - Subviews
-    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    
+   
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol

@@ -26,9 +26,10 @@ class CellTitleView: UIView {
 // MARK: - Extension
 extension CellTitleView {
     private func setStackviewConstrainsts() {
-        addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
+        
+        addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),

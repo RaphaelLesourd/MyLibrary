@@ -24,10 +24,10 @@ class LibraryService {
     typealias CompletionHandler = (FirebaseError?) -> Void
     var userID                    = Auth.auth().currentUser?.uid
     private let db                = Firestore.firestore()
-    private var bookListener      : ListenerRegistration?
-    private var snippetListener   : ListenerRegistration?
-    private let usersCollectionRef: CollectionReference
-    private var lastSnippetFetched: QueryDocumentSnapshot?
+    var bookListener      : ListenerRegistration?
+    var snippetListener   : ListenerRegistration?
+    let usersCollectionRef: CollectionReference
+    var lastSnippetFetched: QueryDocumentSnapshot?
     
     // MARK: - Initializer
     init() {
@@ -48,9 +48,7 @@ class LibraryService {
             try bookRef.setData(from: document)
             bookRef.setData([BookDocumentKey.etag.rawValue: id], merge: true)
             completion(nil)
-        } catch {
-            completion(.firebaseError(error))
-        }
+        } catch { completion(.firebaseError(error)) }
     }
     
     private func deleteDocument(with id: String,
@@ -188,9 +186,7 @@ extension LibraryService: LibraryServiceProtocol {
                 if let document = try querySnapshot.data(as: Item.self) {
                     completion(.success(document))
                 }
-            } catch {
-                completion(.failure(.firebaseError(error)))
-            }
+            } catch { completion(.failure(.firebaseError(error))) }
         }
     }
     
@@ -228,7 +224,6 @@ extension LibraryService: LibraryServiceProtocol {
             completion(.failure(.nothingFound))
             return
         }
-        
         snippetListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))

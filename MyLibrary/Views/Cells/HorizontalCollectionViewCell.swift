@@ -51,6 +51,7 @@ extension HorizontalCollectionViewCell {
     
     private func setBookCoverViewWidth() {
         bookCover.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -61,9 +62,10 @@ extension HorizontalCollectionViewCell {
     }
     
     private func setTitleStackview() {
-        contentView.addSubview(textStackView)
         textStackView.addArrangedSubview(titleView)
         textStackView.addArrangedSubview(descriptionLabel)
+        
+        contentView.addSubview(textStackView)
         NSLayoutConstraint.activate([
             textStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             textStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),

@@ -12,9 +12,11 @@ class BookCardViewController: UIViewController {
 
     // MARK: - Properties
     private let mainView = BookCardMainView()
-    private var libraryService: LibraryServiceProtocol
-    private weak var newBookBookDelegate: NewBookDelegate?
     private let activityIndicator = UIActivityIndicatorView()
+    
+    private var libraryService          : LibraryServiceProtocol
+    private weak var newBookBookDelegate: NewBookDelegate?
+    
     private var isFavorite = false {
         didSet {
             setFavoriteIcon(isFavorite)
