@@ -12,6 +12,7 @@ class UserServiceTestCase: XCTestCase {
     // MARK: - Propserties
     private var sut: UserService?
     private var accountService: AccountService?
+    private let userID = "1"
     private let credentials = AccountCredentials(userName: "testuser",
                                                  email: "test@test.com",
                                                  password: "Test21@",
@@ -30,26 +31,57 @@ class UserServiceTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        deleteAccount()
         sut = nil
         accountService = nil
-        deleteAccount()
     }
     
     // MARK: - Private functions
     private func createAnAccount() {
+        let exp = self.expectation(description: "Waiting for async operation")
         accountService?.createAccount(for: credentials, completion: { error in
             if let error = error {
                 print(error.description)
             }
+            exp.fulfill()
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     private func deleteAccount() {
+        let exp = self.expectation(description: "Waiting for async operation")
+        let docRef = sut?.usersCollectionRef
+            .document(userID)
+            .collection(CollectionDocumentKey.books.rawValue)
+        docRef?.getDocuments { (snapshot, error) in
+              XCTAssertNil(error)
+            let foundDoc = snapshot?.documents
+            foundDoc?.forEach { $0.reference.delete() }
+            exp.fulfill()
+        }
+        self.waitForExpectations(timeout: 10, handler: nil)
+        
+        let exp2 = self.expectation(description: "Waiting for async operation")
+        let snippetRef = sut?.usersCollectionRef
+            .document(userID)
+            .collection(CollectionDocumentKey.bookSnippets.rawValue)
+        snippetRef?.getDocuments { (snapshot, error) in
+              XCTAssertNil(error)
+            let foundDoc = snapshot?.documents
+            foundDoc?.forEach { $0.reference.delete() }
+            exp2.fulfill()
+        }
+        self.waitForExpectations(timeout: 10, handler: nil)
+        
+        let exp3 = self.expectation(description: "Waiting for async operation")
+        self.sut?.usersCollectionRef.document(self.userID).delete()
         accountService?.deleteAccount(with: credentials, completion: { error in
             if let error = error {
                 print(error.description)
             }
+            exp3.fulfill()
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: - Successful

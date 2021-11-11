@@ -19,7 +19,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private let resultController  = SearchViewController(networkService: ApiManager())
-    private var searchController  = UISearchController()
+    private var searchController = UISearchController()
     private let activityIndicator = UIActivityIndicatorView()
 
     private var libraryService    : LibraryServiceProtocol
@@ -40,7 +40,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
     private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
     
-    private let publisherCell   = TextFieldStaticCell(placeholder: "Editeur")
+    private let publisherCell = TextFieldStaticCell(placeholder: "Editeur")
     private let publishDateCell = TextFieldStaticCell(placeholder: "Date de parution")
     
     private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
@@ -160,7 +160,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     @objc private func saveBook() {
         guard let book = createBookDocument() else { return }
         saveButtonCell.displayActivityIndicator(true)
-        dump(book.timestamp)
+        
         libraryService.createBook(with: book, completion: { [weak self] error in
             guard let self = self else { return }
             self.saveButtonCell.displayActivityIndicator(false)
@@ -174,7 +174,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func createBookDocument() -> Item? {
-        dump(newBook?.timestamp)
         let isbn = isbnCell.textField.text ?? UUID().uuidString
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
                                     authors: [bookAuthorCell.textField.text ?? ""],
@@ -185,12 +184,11 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
                                     categories: [bookCategoryCell.textField.text ?? ""],
                                     ratingsCount: newBook?.volumeInfo?.ratingsCount,
-                                    imageLinks: ImageLinks(smallThumbnail: newBook?.volumeInfo?.imageLinks?.smallThumbnail,
-                                                           thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
+                                    imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: languageCell.textField.text ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
                                                                currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode))
-        return Item(etag: newBook?.etag,
+        return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,

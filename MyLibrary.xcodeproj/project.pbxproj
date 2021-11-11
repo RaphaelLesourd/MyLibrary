@@ -48,6 +48,7 @@
 		8121F0AF273A9FC2006EAA8D /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8121F0AE273A9FC2006EAA8D /* FirebaseStorageSwift-Beta */; };
 		8121F0B1273B1515006EAA8D /* SnippetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B0273B1515006EAA8D /* SnippetQuery.swift */; };
 		8121F0B3273BF130006EAA8D /* LibraryServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B2273BF12F006EAA8D /* LibraryServiceTestCase.swift */; };
+		8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */; };
 		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
 		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
 		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
@@ -141,6 +142,7 @@
 		8121F078273A9A1A006EAA8D /* Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sections.swift; sourceTree = "<group>"; };
 		8121F0B0273B1515006EAA8D /* SnippetQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetQuery.swift; sourceTree = "<group>"; };
 		8121F0B2273BF12F006EAA8D /* LibraryServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryServiceTestCase.swift; sourceTree = "<group>"; };
+		8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
 		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
 				813B7C702733A44F005BFBDB /* UserService.swift */,
 				813B7C792733ADFD005BFBDB /* AccountService.swift */,
+				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -779,6 +782,7 @@
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
+				8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,

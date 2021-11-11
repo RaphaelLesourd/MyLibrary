@@ -49,7 +49,7 @@ class BookCardViewController: UIViewController {
         title = ""
         addNavigationBarButtons()
         setTargets()
-        configureUi()
+        configureUI()
     }
     // MARK: - Setup
     private func addNavigationBarButtons() {
@@ -66,7 +66,7 @@ class BookCardViewController: UIViewController {
         mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
     }
     
-    private func configureUi() {
+    private func configureUI() {
         mainView.commentLabel.isHidden = searchType == .apiSearch
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         let actionButtontitle = searchType == .apiSearch ? "Sauvegarder" : "Recommander"

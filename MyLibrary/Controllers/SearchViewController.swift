@@ -96,6 +96,7 @@ class SearchViewController: UIViewController {
             guard let self = self else { return }
             self.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
+            
             switch result {
             case .success(let books):
                 self.handleList(for: books)

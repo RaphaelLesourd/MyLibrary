@@ -15,15 +15,15 @@ protocol LibraryServiceProtocol {
     func retrieveBook(for id: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
     func deleteBook(book: Item?, completion: @escaping (FirebaseError?) -> Void)
     func getSnippets(for query: SnippetQuery, forMore: Bool, completion: @escaping (Result<[BookSnippet], FirebaseError>) -> Void)
-    func addToFavorite(_ status: Bool, for id: String, completion: @escaping (FirebaseError?) -> Void)
+    func addToFavorite(_ status: Bool, for id: String?, completion: @escaping (FirebaseError?) -> Void)
 }
 
 class LibraryService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
-    var userID                    = Auth.auth().currentUser?.uid
-    private let db                = Firestore.firestore()
+    var userID            = Auth.auth().currentUser?.uid
+    private let db        = Firestore.firestore()
     var bookListener      : ListenerRegistration?
     var snippetListener   : ListenerRegistration?
     let usersCollectionRef: CollectionReference
@@ -40,15 +40,21 @@ class LibraryService {
                                           collection: CollectionDocumentKey,
                                           completion: @escaping (FirebaseError?) -> Void) {
         guard let userID = userID else { return }
-        let bookRef = usersCollectionRef
+        let ref = usersCollectionRef
             .document(userID)
             .collection(collection.rawValue)
             .document(id)
         do {
-            try bookRef.setData(from: document)
-            bookRef.setData([BookDocumentKey.etag.rawValue: id], merge: true)
+            try ref.setData(from: document)
+            ref.setData([BookDocumentKey.etag.rawValue: id], merge: true)
             completion(nil)
         } catch { completion(.firebaseError(error)) }
+    }
+    
+    private func updateDocumentImage(with imageLink: String?, for collection: CollectionDocumentKey, id: String) {
+        guard let userID = userID, let imageLink = imageLink else { return }
+        let ref = usersCollectionRef.document(userID).collection(collection.rawValue).document(id)
+        ref.updateData(["photoURL": imageLink])
     }
     
     private func deleteDocument(with id: String,
@@ -248,7 +254,11 @@ extension LibraryService: LibraryServiceProtocol {
     }
 
     // MARK: - Favorite
-    func addToFavorite(_ state: Bool, for id: String, completion: @escaping (FirebaseError?) -> Void) {
+    func addToFavorite(_ state: Bool, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
+        guard let id = id else {
+            completion(.nothingFound)
+            return
+        }
         setFavoriteStatus(with: id, favoriteState: state, collection: .books) { error in
             if let error = error {
                 completion(.firebaseError(error))

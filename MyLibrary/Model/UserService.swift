@@ -21,7 +21,7 @@ class UserService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     private let db = Firestore.firestore()
-    private let usersCollectionRef: CollectionReference
+    let usersCollectionRef: CollectionReference
     var userId = Auth.auth().currentUser?.uid
     
     // MARK: - Intializer
@@ -39,9 +39,7 @@ extension UserService: UserServiceProtocol {
         do {
             try userRef.setData(from: currentUser)
             completion(nil)
-        } catch {
-            completion(.firebaseError(error))
-        }
+        } catch { completion(.firebaseError(error)) }
     }
     
     // MARK: Retrieve
@@ -62,9 +60,7 @@ extension UserService: UserServiceProtocol {
                 if let document = try querySnapshot.data(as: CurrentUser.self) {
                     completion(.success(document))
                 }
-            } catch {
-                completion(.failure(.firebaseError(error)))
-            }
+            } catch { completion(.failure(.firebaseError(error))) }
         }
     }
     

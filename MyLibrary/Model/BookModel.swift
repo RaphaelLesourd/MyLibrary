@@ -74,7 +74,7 @@ struct IndustryIdentifier: Codable {
 
 // MARK: - ImageLinks
 struct ImageLinks: Codable {
-    let smallThumbnail, thumbnail: String?
+    let thumbnail: String?
 }
 
 // MARK: - SaleInfo
