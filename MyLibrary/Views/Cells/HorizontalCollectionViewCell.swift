@@ -33,17 +33,18 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         descriptionLabel.text        = nil
         bookCover.image              = Images.emptyStateBookImage
     }
-
-    func configure(with book: BookSnippet) {
-            titleView.titleLabel.text    = book.title
-            titleView.subtitleLabel.text = book.author
+    
+    func configure(with book: Item) {
+        titleView.titleLabel.text    = book.volumeInfo?.title
+        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
         
-            descriptionLabel.text = book.description
-            guard let imageUrl = book.photoURL, let url = URL(string: imageUrl) else { return }
-            bookCover.af.setImage(withURL: url,
-                                  cacheKey: book.id,
-                                  placeholderImage: Images.emptyStateBookImage,
-                                  completion: nil)
+        descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
+        guard let imageUrl = book.volumeInfo?.imageLinks?.thumbnail,
+              let url = URL(string: imageUrl) else { return }
+        bookCover.af.setImage(withURL: url,
+                              cacheKey: book.id,
+                              placeholderImage: Images.emptyStateBookImage,
+                              completion: nil)
     }
 }
 // MARK: - Constraints

@@ -10,8 +10,8 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<BookListSection, BookSnippet>
-    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, BookSnippet>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<BookListSection, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
     private lazy var dataSource = makeDataSource()
     
     private var layoutComposer    = LayoutComposer()
@@ -21,9 +21,9 @@ class BookLibraryViewController: UIViewController {
     private var footerView        = LoadingFooterSupplementaryView()
     
     private var libraryService: LibraryServiceProtocol
-    private var snippetsList  : [BookSnippet] = []
+    private var bookList  : [Item] = []
     private var noMoreBooks   = false
-    var currentQuery: SnippetQuery?
+    var currentQuery: BookQuery?
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -83,19 +83,19 @@ class BookLibraryViewController: UIViewController {
         showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
         
-        let bookQuery = currentQuery ?? SnippetQuery.defaultAllBookQuery
-        libraryService.getSnippets(for: bookQuery, forMore: nextPage) { [weak self] result in
+        let bookQuery = currentQuery ?? BookQuery.defaultAllBookQuery
+        libraryService.getBooks(for: bookQuery, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
           
             switch result {
-            case .success(let snippets):
-                if snippets.isEmpty {
+            case .success(let books):
+                if books.isEmpty {
                     self.noMoreBooks = true
                 } else {
-                    self.snippetsList.append(contentsOf: snippets)
+                    self.bookList.append(contentsOf: books)
                     self.applySnapshot()
                 }
             case .failure(let error):
@@ -107,7 +107,7 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Targets
     @objc private func refreshBookList() {
         noMoreBooks = false
-        snippetsList.removeAll()
+        bookList.removeAll()
         getBooks()
     }
 }
@@ -127,8 +127,8 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.etag else { return }
-        showBookDetails(bookid: selectedBookId, searchType: .librarySearch)
+        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
+        showBookDetails(for: selectedBook, searchType: .librarySearch)
     }
 }
 
@@ -156,7 +156,7 @@ extension BookLibraryViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(BookListSection.allCases)
-        snapshot.appendItems(snippetsList, toSection: .mybooks)
+        snapshot.appendItems(bookList, toSection: .mybooks)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

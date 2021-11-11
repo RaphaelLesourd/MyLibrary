@@ -27,16 +27,6 @@ struct Item: Codable {
     private enum CodingKeys : String, CodingKey {
         case etag, volumeInfo, saleInfo, favorite, timestamp
     }
-    
-    func createSnippet(with id: String) -> BookSnippet {
-        return BookSnippet(etag: id,
-                           timestamp: timestamp,
-                           title: volumeInfo?.title,
-                           author: volumeInfo?.authors?.first,
-                           photoURL: volumeInfo?.imageLinks?.thumbnail,
-                           description: volumeInfo?.volumeInfoDescription,
-                           favorite: favorite)
-    }
 }
 
 extension Item: Hashable {

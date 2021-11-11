@@ -9,7 +9,7 @@ import UIKit
 import AlamofireImage
 
 class BookCardViewController: UIViewController {
-
+    
     // MARK: - Properties
     private let mainView = BookCardMainView()
     private let activityIndicator = UIActivityIndicatorView()
@@ -88,7 +88,7 @@ class BookCardViewController: UIViewController {
         mainView.purchaseDetailView.purchasePriceLabel.text      = ""
         mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
         mainView.commentLabel.text                               = ""
-       
+        
         if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
            let price = self.book?.saleInfo?.retailPrice?.amount {
             mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
@@ -112,21 +112,6 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: - Api call
-    func showSelectedBook(for id: String) {
-       showIndicator(activityIndicator)
-       
-        libraryService.retrieveBook(for: id) { [weak self] result in
-            guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            switch result {
-            case .success(let book):
-                self.book = book
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    
     private func deleteBook() {
         guard let book = book else { return }
         showIndicator(activityIndicator)
@@ -142,7 +127,7 @@ class BookCardViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
-
+    
     private func updateFavoriteState(for isFavorite: Bool) {
         guard let bookId = book?.etag else { return }
         showIndicator(activityIndicator)
@@ -155,7 +140,7 @@ class BookCardViewController: UIViewController {
             }
         }
     }
-   
+    
     // MARK: - Targets
     @objc private func favoriteButtonAction() {
         isFavorite.toggle()
@@ -171,7 +156,8 @@ class BookCardViewController: UIViewController {
     }
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService())
+        let newBookController = NewBookViewController(libraryService: LibraryService(),
+                                                      imageStorageService: ImageStorage())
         newBookController.newBook       = book
         newBookController.isEditingBook = true
         navigationController?.pushViewController(newBookController, animated: true)

@@ -9,7 +9,6 @@ import Foundation
 
 enum CollectionDocumentKey: String, CaseIterable {
     case books
-    case bookSnippets
     case users
 }
 

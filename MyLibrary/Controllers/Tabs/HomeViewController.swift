@@ -10,8 +10,8 @@ import UIKit
 class HomeViewController: UIViewController {
 
     // MARK: - Properties
-    typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, BookSnippet>
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, BookSnippet>
+    typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, Item>
     private lazy var dataSource = makeDataSource()
     
     private var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -21,14 +21,14 @@ class HomeViewController: UIViewController {
     private var layoutComposer = LayoutComposer()
     private var libraryService : LibraryServiceProtocol
     
-    private let latestBookQuery   = SnippetQuery.latestBookQuery
-    private let favoriteBookQuery = SnippetQuery.favoriteBookQuery
-    private var currentQuery: SnippetQuery?
+    private let latestBookQuery   = BookQuery.latestBookQuery
+    private let favoriteBookQuery = BookQuery.favoriteBookQuery
+    private var currentQuery: BookQuery?
    
-    private var latestBooks     : [BookSnippet] = []
-    private var favoriteBooks   : [BookSnippet] = []
-    private var recommandedBooks: [BookSnippet] = []
-    private var categories      : [BookSnippet] = []
+    private var latestBooks     : [Item] = []
+    private var favoriteBooks   : [Item] = []
+    private var recommandedBooks: [Item] = []
+    private var categories      : [Item] = []
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -48,8 +48,8 @@ class HomeViewController: UIViewController {
         configureRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        getLastestBookSnippet()
-        getFavoriteBookSnippet()
+        getLastestBooks()
+        getFavoriteBooks()
     }
   
     // MARK: - Setup
@@ -89,17 +89,17 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Api call
-    private func getLastestBookSnippet() {
+    private func getLastestBooks() {
         showIndicator(activityIndicator)
         
-        libraryService.getSnippets(for: latestBookQuery, forMore: false) { [weak self] result in
+        libraryService.getBooks(for: latestBookQuery, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
             switch result {
-            case .success(let snippets):
+            case .success(let bookList):
                 DispatchQueue.main.async {
-                    self.latestBooks = snippets
+                    self.latestBooks = bookList
                     self.applySnapshot()
                 }
             case .failure(let error):
@@ -107,17 +107,17 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    private func getFavoriteBookSnippet() {
+    private func getFavoriteBooks() {
         showIndicator(activityIndicator)
         
-        libraryService.getSnippets(for: favoriteBookQuery, forMore: false) { [weak self] result in
+        libraryService.getBooks(for: favoriteBookQuery, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
             switch result {
-            case .success(let snippets):
+            case .success(let books):
                 DispatchQueue.main.async {
-                    self.favoriteBooks = snippets
+                    self.favoriteBooks = books
                     self.applySnapshot()
                 }
             case .failure(let error):
@@ -128,8 +128,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Targets
     @objc private func refreshBookList() {
-        getFavoriteBookSnippet()
-        getLastestBookSnippet()
+        getFavoriteBooks()
+        getLastestBooks()
     }
    
     @objc private func showMoreBook(_ sender: UIButton) {
@@ -209,7 +209,7 @@ extension HomeViewController {
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let selectedBookId = dataSource.itemIdentifier(for: indexPath)?.etag else { return }
-        showBookDetails(bookid: selectedBookId, searchType: .librarySearch)
+        guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
+        showBookDetails(for: selectedBook, searchType: .librarySearch)
     }
 }

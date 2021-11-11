@@ -81,8 +81,6 @@ extension UserService: UserServiceProtocol {
         }
     }
     
-    // TODO: Update Profile photo
-    
     // MARK: Delete
     func deleteUser(completion: @escaping CompletionHandler) {
         guard let userId = userId else { return }

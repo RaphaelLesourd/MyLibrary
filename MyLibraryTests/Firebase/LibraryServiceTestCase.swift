@@ -63,23 +63,12 @@ class LibraryServiceTestCase: XCTestCase {
         }
         self.waitForExpectations(timeout: 10, handler: nil)
         
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        let snippetRef = sut?.usersCollectionRef
-            .document(userID)
-            .collection(CollectionDocumentKey.bookSnippets.rawValue)
-        snippetRef?.getDocuments { (snapshot, error) in
-            XCTAssertNil(error)
-            let foundDoc = snapshot?.documents
-            foundDoc?.forEach { $0.reference.delete() }
-            exp2.fulfill()
-        }
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
         let exp3 = self.expectation(description: "Waiting for async operation")
         self.sut?.usersCollectionRef.document(self.userID).delete()
         accountService?.deleteAccount(with: credentials, completion: { error in
-            exp3.fulfill()
+            XCTAssertNil(error)
         })
+        exp3.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -93,8 +82,7 @@ class LibraryServiceTestCase: XCTestCase {
                                     pageCount: 0,
                                     categories: ["category"],
                                     ratingsCount: 0,
-                                    imageLinks: ImageLinks(smallThumbnail: "smallThumbnailURL",
-                                                           thumbnail: "thumbnailURL"),
+                                    imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
         return Item(etag: "",
@@ -110,8 +98,8 @@ class LibraryServiceTestCase: XCTestCase {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.createBook(with: book, completion: { error in
             XCTAssertNil(error)
-            exp.fulfill()
         })
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     

@@ -60,19 +60,7 @@ class UserServiceTestCase: XCTestCase {
             exp.fulfill()
         }
         self.waitForExpectations(timeout: 10, handler: nil)
-        
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        let snippetRef = sut?.usersCollectionRef
-            .document(userID)
-            .collection(CollectionDocumentKey.bookSnippets.rawValue)
-        snippetRef?.getDocuments { (snapshot, error) in
-              XCTAssertNil(error)
-            let foundDoc = snapshot?.documents
-            foundDoc?.forEach { $0.reference.delete() }
-            exp2.fulfill()
-        }
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
+    
         let exp3 = self.expectation(description: "Waiting for async operation")
         self.sut?.usersCollectionRef.document(self.userID).delete()
         accountService?.deleteAccount(with: credentials, completion: { error in

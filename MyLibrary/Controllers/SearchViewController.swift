@@ -139,8 +139,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookSnippet = books.createSnippet(with: books.etag ?? "")
-            cell.configure(with: bookSnippet)
+            cell.configure(with: books)
             return cell
         })
         configureFooter(dataSource)

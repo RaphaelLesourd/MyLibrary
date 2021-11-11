@@ -7,6 +7,7 @@
 
 import UIKit
 import PanModal
+import Alamofire
 import AlamofireImage
 
 protocol NewBookDelegate: AnyObject {
@@ -19,11 +20,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
     private let resultController  = SearchViewController(networkService: ApiManager())
-    private var searchController = UISearchController()
+    private var searchController  = UISearchController()
     private let activityIndicator = UIActivityIndicatorView()
 
-    private var libraryService    : LibraryServiceProtocol
-    private var imagePicker       : ImagePicker?
+    private var libraryService      : LibraryServiceProtocol
+    private var imageStorageService : ImageStorageProtocol
+    private var imagePicker         : ImagePicker?
     
     var isEditingBook  = false
     var bookDescription: String?
@@ -40,7 +42,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
     private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
     
-    private let publisherCell = TextFieldStaticCell(placeholder: "Editeur")
+    private let publisherCell   = TextFieldStaticCell(placeholder: "Editeur")
     private let publishDateCell = TextFieldStaticCell(placeholder: "Date de parution")
     
     private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
@@ -66,8 +68,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     languageCell.textField,
                                     purchasePriceCell.textField]
     
-    init(libraryService: LibraryServiceProtocol) {
-        self.libraryService = libraryService
+    init(libraryService: LibraryServiceProtocol, imageStorageService: ImageStorageProtocol) {
+        self.libraryService      = libraryService
+        self.imageStorageService = imageStorageService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -147,10 +150,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
         
-        if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageUrl = URL(string: url) {
-            bookImageCell.pictureView.af.setImage(withURL: imageUrl,
-                                                  cacheKey: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                                  placeholderImage: Images.emptyStateBookImage)
+        if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
+            AF.request(imageURL).responseImage { [weak self] response in
+                if case .success(let image) = response.result {
+                    self?.bookImageCell.pictureView.image = image
+                }
+            }
         }
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
@@ -161,16 +166,29 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         guard let book = createBookDocument() else { return }
         saveButtonCell.displayActivityIndicator(true)
         
-        libraryService.createBook(with: book, completion: { [weak self] error in
+        libraryService.createBook(with: book, completion: { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let bookID):
+                    self.saveCustomImage(for: bookID)
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        })
+    }
+    
+    private func saveCustomImage(for bookID: String) {
+        let imageToSave = bookImageCell.pictureView.image
+        imageStorageService.saveBookCoverToFirebase(for: imageToSave, id: bookID) { [weak self] error in
             guard let self = self else { return }
             self.saveButtonCell.displayActivityIndicator(false)
+            
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
-                return
             }
             self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
-        })
-        isEditingBook ? returnToPreviousController() : clearData()
+            self.isEditingBook ? self.returnToPreviousController() : self.clearData()
+        }
     }
     
     private func createBookDocument() -> Item? {
@@ -272,6 +290,6 @@ extension NewBookViewController {
 // MARK: - ImagePicker Delegate
 extension NewBookViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
-        self.bookImageCell.pictureView.image = image
+        bookImageCell.pictureView.image = image
     }
 }
