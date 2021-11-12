@@ -8,12 +8,14 @@
 import UIKit
 import PanModal
 import FirebaseAuth
+import AlamofireImage
 
 class SettingsViewController: CommonStaticTableViewController {
 
     // MARK: - Properties
     private var accountService    : AccountServiceProtocol
     private var userService       : UserServiceProtocol
+    private var imageService      : ImageStorageProtocol
     private var imagePicker       : ImagePicker?
     private var activityIndicator = UIActivityIndicatorView()
     
@@ -29,9 +31,10 @@ class SettingsViewController: CommonStaticTableViewController {
                                                      backgroundColor: .clear)
     
     // MARK: - Initializer
-    init(accountService: AccountServiceProtocol, userService: UserServiceProtocol) {
+    init(accountService: AccountServiceProtocol, userService: UserServiceProtocol, imageService: ImageStorageProtocol) {
         self.accountService = accountService
         self.userService    = userService
+        self.imageService   = imageService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -108,10 +111,8 @@ class SettingsViewController: CommonStaticTableViewController {
             self.profileCell.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
-                if let currentUser = currentUser {
-                    self.profileCell.emailLabel.text = "   \(currentUser.email)"
-                    self.profileCell.userNameTextField.text = currentUser.displayName
-                }
+                guard let currentUser = currentUser else { return }
+                self.updateProfileInfos(for: currentUser)
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -133,6 +134,20 @@ class SettingsViewController: CommonStaticTableViewController {
         }
     }
     
+    private func saveProfileImage(_ image: UIImage) {
+        let imageToSave = image.jpegData(.medium)
+        profileCell.activityIndicator.startAnimating()
+        
+        imageService.saveBookCoverToFirebase(for: imageToSave, nameID: "profileImage", type: .users) { [weak self] error in
+            guard let self = self else { return }
+            self.profileCell.activityIndicator.stopAnimating()
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+            self.presentAlertBanner(as: .success, subtitle: "Photo mise à jour.")
+        }
+    }
+    
     private func signoutAccount() {
         showIndicator(activityIndicator)
         
@@ -146,12 +161,26 @@ class SettingsViewController: CommonStaticTableViewController {
             self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
         }
     }
+    
+    // MARK: - UI update
+    private func updateProfileInfos(for currentUser: CurrentUser) {
+        profileCell.emailLabel.text = "   \(currentUser.email)"
+        profileCell.userNameTextField.text = currentUser.displayName
+        if let imageURL = URL(string: currentUser.photoURL) {
+            profileCell.profileImageButton.af.setImage(for: .normal,
+                                                          url: imageURL,
+                                                          cacheKey: currentUser.photoURL,
+                                                          placeholderImage: Images.emptyStateBookImage)
+        }
+    }
 }
 
 // MARK: - ImagePicker Delegate
 extension SettingsViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
-        self.profileCell.profileImageButton.setImage(image, for: .normal)
+        guard let image = image else { return }
+        profileCell.profileImageButton.setImage(image, for: .normal)
+        saveProfileImage(image)
     }
 }
 

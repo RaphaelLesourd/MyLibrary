@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
     
     private let latestBookQuery   = BookQuery.latestBookQuery
     private let favoriteBookQuery = BookQuery.favoriteBookQuery
+    private let recommandedQuery  = BookQuery.recommandeBookQuery
     private var currentQuery: BookQuery?
    
     private var latestBooks     : [Item] = []
@@ -48,8 +49,7 @@ class HomeViewController: UIViewController {
         configureRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        getLastestBooks()
-        getFavoriteBooks()
+        fetchBookLists()
     }
   
     // MARK: - Setup
@@ -85,53 +85,43 @@ class HomeViewController: UIViewController {
         refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
         refresherControl.tintColor       = .label
         collectionView.refreshControl    = refresherControl
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
     }
     
     // MARK: - Api call
-    private func getLastestBooks() {
-        showIndicator(activityIndicator)
-        
-        libraryService.getBooks(for: latestBookQuery, forMore: false) { [weak self] result in
-            guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            self.refresherControl.endRefreshing()
-            switch result {
-            case .success(let bookList):
-                DispatchQueue.main.async {
-                    self.latestBooks = bookList
-                    self.applySnapshot()
-                }
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-            }
+    @objc private func fetchBookLists() {
+        getBooks(for: .latestBookQuery) { [weak self] books in
+            self?.latestBooks = books
+        }
+        getBooks(for: .favoriteBookQuery) { [weak self] books in
+            self?.favoriteBooks = books
+        }
+        getBooks(for: .recommandeBookQuery) { [weak self] books in
+            self?.recommandedBooks = books
+            self?.applySnapshot()
         }
     }
-    private func getFavoriteBooks() {
+    
+    private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
         showIndicator(activityIndicator)
         
-        libraryService.getBooks(for: favoriteBookQuery, forMore: false) { [weak self] result in
+        libraryService.getBooks(for: query, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
             switch result {
             case .success(let books):
                 DispatchQueue.main.async {
-                    self.favoriteBooks = books
-                    self.applySnapshot()
+                    completion(books)
                 }
             case .failure(let error):
+                completion([])
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
     
     // MARK: - Targets
-    @objc private func refreshBookList() {
-        getFavoriteBooks()
-        getLastestBooks()
-    }
-   
     @objc private func showMoreBook(_ sender: UIButton) {
         let bookListVC = BookLibraryViewController(libraryService: LibraryService())
         switch HomeCollectionViewSections(rawValue: sender.tag) {
@@ -140,7 +130,7 @@ class HomeViewController: UIViewController {
         case .newEntry:
             currentQuery = latestBookQuery
         case .recommanding:
-            currentQuery = nil
+            currentQuery = recommandedQuery
         case .favorites:
             currentQuery = favoriteBookQuery
         case .none:
@@ -202,7 +192,7 @@ extension HomeViewController {
       //  snapshot.appendItems(latestBooks, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
         snapshot.appendItems(favoriteBooks, toSection: .favorites)
-      //  snapshot.appendItems(latestBooks, toSection: .recommanding)
+        snapshot.appendItems(recommandedBooks, toSection: .recommanding)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

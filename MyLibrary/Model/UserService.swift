@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
-import Firebase
 
 protocol UserServiceProtocol {
     func createUserInDatabase(for user: CurrentUser?, completion: @escaping (FirebaseError?) -> Void)

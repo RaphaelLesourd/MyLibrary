@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Alamofire
 import AlamofireImage
 
 class BookCardViewController: UIViewController {
@@ -15,11 +17,23 @@ class BookCardViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     
     private var libraryService          : LibraryServiceProtocol
+    private var recommandationService   : RecommandationServiceProtocol
     private weak var newBookBookDelegate: NewBookDelegate?
     
+    private var isRecommanded = false {
+        didSet {
+            setRecommandationButton(isRecommanded)
+        }
+    }
     private var isFavorite = false {
         didSet {
             setFavoriteIcon(isFavorite)
+        }
+    }
+    private var coverImage: UIImage? {
+        didSet {
+            guard let coverImage = coverImage else { return }
+            mainView.bookCover.image = coverImage
         }
     }
     var searchType: SearchType?
@@ -30,8 +44,9 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: - Intializers
-    init(libraryService: LibraryServiceProtocol) {
-        self.libraryService = libraryService
+    init(libraryService: LibraryServiceProtocol, recommandationService: RecommandationServiceProtocol) {
+        self.libraryService        = libraryService
+        self.recommandationService = recommandationService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,10 +75,13 @@ class BookCardViewController: UIViewController {
         let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItems = [editButton, activityIndicactorButton]
     }
-    
+  
     private func setTargets() {
+        mainView.actionButton.addTarget(self, action: #selector(recommandButtonAction), for: .touchUpInside)
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
         mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        mainView.addGestureRecognizer(tap)
     }
     
     private func configureUI() {
@@ -71,6 +89,12 @@ class BookCardViewController: UIViewController {
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         let actionButtontitle = searchType == .apiSearch ? "Sauvegarder" : "Recommander"
         mainView.actionButton.setTitle(actionButtontitle, for: .normal)
+       
+        if book?.ownerID != Auth.auth().currentUser?.uid {
+            mainView.deleteBookButton.isHidden = true
+            mainView.actionButton.isHidden = true
+            mainView.favoriteButton.isHidden = true
+        }
     }
     
     // MARK: - Data
@@ -99,16 +123,25 @@ class BookCardViewController: UIViewController {
         if let favorite = self.book?.favorite {
             isFavorite = favorite
         }
-        if let imageUrl = book?.imageLinks?.thumbnail, let url = URL(string: imageUrl) {
-            mainView.bookCover.af.setImage(withURL: url,
-                                           cacheKey: book?.industryIdentifiers?.first?.identifier,
-                                           placeholderImage: Images.emptyStateBookImage,
-                                           completion: nil)
+        if let recommand = self.book?.recommanding {
+            isRecommanded = recommand
+        }
+        if let url = book?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
+            AF.request(imageURL).responseImage { [weak self] response in
+                if case .success(let image) = response.result {
+                    self?.coverImage = image
+                }
+            }
         }
     }
     
-    private func setFavoriteIcon(_ favorite: Bool) {
-        mainView.favoriteButton.tintColor = favorite ? .systemPink : .systemGray
+    private func setFavoriteIcon(_ isFavorite: Bool) {
+        mainView.favoriteButton.tintColor = isFavorite ? .systemPink : .systemGray
+    }
+    
+    private func setRecommandationButton(_ isRecommanding: Bool) {
+        let title = isRecommanding ? "Ne plus recommander" : "Recommander"
+        mainView.actionButton.setTitle(title, for: .normal)
     }
     
     // MARK: - Api call
@@ -123,16 +156,17 @@ class BookCardViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
+            self.recommnandBook(false)
             self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
             self.navigationController?.popViewController(animated: true)
         }
     }
     
-    private func updateFavoriteState(for isFavorite: Bool) {
-        guard let bookId = book?.etag else { return }
+    private func updateBookFieldStatus(_ state: Bool, fieldKey: BookDocumentKey) {
+        guard let bookID = book?.etag else { return }
         showIndicator(activityIndicator)
         
-        libraryService.addToFavorite(isFavorite, for: bookId) { [weak self] error in
+        libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             if let error = error {
@@ -141,10 +175,36 @@ class BookCardViewController: UIViewController {
         }
     }
     
+    private func recommnandBook(_ recommanded: Bool) {
+        guard let book = book, let bookID = book.etag else {
+            return
+        }
+        if recommanded == true {
+            recommandationService.addToRecommandation(for: book) { [weak self] error in
+                if let error = error {
+                    self?.presentAlertBanner(as: .error, subtitle: error.description)
+                }
+            }
+        } else {
+            recommandationService.removeFromRecommandation(for: bookID) { [weak self] error in
+                if let error = error {
+                    self?.presentAlertBanner(as: .error, subtitle: error.description)
+                }
+            }
+        }
+        updateBookFieldStatus(recommanded, fieldKey: .recommanding)
+    }
+    
     // MARK: - Targets
     @objc private func favoriteButtonAction() {
         isFavorite.toggle()
-        updateFavoriteState(for: isFavorite)
+        updateBookFieldStatus(isFavorite, fieldKey: .favorite)
+    }
+    
+    @objc private func recommandButtonAction() {
+        isRecommanded.toggle()
+        recommnandBook(isRecommanded)
+        
     }
     
     @objc private func deleteBookAction() {
@@ -154,10 +214,17 @@ class BookCardViewController: UIViewController {
             self?.deleteBook()
         }
     }
+        
+    @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        let bookCoverController = BookCoverViewController()
+        bookCoverController.imageView.image = coverImage
+        navigationController?.pushViewController(bookCoverController, animated: true)
+    }
+    
     // MARK: - Navigation
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
-                                                      imageStorageService: ImageStorage())
+                                                      imageStorageService: ImageStorageService())
         newBookController.newBook       = book
         newBookController.isEditingBook = true
         navigationController?.pushViewController(newBookController, animated: true)

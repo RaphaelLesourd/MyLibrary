@@ -9,11 +9,12 @@ import Foundation
 
 struct BookQuery {
     let limit: Int
-    let listType: HomeCollectionViewSections
+    let listType: HomeCollectionViewSections?
     let orderedBy: BookDocumentKey
     let descending: Bool
     
     static let latestBookQuery     = BookQuery(limit: 20, listType: .newEntry, orderedBy: .timestamp, descending: true)
     static let favoriteBookQuery   = BookQuery(limit: 20, listType: .favorites, orderedBy: .timestamp, descending: true)
-    static let defaultAllBookQuery = BookQuery(limit: 20, listType: .newEntry, orderedBy: .title, descending: false)
+    static let recommandeBookQuery = BookQuery(limit: 20, listType: .recommanding, orderedBy: .timestamp, descending: true)
+    static let defaultAllBookQuery = BookQuery(limit: 20, listType: nil, orderedBy: .title, descending: false)
 }

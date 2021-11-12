@@ -178,11 +178,11 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func saveCustomImage(for bookID: String) {
-        let imageToSave = bookImageCell.pictureView.image
-        imageStorageService.saveBookCoverToFirebase(for: imageToSave, id: bookID) { [weak self] error in
+        let imageToSave = bookImageCell.pictureView.image?.jpegData(.highest)
+        
+        imageStorageService.saveBookCoverToFirebase(for: imageToSave, nameID: bookID, type: .books) { [weak self] error in
             guard let self = self else { return }
             self.saveButtonCell.displayActivityIndicator(false)
-            
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -208,6 +208,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                                                currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode))
         return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
+                    ownerID: newBook?.ownerID ?? "", recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: newBook?.timestamp ?? Date().timeIntervalSince1970)
@@ -290,6 +291,6 @@ extension NewBookViewController {
 // MARK: - ImagePicker Delegate
 extension NewBookViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
-        bookImageCell.pictureView.image = image
+        bookImageCell.pictureView.image = image?.resizeImage()
     }
 }

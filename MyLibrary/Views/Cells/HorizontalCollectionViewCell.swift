@@ -37,12 +37,12 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     func configure(with book: Item) {
         titleView.titleLabel.text    = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
+        descriptionLabel.text        = book.volumeInfo?.volumeInfoDescription
         
-        descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
-        guard let imageUrl = book.volumeInfo?.imageLinks?.thumbnail,
-              let url = URL(string: imageUrl) else { return }
+        guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
+              let url = URL(string: imageURL) else { return }
         bookCover.af.setImage(withURL: url,
-                              cacheKey: book.id,
+                              cacheKey: url.absoluteString,
                               placeholderImage: Images.emptyStateBookImage,
                               completion: nil)
     }

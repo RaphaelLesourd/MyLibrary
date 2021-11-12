@@ -6,15 +6,15 @@
 //
 
 import Foundation
+import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
-import Firebase
 
 protocol LibraryServiceProtocol {
     func createBook(with book: Item?, completion: @escaping (Result<String, FirebaseError>) -> Void)
     func deleteBook(book: Item?, completion: @escaping (FirebaseError?) -> Void)
     func getBooks(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
-    func addToFavorite(_ status: Bool, for id: String?, completion: @escaping (FirebaseError?) -> Void)
+    func setStatusTo(_ state: Bool, field: BookDocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
 }
 
 class LibraryService {
@@ -24,9 +24,9 @@ class LibraryService {
     var userID            = Auth.auth().currentUser?.uid
     private let db        = Firestore.firestore()
     var bookListener      : ListenerRegistration?
-    var bookListListener   : ListenerRegistration?
+    var bookListListener  : ListenerRegistration?
     let usersCollectionRef: CollectionReference
-    var lastBookFetched: QueryDocumentSnapshot?
+    var lastBookFetched   : QueryDocumentSnapshot?
     
     // MARK: - Initializer
     init() {
@@ -45,7 +45,7 @@ class LibraryService {
             .document(id)
         do {
             try ref.setData(from: document)
-            ref.setData([BookDocumentKey.etag.rawValue: id], merge: true)
+            ref.setData([BookDocumentKey.etag.rawValue: id, "ownerID": userID], merge: true)
             completion(nil)
         } catch { completion(.firebaseError(error)) }
     }
@@ -89,17 +89,18 @@ class LibraryService {
         }
     }
     
-    private func setFavoriteStatus(with id: String,
-                                   favoriteState: Bool,
-                                   collection: CollectionDocumentKey,
-                                   completion: @escaping (FirebaseError?) -> Void) {
+    private func updateStatus(with id: String,
+                              favoriteState: Bool,
+                              collection: CollectionDocumentKey,
+                              field: BookDocumentKey,
+                              completion: @escaping (FirebaseError?) -> Void) {
         guard let userID = userID else { return }
         let documentRef = usersCollectionRef
             .document(userID)
             .collection(collection.rawValue)
             .document(id)
         
-        documentRef.updateData([BookDocumentKey.favorite.rawValue : favoriteState]) { error in
+        documentRef.updateData([field.rawValue : favoriteState]) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
@@ -123,7 +124,9 @@ class LibraryService {
         case .favorites:
             docRef = docRef.whereField(BookDocumentKey.favorite.rawValue, isEqualTo: true)
         case .recommanding:
-            docRef = docRef.whereField(BookDocumentKey.recommanding.rawValue, isEqualTo: true)
+            docRef = db.collection("recommanded")
+        case .none:
+            break
         }
         if let lastBook = lastBookFetched, next == true {
             docRef = docRef.start(afterDocument: lastBook)
@@ -206,13 +209,13 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
 
-    // MARK: - Favorite
-    func addToFavorite(_ state: Bool, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
+    // MARK: - Field update
+    func setStatusTo(_ state: Bool, field: BookDocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
         guard let id = id else {
             completion(.nothingFound)
             return
         }
-        setFavoriteStatus(with: id, favoriteState: state, collection: .books) { error in
+        updateStatus(with: id, favoriteState: state, collection: .books, field: field) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return

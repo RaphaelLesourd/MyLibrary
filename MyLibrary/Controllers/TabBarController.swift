@@ -50,12 +50,14 @@ class TabBarController: UITabBarController {
                                                         image: libraryIconImage)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
-                                                                            imageStorageService: ImageStorage()),
+                                                                            imageStorageService: ImageStorageService()),
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.newBookIcon!)
         
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
-        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(), userService: UserService()),
+        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),
+                                                                                  userService: UserService(),
+                                                                                  imageService: ImageStorageService()),
                                                          title: Text.ControllerTitle.settings,
                                                          image: settingsIconImage)
         viewControllers = [homeViewController,

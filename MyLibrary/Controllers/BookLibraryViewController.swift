@@ -23,7 +23,7 @@ class BookLibraryViewController: UIViewController {
     private var libraryService: LibraryServiceProtocol
     private var bookList  : [Item] = []
     private var noMoreBooks   = false
-    var currentQuery: BookQuery?
+    var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
@@ -48,7 +48,7 @@ class BookLibraryViewController: UIViewController {
 
     // MARK: - Setup
     private func configureViewController() {
-        title = currentQuery?.listType.title ?? "Mes livres"
+        title = currentQuery.listType?.title ?? "Tous mes livres"
         view.backgroundColor = .viewControllerBackgroundColor
     }
     
@@ -83,8 +83,7 @@ class BookLibraryViewController: UIViewController {
         showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
         
-        let bookQuery = currentQuery ?? BookQuery.defaultAllBookQuery
-        libraryService.getBooks(for: bookQuery, forMore: nextPage) { [weak self] result in
+        libraryService.getBooks(for: currentQuery, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()

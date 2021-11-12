@@ -20,12 +20,14 @@ struct Item: Codable {
     let diffableId = UUID()
     let etag: String?
     let favorite: Bool?
+    let ownerID: String?
+    let recommanding: Bool?
     let volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
     let timestamp: Double?
     
     private enum CodingKeys : String, CodingKey {
-        case etag, volumeInfo, saleInfo, favorite, timestamp
+        case etag, volumeInfo, saleInfo, favorite, timestamp, recommanding, ownerID
     }
 }
 

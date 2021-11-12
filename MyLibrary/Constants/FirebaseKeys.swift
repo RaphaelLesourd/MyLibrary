@@ -24,5 +24,5 @@ enum BookDocumentKey: String {
     case etag
     case favorite
     case recommanding
-    case title
+    case title = "volumeInfo.title"
 }

@@ -35,10 +35,10 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         titleView.titleLabel.text    = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
         
-        guard let imageUrl = book.volumeInfo?.imageLinks?.thumbnail,
-              let url = URL(string: imageUrl) else { return }
+        guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
+              let url = URL(string: imageURL) else { return }
         bookCover.af.setImage(withURL: url,
-                              cacheKey: book.id,
+                              cacheKey: book.etag,
                               placeholderImage: Images.emptyStateBookImage,
                               completion: nil)
     }

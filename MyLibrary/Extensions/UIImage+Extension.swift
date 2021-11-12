@@ -9,12 +9,33 @@ import Foundation
 import UIKit
 
 extension UIImage {
-
-    func resizedImage(for size: CGSize) -> UIImage? {
-        let renderer = UIGraphicsImageRenderer(size: size)
-        return renderer.image { _ in
-            self.draw(in: CGRect(origin: .zero, size: size))
+    
+    func resizeImage(_ max_size: CGFloat = 1000) -> UIImage {
+        // adjust for device pixel density
+        let max_size_pixels = max_size / UIScreen.main.scale
+        // work out aspect ratio
+        let aspectRatio =  size.width/size.height
+        // variables for storing calculated data
+        var width: CGFloat
+        var height: CGFloat
+        if aspectRatio > 1 {
+            // landscape
+            width = max_size_pixels
+            height = max_size_pixels / aspectRatio
+        } else {
+            // portrait
+            height = max_size_pixels
+            width = max_size_pixels * aspectRatio
         }
+        // create an image renderer of the correct size
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height),
+                                               format: UIGraphicsImageRendererFormat.default())
+        // render the image
+        let newImage = renderer.image { _ in
+            self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        }
+        // return the image
+        return newImage
     }
     
     enum JPEGQuality: CGFloat {
@@ -25,10 +46,7 @@ extension UIImage {
         case highest = 1
     }
     /// Returns the data for the specified image in JPEG format.
-    /// If the image object’s underlying image data has been purged, calling this function forces that data to be reloaded into memory.
-    /// - returns: A data object containing the JPEG data, or nil if there was a problem generating the data.
-    ///  This function may return nil if the image has no data or if the underlying CGImageRef contains data in an unsupported bitmap format.
-    func jpeg(_ jpegQuality: JPEGQuality) -> Data? {
+    func jpegData(_ jpegQuality: JPEGQuality) -> Data? {
         return jpegData(compressionQuality: jpegQuality.rawValue)
     }
     

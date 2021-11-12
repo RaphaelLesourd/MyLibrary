@@ -50,6 +50,8 @@
 		8121F0B3273BF130006EAA8D /* LibraryServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B2273BF12F006EAA8D /* LibraryServiceTestCase.swift */; };
 		8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */; };
 		8121F0B7273D53A5006EAA8D /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B6273D53A5006EAA8D /* UIImage+Extension.swift */; };
+		8121F0B9273E6A9A006EAA8D /* BookCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */; };
+		8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */; };
 		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
 		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
 		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
@@ -144,6 +146,8 @@
 		8121F0B2273BF12F006EAA8D /* LibraryServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryServiceTestCase.swift; sourceTree = "<group>"; };
 		8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageService.swift; sourceTree = "<group>"; };
 		8121F0B6273D53A5006EAA8D /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverViewController.swift; sourceTree = "<group>"; };
+		8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandationService.swift; sourceTree = "<group>"; };
 		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
 				81792F5C2731A311005F863B /* CommonStaticTableViewController.swift */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
@@ -409,7 +414,6 @@
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				819C5DC6272480F500F1F8F2 /* LayoutComposer.swift */,
 				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
-				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -530,6 +534,8 @@
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
 				813B7C702733A44F005BFBDB /* UserService.swift */,
 				813B7C792733ADFD005BFBDB /* AccountService.swift */,
+				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
+				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -733,6 +739,7 @@
 			files = (
 				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
+				8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */,
 				81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */,
 				81DE9CA627354C9800FF81C2 /* LibraryService.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
@@ -786,6 +793,7 @@
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
+				8121F0B9273E6A9A006EAA8D /* BookCoverViewController.swift in Sources */,
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
