@@ -14,13 +14,11 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<ApiSearchSection, Item>
     private lazy var dataSource = makeDataSource()
 
-    private var collectionView   = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let refresherControl = UIRefreshControl()
-    private var footerView       = LoadingFooterSupplementaryView()
-    
+    private let mainView       = CommonCollectionView()
+    private var footerView     = LoadingFooterSupplementaryView()
     private var layoutComposer = LayoutComposer()
-    private var networkService: ApiManagerProtocol
-    private var noMoreBooks: Bool?
+    private var networkService : ApiManagerProtocol
+    private var noMoreBooks    : Bool?
     
     weak var newBookDelegate: NewBookDelegate?
     
@@ -46,42 +44,35 @@ class SearchViewController: UIViewController {
     }
 
     // MARK: - Lifecycle
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.search
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
         configureCollectionView()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
     
     // MARK: - Setup
-    private func configureViewController() {
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.search
-    }
     /// Set up the collectionView with diffable datasource and compositional layout.
     /// Layouts are contrustructed in the Layoutcomposer class.
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
         let layout = layoutComposer.composeBookLibraryLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.delegate                     = self
-        collectionView.dataSource                   = dataSource
-        collectionView.backgroundColor              = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.frame                        = view.frame
-        collectionView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        view.addSubview(collectionView)
+        mainView.collectionView.collectionViewLayout = layout
+        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
+        mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
+        mainView.collectionView.delegate   = self
+        mainView.collectionView.dataSource = dataSource
     }
     
     private func configureRefresherControl() {
-        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
-        refresherControl.tintColor       = .label
-        collectionView.refreshControl    = refresherControl
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     // MARK: - API call
@@ -94,7 +85,7 @@ class SearchViewController: UIViewController {
         
         networkService.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
-            self.refresherControl.endRefreshing()
+            self.mainView.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
             
             switch result {
@@ -136,7 +127,7 @@ extension SearchViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView,
+        let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)

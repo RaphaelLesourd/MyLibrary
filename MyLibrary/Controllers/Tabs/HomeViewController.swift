@@ -13,11 +13,8 @@ class HomeViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, Item>
     typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, Item>
     private lazy var dataSource = makeDataSource()
-    
-    private var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let activityIndicator = UIActivityIndicatorView()
-    private let refresherControl  = UIRefreshControl()
-    
+  
+    private let mainView       = CommonCollectionView()
     private var layoutComposer = LayoutComposer()
     private var libraryService : LibraryServiceProtocol
     
@@ -42,9 +39,14 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+    override func loadView() {
+        view                 = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+        title                = Text.ControllerTitle.home
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
         configureCollectionView()
         configureRefresherControl()
         addNavigationBarButtons()
@@ -53,39 +55,24 @@ class HomeViewController: UIViewController {
     }
   
     // MARK: - Setup
-    private func configureViewController() {
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.home
-    }
-    
     private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
     private func configureCollectionView() {
         let layout = layoutComposer.composeHomeCollectionViewLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collectionView.register(cell: CategoryCollectionViewCell.self)
-        collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(cell: HorizontalCollectionViewCell.self)
-        collectionView.register(header: HeaderSupplementaryView.self)
-        
-        collectionView.delegate                     = self
-        collectionView.dataSource                   = dataSource
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor              = .clear
-        collectionView.frame                        = view.frame
-        collectionView.contentInset                 = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
-        view.addSubview(collectionView)
+        mainView.collectionView.collectionViewLayout = layout
+        mainView.collectionView.register(cell: CategoryCollectionViewCell.self)
+        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
+        mainView.collectionView.register(cell: HorizontalCollectionViewCell.self)
+        mainView.collectionView.register(header: HeaderSupplementaryView.self)
+        mainView.collectionView.delegate    = self
+        mainView.collectionView.dataSource  = dataSource
     }
     
     private func configureRefresherControl() {
-        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
-        refresherControl.tintColor       = .label
-        collectionView.refreshControl    = refresherControl
-        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
+        mainView.refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
     }
     
     // MARK: - Api call
@@ -105,12 +92,12 @@ class HomeViewController: UIViewController {
     }
     
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
-        showIndicator(activityIndicator)
+        showIndicator(mainView.activityIndicator)
         
         libraryService.getBooks(for: query, forMore: false) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            self.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
             switch result {
             case .success(let books):
                 DispatchQueue.main.async {
@@ -150,8 +137,8 @@ extension HomeViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func makeDataSource() -> DataSource {
-           let dataSource = DataSource(collectionView: collectionView,
-                                       cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        let dataSource = DataSource(collectionView: mainView.collectionView,
+                                    cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
             switch HomeCollectionViewSections(rawValue: indexPath.section) {
             case .categories:
                 let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)

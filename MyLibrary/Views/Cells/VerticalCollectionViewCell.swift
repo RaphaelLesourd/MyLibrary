@@ -38,7 +38,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
               let url = URL(string: imageURL) else { return }
         bookCover.af.setImage(withURL: url,
-                              cacheKey: book.etag,
+                              cacheKey: url.absoluteString,
                               placeholderImage: Images.emptyStateBookImage,
                               completion: nil)
     }

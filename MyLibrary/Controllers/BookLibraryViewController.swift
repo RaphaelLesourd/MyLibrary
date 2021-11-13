@@ -14,11 +14,9 @@ class BookLibraryViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
     private lazy var dataSource = makeDataSource()
     
-    private var layoutComposer    = LayoutComposer()
-    private var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let activityIndicator = UIActivityIndicatorView()
-    private let refresherControl  = UIRefreshControl()
-    private var footerView        = LoadingFooterSupplementaryView()
+    private var layoutComposer = LayoutComposer()
+    private let mainView       = CommonCollectionView()
+    private var footerView     = LoadingFooterSupplementaryView()
     
     private var libraryService: LibraryServiceProtocol
     private var bookList  : [Item] = []
@@ -36,9 +34,14 @@ class BookLibraryViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+    override func loadView() {
+        view = mainView
+        title = currentQuery.listType?.title ?? "Tous mes livres"
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewController()
         configureCollectionView()
         configureRefresherControl()
         addNavigationBarButtons()
@@ -47,46 +50,33 @@ class BookLibraryViewController: UIViewController {
     }
 
     // MARK: - Setup
-    private func configureViewController() {
-        title = currentQuery.listType?.title ?? "Tous mes livres"
-        view.backgroundColor = .viewControllerBackgroundColor
-    }
-    
     private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
     private func configureCollectionView() {
         let layout = layoutComposer.composeBookLibraryLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.delegate                     = self
-        collectionView.dataSource                   = dataSource
-        collectionView.backgroundColor              = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.frame                        = view.frame
-        collectionView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        view.addSubview(collectionView)
+        mainView.collectionView.collectionViewLayout = layout
+        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
+        mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
+        mainView.collectionView.delegate   = self
+        mainView.collectionView.dataSource = dataSource
     }
     
     private func configureRefresherControl() {
-        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
-        refresherControl.tintColor       = .label
-        collectionView.refreshControl    = refresherControl
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
   
     // MARK: - Api call
     private func getBooks(nextPage: Bool = false) {
-        showIndicator(activityIndicator)
+        showIndicator(mainView.activityIndicator)
         footerView.displayActivityIndicator(true)
         
         libraryService.getBooks(for: currentQuery, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            self.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
           
             switch result {
@@ -134,7 +124,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     private func makeDataSource() -> DataSource {
-        dataSource = DataSource(collectionView: collectionView,
+        dataSource = DataSource(collectionView: mainView.collectionView,
                                 cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)

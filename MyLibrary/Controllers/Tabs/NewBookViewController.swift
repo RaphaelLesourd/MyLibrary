@@ -23,8 +23,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private var searchController  = UISearchController()
     private let activityIndicator = UIActivityIndicatorView()
 
-    private var libraryService      : LibraryServiceProtocol
-    private var imagePicker         : ImagePicker?
+    private var libraryService : LibraryServiceProtocol
+    private var imagePicker    : ImagePicker?
     
     var isEditingBook  = false
     var bookDescription: String?
