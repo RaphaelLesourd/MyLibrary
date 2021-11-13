@@ -44,13 +44,14 @@ class BookCardMainView: UIView {
     let titleLabel             = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
     let authorLabel            = TextLabel(maxLines: 2, alignment: .center, fontSize: 16, weight: .regular)
     let categoryiesLabel       = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    let ratingView             = RatingView()
     let descriptionLabel       = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
     let purchaseDetailView     = PurchaseView()
     let currentResellPriceView = PurchaseView()
     let bookDetailView         = BookDetailView()
     let isbnLabel              = TextLabel(color: .secondaryLabel)
     let commentLabel           = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let actionButton           = ActionButton(title: "Recommander")
+    let actionButton           = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre de votre bibliothèque", for: .normal)
@@ -124,6 +125,7 @@ extension BookCardMainView {
         let mainStackSubViews: [UIView] = [titleLabel,
                                            authorLabel,
                                            categoryiesLabel,
+                                           ratingView,
                                            descriptionLabel,
                                            bookDetailView,
                                            isbnLabel,
@@ -135,6 +137,7 @@ extension BookCardMainView {
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(2, after: titleLabel)
         mainStackView.setCustomSpacing(2, after: authorLabel)
+        mainStackView.setCustomSpacing(15, after: categoryiesLabel)
         mainStackView.setCustomSpacing(5, after: purchaseDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
         NSLayoutConstraint.activate([

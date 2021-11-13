@@ -92,9 +92,11 @@ class HomeViewController: UIViewController {
     @objc private func fetchBookLists() {
         getBooks(for: .latestBookQuery) { [weak self] books in
             self?.latestBooks = books
+            self?.applySnapshot()
         }
         getBooks(for: .favoriteBookQuery) { [weak self] books in
             self?.favoriteBooks = books
+            self?.applySnapshot()
         }
         getBooks(for: .recommandeBookQuery) { [weak self] books in
             self?.recommandedBooks = books
@@ -115,14 +117,13 @@ class HomeViewController: UIViewController {
                     completion(books)
                 }
             case .failure(let error):
-                completion([])
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
     
     // MARK: - Targets
-    @objc private func showMoreBook(_ sender: UIButton) {
+    @objc private func showMoreButtonAction(_ sender: UIButton) {
         let bookListVC = BookLibraryViewController(libraryService: LibraryService())
         switch HomeCollectionViewSections(rawValue: sender.tag) {
         case .categories:
@@ -180,7 +181,7 @@ extension HomeViewController {
                 headerView.configureTitle(with: headerTitle)
             }
             headerView.actionButton.tag = HomeCollectionViewSections.allCases[indexPath.section].rawValue
-            headerView.actionButton.addTarget(self, action: #selector(self?.showMoreBook(_:)), for: .touchUpInside)
+            headerView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
             return headerView
         }
     }

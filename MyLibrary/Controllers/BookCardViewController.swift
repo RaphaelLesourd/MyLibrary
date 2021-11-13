@@ -20,9 +20,10 @@ class BookCardViewController: UIViewController {
     private var recommandationService   : RecommandationServiceProtocol
     private weak var newBookBookDelegate: NewBookDelegate?
     
-    private var isRecommanded = false {
+    private var isRecommandedStatus = false {
         didSet {
-            setRecommandationButton(isRecommanded)
+            print(isRecommandedStatus)
+            setRecommandationButton(isRecommanding: isRecommandedStatus)
         }
     }
     private var isFavorite = false {
@@ -30,12 +31,7 @@ class BookCardViewController: UIViewController {
             setFavoriteIcon(isFavorite)
         }
     }
-    private var coverImage: UIImage? {
-        didSet {
-            guard let coverImage = coverImage else { return }
-            mainView.bookCover.image = coverImage
-        }
-    }
+    private var coverImage: UIImage?
     var searchType: SearchType?
     var book: Item? {
         didSet {
@@ -66,9 +62,20 @@ class BookCardViewController: UIViewController {
         setTargets()
         configureUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationItem.largeTitleDisplayMode = .always
+    }
+    
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"),
+        let editButton = UIBarButtonItem(image: Images.editBookIcon,
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
@@ -87,9 +94,9 @@ class BookCardViewController: UIViewController {
     private func configureUI() {
         mainView.commentLabel.isHidden = searchType == .apiSearch
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
-        let actionButtontitle = searchType == .apiSearch ? "Sauvegarder" : "Recommander"
-        mainView.actionButton.setTitle(actionButtontitle, for: .normal)
-       
+        if  searchType == .apiSearch {
+            mainView.actionButton.setTitle("Sauvegarder", for: .normal)
+        }
         if book?.ownerID != Auth.auth().currentUser?.uid {
             mainView.deleteBookButton.isHidden = true
             mainView.actionButton.isHidden = true
@@ -112,7 +119,11 @@ class BookCardViewController: UIViewController {
         mainView.purchaseDetailView.purchasePriceLabel.text      = ""
         mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
         mainView.commentLabel.text                               = ""
-        
+      
+        mainView.ratingView.setRating(for: 3)
+//        if let rating = book?.ratingsCount {
+//            
+//        }
         if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
            let price = self.book?.saleInfo?.retailPrice?.amount {
             mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
@@ -124,14 +135,16 @@ class BookCardViewController: UIViewController {
             isFavorite = favorite
         }
         if let recommand = self.book?.recommanding {
-            isRecommanded = recommand
+            isRecommandedStatus = recommand
         }
         if let url = book?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
-            AF.request(imageURL).responseImage { [weak self] response in
+            mainView.bookCover.af.setImage(withURL: imageURL,
+                                           cacheKey: imageURL.absoluteString,
+                                           completion: { [weak self] response in
                 if case .success(let image) = response.result {
                     self?.coverImage = image
                 }
-            }
+            })
         }
     }
     
@@ -139,7 +152,7 @@ class BookCardViewController: UIViewController {
         mainView.favoriteButton.tintColor = isFavorite ? .systemPink : .systemGray
     }
     
-    private func setRecommandationButton(_ isRecommanding: Bool) {
+    private func setRecommandationButton(isRecommanding: Bool) {
         let title = isRecommanding ? "Ne plus recommander" : "Recommander"
         mainView.actionButton.setTitle(title, for: .normal)
     }
@@ -148,7 +161,6 @@ class BookCardViewController: UIViewController {
     private func deleteBook() {
         guard let book = book else { return }
         showIndicator(activityIndicator)
-        
         libraryService.deleteBook(book: book) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
@@ -162,23 +174,18 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    private func updateBookFieldStatus(_ state: Bool, fieldKey: BookDocumentKey) {
+    private func updateBookStatus(_ state: Bool, fieldKey: BookDocumentKey) {
         guard let bookID = book?.etag else { return }
         showIndicator(activityIndicator)
-        
-        libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] error in
+        libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] _ in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
-            if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-            }
         }
     }
     
     private func recommnandBook(_ recommanded: Bool) {
-        guard let book = book, let bookID = book.etag else {
-            return
-        }
+        guard let book = book else { return  }
+        updateBookStatus(recommanded, fieldKey: .recommanding)
         if recommanded == true {
             recommandationService.addToRecommandation(for: book) { [weak self] error in
                 if let error = error {
@@ -186,25 +193,23 @@ class BookCardViewController: UIViewController {
                 }
             }
         } else {
-            recommandationService.removeFromRecommandation(for: bookID) { [weak self] error in
+            recommandationService.removeFromRecommandation(for: book) { [weak self] error in
                 if let error = error {
                     self?.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
         }
-        updateBookFieldStatus(recommanded, fieldKey: .recommanding)
     }
     
     // MARK: - Targets
     @objc private func favoriteButtonAction() {
         isFavorite.toggle()
-        updateBookFieldStatus(isFavorite, fieldKey: .favorite)
+        updateBookStatus(isFavorite, fieldKey: .favorite)
     }
     
     @objc private func recommandButtonAction() {
-        isRecommanded.toggle()
-        recommnandBook(isRecommanded)
-        
+        isRecommandedStatus.toggle()
+        recommnandBook(isRecommandedStatus)
     }
     
     @objc private func deleteBookAction() {
@@ -223,8 +228,7 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService(),
-                                                      imageStorageService: ImageStorageService())
+        let newBookController = NewBookViewController(libraryService: LibraryService())
         newBookController.newBook       = book
         newBookController.isEditingBook = true
         navigationController?.pushViewController(newBookController, animated: true)

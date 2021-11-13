@@ -24,7 +24,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let activityIndicator = UIActivityIndicatorView()
 
     private var libraryService      : LibraryServiceProtocol
-    private var imageStorageService : ImageStorageProtocol
     private var imagePicker         : ImagePicker?
     
     var isEditingBook  = false
@@ -68,9 +67,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     languageCell.textField,
                                     purchasePriceCell.textField]
     
-    init(libraryService: LibraryServiceProtocol, imageStorageService: ImageStorageProtocol) {
+    init(libraryService: LibraryServiceProtocol) {
         self.libraryService      = libraryService
-        self.imageStorageService = imageStorageService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -163,34 +161,22 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     @objc private func saveBook() {
-        guard let book = createBookDocument() else { return }
         saveButtonCell.displayActivityIndicator(true)
+        guard let book = createBookDocument() else { return }
+        guard let imageData = bookImageCell.pictureView.image?.jpegData(.high) else { return }
         
-        libraryService.createBook(with: book, completion: { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let bookID):
-                    self.saveCustomImage(for: bookID)
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        })
-    }
-    
-    private func saveCustomImage(for bookID: String) {
-        let imageToSave = bookImageCell.pictureView.image?.jpegData(.highest)
-        
-        imageStorageService.saveBookCoverToFirebase(for: imageToSave, nameID: bookID, type: .books) { [weak self] error in
+        libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
             self.saveButtonCell.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
             self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
     }
-    
+
     private func createBookDocument() -> Item? {
         let isbn = isbnCell.textField.text ?? UUID().uuidString
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,

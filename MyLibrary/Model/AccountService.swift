@@ -60,7 +60,6 @@ extension AccountService: AccountServiceProtocol {
             self.userService.createUserInDatabase(for: newUser) { error in
                 if let error = error {
                     completion(.firebaseError(error))
-                    return
                 }
                 completion(nil)
             }
@@ -77,25 +76,21 @@ extension AccountService: AccountServiceProtocol {
             guard let self = self else { return }
             if let error = error {
                 completion(.firebaseError(error))
-                return
             }
             // Delete user from firestore
             self.userService.deleteUser { error in
                 if let error = error {
                     completion(.firebaseError(error))
-                    return
                 }
                 // Delete account
                 self.user?.delete { error in
                     if let error = error {
                         completion(.firebaseError(error))
-                        return
                     }
                     // Sign out
                     self.signOut { error in
                         if let error = error {
                             completion(.firebaseError(error))
-                            return
                         }
                         completion(nil)
                     }
@@ -110,9 +105,8 @@ extension AccountService: AccountServiceProtocol {
         Auth.auth().signIn(withEmail: userCredentials.email, password: userCredentials.password) { _, error in
             if let error = error {
                 completion(.firebaseError(error))
-            } else {
-                completion(nil)
             }
+            completion(nil)
         }
     }
     

@@ -49,8 +49,7 @@ class TabBarController: UITabBarController {
                                                         title: Text.ControllerTitle.myBooks,
                                                         image: libraryIconImage)
         
-        let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
-                                                                            imageStorageService: ImageStorageService()),
+        let newViewController = createController(for: NewBookViewController(libraryService: LibraryService()),
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.newBookIcon!)
         

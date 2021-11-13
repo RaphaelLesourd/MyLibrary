@@ -35,6 +35,7 @@ extension UserService: UserServiceProtocol {
     // MARK: Create
     func createUserInDatabase(for currentUser: CurrentUser?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
+        
         let userRef = usersCollectionRef.document(currentUser.userId)
         do {
             try userRef.setData(from: currentUser)
@@ -45,12 +46,11 @@ extension UserService: UserServiceProtocol {
     // MARK: Retrieve
     func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
         guard let userId = userId else { return }
+       
         let userRef = usersCollectionRef.document(userId)
-        
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
-                return
             }
             guard let querySnapshot = querySnapshot else {
                 completion(.failure(.nothingFound))
@@ -75,7 +75,6 @@ extension UserService: UserServiceProtocol {
         usersCollectionRef.document(userId).updateData([UserDocumentKey.username.rawValue : username]) { error in
             if let error = error {
                 completion(.firebaseError(error))
-                return
             }
             completion(nil)
         }
@@ -84,10 +83,10 @@ extension UserService: UserServiceProtocol {
     // MARK: Delete
     func deleteUser(completion: @escaping CompletionHandler) {
         guard let userId = userId else { return }
+       
         usersCollectionRef.document(userId).delete { error in
             if let error = error {
                 completion(.firebaseError(error))
-                return
             }
             completion(nil)
         }

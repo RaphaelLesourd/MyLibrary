@@ -11,8 +11,8 @@ import Foundation
 enum HomeCollectionViewSections: Int, CaseIterable {
     case newEntry
     case favorites
-    case categories
     case recommanding
+    case categories
     
     var title: String {
         switch self {

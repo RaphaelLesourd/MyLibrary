@@ -21,8 +21,8 @@ struct Item: Codable {
     let etag: String?
     let favorite: Bool?
     let ownerID: String?
-    let recommanding: Bool?
-    let volumeInfo: VolumeInfo?
+    var recommanding: Bool?
+    var volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
     let timestamp: Double?
     
@@ -49,7 +49,7 @@ struct VolumeInfo: Codable {
     let pageCount: Int?
     let categories: [String]?
     let ratingsCount: Int?
-    let imageLinks: ImageLinks?
+    var imageLinks: ImageLinks?
     let language: String?
 
     enum CodingKeys: String, CodingKey {
@@ -66,7 +66,7 @@ struct IndustryIdentifier: Codable {
 
 // MARK: - ImageLinks
 struct ImageLinks: Codable {
-    let thumbnail: String?
+    var thumbnail: String?
 }
 
 // MARK: - SaleInfo

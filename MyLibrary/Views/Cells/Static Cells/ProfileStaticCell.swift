@@ -23,7 +23,7 @@ class ProfileStaticCell: UITableViewCell {
     
     let profileImageButton: UIButton = {
         let button = UIButton()
-        button.contentMode = .scaleAspectFill
+        button.contentMode = .scaleAspectFit
         button.rounded(radius: 30, backgroundColor: .tertiaryLabel)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

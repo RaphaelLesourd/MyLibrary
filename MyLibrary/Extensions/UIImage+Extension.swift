@@ -28,7 +28,7 @@ extension UIImage {
             width = max_size_pixels * aspectRatio
         }
         // create an image renderer of the correct size
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height),
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: floor(width), height: floor(height)),
                                                format: UIGraphicsImageRendererFormat.default())
         // render the image
         let newImage = renderer.image { _ in

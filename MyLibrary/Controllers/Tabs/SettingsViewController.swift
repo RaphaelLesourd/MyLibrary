@@ -135,16 +135,15 @@ class SettingsViewController: CommonStaticTableViewController {
     }
     
     private func saveProfileImage(_ image: UIImage) {
-        let imageToSave = image.jpegData(.medium)
+        let profileImageData = image.jpegData(.medium)
         profileCell.activityIndicator.startAnimating()
-        
-        imageService.saveBookCoverToFirebase(for: imageToSave, nameID: "profileImage", type: .users) { [weak self] error in
-            guard let self = self else { return }
-            self.profileCell.activityIndicator.stopAnimating()
+        imageService.updateUserImage(for:profileImageData) { [weak self] error in
+            self?.profileCell.activityIndicator.stopAnimating()
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Photo mise à jour.")
+            self?.presentAlertBanner(as: .success, subtitle: "Photo de profil mise à jour.")
         }
     }
     
