@@ -8,21 +8,17 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, Item>
     typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, Item>
     private lazy var dataSource = makeDataSource()
-  
+    
     private let mainView       = CommonCollectionView()
     private var layoutComposer = LayoutComposer()
     private var libraryService : LibraryServiceProtocol
     
-    private let latestBookQuery   = BookQuery.latestBookQuery
-    private let favoriteBookQuery = BookQuery.favoriteBookQuery
-    private let recommandedQuery  = BookQuery.recommandeBookQuery
-    private var currentQuery: BookQuery?
-   
+    private var currentQuery    : BookQuery?
     private var latestBooks     : [Item] = []
     private var favoriteBooks   : [Item] = []
     private var recommandedBooks: [Item] = []
@@ -53,7 +49,7 @@ class HomeViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
     }
-  
+    
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -85,7 +81,7 @@ class HomeViewController: UIViewController {
             self?.favoriteBooks = books
             self?.applySnapshot()
         }
-        getBooks(for: .recommandeBookQuery) { [weak self] books in
+        getBooks(for: .recommandationQuery) { [weak self] books in
             self?.recommandedBooks = books
             self?.applySnapshot()
         }
@@ -94,17 +90,17 @@ class HomeViewController: UIViewController {
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
         showIndicator(mainView.activityIndicator)
         
-        libraryService.getBooks(for: query, forMore: false) { [weak self] result in
+        libraryService.getBookList(for: query, forMore: false) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
-            switch result {
-            case .success(let books):
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                self.hideIndicator(self.mainView.activityIndicator)
+                self.mainView.refresherControl.endRefreshing()
+                switch result {
+                case .success(let books):
                     completion(books)
+                case .failure(let error):
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
                 }
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -113,16 +109,14 @@ class HomeViewController: UIViewController {
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         let bookListVC = BookLibraryViewController(libraryService: LibraryService())
         switch HomeCollectionViewSections(rawValue: sender.tag) {
-        case .categories:
+        case .categories, .none:
             currentQuery = nil
         case .newEntry:
-            currentQuery = latestBookQuery
+            currentQuery = BookQuery.latestBookQuery
         case .recommanding:
-            currentQuery = recommandedQuery
+            currentQuery = BookQuery.recommandationQuery
         case .favorites:
-            currentQuery = favoriteBookQuery
-        case .none:
-            currentQuery = nil
+            currentQuery = BookQuery.favoriteBookQuery
         }
         if let currentQuery = currentQuery {
             bookListVC.currentQuery = currentQuery
@@ -177,7 +171,7 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
-      //  snapshot.appendItems(latestBooks, toSection: .categories)
+        //  snapshot.appendItems(latestBooks, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
         snapshot.appendItems(favoriteBooks, toSection: .favorites)
         snapshot.appendItems(recommandedBooks, toSection: .recommanding)
@@ -186,6 +180,7 @@ extension HomeViewController {
 }
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
         showBookDetails(for: selectedBook, searchType: .librarySearch)

@@ -51,6 +51,7 @@ extension UserService: UserServiceProtocol {
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
+                return
             }
             guard let querySnapshot = querySnapshot else {
                 completion(.failure(.nothingFound))
@@ -87,6 +88,7 @@ extension UserService: UserServiceProtocol {
         usersCollectionRef.document(userId).delete { error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             completion(nil)
         }

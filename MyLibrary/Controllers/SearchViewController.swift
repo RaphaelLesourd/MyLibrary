@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
     var searchedBooks: [Item] = [] 
     var currentSearchKeywords = "" {
         didSet {
+            searchedBooks.removeAll()
             noMoreBooks = false
             getBooks()
         }

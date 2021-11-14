@@ -13,6 +13,8 @@ class ActionButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureButton()
+        self.translatesAutoresizingMaskIntoConstraints = true
+        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     required init?(coder: NSCoder) {

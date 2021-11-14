@@ -23,6 +23,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private var searchController  = UISearchController()
     private let activityIndicator = UIActivityIndicatorView()
 
+    weak var bookCardDelegate  : BookCardDelegate?
     private var libraryService : LibraryServiceProtocol
     private var imagePicker    : ImagePicker?
     
@@ -178,7 +179,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
 
     private func createBookDocument() -> Item? {
-        let isbn = isbnCell.textField.text ?? UUID().uuidString
+        let isbn = isbnCell.textField.text ?? ""
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
                                     authors: [bookAuthorCell.textField.text ?? ""],
                                     publisher: publisherCell.textField.text ?? "",
@@ -217,8 +218,17 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     @objc func returnToPreviousController() {
+        bookCardDelegate?.fetchBookUpdate()
         clearData()
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func presentTextInputController(for inputType: TextInputType) {
+        let textInputViewController = TextInputViewController()
+        textInputViewController.newBookDelegate = self
+        textInputViewController.textInpuType    = inputType
+        textInputViewController.textViewText    = inputType == .description ? bookDescription : bookComment
+        navigationController?.pushViewController(textInputViewController, animated: true)
     }
 }
 // MARK: - TextField Delegate
@@ -264,14 +274,6 @@ extension NewBookViewController {
         default:
             return
         }
-    }
-    
-    private func presentTextInputController(for inputType: TextInputType) {
-        let textInputViewController = TextInputViewController()
-        textInputViewController.newBookDelegate = self
-        textInputViewController.textInpuType    = inputType
-        textInputViewController.textViewText    = inputType == .description ? bookDescription : bookComment
-        navigationController?.pushViewController(textInputViewController, animated: true)
     }
 }
 // MARK: - ImagePicker Delegate

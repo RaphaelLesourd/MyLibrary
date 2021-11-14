@@ -60,10 +60,10 @@ class BookCardMainView: UIView {
         return button
     }()
     let separatorLine: UIView = {
-            let view = UIView()
-            view.backgroundColor = .secondaryLabel
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        let view = UIView()
+        view.backgroundColor = .secondaryLabel
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
         return view
     }()
     let favoriteButton: UIButton = {
@@ -71,7 +71,7 @@ class BookCardMainView: UIView {
         let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
         let image = Images.favoriteImage?.withConfiguration(configuration)
         button.setImage(image, for: .normal)
-        button.transform = CGAffineTransform.identity.rotated(by: .pi/5)
+        button.addShadow(opacity: 1, verticalOffset: 5, radius: 15, color: .black)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -112,9 +112,8 @@ extension BookCardMainView {
     private func setFavoriteButtonConstraints() {
         contentView.addSubview(favoriteButton)
         NSLayoutConstraint.activate([
-            favoriteButton.topAnchor.constraint(equalTo: bookCover.topAnchor, constant: -30),
-            favoriteButton.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: -20),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 50),
+            favoriteButton.topAnchor.constraint(equalTo: bookCover.topAnchor, constant: -5),
+            favoriteButton.leadingAnchor.constraint(equalTo: bookCover.leadingAnchor, constant: 10),
             favoriteButton.widthAnchor.constraint(equalToConstant: 50)
         ])
     }

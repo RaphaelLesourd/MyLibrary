@@ -73,22 +73,24 @@ class BookLibraryViewController: UIViewController {
         showIndicator(mainView.activityIndicator)
         footerView.displayActivityIndicator(true)
         
-        libraryService.getBooks(for: currentQuery, forMore: nextPage) { [weak self] result in
+        libraryService.getBookList(for: currentQuery, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
-            self.footerView.displayActivityIndicator(false)
-          
-            switch result {
-            case .success(let books):
-                if books.isEmpty {
-                    self.noMoreBooks = true
-                } else {
-                    self.bookList.append(contentsOf: books)
-                    self.applySnapshot()
+            DispatchQueue.main.async {
+                self.hideIndicator(self.mainView.activityIndicator)
+                self.mainView.refresherControl.endRefreshing()
+                self.footerView.displayActivityIndicator(false)
+                
+                switch result {
+                case .success(let books):
+                    if books.isEmpty {
+                        self.noMoreBooks = true
+                    } else {
+                        self.bookList.append(contentsOf: books)
+                        self.applySnapshot()
+                    }
+                case .failure(let error):
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
                 }
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }

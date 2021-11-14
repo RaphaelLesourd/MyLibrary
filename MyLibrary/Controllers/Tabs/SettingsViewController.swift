@@ -25,7 +25,7 @@ class SettingsViewController: CommonStaticTableViewController {
                                                      systemImage: "rectangle.portrait.and.arrow.right.fill",
                                                      tintColor: .systemPurple,
                                                      backgroundColor: .systemPurple)
-    private let deleteAccountCell = ButtonStaticCell(title: "Supprimer son compte",
+    private let deleteAccountCell = ButtonStaticCell(title: "Supprimer le compte",
                                                      systemImage: "",
                                                      tintColor: .systemRed,
                                                      backgroundColor: .clear)
@@ -51,7 +51,7 @@ class SettingsViewController: CommonStaticTableViewController {
         composeTableView()
         setDelegates()
         setTargets()
-        setProfileData()
+        getProfileData()
     }
     
     // MARK: - Setup
@@ -103,7 +103,7 @@ class SettingsViewController: CommonStaticTableViewController {
     }
     
     // MARK: - Api call
-    private func setProfileData() {
+    private func getProfileData() {
         profileCell.activityIndicator.startAnimating()
         
         userService.retrieveUser { [weak self] result in
@@ -176,6 +176,7 @@ class SettingsViewController: CommonStaticTableViewController {
 
 // MARK: - ImagePicker Delegate
 extension SettingsViewController: ImagePickerDelegate {
+    
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         profileCell.profileImageButton.setImage(image, for: .normal)
@@ -185,6 +186,7 @@ extension SettingsViewController: ImagePickerDelegate {
 
 // MARK: - TextField Delegate
 extension SettingsViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == profileCell.userNameTextField {
             saveUserName()

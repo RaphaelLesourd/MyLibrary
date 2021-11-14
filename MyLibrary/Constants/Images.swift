@@ -19,6 +19,6 @@ enum Images {
     static let oldSettingsIcon = UIImage(systemName: "gear")
     static let newBookIcon = UIImage(systemName: "plus.circle.fill")
     static let emptyStateBookImage = UIImage(named: "cover")
-    static let favoriteImage = UIImage(systemName: "heart.fill")
+    static let favoriteImage = UIImage(systemName: "bookmark.fill")
     static let editBookIcon = UIImage(systemName: "square.and.pencil")
 }

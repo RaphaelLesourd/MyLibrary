@@ -28,7 +28,7 @@ class LayoutComposer {
     }
     
     // Horizontal scroll single cell
-    private func makeHorizontalBookCardLayoutSection() -> NSCollectionLayoutSection {
+    private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 5)
         let group = NSCollectionLayoutGroup.horizontal(
@@ -41,7 +41,7 @@ class LayoutComposer {
     }
     
     // Horizontal scroll layout, cell with description
-    private func makeVerticalWithDetailLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
+    private func makeBookDetailLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 30)
         let group = NSCollectionLayoutGroup.vertical(
@@ -102,9 +102,9 @@ class LayoutComposer {
             case .categories:
                 return self?.makeCategoryLayoutSection()
             case .recommanding, .newEntry:
-                return self?.makeHorizontalBookCardLayoutSection()
+                return self?.makeHorizontalScrollLayoutSection()
             case .favorites:
-                return self?.makeVerticalWithDetailLayoutSection(numberItems: 2)
+                return self?.makeBookDetailLayoutSection(numberItems: 2)
             case nil:
                 return nil
             }

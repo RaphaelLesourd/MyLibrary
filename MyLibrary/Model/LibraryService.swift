@@ -12,8 +12,9 @@ import FirebaseFirestore
 
 protocol LibraryServiceProtocol {
     func createBook(with book: Item?, and imageData: Data, completion: @escaping (FirebaseError?) -> Void)
+    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
+    func getBookList(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func deleteBook(book: Item?, completion: @escaping (FirebaseError?) -> Void)
-    func getBooks(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func setStatusTo(_ state: Bool, field: BookDocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
 }
 
@@ -48,7 +49,6 @@ class LibraryService {
         
         do {
             try ref.setData(from: document)
-            ref.setData([BookDocumentKey.etag.rawValue: id, "ownerID": userID], merge: true)
             completion(nil)
         } catch { completion(.firebaseError(error)) }
     }
@@ -75,6 +75,7 @@ class LibraryService {
         docRef.delete { error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             completion(nil)
         }
@@ -92,6 +93,7 @@ class LibraryService {
         documentRef.updateData([field.rawValue : favoriteState]) { error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             completion(nil)
         }
@@ -153,11 +155,14 @@ extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update
     func createBook(with book: Item?, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
+        guard let userID = userID else { return }
         var book = book
         checkDocumentExist(for: book) { [weak self] uid in
             let bookID = uid ?? UUID().uuidString
             self?.saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
                 book?.volumeInfo?.imageLinks?.thumbnail = storageLink
+                book?.ownerID = userID
+                book?.etag = bookID
                 self?.saveDocument(for: book, with: bookID, collection: .books) { error in
                     if let error = error {
                         completion(.firebaseError(error))
@@ -169,7 +174,7 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
    // MARK: Retrieve
-    func getBooks(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
+    func getBookList(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
         guard let docRef = createQuery(query: query, next: forMore) else {
             completion(.failure(.nothingFound))
             return
@@ -177,6 +182,7 @@ extension LibraryService: LibraryServiceProtocol {
         bookListListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
+                return
             }
             guard let documents = querySnapshot?.documents else {
                 completion(.failure(.nothingFound))
@@ -196,7 +202,35 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
     
-    // MARK: Delete
+    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+        guard let userID = userID else { return }
+        
+        let docRef = usersCollectionRef
+            .document(userID)
+            .collection(CollectionDocumentKey.books.rawValue)
+            .whereField(BookDocumentKey.etag.rawValue, isEqualTo: bookID)
+        
+        docRef.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(.firebaseError(error)))
+                return
+            }
+            guard let querySnapshot = querySnapshot?.documents.first else {
+                completion(.failure(.nothingFound))
+                return
+            }
+            do {
+                if let document = try querySnapshot.data(as: Item.self) {
+                    completion(.success(document))
+                }
+            } catch {
+                completion(.failure(.firebaseError(error)))
+            }
+        }
+
+    }
+
+// MARK: Delete
     func deleteBook(book: Item?, completion: @escaping CompletionHandler) {
         guard let bookID = book?.etag else {
             completion(.nothingFound)
@@ -205,10 +239,12 @@ extension LibraryService: LibraryServiceProtocol {
         deleteDocument(with: bookID, collection: .books, completion: { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             self?.imageService.deleteImageFromStorage(for: bookID) { error in
                 if let error = error {
                     completion(.firebaseError(error))
+                    return
                 }
                 completion(nil)
             }
@@ -224,6 +260,7 @@ extension LibraryService: LibraryServiceProtocol {
         updateStatus(with: id, favoriteState: state, collection: .books, field: field) { error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             completion(nil)
         }

@@ -9,6 +9,11 @@ import UIKit
 import FirebaseAuth
 import Alamofire
 import AlamofireImage
+import SwiftUI
+
+protocol BookCardDelegate: AnyObject {
+    func fetchBookUpdate()
+}
 
 class BookCardViewController: UIViewController {
     
@@ -16,13 +21,11 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let activityIndicator = UIActivityIndicatorView()
     
-    private var libraryService          : LibraryServiceProtocol
-    private var recommandationService   : RecommandationServiceProtocol
-    private weak var newBookBookDelegate: NewBookDelegate?
+    private var libraryService        : LibraryServiceProtocol
+    private var recommandationService : RecommandationServiceProtocol
     
     private var isRecommandedStatus = false {
         didSet {
-            print(isRecommandedStatus)
             setRecommandationButton(isRecommanding: isRecommandedStatus)
         }
     }
@@ -38,7 +41,6 @@ class BookCardViewController: UIViewController {
             dispayBookData()
         }
     }
-    
     // MARK: - Intializers
     init(libraryService: LibraryServiceProtocol, recommandationService: RecommandationServiceProtocol) {
         self.libraryService        = libraryService
@@ -92,29 +94,28 @@ class BookCardViewController: UIViewController {
     }
     
     private func configureUI() {
-        mainView.commentLabel.isHidden = searchType == .apiSearch
+        mainView.commentLabel.isHidden     = searchType == .apiSearch
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         if  searchType == .apiSearch {
             mainView.actionButton.setTitle("Sauvegarder", for: .normal)
         }
         if book?.ownerID != Auth.auth().currentUser?.uid {
             mainView.deleteBookButton.isHidden = true
-            mainView.actionButton.isHidden = true
-            mainView.favoriteButton.isHidden = true
+            mainView.actionButton.isHidden     = true
+            mainView.favoriteButton.isHidden   = true
         }
     }
     
     // MARK: - Data
-    private func dispayBookData() {
-        let book = book?.volumeInfo
-        mainView.titleLabel.text                                 = book?.title
-        mainView.authorLabel.text                                = book?.authors?.first
-        mainView.categoryiesLabel.text                           = book?.categories?.joined(separator: ", ")
-        mainView.descriptionLabel.text                           = book?.volumeInfoDescription
-        mainView.bookDetailView.publisherNameView.infoLabel.text = book?.publisher
-        mainView.bookDetailView.publishedDateView.infoLabel.text = book?.publishedDate?.displayYearOnly
-        mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = book?.language?.capitalized
+    func dispayBookData() {
+        mainView.titleLabel.text                                 = book?.volumeInfo?.title
+        mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first
+        mainView.categoryiesLabel.text                           = book?.volumeInfo?.categories?.joined(separator: ", ")
+        mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
+        mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher
+        mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate?.displayYearOnly
+        mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
+        mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.capitalized
         mainView.purchaseDetailView.titleLabel.text              = ""
         mainView.purchaseDetailView.purchasePriceLabel.text      = ""
         mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
@@ -128,7 +129,7 @@ class BookCardViewController: UIViewController {
            let price = self.book?.saleInfo?.retailPrice?.amount {
             mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
         }
-        if let isbn = book?.industryIdentifiers?.first?.identifier {
+        if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
         }
         if let favorite = self.book?.favorite {
@@ -137,7 +138,7 @@ class BookCardViewController: UIViewController {
         if let recommand = self.book?.recommanding {
             isRecommandedStatus = recommand
         }
-        if let url = book?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
+        if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
             mainView.bookCover.af.setImage(withURL: imageURL,
                                            cacheKey: imageURL.absoluteString,
                                            completion: { [weak self] response in
@@ -149,7 +150,7 @@ class BookCardViewController: UIViewController {
     }
     
     private func setFavoriteIcon(_ isFavorite: Bool) {
-        mainView.favoriteButton.tintColor = isFavorite ? .systemPink : .systemGray
+        mainView.favoriteButton.tintColor = isFavorite ? .systemRed : .white
     }
     
     private func setRecommandationButton(isRecommanding: Bool) {
@@ -161,16 +162,19 @@ class BookCardViewController: UIViewController {
     private func deleteBook() {
         guard let book = book else { return }
         showIndicator(activityIndicator)
+        
         libraryService.deleteBook(book: book) { [weak self] error in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-                return
+            DispatchQueue.main.async {
+                self.hideIndicator(self.activityIndicator)
+                if let error = error {
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                    return
+                }
+                self.recommnandBook(false)
+                self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+                self.navigationController?.popViewController(animated: true)
             }
-            self.recommnandBook(false)
-            self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
-            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -229,8 +233,27 @@ class BookCardViewController: UIViewController {
     // MARK: - Navigation
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService())
-        newBookController.newBook       = book
-        newBookController.isEditingBook = true
+        newBookController.newBook          = book
+        newBookController.isEditingBook    = true
+        newBookController.bookCardDelegate = self
         navigationController?.pushViewController(newBookController, animated: true)
+    }
+}
+// MARK: - BookCardDelegate
+extension BookCardViewController: BookCardDelegate {
+    
+    func fetchBookUpdate() {
+        guard let bookID = book?.etag else { return }
+        presentAlertBanner(as: .customMessage("Mis à jour"))
+        libraryService.getBook(for: bookID) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let book):
+                    self?.book = book
+                case .failure(let error):
+                    self?.presentAlertBanner(as: .error, subtitle: error.description)
+                }
+            }
+        }
     }
 }

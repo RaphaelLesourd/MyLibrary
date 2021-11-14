@@ -51,8 +51,7 @@ extension ButtonStaticCell {
         contentView.addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            actionButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            actionButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -3),
             actionButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             actionButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])

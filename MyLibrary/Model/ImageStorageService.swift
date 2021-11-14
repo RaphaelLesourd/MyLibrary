@@ -39,10 +39,12 @@ class ImageStorageService {
         imageStorageRef.putData(imageData, metadata: nil, completion: { ( _, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
+                return
             }
             imageStorageRef.downloadURL(completion: { (url, error) in
                 if let error = error {
                     completion(.failure(.firebaseError(error)))
+                    return
                 }
                 completion(.success(url?.absoluteString))
             })

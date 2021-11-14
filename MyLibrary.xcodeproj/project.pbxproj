@@ -308,6 +308,15 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		8121F0C227401252006EAA8D /* CommonViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				81792F5C2731A311005F863B /* CommonStaticTableViewController.swift */,
+				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
+			);
+			path = CommonViewControllers;
+			sourceTree = "<group>";
+		};
 		81242D4C272D984F00CB39B1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,15 +407,14 @@
 			isa = PBXGroup;
 			children = (
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
+				8121F0C227401252006EAA8D /* CommonViewControllers */,
 				810C44692726EAA3007541C0 /* SignInUp */,
 				8124B9902725CB33004E9AE0 /* Tabs */,
-				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
-				81792F5C2731A311005F863B /* CommonStaticTableViewController.swift */,
+				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
-				812047F6272A8AF700E0A45B /* TextInputViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -452,13 +460,12 @@
 		81C6CCB0272479CA00DE9219 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				812047F3272A604800E0A45B /* BookDetailView.swift */,
-				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
+				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CCC227247A5000DE9219 /* Headers&Footers */,
+				812047FE272ACE9B00E0A45B /* Static Cells */,
 				81C6CCC127247A4300DE9219 /* Cells */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
-				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -466,8 +473,10 @@
 		81C6CCB327247A1600DE9219 /* ReusableElements */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
+				812047F3272A604800E0A45B /* BookDetailView.swift */,
 				81C6CCB627247A2B00DE9219 /* BookCover.swift */,
 				81C6CCB727247A2B00DE9219 /* CellTitleView.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
@@ -492,7 +501,6 @@
 		81C6CCC127247A4300DE9219 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				812047FE272ACE9B00E0A45B /* Static Cells */,
 				8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */,
 				81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */,
 				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
@@ -901,7 +909,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -957,7 +965,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

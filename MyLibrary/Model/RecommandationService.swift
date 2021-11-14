@@ -47,6 +47,7 @@ extension RecommandationService: RecommandationServiceProtocol {
         ref.delete { error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             completion(nil)
         }

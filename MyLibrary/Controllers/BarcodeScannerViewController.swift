@@ -85,13 +85,13 @@ class BarcodeScannerViewController: UIViewController {
         guard let device = videoDevice,
               let videoDeviceInput = try? AVCaptureDeviceInput(device: device),
               captureSession.canAddInput(videoDeviceInput) else {
-                presentAlert(withTitle: "Cannot Find Camera",
-                             message: "There seems to be a problem with the camera on your device.",
-                             actionHandler: { [weak self] _ in
-                    self?.dismiss(animated: true)
-                })
-                return nil
-            }
+                  presentAlert(withTitle: "Cannot Find Camera",
+                               message: "There seems to be a problem with the camera on your device.",
+                               actionHandler: { [weak self] _ in
+                      self?.dismiss(animated: true)
+                  })
+                  return nil
+              }
         return videoDeviceInput
     }
     
@@ -151,7 +151,7 @@ class BarcodeScannerViewController: UIViewController {
     private func showPermissionsAlert() {
         presentAlert(withTitle: "Camera Permissions",
                      message: "Please open Settings and grant permission for this app to use your camera.",
-                   actionHandler: nil)
+                     actionHandler: nil)
     }
 }
 // MARK: - AVCaptureDelegation
@@ -160,15 +160,15 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.
-  func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-    guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-    let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
-    do {
-      try imageRequestHandler.perform([detectBarcodeRequest])
-    } catch {
-        presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
+        do {
+            try imageRequestHandler.perform([detectBarcodeRequest])
+        } catch {
+            presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+        }
     }
-  }
 }
 
 // MARK: - PanModal Extension
