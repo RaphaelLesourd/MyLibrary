@@ -120,11 +120,8 @@ class BookCardViewController: UIViewController {
         mainView.purchaseDetailView.purchasePriceLabel.text      = ""
         mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
         mainView.commentLabel.text                               = ""
-      
-        mainView.ratingView.setRating(for: 3)
-//        if let rating = book?.ratingsCount {
-//            
-//        }
+        mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
+        
         if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
            let price = self.book?.saleInfo?.retailPrice?.amount {
             mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
@@ -150,7 +147,7 @@ class BookCardViewController: UIViewController {
     }
     
     private func setFavoriteIcon(_ isFavorite: Bool) {
-        mainView.favoriteButton.tintColor = isFavorite ? .systemRed : .white
+        mainView.favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
     }
     
     private func setRecommandationButton(isRecommanding: Bool) {

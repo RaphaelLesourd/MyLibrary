@@ -50,10 +50,11 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let languageCell         = TextFieldStaticCell(placeholder: "Langue du livre")
     private lazy var descriptionCell = createDefaultCell(with: "Description")
     
-    private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .numberPad)
-    private let resellPriceCell   = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .numberPad)
-    
-    private lazy var commentCell = createDefaultCell(with: "Commentaire")
+    private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .decimalPad)
+    private let resellPriceCell   = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .decimalPad)
+    private let ratingCell        = RatingInputStaticCell(placeholder: "Note\n(0 à 5)")
+   
+   // private lazy var commentCell = createDefaultCell(with: "Commentaire")
     private let saveButtonCell   = ButtonStaticCell(title: "Enregistrer",
                                                     systemImage: "arrow.down.doc.fill",
                                                     tintColor: .appTintColor,
@@ -119,8 +120,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                     [bookCategoryCell],
                     [publisherCell, publishDateCell],
                     [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
+                    [ratingCell],
                     [purchasePriceCell, resellPriceCell],
-                    [commentCell],
+                //    [commentCell],
                     [saveButtonCell]
         ]
     }
@@ -159,6 +161,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
         }
+        if let rating = book.volumeInfo?.ratingsCount {
+            ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
+        }
     }
     
     @objc private func saveBook() {
@@ -188,7 +193,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
                                     pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
                                     categories: [bookCategoryCell.textField.text ?? ""],
-                                    ratingsCount: newBook?.volumeInfo?.ratingsCount,
+                                    ratingsCount: ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: languageCell.textField.text ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
@@ -208,6 +213,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         bookDescription = nil
         resultController.searchedBooks.removeAll()
         textFields.forEach { $0.text = nil }
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
     }
     
     // MARK: - Navigation
@@ -267,10 +273,10 @@ extension NewBookViewController {
             if indexPath.row == 0 {
                 presentTextInputController(for: .description)
             }
-        case 6:
-            if indexPath.row == 0 {
-                presentTextInputController(for: .comment)
-            }
+//        case 7:
+//            if indexPath.row == 0 {
+//                presentTextInputController(for: .comment)
+//            }
         default:
             return
         }

@@ -54,7 +54,7 @@ class BookCardMainView: UIView {
     let actionButton           = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Effacer ce livre de votre bibliothèque", for: .normal)
+        button.setTitle("Effacer ce livre", for: .normal)
         button.setTitleColor(.systemRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return button
@@ -71,7 +71,7 @@ class BookCardMainView: UIView {
         let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
         let image = Images.favoriteImage?.withConfiguration(configuration)
         button.setImage(image, for: .normal)
-        button.addShadow(opacity: 1, verticalOffset: 5, radius: 15, color: .black)
+        button.addShadow(opacity: 0.5, verticalOffset: 1, radius: 2, color: .black)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -104,7 +104,6 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
             bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
         ])
     }
@@ -113,7 +112,7 @@ extension BookCardMainView {
         contentView.addSubview(favoriteButton)
         NSLayoutConstraint.activate([
             favoriteButton.topAnchor.constraint(equalTo: bookCover.topAnchor, constant: -5),
-            favoriteButton.leadingAnchor.constraint(equalTo: bookCover.leadingAnchor, constant: 10),
+            favoriteButton.leadingAnchor.constraint(equalTo: bookCover.leadingAnchor),
             favoriteButton.widthAnchor.constraint(equalToConstant: 50)
         ])
     }

@@ -1,14 +1,14 @@
 //
-//  TextFieldCell.swift
+//  RatingInputStaticCell.swift
 //  MyLibrary
 //
-//  Created by Birkyboy on 28/10/2021.
+//  Created by Birkyboy on 14/11/2021.
 //
 
 import Foundation
 import UIKit
 
-class TextFieldStaticCell: UITableViewCell {
+class RatingInputStaticCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -20,24 +20,38 @@ class TextFieldStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(placeholder: String, keyboardType: UIKeyboardType = .default) {
+    convenience init(placeholder: String) {
         self.init()
-        titleLabel.text              = placeholder
-        textField.autocorrectionType = .no
-        textField.placeholder        = placeholder
-        textField.keyboardType       = keyboardType
+        titleLabel.text = placeholder
     }
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
-    let textField  = TextField()
+    let ratingSegmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["✗","1 ★","2 ★","3 ★","4 ★","5 ★"])
+        control.isSpringLoaded = true
+        control.tintColor = .clear
+        control.selectedSegmentIndex = 0
+        control.backgroundColor = .clear
+        control.selectedSegmentTintColor = .white
+        
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        control.setTitleTextAttributes(titleTextAttributes, for:.normal)
+        
+        let titleTextAttributes1 = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        control.setTitleTextAttributes(titleTextAttributes1, for: .selected)
+      
+        control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
     private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)
 }
 // MARK: - Constraints
-extension TextFieldStaticCell {
+extension RatingInputStaticCell {
     private func setConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(textField)
+        stackView.addArrangedSubview(ratingSegmentedControl)
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -45,5 +59,4 @@ extension TextFieldStaticCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
-   
 }
