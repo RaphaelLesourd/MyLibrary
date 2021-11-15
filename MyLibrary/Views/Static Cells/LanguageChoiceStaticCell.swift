@@ -1,5 +1,5 @@
 //
-//  RatingInputStaticCell.swift
+//  LanguageChoiceStaticCell.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 14/11/2021.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class RatingInputStaticCell: UITableViewCell {
+class LanguageChoiceStaticCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -25,33 +25,21 @@ class RatingInputStaticCell: UITableViewCell {
         titleLabel.text = placeholder
     }
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
-    let ratingSegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["✗","1 ★","2 ★","3 ★","4 ★","5 ★"])
-        control.isSpringLoaded           = true
-        control.tintColor                = .clear
-        control.selectedSegmentIndex     = 0
-        control.backgroundColor          = .clear
-        control.selectedSegmentTintColor = .ratingColor
-        
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-        control.setTitleTextAttributes(titleTextAttributes, for:.normal)
-        
-        let titleTextAttributes1 = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        control.setTitleTextAttributes(titleTextAttributes1, for: .selected)
-      
-        control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-        control.translatesAutoresizingMaskIntoConstraints = false
-        return control
+    let pickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        picker.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        return picker
     }()
     private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)
 }
 // MARK: - Constraints
-extension RatingInputStaticCell {
+extension LanguageChoiceStaticCell {
     private func setConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(ratingSegmentedControl)
+        stackView.addArrangedSubview(pickerView)
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

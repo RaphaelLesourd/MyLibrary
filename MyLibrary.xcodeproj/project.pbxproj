@@ -55,6 +55,8 @@
 		8121F0BF273FEC22006EAA8D /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0BE273FEC20006EAA8D /* RatingView.swift */; };
 		8121F0C127400541006EAA8D /* CommonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0C027400541006EAA8D /* CommonCollectionView.swift */; };
 		8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0C3274153F4006EAA8D /* RatingInputStaticCell.swift */; };
+		8121F0C6274182EA006EAA8D /* LanguageChoiceStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0C5274182E9006EAA8D /* LanguageChoiceStaticCell.swift */; };
+		8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121F0C72742418F006EAA8D /* ImageScrollView.swift */; };
 		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
 		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
 		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
@@ -154,6 +156,8 @@
 		8121F0BE273FEC20006EAA8D /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		8121F0C027400541006EAA8D /* CommonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCollectionView.swift; sourceTree = "<group>"; };
 		8121F0C3274153F4006EAA8D /* RatingInputStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingInputStaticCell.swift; sourceTree = "<group>"; };
+		8121F0C5274182E9006EAA8D /* LanguageChoiceStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageChoiceStaticCell.swift; sourceTree = "<group>"; };
+		8121F0C72742418F006EAA8D /* ImageScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
@@ -294,6 +298,7 @@
 				812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */,
 				812047FF272ADFC500E0A45B /* ImageStaticCell.swift */,
 				81792F5E27326BF9005F863B /* ProfileStaticCell.swift */,
+				8121F0C5274182E9006EAA8D /* LanguageChoiceStaticCell.swift */,
 			);
 			path = "Static Cells";
 			sourceTree = "<group>";
@@ -476,6 +481,7 @@
 		81C6CCB327247A1600DE9219 /* ReusableElements */ = {
 			isa = PBXGroup;
 			children = (
+				8121F0C72742418F006EAA8D /* ImageScrollView.swift */,
 				81C6CCB427247A2B00DE9219 /* PurchaseView.swift */,
 				81C6CCB527247A2B00DE9219 /* ActionButton.swift */,
 				81C6CCB827247A2B00DE9219 /* BookDetailElementView.swift */,
@@ -775,6 +781,7 @@
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
+				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
 				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
@@ -785,6 +792,7 @@
 				81792F652732F3E4005F863B /* AccountCredentials.swift in Sources */,
 				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				8147516E2727E9490080C5BA /* Images.swift in Sources */,
+				8121F0C6274182EA006EAA8D /* LanguageChoiceStaticCell.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,

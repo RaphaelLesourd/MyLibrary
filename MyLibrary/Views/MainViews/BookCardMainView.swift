@@ -68,10 +68,10 @@ class BookCardMainView: UIView {
     }()
     let favoriteButton: UIButton = {
         let button = UIButton()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 35, weight: .bold, scale: .small)
+        button.rounded(radius: 20, backgroundColor: UIColor.black.withAlphaComponent(0.5))
+        let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .small)
         let image = Images.favoriteImage?.withConfiguration(configuration)
         button.setImage(image, for: .normal)
-        button.addShadow(opacity: 0.5, verticalOffset: 1, radius: 2, color: .black)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -104,16 +104,18 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
+            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
         ])
     }
     
     private func setFavoriteButtonConstraints() {
         contentView.addSubview(favoriteButton)
         NSLayoutConstraint.activate([
-            favoriteButton.topAnchor.constraint(equalTo: bookCover.topAnchor, constant: -5),
-            favoriteButton.leadingAnchor.constraint(equalTo: bookCover.leadingAnchor),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 50)
+            favoriteButton.bottomAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: -10),
+            favoriteButton.trailingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: -10),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     

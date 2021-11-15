@@ -12,8 +12,9 @@ class BookCover: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentMode = .scaleAspectFit
+        contentMode = .scaleAspectFill
         image       = Images.emptyStateBookImage
+        self.rounded(radius: 5, backgroundColor: .clear)
     }
     
     required init?(coder: NSCoder) {

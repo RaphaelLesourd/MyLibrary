@@ -115,7 +115,7 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate?.displayYearOnly
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.capitalized
+        mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.languageName.capitalized
         mainView.purchaseDetailView.titleLabel.text              = ""
         mainView.purchaseDetailView.purchasePriceLabel.text      = ""
         mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
@@ -222,8 +222,9 @@ class BookCardViewController: UIViewController {
     }
         
     @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        guard let coverImage = coverImage else { return  }
         let bookCoverController = BookCoverViewController()
-        bookCoverController.imageView.image = coverImage
+        bookCoverController.image = coverImage
         navigationController?.pushViewController(bookCoverController, animated: true)
     }
     

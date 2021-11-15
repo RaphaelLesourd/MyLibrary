@@ -30,7 +30,7 @@ class LayoutComposer {
     // Horizontal scroll single cell
     private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 5)
+        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.30), heightDimension: .absolute(230)),
             subitem: item,
@@ -45,7 +45,7 @@ class LayoutComposer {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 30)
         let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(300)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(290)),
             subitem: item,
             count: numberItems
         )

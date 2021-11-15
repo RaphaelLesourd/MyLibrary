@@ -41,6 +41,17 @@ extension UIViewController {
         navigationController?.pushViewController(bookCardVC, animated: true)
     }
  
+    // MARK: - NavigationController
+    func makeNavigationBarClear() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    func restoreNavigationDefaultBar() {
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.shadowImage = nil
+    }
+    
     // MARK: - Activity Indicator
     func showIndicator(_ indicator: UIActivityIndicatorView) {
         indicator.startAnimating()

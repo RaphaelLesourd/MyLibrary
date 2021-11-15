@@ -17,15 +17,16 @@ protocol NewBookDelegate: AnyObject {
 }
 
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
-   
+    
     // MARK: - Properties
     private let resultController  = SearchViewController(networkService: ApiManager())
     private var searchController  = UISearchController()
     private let activityIndicator = UIActivityIndicatorView()
-
+    
     weak var bookCardDelegate  : BookCardDelegate?
     private var libraryService : LibraryServiceProtocol
     private var imagePicker    : ImagePicker?
+    private var chosenLanguage : String?
     
     var isEditingBook  = false
     var bookDescription: String?
@@ -47,30 +48,28 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
     private let numberOfPagesCell    = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
-    private let languageCell         = TextFieldStaticCell(placeholder: "Langue du livre")
+    private let languageCell         = LanguageChoiceStaticCell(placeholder: "Langue du livre")
     private lazy var descriptionCell = createDefaultCell(with: "Description")
     
     private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .decimalPad)
     private let resellPriceCell   = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .decimalPad)
     private let ratingCell        = RatingInputStaticCell(placeholder: "Note\n(0 à 5)")
-   
-   // private lazy var commentCell = createDefaultCell(with: "Commentaire")
-    private let saveButtonCell   = ButtonStaticCell(title: "Enregistrer",
-                                                    systemImage: "arrow.down.doc.fill",
-                                                    tintColor: .appTintColor,
-                                                    backgroundColor: .appTintColor)
-    private lazy var  textFields = [bookTileCell.textField,
-                                    bookAuthorCell.textField,
-                                    bookCategoryCell.textField,
-                                    publisherCell.textField,
-                                    publishDateCell.textField,
-                                    isbnCell.textField,
-                                    numberOfPagesCell.textField,
-                                    languageCell.textField,
-                                    purchasePriceCell.textField]
+    private let saveButtonCell    = ButtonStaticCell(title: "Enregistrer",
+                                                     systemImage: "arrow.down.doc.fill",
+                                                     tintColor: .appTintColor,
+                                                     backgroundColor: .appTintColor)
+    private lazy var textFields = [bookTileCell.textField,
+                                   bookAuthorCell.textField,
+                                   bookCategoryCell.textField,
+                                   publisherCell.textField,
+                                   publishDateCell.textField,
+                                   isbnCell.textField,
+                                   numberOfPagesCell.textField,
+                                   purchasePriceCell.textField]
+    private let languageList = Locale.isoLanguageCodes
     
     init(libraryService: LibraryServiceProtocol) {
-        self.libraryService      = libraryService
+        self.libraryService = libraryService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -90,6 +89,10 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         configureUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setLanguage(for: newBook?.volumeInfo?.language)
+    }
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
@@ -107,12 +110,14 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     private func setDelegates() {
         textFields.forEach { $0.delegate = self }
+        languageCell.pickerView.delegate = self
+        languageCell.pickerView.dataSource = self
     }
-
+    
     private func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
     }
-
+    
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
     private func composeTableView() {
         sections = [[bookImageCell],
@@ -122,7 +127,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                     [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                     [ratingCell],
                     [purchasePriceCell, resellPriceCell],
-                //    [commentCell],
                     [saveButtonCell]
         ]
     }
@@ -136,7 +140,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         resultController.newBookDelegate                      = self
         self.navigationItem.hidesSearchBarWhenScrolling       = false
     }
-   
+    
     // MARK: - Data
     func displayBookDetail() {
         guard let book = newBook else { return }
@@ -147,9 +151,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         publisherCell.textField.text     = book.volumeInfo?.publisher
         publishDateCell.textField.text   = book.volumeInfo?.publishedDate?.displayYearOnly
         isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--"
-        languageCell.textField.text      = book.volumeInfo?.language
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
-        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
         
         if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
             AF.request(imageURL).responseImage { [weak self] response in
@@ -163,6 +165,15 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         }
         if let rating = book.volumeInfo?.ratingsCount {
             ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
+        }
+        setLanguage(for: newBook?.volumeInfo?.language)
+    }
+    
+    private func setLanguage(for code: String?) {
+        guard let code = code else { return }
+        if let index = languageList.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
+            languageCell.pickerView.selectRow(index, inComponent: 0, animated: false)
+            self.pickerView(self.languageCell.pickerView, didSelectRow: index, inComponent: 0)
         }
     }
     
@@ -182,7 +193,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
     }
-
+    
     private func createBookDocument() -> Item? {
         let isbn = isbnCell.textField.text ?? ""
         let volumeInfo = VolumeInfo(title: bookTileCell.textField.text,
@@ -195,12 +206,13 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     categories: [bookCategoryCell.textField.text ?? ""],
                                     ratingsCount: ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
-                                    language: languageCell.textField.text ?? "")
+                                    language: chosenLanguage ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
                                                                currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode))
         return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
-                    ownerID: newBook?.ownerID ?? "", recommanding: newBook?.recommanding ?? false,
+                    ownerID: newBook?.ownerID ?? "",
+                    recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: newBook?.timestamp ?? Date().timeIntervalSince1970)
@@ -262,7 +274,6 @@ extension NewBookViewController: UISearchBarDelegate {
 
 // MARK: - TableView DataSource & Delegate
 extension NewBookViewController {
-   
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
@@ -273,10 +284,6 @@ extension NewBookViewController {
             if indexPath.row == 0 {
                 presentTextInputController(for: .description)
             }
-//        case 7:
-//            if indexPath.row == 0 {
-//                presentTextInputController(for: .comment)
-//            }
         default:
             return
         }
@@ -286,5 +293,29 @@ extension NewBookViewController {
 extension NewBookViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         bookImageCell.pictureView.image = image?.resizeImage()
+    }
+}
+// MARK: - UIPickerDelegate
+extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+            pickerLabel?.textAlignment = .left
+        }
+        pickerLabel?.text = "  " + languageList[row].languageName.capitalized
+        pickerLabel?.textColor = .label
+        
+        return pickerLabel!
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return languageList.count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        chosenLanguage = languageList[row]
     }
 }
