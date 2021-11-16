@@ -32,8 +32,9 @@ class HeaderSupplementaryView: UICollectionReusableView {
     
     private let stackView = StackView(axis: .horizontal, spacing: 20)
    
-    func configureTitle(with title: String) {
+    func configure(with title: String, buttonTitle: String) {
         titleLabel.text = title
+        actionButton.setTitle(buttonTitle, for: .normal)
     }
 }
 // MARK: - Constraints

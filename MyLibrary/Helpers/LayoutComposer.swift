@@ -101,10 +101,12 @@ class LayoutComposer {
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:
                 return self?.makeCategoryLayoutSection()
-            case .recommanding, .newEntry:
+            case .newEntry:
                 return self?.makeHorizontalScrollLayoutSection()
             case .favorites:
-                return self?.makeBookDetailLayoutSection(numberItems: 2)
+                return self?.makeHorizontalScrollLayoutSection()
+            case .recommanding:
+                return self?.makeBookDetailLayoutSection(numberItems: 3)
             case nil:
                 return nil
             }

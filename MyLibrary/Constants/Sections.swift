@@ -9,21 +9,31 @@ import Foundation
 
 /// Enum giving name to each section of the HomeController CollectionView for better readability
 enum HomeCollectionViewSections: Int, CaseIterable {
+    
+    case categories
     case newEntry
     case favorites
     case recommanding
-    case categories
-    
+
     var title: String {
         switch self {
-        case .categories:
-            return "Catégories"
         case .newEntry:
             return "Derniers ajouts"
+        case .categories:
+            return "Catégories"
         case .favorites:
             return "Favoris"
         case .recommanding:
             return "Recommandations"
+        }
+    }
+    
+    var buttonTitle: String {
+        switch self {
+        case .newEntry, .favorites, .recommanding:
+            return "Tout voir"
+        case .categories:
+            return "Manage"
         }
     }
 }

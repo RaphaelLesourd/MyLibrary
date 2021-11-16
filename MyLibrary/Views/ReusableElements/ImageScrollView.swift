@@ -58,10 +58,10 @@ final class ImageScrollView: UIScrollView {
     }
     
     @objc private func handleDoubleTap(_ sender: UITapGestureRecognizer) {
-        if zoomScale == 2 {
-            setZoomScale(3, animated: true)
+        if zoomScale == minimumZoomScale {
+            setZoomScale(1.3, animated: true)
         } else {
-            setZoomScale(2, animated: true)
+            setZoomScale(minimumZoomScale, animated: true)
         }
     }
     

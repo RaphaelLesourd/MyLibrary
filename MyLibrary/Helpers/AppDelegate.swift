@@ -36,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.isSSLEnabled          = false
             Auth.auth().settings           = settingsAuth
         }
-        
         return true
     }
     

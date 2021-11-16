@@ -28,7 +28,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(text: String?) {
-        categoryLabel.text = text ?? ""
+        categoryLabel.text = text?.capitalized ?? ""
     }
 }
 // MARK: - Constraints
