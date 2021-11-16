@@ -90,7 +90,7 @@ class HomeViewController: UIViewController {
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
         showIndicator(mainView.activityIndicator)
         
-        libraryService.getBookList(for: query, forMore: false) { [weak self] result in
+        libraryService.getBookList(for: query, limit: 20, forMore: false) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.hideIndicator(self.mainView.activityIndicator)

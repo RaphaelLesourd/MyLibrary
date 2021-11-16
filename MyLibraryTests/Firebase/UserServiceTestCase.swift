@@ -31,6 +31,7 @@ class UserServiceTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        clearFirestore()
         deleteAccount()
         sut = nil
         accountService = nil
@@ -40,11 +41,8 @@ class UserServiceTestCase: XCTestCase {
     private func createAnAccount() {
         let exp = self.expectation(description: "Waiting for async operation")
         accountService?.createAccount(for: credentials, completion: { error in
-            if let error = error {
-                print(error.description)
-            }
-            exp.fulfill()
         })
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -54,22 +52,18 @@ class UserServiceTestCase: XCTestCase {
             .document(userID)
             .collection(CollectionDocumentKey.books.rawValue)
         docRef?.getDocuments { (snapshot, error) in
-              XCTAssertNil(error)
+            XCTAssertNil(error)
             let foundDoc = snapshot?.documents
             foundDoc?.forEach { $0.reference.delete() }
-            exp.fulfill()
+            
+            self.sut?.usersCollectionRef.document(self.userID).delete()
+            self.accountService?.deleteAccount(with: self.credentials, completion: { error in
+                XCTAssertNil(error)
+                exp.fulfill()
+            })
+            
+            self.waitForExpectations(timeout: 10, handler: nil)
         }
-        self.waitForExpectations(timeout: 10, handler: nil)
-    
-        let exp3 = self.expectation(description: "Waiting for async operation")
-        self.sut?.usersCollectionRef.document(self.userID).delete()
-        accountService?.deleteAccount(with: credentials, completion: { error in
-            if let error = error {
-                print(error.description)
-            }
-            exp3.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: - Successful
@@ -119,31 +113,23 @@ class UserServiceTestCase: XCTestCase {
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             // When
             XCTAssertNil(error)
-            exp.fulfill()
+            self.sut?.updateUserName(with: "updatedName", completion: { error in
+                if let error = error {
+                    XCTAssertNotNil(error)
+                }
+                // Then
+                self.sut?.retrieveUser(completion: { result in
+                    switch result {
+                    case .success(let user):
+                        XCTAssertNotNil(user)
+                        XCTAssertEqual(user?.displayName, "updatedName")
+                    case .failure(let error):
+                        XCTAssertNotNil(error)
+                    }
+                })
+            })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        self.sut?.updateUserName(with: "updatedName", completion: { error in
-            if let error = error {
-                XCTAssertNotNil(error)
-            }
-            exp2.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
-        // Then
-        let exp3 = self.expectation(description: "Waiting for async operation")
-        self.sut?.retrieveUser(completion: { result in
-            switch result {
-            case .success(let user):
-                XCTAssertNotNil(user)
-                XCTAssertEqual(user?.displayName, "updatedName")
-            case .failure(let error):
-                XCTAssertNotNil(error)
-            }
-        })
-        exp3.fulfill()
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -155,18 +141,16 @@ class UserServiceTestCase: XCTestCase {
             if let error = error {
                 XCTAssertNotNil(error)
             }
-            exp.fulfill()
+            //When
+            self.sut?.deleteUser(completion: { error in
+                //then
+                if let error = error {
+                    XCTAssertNotNil(error)
+                }
+                
+            })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-        //When
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        self.sut?.deleteUser(completion: { error in
-            //then
-            if let error = error {
-                XCTAssertNotNil(error)
-            }
-            exp2.fulfill()
-        })
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -178,23 +162,19 @@ class UserServiceTestCase: XCTestCase {
             if let error = error {
                 XCTAssertNotNil(error)
             }
-            exp.fulfill()
+            self.sut?.userId = "12"
+            // when
+            self.sut?.retrieveUser(completion: { result in
+                switch result {
+                case .success(let user):
+                    XCTAssertNil(user)
+                case .failure(let error):
+                    // Then
+                    XCTAssertNotNil(error)
+                }
+            })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
-        sut?.userId = "12"
-        // when
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        self.sut?.retrieveUser(completion: { result in
-            switch result {
-            case .success(let user):
-                XCTAssertNil(user)
-            case .failure(let error):
-                // Then
-                XCTAssertNotNil(error)
-            }
-        })
-        exp2.fulfill()
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -212,17 +192,17 @@ class UserServiceTestCase: XCTestCase {
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func test_givenNoUserStored_whenDeleting_thenError() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        //When
-        sut?.userId = "12"
-        self.sut?.deleteUser(completion: { error in
-            //then
-            if let error = error {
-                XCTAssertNotNil(error)
-            }
-            exp.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
+//    func test_givenNoUserStored_whenDeleting_thenError() {
+//        let exp = self.expectation(description: "Waiting for async operation")
+//        //When
+//        sut?.userId = "12"
+//        self.sut?.deleteUser(completion: { error in
+//            //then
+//            if let error = error {
+//                XCTAssertNotNil(error)
+//            }
+//        })
+//        exp.fulfill()
+//        self.waitForExpectations(timeout: 10, handler: nil)
+//    }
 }

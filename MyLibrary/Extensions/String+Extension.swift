@@ -20,7 +20,7 @@ extension String {
     /// * At least 1 uppercase letter, 1 digits, one special character , 6 characters long
     /// -  ^    Start anchor
     /// - (?=.*[A-Z])   Ensure string has one uppercase letters.
-    /// -  (?=.*[d$@$!%*?&#])  Ensure string has one special case letter.
+    /// - (?=.*[d$@$!%*?&#])  Ensure string has one special case letter.
     /// - (?=.*[0-9].*[0-9])    Ensure string has two digits.
     /// - (?=.*[a-z].*[a-z].*[a-z]) Ensure string has three lowercase letters.
     /// - .{6}    Ensure string is of length 6.
@@ -44,14 +44,28 @@ extension String {
         return locale.displayName(forKey: NSLocale.Key.currencySymbol, value: self) ?? ""
     }
     
-    var displayYearOnly: String {
+    func displayYearOnly() -> String? {
         let inputDateFormatter = DateFormatter()
-        inputDateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = inputDateFormatter.date(from: self) ?? Date()
-
         let outputDateFormatter = DateFormatter()
         outputDateFormatter.dateFormat = "yyyy"
-        return outputDateFormatter.string(from: date)
+        
+        let formats: [String] = [
+            "yyyy-MM-dd hh:mm:ss.SSSSxx",
+            "yyyy-MM-dd hh:mm:ss.SSSxxx",
+            "yyyy-MM-dd hh:mm:ss.SSxxxx",
+            "yyyy-MM-dd hh:mm:ss.Sxxxxx",
+            "yyyy-MM-dd hh:mm:ss",
+            "yyyy-MM-dd",
+            "yyyy"
+        ]
+        for format in formats {
+            inputDateFormatter.dateFormat = format
+            
+            if let date = inputDateFormatter.date(from: self) {
+                return outputDateFormatter.string(from: date)
+            }
+        }
+        return nil
     }
     
     var isIsbn: Bool {

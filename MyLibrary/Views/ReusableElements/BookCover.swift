@@ -1,6 +1,6 @@
 //
 //  BookImageView.swift
-//  MyBookLibrary
+//  MyLibrary
 //
 //  Created by Birkyboy on 22/10/2021.
 //
@@ -20,5 +20,4 @@ class BookCover: UIImageView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

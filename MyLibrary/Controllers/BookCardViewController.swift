@@ -84,7 +84,7 @@ class BookCardViewController: UIViewController {
         let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItems = [editButton, activityIndicactorButton]
     }
-  
+    
     private func setTargets() {
         mainView.actionButton.addTarget(self, action: #selector(recommandButtonAction), for: .touchUpInside)
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
@@ -107,24 +107,24 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: - Data
-    func dispayBookData() {
-        mainView.titleLabel.text                                 = book?.volumeInfo?.title
-        mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first
+    private func dispayBookData() {
+        mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
+        mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
         mainView.categoryiesLabel.text                           = book?.volumeInfo?.categories?.joined(separator: ", ")
         mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
-        mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher
-        mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate?.displayYearOnly
+        mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
+        mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
         mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.languageName.capitalized
-        mainView.purchaseDetailView.titleLabel.text              = ""
-        mainView.purchaseDetailView.purchasePriceLabel.text      = ""
-        mainView.currentResellPriceView.titleLabel.text          = "Prix de vente"
+        mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
+        mainView.resellPriceView.titleLabel.text                 = "Côte actuelle"
+        mainView.resellPriceView.purchasePriceLabel.text         = ""
         mainView.commentLabel.text                               = ""
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
         
         if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
            let price = self.book?.saleInfo?.retailPrice?.amount {
-            mainView.currentResellPriceView.purchasePriceLabel.text = "\(currency.currencySymbol) \(price)"
+            mainView.purchaseDetailView.purchasePriceLabel.text = price.formatCurrency(currencyCode: currency)
         }
         if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = "ISBN \(isbn)"
@@ -220,7 +220,7 @@ class BookCardViewController: UIViewController {
             self?.deleteBook()
         }
     }
-        
+    
     @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
         guard let coverImage = coverImage else { return  }
         let bookCoverController = BookCoverViewController()
@@ -239,15 +239,14 @@ class BookCardViewController: UIViewController {
 }
 // MARK: - BookCardDelegate
 extension BookCardViewController: BookCardDelegate {
-    
     func fetchBookUpdate() {
         guard let bookID = book?.etag else { return }
-        presentAlertBanner(as: .customMessage("Mis à jour"))
         libraryService.getBook(for: bookID) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let book):
                     self?.book = book
+                    self?.presentAlertBanner(as: .customMessage("Mis à jour"))
                 case .failure(let error):
                     self?.presentAlertBanner(as: .error, subtitle: error.description)
                 }

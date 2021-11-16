@@ -1,6 +1,6 @@
 //
 //  LayoutCreator.swift
-//  MyBookLibrary
+//  MyLibrary
 //
 //  Created by Birkyboy on 22/10/2021.
 //
@@ -11,7 +11,7 @@ import UIKit
 class LayoutComposer {
     
     // MARK: - Properties
-    private let interSectionSpace: CGFloat = 30
+    private let interSectionSpace: CGFloat = 40
     
     // MARK: - Section Layouts
     // Categories horizontal scroll layout
@@ -32,7 +32,7 @@ class LayoutComposer {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.30), heightDimension: .absolute(230)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(130), heightDimension: .absolute(230)),
             subitem: item,
             count: 1
         )
@@ -75,7 +75,7 @@ class LayoutComposer {
         if horizontal == true {
             section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         }
-        section.contentInsets = .init(top: 10, leading: 7, bottom: 50, trailing: 7)
+        section.contentInsets = .init(top: 10, leading: 7, bottom: interSectionSpace, trailing: 7)
         section.boundarySupplementaryItems = [addHeader()]
         return section
     }

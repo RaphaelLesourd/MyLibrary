@@ -13,7 +13,7 @@ import FirebaseFirestore
 protocol LibraryServiceProtocol {
     func createBook(with book: Item?, and imageData: Data, completion: @escaping (FirebaseError?) -> Void)
     func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
-    func getBookList(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
+    func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func deleteBook(book: Item?, completion: @escaping (FirebaseError?) -> Void)
     func setStatusTo(_ state: Bool, field: BookDocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
 }
@@ -25,7 +25,7 @@ class LibraryService {
     
     private let imageService      : ImageStorageProtocol
     private let db                = Firestore.firestore()
-    private let usersCollectionRef: CollectionReference
+    let usersCollectionRef: CollectionReference
    
     var userID            = Auth.auth().currentUser?.uid
     var bookListListener  : ListenerRegistration?
@@ -141,12 +141,12 @@ class LibraryService {
         case .favorites:
             docRef = docRef.whereField(BookDocumentKey.favorite.rawValue, isEqualTo: true)
         case .recommanding:
-            docRef = db.collection("recommanded")
+            docRef = db.collection("recommanded").order(by: query.orderedBy.rawValue, descending: query.descending)
         }
         if let lastBook = lastBookFetched, next == true {
             docRef = docRef.start(afterDocument: lastBook)
         }
-        return docRef.limit(to: query.limit)
+        return docRef
     }
 }
 
@@ -156,13 +156,20 @@ extension LibraryService: LibraryServiceProtocol {
     // MARK: Create/Update
     func createBook(with book: Item?, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
         guard let userID = userID else { return }
+        guard let bookTitle = book?.volumeInfo?.title, !bookTitle.isEmpty else {
+            completion(.noBookTitle)
+            return
+        }
         var book = book
+        
         checkDocumentExist(for: book) { [weak self] uid in
             let bookID = uid ?? UUID().uuidString
+           
             self?.saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
                 book?.volumeInfo?.imageLinks?.thumbnail = storageLink
                 book?.ownerID = userID
                 book?.etag = bookID
+               
                 self?.saveDocument(for: book, with: bookID, collection: .books) { error in
                     if let error = error {
                         completion(.firebaseError(error))
@@ -174,12 +181,12 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
    // MARK: Retrieve
-    func getBookList(for query: BookQuery, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
+    func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
         guard let docRef = createQuery(query: query, next: forMore) else {
             completion(.failure(.nothingFound))
             return
         }
-        bookListListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
+        bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return

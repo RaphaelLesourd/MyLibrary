@@ -70,6 +70,7 @@
 		8124B9962725DD67004E9AE0 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */; };
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
 		813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C792733ADFD005BFBDB /* AccountService.swift */; };
+		81453B172742EFED004E3332 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81453B162742EFED004E3332 /* Double+Extension.swift */; };
 		81475148272735900080C5BA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81475147272735900080C5BA /* String+Extension.swift */; };
 		8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 814751692727D80E0080C5BA /* GoogleService-Info.plist */; };
 		8147516C2727E67F0080C5BA /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516B2727E67F0080C5BA /* AppText.swift */; };
@@ -171,6 +172,7 @@
 		8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		813B7C792733ADFD005BFBDB /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
+		81453B162742EFED004E3332 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		81475147272735900080C5BA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		814751692727D80E0080C5BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8147516B2727E67F0080C5BA /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				81BC7ED0273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift */,
 				81BC7ED227305810009A1629 /* NSCollectionLayoutItem+Extension.swift */,
 				8121F0B6273D53A5006EAA8D /* UIImage+Extension.swift */,
+				81453B162742EFED004E3332 /* Double+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
 				8121F0B9273E6A9A006EAA8D /* BookCoverViewController.swift in Sources */,
+				81453B172742EFED004E3332 /* Double+Extension.swift in Sources */,
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				8121F0C127400541006EAA8D /* CommonCollectionView.swift in Sources */,

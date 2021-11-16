@@ -1,8 +1,8 @@
 //
 //  ImageScrollView.swift
-//  MyBookLibrary
+//  MyLibrary
 //
-//  Created by Birkyboy on 19/04/2021.
+//  Created by Birkyboy on 15/11/2021.
 //
 
 import Foundation

@@ -137,7 +137,6 @@ extension SearchViewController {
         configureFooter(dataSource)
         return dataSource
     }
-    
     /// Set the data to th section of the collectionView, in this case only one section (main)
     /// - Parameter animatingDifferences: Animate the collectionView with the changes applied.
     private func applySnapshot(animatingDifferences: Bool = true) {
@@ -146,19 +145,17 @@ extension SearchViewController {
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
-    
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            self.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self.footerView
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+            return self?.footerView
         }
     }
 }
 // MARK: - CollectionView Delegate
 extension SearchViewController: UICollectionViewDelegate {
-    
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
     func collectionView(_ collectionView: UICollectionView,

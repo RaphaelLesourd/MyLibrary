@@ -66,7 +66,6 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
-
     // MARK: Delete
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard let userCredentials = userCredentials else { return }
@@ -103,7 +102,6 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
-    
     // MARK: Log in
     func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard let userCredentials = userCredentials else { return }
@@ -115,7 +113,6 @@ extension AccountService: AccountServiceProtocol {
             completion(nil)
         }
     }
-    
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
         do {
@@ -125,7 +122,6 @@ extension AccountService: AccountServiceProtocol {
             completion(.firebaseError(error))
         }
     }
-    
     // MARK: Forgot password
     func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
         Auth.auth().sendPasswordReset(withEmail: email) { error in

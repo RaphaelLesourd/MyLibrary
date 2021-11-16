@@ -40,18 +40,18 @@ class BookCardMainView: UIView {
         return view
     }()
     // BookCard elements
-    let bookCover              = BookCover(frame: .zero)
-    let titleLabel             = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel            = TextLabel(maxLines: 2, alignment: .center, fontSize: 16, weight: .regular)
-    let categoryiesLabel       = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
-    let ratingView             = RatingView()
-    let descriptionLabel       = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
-    let purchaseDetailView     = PurchaseView()
-    let currentResellPriceView = PurchaseView()
-    let bookDetailView         = BookDetailView()
-    let isbnLabel              = TextLabel(color: .secondaryLabel)
-    let commentLabel           = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
-    let actionButton           = ActionButton(title: "")
+    let bookCover          = BookCover(frame: .zero)
+    let titleLabel         = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
+    let authorLabel        = TextLabel(maxLines: 2, alignment: .center, fontSize: 16, weight: .regular)
+    let categoryiesLabel   = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    let ratingView         = RatingView()
+    let descriptionLabel   = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    let purchaseDetailView = PurchaseView()
+    let resellPriceView    = PurchaseView()
+    let bookDetailView     = BookDetailView()
+    let isbnLabel          = TextLabel(color: .secondaryLabel)
+    let commentLabel       = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
+    let actionButton       = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre", for: .normal)
@@ -113,7 +113,7 @@ extension BookCardMainView {
         contentView.addSubview(favoriteButton)
         NSLayoutConstraint.activate([
             favoriteButton.bottomAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: -10),
-            favoriteButton.trailingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: -10),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             favoriteButton.widthAnchor.constraint(equalToConstant: 40),
             favoriteButton.heightAnchor.constraint(equalToConstant: 40)
         ])
@@ -130,7 +130,7 @@ extension BookCardMainView {
                                            bookDetailView,
                                            isbnLabel,
                                            purchaseDetailView,
-                                           currentResellPriceView,
+                                           resellPriceView,
                                            commentLabel,
                                            actionButton,
                                            deleteBookButton]

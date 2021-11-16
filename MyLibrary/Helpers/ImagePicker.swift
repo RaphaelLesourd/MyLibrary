@@ -1,8 +1,8 @@
 //
 //  PhotoLibraryAccessManager.swift
-//  P4_Instagrid
+//  MyLibrary
 //
-//  Created by Birkyboy on 19/04/2021.
+//  Created by Birkyboy on 15/10/2021.
 //
 
 import Foundation
@@ -91,10 +91,10 @@ open class ImagePicker: NSObject {
         }
         // verifies permission before presenting the menu
         requestAccessPermission { [weak self] granted in
-            if granted {
-                self?.presentationController?.present(alertController, animated: true)
-            } else {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if granted {
+                    self?.presentationController?.present(alertController, animated: true)
+                } else {
                     self?.delegate?.presentAlertBanner(as: .customMessage("Pélicule photo"), subtitle: "Acces non autorisé")
                 }
             }

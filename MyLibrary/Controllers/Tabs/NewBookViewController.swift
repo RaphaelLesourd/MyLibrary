@@ -143,17 +143,20 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     // MARK: - Data
     func displayBookDetail() {
+        dump(newBook)
         guard let book = newBook else { return }
         clearData()
         bookTileCell.textField.text      = book.volumeInfo?.title
         bookAuthorCell.textField.text    = book.volumeInfo?.authors?.joined(separator: ", ")
         bookCategoryCell.textField.text  = book.volumeInfo?.categories?.first
         publisherCell.textField.text     = book.volumeInfo?.publisher
-        publishDateCell.textField.text   = book.volumeInfo?.publishedDate?.displayYearOnly
-        isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "--"
+        publishDateCell.textField.text   = book.volumeInfo?.publishedDate?.displayYearOnly()
+        isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
+        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
         
-        if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
+        if let url = book.volumeInfo?.imageLinks?.thumbnail,
+           let imageURL = URL(string: url) {
             AF.request(imageURL).responseImage { [weak self] response in
                 if case .success(let image) = response.result {
                     self?.bookImageCell.pictureView.image = image
@@ -208,7 +211,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
-                                                               currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode))
+                                                               currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode ?? "EUR"))
         return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
                     ownerID: newBook?.ownerID ?? "",

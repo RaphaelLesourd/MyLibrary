@@ -1,6 +1,6 @@
 //
 //  CellTitleView.swift
-//  MyBookLibrary
+//  MyLibrary
 //
 //  Created by Birkyboy on 23/10/2021.
 //
@@ -19,8 +19,8 @@ class CellTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
    
-    let titleLabel        = TextLabel(fontSize: 14, weight: .bold)
-    let subtitleLabel     = TextLabel(fontSize: 13, weight: .regular)
+    let titleLabel        = TextLabel(fontSize: 13, weight: .bold)
+    let subtitleLabel     = TextLabel(fontSize: 12, weight: .regular)
     private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 5)
 }
 // MARK: - Extension

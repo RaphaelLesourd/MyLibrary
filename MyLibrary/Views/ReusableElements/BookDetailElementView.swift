@@ -1,6 +1,6 @@
 //
 //  BookDetailElementView.swift
-//  MyBookLibrary
+//  MyLibrary
 //
 //  Created by Birkyboy on 23/10/2021.
 //

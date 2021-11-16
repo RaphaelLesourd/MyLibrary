@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import Firebase
+import FirebaseStorage
 import IQKeyboardManagerSwift
 
 @main
@@ -32,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.isPersistenceEnabled  = false
             settings.isSSLEnabled          = false
             Auth.auth().settings           = settingsAuth
+            
+            
+            
         }
         
         return true

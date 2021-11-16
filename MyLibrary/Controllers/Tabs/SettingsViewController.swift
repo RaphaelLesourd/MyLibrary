@@ -137,6 +137,7 @@ class SettingsViewController: CommonStaticTableViewController {
     private func saveProfileImage(_ image: UIImage) {
         let profileImageData = image.jpegData(.medium)
         profileCell.activityIndicator.startAnimating()
+        
         imageService.updateUserImage(for:profileImageData) { [weak self] error in
             self?.profileCell.activityIndicator.stopAnimating()
             if let error = error {
@@ -175,8 +176,7 @@ class SettingsViewController: CommonStaticTableViewController {
 }
 
 // MARK: - ImagePicker Delegate
-extension SettingsViewController: ImagePickerDelegate {
-    
+extension SettingsViewController: ImagePickerDelegate {    
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         profileCell.profileImageButton.setImage(image, for: .normal)
@@ -186,7 +186,6 @@ extension SettingsViewController: ImagePickerDelegate {
 
 // MARK: - TextField Delegate
 extension SettingsViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == profileCell.userNameTextField {
             saveUserName()

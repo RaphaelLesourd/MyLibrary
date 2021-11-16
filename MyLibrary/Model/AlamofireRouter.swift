@@ -1,8 +1,8 @@
 //
 //  Router.swift
-//  Reciplease
+//  MyLibrary
 //
-//  Created by Birkyboy on 22/09/2021.
+//  Created by Birkyboy on 30/10/2021.
 //
 
 import Foundation
@@ -28,6 +28,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return .get
         }
     }
+    // Path
     private var path: String {
         switch self {
         case .withIsbn, .withKeyWord:
@@ -49,7 +50,6 @@ enum AlamofireRouter: URLRequestConvertible {
                     "img": true]
         }
     }
-
     // Conforming to URLRequestConvertible protocol, returning URLRequest
     func asURLRequest() throws -> URLRequest {
         let url = try baseURL.asURL()

@@ -32,8 +32,7 @@ class BarcodeScannerViewController: UIViewController {
             return
         }
         self.processClassification(request)
-    }
-    
+    }    
     // MARK: - Lifecyle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +46,6 @@ class BarcodeScannerViewController: UIViewController {
         captureSession.stopRunning()
         barcodeResultHandler()
     }
-    
     // MARK: - Camera
     /// Prompt the user for permission to use the camera if not already authorized.
     private func checkPermissions() {
@@ -64,7 +62,6 @@ class BarcodeScannerViewController: UIViewController {
             return
         }
     }
-    
     /// Setup camera session.
     /// - captureSession is an instance of AVCaptureSession.
     /// - With an AVCaptureSession, you can manage capture activity and coordinate how data flows from input devices to capture outputs.
@@ -74,7 +71,6 @@ class BarcodeScannerViewController: UIViewController {
         captureSession.addInput(videoDeviceInput)
         addCaptureOutput()
     }
-    
     /// Defines a Camera for Input
     /// - Uses default wide angle camera, located on the rear of the iPhone.
     /// - Making sure your app can use the camera as an input device for the capture session.
@@ -94,7 +90,6 @@ class BarcodeScannerViewController: UIViewController {
               }
         return videoDeviceInput
     }
-    
     /// Set the output of your capture session to an instance of AVCaptureVideoDataOutput.
     /// - AVCaptureVideoDataOutput is a capture output that records video and provides access to video frames for processing.
     private func addCaptureOutput() {
@@ -106,7 +101,6 @@ class BarcodeScannerViewController: UIViewController {
         configurePreviewLayer()
         captureSession.startRunning()
     }
-    
     // MARK: - Vision
     /// Analyze the result of the handled request.
     /// - Get a list of potential barcodes from the request.
@@ -130,14 +124,12 @@ class BarcodeScannerViewController: UIViewController {
             }
         }
     }
-    
     // MARK: - Handler
     /// Check if there is a barcode after scanning. If not NIl then it is passed back to the previous controller.
     private func barcodeResultHandler() {
         guard let fetchedBarcode = fetchedBarcode else { return }
         barcodeDelegate?.processBarcode(with: fetchedBarcode)
     }
-    
     // MARK: - Overlay
     private func configurePreviewLayer() {
         let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -146,7 +138,6 @@ class BarcodeScannerViewController: UIViewController {
         cameraPreviewLayer.frame = view.frame
         view.layer.insertSublayer(cameraPreviewLayer, at: 0)
     }
-    
     /// Display alert tot the user when the use of camera is nt granted for any reasons.
     private func showPermissionsAlert() {
         presentAlert(withTitle: "Camera Permissions",
@@ -156,7 +147,6 @@ class BarcodeScannerViewController: UIViewController {
 }
 // MARK: - AVCaptureDelegation
 extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.
@@ -170,7 +160,6 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
         }
     }
 }
-
 // MARK: - PanModal Extension
 extension BarcodeScannerViewController: PanModalPresentable {
     var shortFormHeight: PanModalHeight {

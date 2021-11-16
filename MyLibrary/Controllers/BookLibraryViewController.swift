@@ -73,7 +73,7 @@ class BookLibraryViewController: UIViewController {
         showIndicator(mainView.activityIndicator)
         footerView.displayActivityIndicator(true)
         
-        libraryService.getBookList(for: currentQuery, forMore: nextPage) { [weak self] result in
+        libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.hideIndicator(self.mainView.activityIndicator)
@@ -105,7 +105,6 @@ class BookLibraryViewController: UIViewController {
 
 // MARK: - CollectionView Delegate
 extension BookLibraryViewController: UICollectionViewDelegate {
-    
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
     func collectionView(_ collectionView: UICollectionView,
@@ -138,12 +137,11 @@ extension BookLibraryViewController {
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
-        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            self.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self.footerView
+        dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+            return self?.footerView
         }
     }
-    
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(BookListSection.allCases)

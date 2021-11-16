@@ -12,6 +12,7 @@ enum FirebaseError: Error {
     case passwordMismatch
     case noUserName
     case nothingFound
+    case noBookTitle
     case firebaseError(Error)
    
     var description: String {
@@ -24,6 +25,8 @@ enum FirebaseError: Error {
             return "Je n'ai rien trouvé."
         case .firebaseError(let error):
             return error.localizedDescription
+        case .noBookTitle:
+            return "Vous devez au moins entrer un titre."
         }
     }
 }
