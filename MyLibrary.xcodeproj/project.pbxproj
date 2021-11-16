@@ -13,6 +13,7 @@
 		810C44772727102D007541C0 /* SigningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44762727102D007541C0 /* SigningViewController.swift */; };
 		810C447927271351007541C0 /* PanModalCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* PanModalCommonView.swift */; };
 		810C447B2727189B007541C0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447A2727189B007541C0 /* TextField.swift */; };
+		811D5BB92743978100C935B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 811D5BB82743978100C935B5 /* Kingfisher */; };
 		812047F4272A604800E0A45B /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F3272A604800E0A45B /* BookDetailView.swift */; };
 		812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F6272A8AF700E0A45B /* TextInputViewController.swift */; };
 		812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */; };
@@ -90,7 +91,6 @@
 		81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* BookModel.swift */; };
 		81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* ApiManager.swift */; };
 		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
-		81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 81A9BD91272BF77F00B7DA81 /* AlamofireImage */; };
 		81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */; };
 		81BC7ECC272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ECB272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift */; };
 		81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BC7ECD273040F0009A1629 /* ImagePicker.swift */; };
@@ -247,7 +247,6 @@
 				81C2AE5F2729BE9000AC69A8 /* Bauly in Frameworks */,
 				8121F099273A9FC2006EAA8D /* FirebaseFunctions in Frameworks */,
 				8121F07F273A9FC2006EAA8D /* FirebaseAnalyticsSwift-Beta in Frameworks */,
-				81A9BD92272BF77F00B7DA81 /* AlamofireImage in Frameworks */,
 				8121F097273A9FC2006EAA8D /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				81AA185E2729D1F900EB9CB7 /* IQKeyboardManagerSwift in Frameworks */,
 				8121F089273A9FC2006EAA8D /* FirebaseAuthCombine-Community in Frameworks */,
@@ -255,6 +254,7 @@
 				8121F09B273A9FC2006EAA8D /* FirebaseFunctionsCombine-Community in Frameworks */,
 				8121F0AD273A9FC2006EAA8D /* FirebaseStorageCombine-Community in Frameworks */,
 				8121F08B273A9FC2006EAA8D /* FirebaseCrashlytics in Frameworks */,
+				811D5BB92743978100C935B5 /* Kingfisher in Frameworks */,
 				8121F091273A9FC2006EAA8D /* FirebaseDynamicLinks in Frameworks */,
 				8121F09D273A9FC2006EAA8D /* FirebaseInAppMessaging-Beta in Frameworks */,
 				8121F085273A9FC2006EAA8D /* FirebaseAppDistribution-Beta in Frameworks */,
@@ -600,7 +600,6 @@
 				81C2AE612729BEA200AC69A8 /* PanModal */,
 				81C2AE642729BED800AC69A8 /* Alamofire */,
 				81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */,
-				81A9BD91272BF77F00B7DA81 /* AlamofireImage */,
 				8121F07C273A9FC2006EAA8D /* FirebaseAnalytics */,
 				8121F07E273A9FC2006EAA8D /* FirebaseAnalyticsSwift-Beta */,
 				8121F080273A9FC2006EAA8D /* FirebaseAnalyticsWithoutAdIdSupport */,
@@ -627,6 +626,7 @@
 				8121F0AA273A9FC2006EAA8D /* FirebaseStorage */,
 				8121F0AC273A9FC2006EAA8D /* FirebaseStorageCombine-Community */,
 				8121F0AE273A9FC2006EAA8D /* FirebaseStorageSwift-Beta */,
+				811D5BB82743978100C935B5 /* Kingfisher */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -684,8 +684,8 @@
 				81C2AE602729BEA200AC69A8 /* XCRemoteSwiftPackageReference "PanModal" */,
 				81C2AE632729BED800AC69A8 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 				8121F07B273A9FC2006EAA8D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -1143,20 +1143,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		8121F07B273A9FC2006EAA8D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 8.0.0;
-			};
-		};
-		81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/AlamofireImage.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
 			};
 		};
 		81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
@@ -1194,6 +1194,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		811D5BB82743978100C935B5 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		8121F07C273A9FC2006EAA8D /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8121F07B273A9FC2006EAA8D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1323,11 +1328,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8121F07B273A9FC2006EAA8D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
-		};
-		81A9BD91272BF77F00B7DA81 /* AlamofireImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81A9BD90272BF77F00B7DA81 /* XCRemoteSwiftPackageReference "AlamofireImage" */;
-			productName = AlamofireImage;
 		};
 		81AA185D2729D1F900EB9CB7 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;

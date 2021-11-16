@@ -8,7 +8,7 @@
 import UIKit
 import PanModal
 import FirebaseAuth
-import AlamofireImage
+import Kingfisher
 
 class SettingsViewController: CommonStaticTableViewController {
 
@@ -167,10 +167,11 @@ class SettingsViewController: CommonStaticTableViewController {
         profileCell.emailLabel.text = "   \(currentUser.email)"
         profileCell.userNameTextField.text = currentUser.displayName
         if let imageURL = URL(string: currentUser.photoURL) {
-            profileCell.profileImageButton.af.setImage(for: .normal,
-                                                          url: imageURL,
-                                                          cacheKey: currentUser.photoURL,
-                                                          placeholderImage: Images.emptyStateBookImage)
+            profileCell.profileImageButton.kf.setImage(with: imageURL,
+                                                       for: .normal,
+                                                       placeholder: Images.emptyStateBookImage,
+                                                       options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                                                       completionHandler: nil)
         }
     }
 }

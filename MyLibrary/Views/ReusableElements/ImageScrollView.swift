@@ -34,7 +34,7 @@ final class ImageScrollView: UIScrollView {
                                      imageViewTopConstraint,
                                      imageViewBottomConstraint])
         
-        minimumZoomScale = 2
+        minimumZoomScale = 0.5
         maximumZoomScale = 5
         contentInsetAdjustmentBehavior = .never
         showsVerticalScrollIndicator   = false
@@ -63,6 +63,17 @@ final class ImageScrollView: UIScrollView {
         } else {
             setZoomScale(2, animated: true)
         }
+    }
+    
+    func setZoomScale() {
+        let imageViewSize = imageView.bounds.size
+          let scrollViewSize = bounds.size
+          let widthScale = scrollViewSize.width / imageViewSize.width
+          let heightScale = scrollViewSize.height / imageViewSize.height
+
+          let minZoomScale = min(widthScale, heightScale)
+          minimumZoomScale = minZoomScale
+          zoomScale = minZoomScale
     }
 }
 // MARK: - UIScrollView Delegate

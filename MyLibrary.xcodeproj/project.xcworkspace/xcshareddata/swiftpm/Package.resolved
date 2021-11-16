@@ -20,15 +20,6 @@
         }
       },
       {
-        "package": "AlamofireImage",
-        "repositoryURL": "https://github.com/Alamofire/AlamofireImage.git",
-        "state": {
-          "branch": null,
-          "revision": "98cbb00ce0ec5fc8e52a5b50a6bfc08d3e5aee10",
-          "version": "4.2.0"
-        }
-      },
-      {
         "package": "Bauly",
         "repositoryURL": "https://github.com/wiencheck/Bauly.git",
         "state": {
@@ -107,6 +98,15 @@
           "branch": null,
           "revision": "4dc6bc7d1c9747bd0c261c8c055903f9fdef91f7",
           "version": "6.5.6"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
+        "state": {
+          "branch": null,
+          "revision": "318e319998bf555c3e914d5c3adb6da05af86a32",
+          "version": "7.1.1"
         }
       },
       {

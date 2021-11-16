@@ -8,8 +8,9 @@
 import UIKit
 import CoreData
 import Firebase
-import FirebaseStorage
+import FirebaseFirestore
 import IQKeyboardManagerSwift
+import Kingfisher
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
+        kingFisherCacheSetup()
         FirebaseApp.configure()
         
         // Checking if unit tests are running
@@ -33,9 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.isPersistenceEnabled  = false
             settings.isSSLEnabled          = false
             Auth.auth().settings           = settingsAuth
-            
-            
-            
         }
         
         return true
@@ -49,6 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside    = true
     }
 
+    private func kingFisherCacheSetup() {
+        let cache = ImageCache.default
+        cache.memoryStorage.config.countLimit = 150
+        cache.memoryStorage.config.totalCostLimit = 500 * 1024 * 1024
+        cache.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
+        KingfisherManager.shared.downloader.downloadTimeout = 3000.0
+    }
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

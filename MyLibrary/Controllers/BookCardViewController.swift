@@ -8,8 +8,7 @@
 import UIKit
 import FirebaseAuth
 import Alamofire
-import AlamofireImage
-import SwiftUI
+import Kingfisher
 
 protocol BookCardDelegate: AnyObject {
     func fetchBookUpdate()
@@ -136,11 +135,12 @@ class BookCardViewController: UIViewController {
             isRecommandedStatus = recommand
         }
         if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
-            mainView.bookCover.af.setImage(withURL: imageURL,
-                                           cacheKey: imageURL.absoluteString,
-                                           completion: { [weak self] response in
-                if case .success(let image) = response.result {
-                    self?.coverImage = image
+           mainView.bookCover.kf.setImage(with: imageURL,
+                                           placeholder: Images.emptyStateBookImage,
+                                           options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                                           completionHandler: { [weak self] response in
+                if case .success(let value) = response {
+                    self?.coverImage = value.image
                 }
             })
         }

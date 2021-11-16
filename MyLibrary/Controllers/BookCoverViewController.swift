@@ -20,7 +20,6 @@ class BookCoverViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.backButtonTitle = ""
         setupScrollViewConstraints()
         scrollView.imageView.image = image
-        scrollView.setZoomScale(2, animated: false)
         scrollView.scrollViewDidZoom(self.scrollView)
     }
    
@@ -32,6 +31,10 @@ class BookCoverViewController: UIViewController, UIScrollViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         restoreNavigationDefaultBar()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.setZoomScale()
     }
 }
 // MARK: - Constraints

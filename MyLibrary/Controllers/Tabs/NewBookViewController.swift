@@ -8,7 +8,7 @@
 import UIKit
 import PanModal
 import Alamofire
-import AlamofireImage
+import Kingfisher
 
 protocol NewBookDelegate: AnyObject {
     var newBook: Item? { get set }
@@ -157,9 +157,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         
         if let url = book.volumeInfo?.imageLinks?.thumbnail,
            let imageURL = URL(string: url) {
-            AF.request(imageURL).responseImage { [weak self] response in
-                if case .success(let image) = response.result {
-                    self?.bookImageCell.pictureView.image = image
+            
+            KingfisherManager.shared.retrieveImage(with: imageURL,
+                                                   options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                                                   progressBlock: nil) { result in
+                if case .success(let value) = result {
+                    self.bookImageCell.pictureView.image = value.image
                 }
             }
         }

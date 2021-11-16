@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import AlamofireImage
+import Kingfisher
 
 class HorizontalCollectionViewCell: UICollectionViewCell {
     
@@ -41,10 +41,10 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         
         guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
               let url = URL(string: imageURL) else { return }
-        bookCover.af.setImage(withURL: url,
-                              cacheKey: url.absoluteString,
-                              placeholderImage: Images.emptyStateBookImage,
-                              completion: nil)
+        bookCover.kf.setImage(with: url,
+                              placeholder: Images.emptyStateBookImage,
+                              options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                              completionHandler: nil)
     }
 }
 // MARK: - Constraints
