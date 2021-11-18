@@ -33,7 +33,7 @@ class ImageStorageService {
         guard let userID = userID, let imageData = imageData else { return }
         
         let imageStorageRef = storageReference
-            .child(userID).child("images")
+            .child(userID).child(StorageKey.images.rawValue)
             .child(id)
         
         imageStorageRef.putData(imageData, metadata: nil, completion: { ( _, error) in
@@ -71,11 +71,11 @@ extension ImageStorageService: ImageStorageProtocol {
     func updateUserImage(for imageData: Data?, completion: @escaping (FirebaseError?) -> Void) {
         guard let userID = userID else { return }
         
-        addImageToStorage(for: imageData, id: "profileImage") { [weak self] result in
+        addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
-                self?.usersCollectionRef.document(userID).updateData(["photoURL": imageStringURL])
+                self?.usersCollectionRef.document(userID).updateData([DocumentKey.photoURL.rawValue: imageStringURL])
                 completion(nil)
             case .failure(let error):
                 completion(.firebaseError(error))
@@ -88,7 +88,7 @@ extension ImageStorageService: ImageStorageProtocol {
         
         let imageStorageRef = storageReference
             .child(userID)
-            .child("images")
+            .child(StorageKey.images.rawValue)
             .child(id)
         
         imageStorageRef.delete { error in

@@ -12,7 +12,9 @@ enum FirebaseError: Error {
     case passwordMismatch
     case noUserName
     case nothingFound
+    case noCategory
     case noBookTitle
+    case documentAlreadyExist(String)
     case firebaseError(Error)
    
     var description: String {
@@ -27,6 +29,10 @@ enum FirebaseError: Error {
             return error.localizedDescription
         case .noBookTitle:
             return "Vous devez au moins entrer un titre."
+        case .documentAlreadyExist(let value):
+            return "\(value.capitalized) Existe déja."
+        case .noCategory:
+            return "Le nom ne peux être vide."
         }
     }
 }

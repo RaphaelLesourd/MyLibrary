@@ -73,7 +73,7 @@ extension UserService: UserServiceProtocol {
             completion(.noUserName)
             return
         }
-        usersCollectionRef.document(userId).updateData([UserDocumentKey.username.rawValue : username]) { error in
+        usersCollectionRef.document(userId).updateData([DocumentKey.username.rawValue : username]) { error in
             if let error = error {
                 completion(.firebaseError(error))
             }

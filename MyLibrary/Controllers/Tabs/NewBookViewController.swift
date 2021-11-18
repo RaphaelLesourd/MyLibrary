@@ -14,10 +14,11 @@ protocol NewBookDelegate: AnyObject {
     var newBook: Item? { get set }
     var bookDescription: String? { get set }
     var bookComment: String? { get set }
+    func setCategories(with: [String])
 }
 
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
-    
+   
     // MARK: - Properties
     private let resultController  = SearchViewController(networkService: ApiManager())
     private var searchController  = UISearchController()
@@ -27,6 +28,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private var libraryService : LibraryServiceProtocol
     private var imagePicker    : ImagePicker?
     private var chosenLanguage : String?
+    private var bookCategories : [String] = [] {
+        didSet {
+            let joinedList = bookCategories.joined(separator: ", ").capitalized
+            bookCategoryCell.textLabel?.text = bookCategories.isEmpty ? Text.ControllerTitle.category : joinedList
+        }
+    }
     
     var isEditingBook  = false
     var bookDescription: String?
@@ -36,31 +43,30 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             displayBookDetail()
         }
     }
-    
     // MARK: - Subviews
-    private let bookImageCell    = ImageStaticCell()
-    private let bookTileCell     = TextFieldStaticCell(placeholder: "Titre du livre")
-    private let bookAuthorCell   = TextFieldStaticCell(placeholder: "Nom de l'auteur")
-    private let bookCategoryCell = TextFieldStaticCell(placeholder: "Catégorie")
+    private let bookImageCell  = ImageStaticCell()
+    private let bookTileCell   = TextFieldStaticCell(placeholder: Text.Book.bookName)
+    private let bookAuthorCell = TextFieldStaticCell(placeholder: Text.Book.authorName)
+ 
+    private lazy var bookCategoryCell = createDefaultCell(with: Text.Book.bookCategories)
     
-    private let publisherCell   = TextFieldStaticCell(placeholder: "Editeur")
-    private let publishDateCell = TextFieldStaticCell(placeholder: "Date de parution")
+    private let publisherCell   = TextFieldStaticCell(placeholder: Text.Book.publisher)
+    private let publishDateCell = TextFieldStaticCell(placeholder: Text.Book.publishedDate)
     
-    private let isbnCell             = TextFieldStaticCell(placeholder: "ISBN", keyboardType: .numberPad)
-    private let numberOfPagesCell    = TextFieldStaticCell(placeholder: "Nombre de pages", keyboardType: .numberPad)
-    private let languageCell         = LanguageChoiceStaticCell(placeholder: "Langue du livre")
-    private lazy var descriptionCell = createDefaultCell(with: "Description")
+    private let isbnCell             = TextFieldStaticCell(placeholder: Text.Book.isbn, keyboardType: .numberPad)
+    private let numberOfPagesCell    = TextFieldStaticCell(placeholder: Text.Book.numberOfPages, keyboardType: .numberPad)
+    private let languageCell         = LanguageChoiceStaticCell(placeholder: Text.Book.bookLanguage)
+    private lazy var descriptionCell = createDefaultCell(with: Text.Book.bookDescription)
     
-    private let purchasePriceCell = TextFieldStaticCell(placeholder: "Prix d'achat", keyboardType: .decimalPad)
-    private let resellPriceCell   = TextFieldStaticCell(placeholder: "Côte actuelle", keyboardType: .decimalPad)
-    private let ratingCell        = RatingInputStaticCell(placeholder: "Note\n(0 à 5)")
-    private let saveButtonCell    = ButtonStaticCell(title: "Enregistrer",
+    private let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price, keyboardType: .decimalPad)
+    private let resellPriceCell   = TextFieldStaticCell(placeholder: Text.Book.resellPrice, keyboardType: .decimalPad)
+    private let ratingCell        = RatingInputStaticCell(placeholder: Text.Book.rating)
+    private let saveButtonCell    = ButtonStaticCell(title: Text.ButtonTitle.save,
                                                      systemImage: "arrow.down.doc.fill",
                                                      tintColor: .appTintColor,
                                                      backgroundColor: .appTintColor)
     private lazy var textFields = [bookTileCell.textField,
                                    bookAuthorCell.textField,
-                                   bookCategoryCell.textField,
                                    publisherCell.textField,
                                    publishDateCell.textField,
                                    isbnCell.textField,
@@ -91,7 +97,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setLanguage(for: newBook?.volumeInfo?.language)
+        guard let newBook = newBook else { return }
+        setLanguage(for: newBook)
     }
     // MARK: - Setup
     private func addNavigationBarButtons() {
@@ -105,7 +112,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
-        title = isEditingBook ? "Modifier" : Text.ControllerTitle.newBook
+        title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
         self.navigationItem.searchController = isEditingBook ? nil : searchController
     }
     private func setDelegates() {
@@ -135,7 +142,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         searchController = UISearchController(searchResultsController: resultController)
         searchController.searchBar.delegate                   = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder                = "Recherche"
+        searchController.searchBar.placeholder                = Text.SearchBarPlaceholder.search
         searchController.definesPresentationContext           = false
         resultController.newBookDelegate                      = self
         self.navigationItem.hidesSearchBarWhenScrolling       = false
@@ -143,18 +150,24 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     // MARK: - Data
     func displayBookDetail() {
-        dump(newBook)
         guard let book = newBook else { return }
         clearData()
         bookTileCell.textField.text      = book.volumeInfo?.title
         bookAuthorCell.textField.text    = book.volumeInfo?.authors?.joined(separator: ", ")
-        bookCategoryCell.textField.text  = book.volumeInfo?.categories?.first
         publisherCell.textField.text     = book.volumeInfo?.publisher
         publishDateCell.textField.text   = book.volumeInfo?.publishedDate?.displayYearOnly()
         isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
         
+        displayCategories(for: book)
+        displayBookCover(for: book)
+        displayBookPrice(for: book)
+        displayRating(for: book)
+        setLanguage(for: book)
+    }
+    
+    private func displayBookCover(for book: Item) {
         if let url = book.volumeInfo?.imageLinks?.thumbnail,
            let imageURL = URL(string: url) {
             
@@ -166,23 +179,51 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                 }
             }
         }
+    }
+    
+    private func displayCategories(for book: Item) {
+        if let categories = book.volumeInfo?.categories {
+            bookCategories = categories
+        }
+    }
+    
+    private func displayBookPrice(for book: Item) {
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
         }
+    }
+    
+    private func displayRating(for book: Item) {
         if let rating = book.volumeInfo?.ratingsCount {
             ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
         }
-        setLanguage(for: newBook?.volumeInfo?.language)
     }
     
-    private func setLanguage(for code: String?) {
-        guard let code = code else { return }
+    private func setLanguage(for book: Item) {
+        guard let code = book.volumeInfo?.language else { return }
         if let index = languageList.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
             languageCell.pickerView.selectRow(index, inComponent: 0, animated: false)
             self.pickerView(self.languageCell.pickerView, didSelectRow: index, inComponent: 0)
         }
     }
     
+    func setCategories(with categories: [String]) {
+        bookCategories = categories
+    }
+    
+    private func clearData() {
+        searchController.isActive = false
+        bookImageCell.pictureView.image = Images.emptyStateBookImage
+        bookComment = nil
+        bookDescription = nil
+        bookCategories.removeAll()
+        resultController.searchedBooks.removeAll()
+        textFields.forEach { $0.text = nil }
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
+        tableView.setContentOffset(.zero, animated: true)
+    }
+    
+    // MARK: Api Call
     @objc private func saveBook() {
         saveButtonCell.displayActivityIndicator(true)
         guard let book = createBookDocument() else { return }
@@ -195,7 +236,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Livre enregistré.")
+            self.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
     }
@@ -209,11 +250,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
                                     pageCount: Int(numberOfPagesCell.textField.text ?? "0"),
-                                    categories: [bookCategoryCell.textField.text ?? ""],
+                                    categories: bookCategories,
                                     ratingsCount: ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: Double(purchasePriceCell.textField.text ?? "0"),
+        let price = Double(purchasePriceCell.textField.text?.formatDecimalString ?? "0")
+        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
                                                                currencyCode: newBook?.saleInfo?.retailPrice?.currencyCode ?? "EUR"))
         return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
@@ -222,16 +264,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: newBook?.timestamp ?? Date().timeIntervalSince1970)
-    }
-    
-    private func clearData() {
-        searchController.isActive       = false
-        bookImageCell.pictureView.image = Images.emptyStateBookImage
-        bookComment     = nil
-        bookDescription = nil
-        resultController.searchedBooks.removeAll()
-        textFields.forEach { $0.text = nil }
-        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
     }
     
     // MARK: - Navigation
@@ -245,6 +277,13 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         bookCardDelegate?.fetchBookUpdate()
         clearData()
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func showCategoryList() {
+        let categoryListVC = CategoriesViewController()
+        categoryListVC.newBookDelegate    = self
+        categoryListVC.selectedCategories = bookCategories
+        navigationController?.pushViewController(categoryListVC, animated: true)
     }
     
     private func presentTextInputController(for inputType: TextInputType) {
@@ -284,7 +323,11 @@ extension NewBookViewController {
         switch indexPath.section {
         case 0:
             if indexPath.row == 0 {
-                self.imagePicker?.present(from: bookImageCell.pictureView)
+                imagePicker?.present(from: bookImageCell.pictureView)
+            }
+        case 2:
+            if indexPath.row == 0 {
+                showCategoryList()
             }
         case 4:
             if indexPath.row == 0 {

@@ -21,7 +21,7 @@ class SettingsViewController: CommonStaticTableViewController {
     
     // MARK: - Cell
     private lazy var profileCell  = ProfileStaticCell()
-    private let signOutCell       = ButtonStaticCell(title: "Déconnexion",
+    private let signOutCell       = ButtonStaticCell(title: Text.ButtonTitle.signOut,
                                                      systemImage: "rectangle.portrait.and.arrow.right.fill",
                                                      tintColor: .systemPurple,
                                                      backgroundColor: .systemPurple)

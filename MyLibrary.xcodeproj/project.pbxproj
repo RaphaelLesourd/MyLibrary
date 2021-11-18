@@ -14,6 +14,10 @@
 		810C447927271351007541C0 /* PanModalCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* PanModalCommonView.swift */; };
 		810C447B2727189B007541C0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447A2727189B007541C0 /* TextField.swift */; };
 		811D5BB92743978100C935B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 811D5BB82743978100C935B5 /* Kingfisher */; };
+		811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBC2744E60C00C935B5 /* CategoryModel.swift */; };
+		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
+		811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* ListTableView.swift */; };
+		811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC227452ED800C935B5 /* CategoriesViewController.swift */; };
 		812047F4272A604800E0A45B /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F3272A604800E0A45B /* BookDetailView.swift */; };
 		812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F6272A8AF700E0A45B /* TextInputViewController.swift */; };
 		812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */; };
@@ -141,6 +145,10 @@
 		810C44762727102D007541C0 /* SigningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningViewController.swift; sourceTree = "<group>"; };
 		810C447827271351007541C0 /* PanModalCommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalCommonView.swift; sourceTree = "<group>"; };
 		810C447A2727189B007541C0 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
+		811D5BC027452DA600C935B5 /* ListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		811D5BC227452ED800C935B5 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		812047F3272A604800E0A45B /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
 		812047F6272A8AF700E0A45B /* TextInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
 		812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputControllerMainView.swift; sourceTree = "<group>"; };
@@ -286,6 +294,7 @@
 		812047F5272A884100E0A45B /* SignInUp */ = {
 			isa = PBXGroup;
 			children = (
+				8121F0C027400541006EAA8D /* CommonCollectionView.swift */,
 				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
 				810C447827271351007541C0 /* PanModalCommonView.swift */,
 			);
@@ -295,12 +304,12 @@
 		812047FE272ACE9B00E0A45B /* Static Cells */ = {
 			isa = PBXGroup;
 			children = (
-				812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */,
-				8121F0C3274153F4006EAA8D /* RatingInputStaticCell.swift */,
 				812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */,
 				812047FF272ADFC500E0A45B /* ImageStaticCell.swift */,
-				81792F5E27326BF9005F863B /* ProfileStaticCell.swift */,
 				8121F0C5274182E9006EAA8D /* LanguageChoiceStaticCell.swift */,
+				81792F5E27326BF9005F863B /* ProfileStaticCell.swift */,
+				8121F0C3274153F4006EAA8D /* RatingInputStaticCell.swift */,
+				812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */,
 			);
 			path = "Static Cells";
 			sourceTree = "<group>";
@@ -424,6 +433,7 @@
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScannerViewController.swift */,
+				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
 				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
 			);
 			path = Controllers;
@@ -503,8 +513,8 @@
 			children = (
 				812047F5272A884100E0A45B /* SignInUp */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
+				811D5BC027452DA600C935B5 /* ListTableView.swift */,
 				812047F8272A917F00E0A45B /* TextInputControllerMainView.swift */,
-				8121F0C027400541006EAA8D /* CommonCollectionView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -557,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				81792F662732F93F005F863B /* FirebaseError.swift */,
+				811D5BBE2744F6FD00C935B5 /* CategoryService.swift */,
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
 				813B7C702733A44F005BFBDB /* UserService.swift */,
 				813B7C792733ADFD005BFBDB /* AccountService.swift */,
@@ -573,6 +584,7 @@
 				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
 				8121F0B0273B1515006EAA8D /* BookQuery.swift */,
 				810C44662726E561007541C0 /* UserModel.swift */,
+				811D5BBC2744E60C00C935B5 /* CategoryModel.swift */,
 			);
 			name = DataModel;
 			sourceTree = "<group>";
@@ -775,6 +787,7 @@
 				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				8121F0B7273D53A5006EAA8D /* UIImage+Extension.swift in Sources */,
 				8121F0BF273FEC22006EAA8D /* RatingView.swift in Sources */,
+				811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */,
 				81792F612732756D005F863B /* StackView.swift in Sources */,
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
@@ -783,6 +796,7 @@
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
+				811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
@@ -802,6 +816,7 @@
 				812047F9272A917F00E0A45B /* TextInputControllerMainView.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
+				811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
 				81BC7ED1273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift in Sources */,
 				81475148272735900080C5BA /* String+Extension.swift in Sources */,
@@ -832,6 +847,7 @@
 				81792F5D2731A311005F863B /* CommonStaticTableViewController.swift in Sources */,
 				819C5DC7272480F500F1F8F2 /* LayoutComposer.swift in Sources */,
 				812047F7272A8AF700E0A45B /* TextInputViewController.swift in Sources */,
+				811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */,
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,

@@ -16,14 +16,13 @@ class LayoutComposer {
     // MARK: - Section Layouts
     // Categories horizontal scroll layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem.withEntireSize()
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 15)
+        let size = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(40))
+        let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(110), heightDimension: .absolute(40)),
-            subitem: item,
-            count: 1
+            layoutSize: size,
+            subitems: [item]
         )
-        group.interItemSpacing = .fixed(10)
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: nil, trailing: .fixed(5), bottom: nil)
         return createSection(with: group, horizontal: true)
     }
     

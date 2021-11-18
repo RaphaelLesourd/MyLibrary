@@ -23,7 +23,7 @@ class RecommandationService {
     
     // MARK: - Initializer
     init() {
-        recommandationCollectionRef = db.collection("recommanded")
+        recommandationCollectionRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
     }
 }
 // MARK: - RecommandationServiceProtocol extension
@@ -34,7 +34,7 @@ extension RecommandationService: RecommandationServiceProtocol {
         let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
-            ref.updateData([BookDocumentKey.recommanding.rawValue: true])
+            ref.updateData([DocumentKey.recommanding.rawValue: true])
             completion(nil)
         } catch { completion(.firebaseError(error)) }
         

@@ -23,6 +23,33 @@ extension UIViewController {
       }
     }
     
+    func showInputDialog(title: String? = nil,
+                         subtitle: String? = nil,
+                         actionTitle: String? = "Ajouter",
+                         cancelTitle: String? = "Annuler",
+                         inputText: String? = nil,
+                         inputPlaceholder: String? = nil,
+                         inputKeyboardType: UIKeyboardType = UIKeyboardType.default,
+                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                         actionHandler: ((_ text: String?) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+        alert.addTextField { (textfield: UITextField) in
+            textfield.text = inputText
+            textfield.placeholder = inputPlaceholder
+            textfield.keyboardType = inputKeyboardType
+        }
+        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { _ in
+            guard let textField =  alert.textFields?.first else {
+                actionHandler?(nil)
+                return
+            }
+            actionHandler?(textField.text)
+        }))
+        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Banner
     public func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
         Bauly.shared.forcePresent(configurationHandler: { bauly in

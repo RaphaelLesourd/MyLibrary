@@ -40,7 +40,6 @@ extension TextFieldStaticCell {
         stackView.addArrangedSubview(textField)
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])

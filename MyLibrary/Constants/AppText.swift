@@ -37,5 +37,33 @@ enum Text {
         static let search = "Recherche"
         static let settings = "Réglages"
         static let profile = "Profil"
+        static let category = "Catégories"
+        static let modify = "Modifier"
+    }
+    
+    enum Book {
+        static let bookName = "Titre du livre"
+        static let authorName = "Nom de l'auteur"
+        static let bookCategories = "Catégories"
+        static let publisher = "Editeur"
+        static let publishedDate = "Date de parution"
+        static let isbn = "ISBN"
+        static let numberOfPages = "Nombre de pages"
+        static let bookLanguage = "Langue du livre"
+        static let bookDescription = "Description"
+        static let price = "Prix d'achat"
+        static let resellPrice = "Côte actuelle"
+        static let rating = "Note\n(0 à 5)"
+        static let bookSaved = "Livre enregistré."
+    }
+    
+    enum ButtonTitle {
+        static let save = "Enregistrer"
+        static let signOut = "Déconnexion"
+        static let deletaAccount = "Supprimer le compte"
+    }
+    
+    enum SearchBarPlaceholder {
+        static let search = "Rechercher"
     }
 }

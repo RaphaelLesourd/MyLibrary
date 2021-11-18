@@ -71,4 +71,10 @@ extension String {
     var isIsbn: Bool {
         return (self.count >= 10 ) && self.allSatisfy { $0.isNumber }
     }
+    
+    var formatDecimalString: String? {
+        split {
+            !CharacterSet(charactersIn: "\($0)").isSubset(of: CharacterSet.decimalDigits)
+        }.joined(separator: ".")
+    }
 }

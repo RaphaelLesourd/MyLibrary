@@ -32,7 +32,7 @@ extension ImageStaticCell {
 
         NSLayoutConstraint.activate([
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            pictureView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            pictureView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             pictureView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
             pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)

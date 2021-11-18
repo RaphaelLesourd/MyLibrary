@@ -17,7 +17,6 @@ class BookCoverViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.backButtonTitle = ""
         setupScrollViewConstraints()
         scrollView.imageView.image = image
         scrollView.scrollViewDidZoom(self.scrollView)

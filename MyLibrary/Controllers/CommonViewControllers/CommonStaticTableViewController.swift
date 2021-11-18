@@ -23,7 +23,8 @@ class CommonStaticTableViewController: UITableViewController {
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.backgroundColor = .viewControllerBackgroundColor
+        tableView.backgroundColor    = .viewControllerBackgroundColor
+        tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     /// Create a default cell user to open another controller/
     /// - Parameter text: Cell title

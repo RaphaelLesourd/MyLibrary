@@ -80,8 +80,8 @@ class BookCardViewController: UIViewController {
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
-        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
-        navigationItem.rightBarButtonItems = [editButton, activityIndicactorButton]
+        let activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItems = [editButton, activityIndicatorButton]
     }
     
     private func setTargets() {
@@ -109,14 +109,14 @@ class BookCardViewController: UIViewController {
     private func dispayBookData() {
         mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
         mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
-        mainView.categoryiesLabel.text                           = book?.volumeInfo?.categories?.joined(separator: ", ")
+        mainView.categoryiesLabel.text                           = book?.volumeInfo?.categories?.joined(separator: ", ").capitalized
         mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
         mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.languageName.capitalized
         mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
-        mainView.resellPriceView.titleLabel.text                 = "Côte actuelle"
+        mainView.resellPriceView.titleLabel.text                 = ""
         mainView.resellPriceView.purchasePriceLabel.text         = ""
         mainView.commentLabel.text                               = ""
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
@@ -137,7 +137,7 @@ class BookCardViewController: UIViewController {
         if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
            mainView.bookCover.kf.setImage(with: imageURL,
                                            placeholder: Images.emptyStateBookImage,
-                                           options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                                          options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
                                            completionHandler: { [weak self] response in
                 if case .success(let value) = response {
                     self?.coverImage = value.image
@@ -175,7 +175,7 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    private func updateBookStatus(_ state: Bool, fieldKey: BookDocumentKey) {
+    private func updateBookStatus(_ state: Bool, fieldKey: DocumentKey) {
         guard let bookID = book?.etag else { return }
         showIndicator(activityIndicator)
         libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] _ in
@@ -241,14 +241,18 @@ class BookCardViewController: UIViewController {
 extension BookCardViewController: BookCardDelegate {
     func fetchBookUpdate() {
         guard let bookID = book?.etag else { return }
+        showIndicator(activityIndicator)
+        
         libraryService.getBook(for: bookID) { [weak self] result in
+            guard let self = self else { return }
+            
             DispatchQueue.main.async {
+                self.hideIndicator(self.activityIndicator)
                 switch result {
                 case .success(let book):
-                    self?.book = book
-                    self?.presentAlertBanner(as: .customMessage("Mis à jour"))
+                    self.book = book
                 case .failure(let error):
-                    self?.presentAlertBanner(as: .error, subtitle: error.description)
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
         }

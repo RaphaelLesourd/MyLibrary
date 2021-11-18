@@ -43,7 +43,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
               let url = URL(string: imageURL) else { return }
         bookCover.kf.setImage(with: url,
                               placeholder: Images.emptyStateBookImage,
-                              options: [.cacheOriginalImage, .progressiveJPEG(.default)],
+                              options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
                               completionHandler: nil)
     }
 }

@@ -14,13 +14,13 @@ class BookLibraryViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
     private lazy var dataSource = makeDataSource()
     
+    private var noMoreBooks    = false
     private var layoutComposer = LayoutComposer()
     private let mainView       = CommonCollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
-    
-    private var libraryService: LibraryServiceProtocol
-    private var bookList  : [Item] = []
-    private var noMoreBooks   = false
+    private var libraryService : LibraryServiceProtocol
+    private var bookList       : [Item] = []
+   
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
     // MARK: - Initializer
@@ -36,7 +36,7 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Lifecycle
     override func loadView() {
         view = mainView
-        title = currentQuery.listType?.title ?? "Tous mes livres"
+        title = setTile()
         view.backgroundColor = .viewControllerBackgroundColor
     }
     
@@ -47,6 +47,11 @@ class BookLibraryViewController: UIViewController {
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         getBooks()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        libraryService.bookListListener?.remove()
     }
 
     // MARK: - Setup
@@ -66,6 +71,16 @@ class BookLibraryViewController: UIViewController {
     
     private func configureRefresherControl() {
         mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+    }
+    
+    private func setTile() -> String {
+        if let categoryTitle = currentQuery.fieldValue, !categoryTitle.isEmpty {
+            return categoryTitle.capitalized
+        }
+        if let query = currentQuery.listType {
+            return query.title
+        }
+        return Text.ControllerTitle.myBooks
     }
   
     // MARK: - Api call

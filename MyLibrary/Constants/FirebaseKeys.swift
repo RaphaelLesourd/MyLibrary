@@ -10,19 +10,25 @@ import Foundation
 enum CollectionDocumentKey: String, CaseIterable {
     case books
     case users
+    case recommanded
+    case category
 }
 
-enum UserDocumentKey: String {
+enum DocumentKey: String {
     case id
     case username
     case email
     case photoURL
-}
-
-enum BookDocumentKey: String {
     case timestamp
     case etag
     case favorite
     case recommanding
     case title = "volumeInfo.title"
+    case category = "volumeInfo.categories"
+    case name
+}
+
+enum StorageKey: String {
+    case images
+    case profileImage
 }
