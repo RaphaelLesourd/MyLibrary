@@ -35,7 +35,6 @@ class CategoriesViewController: UIViewController {
         setDelegates()
         setTableViewRefresherControl()
         addNavigationBarButtons()
-        displayUnregisteredCategories()
         setCategories()
     }
     
@@ -66,7 +65,7 @@ class CategoriesViewController: UIViewController {
     private func setCategories() {
         selectedCategories.forEach({ categories in
             if let index = categoryService.categories.firstIndex(where: {
-                $0.name?.lowercased() == categories.lowercased()
+                $0.id == categories
             }) {
                 let indexPath = IndexPath(row: index, section: 0)
                 listView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
@@ -84,16 +83,6 @@ class CategoriesViewController: UIViewController {
             }
             self?.reloadTableView()
             self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
-        }
-    }
-    
-    private func displayUnregisteredCategories() {
-        selectedCategories.forEach { category in
-            categoryService.checkIfDocumentExist(categoryName: category) { [weak self] documentID in
-                if documentID == nil {
-                    self?.requestAction(for: category)
-                }
-            }
         }
     }
     
@@ -133,21 +122,6 @@ class CategoriesViewController: UIViewController {
         })
     }
     
-    private func requestAction(for categoryName: String) {
-        showInputDialog(title: "Catégorie inconnue",
-                        subtitle: "Voulez-vous l'ajouter aux catégories de ce livre livre?",
-                        actionTitle: "Ajouter",
-                        cancelTitle: "Ignorer",
-                        inputText: categoryName,
-                        inputPlaceholder: "Nom",
-                        inputKeyboardType: .default) { [weak self] _ in
-            self?.removeCategoryFromList(categoryName)
-        } actionHandler: { [weak self] category in
-            self?.addCategoryToList(category)
-            self?.removeCategoryFromList(categoryName)
-        }
-    }
-    
     private func displayDeleteCategoryAlert(_ categoryName: String) {
         presentAlert(withTitle: "Effacer \(categoryName.capitalized)",
                      message: "Cette catégorie sera éffacée de votre liste.\n• Les livres contenant '\(categoryName)' ne seront pas affectés.",
@@ -156,10 +130,10 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func removeCategoryFromList(_ category: String?) {
-        guard let category = category else { return }
+    private func removeCategoryFromList(_ categoryID: String?) {
+        guard let categoryID = categoryID else { return }
         if let index = selectedCategories.firstIndex(where: {
-            $0.lowercased() == category.lowercased()
+            $0 == categoryID
         }) {
             selectedCategories.remove(at: index)
         }
@@ -217,12 +191,12 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let category = categoryService.categories[indexPath.row].name else { return }
-        selectedCategories.append(category)
+        guard let categoryID = categoryService.categories[indexPath.row].id else { return }
+        selectedCategories.append(categoryID)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let category = categoryService.categories[indexPath.row].name else { return }
-        removeCategoryFromList(category)
+        guard let categoryID = categoryService.categories[indexPath.row].id else { return }
+        removeCategoryFromList(categoryID)
     }
 }

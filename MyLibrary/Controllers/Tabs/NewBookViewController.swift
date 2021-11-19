@@ -29,12 +29,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private var libraryService : LibraryServiceProtocol
     private var imagePicker    : ImagePicker?
     private var chosenLanguage : String?
-    private var bookCategories : [String] = [] {
-        didSet {
-            let joinedList = bookCategories.joined(separator: ", ").capitalized
-            bookCategoryCell.textLabel?.text = bookCategories.isEmpty ? Text.ControllerTitle.category : joinedList
-        }
-    }
+    private var bookCategories : [String] = []
     
     var isEditingBook  = false
     var bookDescription: String?
@@ -159,8 +154,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
         bookDescription                  = book.volumeInfo?.volumeInfoDescription
         numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        
-        displayCategories(for: book)
+   
         displayBookCover(for: book)
         displayBookPrice(for: book)
         displayRating(for: book)
@@ -178,13 +172,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             }
         }
     }
-    
-    private func displayCategories(for book: Item) {
-        if let categories = book.volumeInfo?.categories {
-            bookCategories = categories
-        }
-    }
-    
+  
     private func displayBookPrice(for book: Item) {
         if let price = book.saleInfo?.retailPrice?.amount {
             purchasePriceCell.textField.text = "\(price)"
@@ -250,7 +238,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
                                     pageCount: converter.convertStringToInt(numberOfPagesCell.textField.text),
-                                    categories: bookCategories,
                                     ratingsCount: ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
@@ -263,7 +250,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                     recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
-                    timestamp: converter.setTimestamp(for: newBook?.timestamp))
+                    timestamp: converter.setTimestamp(for: newBook?.timestamp),
+                    category: newBook?.category)
     }
     
     // MARK: - Navigation

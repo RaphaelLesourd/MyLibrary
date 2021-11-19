@@ -25,9 +25,10 @@ struct Item: Codable {
     var volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
     let timestamp: Double?
+    let category: [Category]?
     
     private enum CodingKeys : String, CodingKey {
-        case etag, volumeInfo, saleInfo, favorite, timestamp, recommanding, ownerID
+        case etag, volumeInfo, saleInfo, favorite, timestamp, recommanding, ownerID, category
     }
 }
 
@@ -47,7 +48,6 @@ struct VolumeInfo: Codable {
     let publisher, publishedDate, volumeInfoDescription: String?
     let industryIdentifiers: [IndustryIdentifier]?
     let pageCount: Int?
-    let categories: [String]?
     let ratingsCount: Int?
     var imageLinks: ImageLinks?
     let language: String?
@@ -55,7 +55,7 @@ struct VolumeInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case title, authors, publisher, publishedDate
         case volumeInfoDescription = "description"
-        case industryIdentifiers, pageCount, categories, ratingsCount, imageLinks, language
+        case industryIdentifiers, pageCount, ratingsCount, imageLinks, language
     }
 }
 

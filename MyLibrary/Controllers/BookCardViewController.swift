@@ -110,7 +110,6 @@ class BookCardViewController: UIViewController {
     private func dispayBookData() {
         mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
         mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
-        mainView.categoryiesLabel.text                           = converter.joinArrayToString(book?.volumeInfo?.categories).uppercased()
         mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
