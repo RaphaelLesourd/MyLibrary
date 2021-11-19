@@ -21,14 +21,16 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var categoryLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 16, weight: .semibold)
+    private var categoryLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 14, weight: .semibold)
     
     override func prepareForReuse() {
         categoryLabel.text = nil
     }
     
     func configure(text: String?) {
-        categoryLabel.text = text?.capitalized ?? ""
+        if let categoryName = text {
+            categoryLabel.text = categoryName.uppercased()
+        }
     }
 }
 // MARK: - Constraints

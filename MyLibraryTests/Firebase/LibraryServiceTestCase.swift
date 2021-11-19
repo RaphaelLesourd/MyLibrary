@@ -15,10 +15,11 @@ class LibraryServiceTestCase: XCTestCase {
     private var accountService: AccountService?
     private var book          : Item?
     private let userID        = "1"
-    private let credentials  = AccountCredentials(userName: "testuser",
-                                                  email: "test@test.com",
-                                                  password: "Test21@",
-                                                  confirmPassword: "Test21@")
+    
+    private let credentials = AccountCredentials(userName: "testuser",
+                                                 email: "test@test.com",
+                                                 password: "Test21@",
+                                                 confirmPassword: "Test21@")
     private lazy var newUser = CurrentUser(userId: "1",
                                            displayName: credentials.userName ?? "test",
                                            email: credentials.email,
@@ -157,11 +158,11 @@ class LibraryServiceTestCase: XCTestCase {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.createBook(with: book, and: imageData, completion: { error in
             XCTAssertNil(error)
-            
-            
+    
             let docRef = self.sut?.usersCollectionRef
                 .document(self.userID)
                 .collection(CollectionDocumentKey.books.rawValue)
+            
             docRef?.getDocuments { (snapshot, error) in
                 XCTAssertNil(error)
                 if let foundDoc = snapshot?.documents,
@@ -243,6 +244,7 @@ class LibraryServiceTestCase: XCTestCase {
         self.waitForExpectations(timeout: 10, handler: nil)
     }
 }
+
 extension XCTestCase {
 
   func clearFirestore() {

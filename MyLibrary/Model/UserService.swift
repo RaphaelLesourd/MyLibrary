@@ -21,12 +21,14 @@ class UserService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     private let db = Firestore.firestore()
+    
     let usersCollectionRef: CollectionReference
-    var userId = Auth.auth().currentUser?.uid
+    var userID            : String
     
     // MARK: - Intializer
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
+        self.userID        = Auth.auth().currentUser?.uid ?? ""
     }
 }
 // MARK: - UserServiceProtocol Extension
@@ -45,9 +47,7 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Retrieve
     func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
-        guard let userId = userId else { return }
-       
-        let userRef = usersCollectionRef.document(userId)
+        let userRef = usersCollectionRef.document(userID)
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
@@ -67,13 +67,12 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Update
     func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
-        guard let userId = userId,
-              let username = username,
+        guard let username = username,
               !username.isEmpty else {
             completion(.noUserName)
             return
         }
-        usersCollectionRef.document(userId).updateData([DocumentKey.username.rawValue : username]) { error in
+        usersCollectionRef.document(userID).updateData([DocumentKey.username.rawValue : username]) { error in
             if let error = error {
                 completion(.firebaseError(error))
             }
@@ -83,9 +82,8 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Delete
     func deleteUser(completion: @escaping CompletionHandler) {
-        guard let userId = userId else { return }
-       
-        usersCollectionRef.document(userId).delete { error in
+        
+        usersCollectionRef.document(userID).delete { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return

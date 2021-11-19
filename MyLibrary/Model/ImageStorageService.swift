@@ -18,7 +18,8 @@ protocol ImageStorageProtocol {
 }
 
 class ImageStorageService {
-    var userID = Auth.auth().currentUser?.uid
+    var userID: String
+    
     private let db                  = Firestore.firestore()
     private let usersCollectionRef  : CollectionReference
     private var storageReference    : StorageReference
@@ -26,11 +27,12 @@ class ImageStorageService {
     init() {
         storageReference   = Storage.storage().reference()
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
+        self.userID        = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func addImageToStorage(for imageData: Data?, id: String,
                                    completion: @escaping (Result<String?, FirebaseError>) -> Void) {
-        guard let userID = userID, let imageData = imageData else { return }
+        guard let imageData = imageData else { return }
         
         let imageStorageRef = storageReference
             .child(userID).child(StorageKey.images.rawValue)
@@ -69,13 +71,12 @@ extension ImageStorageService: ImageStorageProtocol {
     }
     
     func updateUserImage(for imageData: Data?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let userID = userID else { return }
-        
-        addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
+       addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
+           guard let self = self else { return }
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
-                self?.usersCollectionRef.document(userID).updateData([DocumentKey.photoURL.rawValue: imageStringURL])
+                self.usersCollectionRef.document(self.userID).updateData([DocumentKey.photoURL.rawValue: imageStringURL])
                 completion(nil)
             case .failure(let error):
                 completion(.firebaseError(error))
@@ -84,9 +85,7 @@ extension ImageStorageService: ImageStorageProtocol {
     }
     
     func deleteImageFromStorage(for id: String, completion: @escaping (FirebaseError?) -> Void) {
-        guard let userID = userID else { return }
-        
-        let imageStorageRef = storageReference
+       let imageStorageRef = storageReference
             .child(userID)
             .child(StorageKey.images.rawValue)
             .child(id)

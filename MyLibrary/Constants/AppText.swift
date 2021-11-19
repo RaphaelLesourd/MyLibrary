@@ -47,7 +47,7 @@ enum Text {
         static let bookCategories = "Catégories"
         static let publisher = "Editeur"
         static let publishedDate = "Date de parution"
-        static let isbn = "ISBN"
+        static let isbn = "ISBN "
         static let numberOfPages = "Nombre de pages"
         static let bookLanguage = "Langue du livre"
         static let bookDescription = "Description"

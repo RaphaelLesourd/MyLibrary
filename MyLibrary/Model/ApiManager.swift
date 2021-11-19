@@ -15,6 +15,7 @@ protocol ApiManagerProtocol {
 class ApiManager {
     // MARK: - Properties
     let session: Session
+    private let converter = Converter()
     
     // MARK: - Initializer
     init(session: Session = .default) {
@@ -28,7 +29,7 @@ class ApiManager {
     ///   - fromIndex: Used for paging, index where the query should start.
     /// - Returns: AlamofireRouter URLRequest
     private func isQueryIsbn(for keyword: String, fromIndex: Int) -> AlamofireRouter {
-        return keyword.isIsbn ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
+        return converter.isIsbn(keyword) ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
     }
 }
 

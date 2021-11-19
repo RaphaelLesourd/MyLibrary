@@ -17,7 +17,7 @@ class CategoryService {
     private let db = Firestore.firestore()
     
     let usersCollectionRef: CollectionReference
-    var userID    = Auth.auth().currentUser?.uid
+    var userID    : String
     var categories: [Category] = [] {
         didSet {
             categories = categories.sorted(by: { $0.name ?? "" < $1.name ?? "" })
@@ -27,10 +27,10 @@ class CategoryService {
     // MARK: - Initializer
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
+        self.userID        = Auth.auth().currentUser?.uid ?? ""
     }
 
     func checkIfDocumentExist(categoryName: String, completion: @escaping (String?) -> Void) {
-        guard let userID = userID else { return }
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -51,7 +51,6 @@ class CategoryService {
     }
     
     func addCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
-        guard let userID = userID else { return }
         guard !categoryName.isEmpty else {
             completion(.noCategory)
             return
@@ -70,27 +69,26 @@ class CategoryService {
                 self?.categories.append(category)
                 completion(nil)
             } catch { completion(.firebaseError(error)) }
-            
         }
     }
     
     func deleteCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
-        guard let userID = userID else { return }
         guard !categoryName.isEmpty else {
             completion(.noCategory)
             return
         }
        
         checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
+            guard let self = self else { return }
             guard let documentID = documentID else {
                 completion(.noCategory)
                 return
             }
-            let docRef = self?.usersCollectionRef
-                .document(userID)
+            let docRef = self.usersCollectionRef
+                .document(self.userID)
                 .collection(CollectionDocumentKey.category.rawValue)
                 .document(documentID)
-            docRef?.delete { error in
+            docRef.delete { error in
                 if let error = error {
                     completion(.firebaseError(error))
                     return
@@ -101,8 +99,6 @@ class CategoryService {
     }
     
     func getCategories(completion: @escaping (FirebaseError?) -> Void) {
-        guard let userID = userID else { return }
-        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)

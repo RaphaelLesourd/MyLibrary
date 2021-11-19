@@ -14,6 +14,7 @@ class BookCardMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setScrollViewConstraints()
+        setBackgroundImageConstraint()
         setBookCoverConstraints()
         setupMainstackView()
         setFavoriteButtonConstraints()
@@ -40,9 +41,17 @@ class BookCardMainView: UIView {
         return view
     }()
     // BookCard elements
+    let backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.alpha = 0.5
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     let bookCover          = BookCover(frame: .zero)
-    let titleLabel         = TextLabel(maxLines: 2, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel        = TextLabel(maxLines: 2, alignment: .center, fontSize: 16, weight: .regular)
+    let titleLabel         = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
+    let authorLabel        = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
     let categoryiesLabel   = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
     let ratingView         = RatingView()
     let descriptionLabel   = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
@@ -76,9 +85,35 @@ class BookCardMainView: UIView {
         return button
     }()
     private let mainStackView = StackView(axis: .vertical, spacing: 30)
+    let gradientLayer = CAGradientLayer()
+  
+    private func addFadeGradientToRecipeImage() {
+        backgroundImage.layer.sublayers?.removeAll()
+        gradientLayer.removeFromSuperlayer()
+        gradientLayer.type = .axial
+        gradientLayer.colors = [UIColor.black.withAlphaComponent(0).cgColor,
+                                UIColor.secondarySystemBackground.cgColor]
+        gradientLayer.locations = [0.2, 1]
+        gradientLayer.frame =  backgroundImage.bounds
+        backgroundImage.layer.addSublayer(gradientLayer)
+    }
+    
+    override func layoutSubviews() {
+      addFadeGradientToRecipeImage()
+    }
 }
 // MARK: - Constraints
 extension BookCardMainView {
+    
+    private func setBackgroundImageConstraint() {
+        contentView.addSubview(backgroundImage)
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -100),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundImage.heightAnchor.constraint(equalTo: contentView.widthAnchor)
+        ])
+    }
     
     private func setScrollViewConstraints() {
         addSubview(scrollView)
@@ -102,7 +137,7 @@ extension BookCardMainView {
         bookCover.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
-            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
             bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
@@ -135,9 +170,10 @@ extension BookCardMainView {
                                            actionButton,
                                            deleteBookButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
-        mainStackView.setCustomSpacing(2, after: titleLabel)
-        mainStackView.setCustomSpacing(2, after: authorLabel)
+        mainStackView.setCustomSpacing(5, after: titleLabel)
+        mainStackView.setCustomSpacing(10, after: authorLabel)
         mainStackView.setCustomSpacing(15, after: categoryiesLabel)
+        mainStackView.setCustomSpacing(50, after: ratingView)
         mainStackView.setCustomSpacing(5, after: purchaseDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
         NSLayoutConstraint.activate([

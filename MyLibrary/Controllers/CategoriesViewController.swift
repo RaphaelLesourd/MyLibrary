@@ -186,7 +186,9 @@ extension CategoriesViewController: UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.backgroundColor = .tertiarySystemBackground
-        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+        cell.selectedBackgroundView = backgroundView
         let category = categoryService.categories[indexPath.row]
         cell.textLabel?.text = category.name?.capitalized
         return cell

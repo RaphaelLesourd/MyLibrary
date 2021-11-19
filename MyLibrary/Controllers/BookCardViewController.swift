@@ -19,6 +19,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Properties
     private let mainView = BookCardMainView()
     private let activityIndicator = UIActivityIndicatorView()
+    private let converter = Converter()
     
     private var libraryService        : LibraryServiceProtocol
     private var recommandationService : RecommandationServiceProtocol
@@ -96,7 +97,7 @@ class BookCardViewController: UIViewController {
         mainView.commentLabel.isHidden     = searchType == .apiSearch
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         if  searchType == .apiSearch {
-            mainView.actionButton.setTitle("Sauvegarder", for: .normal)
+            mainView.actionButton.setTitle(Text.ButtonTitle.save, for: .normal)
         }
         if book?.ownerID != Auth.auth().currentUser?.uid {
             mainView.deleteBookButton.isHidden = true
@@ -109,24 +110,24 @@ class BookCardViewController: UIViewController {
     private func dispayBookData() {
         mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
         mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
-        mainView.categoryiesLabel.text                           = book?.volumeInfo?.categories?.joined(separator: ", ").capitalized
+        mainView.categoryiesLabel.text                           = converter.joinArrayToString(book?.volumeInfo?.categories).uppercased()
         mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = book?.volumeInfo?.language?.languageName.capitalized
+        mainView.bookDetailView.languageView.infoLabel.text      = converter.getlanguageName(from: book?.volumeInfo?.language).capitalized
         mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
         mainView.resellPriceView.titleLabel.text                 = ""
         mainView.resellPriceView.purchasePriceLabel.text         = ""
         mainView.commentLabel.text                               = ""
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
         
-        if let currency = self.book?.saleInfo?.retailPrice?.currencyCode,
-           let price = self.book?.saleInfo?.retailPrice?.amount {
-            mainView.purchaseDetailView.purchasePriceLabel.text = price.formatCurrency(currencyCode: currency)
-        }
+        let currency = self.book?.saleInfo?.retailPrice?.currencyCode
+        let price = self.book?.saleInfo?.retailPrice?.amount
+        mainView.purchaseDetailView.purchasePriceLabel.text = converter.formatCurrency(with: price, currencyCode: currency)
+       
         if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
-            mainView.isbnLabel.text = "ISBN \(isbn)"
+            mainView.isbnLabel.text = Text.Book.isbn + isbn
         }
         if let favorite = self.book?.favorite {
             isFavorite = favorite
@@ -135,12 +136,17 @@ class BookCardViewController: UIViewController {
             isRecommandedStatus = recommand
         }
         if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
-           mainView.bookCover.kf.setImage(with: imageURL,
+            mainView.bookCover.kf.setImage(with: imageURL,
                                            placeholder: Images.emptyStateBookImage,
-                                          options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
+                                           options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
                                            completionHandler: { [weak self] response in
                 if case .success(let value) = response {
                     self?.coverImage = value.image
+                    self?.mainView.backgroundImage.image = value.image
+                    UIView.animate(withDuration: 4, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+                        let transformation = CGAffineTransform.identity.scaledBy(x: 1.06, y: 1.06).translatedBy(x: 0, y: -7)
+                        self?.mainView.backgroundImage.transform = transformation
+                    }
                 }
             })
         }
@@ -245,7 +251,6 @@ extension BookCardViewController: BookCardDelegate {
         
         libraryService.getBook(for: bookID) { [weak self] result in
             guard let self = self else { return }
-            
             DispatchQueue.main.async {
                 self.hideIndicator(self.activityIndicator)
                 switch result {

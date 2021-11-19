@@ -16,8 +16,8 @@ class HomeViewController: UIViewController {
     
     private let mainView        = CommonCollectionView()
     private var layoutComposer  = LayoutComposer()
-    private var libraryService  : LibraryServiceProtocol
     private var categoryService = CategoryService.shared
+    private var libraryService  : LibraryServiceProtocol
     
     private var latestBooks     : [Item] = []
     private var favoriteBooks   : [Item] = []
@@ -86,7 +86,7 @@ class HomeViewController: UIViewController {
             self?.favoriteBooks = books
             self?.applySnapshot()
         }
-        getBooks(for: .recommandationQuery) { [weak self] books in
+        getBooks(for: .recommendationQuery) { [weak self] books in
             self?.recommandedBooks = books
             self?.applySnapshot()
         }
@@ -119,7 +119,7 @@ class HomeViewController: UIViewController {
         case .newEntry:
             query = BookQuery.latestBookQuery
         case .recommanding:
-            query = BookQuery.recommandationQuery
+            query = BookQuery.recommendationQuery
         case .favorites:
             query = BookQuery.favoriteBookQuery
         case  .none:
@@ -140,7 +140,6 @@ class HomeViewController: UIViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController()
         categoryListVC.settingBookCategory = false
-        
         navigationController?.pushViewController(categoryListVC, animated: true)
     }
 }
@@ -194,8 +193,7 @@ extension HomeViewController {
             return headerView
         }
     }
-    /// Set the data to th section of the collectionView, in this case only one section (main)
-    /// - Parameter animatingDifferences: Animate the collectionView with the changes applied.
+    
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
@@ -213,7 +211,10 @@ extension HomeViewController: UICollectionViewDelegate {
         guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else { return }
         
         if let category = selectedItem as? Category {
-            let categoryQuery = BookQuery(listType: .categories, orderedBy: .category, fieldValue: category.name, descending: true)
+            let categoryQuery = BookQuery(listType: .categories,
+                                          orderedBy: .category,
+                                          fieldValue: category.name,
+                                          descending: true)
             showBookList(for: categoryQuery)
         }
         if let book = selectedItem as? Item {

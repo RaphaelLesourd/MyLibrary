@@ -18,7 +18,6 @@ protocol RecommandationServiceProtocol {
 class RecommandationService {
     
     private let db = Firestore.firestore()
-    var userID     = Auth.auth().currentUser?.uid
     let recommandationCollectionRef: CollectionReference
     
     // MARK: - Initializer

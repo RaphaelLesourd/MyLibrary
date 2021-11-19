@@ -162,7 +162,7 @@ class UserServiceTestCase: XCTestCase {
             if let error = error {
                 XCTAssertNotNil(error)
             }
-            self.sut?.userId = "12"
+            self.sut?.userID = "12"
             // when
             self.sut?.retrieveUser(completion: { result in
                 switch result {
@@ -181,7 +181,7 @@ class UserServiceTestCase: XCTestCase {
     func test_givenNoUSerStored_whenUpdatingName_thenError() {
         let exp = self.expectation(description: "Waiting for async operation")
         // When
-        sut?.userId = "12"
+        sut?.userID = "12"
         self.sut?.updateUserName(with: "", completion: { error in
             if let error = error {
                 // Then
