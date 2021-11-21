@@ -13,6 +13,15 @@ class CategoriesViewController: UIViewController {
     enum CategoryManagementAction: String {
         case delete = "Effacer"
         case edit = "Editer"
+        
+        var color: UIColor {
+            switch self {
+            case .delete:
+                return .systemRed
+            case .edit:
+                return .systemOrange
+            }
+        }
     }
     weak var newBookDelegate: NewBookDelegate?
     
@@ -40,7 +49,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        newBookDelegate?.setCategories(with: selectedCategories)
+        newBookDelegate?.bookCategories = selectedCategories
     }
     
     // MARK: - Setup
@@ -65,7 +74,7 @@ class CategoriesViewController: UIViewController {
     private func setCategories() {
         selectedCategories.forEach({ categories in
             if let index = categoryService.categories.firstIndex(where: {
-                $0.id == categories
+                $0.uid == categories
             }) {
                 let indexPath = IndexPath(row: index, section: 0)
                 listView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
@@ -76,7 +85,18 @@ class CategoriesViewController: UIViewController {
     // MARK: - Api call
     private func addCategoryToList(_ categoryName: String?) {
         guard let categoryName = categoryName else { return }
-        self.categoryService.addCategory(for: categoryName) { [weak self] error in
+        categoryService.addCategory(for: categoryName) { [weak self] error in
+            if let error = error {
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self?.reloadTableView()
+            self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
+        }
+    }
+    
+    private func updateCategory(for category: Category, with name: String?) {
+        categoryService.updateCategoryName(for: category, with: name) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -87,7 +107,7 @@ class CategoriesViewController: UIViewController {
     }
     
     private func deleteCategory(for categoryName: String) {
-        self.categoryService.deleteCategory(for: categoryName) { [weak self] error in
+        categoryService.deleteCategory(for: categoryName) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -127,6 +147,19 @@ class CategoriesViewController: UIViewController {
                      message: "Cette catégorie sera éffacée de votre liste.\n• Les livres contenant '\(categoryName)' ne seront pas affectés.",
                      withCancel: true) { [weak self] _ in
             self?.deleteCategory(for: categoryName)
+        }
+    }
+    
+    private func updateCategoryAlert(for category: Category) {
+        showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
+                        subtitle: "",
+                        actionTitle: "Ok",
+                        cancelTitle: "Annuler",
+                        inputText: "",
+                        inputPlaceholder: "Nouveau nom",
+                        inputKeyboardType: .default,
+                        cancelHandler: nil) { [weak self] text in
+            self?.updateCategory(for: category, with: text)
         }
     }
     
@@ -177,26 +210,38 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+    
     private func contextMenuAction(for actionType: CategoryManagementAction,
                                    forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
             guard let self = self else {return}
-            if let categoryName = self.categoryService.categories[indexPath.row].name {
-                self.displayDeleteCategoryAlert(categoryName)
-                completion(true)
+            switch actionType {
+            case .delete:
+                if let categoryName = self.categoryService.categories[indexPath.row].name {
+                    self.displayDeleteCategoryAlert(categoryName)
+                }
+            case .edit:
+                let category = self.categoryService.categories[indexPath.row]
+                self.updateCategoryAlert(for: category)
             }
+            completion(true)
         }
-        action.backgroundColor = .systemRed
+        action.backgroundColor = actionType.color
         return action
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let categoryID = categoryService.categories[indexPath.row].id else { return }
+        guard let categoryID = categoryService.categories[indexPath.row].uid else { return }
         selectedCategories.append(categoryID)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let categoryID = categoryService.categories[indexPath.row].id else { return }
+        guard let categoryID = categoryService.categories[indexPath.row].uid else { return }
         removeCategoryFromList(categoryID)
     }
 }

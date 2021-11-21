@@ -89,6 +89,15 @@ class Converter {
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
         return localeFromCurrentIdentifier.localizedString(forLanguageCode: languageCode) ?? ""
     }
+    
+    func getCurrencySymbol(from currencyCode: String?) -> String {
+        guard let currencyCode = currencyCode else {
+            return ""
+        }
+        let currentIdentifier = Locale.current.regionCode ?? ""
+        let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
+        return localeFromCurrentIdentifier.localizedString(forCurrencyCode: currencyCode) ?? ""
+    }
  
     func isIsbn(_ value: String) -> Bool {
         return (value.count >= 10 ) && value.allSatisfy { $0.isNumber }

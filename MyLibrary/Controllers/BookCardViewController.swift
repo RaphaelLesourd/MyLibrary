@@ -21,8 +21,12 @@ class BookCardViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     private let converter = Converter()
     
-    private var libraryService        : LibraryServiceProtocol
-    private var recommandationService : RecommandationServiceProtocol
+    private var libraryService          : LibraryServiceProtocol
+    private var recommandationService   : RecommandationServiceProtocol
+    private let categoryService         = CategoryService.shared
+    private var editButton              = UIBarButtonItem()
+    private var activityIndicatorButton = UIBarButtonItem()
+    private var coverImage              : UIImage?
     
     private var isRecommandedStatus = false {
         didSet {
@@ -34,7 +38,7 @@ class BookCardViewController: UIViewController {
             setFavoriteIcon(isFavorite)
         }
     }
-    private var coverImage: UIImage?
+   
     var searchType: SearchType?
     var book: Item? {
         didSet {
@@ -63,7 +67,7 @@ class BookCardViewController: UIViewController {
         addNavigationBarButtons()
         setTargets()
         configureUI()
-    }
+     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -77,11 +81,11 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let editButton = UIBarButtonItem(image: Images.editBookIcon,
+        editButton = UIBarButtonItem(image: Images.editBookIcon,
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
-        let activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
+        activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItems = [editButton, activityIndicatorButton]
     }
     
@@ -96,13 +100,14 @@ class BookCardViewController: UIViewController {
     private func configureUI() {
         mainView.commentLabel.isHidden     = searchType == .apiSearch
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
-        if  searchType == .apiSearch {
+        if searchType == .apiSearch {
             mainView.actionButton.setTitle(Text.ButtonTitle.save, for: .normal)
         }
         if book?.ownerID != Auth.auth().currentUser?.uid {
             mainView.deleteBookButton.isHidden = true
             mainView.actionButton.isHidden     = true
             mainView.favoriteButton.isHidden   = true
+            navigationItem.rightBarButtonItems = [activityIndicatorButton]
         }
     }
     
@@ -116,24 +121,18 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
         mainView.bookDetailView.languageView.infoLabel.text      = converter.getlanguageName(from: book?.volumeInfo?.language).capitalized
         mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
-        mainView.resellPriceView.titleLabel.text                 = ""
-        mainView.resellPriceView.purchasePriceLabel.text         = ""
         mainView.commentLabel.text                               = ""
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
         
-        let currency = self.book?.saleInfo?.retailPrice?.currencyCode
-        let price = self.book?.saleInfo?.retailPrice?.amount
-        mainView.purchaseDetailView.purchasePriceLabel.text = converter.formatCurrency(with: price, currencyCode: currency)
-       
-        if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
-            mainView.isbnLabel.text = Text.Book.isbn + isbn
-        }
-        if let favorite = self.book?.favorite {
-            isFavorite = favorite
-        }
-        if let recommand = self.book?.recommanding {
-            isRecommandedStatus = recommand
-        }
+        displayRecommandState()
+        displayCategoryNames()
+        displayFavoriteState()
+        displayBookPrice()
+        displayBookCover()
+        displayIsbn()
+    }
+    
+    private func displayBookCover() {
         if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
             mainView.bookCover.kf.setImage(with: imageURL,
                                            placeholder: Images.emptyStateBookImage,
@@ -141,14 +140,24 @@ class BookCardViewController: UIViewController {
                                            completionHandler: { [weak self] response in
                 if case .success(let value) = response {
                     self?.coverImage = value.image
-                    self?.mainView.backgroundImage.image = value.image
-                    UIView.animate(withDuration: 4, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
-                        let transformation = CGAffineTransform.identity.scaledBy(x: 1.06, y: 1.06).translatedBy(x: 0, y: -7)
-                        self?.mainView.backgroundImage.transform = transformation
-                    }
+                    self?.animateBackgroundImage()
                 }
             })
         }
+    }
+    
+    private func animateBackgroundImage() {
+        mainView.backgroundImage.image = coverImage
+        UIView.animate(withDuration: 5, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+            let transformation = CGAffineTransform.identity.scaledBy(x: 1.08, y: 1.08).translatedBy(x: 0, y: -7)
+            self.mainView.backgroundImage.transform = transformation
+        }
+    }
+    
+    private func displayBookPrice() {
+        let currency = self.book?.saleInfo?.retailPrice?.currencyCode
+        let price = self.book?.saleInfo?.retailPrice?.amount
+        mainView.purchaseDetailView.purchasePriceLabel.text = converter.formatCurrency(with: price, currencyCode: currency)
     }
     
     private func setFavoriteIcon(_ isFavorite: Bool) {
@@ -158,6 +167,24 @@ class BookCardViewController: UIViewController {
     private func setRecommandationButton(isRecommanding: Bool) {
         let title = isRecommanding ? "Ne plus recommander" : "Recommander"
         mainView.actionButton.setTitle(title, for: .normal)
+    }
+    
+    private func displayIsbn() {
+        if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
+            mainView.isbnLabel.text = Text.Book.isbn + isbn
+        }
+    }
+    
+    private func displayFavoriteState() {
+        if let favorite = self.book?.favorite {
+            isFavorite = favorite
+        }
+    }
+    
+    private func displayRecommandState() {
+        if let recommand = self.book?.recommanding {
+            isRecommandedStatus = recommand
+        }
     }
     
     // MARK: - Api call
@@ -190,7 +217,7 @@ class BookCardViewController: UIViewController {
     }
     
     private func recommnandBook(_ recommanded: Bool) {
-        guard let book = book else { return  }
+        guard let book = book else { return }
         updateBookStatus(recommanded, fieldKey: .recommanding)
         if recommanded == true {
             recommandationService.addToRecommandation(for: book) { [weak self] error in
@@ -204,6 +231,13 @@ class BookCardViewController: UIViewController {
                     self?.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
+        }
+    }
+    
+    private func displayCategoryNames() {
+        guard let categoryIds = book?.category else { return }
+        categoryService.getCategoryNameList(for: categoryIds) { [weak self] categoryNames in
+            self?.mainView.categoryiesLabel.text = self?.converter.joinArrayToString(categoryNames).uppercased()
         }
     }
     

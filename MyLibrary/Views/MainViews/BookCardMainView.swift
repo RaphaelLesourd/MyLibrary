@@ -18,12 +18,15 @@ class BookCardMainView: UIView {
         setBookCoverConstraints()
         setupMainstackView()
         setFavoriteButtonConstraints()
+        bookCover.addShadow()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Subviews
+    private let gradientLayer = CAGradientLayer()
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical           = true
@@ -43,7 +46,7 @@ class BookCardMainView: UIView {
     // BookCard elements
     let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.alpha = 0.5
+        imageView.alpha = 0.55
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +59,6 @@ class BookCardMainView: UIView {
     let ratingView         = RatingView()
     let descriptionLabel   = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
     let purchaseDetailView = PurchaseView()
-    let resellPriceView    = PurchaseView()
     let bookDetailView     = BookDetailView()
     let isbnLabel          = TextLabel(color: .secondaryLabel)
     let commentLabel       = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
@@ -84,17 +86,16 @@ class BookCardMainView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+   
     private let mainStackView = StackView(axis: .vertical, spacing: 30)
-    let gradientLayer = CAGradientLayer()
   
     private func addFadeGradientToRecipeImage() {
         backgroundImage.layer.sublayers?.removeAll()
         gradientLayer.removeFromSuperlayer()
-        gradientLayer.type = .axial
-        gradientLayer.colors = [UIColor.black.withAlphaComponent(0).cgColor,
-                                UIColor.secondarySystemBackground.cgColor]
+        gradientLayer.type      = .axial
+        gradientLayer.colors    = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.secondarySystemBackground.cgColor]
         gradientLayer.locations = [0.2, 1]
-        gradientLayer.frame =  backgroundImage.bounds
+        gradientLayer.frame     =  backgroundImage.bounds
         backgroundImage.layer.addSublayer(gradientLayer)
     }
     
@@ -133,7 +134,6 @@ extension BookCardMainView {
     }
     
     private func setBookCoverConstraints() {
-        bookCover.addShadow()
         bookCover.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
@@ -165,7 +165,6 @@ extension BookCardMainView {
                                            bookDetailView,
                                            isbnLabel,
                                            purchaseDetailView,
-                                           resellPriceView,
                                            commentLabel,
                                            actionButton,
                                            deleteBookButton]

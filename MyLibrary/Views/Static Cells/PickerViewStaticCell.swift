@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LanguageChoiceStaticCell: UITableViewCell {
+class PickerViewStaticCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -34,7 +34,7 @@ class LanguageChoiceStaticCell: UITableViewCell {
     private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)
 }
 // MARK: - Constraints
-extension LanguageChoiceStaticCell {
+extension PickerViewStaticCell {
     private func setConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)

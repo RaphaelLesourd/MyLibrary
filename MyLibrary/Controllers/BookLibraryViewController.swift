@@ -48,12 +48,7 @@ class BookLibraryViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         getBooks()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        libraryService.bookListListener?.remove()
-    }
-
+  
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -74,7 +69,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     private func setTile() -> String {
-        if let categoryTitle = currentQuery.fieldValue, !categoryTitle.isEmpty {
+        if let categoryTitle = title, !categoryTitle.isEmpty {
             return categoryTitle.capitalized
         }
         if let query = currentQuery.listType {
@@ -97,11 +92,14 @@ class BookLibraryViewController: UIViewController {
                 
                 switch result {
                 case .success(let books):
-                    if books.isEmpty {
-                        self.noMoreBooks = true
-                    } else {
-                        self.bookList.append(contentsOf: books)
-                        self.applySnapshot()
+                    guard !books.isEmpty else {
+                        return self.noMoreBooks = true
+                    }
+                    books.forEach { book in
+                        if !self.bookList.contains(where: { $0.etag == book.etag }) {
+                            self.bookList.append(book)
+                            self.applySnapshot()
+                        }
                     }
                 case .failure(let error):
                     self.presentAlertBanner(as: .error, subtitle: error.description)

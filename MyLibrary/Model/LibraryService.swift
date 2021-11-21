@@ -24,8 +24,10 @@ class LibraryService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     
-    private let imageService: ImageStorageProtocol
+    private let recommandationService: RecommandationService
+    private let imageService         : ImageStorageProtocol
     private let db          = Firestore.firestore()
+   
     let usersCollectionRef  : CollectionReference
    
     var userID          : String
@@ -34,9 +36,10 @@ class LibraryService {
 
     // MARK: - Initializer
     init() {
-        usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.imageService  = ImageStorageService()
-        self.userID        = Auth.auth().currentUser?.uid ?? ""
+        usersCollectionRef         = db.collection(CollectionDocumentKey.users.rawValue)
+        self.recommandationService = RecommandationService()
+        self.imageService          = ImageStorageService()
+        self.userID                = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func createBaseRef() -> DocumentReference? {
@@ -158,13 +161,16 @@ extension LibraryService: LibraryServiceProtocol {
             let bookID = uid ?? UUID().uuidString
            
             self?.saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
-                
                 book?.volumeInfo?.imageLinks?.thumbnail = storageLink
                 book?.ownerID = self?.userID
                 book?.etag = bookID
+                
                 self?.saveDocument(for: book, with: bookID, collection: .books) { error in
                     if let error = error {
                         completion(.firebaseError(error))
+                    }
+                    if book?.recommanding == true {
+                        self?.recommandationService.addToRecommandation(for: book) { _ in }
                     }
                     completion(nil)
                 }

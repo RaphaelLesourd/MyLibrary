@@ -129,10 +129,11 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    private func showBookList(for query: BookQuery?) {
+    private func showBookList(for query: BookQuery?, title: String? = nil) {
         let bookListVC = BookLibraryViewController(libraryService: LibraryService())
         if let query = query {
             bookListVC.currentQuery = query
+            bookListVC.title = title
             navigationController?.pushViewController(bookListVC, animated: true)
         }
     }
@@ -213,9 +214,9 @@ extension HomeViewController: UICollectionViewDelegate {
         if let category = selectedItem as? Category {
             let categoryQuery = BookQuery(listType: .categories,
                                           orderedBy: .category,
-                                          fieldValue: category.name,
+                                          fieldValue: category.uid,
                                           descending: true)
-            showBookList(for: categoryQuery)
+            showBookList(for: categoryQuery, title: category.name)
         }
         if let book = selectedItem as? Item {
             showBookDetails(for: book, searchType: .librarySearch)

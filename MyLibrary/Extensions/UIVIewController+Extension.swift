@@ -35,9 +35,10 @@ extension UIViewController {
         
         let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
         alert.addTextField { (textfield: UITextField) in
-            textfield.text = inputText
-            textfield.placeholder = inputPlaceholder
-            textfield.keyboardType = inputKeyboardType
+            textfield.text                   = inputText
+            textfield.placeholder            = inputPlaceholder
+            textfield.keyboardType           = inputKeyboardType
+            textfield.autocapitalizationType = .sentences
         }
         alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { _ in
             guard let textField =  alert.textFields?.first else {

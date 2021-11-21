@@ -60,7 +60,7 @@ class TextInputViewController: UIViewController {
         } else {
             newBookDelegate?.bookComment = text
         }
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
 // MARK: - PanModal Extension

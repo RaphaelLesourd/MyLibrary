@@ -25,7 +25,7 @@ struct Item: Codable {
     var volumeInfo: VolumeInfo?
     let saleInfo: SaleInfo?
     let timestamp: Double?
-    let category: [Category]?
+    let category: [String]?
     
     private enum CodingKeys : String, CodingKey {
         case etag, volumeInfo, saleInfo, favorite, timestamp, recommanding, ownerID, category

@@ -48,9 +48,7 @@ class WelcomeControllerMainView: UIView {
         let button = ASAuthorizationAppleIDButton()
         button.cornerRadius = 10
         button.constraints.forEach {
-            if $0.firstAttribute == .width {
-                    $0.isActive = false
-            }
+            if $0.firstAttribute == .width { $0.isActive = false }
         }
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 55).isActive = true

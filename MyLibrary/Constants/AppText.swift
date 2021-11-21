@@ -52,7 +52,7 @@ enum Text {
         static let bookLanguage = "Langue du livre"
         static let bookDescription = "Description"
         static let price = "Prix d'achat"
-        static let resellPrice = "Côte actuelle"
+        static let currency = "Monnaie"
         static let rating = "Note\n(0 à 5)"
         static let bookSaved = "Livre enregistré."
     }

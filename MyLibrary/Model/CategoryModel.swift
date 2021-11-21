@@ -10,19 +10,19 @@ import FirebaseFirestoreSwift
 
 struct Category: Codable {
     @DocumentID var id: String?
-    private let diffableId = UUID()
+    let uid: String?
     var name: String?
    
     private enum CodingKeys : String, CodingKey {
-        case name
+        case uid, name
     }
 }
 
 extension Category: Hashable {
     func hash(into hasher: inout Hasher) {
-        hasher.combine(diffableId)
+        hasher.combine(uid)
     }
     static func == (lhs: Category, rhs: Category) -> Bool {
-        return lhs.diffableId == rhs.diffableId
+        return lhs.uid == rhs.uid
     }
 }

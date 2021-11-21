@@ -82,7 +82,6 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Delete
     func deleteUser(completion: @escaping CompletionHandler) {
-        
         usersCollectionRef.document(userID).delete { error in
             if let error = error {
                 completion(.firebaseError(error))

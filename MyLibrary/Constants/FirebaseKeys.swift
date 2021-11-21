@@ -24,7 +24,7 @@ enum DocumentKey: String {
     case favorite
     case recommanding
     case title = "volumeInfo.title"
-    case category = "volumeInfo.categories"
+    case category
     case name
 }
 
