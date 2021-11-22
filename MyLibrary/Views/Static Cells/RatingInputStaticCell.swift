@@ -31,7 +31,7 @@ class RatingInputStaticCell: UITableViewCell {
         control.tintColor                = .clear
         control.selectedSegmentIndex     = 0
         control.backgroundColor          = .clear
-        control.selectedSegmentTintColor = .ratingColor
+        control.selectedSegmentTintColor = .appTintColor
         
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
         control.setTitleTextAttributes(titleTextAttributes, for:.normal)

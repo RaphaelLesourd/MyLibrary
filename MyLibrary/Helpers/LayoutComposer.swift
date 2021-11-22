@@ -55,7 +55,7 @@ class LayoutComposer {
     // Vertical scroll grid layout with 3 cells per row
     private  func makeVerticalGridLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
-        item.contentInsets = .init(top: 0, leading: 0, bottom: 10, trailing: 0)
+        item.contentInsets = .init(top: 0, leading: 0, bottom: 17, trailing: 0)
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.65)),
             subitem: item,

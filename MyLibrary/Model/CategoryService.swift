@@ -23,7 +23,7 @@ class CategoryService {
     var userID    : String
     var categories: [Category] = [] {
         didSet {
-            categories = categories.sorted(by: { $0.name ?? "" < $1.name ?? "" })
+            categories = categories.sorted(by: { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" })
         }
     }
     
