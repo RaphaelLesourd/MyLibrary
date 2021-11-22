@@ -149,7 +149,7 @@ class BookCardViewController: UIViewController {
     private func animateBackgroundImage() {
         mainView.backgroundImage.image = coverImage
         UIView.animate(withDuration: 5, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
-            let transformation = CGAffineTransform.identity.scaledBy(x: 1.08, y: 1.08).translatedBy(x: 0, y: -7)
+            let transformation = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1).translatedBy(x: 0, y: -10)
             self.mainView.backgroundImage.transform = transformation
         }
     }
