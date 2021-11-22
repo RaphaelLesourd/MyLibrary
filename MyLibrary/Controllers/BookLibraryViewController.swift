@@ -20,7 +20,7 @@ class BookLibraryViewController: UIViewController {
     private var footerView     = LoadingFooterSupplementaryView()
     private var libraryService : LibraryServiceProtocol
     private var bookList       : [Item] = []
-   
+    
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
     // MARK: - Initializer
@@ -48,7 +48,7 @@ class BookLibraryViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         getBooks()
     }
-  
+    
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -77,7 +77,7 @@ class BookLibraryViewController: UIViewController {
         }
         return Text.ControllerTitle.myBooks
     }
-  
+    
     // MARK: - Api call
     private func getBooks(nextPage: Bool = false) {
         showIndicator(mainView.activityIndicator)
@@ -85,26 +85,25 @@ class BookLibraryViewController: UIViewController {
         
         libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.hideIndicator(self.mainView.activityIndicator)
-                self.mainView.refresherControl.endRefreshing()
-                self.footerView.displayActivityIndicator(false)
-                
-                switch result {
-                case .success(let books):
-                    guard !books.isEmpty else {
-                        return self.noMoreBooks = true
-                    }
-                    books.forEach { book in
-                        if !self.bookList.contains(where: { $0.etag == book.etag }) {
-                            self.bookList.append(book)
-                            self.applySnapshot()
-                        }
-                    }
-                case .failure(let error):
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
+            self.footerView.displayActivityIndicator(false)
+            
+            switch result {
+            case .success(let books):
+                guard !books.isEmpty else {
+                    return self.noMoreBooks = true
                 }
+                books.forEach { book in
+                    if !self.bookList.contains(where: { $0.etag == book.etag }) {
+                        self.bookList.append(book)
+                        self.applySnapshot()
+                    }
+                }
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
             }
+            
         }
     }
     

@@ -29,6 +29,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     func configure(text: String?) {
         if let categoryName = text {
+            categoryLabel.sizeToFit()
             categoryLabel.text = categoryName.uppercased()
         }
     }

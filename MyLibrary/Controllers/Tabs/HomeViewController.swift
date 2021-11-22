@@ -97,7 +97,6 @@ class HomeViewController: UIViewController {
         
         libraryService.getBookList(for: query, limit: 20, forMore: false) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
                 self.hideIndicator(self.mainView.activityIndicator)
                 self.mainView.refresherControl.endRefreshing()
                 switch result {
@@ -106,7 +105,6 @@ class HomeViewController: UIViewController {
                 case .failure(let error):
                     self.presentAlertBanner(as: .error, subtitle: error.description)
                 }
-            }
         }
     }
     

@@ -6,6 +6,11 @@
 //
 
 import XCTest
+import Firebase
+import FirebaseDatabase
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestoreSwift
 @testable import MyLibrary
 
 class UserServiceTestCase: XCTestCase {
@@ -85,24 +90,20 @@ class UserServiceTestCase: XCTestCase {
         let exp = self.expectation(description: "Waiting for async operation")
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
-            exp.fulfill()
+            self.sut?.retrieveUser(completion: { result in
+                switch result {
+                case .success(let user):
+                    // then
+                    XCTAssertNotNil(user)
+                    XCTAssertEqual(user?.email, self.newUser.email)
+                    XCTAssertEqual(user?.id, self.newUser.id)
+                    XCTAssertEqual(user?.displayName, self.newUser.displayName)
+                case .failure(let error):
+                    XCTAssertNil(error)
+                }
+            })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-        
-        let exp2 = self.expectation(description: "Waiting for async operation")
-        self.sut?.retrieveUser(completion: { result in
-            switch result {
-            case .success(let user):
-                // then
-                XCTAssertNotNil(user)
-                XCTAssertEqual(user?.email, self.newUser.email)
-                XCTAssertEqual(user?.id, self.newUser.id)
-                XCTAssertEqual(user?.displayName, self.newUser.displayName)
-            case .failure(let error):
-                XCTAssertNil(error)
-            }
-        })
-        exp2.fulfill()
+        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     

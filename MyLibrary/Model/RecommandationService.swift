@@ -29,19 +29,23 @@ class RecommandationService {
 extension RecommandationService: RecommandationServiceProtocol {
     
     func addToRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let book = book, let bookID = book.etag else { return }
+        guard let book = book, let bookID = book.etag else {
+            completion(.nothingFound)
+            return
+        }
         let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
             ref.updateData([DocumentKey.recommanding.rawValue: true])
             completion(nil)
         } catch { completion(.firebaseError(error)) }
-        
     }
     
     func removeFromRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let book = book,
-              let bookID = book.etag else { return }
+        guard let book = book, let bookID = book.etag else {
+            completion(.nothingFound)
+            return
+        }
         let ref = recommandationCollectionRef.document(bookID)
         ref.delete { error in
             if let error = error {

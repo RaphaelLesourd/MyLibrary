@@ -311,7 +311,8 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             pickerLabel?.text = "  " + converter.getlanguageName(from: language).capitalized
         case newBookView.currencyCell.pickerView:
             let currencyCode = self.currencyList[row]
-            pickerLabel?.text = "  " + converter.getCurrencySymbol(from: currencyCode).capitalized
+            print(currencyCode)
+            pickerLabel?.text = "  " + converter.getCurrencyName(from: currencyCode)
         default:
             return UIView()
         }

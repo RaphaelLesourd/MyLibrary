@@ -97,7 +97,7 @@ class SettingsViewController: CommonStaticTableViewController {
         presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
                      message: "Vous allez devoir vous re-authentifier.",
                      withCancel: true) { _ in
-            let controller = SigningViewController(userManager: AccountService(), interfaceType: .deleteAccount)
+            let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
     }

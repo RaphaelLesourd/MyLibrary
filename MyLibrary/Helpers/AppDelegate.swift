@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.isPersistenceEnabled  = false
             settings.isSSLEnabled          = false
             Auth.auth().settings           = settingsAuth
+            
+            Storage.storage().useEmulator(withHost:"localhost", port:9199)
         }
         return true
     }

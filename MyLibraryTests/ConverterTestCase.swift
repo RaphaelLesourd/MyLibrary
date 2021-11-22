@@ -6,10 +6,9 @@
 //
 
 import XCTest
-
 @testable import MyLibrary
 
-class ConvertedTestCase: XCTestCase {
+class ConverterTestCase: XCTestCase {
 
     var sut: Converter!
     
@@ -32,40 +31,10 @@ class ConvertedTestCase: XCTestCase {
     }
     
     func givenYearString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "1980")
-        XCTAssertEqual(yearString, "1980")
-    }
-    
-    func givenYearMonthDayString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
         let yearString = sut.displayYearOnly(for: "1980-12-12")
         XCTAssertEqual(yearString, "1980")
     }
-    
-    func givenYearMonthDayWithTimeString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "1980-12-12 12:00:00")
-        XCTAssertEqual(yearString, "1980")
-    }
-    
-    func givenYearMonthDayWithTimeAndOneDigitMilisecTimezoneString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "2014-12-03T10:05:59.5+08:00")
-        XCTAssertEqual(yearString, "2014")
-    }
-    
-    func givenYearMonthDayWithTimeAndTwoDigitMilisecTimezoneString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "2014-12-03T10:05:59.55+08:00")
-        XCTAssertEqual(yearString, "2014")
-    }
-    
-    func givenYearMonthDayWithTimeAndThreeDigitMilisecTimezoneString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "2014-12-03T10:05:59.555+08:00")
-        XCTAssertEqual(yearString, "2014")
-    }
-    
-    func givenYearMonthDayWithTimeAndFourDigitMilisecTimezoneString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut.displayYearOnly(for: "2014-12-03T10:05:59.5555+08:00")
-        XCTAssertEqual(yearString, "2014")
-    }
-    
+
     func givenDecimalStringWithComma_whenConvertingToDouble_returnDouble() {
         let decimalString = "25,5"
         XCTAssertEqual(sut.formatDecimalString(decimalString), 25.5)
@@ -90,7 +59,7 @@ class ConvertedTestCase: XCTestCase {
         let currencyCode = "USD"
         let price = 21.5
         let itemPrice = sut.formatCurrency(with: price, currencyCode: currencyCode)
-        XCTAssertEqual(itemPrice, "$ 21.5")
+        XCTAssertEqual(itemPrice, "$21.5")
     }
     
     func test_givenLanguageCode_whenConvertingToLanguageName_thenLanguageName() {
@@ -106,6 +75,11 @@ class ConvertedTestCase: XCTestCase {
         XCTAssertFalse(sut.isIsbn("012345"))
     }
     
+    func test_givenCurrencyCode_whenGettingLanguageName_thenReturnString() {
+        let currencyName = sut.getCurrencyName(from: "LTT")
+        XCTAssertEqual(currencyName, "Lithuanian Talonas")
+    }
+    
     // MARK: - Failure tests
     func test_givenNilArray_whenJoining_thenReturnEmptyString() {
         let string = sut.joinArrayToString(nil)
@@ -117,10 +91,10 @@ class ConvertedTestCase: XCTestCase {
         XCTAssertEqual(givenDateString, "")
     }
     
-    func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnEmptyString() {
+    func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnCurrentYear() {
         let givenDateString = "123123D/FSDF3423234"
         let yearString = sut.displayYearOnly(for: givenDateString)
-        XCTAssertEqual(yearString, "")
+        XCTAssertEqual(yearString, "2021")
     }
     
     func test_givenNilDecimalString_whenConvertingToDouble_thenReturnZero() {
@@ -147,17 +121,17 @@ class ConvertedTestCase: XCTestCase {
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {
         let currencyCode = "USD"
         let itemPrice = sut.formatCurrency(with: nil, currencyCode: currencyCode)
-        XCTAssertEqual(itemPrice, "$ 0")
+        XCTAssertEqual(itemPrice, "$0")
     }
     
     func test_givenNilPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceSetAtZeroWithDefaultEuroCurrency() {
         let itemPrice = sut.formatCurrency(with: nil, currencyCode: nil)
-        XCTAssertEqual(itemPrice, "€ 0")
+        XCTAssertEqual(itemPrice, "€0")
     }
     
     func test_givenPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceWithDefaultEuroCurrency() {
         let itemPrice = sut.formatCurrency(with: 25, currencyCode: nil)
-        XCTAssertEqual(itemPrice, "€ 25")
+        XCTAssertEqual(itemPrice, "€25")
     }
     
     func test_givenNilLanguageCode_whenGettingLanguageName_returnEmptyString() {
@@ -166,5 +140,15 @@ class ConvertedTestCase: XCTestCase {
     
     func test_givenNonExistantLanguageCode_whenGettingLanguageName_returnEmptyString() {
         XCTAssertEqual(sut.getlanguageName(from: "eeeeeeeee"), "")
+    }
+    
+    func test_givenNilCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {
+        let currencyName = sut.getCurrencyName(from: nil)
+        XCTAssertEqual(currencyName, "")
+    }
+    
+    func test_givenNonExistantCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {
+        let currencyName = sut.getCurrencyName(from: "123455")
+        XCTAssertEqual(currencyName, "")
     }
 }

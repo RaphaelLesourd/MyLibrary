@@ -1,19 +1,25 @@
 //
-//  String+Extension.swift
+//  Validator.swift
 //  MyLibrary
 //
-//  Created by Birkyboy on 25/10/2021.
+//  Created by Birkyboy on 22/11/2021.
 //
 
 import Foundation
 
-extension String {
+protocol ValidatorProtocol {
+    func validateEmail(_ email: String?) -> Bool
+    func validatePassword(_ password: String?) -> Bool
+}
+
+class Validator: ValidatorProtocol {
     
-    // MARK: - Validation
-    func validateEmail() -> Bool {
-        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
-        return emailPredicate.evaluate(with: self)
+    func validateEmail(_ email: String?) -> Bool {
+        guard let email = email, !email.isEmpty else {
+            return false
+        }
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: email)
     }
     
     /// Validate password using predicate mathing a regex
@@ -26,9 +32,12 @@ extension String {
     /// - .{6}    Ensure string is of length 6.
     /// - $    End anchor.
     /// - Returns: true or false if matches regex
-    func validatePassword() -> Bool {
+    func validatePassword(_ password: String?) -> Bool {
+        guard let password = password, !password.isEmpty else {
+            return false
+        }
         let passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{6,}"
         let predicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
-        return predicate.evaluate(with: self)
+        return predicate.evaluate(with: password)
     }
 }

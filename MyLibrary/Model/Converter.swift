@@ -20,28 +20,13 @@ class Converter {
         guard let dateString = dateString else {
             return ""
         }
-
         let inputDateFormatter = DateFormatter()
+        inputDateFormatter.dateFormat = "yyyy-MM-dd"
+        let date = inputDateFormatter.date(from: dateString) ?? Date()
+        
         let outputDateFormatter = DateFormatter()
         outputDateFormatter.dateFormat = "yyyy"
-        
-        let formats: [String] = [
-            "yyyy-MM-dd hh:mm:ss.SSSSxx",
-            "yyyy-MM-dd hh:mm:ss.SSSxxx",
-            "yyyy-MM-dd hh:mm:ss.SSxxxx",
-            "yyyy-MM-dd hh:mm:ss.Sxxxxx",
-            "yyyy-MM-dd hh:mm:ss",
-            "yyyy-MM-dd",
-            "yyyy"
-        ]
-        for format in formats {
-            inputDateFormatter.dateFormat = format
-            
-            if let date = inputDateFormatter.date(from: dateString) {
-                return outputDateFormatter.string(from: date)
-            }
-        }
-        return ""
+        return outputDateFormatter.string(from: date)
     }
     
     func formatDecimalString(_ decimalString: String?) -> Double {
@@ -76,7 +61,6 @@ class Converter {
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
         formatter.currencyCode = currencyCode ?? "EUR"
-        formatter.positivePrefix = "\(formatter.positivePrefix ?? "") "
         let number = NSNumber(value: value ?? 0)
         return formatter.string(from: number)!
     }
@@ -90,7 +74,7 @@ class Converter {
         return localeFromCurrentIdentifier.localizedString(forLanguageCode: languageCode) ?? ""
     }
     
-    func getCurrencySymbol(from currencyCode: String?) -> String {
+    func getCurrencyName(from currencyCode: String?) -> String {
         guard let currencyCode = currencyCode else {
             return ""
         }

@@ -7,6 +7,10 @@
 
 import XCTest
 import Firebase
+import FirebaseDatabase
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestoreSwift
 @testable import MyLibrary
 
 class LibraryServiceTestCase: XCTestCase {
@@ -68,7 +72,6 @@ class LibraryServiceTestCase: XCTestCase {
                 XCTAssertNil(error)
                 exp.fulfill()
             })
-            
             self.waitForExpectations(timeout: 10, handler: nil)
         }
     }
@@ -81,16 +84,16 @@ class LibraryServiceTestCase: XCTestCase {
                                     volumeInfoDescription:"decription",
                                     industryIdentifiers: [IndustryIdentifier(identifier:"1234567890")],
                                     pageCount: 0,
-                                    categories: ["category"],
                                     ratingsCount: 0,
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(etag: "",
+        return Item(etag: "11111111111",
                     favorite: false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
-                    timestamp: 1)
+                    timestamp: 1,
+                    category: [])
     }
     
     // MARK: - Success
@@ -99,8 +102,9 @@ class LibraryServiceTestCase: XCTestCase {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.createBook(with: book, and: imageData, completion: { error in
             XCTAssertNil(error)
+            exp.fulfill()
         })
-        exp.fulfill()
+       
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -130,10 +134,10 @@ class LibraryServiceTestCase: XCTestCase {
                             XCTAssertNil(error)
                         }
                     })
+                    exp.fulfill()
                 }
             }
         })
-        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -143,12 +147,12 @@ class LibraryServiceTestCase: XCTestCase {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.createBook(with: book, and: imageData, completion: { error in
             XCTAssertNil(error)
-            
             self.sut?.deleteBook(book: book, completion: { error in
                 XCTAssertNil(error)
             })
+            exp.fulfill()
         })
-        exp.fulfill()
+      
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -181,21 +185,22 @@ class LibraryServiceTestCase: XCTestCase {
                         case .failure(let error):
                             XCTAssertNil(error)
                         }
+                        exp.fulfill()
                     })
                 })
             }
         })
-        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
-    // MARK: - Error
+    // MARK: - Failure
     func test_givenNoBook_whenAdding_thenError() {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.createBook(with: nil, and: imageData, completion: { error in
             XCTAssertNotNil(error)
+            XCTAssertEqual(error?.description, FirebaseError.noBookTitle.description)
+            exp.fulfill()
         })
-        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
@@ -207,40 +212,41 @@ class LibraryServiceTestCase: XCTestCase {
                 XCTAssertNil(book)
             case .failure(let error):
                 XCTAssertNotNil(error)
+                XCTAssertEqual(error.description, FirebaseError.nothingFound.description)
             }
+            exp.fulfill()
         })
-        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
     
-//    func test_givenNoBookStored_whenDeleting_thenNoBookError() {
-//        let book = createBookDocument()
-//        let exp = self.expectation(description: "Waiting for async operation")
-//        sut?.deleteBook(book: book, completion: { error in
-//            XCTAssertNotNil(error)
-//            XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
-//        })
-//        exp.fulfill()
-//        self.waitForExpectations(timeout: 10, handler: nil)
-//    }
-//    
-//    func test_givenNil_whenDeleting_thenError() {
-//        let book = createBookDocument()
-//        let exp = self.expectation(description: "Waiting for async operation")
-//        sut?.deleteBook(book: book, completion: { error in
-//            XCTAssertNotNil(error)
-//            exp.fulfill()
-//        })
-//        
-//        self.waitForExpectations(timeout: 10, handler: nil)
-//    }
+    func test_givenNoBookStored_whenDeleting_thenNoBookError() {
+        let book = createBookDocument()
+        let exp = self.expectation(description: "Waiting for async operation")
+        sut?.deleteBook(book: book, completion: { error in
+            XCTAssertNotNil(error)
+      //      XCTAssertEqual(error?.description, FirebaseError.firebaseError(error?.description))
+            exp.fulfill()
+        })
+        self.waitForExpectations(timeout: 10, handler: nil)
+    }
     
+    func test_givenNilBook_whenDeleting_thenNoBookError() {
+        let exp = self.expectation(description: "Waiting for async operation")
+        sut?.deleteBook(book: nil, completion: { error in
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
+            exp.fulfill()
+        })
+        self.waitForExpectations(timeout: 10, handler: nil)
+    }
+
     func test_givenNoStoredBook_whenAddingOrRemovingFavoriteList_thenError() {
         let exp = self.expectation(description: "Waiting for async operation")
         sut?.setStatusTo(true, field: .favorite, for: nil, completion: { error in
             XCTAssertNotNil(error)
+            XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
+            exp.fulfill()
         })
-        exp.fulfill()
         self.waitForExpectations(timeout: 10, handler: nil)
     }
 }

@@ -11,13 +11,15 @@ import PanModal
 class SigningViewController: UIViewController {
 
     // MARK: - Properties
-    private let mainView = PanModalCommonView()
+    private let mainView     = PanModalCommonView()
+    private var userManager  : AccountServiceProtocol
+    private var validator    : ValidatorProtocol
     private var interfaceType: AccountInterfaceType
-    private var userManager: AccountServiceProtocol
    
     // MARK: - Initializer
-    init(userManager: AccountServiceProtocol, interfaceType: AccountInterfaceType) {
-        self.userManager = userManager
+    init(userManager: AccountServiceProtocol, validator: ValidatorProtocol, interfaceType: AccountInterfaceType) {
+        self.userManager   = userManager
+        self.validator     = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
     }
@@ -138,11 +140,11 @@ extension SigningViewController: UITextFieldDelegate {
         var valid = false
         switch textField {
         case mainView.emailTextField:
-            valid = updatedString.validateEmail()
+            valid = validator.validateEmail(updatedString)
         case mainView.passwordTextField:
-            valid = updatedString.validatePassword()
+            valid = validator.validatePassword(updatedString)
         case mainView.confirmPasswordTextField:
-            valid =  updatedString.validatePassword()
+            valid = validator.validatePassword(updatedString)
         default:
             return true
         }

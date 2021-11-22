@@ -67,8 +67,7 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Update
     func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
-        guard let username = username,
-              !username.isEmpty else {
+        guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return
         }

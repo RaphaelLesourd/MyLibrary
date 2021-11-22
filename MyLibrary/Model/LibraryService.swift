@@ -47,11 +47,9 @@ class LibraryService {
     }
     
     // MARK: Save
-    private func saveDocument<T: Codable>(for document: T,  with id: String, collection: CollectionDocumentKey,
+    private func saveDocument<T: Codable>(for document: T, with id: String, collection: CollectionDocumentKey,
                                           completion: @escaping (FirebaseError?) -> Void) {
-       
         guard let docRef = createBaseRef()?.collection(collection.rawValue).document(id) else { return }
-        
         do {
             try docRef.setData(from: document)
             completion(nil)
@@ -70,9 +68,7 @@ class LibraryService {
     }
     // MARK: Delete
     private func deleteDocument(with id: String, collection: CollectionDocumentKey, completion: @escaping CompletionHandler) {
-      
         guard let docRef = createBaseRef()?.collection(collection.rawValue).document(id) else { return }
-        
         docRef.delete { error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -85,7 +81,6 @@ class LibraryService {
     private func updateStatus(with id: String, favoriteState: Bool,  collection: CollectionDocumentKey, field: DocumentKey,
                               completion: @escaping (FirebaseError?) -> Void) {
         guard let docRef = createBaseRef()?.collection(collection.rawValue).document(id) else { return }
-        
         docRef.updateData([field.rawValue : favoriteState]) { error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -205,7 +200,9 @@ extension LibraryService: LibraryServiceProtocol {
                     return nil
                 }
             }
-            completion(.success(data))
+            DispatchQueue.main.async {
+                completion(.success(data))
+            }
         }
     }
     

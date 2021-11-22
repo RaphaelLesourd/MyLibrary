@@ -194,7 +194,6 @@ class BookCardViewController: UIViewController {
         
         libraryService.deleteBook(book: book) { [weak self] error in
             guard let self = self else { return }
-            DispatchQueue.main.async {
                 self.hideIndicator(self.activityIndicator)
                 if let error = error {
                     self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -204,7 +203,6 @@ class BookCardViewController: UIViewController {
                 self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
                 self.navigationController?.popViewController(animated: true)
             }
-        }
     }
     
     private func updateBookStatus(_ state: Bool, fieldKey: DocumentKey) {
