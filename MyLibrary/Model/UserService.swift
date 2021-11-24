@@ -31,6 +31,7 @@ class UserService {
         self.userID        = Auth.auth().currentUser?.uid ?? ""
     }
 }
+
 // MARK: - UserServiceProtocol Extension
 extension UserService: UserServiceProtocol {
 
@@ -67,6 +68,10 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Update
     func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return

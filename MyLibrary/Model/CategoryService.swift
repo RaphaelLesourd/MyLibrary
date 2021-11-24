@@ -35,19 +35,23 @@ class CategoryService {
     
     // MARK: Add
     func addCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard !categoryName.isEmpty else {
             completion(.noCategory)
             return
         }
         let id = UUID().uuidString
         let docRef = usersCollectionRef.document(userID).collection(CollectionDocumentKey.category.rawValue)
-        let category = Category(uid: id, name: categoryName.lowercased())
         
         checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
             guard documentID == nil else {
                 completion(.documentAlreadyExist(categoryName))
                 return
             }
+            let category = Category(uid: id, name: categoryName.lowercased())
             do {
                 try docRef.document(id).setData(from: category)
                 self?.categories.append(category)
@@ -95,6 +99,10 @@ class CategoryService {
     
     // MARK: Update
     func updateCategoryName(for category: Category, with name: String?, completion: @escaping (FirebaseError?) -> Void) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let documentID = category.uid else {
             completion(.nothingFound)
             return
@@ -119,6 +127,10 @@ class CategoryService {
     
     // MARK: Delete
     func deleteCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard !categoryName.isEmpty else {
             completion(.noCategory)
             return
@@ -165,7 +177,6 @@ class CategoryService {
         }
     }
     // MARK: - Private functions
-    
     private func getCategoryName(for id: String, completion: @escaping (String?) -> Void) {
         let docRef = usersCollectionRef
             .document(userID)

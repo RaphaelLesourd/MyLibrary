@@ -14,6 +14,7 @@ enum FirebaseError: Error {
     case nothingFound
     case noCategory
     case noBookTitle
+    case noNetwork
     case documentAlreadyExist(String)
     case firebaseError(Error)
    
@@ -33,6 +34,8 @@ enum FirebaseError: Error {
             return "\(value.capitalized) Existe déja."
         case .noCategory:
             return "Le nom ne peux être vide."
+        case .noNetwork:
+            return "Vous semblez être hors ligne."
         }
     }
 }

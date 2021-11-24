@@ -12,8 +12,7 @@ import FirebaseAuth
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
     
-    private var currentUser = Auth.auth().currentUser
-    
+    private var newViewController = UIViewController()
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +39,21 @@ class TabBarController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewcontrollers() {
-        let homeViewController = createController(for: HomeViewController(libraryService: LibraryService()),
+        let homeViewController = createController(for: HomeViewController(libraryService: LibraryService(),
+                                                                          layoutComposer: HomeViewControllerLayout()),
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.homeIcon!)
         
         let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
-        let libraryViewController = createController(for: BookLibraryViewController(libraryService: LibraryService()),
+        let libraryViewController = createController(for: BookLibraryViewController(libraryService: LibraryService(),
+                                                                                    layoutComposer: ListLayout()),
                                                         title: Text.ControllerTitle.myBooks,
                                                         image: libraryIconImage)
         
-        let newViewController = createController(for: NewBookViewController(libraryService: LibraryService()),
-                                                    title: Text.ControllerTitle.newBook,
-                                                    image: Images.newBookIcon!)
+        newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
+                                                                        formatter: Formatter()),
+                                                title: Text.ControllerTitle.newBook,
+                                                image: Images.newBookIcon!)
         
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
         let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),

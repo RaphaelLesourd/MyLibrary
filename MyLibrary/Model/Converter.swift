@@ -7,7 +7,18 @@
 
 import Foundation
 
-class Converter {
+protocol FormatterProtocol {
+    func joinArrayToString(_ dataArray: [String]?) -> String
+    func displayYearOnly(for dateString: String?) -> String
+    func formatDecimalString(_ decimalString: String?) -> Double
+    func setTimestamp(for timestamp: Double?) -> Double
+    func convertStringToInt(_ value: String?) -> Int
+    func formatCurrency(with value: Double?, currencyCode: String?) -> String
+    func getlanguageName(from languageCode: String?) -> String
+    func getCurrencyName(from currencyCode: String?) -> String
+}
+
+class Formatter: FormatterProtocol {
     
     func joinArrayToString(_ dataArray: [String]?) -> String {
         guard let dataArray = dataArray else {
@@ -82,8 +93,5 @@ class Converter {
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
         return localeFromCurrentIdentifier.localizedString(forCurrencyCode: currencyCode) ?? ""
     }
- 
-    func isIsbn(_ value: String) -> Bool {
-        return (value.count >= 10 ) && value.allSatisfy { $0.isNumber }
-    }
+
 }

@@ -38,6 +38,10 @@ class ValidatorTestCase: XCTestCase {
         XCTAssertTrue(sut.validatePassword("tesTing2&"))
     }
     
+    func test_givenStringWithMorethan10Numbers_whenCheckingIfIsbn_thenReturnTrue() {
+        XCTAssertTrue(sut.validateIsbn("01234567890"))
+    }
+
     // MARK: - Fail tests
     func test_givenEmailAdress_whenChekcValidity_thenReturnFalse() {
         XCTAssertFalse(sut.validateEmail("testemail@@test.com"))
@@ -64,4 +68,9 @@ class ValidatorTestCase: XCTestCase {
         XCTAssertFalse(sut.validatePassword(""))
         XCTAssertFalse(sut.validatePassword(nil))
     }
+    
+    func test_givenStringWithLessthan10Numbers_whenCheckingIfIsbn_thenReturnFalse() {
+        XCTAssertFalse(sut.validateIsbn("012345"))
+    }
+    
 }

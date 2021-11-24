@@ -34,15 +34,14 @@ class RecommandServiceTestCase: XCTestCase {
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
+        clearFirestore()
         sut            = RecommandationService()
         accountService = AccountService()
         userService    = UserService()
-        createAnAccount()
     }
     
     override func tearDown() {
         super.tearDown()
-        clearFirestore()
         sut            = nil
         accountService = nil
         userService    = nil
@@ -51,34 +50,6 @@ class RecommandServiceTestCase: XCTestCase {
     }
     
     // MARK: - Private function
-    private func createAnAccount() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        accountService?.createAccount(for: credentials, completion: { error in
-            self.userID = Auth.auth().currentUser?.uid ?? "1"
-        })
-        exp.fulfill()
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    private func deleteAccount() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        let docRef = userService?.usersCollectionRef
-            .document(userID)
-            .collection(CollectionDocumentKey.books.rawValue)
-        docRef?.getDocuments { (snapshot, error) in
-            XCTAssertNil(error)
-            let foundDoc = snapshot?.documents
-            foundDoc?.forEach { $0.reference.delete() }
-            
-            self.userService?.usersCollectionRef.document(self.userID).delete()
-            self.accountService?.deleteAccount(with: self.credentials, completion: { error in
-                XCTAssertNil(error)
-                exp.fulfill()
-            })
-            self.waitForExpectations(timeout: 10, handler: nil)
-        }
-    }
-    
     private func createBookDocument() -> Item? {
         let volumeInfo = VolumeInfo(title: "title",
                                     authors: ["author"],
@@ -130,21 +101,6 @@ class RecommandServiceTestCase: XCTestCase {
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
             exp.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func test_givenRecommendedBook_whenNotRecommandingNonExistantBook_thenError() {
-        let book = createBookDocument()
-        var otherBook = createBookDocument()
-        otherBook?.etag = nil
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addToRecommandation(for: book, completion: { error in
-            XCTAssertNil(error)
-            self.sut?.removeFromRecommandation(for: otherBook, completion: { error in
-                XCTAssertNotNil(error)
-                exp.fulfill()
-            })
         })
         self.waitForExpectations(timeout: 10, handler: nil)
     }

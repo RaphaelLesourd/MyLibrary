@@ -16,7 +16,7 @@ class SearchViewController: UIViewController {
 
     private let mainView       = CommonCollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
-    private var layoutComposer = LayoutComposer()
+    private var layoutComposer : LayoutComposer
     private var networkService : ApiManagerProtocol
     private var noMoreBooks    : Bool?
     
@@ -35,8 +35,9 @@ class SearchViewController: UIViewController {
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol
-    init(networkService: ApiManagerProtocol) {
+    init(networkService: ApiManagerProtocol, layoutComposer: LayoutComposer) {
         self.networkService = networkService
+        self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -64,7 +65,7 @@ class SearchViewController: UIViewController {
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
-        let layout = layoutComposer.composeBookLibraryLayout()
+        let layout = layoutComposer.setCollectionViewLayout()
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
         mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
@@ -92,7 +93,6 @@ class SearchViewController: UIViewController {
             switch result {
             case .success(let books):
                 self.handleList(for: books)
-                self.applySnapshot()
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -106,13 +106,22 @@ class SearchViewController: UIViewController {
     private func handleList(for books: [Item]) {
         switch searchType {
         case .apiSearch:
-            books.isEmpty ? noMoreBooks = true : searchedBooks.append(contentsOf: books)
+            books.isEmpty ? noMoreBooks = true : addBooks(books)
         case .barCodeSearch:
             newBookDelegate?.newBook = books.first
         case .librarySearch:
             return
         case .none:
             return
+        }
+    }
+    
+    private func addBooks(_ books: [Item]) {
+        books.forEach { book in
+            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
+                self.searchedBooks.append(book)
+                self.applySnapshot()
+            }
         }
     }
     

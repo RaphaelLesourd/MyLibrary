@@ -15,17 +15,18 @@ class HomeViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     
     private let mainView        = CommonCollectionView()
-    private var layoutComposer  = LayoutComposer()
-    private var categoryService = CategoryService.shared
+    private var layoutComposer  : LayoutComposer
     private var libraryService  : LibraryServiceProtocol
+    private var categoryService = CategoryService.shared
     
     private var latestBooks     : [Item] = []
     private var favoriteBooks   : [Item] = []
     private var recommandedBooks: [Item] = []
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol) {
+    init(libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
         self.libraryService = libraryService
+        self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +57,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        let layout = layoutComposer.composeHomeCollectionViewLayout()
+        let layout = layoutComposer.setCollectionViewLayout()
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.register(cell: CategoryCollectionViewCell.self)
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
@@ -128,7 +129,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
-        let bookListVC = BookLibraryViewController(libraryService: LibraryService())
+        let bookListVC = BookLibraryViewController(libraryService: LibraryService(),
+                                                   layoutComposer: ListLayout())
         if let query = query {
             bookListVC.currentQuery = query
             bookListVC.title = title

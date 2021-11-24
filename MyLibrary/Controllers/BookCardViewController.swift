@@ -19,8 +19,8 @@ class BookCardViewController: UIViewController {
     // MARK: - Properties
     private let mainView = BookCardMainView()
     private let activityIndicator = UIActivityIndicatorView()
-    private let converter = Converter()
     
+    private let formatter               : FormatterProtocol
     private var libraryService          : LibraryServiceProtocol
     private var recommandationService   : RecommandationServiceProtocol
     private let categoryService         = CategoryService.shared
@@ -46,9 +46,10 @@ class BookCardViewController: UIViewController {
         }
     }
     // MARK: - Intializers
-    init(libraryService: LibraryServiceProtocol, recommandationService: RecommandationServiceProtocol) {
+    init(libraryService: LibraryServiceProtocol, recommandationService: RecommandationServiceProtocol, formatter: FormatterProtocol) {
         self.libraryService        = libraryService
         self.recommandationService = recommandationService
+        self.formatter             = formatter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -97,13 +98,12 @@ class BookCardViewController: UIViewController {
         mainView.addGestureRecognizer(tap)
     }
     
-    private func configureUI() {
-        mainView.commentLabel.isHidden     = searchType == .apiSearch
+    func configureUI() {
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         if searchType == .apiSearch {
             mainView.actionButton.setTitle(Text.ButtonTitle.save, for: .normal)
         }
-        if book?.ownerID != Auth.auth().currentUser?.uid {
+        if book?.ownerID != Auth.auth().currentUser?.uid || Networkconnectivity.shared.isReachable == false {
             mainView.deleteBookButton.isHidden = true
             mainView.actionButton.isHidden     = true
             mainView.favoriteButton.isHidden   = true
@@ -119,9 +119,8 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = converter.getlanguageName(from: book?.volumeInfo?.language).capitalized
+        mainView.bookDetailView.languageView.infoLabel.text      = formatter.getlanguageName(from: book?.volumeInfo?.language).capitalized
         mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
-        mainView.commentLabel.text                               = ""
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
         
         displayRecommandState()
@@ -148,8 +147,8 @@ class BookCardViewController: UIViewController {
     
     private func animateBackgroundImage() {
         mainView.backgroundImage.image = coverImage
-        UIView.animate(withDuration: 5, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
-            let transformation = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1).translatedBy(x: 0, y: -10)
+        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+            let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
             self.mainView.backgroundImage.transform = transformation
         }
     }
@@ -157,7 +156,7 @@ class BookCardViewController: UIViewController {
     private func displayBookPrice() {
         let currency = self.book?.saleInfo?.retailPrice?.currencyCode
         let price = self.book?.saleInfo?.retailPrice?.amount
-        mainView.purchaseDetailView.purchasePriceLabel.text = converter.formatCurrency(with: price, currencyCode: currency)
+        mainView.purchaseDetailView.purchasePriceLabel.text = formatter.formatCurrency(with: price, currencyCode: currency)
     }
     
     private func setFavoriteIcon(_ isFavorite: Bool) {
@@ -187,6 +186,13 @@ class BookCardViewController: UIViewController {
         }
     }
     
+    private func displayCategoryNames() {
+        guard let categoryIds = book?.category else { return }
+        categoryService.getCategoryNameList(for: categoryIds) { [weak self] categoryNames in
+            self?.mainView.categoryiesLabel.text = self?.formatter.joinArrayToString(categoryNames).uppercased()
+        }
+    }
+    
     // MARK: - Api call
     private func deleteBook() {
         guard let book = book else { return }
@@ -208,9 +214,12 @@ class BookCardViewController: UIViewController {
     private func updateBookStatus(_ state: Bool, fieldKey: DocumentKey) {
         guard let bookID = book?.etag else { return }
         showIndicator(activityIndicator)
-        libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] _ in
+        libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
         }
     }
     
@@ -231,14 +240,6 @@ class BookCardViewController: UIViewController {
             }
         }
     }
-    
-    private func displayCategoryNames() {
-        guard let categoryIds = book?.category else { return }
-        categoryService.getCategoryNameList(for: categoryIds) { [weak self] categoryNames in
-            self?.mainView.categoryiesLabel.text = self?.converter.joinArrayToString(categoryNames).uppercased()
-        }
-    }
-    
     // MARK: - Targets
     @objc private func favoriteButtonAction() {
         isFavorite.toggle()
@@ -267,7 +268,7 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService())
+        let newBookController = NewBookViewController(libraryService: LibraryService(), formatter: Formatter())
         newBookController.newBook          = book
         newBookController.isEditingBook    = true
         newBookController.bookCardDelegate = self

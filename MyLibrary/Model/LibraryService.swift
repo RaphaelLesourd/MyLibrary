@@ -24,9 +24,9 @@ class LibraryService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     
-    private let recommandationService: RecommandationService
+    private let recommandationService: RecommandationServiceProtocol
     private let imageService         : ImageStorageProtocol
-    private let db          = Firestore.firestore()
+    private let db                   = Firestore.firestore()
    
     let usersCollectionRef  : CollectionReference
    
@@ -116,9 +116,7 @@ class LibraryService {
     }
     // MARK: Query
     private func createQuery(query: BookQuery, next: Bool) -> Query? {
-        var docRef: Query = usersCollectionRef
-            .document(userID)
-            .collection(CollectionDocumentKey.books.rawValue)
+        var docRef: Query = usersCollectionRef.document(userID).collection(CollectionDocumentKey.books.rawValue)
      
         switch query.listType {
         case .categories:
@@ -140,13 +138,18 @@ class LibraryService {
         }
         return docRef
     }
+
 }
 
 // MARK: - LibraryServiceProtocol Extension
 extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update
-    func createBook(with book: Item?, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
+    func createBook(with book: Item?, and imageData: Data, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let bookTitle = book?.volumeInfo?.title, !bookTitle.isEmpty else {
             completion(.noBookTitle)
             return
@@ -207,7 +210,6 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
-        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.books.rawValue)
@@ -254,7 +256,7 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: - Field update
-    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
+    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping CompletionHandler) {
         guard let id = id else {
             completion(.nothingFound)
             return

@@ -51,6 +51,7 @@ enum Text {
         static let numberOfPages = "Nombre de pages"
         static let bookLanguage = "Langue du livre"
         static let bookDescription = "Description"
+        static let comment = "Commentaires, avis..."
         static let price = "Prix d'achat"
         static let currency = "Monnaie"
         static let rating = "Note\n(0 à 5)"

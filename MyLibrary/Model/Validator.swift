@@ -10,6 +10,7 @@ import Foundation
 protocol ValidatorProtocol {
     func validateEmail(_ email: String?) -> Bool
     func validatePassword(_ password: String?) -> Bool
+    func validateIsbn(_ value: String) -> Bool
 }
 
 class Validator: ValidatorProtocol {
@@ -39,5 +40,9 @@ class Validator: ValidatorProtocol {
         let passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{6,}"
         let predicate = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
         return predicate.evaluate(with: password)
+    }
+    
+    func validateIsbn(_ value: String) -> Bool {
+        return (value.count >= 10 ) && value.allSatisfy { $0.isNumber }
     }
 }

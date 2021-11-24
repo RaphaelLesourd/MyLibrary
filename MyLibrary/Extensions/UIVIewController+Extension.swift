@@ -12,12 +12,16 @@ import Bauly
 extension UIViewController {
     
     // MARK: - Alert
-    func presentAlert(withTitle title: String, message: String, withCancel: Bool = false, actionHandler: ((UIAlertAction) -> Void)?) {
+    func presentAlert(withTitle title: String,
+                      message: String,
+                      withCancel: Bool = false,
+                      cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                      actionHandler: ((UIAlertAction) -> Void)?) {
       DispatchQueue.main.async {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: actionHandler))
           if withCancel {
-              alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+              alertController.addAction(UIAlertAction(title: "Annulez", style: .cancel, handler: cancelHandler))
           }
         self.present(alertController, animated: true)
       }
@@ -53,16 +57,19 @@ extension UIViewController {
     
     // MARK: - Banner
     public func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
-        Bauly.shared.forcePresent(configurationHandler: { bauly in
-            bauly.title = type.message
-            bauly.subtitle = subtitle
-        }, duration: 1, dismissAfter: 2, feedbackStyle: .medium)
+        DispatchQueue.main.async {
+            Bauly.shared.forcePresent(configurationHandler: { bauly in
+                bauly.title = type.message
+                bauly.subtitle = subtitle
+            }, duration: 1, dismissAfter: 2, feedbackStyle: .medium)
+        }
     }
     
     // MARK: - Navigation
     func showBookDetails(for book: Item, searchType: SearchType) {
         let bookCardVC = BookCardViewController(libraryService: LibraryService(),
-                                                recommandationService: RecommandationService())
+                                                recommandationService: RecommandationService(),
+                                                formatter: Formatter())
         bookCardVC.hidesBottomBarWhenPushed = true
         bookCardVC.searchType = searchType
         bookCardVC.book = book

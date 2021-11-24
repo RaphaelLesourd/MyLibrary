@@ -37,43 +37,12 @@ class UserServiceTestCase: XCTestCase {
     override func tearDown() {
         super.tearDown()
         clearFirestore()
-        deleteAccount()
         sut = nil
         accountService = nil
     }
     
-    // MARK: - Private functions
-    private func createAnAccount() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        accountService?.createAccount(for: credentials, completion: { error in
-        })
-        exp.fulfill()
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    private func deleteAccount() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        let docRef = sut?.usersCollectionRef
-            .document(userID)
-            .collection(CollectionDocumentKey.books.rawValue)
-        docRef?.getDocuments { (snapshot, error) in
-            XCTAssertNil(error)
-            let foundDoc = snapshot?.documents
-            foundDoc?.forEach { $0.reference.delete() }
-            
-            self.sut?.usersCollectionRef.document(self.userID).delete()
-            self.accountService?.deleteAccount(with: self.credentials, completion: { error in
-                XCTAssertNil(error)
-                exp.fulfill()
-            })
-            
-            self.waitForExpectations(timeout: 10, handler: nil)
-        }
-    }
-    
     // MARK: - Successful
     func test_givenNewUser_whenStoringData_thenItReturnsNoErrors() {
-        createAnAccount()
         let exp = self.expectation(description: "Waiting for async operation")
         // when
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
@@ -85,7 +54,6 @@ class UserServiceTestCase: XCTestCase {
     }
     
     func test_givenUserStored_whenRetreivingUser_thenShowData() {
-        createAnAccount()
         // when
         let exp = self.expectation(description: "Waiting for async operation")
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
@@ -108,7 +76,6 @@ class UserServiceTestCase: XCTestCase {
     }
     
     func test_givenUserStored_whenUpdatingName_thenDisplayNewName() {
-        createAnAccount()
         // Given
         let exp = self.expectation(description: "Waiting for async operation")
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
@@ -136,7 +103,6 @@ class UserServiceTestCase: XCTestCase {
     
     func test_givenUserStored_whenDeleting_thenNoError() {
         // Given
-        createAnAccount()
         let exp = self.expectation(description: "Waiting for async operation")
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             if let error = error {
@@ -157,7 +123,6 @@ class UserServiceTestCase: XCTestCase {
     
     // MARK: - Errors
     func test_givenNoUser_whenRetrivingNonExistingUser_thenReturnError() {
-        createAnAccount()
         let exp = self.expectation(description: "Waiting for async operation")
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             if let error = error {

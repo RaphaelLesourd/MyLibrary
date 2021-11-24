@@ -40,6 +40,10 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Create
     func createAccount(for userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let userCredentials = userCredentials else { return }
         guard passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
@@ -68,6 +72,10 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Delete
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let userCredentials = userCredentials else { return }
         let credential: AuthCredential = EmailAuthProvider.credential(withEmail: userCredentials.email,
                                                                       password: userCredentials.password)
@@ -104,6 +112,10 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Log in
     func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         guard let userCredentials = userCredentials else { return }
         Auth.auth().signIn(withEmail: userCredentials.email, password: userCredentials.password) { _, error in
             if let error = error {
@@ -124,6 +136,10 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Forgot password
     func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
+        guard Networkconnectivity.isConnectedToNetwork() == true else {
+            completion(.noNetwork)
+            return
+        }
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
                 completion(.firebaseError(error))

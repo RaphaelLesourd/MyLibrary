@@ -11,16 +11,22 @@ import Firebase
 import FirebaseFirestore
 import IQKeyboardManagerSwift
 import Kingfisher
+import Network
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-   
+  
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
         kingFisherCacheSetup()
         FirebaseApp.configure()
-        
+        configureFiresbaseTestEnvironement()
+        Networkconnectivity.shared.startMonitoring()
+        return true
+    }
+    
+    private func configureFiresbaseTestEnvironement() {
         // Checking if unit tests are running
         if ProcessInfo.processInfo.environment["unit_tests"] == "true" {
             print("Setting up Firebase emulator localhost:8080")
@@ -38,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             Storage.storage().useEmulator(withHost:"localhost", port:9199)
         }
-        return true
     }
     
     private func configureKeyboard() {

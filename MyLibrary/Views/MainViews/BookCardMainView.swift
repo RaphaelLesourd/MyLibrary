@@ -61,7 +61,6 @@ class BookCardMainView: UIView {
     let purchaseDetailView = PurchaseView()
     let bookDetailView     = BookDetailView()
     let isbnLabel          = TextLabel(color: .secondaryLabel)
-    let commentLabel       = TextLabel(maxLines: 0, alignment: .justified, fontSize: 16, weight: .light)
     let actionButton       = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
@@ -165,7 +164,6 @@ extension BookCardMainView {
                                            bookDetailView,
                                            isbnLabel,
                                            purchaseDetailView,
-                                           commentLabel,
                                            actionButton,
                                            deleteBookButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
@@ -173,7 +171,7 @@ extension BookCardMainView {
         mainStackView.setCustomSpacing(10, after: authorLabel)
         mainStackView.setCustomSpacing(15, after: categoryiesLabel)
         mainStackView.setCustomSpacing(50, after: ratingView)
-        mainStackView.setCustomSpacing(5, after: purchaseDetailView)
+        mainStackView.setCustomSpacing(20, after: bookDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),

@@ -8,7 +8,7 @@
 import XCTest
 import Alamofire
 
-class RecipeServiceTestCase: XCTestCase {
+class SearchServiceTestCase: XCTestCase {
     
     private var session: Session!
     private var sut: ApiManager!
@@ -19,7 +19,7 @@ class RecipeServiceTestCase: XCTestCase {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         session = Session(configuration: configuration)
-        sut = ApiManager(session: session)
+        sut = ApiManager(session: session, validator: Validator())
     }
     
     override func tearDown() {
@@ -67,17 +67,16 @@ class RecipeServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func test_givenKeywords_WhenRequestingBookList_thenResultReturned() {
+    func test_givenKeywords_WhenRequestingBookList_thenEmptyResultReturned() {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         MockURLProtocol.requestHandler = { [self] request in
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookEmptyCorrectData)
         }
-        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "nothing", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
-                XCTAssertEqual(books.count, 0)
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.noBooks.description)
             }
@@ -94,7 +93,7 @@ class RecipeServiceTestCase: XCTestCase {
             return (response, FakeData.bookIncorrectData)
         }
 
-        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)

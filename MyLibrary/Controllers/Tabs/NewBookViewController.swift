@@ -20,21 +20,22 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
-    private let resultController  = SearchViewController(networkService: ApiManager())
-    private let converter         = Converter()
-    private let newBookView       = NewBookControllerView()
-    private let languageList      = Locale.isoLanguageCodes
-    private let currencyList      = Locale.isoCurrencyCodes
+    private let resultController = SearchViewController(networkService: ApiManager(validator: Validator()),
+                                                        layoutComposer: ListLayout())
+    private let newBookView  = NewBookControllerView()
+    private let languageList = Locale.isoLanguageCodes
+    private let currencyList = Locale.isoCurrencyCodes
     
-    private var libraryService : LibraryServiceProtocol
-    private var imagePicker    : ImagePicker?
-    private var chosenLanguage : String?
-    private var chosenCurrency : String?
+    private let formatter     : FormatterProtocol
+    private var libraryService: LibraryServiceProtocol
+    private var imagePicker   : ImagePicker?
+    private var chosenLanguage: String?
+    private var chosenCurrency: String?
     
-    weak var bookCardDelegate  : BookCardDelegate?
+    weak var bookCardDelegate: BookCardDelegate?
     
-    var bookCategories : [String] = []
     var isEditingBook  = false
+    var bookCategories : [String] = []
     var bookDescription: String?
     var bookComment    : String?
     var newBook: Item? {
@@ -43,8 +44,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         }
     }
    
-    init(libraryService: LibraryServiceProtocol) {
+    init(libraryService: LibraryServiceProtocol, formatter: FormatterProtocol) {
         self.libraryService = libraryService
+        self.formatter      = formatter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -84,6 +86,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
         self.navigationItem.searchController = isEditingBook ? nil : newBookView.searchController
     }
+    
     private func setDelegates() {
         newBookView.textFields.forEach { $0.delegate = self }
         newBookView.languageCell.pickerView.delegate   = self
@@ -111,9 +114,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         guard let book = newBook else { return }
         clearData()
         newBookView.bookTileCell.textField.text      = book.volumeInfo?.title
-        newBookView.bookAuthorCell.textField.text    = converter.joinArrayToString(book.volumeInfo?.authors)
+        newBookView.bookAuthorCell.textField.text    = formatter.joinArrayToString(book.volumeInfo?.authors)
         newBookView.publisherCell.textField.text     = book.volumeInfo?.publisher
-        newBookView.publishDateCell.textField.text   = converter.displayYearOnly(for: book.volumeInfo?.publishedDate)
+        newBookView.publishDateCell.textField.text   = formatter.displayYearOnly(for: book.volumeInfo?.publishedDate)
         newBookView.isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
         bookDescription                              = book.volumeInfo?.volumeInfoDescription
         newBookView.numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
@@ -207,11 +210,11 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     publishedDate: newBookView.publishDateCell.textField.text ?? "",
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: converter.convertStringToInt(newBookView.numberOfPagesCell.textField.text),
+                                    pageCount: formatter.convertStringToInt(newBookView.numberOfPagesCell.textField.text),
                                     ratingsCount: newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
-        let price = converter.formatDecimalString(newBookView.purchasePriceCell.textField.text)
+        let price = formatter.formatDecimalString(newBookView.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
         return Item(etag: newBook?.etag ?? "",
                     favorite: newBook?.favorite ?? false,
@@ -219,7 +222,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                     recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
-                    timestamp: converter.setTimestamp(for: newBook?.timestamp),
+                    timestamp: formatter.setTimestamp(for: newBook?.timestamp),
                     category: bookCategories)
     }
     
@@ -285,6 +288,8 @@ extension NewBookViewController {
             showCategoryList()
         case (4, 0):
             presentTextInputController(for: .description)
+        case (7,0):
+            presentTextInputController(for: .comment)
         default:
             break
         }
@@ -308,11 +313,10 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         switch pickerView {
         case newBookView.languageCell.pickerView:
             let language = self.languageList[row]
-            pickerLabel?.text = "  " + converter.getlanguageName(from: language).capitalized
+            pickerLabel?.text = "  " + formatter.getlanguageName(from: language).capitalized
         case newBookView.currencyCell.pickerView:
             let currencyCode = self.currencyList[row]
-            print(currencyCode)
-            pickerLabel?.text = "  " + converter.getCurrencyName(from: currencyCode)
+            pickerLabel?.text = "  " + formatter.getCurrencyName(from: currencyCode)
         default:
             return UIView()
         }

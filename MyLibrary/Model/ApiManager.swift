@@ -15,11 +15,12 @@ protocol ApiManagerProtocol {
 class ApiManager {
     // MARK: - Properties
     let session: Session
-    private let converter = Converter()
+    let validator: ValidatorProtocol
     
     // MARK: - Initializer
-    init(session: Session = .default) {
-        self.session = session
+    init(session: Session = .default, validator: ValidatorProtocol) {
+        self.session   = session
+        self.validator = validator
     }
     /// Verifies is the query keyword is a en ISBN.
     /// The .isIsbn string extension property checks if the string is composed only of number
@@ -29,7 +30,7 @@ class ApiManager {
     ///   - fromIndex: Used for paging, index where the query should start.
     /// - Returns: AlamofireRouter URLRequest
     private func isQueryIsbn(for keyword: String, fromIndex: Int) -> AlamofireRouter {
-        return converter.isIsbn(keyword) ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
+        return validator.validateIsbn(keyword) ? .withIsbn(isbn: keyword) : .withKeyWord(words: keyword, startIndex: fromIndex)
     }
 }
 

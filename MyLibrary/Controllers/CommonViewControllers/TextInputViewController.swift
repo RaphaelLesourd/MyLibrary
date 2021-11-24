@@ -14,7 +14,7 @@ class TextInputViewController: UIViewController {
     private let mainView = TextInputControllerMainView()
     var textInpuType: TextInputType?
     var textViewText: String?
-    weak var newBookDelegate: NewBookDelegate?
+    weak var newBookDelegate : NewBookDelegate?
     
     // MARK: - Lifecycle
     override func loadView() {

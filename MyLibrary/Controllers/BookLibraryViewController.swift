@@ -15,7 +15,7 @@ class BookLibraryViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     
     private var noMoreBooks    = false
-    private var layoutComposer = LayoutComposer()
+    private var layoutComposer : LayoutComposer
     private let mainView       = CommonCollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
     private var libraryService : LibraryServiceProtocol
@@ -24,8 +24,9 @@ class BookLibraryViewController: UIViewController {
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol) {
+    init(libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
         self.libraryService = libraryService
+        self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +57,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        let layout = layoutComposer.composeBookLibraryLayout()
+        let layout = layoutComposer.setCollectionViewLayout()
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
         mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
