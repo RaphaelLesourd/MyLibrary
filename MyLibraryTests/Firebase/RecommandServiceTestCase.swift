@@ -14,43 +14,26 @@ import FirebaseFirestoreSwift
 @testable import MyLibrary
 
 class RecommandServiceTestCase: XCTestCase {
-    // MARK: - Propserties
-    private var sut           : RecommandationServiceProtocol?
-    private var accountService: AccountService?
-    private var userService   : UserService?
-    private var book          : Item?
-    private var userID        = "1"
-    
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "test@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "1",
-                                           displayName: credentials.userName ?? "test",
-                                           email: credentials.email,
-                                           photoURL: "")
+    // MARK: - Properties
+    private var sut       : RecommandationServiceProtocol?
+    private var book      : Item?
     private let imageData = Data()
     
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        clearFirestore()
-        sut            = RecommandationService()
-        accountService = AccountService()
-        userService    = UserService()
+        sut = RecommandationService()
     }
     
     override func tearDown() {
         super.tearDown()
         sut            = nil
-        accountService = nil
-        userService    = nil
         book           = nil
-        
+       // clearFirestore()
     }
     
     // MARK: - Private function
-    private func createBookDocument() -> Item? {
+    private func createBookDocument() -> Item {
         let volumeInfo = VolumeInfo(title: "title",
                                     authors: ["author"],
                                     publisher: "publisher",
@@ -62,59 +45,30 @@ class RecommandServiceTestCase: XCTestCase {
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(etag: "11111111111",
+        return Item(etag: "bLD1HPeHhqRz7UZqvkIOOMgxGdD3",
                     favorite: false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: 1,
                     category: [])
     }
+ 
     
     // MARK: - Success
     func test_givenBook_whenRecommanding_thenAddedToRecommandation() {
         let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenRecommendedBook_whenNotRecommanded_thenRemovedFromRecommandation() {
-        let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
+       let book = createBookDocument()
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
             self.sut?.removeFromRecommandation(for: book, completion: { error in
                 XCTAssertNil(error)
-                exp.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    // MARK: - Failure
-    func test_givenNilBook_whenRecommanding_thenAddedToRecommandation() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addToRecommandation(for: nil, completion: { error in
-            XCTAssertNotNil(error)
-            XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
-            exp.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func test_givenRecommendedBook_whenNotRecommandingNilBook_thenError() {
-        let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addToRecommandation(for: book, completion: { error in
-            XCTAssertNil(error)
-            self.sut?.removeFromRecommandation(for: nil, completion: { error in
-                XCTAssertNotNil(error)
-                exp.fulfill()
-            })
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
 }

@@ -54,12 +54,8 @@ extension UserService: UserServiceProtocol {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(.nothingFound))
-                return
-            }
             do {
-                if let document = try querySnapshot.data(as: CurrentUser.self) {
+                if let document = try querySnapshot?.data(as: CurrentUser.self) {
                     completion(.success(document))
                 }
             } catch { completion(.failure(.firebaseError(error))) }

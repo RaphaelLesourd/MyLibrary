@@ -48,7 +48,7 @@ class CategoryService {
         
         checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
             guard documentID == nil else {
-                completion(.documentAlreadyExist(categoryName))
+           //     completion(.firebaseAuthError(.asAFError(<#T##self: Error##Error#>)))
                 return
             }
             let category = Category(uid: id, name: categoryName.lowercased())
@@ -70,18 +70,14 @@ class CategoryService {
                 completion(.firebaseError(error))
                 return
             }
-            guard let documents = querySnapshot?.documents else {
-                completion(.nothingFound)
-                return
-            }
-            self?.categories = documents.compactMap { documents -> Category? in
+            self?.categories = querySnapshot?.documents.compactMap { documents -> Category? in
                 do {
                     return try documents.data(as: Category.self)
                 } catch {
                     completion(.firebaseError(error))
                     return nil
                 }
-            }
+            } ?? []
             completion(nil)
         }
     }
@@ -103,10 +99,6 @@ class CategoryService {
             completion(.noNetwork)
             return
         }
-        guard let documentID = category.uid else {
-            completion(.nothingFound)
-            return
-        }
         guard let name = name, !name.isEmpty else {
             completion(.noCategory)
             return
@@ -115,7 +107,7 @@ class CategoryService {
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
-            .document(documentID)
+            .document(category.uid ?? "")
         docRef.updateData([DocumentKey.name.rawValue : name]) { error in
             if let error = error {
                 completion(.firebaseError(error))

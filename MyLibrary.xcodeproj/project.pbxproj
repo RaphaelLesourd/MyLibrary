@@ -16,6 +16,8 @@
 		811713F0274D69AB0051059C /* HomeControllerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713EF274D69AB0051059C /* HomeControllerLayout.swift */; };
 		811713F2274D6B460051059C /* ListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F1274D6B460051059C /* ListLayout.swift */; };
 		811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F4274E1F670051059C /* NetworkConnectivity.swift */; };
+		811713F9274E79D90051059C /* BookClubViewControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F8274E79D90051059C /* BookClubViewControllerTableViewCell.swift */; };
+		811713FC274E81880051059C /* InputBarAccessoryView in Frameworks */ = {isa = PBXBuildFile; productRef = 811713FB274E81880051059C /* InputBarAccessoryView */; };
 		811D5BB92743978100C935B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 811D5BB82743978100C935B5 /* Kingfisher */; };
 		811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBC2744E60C00C935B5 /* CategoryModel.swift */; };
 		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
@@ -157,6 +159,7 @@
 		811713EF274D69AB0051059C /* HomeControllerLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeControllerLayout.swift; sourceTree = "<group>"; };
 		811713F1274D6B460051059C /* ListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLayout.swift; sourceTree = "<group>"; };
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
+		811713F8274E79D90051059C /* BookClubViewControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookClubViewControllerTableViewCell.swift; sourceTree = "<group>"; };
 		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		811D5BC027452DA600C935B5 /* ListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8121F08F273A9FC2006EAA8D /* FirebaseDatabaseSwift-Beta in Frameworks */,
+				811713FC274E81880051059C /* InputBarAccessoryView in Frameworks */,
 				81C2AE652729BED800AC69A8 /* Alamofire in Frameworks */,
 				8121F0A7273A9FC2006EAA8D /* FirebasePerformance in Frameworks */,
 				8121F0A9273A9FC2006EAA8D /* FirebaseRemoteConfig in Frameworks */,
@@ -382,6 +386,7 @@
 				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
 				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
 				81C6CCAA2724781100DE9219 /* SettingsViewController.swift */,
+				811713F8274E79D90051059C /* BookClubViewControllerTableViewCell.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -674,6 +679,7 @@
 				8121F0AC273A9FC2006EAA8D /* FirebaseStorageCombine-Community */,
 				8121F0AE273A9FC2006EAA8D /* FirebaseStorageSwift-Beta */,
 				811D5BB82743978100C935B5 /* Kingfisher */,
+				811713FB274E81880051059C /* InputBarAccessoryView */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -733,6 +739,7 @@
 				81AA185C2729D1F900EB9CB7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				8121F07B273A9FC2006EAA8D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -889,6 +896,7 @@
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* SettingsViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
+				811713F9274E79D90051059C /* BookClubViewControllerTableViewCell.swift in Sources */,
 				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
 				81B91845274BCFDE00486176 /* Validator.swift in Sources */,
 			);
@@ -1203,6 +1211,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nathantannar4/InputBarAccessoryView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1254,6 +1270,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		811713FB274E81880051059C /* InputBarAccessoryView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */;
+			productName = InputBarAccessoryView;
+		};
 		811D5BB82743978100C935B5 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */;

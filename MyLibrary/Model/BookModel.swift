@@ -18,7 +18,7 @@ struct BookModel: Codable {
 struct Item: Codable {
     @DocumentID var id: String?
     private let diffableId = UUID()
-    var etag: String?
+    var etag: String
     let favorite: Bool?
     var ownerID: String?
     var recommanding: Bool?

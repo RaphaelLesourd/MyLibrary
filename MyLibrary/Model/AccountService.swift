@@ -53,7 +53,7 @@ extension AccountService: AccountServiceProtocol {
                                password: userCredentials.password) { [weak self] (authUser, error) in
             guard let self = self else { return }
             if let error = error {
-                completion(.firebaseError(error))
+                completion(.firebaseAuthError(error))
                 return
             }
             guard let user = authUser?.user else { return }
@@ -83,7 +83,7 @@ extension AccountService: AccountServiceProtocol {
         user?.reauthenticate(with: credential) { [weak self] _, error  in
             guard let self = self else { return }
             if let error = error {
-                completion(.firebaseError(error))
+                completion(.firebaseAuthError(error))
                 return
             }
             // Delete user from firestore
@@ -119,7 +119,7 @@ extension AccountService: AccountServiceProtocol {
         guard let userCredentials = userCredentials else { return }
         Auth.auth().signIn(withEmail: userCredentials.email, password: userCredentials.password) { _, error in
             if let error = error {
-                completion(.firebaseError(error))
+                completion(.firebaseAuthError(error))
                 return
             }
             completion(nil)
@@ -142,7 +142,7 @@ extension AccountService: AccountServiceProtocol {
         }
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
-                completion(.firebaseError(error))
+                completion(.firebaseAuthError(error))
                 return
             }
             completion(nil)
