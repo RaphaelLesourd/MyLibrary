@@ -34,7 +34,7 @@ class RecommandServiceTestCase: XCTestCase {
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        clearFirestore()
+  //      clearFirestore()
         sut            = RecommandationService()
         accountService = AccountService()
         userService    = UserService()
@@ -73,48 +73,36 @@ class RecommandServiceTestCase: XCTestCase {
     // MARK: - Success
     func test_givenBook_whenRecommanding_thenAddedToRecommandation() {
         let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenRecommendedBook_whenNotRecommanded_thenRemovedFromRecommandation() {
         let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
             self.sut?.removeFromRecommandation(for: book, completion: { error in
                 XCTAssertNil(error)
-                exp.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: - Failure
     func test_givenNilBook_whenRecommanding_thenAddedToRecommandation() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addToRecommandation(for: nil, completion: { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenRecommendedBook_whenNotRecommandingNilBook_thenError() {
         let book = createBookDocument()
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
             self.sut?.removeFromRecommandation(for: nil, completion: { error in
                 XCTAssertNotNil(error)
-                exp.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
 }

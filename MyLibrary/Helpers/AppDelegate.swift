@@ -20,9 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
         kingFisherCacheSetup()
+        Networkconnectivity.shared.startMonitoring()
         FirebaseApp.configure()
         configureFiresbaseTestEnvironement()
-        Networkconnectivity.shared.startMonitoring()
         return true
     }
     

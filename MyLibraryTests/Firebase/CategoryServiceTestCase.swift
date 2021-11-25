@@ -26,7 +26,7 @@ class CategoryServiceTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        clearFirestore()
+      //  clearFirestore()
         sut?.categories.removeAll()
         sut  = nil
         book = nil
@@ -55,57 +55,42 @@ class CategoryServiceTestCase: XCTestCase {
     
     // MARK: - Success
     func test_givenCategory_whenAdding_thenAddedToTheCategoriesList() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addCategory(for: "Movie", completion: { error in
             XCTAssertNil(error)
             XCTAssertEqual(self.sut?.categories.count, 1)
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenCategoryList_whenGettingList_thenDisplayList() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addCategory(for: "test", completion: { error in
             XCTAssertNil(error)
             self.sut?.getCategories(completion: { error in
                 XCTAssertEqual(self.sut?.categories.count, 1)
             })
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: - Failure
     func test_givenCategory_whenAddingExistingCategory_thenError() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addCategory(for: "TV", completion: { error in
             XCTAssertNil(error)
             self.sut?.addCategory(for: "TV", completion: { error in
                 XCTAssertNotNil(error)
                 XCTAssertEqual(error?.description, FirebaseError.documentAlreadyExist("TV").description)
-                exp.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenEmptyCategory_whenAdding_thenEmptyError() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.addCategory(for: "", completion: { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.noCategory.description)
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
 
     func test_givenEmptyCategoryList_whenGettingList_thenNothingFoundError() {
-        let exp = self.expectation(description: "Waiting for async operation")
         sut?.getCategories(completion: { error in
             XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
         })
-        exp.fulfill()
-        self.waitForExpectations(timeout: 10, handler: nil)
     }
 }
