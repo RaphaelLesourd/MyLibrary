@@ -59,28 +59,20 @@ class CommentTableViewCell: UITableViewCell {
     
     func configureUser(with user: CurrentUser?) {
         guard let user = user else { return }
-        self.userNameLabel.text = user.displayName.capitalized
-        self.emailLabel.text    = user.email
+        DispatchQueue.main.async {
+            self.userNameLabel.text = user.displayName.capitalized
+            self.emailLabel.text    = user.email
+        }
         imageLoader.getImage(for: user.photoURL) { [weak self] image in
             DispatchQueue.main.async {
                 self?.profileImageView.image = image
             }
         }
     }
-
-//    override func prepareForReuse() {
-//        profileImageView.image = nil
-//        userNameLabel.text     = ""
-//        emailLabel.text        = ""
-//        commentLabel.text      = ""
-//        dateLabel.text         = ""
-//    }
 }
 // MARK: - Constraints
 extension CommentTableViewCell {
     private func setProfileImageConstraints() {
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         contentView.addSubview(profileImageView)
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),

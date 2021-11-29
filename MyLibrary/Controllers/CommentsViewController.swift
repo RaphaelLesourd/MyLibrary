@@ -21,19 +21,18 @@ class CommentsViewController: UIViewController {
     private let tableView         = UITableView(frame: .zero, style: .insetGrouped)
     private let activityIndicator = UIActivityIndicatorView()
     private let refresherControl  = UIRefreshControl()
+    private let keyboardManager   = KeyboardManager()
+    private let inputBar          = InputBarAccessoryView()
+    private let commentService    : CommentServiceProtocol
     
-    private let commentService  : CommentServiceProtocol
-    private var keyboardManager = KeyboardManager()
-    private var footerView      = LoadingFooterSupplementaryView()
-    private var inputBar        = InputBarAccessoryView()
     private var commentList     : [CommentModel] = []
     private var editedCommentID : String?
-    
-    var book: Item?
+    private var book: Item
     
     // MARK: - Initializer
-    init(commentService: CommentServiceProtocol) {
+    init(book: Item, commentService: CommentServiceProtocol) {
         self.commentService = commentService
+        self.book           = book
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +43,7 @@ class CommentsViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Commentaires"
+        title = "Ce que vous en pensez..."
         view.backgroundColor = .viewControllerBackgroundColor
         configureTableView()
         configureKeyboard()
@@ -74,7 +73,7 @@ class CommentsViewController: UIViewController {
         tableView.frame                        = view.bounds
         tableView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)
         tableView.rowHeight                    = UITableView.automaticDimension
-        tableView.estimatedRowHeight           = 300
+        tableView.estimatedRowHeight           = 200
         tableView.alwaysBounceVertical         = true
         tableView.showsVerticalScrollIndicator = false
         tableView.allowsSelection              = false
@@ -116,8 +115,8 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Api call
     private func getComments() {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
+        guard let bookID = book.bookID,
+              let ownerID = book.ownerID else { return }
         
         showIndicator(activityIndicator)
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
@@ -148,8 +147,8 @@ class CommentsViewController: UIViewController {
     }
     
     private func addComment(with comment: String, commentID: String?) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
+        guard let bookID = book.bookID,
+              let ownerID = book.ownerID else { return }
         
         showIndicator(activityIndicator)
         commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
@@ -164,8 +163,8 @@ class CommentsViewController: UIViewController {
     }
     
     private func deleteComment(for comment: CommentModel) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
+        guard let bookID = book.bookID,
+              let ownerID = book.ownerID else { return }
         
         showIndicator(activityIndicator)
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
@@ -186,11 +185,11 @@ class CommentsViewController: UIViewController {
 }
 // MARK: - TableView Delegate
 extension CommentsViewController: UITableViewDelegate {
-//    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-//  
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+  
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
@@ -229,8 +228,7 @@ extension CommentsViewController {
     
     private func makeDataSource() -> DataSource {
         dataSource = DataSource(tableView: tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
-                                                           for: indexPath) as? CommentTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CommentTableViewCell else {
                 return UITableViewCell()
             }
             cell.configure(with: item)
@@ -252,10 +250,12 @@ extension CommentsViewController {
 // MARK: - InputBar delegate
 extension CommentsViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        
         addComment(with: text, commentID: editedCommentID)
         self.inputBar.inputTextView.text = ""
         self.inputBar.inputTextView.resignFirstResponder()
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
         if !commentList.isEmpty {
             let indexPath = IndexPath(item: 0, section: 0)
             self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)

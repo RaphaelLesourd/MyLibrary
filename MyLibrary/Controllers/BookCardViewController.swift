@@ -185,8 +185,9 @@ class BookCardViewController: UIViewController {
     }
     
     private func displayCategoryNames() {
-        guard let categoryIds = book?.category else { return }
-        categoryService.getCategoryNameList(for: categoryIds) { [weak self] categoryNames in
+        guard let categoryIds = book?.category,
+              let bookOwnerID = book?.ownerID else { return }
+        categoryService.getCategoryNameList(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categoryNames in
             self?.mainView.categoryiesLabel.text = self?.formatter.joinArrayToString(categoryNames).uppercased()
         }
     }
@@ -268,7 +269,9 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService(), formatter: Formatter(), validator: Validator())
+        let newBookController = NewBookViewController(libraryService: LibraryService(),
+                                                      formatter: Formatter(),
+                                                      validator: Validator())
         newBookController.newBook          = book
         newBookController.isEditingBook    = true
         newBookController.bookCardDelegate = self
@@ -276,8 +279,8 @@ class BookCardViewController: UIViewController {
     }
     
     @objc private func showComments() {
-        let commentsViewController = CommentsViewController(commentService: CommentService())
-        commentsViewController.book = book
+        guard let book = book else { return }
+        let commentsViewController = CommentsViewController(book: book, commentService: CommentService())
         navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

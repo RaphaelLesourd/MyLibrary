@@ -71,7 +71,7 @@ extension CommentService {
             .collection(CollectionDocumentKey.comments.rawValue)
             .order(by: DocumentKey.timestamp.rawValue, descending: true)
         
-        docRef.addSnapshotListener { querySnapshot, error in
+       commentListener = docRef.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
@@ -114,7 +114,7 @@ extension CommentService {
     
     func getUserDetail(for userID: String, completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
-        docRef.getDocument { querySnapshot, error in
+        commentListener = docRef.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return

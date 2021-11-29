@@ -85,10 +85,10 @@ class CategoryService {
         }
     }
     
-    func getCategoryNameList(for categoryIds: [String], completion: @escaping ([String]) -> Void) {
+    func getCategoryNameList(for categoryIds: [String], bookOwnerID: String, completion: @escaping ([String]) -> Void) {
         var categoryList: [String] = []
         categoryIds.forEach {
-            getCategoryName(for: $0) { categoryName in
+            getCategoryName(for: $0, bookOwnerID: bookOwnerID) { categoryName in
                 guard let categoryName = categoryName else { return }
                 categoryList.append(categoryName)
                 completion(categoryList)
@@ -172,9 +172,9 @@ class CategoryService {
         }
     }
     // MARK: - Private functions
-    private func getCategoryName(for id: String, completion: @escaping (String?) -> Void) {
+    private func getCategoryName(for id: String, bookOwnerID: String, completion: @escaping (String?) -> Void) {
         let docRef = usersCollectionRef
-            .document(userID)
+            .document(bookOwnerID)
             .collection(CollectionDocumentKey.category.rawValue)
             .document(id)
         
