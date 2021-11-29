@@ -12,6 +12,8 @@ import FirebaseAuth
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
 
+    private let libraryService = LibraryService()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,15 +52,11 @@ class TabBarController: UITabBarController {
                                                         image: libraryIconImage)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
-                                                                        formatter: Formatter()),
+                                                                            formatter: Formatter(),
+                                                                            validator: Validator()),
                                                 title: Text.ControllerTitle.newBook,
                                                 image: Images.newBookIcon!)
-        
-        let bookClubViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
-                                                                        formatter: Formatter()),
-                                                title: Text.ControllerTitle.newBook,
-                                                image: Images.newBookIcon!)
-        
+       
         let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
         let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),
                                                                                   userService: UserService(),
@@ -68,7 +66,6 @@ class TabBarController: UITabBarController {
         viewControllers = [homeViewController,
                            libraryViewController,
                            newViewController,
-                           bookClubViewController,
                            settingsViewController]
     }
     /// Adds tab with an icon image and a title.

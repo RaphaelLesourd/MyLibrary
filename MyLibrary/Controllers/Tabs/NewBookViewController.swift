@@ -27,13 +27,14 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let currencyList = Locale.isoCurrencyCodes
     
     private let formatter     : FormatterProtocol
-    private var libraryService: LibraryServiceProtocol
+    private let validator     : ValidatorProtocol
+    private let libraryService: LibraryServiceProtocol
+    private let imageLoader   : ImageLoaderProtocol
     private var imagePicker   : ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
     
     weak var bookCardDelegate: BookCardDelegate?
-    
     var isEditingBook  = false
     var bookCategories : [String] = []
     var bookDescription: String?
@@ -44,9 +45,14 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         }
     }
    
-    init(libraryService: LibraryServiceProtocol, formatter: FormatterProtocol) {
+    init(libraryService: LibraryServiceProtocol,
+         formatter: FormatterProtocol,
+         validator: ValidatorProtocol,
+         imageLoader: ImageLoaderProtocol = ImageLoader()) {
         self.libraryService = libraryService
         self.formatter      = formatter
+        self.validator      = validator
+        self.imageLoader    = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,8 +63,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setDelegates()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        setDelegates()
         addNavigationBarButtons()
         sections = newBookView.composeTableView()
         configureSearchController()
@@ -105,8 +111,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         newBookView.searchController.obscuresBackgroundDuringPresentation = false
         newBookView.searchController.searchBar.placeholder                = Text.SearchBarPlaceholder.search
         newBookView.searchController.definesPresentationContext           = false
-        resultController.newBookDelegate                      = self
-        self.navigationItem.hidesSearchBarWhenScrolling       = false
+        resultController.newBookDelegate                = self
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     // MARK: - Data Display
@@ -116,7 +122,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         newBookView.bookTileCell.textField.text      = book.volumeInfo?.title
         newBookView.bookAuthorCell.textField.text    = formatter.joinArrayToString(book.volumeInfo?.authors)
         newBookView.publisherCell.textField.text     = book.volumeInfo?.publisher
-        newBookView.publishDateCell.textField.text   = formatter.displayYearOnly(for: book.volumeInfo?.publishedDate)
+        newBookView.publishDateCell.textField.text   = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         newBookView.isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
         bookDescription                              = book.volumeInfo?.volumeInfoDescription
         newBookView.numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
@@ -130,14 +136,8 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func displayBookCover(for book: Item) {
-        if let url = book.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
-            KingfisherManager.shared.retrieveImage(with: imageURL,
-                                                   options: [.cacheOriginalImage, .progressiveJPEG(.default)],
-                                                   progressBlock: nil) { result in
-                if case .success(let value) = result {
-                    self.newBookView.bookImageCell.pictureView.image = value.image
-                }
-            }
+        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+            self?.newBookView.bookImageCell.pictureView.image = image
         }
     }
   
@@ -186,13 +186,13 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     // MARK: - Api Call
     @objc private func saveBook() {
-        newBookView.saveButtonCell.displayActivityIndicator(true)
+        newBookView.saveButtonCell.actionButton.displayActivityIndicator(true)
         guard let book = createBookDocument(),
               let imageData = newBookView.bookImageCell.pictureView.image?.jpegData(.high) else { return }
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
-            self.newBookView.saveButtonCell.displayActivityIndicator(false)
+            self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -204,31 +204,34 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private func createBookDocument() -> Item? {
         let isbn = newBookView.isbnCell.textField.text ?? ""
+        
         let volumeInfo = VolumeInfo(title: newBookView.bookTileCell.textField.text,
                                     authors: [newBookView.bookAuthorCell.textField.text ?? ""],
                                     publisher: newBookView.publisherCell.textField.text ?? "",
                                     publishedDate: newBookView.publishDateCell.textField.text ?? "",
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: formatter.convertStringToInt(newBookView.numberOfPagesCell.textField.text),
+                                    pageCount: formatter.formatStringToInt(newBookView.numberOfPagesCell.textField.text),
                                     ratingsCount: newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
+        
         let price = formatter.formatDecimalString(newBookView.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
-        return Item(etag: newBook?.etag ?? "",
+        
+        return Item(bookID: newBook?.bookID ?? "",
                     favorite: newBook?.favorite ?? false,
                     ownerID: newBook?.ownerID ?? "",
                     recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
-                    timestamp: formatter.setTimestamp(for: newBook?.timestamp),
+                    timestamp: validator.validateTimestamp(for: newBook?.timestamp),
                     category: bookCategories)
     }
     
     // MARK: - Navigation
     @objc private func showScannerController() {
-        let barcodeScannerController = BarcodeScannerViewController()
+        let barcodeScannerController = BarcodeScanViewController()
         barcodeScannerController.barcodeDelegate = self
         presentPanModal(barcodeScannerController)
     }
@@ -288,8 +291,6 @@ extension NewBookViewController {
             showCategoryList()
         case (4, 0):
             presentTextInputController(for: .description)
-        case (7,0):
-            presentTextInputController(for: .comment)
         default:
             break
         }
@@ -313,10 +314,10 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         switch pickerView {
         case newBookView.languageCell.pickerView:
             let language = self.languageList[row]
-            pickerLabel?.text = "  " + formatter.getlanguageName(from: language).capitalized
+            pickerLabel?.text = "  " + formatter.formatCodeToName(from: language, type: .language).capitalized
         case newBookView.currencyCell.pickerView:
             let currencyCode = self.currencyList[row]
-            pickerLabel?.text = "  " + formatter.getCurrencyName(from: currencyCode)
+            pickerLabel?.text = "  " + formatter.formatCodeToName(from: currencyCode, type: .currency).capitalized
         default:
             return UIView()
         }

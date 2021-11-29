@@ -10,13 +10,13 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<BookListSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
     
     private var noMoreBooks    = false
     private var layoutComposer : LayoutComposer
-    private let mainView       = CommonCollectionView()
+    private let mainView       = CollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
     private var libraryService : LibraryServiceProtocol
     private var bookList       : [Item] = []
@@ -36,7 +36,7 @@ class BookLibraryViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func loadView() {
-        view = mainView
+        view  = mainView
         title = setTile()
         view.backgroundColor = .viewControllerBackgroundColor
     }
@@ -95,19 +95,21 @@ class BookLibraryViewController: UIViewController {
                 guard !books.isEmpty else {
                     return self.noMoreBooks = true
                 }
-                books.forEach { book in
-                    if !self.bookList.contains(where: { $0.etag == book.etag }) {
-                        self.bookList.append(book)
-                        self.applySnapshot()
-                    }
-                }
+                self.addToList(books)
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            
         }
     }
     
+    private func addToList(_ books: [Item]) {
+        books.forEach { book in
+            if !bookList.contains(where: { $0.bookID == book.bookID }) {
+                bookList.append(book)
+                applySnapshot()
+            }
+        }
+    }
     // MARK: - Targets
     @objc private func refreshBookList() {
         noMoreBooks = false
@@ -157,8 +159,8 @@ extension BookLibraryViewController {
     }
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(BookListSection.allCases)
-        snapshot.appendItems(bookList, toSection: .mybooks)
+        snapshot.appendSections(SingleSection.allCases)
+        snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

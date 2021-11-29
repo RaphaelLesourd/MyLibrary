@@ -10,11 +10,11 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<ApiSearchSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<ApiSearchSection, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
 
-    private let mainView       = CommonCollectionView()
+    private let mainView       = CollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
     private var layoutComposer : LayoutComposer
     private var networkService : ApiManagerProtocol

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CommonCollectionView: UIView {
+class CollectionView: UIView {
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -32,12 +32,12 @@ class CommonCollectionView: UIView {
         collectionView.refreshControl               = refresherControl
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor              = .clear
-        collectionView.contentInset                 = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset                 = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
 // MARK: - Constraints
-extension CommonCollectionView {
+extension CollectionView {
     private func setCollectionViewConstraints() {
         addSubview(collectionView)
         NSLayoutConstraint.activate([

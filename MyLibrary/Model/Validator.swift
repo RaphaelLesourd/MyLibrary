@@ -11,6 +11,7 @@ protocol ValidatorProtocol {
     func validateEmail(_ email: String?) -> Bool
     func validatePassword(_ password: String?) -> Bool
     func validateIsbn(_ value: String) -> Bool
+    func validateTimestamp(for timestamp: Double?) -> Double
 }
 
 class Validator: ValidatorProtocol {
@@ -44,5 +45,9 @@ class Validator: ValidatorProtocol {
     
     func validateIsbn(_ value: String) -> Bool {
         return (value.count >= 10 ) && value.allSatisfy { $0.isNumber }
+    }
+    
+    func validateTimestamp(for timestamp: Double?) -> Double {
+            return timestamp ?? Date().timeIntervalSince1970
     }
 }

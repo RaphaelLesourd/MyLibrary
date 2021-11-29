@@ -18,7 +18,7 @@ protocol BarcodeProtocol: AnyObject {
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
 /// Learn this process at: https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
 ///
-class BarcodeScannerViewController: UIViewController {
+class BarcodeScanViewController: UIViewController {
     
     // MARK: - Properties
     private var captureSession = AVCaptureSession()
@@ -147,7 +147,7 @@ class BarcodeScannerViewController: UIViewController {
     }
 }
 // MARK: - AVCaptureDelegation
-extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension BarcodeScanViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.
@@ -162,7 +162,7 @@ extension BarcodeScannerViewController: AVCaptureVideoDataOutputSampleBufferDele
     }
 }
 // MARK: - PanModal Extension
-extension BarcodeScannerViewController: PanModalPresentable {
+extension BarcodeScanViewController: PanModalPresentable {
     var shortFormHeight: PanModalHeight {
         return .maxHeightWithTopInset(view.frame.height * 0.20)
     }

@@ -13,10 +13,11 @@ import Kingfisher
 class SettingsViewController: CommonStaticTableViewController {
 
     // MARK: - Properties
-    private var accountService    : AccountServiceProtocol
-    private var userService       : UserServiceProtocol
-    private var imageService      : ImageStorageProtocol
-    private var imagePicker       : ImagePicker?
+    private let accountService: AccountServiceProtocol
+    private let userService   : UserServiceProtocol
+    private let imageService  : ImageStorageProtocol
+    private let imageLoader   : ImageLoaderProtocol
+    private var imagePicker   : ImagePicker?
     private var activityIndicator = UIActivityIndicatorView()
     
     // MARK: - Cell
@@ -31,10 +32,14 @@ class SettingsViewController: CommonStaticTableViewController {
                                                      backgroundColor: .clear)
     
     // MARK: - Initializer
-    init(accountService: AccountServiceProtocol, userService: UserServiceProtocol, imageService: ImageStorageProtocol) {
+    init(accountService: AccountServiceProtocol,
+         userService: UserServiceProtocol,
+         imageService: ImageStorageProtocol,
+         imageLoader: ImageLoaderProtocol = ImageLoader()) {
         self.accountService = accountService
         self.userService    = userService
         self.imageService   = imageService
+        self.imageLoader    = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -97,9 +102,7 @@ class SettingsViewController: CommonStaticTableViewController {
         presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
                      message: "Vous allez devoir vous re-authentifier.",
                      withCancel: true) { _ in
-            let controller = SigningViewController(userManager: AccountService(),
-                                                   validator: Validator(),
-                                                   interfaceType: .deleteAccount)
+            let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
     }
@@ -140,7 +143,7 @@ class SettingsViewController: CommonStaticTableViewController {
         let profileImageData = image.jpegData(.medium)
         profileCell.activityIndicator.startAnimating()
         
-        imageService.updateUserImage(for:profileImageData) { [weak self] error in
+        imageService.updateUserImage(for: profileImageData) { [weak self] error in
             self?.profileCell.activityIndicator.stopAnimating()
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
@@ -152,9 +155,10 @@ class SettingsViewController: CommonStaticTableViewController {
     
     private func signoutAccount() {
         showIndicator(activityIndicator)
-        
+        signOutCell.actionButton.displayActivityIndicator(true)
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
+            self.signOutCell.actionButton.displayActivityIndicator(false)
             self.hideIndicator(self.activityIndicator)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -168,12 +172,9 @@ class SettingsViewController: CommonStaticTableViewController {
     private func updateProfileInfos(for currentUser: CurrentUser) {
         profileCell.emailLabel.text = "   \(currentUser.email)"
         profileCell.userNameTextField.text = currentUser.displayName
-        if let imageURL = URL(string: currentUser.photoURL) {
-            profileCell.profileImageButton.kf.setImage(with: imageURL,
-                                                       for: .normal,
-                                                       placeholder: Images.emptyStateBookImage,
-                                                       options: [.cacheOriginalImage, .progressiveJPEG(.default)],
-                                                       completionHandler: nil)
+      
+        imageLoader.getImage(for: currentUser.photoURL) { [weak self] image in
+            self?.profileCell.profileImageButton.setImage(image, for: .normal)
         }
     }
 }

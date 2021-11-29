@@ -12,15 +12,16 @@ enum CollectionDocumentKey: String, CaseIterable {
     case users
     case recommanded
     case category
+    case comments
 }
 
 enum DocumentKey: String {
     case id
-    case username
+    case username = "displayName"
     case email
     case photoURL
     case timestamp
-    case etag
+    case bookID
     case favorite
     case recommanding
     case title = "volumeInfo.title"

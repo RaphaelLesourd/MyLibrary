@@ -5,17 +5,12 @@
 //  Created by Birkyboy on 22/11/2021.
 //
 
-import XCTest
-import Firebase
-import FirebaseDatabase
-import FirebaseAuth
-import FirebaseStorage
-import FirebaseFirestoreSwift
 @testable import MyLibrary
+import XCTest
 
 class RecommandServiceTestCase: XCTestCase {
     // MARK: - Properties
-    private var sut       : RecommandationServiceProtocol?
+    private var sut       : RecommendationServiceProtocol?
     private var book      : Item?
     private let imageData = Data()
     
@@ -29,7 +24,7 @@ class RecommandServiceTestCase: XCTestCase {
         super.tearDown()
         sut            = nil
         book           = nil
-       // clearFirestore()
+        clearFirestore()
     }
     
     // MARK: - Private function
@@ -45,30 +40,36 @@ class RecommandServiceTestCase: XCTestCase {
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(etag: "bLD1HPeHhqRz7UZqvkIOOMgxGdD3",
+        return Item(bookID: "11111111",
                     favorite: false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: 1,
                     category: [])
     }
- 
+    
     
     // MARK: - Success
     func test_givenBook_whenRecommanding_thenAddedToRecommandation() {
+        let exp = expectation(description: "Wait for async")
         let book = createBookDocument()
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
+            exp.fulfill()
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenRecommendedBook_whenNotRecommanded_thenRemovedFromRecommandation() {
-       let book = createBookDocument()
+        let exp = expectation(description: "Wait for async")
+        let book = createBookDocument()
         sut?.addToRecommandation(for: book, completion: { error in
             XCTAssertNil(error)
             self.sut?.removeFromRecommandation(for: book, completion: { error in
                 XCTAssertNil(error)
             })
+            exp.fulfill()
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
 }

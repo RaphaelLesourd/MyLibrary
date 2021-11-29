@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol RecommandationServiceProtocol {
+protocol RecommendationServiceProtocol {
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
 }
@@ -25,10 +25,11 @@ class RecommandationService {
     }
 }
 // MARK: - RecommandationServiceProtocol extension
-extension RecommandationService: RecommandationServiceProtocol {
+extension RecommandationService: RecommendationServiceProtocol {
     
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
-        let ref = recommandationCollectionRef.document(book.etag)
+        guard let bookID = book.bookID else { return }
+        let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
             ref.updateData([DocumentKey.recommanding.rawValue: true])
@@ -37,7 +38,8 @@ extension RecommandationService: RecommandationServiceProtocol {
     }
     
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
-        let ref = recommandationCollectionRef.document(book.etag)
+        guard let bookID = book.bookID else { return }
+        let ref = recommandationCollectionRef.document(bookID)
         ref.delete { error in
             if let error = error {
                 completion(.firebaseError(error))

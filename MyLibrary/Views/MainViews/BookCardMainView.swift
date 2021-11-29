@@ -25,7 +25,9 @@ class BookCardMainView: UIView {
     }
     
     // MARK: - Subviews
-    private let gradientLayer = CAGradientLayer()
+    let activityIndicator       = UIActivityIndicatorView()
+    var editButton              = UIBarButtonItem()
+    var activityIndicatorButton = UIBarButtonItem()
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -61,6 +63,7 @@ class BookCardMainView: UIView {
     let purchaseDetailView = PurchaseView()
     let bookDetailView     = BookDetailView()
     let isbnLabel          = TextLabel(color: .secondaryLabel)
+    let commentView        = BookCardCommentView()
     let actionButton       = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
@@ -87,19 +90,9 @@ class BookCardMainView: UIView {
     }()
    
     private let mainStackView = StackView(axis: .vertical, spacing: 30)
-  
-    private func addFadeGradientToRecipeImage() {
-        backgroundImage.layer.sublayers?.removeAll()
-        gradientLayer.removeFromSuperlayer()
-        gradientLayer.type      = .axial
-        gradientLayer.colors    = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.secondarySystemBackground.cgColor]
-        gradientLayer.locations = [0.2, 1]
-        gradientLayer.frame     =  backgroundImage.bounds
-        backgroundImage.layer.addSublayer(gradientLayer)
-    }
     
     override func layoutSubviews() {
-      addFadeGradientToRecipeImage()
+        backgroundImage.addFadeGradient()
     }
 }
 // MARK: - Constraints
@@ -109,8 +102,8 @@ extension BookCardMainView {
         contentView.addSubview(backgroundImage)
         NSLayoutConstraint.activate([
             backgroundImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -100),
-            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             backgroundImage.heightAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
     }
@@ -164,6 +157,7 @@ extension BookCardMainView {
                                            bookDetailView,
                                            isbnLabel,
                                            purchaseDetailView,
+                                           commentView,
                                            actionButton,
                                            deleteBookButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }

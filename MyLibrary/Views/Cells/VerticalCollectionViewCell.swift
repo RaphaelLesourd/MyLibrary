@@ -10,9 +10,13 @@ import Kingfisher
 
 class VerticalCollectionViewCell: UICollectionViewCell {
     
+    private let imageLoader: ImageLoaderProtocol
     // MARK: - Initializer
     override init(frame: CGRect) {
+        imageLoader = ImageLoader()
         super.init(frame: .zero)
+        stackView.addArrangedSubview(bookCover)
+        stackView.addArrangedSubview(titleView)
         setStackviewConstrainsts()
     }
     
@@ -35,21 +39,15 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         titleView.titleLabel.text    = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
         
-        guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
-              let url = URL(string: imageURL) else { return }
-        bookCover.kf.setImage(with: url,
-                              placeholder: Images.emptyStateBookImage,
-                              options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
-                              completionHandler: nil)
+        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
 }
 // MARK: - Constraints
 extension VerticalCollectionViewCell {
     
     private func setStackviewConstrainsts() {
-        stackView.addArrangedSubview(bookCover)
-        stackView.addArrangedSubview(titleView)
-        
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),

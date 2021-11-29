@@ -14,8 +14,10 @@ enum FirebaseError: Error {
     case passwordMismatch
     case noUserName
     case noCategory
+    case categoryExist
     case noBookTitle
     case noNetwork
+    case nothingFound
     case firebaseError(Error)
     case firebaseAuthError(Error)
    
@@ -29,12 +31,16 @@ enum FirebaseError: Error {
             return "Vous devez au moins entrer un titre."
         case .noCategory:
             return "Le nom ne peux être vide."
+        case .categoryExist:
+            return "Cette catégorie existe déja."
         case .noNetwork:
             return "Vous semblez être hors ligne."
         case .firebaseError(let error):
             return getFirestoreError(for: error)
         case .firebaseAuthError(let error):
             return getAuthError(for: error)
+        case .nothingFound:
+            return "Introuvable"
         }
     }
     

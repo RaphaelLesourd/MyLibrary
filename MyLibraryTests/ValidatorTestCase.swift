@@ -41,6 +41,11 @@ class ValidatorTestCase: XCTestCase {
     func test_givenStringWithMorethan10Numbers_whenCheckingIfIsbn_thenReturnTrue() {
         XCTAssertTrue(sut.validateIsbn("01234567890"))
     }
+    
+    func test_givenTimestamp_whenNotNil_thenReturnTimestamp() {
+        let timestamp = 12345678.0
+        XCTAssertEqual(sut?.validateTimestamp(for: timestamp), 12345678.0)
+    }
 
     // MARK: - Fail tests
     func test_givenEmailAdress_whenChekcValidity_thenReturnFalse() {
@@ -73,4 +78,7 @@ class ValidatorTestCase: XCTestCase {
         XCTAssertFalse(sut.validateIsbn("012345"))
     }
     
+    func test_givenNilTimestamp_whenSettingValue_thenReturnCurrentDateConvertedToDouble() {
+        XCTAssertNotNil(sut?.validateTimestamp(for: nil))
+    }
 }

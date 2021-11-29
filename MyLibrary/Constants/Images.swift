@@ -22,4 +22,5 @@ enum Images {
     static let favoriteImage = UIImage(systemName: "heart.fill")
     static let editBookIcon = UIImage(systemName: "square.and.pencil")
     static let addIcon = UIImage(systemName: "plus")
+    static let commentIcon = UIImage(systemName: "plus.bubble")
 }

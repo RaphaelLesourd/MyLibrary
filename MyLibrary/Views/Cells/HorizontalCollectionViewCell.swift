@@ -10,9 +10,15 @@ import Kingfisher
 
 class HorizontalCollectionViewCell: UICollectionViewCell {
     
+    private let imageLoader: ImageLoaderProtocol
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
+        imageLoader = ImageLoader()
         super.init(frame: .zero)
+        textStackView.addArrangedSubview(titleView)
+        textStackView.addArrangedSubview(descriptionLabel)
+        
         setBookCoverViewWidth()
         setTitleStackview()
     }
@@ -39,12 +45,9 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
         descriptionLabel.text        = book.volumeInfo?.volumeInfoDescription
         
-        guard let imageURL = book.volumeInfo?.imageLinks?.thumbnail,
-              let url = URL(string: imageURL) else { return }
-        bookCover.kf.setImage(with: url,
-                              placeholder: Images.emptyStateBookImage,
-                              options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
-                              completionHandler: nil)
+        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
 }
 // MARK: - Constraints
@@ -63,9 +66,6 @@ extension HorizontalCollectionViewCell {
     }
     
     private func setTitleStackview() {
-        textStackView.addArrangedSubview(titleView)
-        textStackView.addArrangedSubview(descriptionLabel)
-        
         contentView.addSubview(textStackView)
         NSLayoutConstraint.activate([
             textStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

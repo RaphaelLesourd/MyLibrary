@@ -17,16 +17,14 @@ protocol BookCardDelegate: AnyObject {
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView = BookCardMainView()
-    private let activityIndicator = UIActivityIndicatorView()
-    
-    private let formatter               : FormatterProtocol
-    private var libraryService          : LibraryServiceProtocol
-    private var recommandationService   : RecommandationServiceProtocol
-    private let categoryService         = CategoryService.shared
-    private var editButton              = UIBarButtonItem()
-    private var activityIndicatorButton = UIBarButtonItem()
-    private var coverImage              : UIImage?
+    private let mainView             = BookCardMainView()
+    private let formatter            : FormatterProtocol
+    private let imageLoader          : ImageLoaderProtocol
+    private let libraryService       : LibraryServiceProtocol
+    private let recommendationService: RecommendationServiceProtocol
+    private let commentService: CommentServiceProtocol
+    private let categoryService      = CategoryService.shared
+    private var coverImage           : UIImage?
     
     private var isRecommandedStatus = false {
         didSet {
@@ -38,7 +36,6 @@ class BookCardViewController: UIViewController {
             setFavoriteIcon(isFavorite)
         }
     }
-   
     var searchType: SearchType?
     var book: Item? {
         didSet {
@@ -46,10 +43,15 @@ class BookCardViewController: UIViewController {
         }
     }
     // MARK: - Intializers
-    init(libraryService: LibraryServiceProtocol, recommandationService: RecommandationServiceProtocol, formatter: FormatterProtocol) {
+    init(libraryService: LibraryServiceProtocol,
+         recommendationService: RecommendationServiceProtocol,
+         formatter: FormatterProtocol,
+         imageLoader: ImageLoaderProtocol = ImageLoader(), comentService: CommentServiceProtocol) {
         self.libraryService        = libraryService
-        self.recommandationService = recommandationService
+        self.recommendationService = recommendationService
         self.formatter             = formatter
+        self.imageLoader           = imageLoader
+        self.commentService = CommentService()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,7 +70,7 @@ class BookCardViewController: UIViewController {
         addNavigationBarButtons()
         setTargets()
         configureUI()
-     }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -82,18 +84,19 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        editButton = UIBarButtonItem(image: Images.editBookIcon,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(editBook))
-        activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
-        navigationItem.rightBarButtonItems = [editButton, activityIndicatorButton]
+        mainView.editButton = UIBarButtonItem(image: Images.editBookIcon,
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(editBook))
+        mainView.activityIndicatorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [mainView.editButton, mainView.activityIndicatorButton]
     }
     
     private func setTargets() {
         mainView.actionButton.addTarget(self, action: #selector(recommandButtonAction), for: .touchUpInside)
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
         mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
+        mainView.commentView.titleView.actionButton.addTarget(self, action: #selector(showComments), for: .touchUpInside)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         mainView.addGestureRecognizer(tap)
     }
@@ -107,11 +110,20 @@ class BookCardViewController: UIViewController {
             mainView.deleteBookButton.isHidden = true
             mainView.actionButton.isHidden     = true
             mainView.favoriteButton.isHidden   = true
-            navigationItem.rightBarButtonItems = [activityIndicatorButton]
+            navigationItem.rightBarButtonItems = [mainView.activityIndicatorButton]
         }
     }
     
-    // MARK: - Data
+    private func setFavoriteIcon(_ isFavorite: Bool) {
+        mainView.favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
+    }
+    
+    private func setRecommandationButton(isRecommanding: Bool) {
+        let title = isRecommanding ? "Ne plus recommander" : "Recommander"
+        mainView.actionButton.setTitle(title, for: .normal)
+    }
+    
+    // MARK: - Display Data
     private func dispayBookData() {
         mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
         mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
@@ -119,29 +131,24 @@ class BookCardViewController: UIViewController {
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = formatter.getlanguageName(from: book?.volumeInfo?.language).capitalized
+        mainView.bookDetailView.languageView.infoLabel.text      = formatter.formatCodeToName(from: book?.volumeInfo?.language,
+                                                                                              type: .language).capitalized
         mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
         mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
         
-        displayRecommandState()
         displayCategoryNames()
-        displayFavoriteState()
         displayBookPrice()
         displayBookCover()
         displayIsbn()
+        setFavoriteState()
+        setRecommandState()
     }
     
     private func displayBookCover() {
-        if let url = book?.volumeInfo?.imageLinks?.thumbnail, let imageURL = URL(string: url) {
-            mainView.bookCover.kf.setImage(with: imageURL,
-                                           placeholder: Images.emptyStateBookImage,
-                                           options: [.cacheOriginalImage, .progressiveJPEG(.default), .keepCurrentImageWhileLoading],
-                                           completionHandler: { [weak self] response in
-                if case .success(let value) = response {
-                    self?.coverImage = value.image
-                    self?.animateBackgroundImage()
-                }
-            })
+        imageLoader.getImage(for: book?.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+            self?.mainView.bookCover.image = image
+            self?.coverImage = image
+            self?.animateBackgroundImage()
         }
     }
     
@@ -158,29 +165,20 @@ class BookCardViewController: UIViewController {
         let price = self.book?.saleInfo?.retailPrice?.amount
         mainView.purchaseDetailView.purchasePriceLabel.text = formatter.formatCurrency(with: price, currencyCode: currency)
     }
-    
-    private func setFavoriteIcon(_ isFavorite: Bool) {
-        mainView.favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
-    }
-    
-    private func setRecommandationButton(isRecommanding: Bool) {
-        let title = isRecommanding ? "Ne plus recommander" : "Recommander"
-        mainView.actionButton.setTitle(title, for: .normal)
-    }
-    
+   
     private func displayIsbn() {
         if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = Text.Book.isbn + isbn
         }
     }
     
-    private func displayFavoriteState() {
+    private func setFavoriteState() {
         if let favorite = self.book?.favorite {
             isFavorite = favorite
         }
     }
     
-    private func displayRecommandState() {
+    private func setRecommandState() {
         if let recommand = self.book?.recommanding {
             isRecommandedStatus = recommand
         }
@@ -192,31 +190,30 @@ class BookCardViewController: UIViewController {
             self?.mainView.categoryiesLabel.text = self?.formatter.joinArrayToString(categoryNames).uppercased()
         }
     }
-    
+
     // MARK: - Api call
     private func deleteBook() {
         guard let book = book else { return }
-        showIndicator(activityIndicator)
+        showIndicator(mainView.activityIndicator)
         
         libraryService.deleteBook(book: book) { [weak self] error in
             guard let self = self else { return }
-                self.hideIndicator(self.activityIndicator)
-                if let error = error {
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
-                    return
-                }
-                self.recommnandBook(false)
-                self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
-                self.navigationController?.popViewController(animated: true)
+            self.hideIndicator(self.mainView.activityIndicator)
+            if let error = error {
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
+            self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     private func updateBookStatus(_ state: Bool, fieldKey: DocumentKey) {
-        guard let bookID = book?.etag else { return }
-        showIndicator(activityIndicator)
+        guard let bookID = book?.bookID else { return }
+        showIndicator(mainView.activityIndicator)
         libraryService.setStatusTo(state, field: fieldKey, for: bookID) { [weak self] error in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
+            self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -225,18 +222,20 @@ class BookCardViewController: UIViewController {
     
     private func recommnandBook(_ recommanded: Bool) {
         guard let book = book else { return }
-        updateBookStatus(recommanded, fieldKey: .recommanding)
-        if recommanded == true {
-            recommandationService.addToRecommandation(for: book) { [weak self] error in
+        mainView.actionButton.displayActivityIndicator(true)
+        guard recommanded == false else {
+            recommendationService.addToRecommandation(for: book) { [weak self] error in
+                self?.mainView.actionButton.displayActivityIndicator(false)
                 if let error = error {
                     self?.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
-        } else {
-            recommandationService.removeFromRecommandation(for: book) { [weak self] error in
-                if let error = error {
-                    self?.presentAlertBanner(as: .error, subtitle: error.description)
-                }
+            return
+        }
+        recommendationService.removeFromRecommandation(for: book) { [weak self] error in
+            self?.mainView.actionButton.displayActivityIndicator(false)
+            if let error = error {
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -249,6 +248,7 @@ class BookCardViewController: UIViewController {
     @objc private func recommandButtonAction() {
         isRecommandedStatus.toggle()
         recommnandBook(isRecommandedStatus)
+        updateBookStatus(isRecommandedStatus, fieldKey: .recommanding)
     }
     
     @objc private func deleteBookAction() {
@@ -268,23 +268,30 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Navigation
     @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService(), formatter: Formatter())
+        let newBookController = NewBookViewController(libraryService: LibraryService(), formatter: Formatter(), validator: Validator())
         newBookController.newBook          = book
         newBookController.isEditingBook    = true
         newBookController.bookCardDelegate = self
         navigationController?.pushViewController(newBookController, animated: true)
     }
+    
+    @objc private func showComments() {
+        let commentsViewController = CommentsViewController(commentService: CommentService(),
+                                                            imageLoader: ImageLoader(),
+                                                            layoutComposer: CommentListLayout())
+        commentsViewController.book = book
+        navigationController?.pushViewController(commentsViewController, animated: true)
+    }
 }
 // MARK: - BookCardDelegate
 extension BookCardViewController: BookCardDelegate {
     func fetchBookUpdate() {
-        guard let bookID = book?.etag else { return }
-        showIndicator(activityIndicator)
-        
+        showIndicator(mainView.activityIndicator)
+        guard let bookID = book?.bookID else { return }
         libraryService.getBook(for: bookID) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                self.hideIndicator(self.activityIndicator)
+                self.hideIndicator(self.mainView.activityIndicator)
                 switch result {
                 case .success(let book):
                     self.book = book

@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     private lazy var dataSource = makeDataSource()
     
-    private let mainView        = CommonCollectionView()
+    private let mainView        = CollectionView()
     private var layoutComposer  : LayoutComposer
     private var libraryService  : LibraryServiceProtocol
     private var categoryService = CategoryService.shared
@@ -80,16 +80,22 @@ class HomeViewController: UIViewController {
             self?.applySnapshot()
         }
         getBooks(for: .latestBookQuery) { [weak self] books in
-            self?.latestBooks = books
-            self?.applySnapshot()
+            DispatchQueue.main.async {
+                self?.latestBooks = books
+                self?.applySnapshot()
+            }
         }
         getBooks(for: .favoriteBookQuery) { [weak self] books in
-            self?.favoriteBooks = books
-            self?.applySnapshot()
+            DispatchQueue.main.async {
+                self?.favoriteBooks = books
+                self?.applySnapshot()
+            }
         }
         getBooks(for: .recommendationQuery) { [weak self] books in
-            self?.recommandedBooks = books
-            self?.applySnapshot()
+            DispatchQueue.main.async {
+                self?.recommandedBooks = books
+                self?.applySnapshot()
+            }
         }
     }
     
@@ -189,8 +195,8 @@ extension HomeViewController {
             if let headerData = HomeCollectionViewSections(rawValue: indexPath.section) {
                 headerView.configure(with: headerData.title, buttonTitle: headerData.buttonTitle)
             }
-            headerView.actionButton.tag = HomeCollectionViewSections.allCases[indexPath.section].rawValue
-            headerView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
+            headerView.titleView.actionButton.tag = HomeCollectionViewSections.allCases[indexPath.section].rawValue
+            headerView.titleView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
             return headerView
         }
     }

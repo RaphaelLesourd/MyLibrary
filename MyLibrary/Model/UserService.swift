@@ -34,7 +34,7 @@ class UserService {
 
 // MARK: - UserServiceProtocol Extension
 extension UserService: UserServiceProtocol {
-
+    
     // MARK: Create
     func createUserInDatabase(for currentUser: CurrentUser?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
@@ -57,6 +57,8 @@ extension UserService: UserServiceProtocol {
             do {
                 if let document = try querySnapshot?.data(as: CurrentUser.self) {
                     completion(.success(document))
+                } else {
+                    completion(.failure(.noUserName))
                 }
             } catch { completion(.failure(.firebaseError(error))) }
         }

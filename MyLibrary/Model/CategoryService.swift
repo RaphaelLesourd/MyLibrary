@@ -15,7 +15,7 @@ class CategoryService {
     // MARK: - Properties
     
     static let shared = CategoryService()
-   
+    
     private let db = Firestore.firestore()
     private var categoriesListener: ListenerRegistration?
     
@@ -43,20 +43,20 @@ class CategoryService {
             completion(.noCategory)
             return
         }
-        let id = UUID().uuidString
         let docRef = usersCollectionRef.document(userID).collection(CollectionDocumentKey.category.rawValue)
         
         checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
             guard documentID == nil else {
-           //     completion(.firebaseAuthError(.asAFError(<#T##self: Error##Error#>)))
+                completion(.categoryExist)
                 return
             }
+            let id = UUID().uuidString
             let category = Category(uid: id, name: categoryName.lowercased())
             do {
                 try docRef.document(id).setData(from: category)
                 self?.categories.append(category)
-                completion(nil)
             } catch { completion(.firebaseError(error)) }
+            completion(nil)
         }
     }
     // MARK: Get
@@ -65,19 +65,22 @@ class CategoryService {
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
         
-     categoriesListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
+        categoriesListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(.firebaseError(error))
                 return
             }
-            self?.categories = querySnapshot?.documents.compactMap { documents -> Category? in
+            let data = querySnapshot?.documents.compactMap { documents -> Category? in
                 do {
                     return try documents.data(as: Category.self)
                 } catch {
                     completion(.firebaseError(error))
                     return nil
                 }
-            } ?? []
+            }
+            if let data = data {
+                self?.categories = data
+            }
             completion(nil)
         }
     }
@@ -103,7 +106,7 @@ class CategoryService {
             completion(.noCategory)
             return
         }
-
+        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -127,7 +130,7 @@ class CategoryService {
             completion(.noCategory)
             return
         }
-       
+        
         checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
             guard let self = self else { return }
             guard let documentID = documentID else {

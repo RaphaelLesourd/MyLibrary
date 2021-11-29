@@ -38,10 +38,6 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     }
 }
 
-enum ApiSearchSection: Int, CaseIterable {
+enum SingleSection: Int, CaseIterable {
     case main
-}
-
-enum BookListSection: Int, CaseIterable {
-    case mybooks
 }
