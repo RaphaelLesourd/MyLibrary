@@ -11,7 +11,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol CommentServiceProtocol {
-    func addComment(for bookID: String, ownerID: String, comment: String, completion: @escaping (FirebaseError?) -> Void)
+    func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String,
+                    completion: @escaping (FirebaseError?) -> Void)
     func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void)
     func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void)
     func getUserDetail(for userID: String, completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
@@ -32,15 +33,20 @@ class CommentService: CommentServiceProtocol {
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID  = Auth.auth().currentUser?.uid ?? ""
     }
-}
+ }
 extension CommentService {
  
-    func addComment(for bookID: String, ownerID: String, comment: String, completion: @escaping (FirebaseError?) -> Void) {
+    func addComment(for bookID: String,
+                    ownerID: String,
+                    commentID: String?,
+                    comment: String,
+                    completion: @escaping (FirebaseError?) -> Void) {
         guard !comment.isEmpty else {
             completion(.noBookTitle)
             return
         }
-        let documentID = UUID().uuidString
+        
+        let documentID = commentID ?? UUID().uuidString
         let docRef = userRef
             .document(ownerID)
             .collection(CollectionDocumentKey.books.rawValue)
@@ -56,7 +62,7 @@ extension CommentService {
             completion(nil)
         } catch { completion(.firebaseError(error)) }
     }
-
+  
     func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void) {
         let docRef = userRef
             .document(ownerID)

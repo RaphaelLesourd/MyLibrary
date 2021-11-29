@@ -276,9 +276,7 @@ class BookCardViewController: UIViewController {
     }
     
     @objc private func showComments() {
-        let commentsViewController = CommentsViewController(commentService: CommentService(),
-                                                            imageLoader: ImageLoader(),
-                                                            layoutComposer: CommentListLayout())
+        let commentsViewController = CommentsViewController(commentService: CommentService())
         commentsViewController.book = book
         navigationController?.pushViewController(commentsViewController, animated: true)
     }

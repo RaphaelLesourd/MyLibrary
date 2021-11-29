@@ -9,31 +9,31 @@ import Foundation
 import UIKit
 import InputBarAccessoryView
 import IQKeyboardManagerSwift
+import FirebaseAuth
 
 class CommentsViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, CommentModel>
-    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, CommentModel>
+    typealias DataSource = UITableViewDiffableDataSource<SingleSection, CommentModel>
     private lazy var dataSource = makeDataSource()
     
-    private let mainView      = CollectionView()
-    private let commentService: CommentServiceProtocol
-    private let imageLoader   : ImageLoaderProtocol
+    private let tableView         = UITableView(frame: .zero, style: .insetGrouped)
+    private let activityIndicator = UIActivityIndicatorView()
+    private let refresherControl  = UIRefreshControl()
     
+    private let commentService  : CommentServiceProtocol
     private var keyboardManager = KeyboardManager()
     private var footerView      = LoadingFooterSupplementaryView()
     private var inputBar        = InputBarAccessoryView()
     private var commentList     : [CommentModel] = []
-    private var layoutComposer  : LayoutComposer
+    private var editedCommentID : String?
     
     var book: Item?
     
     // MARK: - Initializer
-    init(commentService: CommentServiceProtocol, imageLoader: ImageLoaderProtocol, layoutComposer: LayoutComposer) {
+    init(commentService: CommentServiceProtocol) {
         self.commentService = commentService
-        self.layoutComposer = layoutComposer
-        self.imageLoader    = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,23 +42,19 @@ class CommentsViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    override func loadView() {
-        view  = mainView
-        title = "Commentaires"
-        view.backgroundColor = .viewControllerBackgroundColor
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Commentaires"
+        view.backgroundColor = .viewControllerBackgroundColor
+        configureTableView()
         configureKeyboard()
         configureInputBar()
-        configureCollectionView()
         configureRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         getComments()
     }
-    
+ 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         commentService.commentListener?.remove()
@@ -67,21 +63,28 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
-    private func configureCollectionView() {
-        let layout = layoutComposer.setCollectionViewLayout()
-        mainView.collectionView.collectionViewLayout = layout
-        mainView.collectionView.autoresizingMask = [.flexibleHeight]
-        mainView.collectionView.register(cell: CommentCollectionViewCell.self)
-        mainView.collectionView.delegate   = self
-        mainView.collectionView.dataSource = dataSource
+    private func configureTableView() {
+        view.addSubview(tableView)
+        tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.backgroundColor              = .clear
+        tableView.frame                        = view.bounds
+        tableView.contentInset                 = UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)
+        tableView.rowHeight                    = UITableView.automaticDimension
+        tableView.estimatedRowHeight           = 300
+        tableView.alwaysBounceVertical         = true
+        tableView.showsVerticalScrollIndicator = false
+        tableView.allowsSelection              = false
+        tableView.delegate                     = self
+        tableView.dataSource                   = dataSource
     }
     
     private func configureRefresherControl() {
-        mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        tableView.refreshControl = refresherControl
+        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     private func configureInputBar() {
@@ -108,7 +111,7 @@ class CommentsViewController: UIViewController {
         IQKeyboardManager.shared.enable = false
         view.addSubview(inputBar)
         keyboardManager.bind(inputAccessoryView: inputBar)
-        keyboardManager.bind(to: mainView.collectionView)
+        keyboardManager.bind(to: tableView)
     }
     
     // MARK: - Api call
@@ -116,18 +119,19 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         
-        showIndicator(mainView.activityIndicator)
+        showIndicator(activityIndicator)
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             guard let self = self else { return }
-            self.mainView.refresherControl.endRefreshing()
-            self.hideIndicator(self.mainView.activityIndicator)
-            
-            switch result {
-            case .success(let comments):
-                self.commentList = comments
-                self.applySnapshot()
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+            DispatchQueue.main.async {
+                self.refresherControl.endRefreshing()
+                self.hideIndicator(self.activityIndicator)
+                switch result {
+                case .success(let comments):
+                    self.commentList = comments
+                    self.applySnapshot()
+                case .failure(let error):
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                }
             }
         }
     }
@@ -143,15 +147,16 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    private func addComment(with comment: String) {
+    private func addComment(with comment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         
-        showIndicator(mainView.activityIndicator)
-        commentService.addComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
+        showIndicator(activityIndicator)
+        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             
-            self.hideIndicator(self.mainView.activityIndicator)
+            self.hideIndicator(self.activityIndicator)
+            self.editedCommentID = nil
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -162,11 +167,11 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         
-        showIndicator( mainView.activityIndicator)
+        showIndicator(activityIndicator)
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             
-            self.hideIndicator(self.mainView.activityIndicator)
+            self.hideIndicator(self.activityIndicator)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -179,18 +184,58 @@ class CommentsViewController: UIViewController {
         getComments()
     }
 }
-// MARK: - CollectionView Delegate
-extension CommentsViewController: UICollectionViewDelegate { }
+// MARK: - TableView Delegate
+extension CommentsViewController: UITableViewDelegate {
+//    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
+//  
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
+        let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
+        let commentOwnerID = commentList[indexPath.row].userID
+        let currentUserID = Auth.auth().currentUser?.uid
+        return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
+    }
+    
+    private func contextMenuAction(for actionType: CategoryManagementAction,
+                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        let comment = commentList[indexPath.row]
+        let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
+            guard let self = self else {return}
+            switch actionType {
+            case .delete:
+                self.deleteComment(for: comment)
+            case .edit:
+                self.editComment(for: comment)
+            }
+            completion(true)
+        }
+        action.backgroundColor = actionType.color
+        return action
+    }
+    
+    private func editComment(for comment: CommentModel) {
+        editedCommentID = comment.uid
+        inputBar.inputTextView.text = comment.comment
+        inputBar.inputTextView.becomeFirstResponder()
+    }
+}
 
-// MARK: - CollectionView Datasource
+// MARK: - TableView Datasource
 extension CommentsViewController {
+    
     private func makeDataSource() -> DataSource {
-        dataSource = DataSource(collectionView: mainView.collectionView,
-                                cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
-            let cell: CommentCollectionViewCell = collectionView.dequeue(for: indexPath)
+        dataSource = DataSource(tableView: tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell",
+                                                           for: indexPath) as? CommentTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: item)
             self?.getCommentOwnerDetails(for: item) { user in
                 cell.configureUser(with: user)
-                cell.configure(with: item)
             }
             return cell
         })
@@ -207,10 +252,13 @@ extension CommentsViewController {
 // MARK: - InputBar delegate
 extension CommentsViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        addComment(with: text)
+        
+        addComment(with: text, commentID: editedCommentID)
         self.inputBar.inputTextView.text = ""
         self.inputBar.inputTextView.resignFirstResponder()
-        let indexPath = IndexPath(item: 0, section: 0)
-        mainView.collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+        if !commentList.isEmpty {
+            let indexPath = IndexPath(item: 0, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
     }
 }

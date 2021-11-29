@@ -6,6 +6,21 @@
 //
 
 import Foundation
+import UIKit
+
+enum CategoryManagementAction: String {
+    case delete = "Effacer"
+    case edit = "Editer"
+    
+    var color: UIColor {
+        switch self {
+        case .delete:
+            return .systemRed
+        case .edit:
+            return .systemOrange
+        }
+    }
+}
 
 enum SearchType {
     case librarySearch

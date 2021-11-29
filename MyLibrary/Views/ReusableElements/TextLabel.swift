@@ -39,6 +39,5 @@ class TextLabel: UILabel {
         self.font          = UIFont.systemFont(ofSize: fontSize, weight: weight)
         self.text          = "--"
         self.lineBreakMode = .byWordWrapping
-        self.sizeToFit()
     }
 }

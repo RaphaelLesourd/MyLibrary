@@ -10,19 +10,6 @@ import UIKit
 class CategoriesViewController: UIViewController {
     
     // MARK: - Properties
-    enum CategoryManagementAction: String {
-        case delete = "Effacer"
-        case edit = "Editer"
-        
-        var color: UIColor {
-            switch self {
-            case .delete:
-                return .systemRed
-            case .edit:
-                return .systemOrange
-            }
-        }
-    }
     weak var newBookDelegate: NewBookDelegate?
     
     private let categoryService = CategoryService.shared
@@ -207,15 +194,10 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
-        return UISwipeActionsConfiguration(actions: [editAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
-    
+ 
     private func contextMenuAction(for actionType: CategoryManagementAction,
                                    forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in

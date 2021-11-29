@@ -16,6 +16,7 @@ enum FirebaseError: Error {
     case noCategory
     case categoryExist
     case noBookTitle
+    case noComment
     case noNetwork
     case nothingFound
     case firebaseError(Error)
@@ -41,6 +42,8 @@ enum FirebaseError: Error {
             return getAuthError(for: error)
         case .nothingFound:
             return "Introuvable"
+        case .noComment:
+            return "Votre commentaire est vide."
         }
     }
     
