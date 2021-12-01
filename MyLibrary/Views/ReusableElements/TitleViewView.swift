@@ -13,6 +13,9 @@ class TitleViewView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(actionButton)
         setStackViewConstrainsts()
     }
     
@@ -30,13 +33,11 @@ class TitleViewView: UIView {
         return button
     }()
     
-    private let stackView = StackView(axis: .horizontal, spacing: 20)
+    private let stackView = StackView(axis: .horizontal, spacing: 0)
 }
 // MARK: - Constraints
 extension TitleViewView {
     private func setStackViewConstrainsts() {
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(actionButton)
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

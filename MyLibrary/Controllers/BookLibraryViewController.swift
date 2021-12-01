@@ -159,6 +159,9 @@ extension BookLibraryViewController {
     }
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
+        if bookList.isEmpty {
+            // TODO: - Present empty state view
+        }
         snapshot.appendSections(SingleSection.allCases)
         snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

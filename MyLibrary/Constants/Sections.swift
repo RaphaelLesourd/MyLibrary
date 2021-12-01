@@ -41,3 +41,20 @@ enum HomeCollectionViewSections: Int, CaseIterable {
 enum SingleSection: Int, CaseIterable {
     case main
 }
+
+enum CommentsSection: CaseIterable {
+    
+    case book
+    case today
+    case past
+    var headerTitle: String {
+        switch self {
+        case .book:
+            return ""
+        case .today:
+            return "Aujourd'hui"
+        case .past:
+            return "Depuis hier"
+        }
+    }
+}

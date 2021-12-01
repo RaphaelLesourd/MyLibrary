@@ -72,6 +72,7 @@ class BarcodeScanViewController: UIViewController {
         captureSession.addInput(videoDeviceInput)
         addCaptureOutput()
     }
+    
     /// Defines a Camera for Input
     /// - Uses default wide angle camera, located on the rear of the iPhone.
     /// - Making sure your app can use the camera as an input device for the capture session.
@@ -82,11 +83,7 @@ class BarcodeScanViewController: UIViewController {
         guard let device = videoDevice,
               let videoDeviceInput = try? AVCaptureDeviceInput(device: device),
               captureSession.canAddInput(videoDeviceInput) else {
-                  presentAlert(withTitle: "Cannot Find Camera",
-                               message: "There seems to be a problem with the camera on your device.",
-                               actionHandler: { [weak self] _ in
-                      self?.dismiss(animated: true)
-                  })
+                  presentNoCameraAlert()
                   return nil
               }
         return videoDeviceInput
@@ -131,6 +128,13 @@ class BarcodeScanViewController: UIViewController {
         guard let fetchedBarcode = fetchedBarcode else { return }
         barcodeDelegate?.processBarcode(with: fetchedBarcode)
     }
+    
+    private func presentNoCameraAlert() {
+        presentAlert(withTitle: "Caméra introuvable",
+                     message: "Il semblerait y avoir un problème avec votre caméra.") { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+    }
     // MARK: - Overlay
     private func configurePreviewLayer() {
         let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -139,11 +143,10 @@ class BarcodeScanViewController: UIViewController {
         cameraPreviewLayer.frame = view.frame
         view.layer.insertSublayer(cameraPreviewLayer, at: 0)
     }
-    /// Display alert tot the user when the use of camera is nt granted for any reasons.
+    /// Display alert tot the user when the use of camera is not granted for any reasons.
     private func showPermissionsAlert() {
-        presentAlert(withTitle: "Camera Permissions",
-                     message: "Please open Settings and grant permission for this app to use your camera.",
-                     actionHandler: nil)
+        presentAlertBanner(as: .customMessage("Permission"),
+                           subtitle: "Veuillez modifier les réglages pour autoriser cet app à utiliser la caméra.")
     }
 }
 // MARK: - AVCaptureDelegation
@@ -151,7 +154,9 @@ extension BarcodeScanViewController: AVCaptureVideoDataOutputSampleBufferDelegat
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
         do {

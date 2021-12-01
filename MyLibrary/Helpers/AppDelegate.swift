@@ -36,13 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             settings.isSSLEnabled          = false
             Firestore.firestore().settings = settings
 
-            let settingsAuth               = Auth.auth().settings
+            let settingsAuth = Auth.auth().settings
             settings.host                  = "localhost:9099"
             settings.isPersistenceEnabled  = false
             settings.isSSLEnabled          = false
             Auth.auth().settings           = settingsAuth
             
-            Storage.storage().useEmulator(withHost:"localhost", port:9199)
+            Storage.storage().useEmulator(withHost:"localhost", port: 9199)
         }
     }
     

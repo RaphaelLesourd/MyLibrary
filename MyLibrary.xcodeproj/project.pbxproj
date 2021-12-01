@@ -13,6 +13,7 @@
 		810C44772727102D007541C0 /* SigningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44762727102D007541C0 /* SigningViewController.swift */; };
 		810C447927271351007541C0 /* PanModalCommonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* PanModalCommonView.swift */; };
 		810C447B2727189B007541C0 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447A2727189B007541C0 /* TextField.swift */; };
+		810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA2275625F40043280E /* CommentsBookCell.swift */; };
 		811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F4274E1F670051059C /* NetworkConnectivity.swift */; };
 		811713FC274E81880051059C /* InputBarAccessoryView in Frameworks */ = {isa = PBXBuildFile; productRef = 811713FB274E81880051059C /* InputBarAccessoryView */; };
 		811D5BB92743978100C935B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 811D5BB82743978100C935B5 /* Kingfisher */; };
@@ -164,6 +165,7 @@
 		810C44762727102D007541C0 /* SigningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningViewController.swift; sourceTree = "<group>"; };
 		810C447827271351007541C0 /* PanModalCommonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalCommonView.swift; sourceTree = "<group>"; };
 		810C447A2727189B007541C0 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		810D7FA2275625F40043280E /* CommentsBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsBookCell.swift; sourceTree = "<group>"; };
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
 		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
@@ -327,6 +329,15 @@
 				810C44762727102D007541C0 /* SigningViewController.swift */,
 			);
 			path = SignInUp;
+			sourceTree = "<group>";
+		};
+		810D7FA4275625FB0043280E /* CommentsController */ = {
+			isa = PBXGroup;
+			children = (
+				81DB8E002753B02800698B92 /* CommentTableViewCell.swift */,
+				810D7FA2275625F40043280E /* CommentsBookCell.swift */,
+			);
+			path = CommentsController;
 			sourceTree = "<group>";
 		};
 		811713F3274D6B5D0051059C /* Layout */ = {
@@ -582,7 +593,7 @@
 				8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */,
 				81C6CCC427247A6200DE9219 /* VerticalCollectionViewCell.swift */,
 				81C6CCC327247A6200DE9219 /* HorizontalCollectionViewCell.swift */,
-				81DB8E002753B02800698B92 /* CommentTableViewCell.swift */,
+				810D7FA4275625FB0043280E /* CommentsController */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -871,6 +882,7 @@
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
+				810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,

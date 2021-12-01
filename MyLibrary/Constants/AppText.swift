@@ -39,6 +39,7 @@ enum Text {
         static let profile = "Profil"
         static let category = "Catégories"
         static let modify = "Modifier"
+        static let comments = "Commentaires"
     }
     
     enum Book {
@@ -66,5 +67,10 @@ enum Text {
     
     enum SearchBarPlaceholder {
         static let search = "Rechercher"
+    }
+    
+    enum Alert {
+        static let noCommentsTitle = "Ajouter un commentaire"
+        static let noCommentsMessage = "Il n'y a pas encore de commentaires pour ce livre. Voulez vous être le premier en ajouter un?"
     }
 }

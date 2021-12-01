@@ -20,6 +20,15 @@ enum CategoryManagementAction: String {
             return .systemOrange
         }
     }
+    
+    var icon: UIImage {
+        switch self {
+        case .delete:
+            return Images.trashCircleIcon
+        case .edit:
+            return Images.editCircleIcon
+        }
+    }
 }
 
 enum SearchType {

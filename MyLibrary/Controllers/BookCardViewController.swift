@@ -280,7 +280,7 @@ class BookCardViewController: UIViewController {
     
     @objc private func showComments() {
         guard let book = book else { return }
-        let commentsViewController = CommentsViewController(book: book, commentService: CommentService())
+        let commentsViewController = CommentsViewController(book: book, commentService: CommentService(), validator: Validator())
         navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

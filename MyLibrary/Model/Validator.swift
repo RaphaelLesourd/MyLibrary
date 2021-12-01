@@ -12,6 +12,7 @@ protocol ValidatorProtocol {
     func validatePassword(_ password: String?) -> Bool
     func validateIsbn(_ value: String) -> Bool
     func validateTimestamp(for timestamp: Double?) -> Double
+    func isTimestampToday(for timestamp: Double?) -> Bool
 }
 
 class Validator: ValidatorProtocol {
@@ -49,5 +50,13 @@ class Validator: ValidatorProtocol {
     
     func validateTimestamp(for timestamp: Double?) -> Double {
             return timestamp ?? Date().timeIntervalSince1970
+    }
+    
+    func isTimestampToday(for timestamp: Double?) -> Bool {
+        guard let timestamp = timestamp else {
+            return false
+        }
+        let date = Date(timeIntervalSince1970: (timestamp))
+        return Calendar.current.isDateInToday(date)
     }
 }

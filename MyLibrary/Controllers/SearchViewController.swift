@@ -146,13 +146,16 @@ extension SearchViewController {
         configureFooter(dataSource)
         return dataSource
     }
-    /// Set the data to th section of the collectionView, in this case only one section (main)
-    /// - Parameter animatingDifferences: Animate the collectionView with the changes applied.
+    
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        if searchedBooks.isEmpty {
+            // TODO: - Present empty state view
+        }
     }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer

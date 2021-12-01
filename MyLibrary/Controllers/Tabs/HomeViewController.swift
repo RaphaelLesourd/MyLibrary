@@ -204,10 +204,12 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
+
         snapshot.appendItems(categoryService.categories, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
         snapshot.appendItems(favoriteBooks, toSection: .favorites)
         snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
