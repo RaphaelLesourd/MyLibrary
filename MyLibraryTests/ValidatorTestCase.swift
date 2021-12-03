@@ -46,6 +46,11 @@ class ValidatorTestCase: XCTestCase {
         let timestamp = 12345678.0
         XCTAssertEqual(sut?.validateTimestamp(for: timestamp), 12345678.0)
     }
+    
+    func test_givenTimestamp_whenCheckingIfTodaysData_returnTrue() {
+        let currentTimeStamp = Date().timeIntervalSince1970
+        XCTAssertTrue(sut.isTimestampToday(for: currentTimeStamp))
+    }
 
     // MARK: - Fail tests
     func test_givenEmailAdress_whenChekcValidity_thenReturnFalse() {
@@ -80,5 +85,13 @@ class ValidatorTestCase: XCTestCase {
     
     func test_givenNilTimestamp_whenSettingValue_thenReturnCurrentDateConvertedToDouble() {
         XCTAssertNotNil(sut?.validateTimestamp(for: nil))
+    }
+    
+    func test_givenTimestamp_whenCheckingIfTodaysData_returnFalse() {
+        XCTAssertFalse(sut.isTimestampToday(for: 12345678))
+    }
+    
+    func test_givenNilTimestampValue_whenCheckingIfTodaysData_returnFalse() {
+        XCTAssertFalse(sut.isTimestampToday(for: nil))
     }
 }

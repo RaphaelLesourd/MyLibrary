@@ -12,69 +12,75 @@ import IQKeyboardManagerSwift
 class TextInputViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView = TextInputControllerMainView()
-    var textInpuType: TextInputType?
     var textViewText: String?
-    weak var newBookDelegate : NewBookDelegate?
-   
+    weak var newBookDelegate: NewBookDelegate?
+    private let textView = UITextView()
+  
     // MARK: - Lifecycle
-    override func loadView() {
-        view = mainView
-        view.backgroundColor = .viewControllerBackgroundColor
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.becomeFirstResponder()
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTargets()
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.description
+        configureTextView()
+        setTextViewConsraints()
         displayData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        mainView.textView.becomeFirstResponder()
-        navigationItem.largeTitleDisplayMode = .never
-    }
-    
+   
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationItem.largeTitleDisplayMode = .always
+        updateData()
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
-    
     // MARK: - Setup
-    private func setTargets() {
-        mainView.saveButton.addTarget(self, action: #selector(sendBackText), for: .touchUpInside)
+    private func configureTextView() {
+        textView.backgroundColor              = .clear
+        textView.autocorrectionType           = .yes
+        textView.isEditable                   = true
+        textView.isSelectable                 = true
+        textView.alwaysBounceVertical         = true
+        textView.showsVerticalScrollIndicator = true
+        textView.isScrollEnabled              = true
+        textView.textAlignment                = .justified
+        textView.font                         = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.textColor                    = .label
+        textView.sizeToFit()
     }
     
     // MARK: - Data
     private func displayData() {
         guard let text = textViewText, !text.isEmpty else { return }
-        mainView.textView.text = text
+        textView.text = text
     }
     
-    @objc private func sendBackText() {
-        guard let text = mainView.textView.text, !text.isEmpty else {
-            presentAlertBanner(as: .error, subtitle: "Il n'y rien à sauver.")
-            return
+    private func updateData() {
+        if textView.text != textViewText {
+            presentAlert(withTitle: "Description",
+                         message: "Vous avez modifié la description, voulez-vous grader ces modifications?",
+                         withCancel: true,
+                         cancelHandler: nil) { [weak self] _ in
+                self?.newBookDelegate?.bookDescription = self?.textView.text
+            }
         }
-        if textInpuType == .description {
-            newBookDelegate?.bookDescription = text
-        } else {
-            newBookDelegate?.bookComment = text
-        }
-        navigationController?.popViewController(animated: true)
     }
 }
-// MARK: - PanModal Extension
-extension TextInputViewController: PanModalPresentable {
-    var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(50)
-    }
-   
-    var cornerRadius: CGFloat {
-        return 20
-    }
-    
-    var panScrollable: UIScrollView? {
-        return nil
+// MARK: - Constraints
+extension TextInputViewController {
+    private func setTextViewConsraints() {
+        view.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -350),
+            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+        ])
     }
 }

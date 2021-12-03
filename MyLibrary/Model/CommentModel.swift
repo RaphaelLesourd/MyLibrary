@@ -24,6 +24,6 @@ extension CommentModel: Hashable {
         hasher.combine(uid)
     }
     static func == (lhs: CommentModel, rhs: CommentModel) -> Bool {
-        return lhs.uid == rhs.uid
+        return lhs.uid == rhs.uid && lhs.comment == rhs.comment
     }
 }

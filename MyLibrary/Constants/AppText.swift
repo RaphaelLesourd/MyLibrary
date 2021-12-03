@@ -35,11 +35,12 @@ enum Text {
         static let home = "Accueil"
         static let myBooks = "Mes livres"
         static let search = "Recherche"
-        static let settings = "Réglages"
+        static let account = "Compte"
         static let profile = "Profil"
         static let category = "Catégories"
         static let modify = "Modifier"
         static let comments = "Commentaires"
+        static let description = "Description"
     }
     
     enum Book {

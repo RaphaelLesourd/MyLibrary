@@ -18,7 +18,7 @@ class ApiManager {
     let validator: ValidatorProtocol
     
     // MARK: - Initializer
-    init(session: Session = .default, validator: ValidatorProtocol) {
+    init(session: Session = .default, validator: ValidatorProtocol = Validator()) {
         self.session   = session
         self.validator = validator
     }
@@ -53,7 +53,7 @@ extension ApiManager: ApiManagerProtocol {
                 switch response.result {
                 case .success(let jsonData):
                     guard let books = jsonData.items, !books.isEmpty else {
-                         completion(.failure(.noBooks))
+                        completion(.failure(.noBooks))
                         return
                     }
                     completion(.success(books))

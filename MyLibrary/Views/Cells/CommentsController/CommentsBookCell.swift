@@ -21,7 +21,7 @@ class CommentsBookCell: UITableViewCell {
         formatter   = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
        
-        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 160).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
         contentView.backgroundColor = .tertiarySystemBackground
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
@@ -37,7 +37,7 @@ class CommentsBookCell: UITableViewCell {
    // MARK: - Subviews
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .top
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -57,10 +57,8 @@ class CommentsBookCell: UITableViewCell {
         titleLabel.text    = book.volumeInfo?.title
         subtitleLabel.text = formatter.joinArrayToString(book.volumeInfo?.authors)
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.backgroundImage.image = image
-                self?.animateImage()
-            }
+            self?.backgroundImage.image = image
+            self?.animateImage()
         }
     }
 }

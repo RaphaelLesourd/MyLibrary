@@ -11,8 +11,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol CommentServiceProtocol {
-    func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String,
-                    completion: @escaping (FirebaseError?) -> Void)
+    func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String, completion: @escaping (FirebaseError?) -> Void)
     func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void)
     func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void)
     func getUserDetail(for userID: String, completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
@@ -24,9 +23,9 @@ class CommentService: CommentServiceProtocol {
     // MARK: - Properties
     private let db = Firestore.firestore()
   
-    let userRef         : CollectionReference
-    var userID          : String
-    var commentListener : ListenerRegistration?
+    let userRef        : CollectionReference
+    var userID         : String
+    var commentListener: ListenerRegistration?
     
     // MARK: - Initializer
     init() {
@@ -91,9 +90,8 @@ extension CommentService {
     }
     
     func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void) {
-        guard let commentID = comment.uid else { return }
-        guard let commentUserID = comment.userID, commentUserID == userID else {
-            print("current user did not post this comment")
+        guard let commentID = comment.uid else {
+            completion(.nothingFound)
             return
         }
         let docRef = userRef

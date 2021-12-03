@@ -44,7 +44,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return ["q": words,
                     "startIndex": startIndex,
                     "maxResults": 40,
-                    "filter": "paid-ebooks",
+                   // "filter": "paid-ebooks",
                     "orderBy": "newest", // relevance
                     "zoom": 0,
                     "img": true]

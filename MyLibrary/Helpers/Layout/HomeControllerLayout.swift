@@ -26,7 +26,7 @@ class HomeViewControllerLayout {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(130), heightDimension: .absolute(230)),
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(0.25)),
             subitem: item,
             count: 1
         )
@@ -43,7 +43,7 @@ class HomeViewControllerLayout {
             subitem: item,
             count: numberItems
         )
-        group.interItemSpacing = .fixed(10)
+        group.interItemSpacing = .fixed(15)
         return createSection(with: group, horizontal: true)
     }
     
@@ -66,9 +66,11 @@ class HomeViewControllerLayout {
 }
 
 extension HomeViewControllerLayout: LayoutComposer {
-   
+  
     func setCollectionViewLayout() -> UICollectionViewLayout {
+        
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+            
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:
                 return self?.makeCategoryLayoutSection()

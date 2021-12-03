@@ -47,9 +47,10 @@ class SearchViewController: UIViewController {
 
     // MARK: - Lifecycle
     override func loadView() {
-        view = mainView
+        view                 = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.search
+        title                = Text.ControllerTitle.search
+        mainView.emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
     }
     
     override func viewDidLoad() {
@@ -153,9 +154,8 @@ extension SearchViewController {
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
-        if searchedBooks.isEmpty {
-            // TODO: - Present empty state view
-        }
+        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
+        
     }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer

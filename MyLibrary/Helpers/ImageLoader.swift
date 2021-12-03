@@ -25,7 +25,9 @@ class ImageLoader: ImageLoaderProtocol {
                                                completionHandler: { response in
             switch response {
             case .success(let value):
-                completion(value.image)
+                DispatchQueue.main.async {
+                    completion(value.image)
+                }
             case .failure(_):
                 completion(Images.emptyStateBookImage)
             }

@@ -12,29 +12,22 @@ class CategoryServiceTestCase: XCTestCase {
     // MARK: - Propserties
     private var sut        : CategoryService?
     private var userService: UserServiceProtocol?
-    
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "testuser@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "bLD1HPeHhqRz7UZqvkIOOMgxGdD3",
-                                           displayName: credentials.userName ?? "test",
-                                           email: credentials.email,
-                                           photoURL: "")
+    private var newUser    : CurrentUser!
   
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
+        newUser     = createUser()
         sut         = CategoryService.shared
         sut?.userID = newUser.userId
         userService = UserService()
         Networkconnectivity.shared.status = .satisfied
     }
-    
+   
     override func tearDown() {
         super.tearDown()
-        sut?.categories.removeAll()
-        sut = nil
+        sut     = nil
+        newUser = nil
         clearFirestore()
     }
     
@@ -61,7 +54,6 @@ class CategoryServiceTestCase: XCTestCase {
             XCTAssertNil(error)
             self.sut?.addCategory(for: "Movie", completion: { error in
                 XCTAssertNil(error)
-                dump(self.sut?.categories)
                 self.sut?.getCategories(completion: { error in
                     XCTAssertNil(error)
                     dump(self.sut?.categories)
@@ -75,21 +67,20 @@ class CategoryServiceTestCase: XCTestCase {
 
     func test_givenCategoryList_whenUpdatingCategory_thenNameUpdated() {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        dump(sut?.categories)
+
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
+            
             self.sut?.addCategory(for: "Movie", completion: { error in
                 XCTAssertNil(error)
-                dump(self.sut?.categories)
+                
                 self.sut?.getCategories(completion: { error in
                     XCTAssertNil(error)
-                    dump(self.sut?.categories)
+                  
                     if let category = self.sut?.categories.first {
                         XCTAssertEqual(category.name, "movie")
-                        dump(self.sut?.categories)
                         self.sut?.updateCategoryName(for: category, with: "Tv", completion: { error in
                             XCTAssertEqual(self.sut?.categories.first?.name, "Tv")
-                            dump(self.sut?.categories)
                             expectation.fulfill()
                         })
                     }

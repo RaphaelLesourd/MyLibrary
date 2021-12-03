@@ -20,11 +20,10 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    
     // MARK: - Properties
-    private let resultController = SearchViewController(networkService: ApiManager(validator: Validator()),
-                                                        layoutComposer: ListLayout())
-    private let newBookView  = NewBookControllerView()
-    private let languageList = Locale.isoLanguageCodes
-    private let currencyList = Locale.isoCurrencyCodes
+    private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
+    private let newBookView      = NewBookControllerView()
+    private let languageList     = Locale.isoLanguageCodes
+    private let currencyList     = Locale.isoCurrencyCodes
     
     private let formatter     : FormatterProtocol
     private let validator     : ValidatorProtocol
@@ -48,7 +47,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     init(libraryService: LibraryServiceProtocol,
          formatter: FormatterProtocol,
          validator: ValidatorProtocol,
-         imageLoader: ImageLoaderProtocol = ImageLoader()) {
+         imageLoader: ImageLoaderProtocol) {
         self.libraryService = libraryService
         self.formatter      = formatter
         self.validator      = validator
@@ -64,9 +63,9 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        sections = newBookView.composeTableView()
         setDelegates()
         addNavigationBarButtons()
-        sections = newBookView.composeTableView()
         configureSearchController()
         setButtonTargets()
         configureUI()
@@ -111,7 +110,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         newBookView.searchController.obscuresBackgroundDuringPresentation = false
         newBookView.searchController.searchBar.placeholder                = Text.SearchBarPlaceholder.search
         newBookView.searchController.definesPresentationContext           = false
-        resultController.newBookDelegate                = self
+        resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
@@ -124,10 +123,10 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         newBookView.publisherCell.textField.text     = book.volumeInfo?.publisher
         newBookView.publishDateCell.textField.text   = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         newBookView.isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
-        bookDescription                              = book.volumeInfo?.volumeInfoDescription
         newBookView.numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-   
-        bookCategories = book.category ?? []
+        bookDescription                              = book.volumeInfo?.volumeInfoDescription
+        bookCategories                               = book.category ?? []
+      
         displayBookCover(for: book)
         displayBookPrice(for: book)
         displayRating(for: book)
@@ -140,29 +139,24 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             self?.newBookView.bookImageCell.pictureView.image = image
         }
     }
-  
     private func displayBookPrice(for book: Item) {
         if let price = book.saleInfo?.retailPrice?.amount {
             newBookView.purchasePriceCell.textField.text = "\(price)"
         }
     }
-    
     private func displayRating(for book: Item) {
         if let rating = book.volumeInfo?.ratingsCount {
             newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
         }
     }
-    
     private func setBookLanguage() {
         let bookLanguage = newBook?.volumeInfo?.language ?? Bundle.main.preferredLocalizations[0]
         setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
     }
-    
     private func setBookCurrency() {
         let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode ?? Locale.current.currencyCode
         setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency ?? "")
     }
-    
     private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
         if let index = list.firstIndex(where: {
             $0.lowercased() == code.lowercased()
@@ -192,6 +186,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
+            
             self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -249,11 +244,10 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         navigationController?.pushViewController(categoryListVC, animated: true)
     }
     
-    private func presentTextInputController(for inputType: TextInputType) {
+    private func presentTextInputController() {
         let textInputViewController = TextInputViewController()
         textInputViewController.newBookDelegate = self
-        textInputViewController.textInpuType    = inputType
-        textInputViewController.textViewText    = inputType == .description ? bookDescription : bookComment
+        textInputViewController.textViewText    = bookDescription 
         navigationController?.pushViewController(textInputViewController, animated: true)
     }
 }
@@ -290,7 +284,7 @@ extension NewBookViewController {
         case (2, 0):
             showCategoryList()
         case (4, 0):
-            presentTextInputController(for: .description)
+            presentTextInputController()
         default:
             break
         }

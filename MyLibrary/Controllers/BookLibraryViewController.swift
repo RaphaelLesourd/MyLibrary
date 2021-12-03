@@ -37,8 +37,9 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Lifecycle
     override func loadView() {
         view  = mainView
-        title = setTile()
+        title = setTitle()
         view.backgroundColor = .viewControllerBackgroundColor
+        mainView.emptyStateView.titleLabel.text = "Rien dans " + setTitle()
     }
     
     override func viewDidLoad() {
@@ -69,7 +70,7 @@ class BookLibraryViewController: UIViewController {
         mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
-    private func setTile() -> String {
+    private func setTitle() -> String {
         if let categoryTitle = title, !categoryTitle.isEmpty {
             return categoryTitle.capitalized
         }
@@ -159,9 +160,7 @@ extension BookLibraryViewController {
     }
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        if bookList.isEmpty {
-            // TODO: - Present empty state view
-        }
+        mainView.emptyStateView.isHidden = !bookList.isEmpty
         snapshot.appendSections(SingleSection.allCases)
         snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

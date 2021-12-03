@@ -121,33 +121,25 @@ class CategoryService {
     }
     
     // MARK: Delete
-    func deleteCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
+    func deleteCategory(for category: Category, completion: @escaping (FirebaseError?) -> Void) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {
             completion(.noNetwork)
             return
         }
-        guard !categoryName.isEmpty else {
+        guard let categoryID = category.uid else {
             completion(.noCategory)
             return
         }
-        
-        checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
-            guard let self = self else { return }
-            guard let documentID = documentID else {
-                completion(.noCategory)
+        let docRef = self.usersCollectionRef
+            .document(self.userID)
+            .collection(CollectionDocumentKey.category.rawValue)
+            .document(categoryID)
+        docRef.delete { error in
+            if let error = error {
+                completion(.firebaseError(error))
                 return
             }
-            let docRef = self.usersCollectionRef
-                .document(self.userID)
-                .collection(CollectionDocumentKey.category.rawValue)
-                .document(documentID)
-            docRef.delete { error in
-                if let error = error {
-                    completion(.firebaseError(error))
-                    return
-                }
-                completion(nil)
-            }
+            completion(nil)
         }
     }
     

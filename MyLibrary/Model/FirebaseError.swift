@@ -31,7 +31,7 @@ enum FirebaseError: Error {
         case .noBookTitle:
             return "Vous devez au moins entrer un titre."
         case .noCategory:
-            return "Le nom ne peux être vide."
+            return "Catégorie non trouvée."
         case .categoryExist:
             return "Cette catégorie existe déja."
         case .noNetwork:

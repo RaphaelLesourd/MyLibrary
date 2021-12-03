@@ -13,13 +13,12 @@ class UserServiceTestCase: XCTestCase {
     private var sut           : UserService?
     private var accountService: AccountService?
     private var exp           : XCTestExpectation?
-
-    private let userID = "PeHhqRz7UZqvkIOOMgxGdD3"
+    
     private let credentials = AccountCredentials(userName: "testuser",
                                                  email: "testuser@test.com",
                                                  password: "Test21@",
                                                  confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "PeHhqRz7UZqvkIOOMgxGdD3",
+    private lazy var newUser = CurrentUser(userId: "user1",
                                            displayName: credentials.userName ?? "test",
                                            email: credentials.email,
                                            photoURL: "")
@@ -30,7 +29,7 @@ class UserServiceTestCase: XCTestCase {
         Networkconnectivity.shared.status = .satisfied
         exp = self.expectation(description: "Waiting for async operation")
         sut = UserService()
-        sut?.userID = userID
+        sut?.userID = newUser.userId
         accountService = AccountService()
     }
     

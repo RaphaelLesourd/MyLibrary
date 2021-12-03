@@ -18,14 +18,13 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView             = BookCardMainView()
+    private let categoryService      = CategoryService.shared
     private let formatter            : FormatterProtocol
     private let imageLoader          : ImageLoaderProtocol
     private let libraryService       : LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private let commentService: CommentServiceProtocol
-    private let categoryService      = CategoryService.shared
-    private var coverImage           : UIImage?
     
+    private var coverImage          : UIImage?
     private var isRecommandedStatus = false {
         didSet {
             setRecommandationButton(isRecommanding: isRecommandedStatus)
@@ -46,12 +45,11 @@ class BookCardViewController: UIViewController {
     init(libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          formatter: FormatterProtocol,
-         imageLoader: ImageLoaderProtocol = ImageLoader(), comentService: CommentServiceProtocol) {
+         imageLoader: ImageLoaderProtocol) {
         self.libraryService        = libraryService
         self.recommendationService = recommendationService
         self.formatter             = formatter
         self.imageLoader           = imageLoader
-        self.commentService = CommentService()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,7 +64,7 @@ class BookCardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = ""
+        title = nil
         addNavigationBarButtons()
         setTargets()
         configureUI()
@@ -121,6 +119,7 @@ class BookCardViewController: UIViewController {
     private func setRecommandationButton(isRecommanding: Bool) {
         let title = isRecommanding ? "Ne plus recommander" : "Recommander"
         mainView.actionButton.setTitle(title, for: .normal)
+        mainView.commentView.isHidden = !isRecommanding
     }
     
     // MARK: - Display Data
@@ -271,7 +270,8 @@ class BookCardViewController: UIViewController {
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
                                                       formatter: Formatter(),
-                                                      validator: Validator())
+                                                      validator: Validator(),
+                                                      imageLoader: ImageLoader())
         newBookController.newBook          = book
         newBookController.isEditingBook    = true
         newBookController.bookCardDelegate = self

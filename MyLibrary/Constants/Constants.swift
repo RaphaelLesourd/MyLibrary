@@ -60,11 +60,6 @@ public enum AlertBannerType {
     }
 }
 
-enum TextInputType {
-    case description
-    case comment
-}
-
 enum CodeType {
     case language
     case currency

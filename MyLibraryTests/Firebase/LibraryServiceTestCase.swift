@@ -13,71 +13,43 @@ class LibraryServiceTestCase: XCTestCase {
     private var sut        : LibraryService?
     private var userService: UserService?
     private var book       : Item!
-    private let userID     = "qRz7UZqvkIOOMgxGdD3"
+    private var newUser    : CurrentUser!
     private let imageData  = Data()
-    private var exp        : XCTestExpectation?
-
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "testuser@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "qRz7UZqvkIOOMgxGdD3",
-                                           displayName: credentials.userName ?? "test",
-                                           email: credentials.email,
-                                           photoURL: "")
+    
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        exp         = expectation(description: "Waiting for async operation")
         sut         = LibraryService()
         userService = UserService()
-        sut?.userID = userID
+        newUser     = createUser()
+        sut?.userID = newUser.userId
         book        = createBookDocument()
         Networkconnectivity.shared.status = .satisfied
     }
     
     override func tearDown() {
         super.tearDown()
+        newUser = nil
         sut     = nil
         book    = nil
-        exp     = nil
         clearFirestore()
     }
-
-    // MARK: - Private functions
-    private func createBookDocument() -> Item {
-        let volumeInfo = VolumeInfo(title: "title",
-                                    authors: ["author"],
-                                    publisher: "publisher",
-                                    publishedDate: "1900",
-                                    volumeInfoDescription:"decription",
-                                    industryIdentifiers: [IndustryIdentifier(identifier:"1234567890")],
-                                    pageCount: 0,
-                                    ratingsCount: 0,
-                                    imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
-                                    language: "language")
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(bookID: "11111111",
-                    favorite: false,
-                    volumeInfo: volumeInfo,
-                    saleInfo: saleInfo,
-                    timestamp: 1,
-                    category: [])
-    }
-    
+ 
     // MARK: - Success
     func test_givenNewBook_whenAdding_thenAddedToDataBase() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
                 XCTAssertNil(error)
-                self.exp?.fulfill()
+                expectation.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
     
     func test_givenNewBook_whenRetriving_thenDisplayDetails() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
@@ -91,15 +63,16 @@ class LibraryServiceTestCase: XCTestCase {
                     case .failure(let error):
                         XCTAssertNil(error)
                     }
-                    self.exp?.fulfill()
+                    expectation.fulfill()
                 })
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
         
     }
-
+    
     func test_givenQuery_whenRetrvingBookList_thenDisplayList() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         let query = BookQuery(listType: .newEntry, orderedBy: .timestamp, fieldValue: nil, descending: true)
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
@@ -112,28 +85,30 @@ class LibraryServiceTestCase: XCTestCase {
                     case .failure(let error):
                         XCTAssertNil(error)
                     }
-                    self.exp?.fulfill()
+                    expectation.fulfill()
                 })
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
-
+    
     func test_givenBookStored_whenDeleting_thenBookNotThere() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
                 XCTAssertNil(error)
                 self.sut?.deleteBook(book: self.book, completion: { error in
                     XCTAssertNil(error)
-                    self.exp?.fulfill()
+                    expectation.fulfill()
                 })
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
     
     func test_givenStoredBook_whenAddingOrRemovingFavoriteList() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
@@ -148,33 +123,35 @@ class LibraryServiceTestCase: XCTestCase {
                         case .failure(let error):
                             XCTAssertNil(error)
                         }
-                        self.exp?.fulfill()
+                        expectation.fulfill()
                     })
                 })
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
-
-   // MARK: - Failure
-        func test_givenBookID_whenRetrivingNonExisting_thenError() {
-            userService?.createUserInDatabase(for: newUser, completion: { error in
-                XCTAssertNil(error)
-                self.sut?.getBook(for: "aaaaaa", completion: { result in
-                    switch result {
-                    case .success(let book):
-                        XCTAssertNil(book)
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                    }
-                    self.exp?.fulfill()
-                })
+    
+    // MARK: - Failure
+    func test_givenBookID_whenRetrivingNonExisting_thenError() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        userService?.createUserInDatabase(for: newUser, completion: { error in
+            XCTAssertNil(error)
+            self.sut?.getBook(for: "aaaaaa", completion: { result in
+                switch result {
+                case .success(let book):
+                    XCTAssertNil(book)
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                }
+                expectation.fulfill()
             })
-            self.waitForExpectations(timeout: 10, handler: nil)
+        })
+        wait(for: [expectation], timeout: 1.0)
     }
-
-
+    
+    
     func test_givenBadQuery_whenRetrvingBookList_thenNothingFoundError() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
         let query = BookQuery(listType: .categories, orderedBy: .category, fieldValue: "", descending: true)
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
@@ -185,9 +162,9 @@ class LibraryServiceTestCase: XCTestCase {
                 case .failure(let error):
                     XCTAssertNil(error)
                 }
-                self.exp?.fulfill()
+                expectation.fulfill()
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
 }

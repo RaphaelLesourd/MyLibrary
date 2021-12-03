@@ -39,7 +39,6 @@ class WelcomeViewController: UIViewController {
     }
     
     @objc private func showTermOfUse() {
-        let termOfUseController = TextInputViewController()
-        presentPanModal(termOfUseController)
+       
     }
 }

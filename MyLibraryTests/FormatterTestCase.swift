@@ -67,6 +67,9 @@ class FormatterTestCase: XCTestCase {
         XCTAssertEqual(currencyName, "Lithuanian Talonas")
     }
     
+    func test_givenTimesamp_whenFormattingToDate_thenReturnString() {
+        XCTAssertEqual(sut?.formatTimeStampToDateString(for: 123456767), "Nov 29, 1973 at 10:32 PM")
+    }
     // MARK: - Failure tests
     func test_givenNilArray_whenJoining_thenReturnEmptyString() {
         let string = sut?.joinArrayToString(nil)
@@ -134,5 +137,9 @@ class FormatterTestCase: XCTestCase {
     func test_givenNonExistantCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {
         let currencyName = sut?.formatCodeToName(from: "123455", type: .currency)
         XCTAssertEqual(currencyName, "")
+    }
+    
+    func test_givenNilTimestamp_whenFormattingToDate_thenReturnEmptyString() {
+        XCTAssertEqual(sut?.formatTimeStampToDateString(for: nil), "")
     }
 }

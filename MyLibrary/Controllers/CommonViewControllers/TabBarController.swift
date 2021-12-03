@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
-        setupViewcontrollers()
+        setupViewControllers()
     }
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
@@ -37,9 +37,10 @@ class TabBarController: UITabBarController {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
     }
+ 
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
-    private func setupViewcontrollers() {
+    private func setupViewControllers() {
         let homeViewController = createController(for: HomeViewController(libraryService: LibraryService(),
                                                                           layoutComposer: HomeViewControllerLayout()),
                                                      title: Text.ControllerTitle.home,
@@ -53,20 +54,21 @@ class TabBarController: UITabBarController {
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
                                                                             formatter: Formatter(),
-                                                                            validator: Validator()),
+                                                                            validator: Validator(),
+                                                                            imageLoader: ImageLoader()),
                                                 title: Text.ControllerTitle.newBook,
                                                 image: Images.newBookIcon!)
        
-        let settingsIconImage = Images.newSettingsIcon  ?? Images.oldSettingsIcon!
-        let settingsViewController = createController(for: SettingsViewController(accountService: AccountService(),
+        let accountIconImage = Images.accountIcon!
+        let accountViewController = createController(for: AccountViewController(accountService: AccountService(),
                                                                                   userService: UserService(),
                                                                                   imageService: ImageStorageService()),
-                                                         title: Text.ControllerTitle.settings,
-                                                         image: settingsIconImage)
+                                                         title: Text.ControllerTitle.account,
+                                                         image: accountIconImage)
         viewControllers = [homeViewController,
                            libraryViewController,
                            newViewController,
-                           settingsViewController]
+                           accountViewController]
     }
     /// Adds tab with an icon image and a title.
     /// - Parameters:
@@ -78,10 +80,10 @@ class TabBarController: UITabBarController {
                                   title: String,
                                   image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
-        rootViewController.navigationItem.title        = title
         navController.tabBarItem.title                 = title
         navController.tabBarItem.image                 = image
         navController.navigationBar.prefersLargeTitles = true
+        rootViewController.navigationItem.title        = title
         return navController
     }
 }

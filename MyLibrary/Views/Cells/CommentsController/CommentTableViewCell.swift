@@ -12,7 +12,7 @@ class CommentTableViewCell: UITableViewCell {
     static let reuseIdentifier = "cell"
     
     private let imageLoader: ImageLoaderProtocol
-    private let formatter  : Formatter
+    private let formatter  : FormatterProtocol
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -21,11 +21,12 @@ class CommentTableViewCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
       
         contentView.backgroundColor = .tertiarySystemBackground
+        commentLabel.lineBreakMode = .byWordWrapping
         stackView.addArrangedSubview(userNameLabel)
-        stackView.addArrangedSubview(emailLabel)
-        stackView.addArrangedSubview(commentLabel)
         stackView.addArrangedSubview(dateLabel)
-        stackView.setCustomSpacing(5, after: userNameLabel)
+        stackView.addArrangedSubview(commentLabel)
+        
+        stackView.setCustomSpacing(2, after: userNameLabel)
         setProfileImageConstraints()
         setMainStackViewConstraints()
     }
@@ -33,7 +34,7 @@ class CommentTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-  
+   
    // MARK: - Subviews
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,16 +43,15 @@ class CommentTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     private let userNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
-    private let emailLabel    = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 15, weight: .light)
-    private let commentLabel  = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .regular)
-    private let dateLabel     = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .right, fontSize: 12, weight: .light)
+    private let commentLabel  = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
+    private let dateLabel     = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 11, weight: .light)
     
-    private let stackView = StackView(axis: .vertical, distribution: .fill, spacing: 10)
- 
+    private let stackView = StackView(axis: .vertical, distribution: .fill, spacing: 15)
+    
     func configure(with model: CommentModel) {
-        commentLabel.text  = model.comment
+        commentLabel.text = model.comment
         if let timestamp = model.timestamp {
             self.dateLabel.text = self.formatter.formatTimeStampToDateString(for: timestamp)
         }
@@ -59,14 +59,9 @@ class CommentTableViewCell: UITableViewCell {
     
     func configureUser(with user: CurrentUser?) {
         guard let user = user else { return }
-        DispatchQueue.main.async {
-            self.userNameLabel.text = user.displayName.capitalized
-            self.emailLabel.text    = user.email
-        }
+        userNameLabel.text = user.displayName.capitalized
         imageLoader.getImage(for: user.photoURL) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.profileImageView.image = image
-            }
+            self?.profileImageView.image = image
         }
     }
 }
@@ -81,7 +76,7 @@ extension CommentTableViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     private func setMainStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([

@@ -144,6 +144,5 @@ class SearchServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-   
 }
 

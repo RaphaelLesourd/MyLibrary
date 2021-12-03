@@ -45,11 +45,11 @@ class Validator: ValidatorProtocol {
     }
     
     func validateIsbn(_ value: String) -> Bool {
-        return (value.count >= 10 ) && value.allSatisfy { $0.isNumber }
+        return (value.count >= 10) && value.allSatisfy { $0.isNumber }
     }
     
     func validateTimestamp(for timestamp: Double?) -> Double {
-            return timestamp ?? Date().timeIntervalSince1970
+        return timestamp ?? Date().timeIntervalSince1970
     }
     
     func isTimestampToday(for timestamp: Double?) -> Bool {

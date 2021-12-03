@@ -12,7 +12,7 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
-    private lazy var dataSource = makeDataSource()
+    private var dataSource: DataSource!
     
     private let mainView        = CollectionView()
     private var layoutComposer  : LayoutComposer
@@ -44,6 +44,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        makeDataSource()
         configureRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
@@ -57,14 +58,12 @@ class HomeViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        let layout = layoutComposer.setCollectionViewLayout()
-        mainView.collectionView.collectionViewLayout = layout
+        mainView.collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
         mainView.collectionView.register(cell: CategoryCollectionViewCell.self)
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
         mainView.collectionView.register(cell: HorizontalCollectionViewCell.self)
         mainView.collectionView.register(header: HeaderSupplementaryView.self)
-        mainView.collectionView.delegate   = self
-        mainView.collectionView.dataSource = dataSource
+        mainView.collectionView.delegate = self
     }
     
     private func configureRefresherControl() {
@@ -118,7 +117,8 @@ class HomeViewController: UIViewController {
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         var query: BookQuery?
-        switch HomeCollectionViewSections(rawValue: sender.tag) {
+       
+        switch dataSource.snapshot().sectionIdentifiers[sender.tag] {
         case .categories:
             showCategories()
         case .newEntry:
@@ -127,8 +127,6 @@ class HomeViewController: UIViewController {
             query = BookQuery.recommendationQuery
         case .favorites:
             query = BookQuery.favoriteBookQuery
-        case  .none:
-            query = nil
         }
         showBookList(for: query)
     }
@@ -156,21 +154,29 @@ extension HomeViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: mainView.collectionView,
-                                    cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-            switch HomeCollectionViewSections(rawValue: indexPath.section) {
+    private func makeDataSource() {
+        dataSource = DataSource(collectionView: mainView.collectionView,
+                                cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
+            guard let self = self else { return nil }
+            let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            switch  sections {
             case .categories:
                 if let category = item as? Category {
                     let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(text: category.name)
                     return cell
                 }
-            case .favorites, .newEntry:
+            case .newEntry:
                 if let book = item as? Item {
                     let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
                     return cell
+                }
+            case .favorites:
+                if let book = item as? Item {
+                    let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    cell.configure(with: book)
+                    return !self.favoriteBooks.isEmpty ? self.provideNoDataCell() : cell
                 }
             case .recommanding:
                 if let book = item as? Item {
@@ -178,24 +184,27 @@ extension HomeViewController {
                     cell.configure(with: book)
                     return cell
                 }
-            case .none:
-                return nil
             }
             return nil
         })
         configureHeader(dataSource)
-        return dataSource
+        mainView.collectionView.dataSource = dataSource
     }
+    
+    private func provideNoDataCell() -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
+    
     /// Adds a header to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureHeader(_ dataSource: HomeViewController.DataSource) {
-       
+        
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
             let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
-            if let headerData = HomeCollectionViewSections(rawValue: indexPath.section) {
-                headerView.configure(with: headerData.title, buttonTitle: headerData.buttonTitle)
-            }
-            headerView.titleView.actionButton.tag = HomeCollectionViewSections.allCases[indexPath.section].rawValue
+            headerView.configure(with: section.title, buttonTitle: section.buttonTitle)
+            headerView.titleView.actionButton.tag = section.rawValue
             headerView.titleView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
             return headerView
         }
@@ -204,12 +213,14 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
-
+        
         snapshot.appendItems(categoryService.categories, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
-        snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        if !favoriteBooks.isEmpty {
+            snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        }
         snapshot.appendItems(recommandedBooks, toSection: .recommanding)
-        
+
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

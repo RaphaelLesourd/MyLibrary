@@ -15,6 +15,8 @@ class CollectionView: UIView {
         super.init(frame: .zero)
         configureCollectionView()
         setCollectionViewConstraints()
+        setEmptyStateViewConstraints()
+        emptyStateView.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -25,6 +27,7 @@ class CollectionView: UIView {
     var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     let activityIndicator = UIActivityIndicatorView()
     let refresherControl  = UIRefreshControl()
+    let emptyStateView    = EmptyStateView()
     
     private func configureCollectionView() {
         refresherControl.attributedTitle            = NSAttributedString(string: "Rechargement")
@@ -38,6 +41,16 @@ class CollectionView: UIView {
 }
 // MARK: - Constraints
 extension CollectionView {
+    private func setEmptyStateViewConstraints() {
+        addSubview(emptyStateView)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: -50),
+            emptyStateView.widthAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
     private func setCollectionViewConstraints() {
         addSubview(collectionView)
         NSLayoutConstraint.activate([

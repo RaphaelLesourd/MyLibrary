@@ -23,6 +23,6 @@ extension Category: Hashable {
         hasher.combine(uid)
     }
     static func == (lhs: Category, rhs: Category) -> Bool {
-        return lhs.uid == rhs.uid
+        return lhs.uid == rhs.uid && lhs.name == rhs.name
     }
 }

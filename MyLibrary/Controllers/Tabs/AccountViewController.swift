@@ -10,7 +10,7 @@ import PanModal
 import FirebaseAuth
 import Kingfisher
 
-class SettingsViewController: CommonStaticTableViewController {
+class AccountViewController: CommonStaticTableViewController {
 
     // MARK: - Properties
     private let accountService: AccountServiceProtocol
@@ -67,7 +67,7 @@ class SettingsViewController: CommonStaticTableViewController {
     
     private func configureViewController() {
         view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.settings
+        title = Text.ControllerTitle.account
     }
     
     private func setDelegates() {
@@ -180,7 +180,7 @@ class SettingsViewController: CommonStaticTableViewController {
 }
 
 // MARK: - ImagePicker Delegate
-extension SettingsViewController: ImagePickerDelegate {    
+extension AccountViewController: ImagePickerDelegate {    
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         profileCell.profileImageButton.setImage(image, for: .normal)
@@ -189,7 +189,7 @@ extension SettingsViewController: ImagePickerDelegate {
 }
 
 // MARK: - TextField Delegate
-extension SettingsViewController: UITextFieldDelegate {
+extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == profileCell.userNameTextField {
             saveUserName()
