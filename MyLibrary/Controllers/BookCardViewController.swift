@@ -281,7 +281,10 @@ class BookCardViewController: UIViewController {
     
     @objc private func showComments() {
         guard let book = book else { return }
-        let commentsViewController = CommentsViewController(book: book, commentService: CommentService(), validator: Validator())
+        let commentsViewController = CommentsViewController(book: book,
+                                                            commentService: CommentService(),
+                                                            messageService: MessageService(),
+                                                            validator: Validator())
         navigationController?.pushViewController(commentsViewController, animated: true)
     }
 }

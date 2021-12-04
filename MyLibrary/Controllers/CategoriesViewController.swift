@@ -10,8 +10,8 @@ import UIKit
 class CategoriesViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Category>
-    typealias DataSource = UITableViewDiffableDataSource<SingleSection, Category>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
+    typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
    
     var dataSource        : DataSource!
     var selectedCategories: [String] = []
@@ -87,7 +87,7 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func updateCategory(for category: Category, with name: String?) {
+    private func updateCategory(for category: CategoryModel, with name: String?) {
         categoryService.updateCategoryName(for: category, with: name) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
@@ -98,7 +98,7 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func deleteCategory(for category: Category) {
+    private func deleteCategory(for category: CategoryModel) {
         categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
@@ -134,7 +134,7 @@ class CategoriesViewController: UIViewController {
         })
     }
     
-    private func displayDeleteCategoryAlert(_ category: Category) {
+    private func displayDeleteCategoryAlert(_ category: CategoryModel) {
         presentAlert(withTitle: "Effacer \(category.name?.capitalized ?? "")",
                      message: "Etes vous sur de vouloir éffacer cette catégorie?",
                      withCancel: true) { [weak self] _ in
@@ -142,7 +142,7 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func removeCategoryFromList(_ category: Category) {
+    private func removeCategoryFromList(_ category: CategoryModel) {
         guard let categoryID = category.uid else { return }
         if let index = selectedCategories.firstIndex(where: {
             $0 == categoryID
@@ -151,7 +151,7 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func updateCategoryAlert(for category: Category) {
+    private func updateCategoryAlert(for category: CategoryModel) {
         showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
                         subtitle: "",
                         actionTitle: "Ok",

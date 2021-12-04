@@ -26,12 +26,12 @@ extension XCTestCase {
         semaphore.wait()
     }
     
-    func createUser() -> CurrentUser {
+    func createUser() -> UserModel {
         let credentials = AccountCredentials(userName: "testuser",
                                              email: "testuser@test.com",
                                              password: "Test21@",
                                              confirmPassword: "Test21@")
-        return CurrentUser(userId: "user1",
+        return UserModel(userId: "user1",
                            displayName: credentials.userName ?? "test",
                            email: credentials.email,
                            photoURL: "")

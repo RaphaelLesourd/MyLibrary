@@ -39,6 +39,7 @@ class CommentTableViewCell: UITableViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.image = Images.emptyStateBookImage
         imageView.rounded(radius: 25, backgroundColor: .systemBackground)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -57,7 +58,7 @@ class CommentTableViewCell: UITableViewCell {
         }
     }
     
-    func configureUser(with user: CurrentUser?) {
+    func configureUser(with user: UserModel?) {
         guard let user = user else { return }
         userNameLabel.text = user.displayName.capitalized
         imageLoader.getImage(for: user.photoURL) { [weak self] image in

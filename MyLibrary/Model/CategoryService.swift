@@ -21,7 +21,7 @@ class CategoryService {
     
     let usersCollectionRef: CollectionReference
     var userID    : String
-    var categories: [Category] = [] {
+    var categories: [CategoryModel] = [] {
         didSet {
             categories = categories.sorted(by: { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" })
         }
@@ -51,7 +51,7 @@ class CategoryService {
                 return
             }
             let id = UUID().uuidString
-            let category = Category(uid: id, name: categoryName.lowercased())
+            let category = CategoryModel(uid: id, name: categoryName.lowercased())
             do {
                 try docRef.document(id).setData(from: category)
                 self?.categories.append(category)
@@ -70,9 +70,9 @@ class CategoryService {
                 completion(.firebaseError(error))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> Category? in
+            let data = querySnapshot?.documents.compactMap { documents -> CategoryModel? in
                 do {
-                    return try documents.data(as: Category.self)
+                    return try documents.data(as: CategoryModel.self)
                 } catch {
                     completion(.firebaseError(error))
                     return nil
@@ -97,7 +97,7 @@ class CategoryService {
     }
     
     // MARK: Update
-    func updateCategoryName(for category: Category, with name: String?, completion: @escaping (FirebaseError?) -> Void) {
+    func updateCategoryName(for category: CategoryModel, with name: String?, completion: @escaping (FirebaseError?) -> Void) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {
             completion(.noNetwork)
             return
@@ -121,7 +121,7 @@ class CategoryService {
     }
     
     // MARK: Delete
-    func deleteCategory(for category: Category, completion: @escaping (FirebaseError?) -> Void) {
+    func deleteCategory(for category: CategoryModel, completion: @escaping (FirebaseError?) -> Void) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {
             completion(.noNetwork)
             return
@@ -177,7 +177,7 @@ class CategoryService {
             guard let querySnapshot = querySnapshot else {
                 return
             }
-            if let document = try? querySnapshot.data(as: Category.self) {
+            if let document = try? querySnapshot.data(as: CategoryModel.self) {
                 completion(document.name)
             }
         }

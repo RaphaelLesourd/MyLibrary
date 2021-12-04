@@ -10,6 +10,7 @@ import Alamofire
 
 protocol ApiManagerProtocol {
     func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void)
+    func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void)
 }
 
 class ApiManager {
@@ -61,5 +62,22 @@ extension ApiManager: ApiManagerProtocol {
                     completion(.failure(.afError(error)))
                 }
             }
+    }
+    
+    func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
+
+        let parameters = AlamofireRouter.sendPushMessage(payload: message)
+        session
+            .request(parameters)
+            .validate()
+            .response { response in
+            switch response.result {
+            case .success(_):
+                completion(nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(.afError(error))
+            }
+        }
     }
 }

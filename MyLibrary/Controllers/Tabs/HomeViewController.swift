@@ -161,7 +161,7 @@ extension HomeViewController {
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch  sections {
             case .categories:
-                if let category = item as? Category {
+                if let category = item as? CategoryModel {
                     let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(text: category.name)
                     return cell
@@ -232,7 +232,7 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else { return }
         
-        if let category = selectedItem as? Category {
+        if let category = selectedItem as? CategoryModel {
             let categoryQuery = BookQuery(listType: .categories,
                                           orderedBy: .category,
                                           fieldValue: category.uid,

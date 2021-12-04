@@ -169,7 +169,7 @@ class AccountViewController: CommonStaticTableViewController {
     }
     
     // MARK: - UI update
-    private func updateProfileInfos(for currentUser: CurrentUser) {
+    private func updateProfileInfos(for currentUser: UserModel) {
         profileCell.emailLabel.text = "   \(currentUser.email)"
         profileCell.userNameTextField.text = currentUser.displayName
       

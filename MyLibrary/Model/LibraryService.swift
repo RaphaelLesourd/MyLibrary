@@ -30,7 +30,7 @@ class LibraryService {
    
     let usersCollectionRef: CollectionReference
    
-    var userID          : String
+    let userID          : String
     var bookListListener: ListenerRegistration?
     var lastBookFetched : QueryDocumentSnapshot?
 
@@ -218,6 +218,13 @@ extension LibraryService: LibraryServiceProtocol {
                 if let error = error {
                     completion(.firebaseError(error))
                     return
+                }
+                if book.recommanding == true {
+                    self?.recommandationService.removeFromRecommandation(for: book) { _ in
+                        if let error = error {
+                            completion(.firebaseError(error))
+                        }
+                    }
                 }
                 completion(nil)
             })

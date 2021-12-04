@@ -22,16 +22,21 @@ class CommentsViewController: UIViewController {
     private let keyboardManager = KeyboardManager()
     private let commentService  : CommentServiceProtocol
     private let validator       : ValidatorProtocol
+    private let messageService  : MessageServiceProtocol
     
     private var commentList     : [CommentModel] = []
     private var editedCommentID : String?
     private var book            : Item
     
     // MARK: - Initializer
-    init(book: Item, commentService: CommentServiceProtocol, validator: ValidatorProtocol) {
+    init(book: Item,
+         commentService: CommentServiceProtocol,
+         messageService: MessageServiceProtocol,
+         validator: ValidatorProtocol) {
         self.commentService = commentService
         self.book           = book
         self.validator      = validator
+        self.messageService = messageService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -108,7 +113,7 @@ class CommentsViewController: UIViewController {
         }
     }
  
-    private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (CurrentUser) -> Void) {
+    private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel) -> Void) {
         guard let userID = comment.userID else { return }
         
         self.commentService.getUserDetail(for: userID) { result in
@@ -131,6 +136,18 @@ class CommentsViewController: UIViewController {
             self.editedCommentID = nil
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            self.notifyUser(of: comment)
+        }
+        
+    }
+    
+    private func notifyUser(of comment: String) {
+        messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { [weak self] error in
+            if let error = error {
+                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
         }
     }

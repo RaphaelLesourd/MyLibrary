@@ -18,7 +18,7 @@ class UserServiceTestCase: XCTestCase {
                                                  email: "testuser@test.com",
                                                  password: "Test21@",
                                                  confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "user1",
+    private lazy var newUser = UserModel(userId: "user1",
                                            displayName: credentials.userName ?? "test",
                                            email: credentials.email,
                                            photoURL: "")

@@ -12,7 +12,7 @@ class CategoryServiceTestCase: XCTestCase {
     // MARK: - Propserties
     private var sut        : CategoryService?
     private var userService: UserServiceProtocol?
-    private var newUser    : CurrentUser!
+    private var newUser    : UserModel!
   
     // MARK: - Lifecycle
     override func setUp() {

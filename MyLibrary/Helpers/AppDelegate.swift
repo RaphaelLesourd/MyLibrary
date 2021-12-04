@@ -20,9 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
         kingFisherCacheSetup()
+        
         FirebaseApp.configure()
         configureFiresbaseTestEnvironement()
         Networkconnectivity.shared.startMonitoring()
+        registerForPushNotification()
         return true
     }
     
@@ -62,6 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KingfisherManager.shared.downloader.downloadTimeout = 3000.0
     }
     
+    private func registerForPushNotification() {
+        let pushManager = MessageService()
+        pushManager.registerForPushNotifications()
+    }
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -121,4 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
 }

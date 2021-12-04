@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
+import FirebaseMessaging
 
 protocol AccountServiceProtocol {
     func createAccount(for userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
@@ -20,10 +21,13 @@ protocol AccountServiceProtocol {
 }
 
 class AccountService {
+    
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     let user = Auth.auth().currentUser
-    var userService: UserServiceProtocol
+    let userService: UserServiceProtocol
+    
+    private let fcmToken = Messaging.messaging().fcmToken
     
     // MARK: - Initializer
     init(userService: UserServiceProtocol = UserService()) {
@@ -33,6 +37,16 @@ class AccountService {
     // MARK: - Private functions
     private func passwordMatch(with userCredentials: AccountCredentials) -> Bool {
         return userCredentials.password == userCredentials.confirmPassword
+    }
+    
+    private func saveUser(for newUser: UserModel, completion: @escaping (FirebaseError?) -> Void) {
+        userService.createUserInDatabase(for: newUser) { error in
+            if let error = error {
+                completion(.firebaseError(error))
+                return
+            }
+            completion(nil)
+        }
     }
 }
 // MARK: - AccountServiceProtocol Extension
@@ -44,8 +58,8 @@ extension AccountService: AccountServiceProtocol {
             completion(.noNetwork)
             return
         }
-        guard let userCredentials = userCredentials else { return }
-        guard passwordMatch(with: userCredentials) == true else {
+        guard let userCredentials = userCredentials,
+              passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
             return
         }
@@ -57,13 +71,14 @@ extension AccountService: AccountServiceProtocol {
                 return
             }
             guard let user = authUser?.user else { return }
-            let newUser = CurrentUser(userId: user.uid,
+            let newUser = UserModel(userId: user.uid,
                                       displayName: userCredentials.userName ?? "",
                                       email: user.email ?? "",
-                                      photoURL: "")
-            self.userService.createUserInDatabase(for: newUser) { error in
+                                      photoURL: "",
+                                      token: self.fcmToken ?? "")
+            self.saveUser(for: newUser) { error in
                 if let error = error {
-                    completion(.firebaseError(error))
+                    completion(.firebaseAuthError(error))
                     return
                 }
                 completion(nil)

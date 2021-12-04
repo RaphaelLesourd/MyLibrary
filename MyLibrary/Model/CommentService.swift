@@ -14,7 +14,7 @@ protocol CommentServiceProtocol {
     func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String, completion: @escaping (FirebaseError?) -> Void)
     func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void)
     func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void)
-    func getUserDetail(for userID: String, completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
+    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
     var commentListener: ListenerRegistration? { get set }
 }
 
@@ -24,7 +24,7 @@ class CommentService: CommentServiceProtocol {
     private let db = Firestore.firestore()
   
     let userRef        : CollectionReference
-    var userID         : String
+    let userID         : String
     var commentListener: ListenerRegistration?
     
     // MARK: - Initializer
@@ -110,7 +110,7 @@ extension CommentService {
         }
     }
     
-    func getUserDetail(for userID: String, completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
+    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
         commentListener = docRef.addSnapshotListener { querySnapshot, error in
             if let error = error {
@@ -118,7 +118,7 @@ extension CommentService {
                 return
             }
             do {
-                let document = try querySnapshot?.data(as: CurrentUser.self)
+                let document = try querySnapshot?.data(as: UserModel.self)
                 completion(.success(document))
             } catch {
                 completion(.failure(.firebaseError(error)))

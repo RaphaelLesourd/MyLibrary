@@ -13,7 +13,7 @@ class LibraryServiceTestCase: XCTestCase {
     private var sut        : LibraryService?
     private var userService: UserService?
     private var book       : Item!
-    private var newUser    : CurrentUser!
+    private var newUser    : UserModel!
     private let imageData  = Data()
     
     // MARK: - Lifecycle
