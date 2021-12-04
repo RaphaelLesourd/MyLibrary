@@ -68,6 +68,7 @@ class BookCardViewController: UIViewController {
         addNavigationBarButtons()
         setTargets()
         configureUI()
+        mainView.commentView.animationView.play()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,9 +95,9 @@ class BookCardViewController: UIViewController {
         mainView.actionButton.addTarget(self, action: #selector(recommandButtonAction), for: .touchUpInside)
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
         mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
-        mainView.commentView.titleView.actionButton.addTarget(self, action: #selector(showComments), for: .touchUpInside)
+        mainView.commentView.goToCommentButton.addTarget(self, action: #selector(showComments), for: .touchUpInside)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
-        mainView.addGestureRecognizer(tap)
+        mainView.bookCover.addGestureRecognizer(tap)
     }
     
     func configureUI() {

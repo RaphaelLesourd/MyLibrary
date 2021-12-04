@@ -176,7 +176,9 @@ extension HomeViewController {
                 if let book = item as? Item {
                     let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
-                    return !self.favoriteBooks.isEmpty ? self.provideNoDataCell() : cell
+                    return cell
+                } else {
+                    return self.provideNoDataCell()
                 }
             case .recommanding:
                 if let book = item as? Item {
@@ -192,7 +194,9 @@ extension HomeViewController {
     }
     
     private func provideNoDataCell() -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = EmptyStateCollectionViewCell()
+        cell.configure(text: "No data")
+        return cell
     }
     
     /// Adds a header to the collectionView.
@@ -216,9 +220,7 @@ extension HomeViewController {
         
         snapshot.appendItems(categoryService.categories, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
-        if !favoriteBooks.isEmpty {
-            snapshot.appendItems(favoriteBooks, toSection: .favorites)
-        }
+        snapshot.appendItems(favoriteBooks, toSection: .favorites)
         snapshot.appendItems(recommandedBooks, toSection: .recommanding)
 
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

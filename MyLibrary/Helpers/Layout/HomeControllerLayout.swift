@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class HomeViewControllerLayout {
-    
+ 
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
@@ -69,8 +69,7 @@ extension HomeViewControllerLayout: LayoutComposer {
   
     func setCollectionViewLayout() -> UICollectionViewLayout {
         
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            
+       UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:
                 return self?.makeCategoryLayoutSection()

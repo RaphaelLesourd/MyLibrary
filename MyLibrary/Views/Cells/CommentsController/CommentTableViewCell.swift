@@ -64,6 +64,10 @@ class CommentTableViewCell: UITableViewCell {
             self?.profileImageView.image = image
         }
     }
+    
+    override func prepareForReuse() {
+        profileImageView.image = Images.emptyStateBookImage
+    }
 }
 // MARK: - Constraints
 extension CommentTableViewCell {

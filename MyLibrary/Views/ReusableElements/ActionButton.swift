@@ -76,7 +76,7 @@ class ActionButton: UIButton {
 
 extension ActionButton {
     private func setActivityIndicatorCosntraints() {
-        self.addSubview(activityIndicator)
+        addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
