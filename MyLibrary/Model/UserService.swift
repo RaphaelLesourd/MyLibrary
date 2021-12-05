@@ -24,7 +24,7 @@ class UserService {
     private let db = Firestore.firestore()
     
     let usersCollectionRef: CollectionReference
-    let userID            : String
+    var userID            : String
     
     // MARK: - Intializer
     init() {

@@ -24,6 +24,8 @@ class FakeData {
 
     static let bookIncorrectData = "incorrectData".data(using: .utf8)!
     
+    static let correctMessageToPost = MessageModel(title: "Title", body: "Body", bookID: "123456", token: "AAAABBBCCCCDDDD")
+   
     class ApiError: Error {}
     static let error = ApiError()
 }

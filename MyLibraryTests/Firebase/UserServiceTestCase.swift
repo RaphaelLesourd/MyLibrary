@@ -13,23 +13,14 @@ class UserServiceTestCase: XCTestCase {
     private var sut           : UserService?
     private var accountService: AccountService?
     private var exp           : XCTestExpectation?
-    
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "testuser@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    private lazy var newUser = UserModel(userId: "user1",
-                                           displayName: credentials.userName ?? "test",
-                                           email: credentials.email,
-                                           photoURL: "")
-    
+
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
         Networkconnectivity.shared.status = .satisfied
         exp = self.expectation(description: "Waiting for async operation")
         sut = UserService()
-        sut?.userID = newUser.userId
+        sut?.userID = createUser().userId
         accountService = AccountService()
     }
     
@@ -43,6 +34,7 @@ class UserServiceTestCase: XCTestCase {
 
     // MARK: - Successful
     func test_givenUserStored_whenRetreivingUser_thenShowData() {
+        let newUser = createUser()
         // when
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
@@ -51,9 +43,9 @@ class UserServiceTestCase: XCTestCase {
                 case .success(let user):
                     // then
                     XCTAssertNotNil(user)
-                    XCTAssertEqual(user?.email, self.newUser.email)
-                    XCTAssertEqual(user?.id, self.newUser.id)
-                    XCTAssertEqual(user?.displayName, self.newUser.displayName)
+                    XCTAssertEqual(user?.email, newUser.email)
+                    XCTAssertEqual(user?.id, newUser.id)
+                    XCTAssertEqual(user?.displayName, newUser.displayName)
                 case .failure(let error):
                     XCTAssertNil(error)
                 }
@@ -64,6 +56,7 @@ class UserServiceTestCase: XCTestCase {
     }
     
     func test_givenUserStored_whenUpdatingName_thenDisplayNewName() {
+        let newUser = createUser()
         // Given
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             // When
@@ -89,6 +82,7 @@ class UserServiceTestCase: XCTestCase {
     }
     
     func test_givenUserStored_whenDeleting_thenNoError() {
+        let newUser = createUser()
         // Given
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             //When
@@ -104,6 +98,7 @@ class UserServiceTestCase: XCTestCase {
     
     // MARK: - Errors
     func test_givenNoUser_whenRetrivingNonExistingUser_thenReturnError() {
+        let newUser = createUser()
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
             self.sut?.userID = "12"
@@ -124,6 +119,7 @@ class UserServiceTestCase: XCTestCase {
     }
     
     func test_givenUser_whenUpdatingNameNoConnectivity_thenConnectivityError() {
+        let newUser = createUser()
         // Given
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             // When

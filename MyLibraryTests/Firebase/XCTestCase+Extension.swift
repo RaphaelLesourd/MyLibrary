@@ -32,9 +32,10 @@ extension XCTestCase {
                                              password: "Test21@",
                                              confirmPassword: "Test21@")
         return UserModel(userId: "user1",
-                           displayName: credentials.userName ?? "test",
-                           email: credentials.email,
-                           photoURL: "")
+                         displayName: credentials.userName ?? "test",
+                         email: credentials.email,
+                         photoURL: "",
+                         token: "")
     }
     
     func createBookDocument() -> Item {

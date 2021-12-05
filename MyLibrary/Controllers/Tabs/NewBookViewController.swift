@@ -14,10 +14,6 @@ protocol NewBookDelegate: AnyObject {
     var bookComment: String? { get set }
     var bookCategories : [String] { get set }
 }
-/// Protocol to pass barcode string value back to the requesting controller.
-protocol BarcodeProtocol: AnyObject {
-    func processBarcode(with code: String)
-}
 
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
    

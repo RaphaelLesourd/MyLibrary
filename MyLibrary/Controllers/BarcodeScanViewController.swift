@@ -8,6 +8,11 @@
 import UIKit
 import PanModal
 
+/// Protocol to pass barcode string value back to the requesting controller.
+protocol BarcodeProtocol: AnyObject {
+    func processBarcode(with code: String)
+}
+
 class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
     
     // MARK: - Properties

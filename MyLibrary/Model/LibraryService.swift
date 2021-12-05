@@ -30,7 +30,7 @@ class LibraryService {
    
     let usersCollectionRef: CollectionReference
    
-    let userID          : String
+    var userID          : String
     var bookListListener: ListenerRegistration?
     var lastBookFetched : QueryDocumentSnapshot?
 
