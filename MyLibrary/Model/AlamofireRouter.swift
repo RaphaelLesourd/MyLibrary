@@ -79,6 +79,7 @@ enum AlamofireRouter: URLRequestConvertible {
         let url = try baseURL.asURL()
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
+       
         switch self {
         case .withIsbn, .withKeyWord:
             return try URLEncoding.default.encode(request, with: parameters)

@@ -27,6 +27,7 @@ enum DocumentKey: String {
     case title = "volumeInfo.title"
     case category
     case name
+    case fcmToken
 }
 
 enum StorageKey: String {

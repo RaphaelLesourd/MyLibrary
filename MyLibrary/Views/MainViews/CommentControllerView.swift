@@ -37,6 +37,7 @@ class CommentControllerView: UIView {
         inputBar.inputTextView.isImagePasteEnabled = false
         inputBar.isTranslucent = true
         inputBar.backgroundView.backgroundColor = .tertiarySystemBackground
+        inputBar.translatesAutoresizingMaskIntoConstraints = false
         
         let inputTextView = inputBar.inputTextView
         inputTextView.layer.cornerRadius = 14.0

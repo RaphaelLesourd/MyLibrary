@@ -65,7 +65,6 @@ extension ApiManager: ApiManagerProtocol {
     }
     
     func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
-
         let parameters = AlamofireRouter.sendPushMessage(payload: message)
         session
             .request(parameters)
@@ -73,6 +72,7 @@ extension ApiManager: ApiManagerProtocol {
             .response { response in
             switch response.result {
             case .success(_):
+                print("Notification sent")
                 completion(nil)
             case .failure(let error):
                 print(error.localizedDescription)

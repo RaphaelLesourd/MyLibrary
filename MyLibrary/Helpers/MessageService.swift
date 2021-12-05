@@ -31,31 +31,33 @@ class MessageService: NSObject {
         self.userID     = Auth.auth().currentUser?.uid ?? ""
     }
     
-    private func getCommentUserID(from comments: [CommentModel]) -> [String] {
-        let ids = comments.compactMap { $0.userID }
-        return Array(Set(ids))
+    private func getCommentUserID(from comments: [CommentModel]) -> [[String]] {
+        return comments
+            .compactMap { $0.userID }
+            .chunked(into: 10)
     }
     
     private func getAllCommentSenders(for comments: [CommentModel], completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-      
         let userIds = getCommentUserID(from: comments)
-        let docRef = userRef.whereField("userId", in: userIds)
-        
-        docRef.getDocuments { querySnapshot, error in
-            if let error = error {
-                completion(.failure(.firebaseError(error)))
-                return
-            }
-            let data = querySnapshot?.documents.compactMap { documents -> UserModel? in
-                do {
-                    return try documents.data(as: UserModel.self)
-                } catch {
+       
+        userIds.forEach { ids in
+            let docRef = userRef.whereField("userId", in: ids)
+            docRef.getDocuments { querySnapshot, error in
+                if let error = error {
                     completion(.failure(.firebaseError(error)))
-                    return nil
+                    return
                 }
-            }
-            if let data = data {
-                return data.isEmpty ? completion(.success([])) : completion(.success(data))
+                let data = querySnapshot?.documents.compactMap { documents -> UserModel? in
+                    do {
+                        return try documents.data(as: UserModel.self)
+                    } catch {
+                        completion(.failure(.firebaseError(error)))
+                        return nil
+                    }
+                }
+                if let data = data {
+                    completion(.success(data))
+                }
             }
         }
     }
@@ -77,7 +79,6 @@ class MessageService: NSObject {
     }
     
     func registerForPushNotifications() {
-        
         UNUserNotificationCenter.current().delegate = self
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_, _ in })
@@ -89,7 +90,7 @@ class MessageService: NSObject {
     
     private func updateFirestorePushTokenIfNeeded() {
         if let token = Messaging.messaging().fcmToken {
-            userRef.document(userID).setData(["fcmToken": token], merge: true)
+            userRef.document(userID).setData([DocumentKey.fcmToken.rawValue: token], merge: true)
         }
     }
 }
@@ -112,7 +113,7 @@ extension MessageService: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .badge, .sound])
+        completionHandler([.banner, .list, .badge, .sound])
     }
 }
 
@@ -123,8 +124,6 @@ extension MessageService: MessageServiceProtocol {
                                  message: String,
                                  for comments: [CommentModel],
                                  completion: @escaping (FirebaseError?) -> Void) {
-        guard !comments.isEmpty else { return }
-      
         getAllCommentSenders(for: comments) { [weak self] result in
             switch result {
             case .success(let users):

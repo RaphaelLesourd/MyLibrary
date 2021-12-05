@@ -127,8 +127,8 @@ class CommentsViewController: UIViewController {
     private func addComment(with comment: String, commentID: String?) {
         guard let bookID = book.bookID,
               let ownerID = book.ownerID else { return }
-        
         showIndicator(mainView.activityIndicator)
+        notifyUser(of: comment)
         commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             
@@ -138,7 +138,6 @@ class CommentsViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.notifyUser(of: comment)
         }
         
     }

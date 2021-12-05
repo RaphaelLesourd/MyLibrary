@@ -10,23 +10,25 @@ import UIKit
 
 class CommentsBookCell: UITableViewCell {
     
+    // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
     
     private let imageLoader: ImageLoaderProtocol
     private let formatter  : FormatterProtocol
+   
     // MARK: - Initializer
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         imageLoader = ImageLoader()
         formatter   = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
        
-        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
-        contentView.backgroundColor = .tertiarySystemBackground
+        contentView.backgroundColor = .clear
+        bookCover.rounded(radius: 12, backgroundColor: .clear)
+       
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
-        stackView.addShadow(opacity: 1, verticalOffset: 3, radius: 5)
-        setBackgroundImageConstraints()
+        setContentViewConstraints()
+        setBookCoverConstraints()
         setStackViewConstraints()
     }
     
@@ -35,50 +37,45 @@ class CommentsBookCell: UITableViewCell {
     }
   
    // MARK: - Subviews
-    private let backgroundImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    private let titleLabel    = TextLabel(color: .white, maxLines: 2, alignment: .left, fontSize: 21, weight: .bold)
-    private let subtitleLabel = TextLabel(color: .white, maxLines: 2, alignment: .left, fontSize: 16, weight: .medium)
+    private let bookCover     = BookCover(frame: .zero)
+    private let titleLabel    = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 21, weight: .bold)
+    private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 16, weight: .medium)
     private let stackView     = StackView(axis: .vertical, spacing: 5)
-    
-    private func animateImage() {
-        let transformation = CGAffineTransform.identity.scaledBy(x: 1.05, y: 1.05).translatedBy(x: 0, y: -7)
-        UIView.animate(withDuration: 2, delay: 0, options: [.curveEaseIn]) {
-            self.backgroundImage.transform = transformation
-        }
-    }
-    
+   
     func configure(with book: Item) {
         titleLabel.text    = book.volumeInfo?.title
         subtitleLabel.text = formatter.joinArrayToString(book.volumeInfo?.authors)
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            self?.backgroundImage.image = image
-            self?.animateImage()
+            self?.bookCover.image = image
         }
     }
 }
 // MARK: - Constraints
 extension CommentsBookCell {
-    
-    private func setBackgroundImageConstraints() {
-        contentView.addSubview(backgroundImage)
+    private func setContentViewConstraints() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            backgroundImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            backgroundImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            backgroundImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            contentView.heightAnchor.constraint(equalToConstant: 100),
+            contentView.widthAnchor.constraint(equalTo: widthAnchor)
+        ])
+    }
+    
+    private func setBookCoverConstraints() {
+        contentView.addSubview(bookCover)
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+           bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
+           bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+           bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+           bookCover.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
     
     private func setStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }

@@ -21,13 +21,12 @@ class ImageLoader: ImageLoaderProtocol {
             return
         }
         KingfisherManager.shared.retrieveImage(with: imageURL,
-                                               options: [.cacheOriginalImage, .keepCurrentImageWhileLoading],
+                                               options: [.cacheOriginalImage,
+                                                         .keepCurrentImageWhileLoading],
                                                completionHandler: { response in
             switch response {
             case .success(let value):
-                DispatchQueue.main.async {
                     completion(value.image)
-                }
             case .failure(_):
                 completion(Images.emptyStateBookImage)
             }
