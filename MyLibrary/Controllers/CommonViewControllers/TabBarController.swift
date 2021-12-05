@@ -55,7 +55,7 @@ class TabBarController: UITabBarController {
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
                                                                             formatter: Formatter(),
                                                                             validator: Validator(),
-                                                                            imageLoader: ImageLoader()),
+                                                                            imageLoader: ImageRetriver()),
                                                 title: Text.ControllerTitle.newBook,
                                                 image: Images.newBookIcon!)
        

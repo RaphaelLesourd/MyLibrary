@@ -28,6 +28,7 @@ enum DocumentKey: String {
     case category
     case name
     case fcmToken
+    case postID
 }
 
 enum StorageKey: String {

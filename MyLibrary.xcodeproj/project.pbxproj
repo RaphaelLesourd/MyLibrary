@@ -117,9 +117,10 @@
 		81C2AE622729BEA200AC69A8 /* PanModal in Frameworks */ = {isa = PBXBuildFile; productRef = 81C2AE612729BEA200AC69A8 /* PanModal */; };
 		81C2AE652729BED800AC69A8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81C2AE642729BED800AC69A8 /* Alamofire */; };
 		81C4CC3A275C821600E25628 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C4CC39275C821600E25628 /* Array+Extension.swift */; };
+		81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C4CC3B275CDC0200E25628 /* NotificationManager.swift */; };
+		81C4CC3E275D05C900E25628 /* VideoCapure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C4CC3D275D05C900E25628 /* VideoCapure.swift */; };
 		81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC702724769B00DE9219 /* AppDelegate.swift */; };
 		81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC722724769B00DE9219 /* SceneDelegate.swift */; };
-		81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */; };
 		81C6CC7D2724769C00DE9219 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7C2724769C00DE9219 /* Assets.xcassets */; };
 		81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA42724776900DE9219 /* TabBarController.swift */; };
 		81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCA6272477D200DE9219 /* HomeViewController.swift */; };
@@ -142,7 +143,7 @@
 		81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF42752709600698B92 /* BookCardCommentView.swift */; };
 		81DB8DF7275272C700698B92 /* TitleViewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF6275272C700698B92 /* TitleViewView.swift */; };
 		81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF82752765D00698B92 /* CommentModel.swift */; };
-		81DB8DFB27536E4D00698B92 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DFA27536E4D00698B92 /* ImageLoader.swift */; };
+		81DB8DFB27536E4D00698B92 /* ImageRetriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */; };
 		81DB8DFD275399C400698B92 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DFC275399C400698B92 /* CommentService.swift */; };
 		81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */; };
 		81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8E002753B02800698B92 /* CommentTableViewCell.swift */; };
@@ -242,10 +243,11 @@
 		81BC7ED0273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInset+Extension.swift"; sourceTree = "<group>"; };
 		81BC7ED227305810009A1629 /* NSCollectionLayoutItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSCollectionLayoutItem+Extension.swift"; sourceTree = "<group>"; };
 		81C4CC39275C821600E25628 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		81C4CC3B275CDC0200E25628 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		81C4CC3D275D05C900E25628 /* VideoCapure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapure.swift; sourceTree = "<group>"; };
 		81C6CC6D2724769B00DE9219 /* MyLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81C6CC702724769B00DE9219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81C6CC722724769B00DE9219 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		81C6CC7A2724769B00DE9219 /* MyLibrary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyLibrary.xcdatamodel; sourceTree = "<group>"; };
 		81C6CC7C2724769C00DE9219 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81C6CC7F2724769C00DE9219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81C6CC812724769C00DE9219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -273,7 +275,7 @@
 		81DB8DF42752709600698B92 /* BookCardCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardCommentView.swift; sourceTree = "<group>"; };
 		81DB8DF6275272C700698B92 /* TitleViewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleViewView.swift; sourceTree = "<group>"; };
 		81DB8DF82752765D00698B92 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
-		81DB8DFA27536E4D00698B92 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetriver.swift; sourceTree = "<group>"; };
 		81DB8DFC275399C400698B92 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		81DB8E002753B02800698B92 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -517,8 +519,9 @@
 				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
-				81DB8DFA27536E4D00698B92 /* ImageLoader.swift */,
-				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
+				81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */,
+				81C4CC3B275CDC0200E25628 /* NotificationManager.swift */,
+				81C4CC3D275D05C900E25628 /* VideoCapure.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -541,17 +544,8 @@
 				81DE9CAD2736E28E00FF81C2 /* DataModel */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
 				81A9BD89272BE37600B7DA81 /* Network */,
-				81C6CCAF272479B800DE9219 /* CoreData */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		81C6CCAF272479B800DE9219 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */,
-			);
-			path = CoreData;
 			sourceTree = "<group>";
 		};
 		81C6CCB0272479CA00DE9219 /* Views */ = {
@@ -668,6 +662,7 @@
 				81DB8DFC275399C400698B92 /* CommentService.swift */,
 				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
+				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
 				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
 				813B7C702733A44F005BFBDB /* UserService.swift */,
 			);
@@ -878,7 +873,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				811F64BE275A02EF00A24704 /* CommentControllerView.swift in Sources */,
-				81C6CC7B2724769B00DE9219 /* MyLibrary.xcdatamodeld in Sources */,
 				819C5DC92724811300F1F8F2 /* Constants.swift in Sources */,
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
 				8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */,
@@ -911,7 +905,7 @@
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */,
-				81DB8DFB27536E4D00698B92 /* ImageLoader.swift in Sources */,
+				81DB8DFB27536E4D00698B92 /* ImageRetriver.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
 				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
 				81DB8DFD275399C400698B92 /* CommentService.swift in Sources */,
@@ -931,6 +925,7 @@
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
 				81DB8DE32752329300698B92 /* LayoutComposer.swift in Sources */,
+				81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */,
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PurchaseView.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
@@ -944,6 +939,7 @@
 				81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */,
 				810C44772727102D007541C0 /* SigningViewController.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
+				81C4CC3E275D05C900E25628 /* VideoCapure.swift in Sources */,
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
 				8121F079273A9A1A006EAA8D /* Sections.swift in Sources */,
 				81BC7ECC272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift in Sources */,
@@ -1508,19 +1504,6 @@
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		81C6CC792724769B00DE9219 /* MyLibrary.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				81C6CC7A2724769B00DE9219 /* MyLibrary.xcdatamodel */,
-			);
-			currentVersion = 81C6CC7A2724769B00DE9219 /* MyLibrary.xcdatamodel */;
-			path = MyLibrary.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 81C6CC652724769A00DE9219 /* Project object */;
 }

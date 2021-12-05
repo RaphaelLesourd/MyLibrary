@@ -10,11 +10,11 @@ import Kingfisher
 
 class HorizontalCollectionViewCell: UICollectionViewCell {
     
-    private let imageLoader: ImageLoaderProtocol
+    private let imageLoader: ImageRetriverProtocol
     
     // MARK: - Initializer
     override init(frame: CGRect) {
-        imageLoader = ImageLoader()
+        imageLoader = ImageRetriver()
         super.init(frame: .zero)
         textStackView.addArrangedSubview(titleView)
         textStackView.addArrangedSubview(descriptionLabel)

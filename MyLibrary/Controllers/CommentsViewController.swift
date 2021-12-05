@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 28/11/2021.
 //
 
-import Foundation
 import UIKit
 import InputBarAccessoryView
 import IQKeyboardManagerSwift
@@ -26,10 +25,10 @@ class CommentsViewController: UIViewController {
     
     private var commentList     : [CommentModel] = []
     private var editedCommentID : String?
-    private var book            : Item
+    private var book            : Item?
     
     // MARK: - Initializer
-    init(book: Item,
+    init(book: Item?,
          commentService: CommentServiceProtocol,
          messageService: MessageServiceProtocol,
          validator: ValidatorProtocol) {
@@ -93,8 +92,8 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Api call
     @objc private func getComments() {
-        guard let bookID = book.bookID,
-              let ownerID = book.ownerID else { return }
+        guard let bookID = book?.bookID,
+              let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
         
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
@@ -125,8 +124,8 @@ class CommentsViewController: UIViewController {
     }
     
     private func addComment(with comment: String, commentID: String?) {
-        guard let bookID = book.bookID,
-              let ownerID = book.ownerID else { return }
+        guard let bookID = book?.bookID,
+              let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
         notifyUser(of: comment)
         commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
@@ -143,6 +142,7 @@ class CommentsViewController: UIViewController {
     }
     
     private func notifyUser(of comment: String) {
+        guard let book = book else { return }
         messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
@@ -152,8 +152,8 @@ class CommentsViewController: UIViewController {
     }
     
     private func deleteComment(for comment: CommentModel) {
-        guard let bookID = book.bookID,
-              let ownerID = book.ownerID else { return }
+        guard let bookID = book?.bookID,
+              let ownerID = book?.ownerID else { return }
         
         showIndicator(mainView.activityIndicator)
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in

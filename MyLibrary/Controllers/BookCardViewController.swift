@@ -7,8 +7,6 @@
 
 import UIKit
 import FirebaseAuth
-import Alamofire
-import Kingfisher
 
 protocol BookCardDelegate: AnyObject {
     func fetchBookUpdate()
@@ -20,7 +18,7 @@ class BookCardViewController: UIViewController {
     private let mainView             = BookCardMainView()
     private let categoryService      = CategoryService.shared
     private let formatter            : FormatterProtocol
-    private let imageLoader          : ImageLoaderProtocol
+    private let imageLoader          : ImageRetriverProtocol
     private let libraryService       : LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     
@@ -45,7 +43,7 @@ class BookCardViewController: UIViewController {
     init(libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          formatter: FormatterProtocol,
-         imageLoader: ImageLoaderProtocol) {
+         imageLoader: ImageRetriverProtocol) {
         self.libraryService        = libraryService
         self.recommendationService = recommendationService
         self.formatter             = formatter
@@ -272,7 +270,7 @@ class BookCardViewController: UIViewController {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
                                                       formatter: Formatter(),
                                                       validator: Validator(),
-                                                      imageLoader: ImageLoader())
+                                                      imageLoader: ImageRetriver())
         newBookController.newBook          = book
         newBookController.isEditingBook    = true
         newBookController.bookCardDelegate = self

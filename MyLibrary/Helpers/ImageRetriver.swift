@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 import Kingfisher
 
-protocol ImageLoaderProtocol {
+protocol ImageRetriverProtocol {
     func getImage(for url: String?, completion: @escaping (UIImage?) -> Void)
 }
 
-class ImageLoader: ImageLoaderProtocol {
+class ImageRetriver: ImageRetriverProtocol {
     
     func getImage(for url: String?, completion: @escaping (UIImage?) -> Void) {
         guard let url = url, let imageURL = URL(string: url) else {

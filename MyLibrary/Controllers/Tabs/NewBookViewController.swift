@@ -7,14 +7,16 @@
 
 import UIKit
 import PanModal
-import Alamofire
-import Kingfisher
 
 protocol NewBookDelegate: AnyObject {
     var newBook: Item? { get set }
     var bookDescription: String? { get set }
     var bookComment: String? { get set }
     var bookCategories : [String] { get set }
+}
+/// Protocol to pass barcode string value back to the requesting controller.
+protocol BarcodeProtocol: AnyObject {
+    func processBarcode(with code: String)
 }
 
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
@@ -28,7 +30,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private let formatter     : FormatterProtocol
     private let validator     : ValidatorProtocol
     private let libraryService: LibraryServiceProtocol
-    private let imageLoader   : ImageLoaderProtocol
+    private let imageLoader   : ImageRetriverProtocol
     private var imagePicker   : ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
@@ -47,7 +49,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     init(libraryService: LibraryServiceProtocol,
          formatter: FormatterProtocol,
          validator: ValidatorProtocol,
-         imageLoader: ImageLoaderProtocol) {
+         imageLoader: ImageRetriverProtocol) {
         self.libraryService = libraryService
         self.formatter      = formatter
         self.validator      = validator

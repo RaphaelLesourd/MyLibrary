@@ -13,15 +13,15 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
     
-    private let imageLoader: ImageLoaderProtocol
+    private let imageLoader: ImageRetriverProtocol
     private let formatter  : FormatterProtocol
    
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = ImageLoader()
+        imageLoader = ImageRetriver()
         formatter   = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-       
+        backgroundColor = .clear
         contentView.backgroundColor = .clear
         bookCover.rounded(radius: 12, backgroundColor: .clear)
        

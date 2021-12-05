@@ -15,6 +15,7 @@ protocol UserServiceProtocol {
     func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
     func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void)
     func deleteUser(completion: @escaping (FirebaseError?) -> Void)
+    func updateFcmToken(with token: String)
 }
 
 class UserService {
@@ -97,6 +98,11 @@ extension UserService: UserServiceProtocol {
                 completion(nil)
             }
         }
+    }
+    
+    func updateFcmToken(with token: String) {
+        let userRef = usersCollectionRef.document(userID)
+        userRef.setData([DocumentKey.fcmToken.rawValue: token], merge: true)
     }
     
     // MARK: Delete

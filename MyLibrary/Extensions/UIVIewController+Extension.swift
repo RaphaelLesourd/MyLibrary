@@ -70,7 +70,7 @@ extension UIViewController {
         let bookCardVC = BookCardViewController(libraryService: LibraryService(),
                                                 recommendationService: RecommandationService(),
                                                 formatter: Formatter(),
-                                                imageLoader: ImageLoader())
+                                                imageLoader: ImageRetriver())
         bookCardVC.hidesBottomBarWhenPushed = true
         bookCardVC.searchType = searchType
         bookCardVC.book = book

@@ -10,10 +10,10 @@ import Kingfisher
 
 class VerticalCollectionViewCell: UICollectionViewCell {
     
-    private let imageLoader: ImageLoaderProtocol
+    private let imageLoader: ImageRetriverProtocol
     // MARK: - Initializer
     override init(frame: CGRect) {
-        imageLoader = ImageLoader()
+        imageLoader = ImageRetriver()
         super.init(frame: .zero)
         stackView.addArrangedSubview(bookCover)
         stackView.addArrangedSubview(titleView)

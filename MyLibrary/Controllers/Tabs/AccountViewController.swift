@@ -7,8 +7,6 @@
 
 import UIKit
 import PanModal
-import FirebaseAuth
-import Kingfisher
 
 class AccountViewController: CommonStaticTableViewController {
 
@@ -16,7 +14,7 @@ class AccountViewController: CommonStaticTableViewController {
     private let accountService: AccountServiceProtocol
     private let userService   : UserServiceProtocol
     private let imageService  : ImageStorageProtocol
-    private let imageLoader   : ImageLoaderProtocol
+    private let imageLoader   : ImageRetriverProtocol
     private var imagePicker   : ImagePicker?
     private var activityIndicator = UIActivityIndicatorView()
     
@@ -35,7 +33,7 @@ class AccountViewController: CommonStaticTableViewController {
     init(accountService: AccountServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
-         imageLoader: ImageLoaderProtocol = ImageLoader()) {
+         imageLoader: ImageRetriverProtocol = ImageRetriver()) {
         self.accountService = accountService
         self.userService    = userService
         self.imageService   = imageService
