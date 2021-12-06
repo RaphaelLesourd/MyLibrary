@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 15/11/2021.
 //
 
-import Foundation
 import UIKit
 
 final class ImageScrollView: UIScrollView {

@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 14/11/2021.
 //
 
-import Foundation
 import UIKit
 
 class PickerViewStaticCell: UITableViewCell {

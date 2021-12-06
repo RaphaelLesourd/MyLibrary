@@ -5,8 +5,6 @@
 //  Created by Birkyboy on 09/11/2021.
 //
 
-import Foundation
-
 struct BookQuery {
     let listType: HomeCollectionViewSections?
     let orderedBy: DocumentKey

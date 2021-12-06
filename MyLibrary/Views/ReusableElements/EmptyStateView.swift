@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 01/12/2021.
 //
 
-import Foundation
 import UIKit
 
 class EmptyStateView: UIView {

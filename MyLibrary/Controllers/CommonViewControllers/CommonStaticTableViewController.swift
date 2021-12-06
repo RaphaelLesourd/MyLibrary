@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 02/11/2021.
 //
 
-import Foundation
 import UIKit
 
 class CommonStaticTableViewController: UITableViewController {

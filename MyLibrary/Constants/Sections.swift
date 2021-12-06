@@ -5,8 +5,6 @@
 //  Created by Birkyboy on 09/11/2021.
 //
 
-import Foundation
-
 /// Enum giving name to each section of the HomeController CollectionView for better readability
 enum HomeCollectionViewSections: Int, CaseIterable {
     case categories

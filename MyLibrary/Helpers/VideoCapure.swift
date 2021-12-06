@@ -19,10 +19,10 @@ protocol VideoCaptureDelegate: AnyObject {
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
 /// Learn this process at: https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
 class VideoCapture: NSObject {
-    
+ 
+    var captureSession = AVCaptureSession()
     private weak var presentationController: UIViewController?
     private weak var delegate: VideoCaptureDelegate?
-    var captureSession = AVCaptureSession()
     
     /// Set up a VNDetectBarcodesRequest that will detect barcodes when called.
     /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..

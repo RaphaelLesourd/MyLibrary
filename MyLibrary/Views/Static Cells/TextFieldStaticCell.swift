@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 28/10/2021.
 //
 
-import Foundation
 import UIKit
 
 class TextFieldStaticCell: UITableViewCell {

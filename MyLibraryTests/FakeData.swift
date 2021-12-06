@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 30/10/2021.
 //
 
-import Foundation
 @testable import MyLibrary
 
 class FakeData {

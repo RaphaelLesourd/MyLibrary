@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 04/11/2021.
 //
 
-import Foundation
 import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
@@ -44,8 +43,7 @@ class UserService {
         }
     }
 }
-
-// MARK: -  Extension UserServiceProtocol
+// MARK: - Extension UserServiceProtocol
 extension UserService: UserServiceProtocol {
     
     // MARK: Create

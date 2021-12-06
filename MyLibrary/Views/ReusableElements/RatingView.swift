@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 13/11/2021.
 //
 
-import Foundation
 import UIKit
 
 class RatingView: UIView {

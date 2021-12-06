@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 28/11/2021.
 //
 
-import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -18,7 +17,7 @@ protocol CommentServiceProtocol {
     var commentListener: ListenerRegistration? { get set }
 }
 
-class CommentService{
+class CommentService {
     
     // MARK: - Properties
     private let db = Firestore.firestore()
@@ -34,7 +33,7 @@ class CommentService{
     }
  }
 // MARK: - Extension CommentServiceProtocol 
-extension CommentService: CommentServiceProtocol  {
+extension CommentService: CommentServiceProtocol {
  
     func addComment(for bookID: String,
                     ownerID: String,

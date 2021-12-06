@@ -5,8 +5,6 @@
 //  Created by Birkyboy on 26/10/2021.
 //
 
-import Foundation
-
 enum Text {
     
     enum Account {
