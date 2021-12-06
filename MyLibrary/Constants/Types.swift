@@ -6,6 +6,30 @@
 //
 
 import Foundation
+import UIKit
+
+enum CategoryActionType: String {
+    case delete = "Effacer"
+    case edit = "Editer"
+    
+    var color: UIColor {
+        switch self {
+        case .delete:
+            return .systemRed
+        case .edit:
+            return .systemOrange
+        }
+    }
+    
+    var icon: UIImage {
+        switch self {
+        case .delete:
+            return Images.trashCircleIcon
+        case .edit:
+            return Images.editCircleIcon
+        }
+    }
+}
 
 enum SearchType {
     case librarySearch
@@ -36,7 +60,7 @@ public enum AlertBannerType {
     }
 }
 
-enum TextInputType {
-    case description
-    case comment
+enum CodeType {
+    case language
+    case currency
 }

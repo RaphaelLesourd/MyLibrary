@@ -9,17 +9,16 @@ import Foundation
 
 protocol FormatterProtocol {
     func joinArrayToString(_ dataArray: [String]?) -> String
-    func displayYearOnly(for dateString: String?) -> String
-    func formatDecimalString(_ decimalString: String?) -> Double
-    func setTimestamp(for timestamp: Double?) -> Double
-    func convertStringToInt(_ value: String?) -> Int
+    func formatStringToInt(_ value: String?) -> Int
     func formatCurrency(with value: Double?, currencyCode: String?) -> String
-    func getlanguageName(from languageCode: String?) -> String
-    func getCurrencyName(from currencyCode: String?) -> String
+    func formatDateToYearString(for dateString: String?) -> String
+    func formatDecimalString(_ decimalString: String?) -> Double
+    func formatCodeToName(from code: String?, type: CodeType) -> String
+    func formatTimeStampToDateString(for timestamp: Double?) -> String
 }
 
 class Formatter: FormatterProtocol {
-    
+  
     func joinArrayToString(_ dataArray: [String]?) -> String {
         guard let dataArray = dataArray else {
             return ""
@@ -27,7 +26,17 @@ class Formatter: FormatterProtocol {
         return dataArray.joined(separator: ", ")
     }
     
-    func displayYearOnly(for dateString: String?) -> String {
+    func formatTimeStampToDateString(for timestamp: Double?) -> String {
+        guard let timestamp = timestamp else {
+            return ""
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+    }
+    
+    func formatDateToYearString(for dateString: String?) -> String {
         guard let dateString = dateString else {
             return ""
         }
@@ -49,18 +58,13 @@ class Formatter: FormatterProtocol {
         }.joined(separator: ".")
         return Double(convertedString) ?? 0
     }
-    
-    func setTimestamp(for timestamp: Double?) -> Double {
-            return timestamp ?? Date().timeIntervalSince1970
-    }
-    
-    func convertStringToInt(_ value: String?) -> Int {
+ 
+    func formatStringToInt(_ value: String?) -> Int {
         guard let value = value else {
             return 0
         }
         return NumberFormatter().number(from: value)?.intValue ?? 0
     }
-    
     /// Format a price
     /// - Note: We can safely force-unwrap the optional that NumberFormatter returns from the call,
     /// since we’re in complete control over the NSNumber that is being passed into it.
@@ -76,22 +80,16 @@ class Formatter: FormatterProtocol {
         return formatter.string(from: number)!
     }
     
-    func getlanguageName(from languageCode: String?) -> String {
-        guard let languageCode = languageCode else {
-            return ""
-        }
+    func formatCodeToName(from code: String?, type: CodeType) -> String {
+        guard let code = code else { return "" }
         let currentIdentifier = Locale.current.regionCode ?? ""
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
-        return localeFromCurrentIdentifier.localizedString(forLanguageCode: languageCode) ?? ""
-    }
-    
-    func getCurrencyName(from currencyCode: String?) -> String {
-        guard let currencyCode = currencyCode else {
-            return ""
+        switch type {
+        case .language:
+            return localeFromCurrentIdentifier.localizedString(forLanguageCode: code) ?? ""
+        case .currency:
+            return localeFromCurrentIdentifier.localizedString(forCurrencyCode: code) ?? ""
         }
-        let currentIdentifier = Locale.current.regionCode ?? ""
-        let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
-        return localeFromCurrentIdentifier.localizedString(forCurrencyCode: currencyCode) ?? ""
     }
 
 }

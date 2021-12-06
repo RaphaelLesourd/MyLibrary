@@ -10,11 +10,11 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<ApiSearchSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<ApiSearchSection, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
 
-    private let mainView       = CommonCollectionView()
+    private let mainView       = CollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
     private var layoutComposer : LayoutComposer
     private var networkService : ApiManagerProtocol
@@ -47,9 +47,10 @@ class SearchViewController: UIViewController {
 
     // MARK: - Lifecycle
     override func loadView() {
-        view = mainView
+        view                 = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.search
+        title                = Text.ControllerTitle.search
+        mainView.emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
     }
     
     override func viewDidLoad() {
@@ -146,13 +147,15 @@ extension SearchViewController {
         configureFooter(dataSource)
         return dataSource
     }
-    /// Set the data to th section of the collectionView, in this case only one section (main)
-    /// - Parameter animatingDifferences: Animate the collectionView with the changes applied.
+    
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
+        
     }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer

@@ -10,13 +10,13 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<BookListSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<BookListSection, Item>
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
     
     private var noMoreBooks    = false
     private var layoutComposer : LayoutComposer
-    private let mainView       = CommonCollectionView()
+    private let mainView       = CollectionView()
     private var footerView     = LoadingFooterSupplementaryView()
     private var libraryService : LibraryServiceProtocol
     private var bookList       : [Item] = []
@@ -36,9 +36,10 @@ class BookLibraryViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func loadView() {
-        view = mainView
-        title = setTile()
+        view  = mainView
+        title = setTitle()
         view.backgroundColor = .viewControllerBackgroundColor
+        mainView.emptyStateView.titleLabel.text = "Rien dans " + setTitle()
     }
     
     override func viewDidLoad() {
@@ -69,7 +70,7 @@ class BookLibraryViewController: UIViewController {
         mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
-    private func setTile() -> String {
+    private func setTitle() -> String {
         if let categoryTitle = title, !categoryTitle.isEmpty {
             return categoryTitle.capitalized
         }
@@ -95,19 +96,21 @@ class BookLibraryViewController: UIViewController {
                 guard !books.isEmpty else {
                     return self.noMoreBooks = true
                 }
-                books.forEach { book in
-                    if !self.bookList.contains(where: { $0.etag == book.etag }) {
-                        self.bookList.append(book)
-                        self.applySnapshot()
-                    }
-                }
+                self.addToList(books)
             case .failure(let error):
                 self.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            
         }
     }
     
+    private func addToList(_ books: [Item]) {
+        books.forEach { book in
+            if !bookList.contains(where: { $0.bookID == book.bookID }) {
+                bookList.append(book)
+                applySnapshot()
+            }
+        }
+    }
     // MARK: - Targets
     @objc private func refreshBookList() {
         noMoreBooks = false
@@ -157,8 +160,9 @@ extension BookLibraryViewController {
     }
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(BookListSection.allCases)
-        snapshot.appendItems(bookList, toSection: .mybooks)
+        mainView.emptyStateView.isHidden = !bookList.isEmpty
+        snapshot.appendSections(SingleSection.allCases)
+        snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

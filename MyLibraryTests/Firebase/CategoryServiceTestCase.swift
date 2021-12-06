@@ -7,105 +7,130 @@
 
 @testable import MyLibrary
 import XCTest
-import Firebase
-import FirebaseDatabase
-import FirebaseAuth
-import FirebaseStorage
-import FirebaseFirestoreSwift
 
 class CategoryServiceTestCase: XCTestCase {
     // MARK: - Propserties
-    private var sut : CategoryService?
-    private var book: Item?
-    
+    private var sut        : CategoryService?
+    private var userService: UserServiceProtocol?
+    private var newUser    : UserModel!
+  
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        sut = CategoryService.shared
+        newUser     = createUser()
+        sut         = CategoryService.shared
+        sut?.userID = newUser.userId
+        userService = UserService()
+        Networkconnectivity.shared.status = .satisfied
     }
-    
+   
     override func tearDown() {
         super.tearDown()
+        sut     = nil
+        newUser = nil
         clearFirestore()
-        sut?.categories.removeAll()
-        sut  = nil
-        book = nil
-    }
-
-    // MARK: - Private function
-    private func createBookDocument() -> Item? {
-        let volumeInfo = VolumeInfo(title: "title",
-                                    authors: ["author"],
-                                    publisher: "publisher",
-                                    publishedDate: "1900",
-                                    volumeInfoDescription:"decription",
-                                    industryIdentifiers: [IndustryIdentifier(identifier:"1234567890")],
-                                    pageCount: 0,
-                                    ratingsCount: 0,
-                                    imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
-                                    language: "language")
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(etag: "11111111111",
-                    favorite: false,
-                    volumeInfo: volumeInfo,
-                    saleInfo: saleInfo,
-                    timestamp: 1,
-                    category: [])
     }
     
+    
+   
     // MARK: - Success
     func test_givenCategory_whenAdding_thenAddedToTheCategoriesList() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addCategory(for: "Movie", completion: { error in
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
-            XCTAssertEqual(self.sut?.categories.count, 1)
-            exp.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func test_givenCategoryList_whenGettingList_thenDisplayList() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addCategory(for: "test", completion: { error in
-            XCTAssertNil(error)
-            self.sut?.getCategories(completion: { error in
+            self.sut?.addCategory(for: "Movie", completion: { error in
+                XCTAssertNil(error)
                 XCTAssertEqual(self.sut?.categories.count, 1)
+                expectation.fulfill()
             })
-            exp.fulfill()
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
     
-    // MARK: - Failure
-    func test_givenCategory_whenAddingExistingCategory_thenError() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addCategory(for: "TV", completion: { error in
+    func test_givenCategoryList_whenRequestingList_thenDisplayList() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        dump(sut?.categories)
+        userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
-            self.sut?.addCategory(for: "TV", completion: { error in
-                XCTAssertNotNil(error)
-                XCTAssertEqual(error?.description, FirebaseError.documentAlreadyExist("TV").description)
-                exp.fulfill()
+            self.sut?.addCategory(for: "Movie", completion: { error in
+                XCTAssertNil(error)
+                self.sut?.getCategories(completion: { error in
+                    XCTAssertNil(error)
+                    dump(self.sut?.categories)
+                    XCTAssertEqual(self.sut?.categories.first?.name, "movie")
+                    expectation.fulfill()
+                })
             })
         })
-        self.waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func test_givenEmptyCategory_whenAdding_thenEmptyError() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.addCategory(for: "", completion: { error in
-            XCTAssertNotNil(error)
-            XCTAssertEqual(error?.description, FirebaseError.noCategory.description)
-            exp.fulfill()
-        })
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
     }
 
-    func test_givenEmptyCategoryList_whenGettingList_thenNothingFoundError() {
-        let exp = self.expectation(description: "Waiting for async operation")
-        sut?.getCategories(completion: { error in
-            XCTAssertEqual(error?.description, FirebaseError.nothingFound.description)
+    func test_givenCategoryList_whenUpdatingCategory_thenNameUpdated() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+
+        userService?.createUserInDatabase(for: newUser, completion: { error in
+            XCTAssertNil(error)
+            
+            self.sut?.addCategory(for: "Movie", completion: { error in
+                XCTAssertNil(error)
+                
+                self.sut?.getCategories(completion: { error in
+                    XCTAssertNil(error)
+                  
+                    if let category = self.sut?.categories.first {
+                        XCTAssertEqual(category.name, "movie")
+                        self.sut?.updateCategoryName(for: category, with: "Tv", completion: { error in
+                            XCTAssertEqual(self.sut?.categories.first?.name, "Tv")
+                            expectation.fulfill()
+                        })
+                    }
+                })
+            })
         })
-        exp.fulfill()
-        self.waitForExpectations(timeout: 10, handler: nil)
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    // MARK: - Failure
+    func test_givenCategory_whenAddingWithNoConnectivity_thenNoConnectivityError() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        userService?.createUserInDatabase(for: newUser, completion: { error in
+            XCTAssertNil(error)
+            Networkconnectivity.shared.status = .unsatisfied
+            self.sut?.addCategory(for: "Movie", completion: { error in
+                XCTAssertNotNil(error)
+                XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
+                expectation.fulfill()
+            })
+        })
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func test_givenEmptyCategory_whenAdding_thenEmptyNameError() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        userService?.createUserInDatabase(for: newUser, completion: { error in
+            XCTAssertNil(error)
+            self.sut?.addCategory(for: "", completion: { error in
+                XCTAssertNotNil(error)
+                XCTAssertEqual(error?.description, FirebaseError.noCategory.description)
+                expectation.fulfill()
+            })
+        })
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func test_givenCategory_whenAddingExisitingCategory_thenAlreadyExistCategoryError() {
+        let expectation = XCTestExpectation(description: "Waiting for async operation")
+        userService?.createUserInDatabase(for: newUser, completion: { error in
+            XCTAssertNil(error)
+            self.sut?.addCategory(for: "Movie", completion: { error in
+                XCTAssertNil(error)
+                self.sut?.addCategory(for: "Movie", completion: { error in
+                    XCTAssertNotNil(error)
+                    XCTAssertEqual(error?.description, FirebaseError.categoryExist.description)
+                    expectation.fulfill()
+                })
+            })
+        })
+        wait(for: [expectation], timeout: 1.0)
     }
 }

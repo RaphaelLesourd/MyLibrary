@@ -8,14 +8,16 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct CurrentUser: Codable {
+struct UserModel: Codable {
     @DocumentID var id: String?
     var userId: String
     var displayName: String
     var email: String
     var photoURL: String
+    var token: String
     
     private enum CodingKeys : String, CodingKey {
         case userId, displayName, email, photoURL
+        case token = "fcmToken"
     }
 }

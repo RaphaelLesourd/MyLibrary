@@ -12,7 +12,7 @@ class Networkconnectivity {
     
     static let shared = Networkconnectivity()
 
-    let networkMonitor = NWPathMonitor()
+    private let networkMonitor = NWPathMonitor()
     var status: NWPath.Status = .requiresConnection
     
     var isReachable: Bool {
@@ -23,13 +23,8 @@ class Networkconnectivity {
         networkMonitor.pathUpdateHandler = { [weak self] path in
             self?.status = path.status
         }
-       
         let queue = DispatchQueue(label: "NetworkMonitor")
         networkMonitor.start(queue: queue)
-    }
-
-    func stopMonitoring() {
-        networkMonitor.cancel()
     }
     
     class func isConnectedToNetwork() -> Bool {

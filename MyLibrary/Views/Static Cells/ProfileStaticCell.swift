@@ -23,7 +23,7 @@ class ProfileStaticCell: UITableViewCell {
     
     let profileImageButton: UIButton = {
         let button = UIButton()
-        button.contentMode = .scaleAspectFit
+        button.imageView?.contentMode = .scaleAspectFill
         button.rounded(radius: 30, backgroundColor: .tertiaryLabel)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -42,7 +42,6 @@ class ProfileStaticCell: UITableViewCell {
     let activityIndicator     = UIActivityIndicatorView()
     private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -10)
     private let mainStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
-  
 }
 extension ProfileStaticCell {
     private func setProfileButtonConstraints() {

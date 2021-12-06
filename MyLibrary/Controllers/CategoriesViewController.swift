@@ -10,27 +10,18 @@ import UIKit
 class CategoriesViewController: UIViewController {
     
     // MARK: - Properties
-    enum CategoryManagementAction: String {
-        case delete = "Effacer"
-        case edit = "Editer"
-        
-        var color: UIColor {
-            switch self {
-            case .delete:
-                return .systemRed
-            case .edit:
-                return .systemOrange
-            }
-        }
-    }
+    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
+    typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
+   
+    var dataSource        : DataSource!
+    var selectedCategories: [String] = []
+    var settingBookCategory = true
+    
     weak var newBookDelegate: NewBookDelegate?
     
     private let categoryService = CategoryService.shared
     private let listView        = ListTableView()
-   
-    var selectedCategories: [String] = []
-    var settingBookCategory = true
-    
+
     // MARK: - Lifecycle
     override func loadView() {
         view = listView
@@ -41,6 +32,8 @@ class CategoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         listView.tableView.allowsSelection = settingBookCategory
+        makeDataSource()
+        applySnapshot(animatingDifferences: false)
         setDelegates()
         setTableViewRefresherControl()
         addNavigationBarButtons()
@@ -55,7 +48,6 @@ class CategoriesViewController: UIViewController {
     // MARK: - Setup
     private func setDelegates() {
         listView.tableView.delegate = self
-        listView.tableView.dataSource = self
     }
     
     private func setTableViewRefresherControl() {
@@ -90,35 +82,35 @@ class CategoriesViewController: UIViewController {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.reloadTableView()
+            self?.applySnapshot()
             self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
         }
     }
     
-    private func updateCategory(for category: Category, with name: String?) {
+    private func updateCategory(for category: CategoryModel, with name: String?) {
         categoryService.updateCategoryName(for: category, with: name) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.reloadTableView()
+            self?.applySnapshot()
             self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
         }
     }
     
-    private func deleteCategory(for categoryName: String) {
-        categoryService.deleteCategory(for: categoryName) { [weak self] error in
+    private func deleteCategory(for category: CategoryModel) {
+        categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             if let index = self.categoryService.categories.firstIndex(where: {
-                $0.name?.lowercased() == categoryName.lowercased()
+                $0.name?.lowercased() == category.name?.lowercased()
             }) {
                 self.categoryService.categories.remove(at: index)
             }
-            self.reloadTableView()
+            self.applySnapshot()
         }
     }
   
@@ -142,29 +134,16 @@ class CategoriesViewController: UIViewController {
         })
     }
     
-    private func displayDeleteCategoryAlert(_ categoryName: String) {
-        presentAlert(withTitle: "Effacer \(categoryName.capitalized)",
-                     message: "Cette catégorie sera éffacée de votre liste.\n• Les livres contenant '\(categoryName)' ne seront pas affectés.",
+    private func displayDeleteCategoryAlert(_ category: CategoryModel) {
+        presentAlert(withTitle: "Effacer \(category.name?.capitalized ?? "")",
+                     message: "Etes vous sur de vouloir éffacer cette catégorie?",
                      withCancel: true) { [weak self] _ in
-            self?.deleteCategory(for: categoryName)
+            self?.deleteCategory(for: category)
         }
     }
     
-    private func updateCategoryAlert(for category: Category) {
-        showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
-                        subtitle: "",
-                        actionTitle: "Ok",
-                        cancelTitle: "Annuler",
-                        inputText: "",
-                        inputPlaceholder: "Nouveau nom",
-                        inputKeyboardType: .default,
-                        cancelHandler: nil) { [weak self] text in
-            self?.updateCategory(for: category, with: text)
-        }
-    }
-    
-    private func removeCategoryFromList(_ categoryID: String?) {
-        guard let categoryID = categoryID else { return }
+    private func removeCategoryFromList(_ category: CategoryModel) {
+        guard let categoryID = category.uid else { return }
         if let index = selectedCategories.firstIndex(where: {
             $0 == categoryID
         }) {
@@ -172,33 +151,42 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    private func reloadTableView() {
-        DispatchQueue.main.async {
-            self.listView.tableView.reloadData()
+    private func updateCategoryAlert(for category: CategoryModel) {
+        showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
+                        subtitle: "",
+                        actionTitle: "Ok",
+                        cancelTitle: "Annuler",
+                        inputText: category.name?.capitalized,
+                        inputPlaceholder: "",
+                        inputKeyboardType: .default,
+                        cancelHandler: nil) { [weak self] text in
+            self?.updateCategory(for: category, with: text)
         }
     }
 }
 // MARK: - TableView Datasource
-extension CategoriesViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryService.categories.count
+extension CategoriesViewController {
+ 
+    private func makeDataSource() {
+        dataSource = DataSource(tableView: listView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.backgroundColor = .tertiarySystemBackground
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+            cell.selectedBackgroundView = backgroundView
+            cell.textLabel?.text = item.name?.capitalized
+            
+            return cell
+        })
+        listView.tableView.dataSource = dataSource
+        applySnapshot()
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Toutes vos catégories"
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .tertiarySystemBackground
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
-        cell.selectedBackgroundView = backgroundView
-        let category = categoryService.categories[indexPath.row]
-        cell.textLabel?.text = category.name?.capitalized
-        return cell
+    private func applySnapshot(animatingDifferences: Bool = true) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(categoryService.categories, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - TableView Delegate
@@ -207,24 +195,18 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
-        return UISwipeActionsConfiguration(actions: [editAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
-    
-    private func contextMenuAction(for actionType: CategoryManagementAction,
+ 
+    private func contextMenuAction(for actionType: CategoryActionType,
                                    forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
             guard let self = self else {return}
             switch actionType {
             case .delete:
-                if let categoryName = self.categoryService.categories[indexPath.row].name {
-                    self.displayDeleteCategoryAlert(categoryName)
-                }
+               let category = self.categoryService.categories[indexPath.row]
+               self.displayDeleteCategoryAlert(category)
             case .edit:
                 let category = self.categoryService.categories[indexPath.row]
                 self.updateCategoryAlert(for: category)
@@ -241,7 +223,7 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let categoryID = categoryService.categories[indexPath.row].uid else { return }
-        removeCategoryFromList(categoryID)
+        let category = categoryService.categories[indexPath.row]
+        removeCategoryFromList(category)
     }
 }
