@@ -112,7 +112,7 @@ extension CommentService {
     
     func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
-        commentListener = docRef.addSnapshotListener { querySnapshot, error in
+        docRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return

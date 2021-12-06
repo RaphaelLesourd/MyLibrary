@@ -127,10 +127,6 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Log in
     func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
-            completion(.noNetwork)
-            return
-        }
         guard let userCredentials = userCredentials else { return }
         Auth.auth().signIn(withEmail: userCredentials.email, password: userCredentials.password) { _, error in
             if let error = error {
@@ -143,6 +139,7 @@ extension AccountService: AccountServiceProtocol {
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
         do {
+            userService.updateFcmToken(with: "")
             try Auth.auth().signOut()
             completion(nil)
         } catch {

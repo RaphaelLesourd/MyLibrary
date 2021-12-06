@@ -75,7 +75,6 @@ extension ApiManager: ApiManagerProtocol {
                 print("Notification sent")
                 completion(nil)
             case .failure(let error):
-                print(error.localizedDescription)
                 completion(.afError(error))
             }
         }

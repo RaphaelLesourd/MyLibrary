@@ -71,7 +71,7 @@ class MessageService {
                                        token: $0.token)
             apiManager.postPushNotification(with: message) { error in
                 if let error = error {
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         }

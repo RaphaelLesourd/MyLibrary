@@ -19,13 +19,9 @@ protocol NotificationManagerDelegate: AnyObject {
 class NotificationManager: NSObject {
     
     var userService: UserServiceProtocol
-    
-    private weak var delegate: NotificationManagerDelegate?
-    
+ 
     init(registerIn application: UIApplication,
-         delegate: NotificationManagerDelegate,
          userService: UserServiceProtocol = UserService()) {
-        self.delegate = delegate
         self.userService = userService
         super.init()
         register(application)
@@ -36,29 +32,23 @@ class NotificationManager: NSObject {
     }
     // MARK: - Private functions
     private func register(_ application: UIApplication) {
-        
-        // Setting the Firebase Messaging delegate to self
-        // so that we are getting all the information to this wrapper class
+    
         Messaging.messaging().delegate = self
-        // Same for Apple's Notification Center
         UNUserNotificationCenter.current().delegate = self
-        
-        // The notification elements we care about
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         
         // Register for remote notifications.
-        // This shows a permission dialog on first run,
-        // to show the dialog at a more appropriate time
-        // move this registration accordingly.
-        UNUserNotificationCenter.current().requestAuthorization(options: options) {_, _ in }
-        DispatchQueue.main.async {
-            application.registerForRemoteNotifications()
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { success, _ in
+            if success == true {
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            }
         }
-        
-        updateFirestorePushTokenIfNeeded()
+        updateToken()
     }
-    
-    private func updateFirestorePushTokenIfNeeded() {
+
+    private func updateToken() {
         if let token = Messaging.messaging().fcmToken {
             userService.updateFcmToken(with: token)
         }
@@ -66,14 +56,16 @@ class NotificationManager: NSObject {
     
     private func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
-        delegate?.notificationsManager(didReceiveNotification: userInfo)
+        if let bookID = userInfo[DocumentKey.postID.rawValue] as? String {
+           print("received bookID: \(bookID)")
+        }
     }
 }
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        updateFirestorePushTokenIfNeeded()
+        updateToken()
     }
 }
 // MARK: - NotificationCenter Delegate

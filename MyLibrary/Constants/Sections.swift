@@ -52,7 +52,7 @@ enum CommentsSection: CaseIterable {
         case .today:
             return "Aujourd'hui"
         case .past:
-            return "Depuis hier"
+            return ""
         }
     }
 }

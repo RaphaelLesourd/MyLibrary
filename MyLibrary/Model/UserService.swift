@@ -101,6 +101,7 @@ extension UserService: UserServiceProtocol {
     }
     
     func updateFcmToken(with token: String) {
+       guard !userID.isEmpty else { return }
         let userRef = usersCollectionRef.document(userID)
         userRef.setData([DocumentKey.fcmToken.rawValue: token], merge: true)
     }

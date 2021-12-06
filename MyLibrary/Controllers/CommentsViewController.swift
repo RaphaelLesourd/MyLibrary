@@ -112,13 +112,20 @@ class CommentsViewController: UIViewController {
         }
     }
  
-    private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel) -> Void) {
+    private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
         guard let userID = comment.userID else { return }
         
-        self.commentService.getUserDetail(for: userID) { result in
-            if case .success(let user) = result {
-                guard let user = user else { return }
-                completion(user)
+        self.commentService.getUserDetail(for: userID) { [weak self] result in
+            switch result {
+            case .success(let user):
+                    guard let user = user else {
+                        self?.deleteComment(for: comment)
+                        completion(nil)
+                        return
+                    }
+                    completion(user)
+            case .failure(_):
+                completion(nil)
             }
         }
     }
@@ -200,7 +207,7 @@ extension CommentsViewController: UITableViewDelegate {
         return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
     }
     
-    private func contextMenuAction(for actionType: CategoryManagementAction,
+    private func contextMenuAction(for actionType: CategoryActionType,
                                    forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
       
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {

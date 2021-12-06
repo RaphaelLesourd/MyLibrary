@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum CategoryManagementAction: String {
+enum CategoryActionType: String {
     case delete = "Effacer"
     case edit = "Editer"
     

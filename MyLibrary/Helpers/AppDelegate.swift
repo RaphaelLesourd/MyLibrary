@@ -24,8 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         configureFiresbaseTestEnvironement()
         Networkconnectivity.shared.startMonitoring()
-        let _ = NotificationManager(registerIn: application, delegate: self)
-     
+        let _ = NotificationManager(registerIn: application)
         return true
     }
     
@@ -77,25 +76,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
-}
-
-extension AppDelegate: NotificationManagerDelegate {
-   
-    func notificationsManager(didReceiveNotification payload: NotificationPayload) {
-        if let bookID = payload[DocumentKey.postID.rawValue] as? String {
-           let viewController = UIApplication.shared.windows.first?.rootViewController
-            let commentViewController = CommentsViewController(book: nil,
-                                                               commentService: CommentService(),
-                                                               messageService: MessageService(),
-                                                               validator: Validator())
-            print(bookID)
-            viewController?.navigationController?.pushViewController(commentViewController, animated: true)
-        }
-    }
-    
-    
-    func notificationsManager(didReceiveError error: Error) {
-        
     }
 }

@@ -199,7 +199,7 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
  
-    private func contextMenuAction(for actionType: CategoryManagementAction,
+    private func contextMenuAction(for actionType: CategoryActionType,
                                    forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
             guard let self = self else {return}

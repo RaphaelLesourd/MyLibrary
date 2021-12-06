@@ -94,7 +94,6 @@ class LibraryService {
     // MARK: Query
     private func createQuery(query: BookQuery, next: Bool) -> Query? {
         var docRef: Query = usersCollectionRef.document(userID).collection(CollectionDocumentKey.books.rawValue)
-     
         switch query.listType {
         case .categories:
             if let categoryName = query.fieldValue {
@@ -178,7 +177,7 @@ extension LibraryService: LibraryServiceProtocol {
                 }
             }
             if let data = data {
-                return data.isEmpty ? completion(.success([])) : completion(.success(data))
+                data.isEmpty ? completion(.success([])) : completion(.success(data))
             }
         }
     }
