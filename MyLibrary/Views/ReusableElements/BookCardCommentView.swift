@@ -16,6 +16,7 @@ class BookCardCommentView: UIView {
         super.init(frame: .zero)
         rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
         titleLabel.text = "Commentaires des lecteurs"
+       
         stackView.addArrangedSubview(goToCommentButton)
         stackView.addArrangedSubview(titleLabel)
         setAnimationViewConstraints()

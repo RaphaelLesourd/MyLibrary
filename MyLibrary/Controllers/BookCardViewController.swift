@@ -15,14 +15,14 @@ protocol BookCardDelegate: AnyObject {
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView             = BookCardMainView()
-    private let categoryService      = CategoryService.shared
-    private let formatter            : FormatterProtocol
-    private let imageLoader          : ImageRetriverProtocol
-    private let libraryService       : LibraryServiceProtocol
+    private let mainView = BookCardMainView()
+    private let categoryService = CategoryService.shared
+    private let formatter: FormatterProtocol
+    private let imageLoader: ImageRetriverProtocol
+    private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     
-    private var coverImage          : UIImage?
+    private var coverImage: UIImage?
     private var isRecommandedStatus = false {
         didSet {
             setRecommandationButton(isRecommanding: isRecommandedStatus)
@@ -44,10 +44,10 @@ class BookCardViewController: UIViewController {
          recommendationService: RecommendationServiceProtocol,
          formatter: FormatterProtocol,
          imageLoader: ImageRetriverProtocol) {
-        self.libraryService        = libraryService
+        self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.formatter             = formatter
-        self.imageLoader           = imageLoader
+        self.formatter = formatter
+        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,6 +94,7 @@ class BookCardViewController: UIViewController {
         mainView.deleteBookButton.addTarget(self, action: #selector(deleteBookAction), for: .touchUpInside)
         mainView.favoriteButton.addTarget(self, action: #selector(favoriteButtonAction), for: .touchUpInside)
         mainView.commentView.goToCommentButton.addTarget(self, action: #selector(showComments), for: .touchUpInside)
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         mainView.bookCover.addGestureRecognizer(tap)
     }
@@ -105,8 +106,8 @@ class BookCardViewController: UIViewController {
         }
         if book?.ownerID != Auth.auth().currentUser?.uid || Networkconnectivity.shared.isReachable == false {
             mainView.deleteBookButton.isHidden = true
-            mainView.actionButton.isHidden     = true
-            mainView.favoriteButton.isHidden   = true
+            mainView.actionButton.isHidden = true
+            mainView.favoriteButton.isHidden = true
             navigationItem.rightBarButtonItems = [mainView.activityIndicatorButton]
         }
     }
@@ -123,16 +124,16 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Display Data
     private func dispayBookData() {
-        mainView.titleLabel.text                                 = book?.volumeInfo?.title?.capitalized
-        mainView.authorLabel.text                                = book?.volumeInfo?.authors?.first?.capitalized
-        mainView.descriptionLabel.text                           = book?.volumeInfo?.volumeInfoDescription
+        mainView.titleLabel.text = book?.volumeInfo?.title?.capitalized
+        mainView.authorLabel.text = book?.volumeInfo?.authors?.first?.capitalized
+        mainView.descriptionLabel.text = book?.volumeInfo?.volumeInfoDescription
         mainView.bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         mainView.bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
-        mainView.bookDetailView.numberOfPageView.infoLabel.text  = "\(book?.volumeInfo?.pageCount ?? 0)"
-        mainView.bookDetailView.languageView.infoLabel.text      = formatter.formatCodeToName(from: book?.volumeInfo?.language,
-                                                                                              type: .language).capitalized
-        mainView.purchaseDetailView.titleLabel.text              = "Prix de vente"
-        mainView.ratingView.rating                               = book?.volumeInfo?.ratingsCount ?? 0
+        mainView.bookDetailView.numberOfPageView.infoLabel.text = "\(book?.volumeInfo?.pageCount ?? 0)"
+        mainView.bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book?.volumeInfo?.language,
+                                                                                         type: .language).capitalized
+        mainView.purchaseDetailView.titleLabel.text = "Prix de vente"
+        mainView.ratingView.rating = book?.volumeInfo?.ratingsCount ?? 0
         
         displayCategoryNames()
         displayBookPrice()
@@ -163,7 +164,7 @@ class BookCardViewController: UIViewController {
         let price = self.book?.saleInfo?.retailPrice?.amount
         mainView.purchaseDetailView.purchasePriceLabel.text = formatter.formatCurrency(with: price, currencyCode: currency)
     }
-   
+    
     private func displayIsbn() {
         if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
             mainView.isbnLabel.text = Text.Book.isbn + isbn
@@ -189,7 +190,7 @@ class BookCardViewController: UIViewController {
             self?.mainView.categoryiesLabel.text = self?.formatter.joinArrayToString(categoryNames).uppercased()
         }
     }
-
+    
     // MARK: - Api call
     private func deleteBook() {
         guard let book = book else { return }
@@ -271,8 +272,8 @@ class BookCardViewController: UIViewController {
                                                       formatter: Formatter(),
                                                       validator: Validator(),
                                                       imageLoader: ImageRetriver())
-        newBookController.newBook          = book
-        newBookController.isEditingBook    = true
+        newBookController.newBook = book
+        newBookController.isEditingBook = true
         newBookController.bookCardDelegate = self
         navigationController?.pushViewController(newBookController, animated: true)
     }
@@ -291,6 +292,7 @@ extension BookCardViewController: BookCardDelegate {
     func fetchBookUpdate() {
         showIndicator(mainView.activityIndicator)
         guard let bookID = book?.bookID else { return }
+        
         libraryService.getBook(for: bookID) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {

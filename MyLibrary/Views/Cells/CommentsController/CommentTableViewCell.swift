@@ -17,7 +17,7 @@ class CommentTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         imageLoader = ImageRetriver()
-        formatter   = Formatter()
+        formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
       
         contentView.backgroundColor = .tertiarySystemBackground
@@ -25,8 +25,8 @@ class CommentTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(userNameLabel)
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(commentLabel)
-        
         stackView.setCustomSpacing(2, after: userNameLabel)
+        
         setProfileImageConstraints()
         setMainStackViewConstraints()
     }
@@ -46,9 +46,8 @@ class CommentTableViewCell: UITableViewCell {
     }()
 
     private let userNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
-    private let commentLabel  = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
-    private let dateLabel     = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 11, weight: .light)
-    
+    private let commentLabel = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
+    private let dateLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 11, weight: .light)
     private let stackView = StackView(axis: .vertical, distribution: .fill, spacing: 15)
     
     func configure(with model: CommentModel) {
@@ -72,6 +71,7 @@ class CommentTableViewCell: UITableViewCell {
 }
 // MARK: - Constraints
 extension CommentTableViewCell {
+    
     private func setProfileImageConstraints() {
         contentView.addSubview(profileImageView)
         NSLayoutConstraint.activate([

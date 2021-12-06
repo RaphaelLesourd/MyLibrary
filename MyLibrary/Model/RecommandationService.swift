@@ -29,6 +29,7 @@ extension RecommandationService: RecommendationServiceProtocol {
     
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
+       
         let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
@@ -39,6 +40,7 @@ extension RecommandationService: RecommendationServiceProtocol {
     
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
+       
         let ref = recommandationCollectionRef.document(bookID)
         ref.delete { error in
             if let error = error {

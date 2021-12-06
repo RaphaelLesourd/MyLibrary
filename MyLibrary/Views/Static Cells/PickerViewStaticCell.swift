@@ -13,6 +13,9 @@ class PickerViewStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(pickerView)
+        
         setConstraints()
     }
     
@@ -36,10 +39,8 @@ class PickerViewStaticCell: UITableViewCell {
 // MARK: - Constraints
 extension PickerViewStaticCell {
     private func setConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(pickerView)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

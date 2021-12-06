@@ -21,8 +21,7 @@ class ImageRetriver: ImageRetriverProtocol {
             return
         }
         KingfisherManager.shared.retrieveImage(with: imageURL,
-                                               options: [.cacheOriginalImage,
-                                                         .keepCurrentImageWhileLoading],
+                                               options: [.cacheOriginalImage, .keepCurrentImageWhileLoading],
                                                completionHandler: { response in
             switch response {
             case .success(let value):

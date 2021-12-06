@@ -69,9 +69,7 @@ class CategoryService {
                 self?.categories = data.sorted(by: {
                     $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
                 })
-                dump(self?.categories)
             }
-            dump(self?.categories)
             completion(nil)
         }
     }
@@ -94,11 +92,11 @@ class CategoryService {
             completion(.noCategory)
             return
         }
-        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
             .document(category.uid ?? "")
+        
         docRef.updateData([DocumentKey.name.rawValue : name]) { error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -119,6 +117,7 @@ class CategoryService {
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
             .document(categoryID)
+        
         docRef.delete { error in
             if let error = error {
                 completion(.firebaseError(error))

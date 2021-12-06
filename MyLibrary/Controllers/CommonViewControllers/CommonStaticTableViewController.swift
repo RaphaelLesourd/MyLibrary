@@ -9,21 +9,21 @@ import Foundation
 import UIKit
 
 class CommonStaticTableViewController: UITableViewController {
-   
+    
     // MARK: - Properties
     var sections: [[UITableViewCell]] = [[]]
-  
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .viewControllerBackgroundColor
         configureTableView()
     }
-
+    
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.backgroundColor    = .viewControllerBackgroundColor
+        tableView.backgroundColor = .viewControllerBackgroundColor
         tableView.estimatedRowHeight = UITableView.automaticDimension
     }
     /// Create a default cell user to open another controller/
@@ -33,13 +33,14 @@ class CommonStaticTableViewController: UITableViewController {
         let cell = UITableViewCell()
         cell.textLabel?.text = text
         cell.backgroundColor = .tertiarySystemBackground
-        cell.accessoryType   = .disclosureIndicator
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
 }
 
 // MARK: - TableView DataSource & Delegate
 extension CommonStaticTableViewController {
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }

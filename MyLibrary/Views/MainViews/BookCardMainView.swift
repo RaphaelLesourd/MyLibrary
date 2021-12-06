@@ -25,15 +25,15 @@ class BookCardMainView: UIView {
     }
     
     // MARK: - Subviews
-    let activityIndicator       = UIActivityIndicatorView()
-    var editButton              = UIBarButtonItem()
+    let activityIndicator = UIActivityIndicatorView()
+    var editButton = UIBarButtonItem()
     var activityIndicatorButton = UIBarButtonItem()
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.alwaysBounceVertical           = true
-        scrollView.alwaysBounceHorizontal         = false
-        scrollView.showsVerticalScrollIndicator   = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -54,17 +54,17 @@ class BookCardMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    let bookCover          = BookCover(frame: .zero)
-    let titleLabel         = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel        = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
-    let categoryiesLabel   = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
-    let ratingView         = RatingView()
-    let descriptionLabel   = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    let bookCover = BookCover(frame: .zero)
+    let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
+    let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
+    let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    let ratingView = RatingView()
+    let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
     let purchaseDetailView = PurchaseView()
-    let bookDetailView     = BookDetailView()
-    let isbnLabel          = TextLabel(color: .secondaryLabel)
-    let commentView        = BookCardCommentView()
-    let actionButton       = ActionButton(title: "")
+    let bookDetailView = BookDetailView()
+    let isbnLabel = TextLabel(color: .secondaryLabel)
+    let commentView = BookCardCommentView()
+    let actionButton = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre", for: .normal)

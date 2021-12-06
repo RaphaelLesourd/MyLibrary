@@ -26,11 +26,11 @@ class TabBarController: UITabBarController {
         
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithDefaultBackground()
-        tabBarAppearance.backgroundColor                                      = .tertiarySystemBackground
+        tabBarAppearance.backgroundColor = .tertiarySystemBackground
         tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
-        tabBarAppearance.stackedLayoutAppearance.selected.iconColor           = UIColor.appTintColor
-        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes   = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-        tabBarAppearance.stackedLayoutAppearance.normal.iconColor             = UIColor.secondaryLabel
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
         UITabBar.appearance().standardAppearance = tabBarAppearance
         
         if #available(iOS 15.0, *) {
@@ -56,15 +56,15 @@ class TabBarController: UITabBarController {
                                                                             formatter: Formatter(),
                                                                             validator: Validator(),
                                                                             imageLoader: ImageRetriver()),
-                                                title: Text.ControllerTitle.newBook,
-                                                image: Images.newBookIcon!)
-       
+                                                    title: Text.ControllerTitle.newBook,
+                                                    image: Images.newBookIcon!)
+        
         let accountIconImage = Images.accountIcon!
         let accountViewController = createController(for: AccountViewController(accountService: AccountService(),
-                                                                                  userService: UserService(),
-                                                                                  imageService: ImageStorageService()),
-                                                         title: Text.ControllerTitle.account,
-                                                         image: accountIconImage)
+                                                                                userService: UserService(),
+                                                                                imageService: ImageStorageService()),
+                                                        title: Text.ControllerTitle.account,
+                                                        image: accountIconImage)
         viewControllers = [homeViewController,
                            libraryViewController,
                            newViewController,
@@ -80,10 +80,10 @@ class TabBarController: UITabBarController {
                                   title: String,
                                   image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
-        navController.tabBarItem.title                 = title
-        navController.tabBarItem.image                 = image
+        navController.tabBarItem.title = title
+        navController.tabBarItem.image = image
         navController.navigationBar.prefersLargeTitles = true
-        rootViewController.navigationItem.title        = title
+        rootViewController.navigationItem.title = title
         return navController
     }
 }

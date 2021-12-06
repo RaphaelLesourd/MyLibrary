@@ -18,7 +18,7 @@ protocol FormatterProtocol {
 }
 
 class Formatter: FormatterProtocol {
-  
+    
     func joinArrayToString(_ dataArray: [String]?) -> String {
         guard let dataArray = dataArray else {
             return ""
@@ -58,7 +58,7 @@ class Formatter: FormatterProtocol {
         }.joined(separator: ".")
         return Double(convertedString) ?? 0
     }
- 
+    
     func formatStringToInt(_ value: String?) -> Int {
         guard let value = value else {
             return 0
@@ -91,5 +91,5 @@ class Formatter: FormatterProtocol {
             return localeFromCurrentIdentifier.localizedString(forCurrencyCode: code) ?? ""
         }
     }
-
+    
 }

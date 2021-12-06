@@ -10,15 +10,15 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
 
-    private let mainView       = CollectionView()
-    private var footerView     = LoadingFooterSupplementaryView()
-    private var layoutComposer : LayoutComposer
-    private var networkService : ApiManagerProtocol
-    private var noMoreBooks    : Bool?
+    private let mainView = CollectionView()
+    private var footerView = LoadingFooterSupplementaryView()
+    private var layoutComposer: LayoutComposer
+    private var networkService: ApiManagerProtocol
+    private var noMoreBooks: Bool?
     
     weak var newBookDelegate: NewBookDelegate?
     
@@ -47,9 +47,9 @@ class SearchViewController: UIViewController {
 
     // MARK: - Lifecycle
     override func loadView() {
-        view                 = mainView
+        view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title                = Text.ControllerTitle.search
+        title = Text.ControllerTitle.search
         mainView.emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
     }
     
@@ -70,7 +70,7 @@ class SearchViewController: UIViewController {
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
         mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        mainView.collectionView.delegate   = self
+        mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
     }
     
@@ -153,7 +153,6 @@ extension SearchViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        
         mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
         
     }

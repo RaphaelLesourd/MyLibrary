@@ -18,22 +18,23 @@ protocol CommentServiceProtocol {
     var commentListener: ListenerRegistration? { get set }
 }
 
-class CommentService: CommentServiceProtocol {
+class CommentService{
     
     // MARK: - Properties
     private let db = Firestore.firestore()
   
-    let userRef        : CollectionReference
-    let userID         : String
+    let userRef: CollectionReference
+    let userID: String
     var commentListener: ListenerRegistration?
     
     // MARK: - Initializer
     init() {
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID  = Auth.auth().currentUser?.uid ?? ""
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
  }
-extension CommentService {
+// MARK: - Extension CommentServiceProtocol 
+extension CommentService: CommentServiceProtocol  {
  
     func addComment(for bookID: String,
                     ownerID: String,
@@ -112,6 +113,7 @@ extension CommentService {
     
     func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
+        
         docRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))

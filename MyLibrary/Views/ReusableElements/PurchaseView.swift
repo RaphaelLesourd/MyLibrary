@@ -15,6 +15,7 @@ class PurchaseView: UIView {
         super.init(frame: .zero)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(purchasePriceLabel)
+       
         setStackviewConstraints()
     }
     
@@ -23,9 +24,9 @@ class PurchaseView: UIView {
     }
    
     // MARK: - Subviews
-    let titleLabel         = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
+    let titleLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
     let purchasePriceLabel = TextLabel(color: .secondaryLabel,alignment: .right, fontSize: 20, weight: .semibold)
-    private let stackView  = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 20)
+    private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 20)
 }
 // MARK: - Constraints
 extension PurchaseView {

@@ -18,17 +18,17 @@ class MessageService {
     // MARK: - Properties
     private let db = Firestore.firestore()
     
-    let userRef   : CollectionReference
+    let userRef: CollectionReference
     let apiManager: ApiManagerProtocol
-    let userID    : String
+    let userID: String
     
     // MARK: - Initializer
     init(apiManager: ApiManagerProtocol = ApiManager(session: .default)) {
         self.apiManager = apiManager
-        self.userRef    = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID     = Auth.auth().currentUser?.uid ?? ""
+        self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-   
+    
     // MARK: - Private functions
     private func getCommentUserID(from comments: [CommentModel]) -> [[String]] {
         return comments
@@ -80,9 +80,7 @@ class MessageService {
 // MARK: - MessageService Protocol
 extension MessageService: MessageServiceProtocol {
     
-    func sendCommentNotification(for book: Item,
-                                 message: String,
-                                 for comments: [CommentModel],
+    func sendCommentNotification(for book: Item, message: String, for comments: [CommentModel],
                                  completion: @escaping (FirebaseError?) -> Void) {
         getAllCommentSenders(for: comments) { [weak self] result in
             switch result {

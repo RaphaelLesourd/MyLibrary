@@ -9,17 +9,17 @@ import UIKit
 import PanModal
 
 class SigningViewController: UIViewController {
-
+    
     // MARK: - Properties
-    private let mainView     = PanModalCommonView()
-    private var userManager  : AccountServiceProtocol
-    private var validator    : ValidatorProtocol
+    private let mainView = PanModalCommonView()
+    private var userManager: AccountServiceProtocol
+    private var validator: ValidatorProtocol
     private var interfaceType: AccountInterfaceType
-   
+    
     // MARK: - Initializer
     init(userManager: AccountServiceProtocol, validator: ValidatorProtocol, interfaceType: AccountInterfaceType) {
-        self.userManager   = userManager
-        self.validator     = validator
+        self.userManager = userManager
+        self.validator = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,10 +69,10 @@ class SigningViewController: UIViewController {
     private func loginToAccount() {
         let user = setUser()
         mainView.actionButton.displayActivityIndicator(true)
-       userManager.login(with: user) { [weak self] error in
+        userManager.login(with: user) { [weak self] error in
             guard let self = self else { return }
-           
-           self.mainView.actionButton.displayActivityIndicator(false)
+            
+            self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -86,7 +86,7 @@ class SigningViewController: UIViewController {
         mainView.actionButton.displayActivityIndicator(true)
         userManager.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
-          
+            
             self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -161,7 +161,7 @@ extension SigningViewController: UITextFieldDelegate {
         textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
         return true
     }
-  
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let lastTextField = interfaceType == .login ? mainView.passwordTextField : mainView.confirmPasswordTextField
         if textField == lastTextField {
@@ -174,12 +174,11 @@ extension SigningViewController: UITextFieldDelegate {
 }
 // MARK: - Panmodal Presentable
 extension SigningViewController: PanModalPresentable {
-   
     var longFormHeight: PanModalHeight {
         let height: CGFloat = interfaceType == .login ? 140 : 100
         return .maxHeightWithTopInset(height)
     }
-   
+    
     var cornerRadius: CGFloat {
         return 20
     }
@@ -187,5 +186,4 @@ extension SigningViewController: PanModalPresentable {
     var panScrollable: UIScrollView? {
         return nil
     }
-
 }

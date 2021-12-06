@@ -24,12 +24,12 @@ class UserService {
     private let db = Firestore.firestore()
     
     let usersCollectionRef: CollectionReference
-    var userID            : String
+    var userID: String
     
     // MARK: - Intializer
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID        = Auth.auth().currentUser?.uid ?? ""
+        userID = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func updateAuthDisplayName(with name: String, completion: @escaping (FirebaseError?) -> Void) {
@@ -45,7 +45,7 @@ class UserService {
     }
 }
 
-// MARK: - UserServiceProtocol Extension
+// MARK: -  Extension UserServiceProtocol
 extension UserService: UserServiceProtocol {
     
     // MARK: Create
@@ -101,7 +101,7 @@ extension UserService: UserServiceProtocol {
     }
     
     func updateFcmToken(with token: String) {
-       guard !userID.isEmpty else { return }
+        guard !userID.isEmpty else { return }
         let userRef = usersCollectionRef.document(userID)
         userRef.setData([DocumentKey.fcmToken.rawValue: token], merge: true)
     }

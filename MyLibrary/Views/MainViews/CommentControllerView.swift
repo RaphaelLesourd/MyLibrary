@@ -10,11 +10,10 @@ import UIKit
 import InputBarAccessoryView
 
 class CommentControllerView: UIView {
-   
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
         configureEmptyStateView()
         configureTableView()
         configureInputBar()
@@ -26,11 +25,11 @@ class CommentControllerView: UIView {
     }
     
     // MARK: - Subviews
-    let tableView         = UITableView(frame: .zero, style: .insetGrouped)
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
     let activityIndicator = UIActivityIndicatorView()
-    let refresherControl  = UIRefreshControl()
-    let inputBar          = InputBarAccessoryView()
-    let emptyStateView    = EmptyStateView()
+    let refresherControl = UIRefreshControl()
+    let inputBar = InputBarAccessoryView()
+    let emptyStateView = EmptyStateView()
     
     // MARK: - Configure
     private func configureInputBar() {
@@ -58,14 +57,14 @@ class CommentControllerView: UIView {
     private func configureTableView() {
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.reuseIdentifier)
         tableView.register(CommentsBookCell.self, forCellReuseIdentifier: CommentsBookCell.reuseIdentifier)
-        tableView.backgroundColor              = .clear
-        tableView.contentInset                 = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        tableView.rowHeight                    = UITableView.automaticDimension
-        tableView.estimatedRowHeight           = 400
-        tableView.alwaysBounceVertical         = true
+        tableView.backgroundColor = .clear
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 400
+        tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = false
-        tableView.allowsSelection              = false
-        tableView.refreshControl               = refresherControl
+        tableView.allowsSelection = false
+        tableView.refreshControl = refresherControl
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     

@@ -27,6 +27,7 @@ class CommentsBookCell: UITableViewCell {
        
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
+        
         setContentViewConstraints()
         setBookCoverConstraints()
         setStackViewConstraints()
@@ -37,13 +38,13 @@ class CommentsBookCell: UITableViewCell {
     }
   
    // MARK: - Subviews
-    private let bookCover     = BookCover(frame: .zero)
-    private let titleLabel    = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 21, weight: .bold)
+    private let bookCover = BookCover(frame: .zero)
+    private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 21, weight: .bold)
     private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 16, weight: .medium)
-    private let stackView     = StackView(axis: .vertical, spacing: 5)
+    private let stackView = StackView(axis: .vertical, spacing: 5)
    
     func configure(with book: Item) {
-        titleLabel.text    = book.volumeInfo?.title
+        titleLabel.text = book.volumeInfo?.title
         subtitleLabel.text = formatter.joinArrayToString(book.volumeInfo?.authors)
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
@@ -52,6 +53,7 @@ class CommentsBookCell: UITableViewCell {
 }
 // MARK: - Constraints
 extension CommentsBookCell {
+    
     private func setContentViewConstraints() {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

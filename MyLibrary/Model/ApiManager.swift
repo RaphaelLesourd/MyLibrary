@@ -20,7 +20,7 @@ class ApiManager {
     
     // MARK: - Initializer
     init(session: Session = .default, validator: ValidatorProtocol = Validator()) {
-        self.session   = session
+        self.session = session
         self.validator = validator
     }
     /// Verifies is the query keyword is a en ISBN.

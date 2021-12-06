@@ -34,10 +34,9 @@ class TextLabel: UILabel {
                             alignment: NSTextAlignment = .left,
                             fontSize: CGFloat = 14,
                             weight: UIFont.Weight = .regular) {
-        self.textColor     = color
+        self.textColor = color
         self.numberOfLines = maxLines
         self.textAlignment = alignment
-        self.font          = UIFont.systemFont(ofSize: fontSize, weight: weight)
-        self.text          = "--"
+        self.font = UIFont.systemFont(ofSize: fontSize, weight: weight)
     }
 }

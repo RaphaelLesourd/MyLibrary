@@ -41,16 +41,16 @@ class TextInputViewController: UIViewController {
     }
     // MARK: - Setup
     private func configureTextView() {
-        textView.backgroundColor              = .clear
-        textView.autocorrectionType           = .yes
-        textView.isEditable                   = true
-        textView.isSelectable                 = true
-        textView.alwaysBounceVertical         = true
+        textView.backgroundColor = .clear
+        textView.autocorrectionType = .yes
+        textView.isEditable = true
+        textView.isSelectable = true
+        textView.alwaysBounceVertical = true
         textView.showsVerticalScrollIndicator = true
-        textView.isScrollEnabled              = true
-        textView.textAlignment                = .justified
-        textView.font                         = UIFont.systemFont(ofSize: 16, weight: .regular)
-        textView.textColor                    = .label
+        textView.isScrollEnabled = true
+        textView.textAlignment = .justified
+        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.textColor = .label
         textView.sizeToFit()
     }
     

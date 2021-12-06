@@ -16,6 +16,7 @@ class CollectionView: UIView {
         configureCollectionView()
         setCollectionViewConstraints()
         setEmptyStateViewConstraints()
+        
         emptyStateView.isHidden = true
     }
     
@@ -24,18 +25,18 @@ class CollectionView: UIView {
     }
     
     // MARK: - Subviews
-    var collectionView    = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     let activityIndicator = UIActivityIndicatorView()
-    let refresherControl  = UIRefreshControl()
-    let emptyStateView    = EmptyStateView()
+    let refresherControl = UIRefreshControl()
+    let emptyStateView = EmptyStateView()
     
     private func configureCollectionView() {
-        refresherControl.attributedTitle            = NSAttributedString(string: "Rechargement")
-        refresherControl.tintColor                  = .label
-        collectionView.refreshControl               = refresherControl
+        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
+        refresherControl.tintColor = .label
+        collectionView.refreshControl = refresherControl
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor              = .clear
-        collectionView.contentInset                 = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
+        collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
 }

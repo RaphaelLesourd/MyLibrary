@@ -56,6 +56,7 @@ class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
 }
 // MARK: - PanModal Extension
 extension BarcodeScanViewController: PanModalPresentable {
+    
     var shortFormHeight: PanModalHeight {
         return .maxHeightWithTopInset(view.frame.height * 0.20)
     }

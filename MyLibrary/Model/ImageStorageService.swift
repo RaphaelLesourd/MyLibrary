@@ -22,12 +22,12 @@ class ImageStorageService {
     
     private let db = Firestore.firestore()
     private let usersCollectionRef: CollectionReference
-    private let storageReference  : StorageReference
+    private let storageReference: StorageReference
     
     init() {
-        storageReference   = Storage.storage().reference()
+        storageReference = Storage.storage().reference()
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID        = Auth.auth().currentUser?.uid ?? ""
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func addImageToStorage(for imageData: Data?, id: String,
@@ -54,11 +54,10 @@ class ImageStorageService {
     }
 }
 
-// MARK: - ImageStorageProtocol Extension
+// MARK: - Extension ImageStorageProtocol
 extension ImageStorageService: ImageStorageProtocol {
     
-    func storeBookCoverImage(for imageData: Data?, nameID: String,
-                             completion: @escaping (Result<String, FirebaseError>) -> Void) {
+    func storeBookCoverImage(for imageData: Data?, nameID: String, completion: @escaping (Result<String, FirebaseError>) -> Void) {
         addImageToStorage(for: imageData, id: nameID) { result in
             switch result {
             case .success(let imageStringURL):

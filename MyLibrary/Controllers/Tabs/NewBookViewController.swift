@@ -16,40 +16,40 @@ protocol NewBookDelegate: AnyObject {
 }
 
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
-   
+    
     // MARK: - Properties
     private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
-    private let newBookView      = NewBookControllerView()
-    private let languageList     = Locale.isoLanguageCodes
-    private let currencyList     = Locale.isoCurrencyCodes
+    private let newBookView = NewBookControllerView()
+    private let languageList = Locale.isoLanguageCodes
+    private let currencyList = Locale.isoCurrencyCodes
     
-    private let formatter     : FormatterProtocol
-    private let validator     : ValidatorProtocol
+    private let formatter: FormatterProtocol
+    private let validator: ValidatorProtocol
     private let libraryService: LibraryServiceProtocol
-    private let imageLoader   : ImageRetriverProtocol
-    private var imagePicker   : ImagePicker?
+    private let imageLoader: ImageRetriverProtocol
+    private var imagePicker: ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
     
     weak var bookCardDelegate: BookCardDelegate?
-    var isEditingBook  = false
-    var bookCategories : [String] = []
+    var isEditingBook = false
+    var bookCategories: [String] = []
     var bookDescription: String?
-    var bookComment    : String?
+    var bookComment: String?
     var newBook: Item? {
         didSet {
             displayBookDetail()
         }
     }
-   
+    
     init(libraryService: LibraryServiceProtocol,
          formatter: FormatterProtocol,
          validator: ValidatorProtocol,
          imageLoader: ImageRetriverProtocol) {
         self.libraryService = libraryService
-        self.formatter      = formatter
-        self.validator      = validator
-        self.imageLoader    = imageLoader
+        self.formatter = formatter
+        self.validator = validator
+        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,22 +92,22 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private func setDelegates() {
         newBookView.textFields.forEach { $0.delegate = self }
-        newBookView.languageCell.pickerView.delegate   = self
+        newBookView.languageCell.pickerView.delegate = self
         newBookView.languageCell.pickerView.dataSource = self
-        newBookView.currencyCell.pickerView.delegate   = self
+        newBookView.currencyCell.pickerView.delegate = self
         newBookView.currencyCell.pickerView.dataSource = self
     }
     
     private func setButtonTargets() {
         newBookView.saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
     }
-
+    
     private func configureSearchController() {
         newBookView.searchController = UISearchController(searchResultsController: resultController)
-        newBookView.searchController.searchBar.delegate                   = self
+        newBookView.searchController.searchBar.delegate = self
         newBookView.searchController.obscuresBackgroundDuringPresentation = false
-        newBookView.searchController.searchBar.placeholder                = Text.SearchBarPlaceholder.search
-        newBookView.searchController.definesPresentationContext           = false
+        newBookView.searchController.searchBar.placeholder = Text.SearchBarPlaceholder.search
+        newBookView.searchController.definesPresentationContext = false
         resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -116,15 +116,15 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     func displayBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookView.bookTileCell.textField.text      = book.volumeInfo?.title
-        newBookView.bookAuthorCell.textField.text    = formatter.joinArrayToString(book.volumeInfo?.authors)
-        newBookView.publisherCell.textField.text     = book.volumeInfo?.publisher
-        newBookView.publishDateCell.textField.text   = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
-        newBookView.isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
+        newBookView.bookTileCell.textField.text = book.volumeInfo?.title
+        newBookView.bookAuthorCell.textField.text = formatter.joinArrayToString(book.volumeInfo?.authors)
+        newBookView.publisherCell.textField.text = book.volumeInfo?.publisher
+        newBookView.publishDateCell.textField.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
+        newBookView.isbnCell.textField.text = book.volumeInfo?.industryIdentifiers?.first?.identifier
         newBookView.numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        bookDescription                              = book.volumeInfo?.volumeInfoDescription
-        bookCategories                               = book.category ?? []
-      
+        bookDescription = book.volumeInfo?.volumeInfoDescription
+        bookCategories = book.category ?? []
+        
         displayBookCover(for: book)
         displayBookPrice(for: book)
         displayRating(for: book)
@@ -137,28 +137,31 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             self?.newBookView.bookImageCell.pictureView.image = image
         }
     }
+    
     private func displayBookPrice(for book: Item) {
         if let price = book.saleInfo?.retailPrice?.amount {
             newBookView.purchasePriceCell.textField.text = "\(price)"
         }
     }
+    
     private func displayRating(for book: Item) {
         if let rating = book.volumeInfo?.ratingsCount {
             newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
         }
     }
+    
     private func setBookLanguage() {
         let bookLanguage = newBook?.volumeInfo?.language ?? Bundle.main.preferredLocalizations[0]
         setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
     }
+    
     private func setBookCurrency() {
         let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode ?? Locale.current.currencyCode
         setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency ?? "")
     }
+    
     private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
-        if let index = list.firstIndex(where: {
-            $0.lowercased() == code.lowercased()
-        }) {
+        if let index = list.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
             picker.selectRow(index, inComponent: 0, animated: false)
             self.pickerView(picker, didSelectRow: index, inComponent: 0)
         }
@@ -184,7 +187,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
-            
             self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -237,7 +239,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     private func showCategoryList() {
         let categoryListVC = CategoriesViewController()
-        categoryListVC.newBookDelegate    = self
+        categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
         navigationController?.pushViewController(categoryListVC, animated: true)
     }
@@ -245,7 +247,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private func presentTextInputController() {
         let textInputViewController = TextInputViewController()
         textInputViewController.newBookDelegate = self
-        textInputViewController.textViewText    = bookDescription 
+        textInputViewController.textViewText = bookDescription
         navigationController?.pushViewController(textInputViewController, animated: true)
     }
 }

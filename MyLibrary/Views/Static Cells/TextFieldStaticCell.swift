@@ -13,6 +13,9 @@ class TextFieldStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(textField)
+        
         setConstraints()
     }
     
@@ -34,10 +37,8 @@ class TextFieldStaticCell: UITableViewCell {
 // MARK: - Constraints
 extension TextFieldStaticCell {
     private func setConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(textField)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),

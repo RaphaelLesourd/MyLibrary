@@ -10,16 +10,16 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     private lazy var dataSource = makeDataSource()
     
-    private var noMoreBooks    = false
-    private var layoutComposer : LayoutComposer
-    private let mainView       = CollectionView()
-    private var footerView     = LoadingFooterSupplementaryView()
-    private var libraryService : LibraryServiceProtocol
-    private var bookList       : [Item] = []
+    private var noMoreBooks = false
+    private var layoutComposer: LayoutComposer
+    private let mainView = CollectionView()
+    private var footerView = LoadingFooterSupplementaryView()
+    private var libraryService: LibraryServiceProtocol
+    private var bookList: [Item] = []
     
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
@@ -62,7 +62,7 @@ class BookLibraryViewController: UIViewController {
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
         mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        mainView.collectionView.delegate   = self
+        mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
     }
     
@@ -140,6 +140,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
+    
     private func makeDataSource() -> DataSource {
         dataSource = DataSource(collectionView: mainView.collectionView,
                                 cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
@@ -158,6 +159,7 @@ extension BookLibraryViewController {
             return self?.footerView
         }
     }
+    
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         mainView.emptyStateView.isHidden = !bookList.isEmpty

@@ -31,8 +31,8 @@ class HeaderSupplementaryView: UICollectionReusableView {
 // MARK: - Constraints
 extension HeaderSupplementaryView {
     private func setStackViewConstrainsts() {
-        titleView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleView)
+        titleView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: topAnchor),
             titleView.bottomAnchor.constraint(equalTo: bottomAnchor),

@@ -10,18 +10,18 @@ import UIKit
 class CategoriesViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
     typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
-   
-    var dataSource        : DataSource!
+    
+    var dataSource: DataSource!
     var selectedCategories: [String] = []
     var settingBookCategory = true
     
     weak var newBookDelegate: NewBookDelegate?
     
     private let categoryService = CategoryService.shared
-    private let listView        = ListTableView()
-
+    private let listView = ListTableView()
+    
     // MARK: - Lifecycle
     override func loadView() {
         view = listView
@@ -65,9 +65,7 @@ class CategoriesViewController: UIViewController {
     
     private func setCategories() {
         selectedCategories.forEach({ categories in
-            if let index = categoryService.categories.firstIndex(where: {
-                $0.uid == categories
-            }) {
+            if let index = categoryService.categories.firstIndex(where: { $0.uid == categories }) {
                 let indexPath = IndexPath(row: index, section: 0)
                 listView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
             }
@@ -105,15 +103,13 @@ class CategoriesViewController: UIViewController {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            if let index = self.categoryService.categories.firstIndex(where: {
-                $0.name?.lowercased() == category.name?.lowercased()
-            }) {
+            if let index = self.categoryService.categories.firstIndex(where: { $0.name?.lowercased() == category.name?.lowercased() }) {
                 self.categoryService.categories.remove(at: index)
             }
             self.applySnapshot()
         }
     }
-  
+    
     @objc private func reloadList() {
         categoryService.getCategories { [weak self] error in
             self?.listView.refresherControl.endRefreshing()
@@ -144,9 +140,7 @@ class CategoriesViewController: UIViewController {
     
     private func removeCategoryFromList(_ category: CategoryModel) {
         guard let categoryID = category.uid else { return }
-        if let index = selectedCategories.firstIndex(where: {
-            $0 == categoryID
-        }) {
+        if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
             selectedCategories.remove(at: index)
         }
     }
@@ -166,16 +160,16 @@ class CategoriesViewController: UIViewController {
 }
 // MARK: - TableView Datasource
 extension CategoriesViewController {
- 
+    
     private func makeDataSource() {
         dataSource = DataSource(tableView: listView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.backgroundColor = .tertiarySystemBackground
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+            
+            cell.backgroundColor = .tertiarySystemBackground
             cell.selectedBackgroundView = backgroundView
             cell.textLabel?.text = item.name?.capitalized
-            
             return cell
         })
         listView.tableView.dataSource = dataSource
@@ -192,23 +186,21 @@ extension CategoriesViewController {
 // MARK: - TableView Delegate
 extension CategoriesViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
- 
-    private func contextMenuAction(for actionType: CategoryActionType,
-                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    
+    private func contextMenuAction(for actionType: CategoryActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
             guard let self = self else {return}
+            
+            let category = self.categoryService.categories[indexPath.row]
             switch actionType {
             case .delete:
-               let category = self.categoryService.categories[indexPath.row]
-               self.displayDeleteCategoryAlert(category)
+                self.displayDeleteCategoryAlert(category)
             case .edit:
-                let category = self.categoryService.categories[indexPath.row]
                 self.updateCategoryAlert(for: category)
             }
             completion(true)

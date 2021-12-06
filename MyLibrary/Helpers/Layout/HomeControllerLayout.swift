@@ -9,14 +9,12 @@ import Foundation
 import UIKit
 
 class HomeViewControllerLayout {
- 
+    
+    // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: size,
-            subitems: [item]
-        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil, top: nil, trailing: .fixed(5), bottom: nil)
         return createSection(with: group, horizontal: true)
     }
@@ -25,11 +23,8 @@ class HomeViewControllerLayout {
     private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(0.25)),
-            subitem: item,
-            count: 1
-        )
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .fractionalHeight(0.25))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
         group.interItemSpacing = .fixed(10)
         return createSection(with: group, horizontal: true)
     }
@@ -38,11 +33,8 @@ class HomeViewControllerLayout {
     private func makeBookDetailLayoutSection(numberItems: Int) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 30)
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(290)),
-            subitem: item,
-            count: numberItems
-        )
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(290))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitem: item, count: numberItems)
         group.interItemSpacing = .fixed(15)
         return createSection(with: group, horizontal: true)
     }
@@ -64,12 +56,11 @@ class HomeViewControllerLayout {
         return section
     }
 }
-
+// MARK: - Layout composer protocol
 extension HomeViewControllerLayout: LayoutComposer {
-  
+    
     func setCollectionViewLayout() -> UICollectionViewLayout {
-        
-       UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:
                 return self?.makeCategoryLayoutSection()

@@ -13,6 +13,11 @@ class ProfileStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        textStackView.addArrangedSubview(userNameTextField)
+        textStackView.addArrangedSubview(emailLabel)
+        mainStackView.addArrangedSubview(textStackView)
+        mainStackView.addArrangedSubview(activityIndicator)
+        
         setProfileButtonConstraints()
         setStackViewConstraints()
     }
@@ -55,12 +60,6 @@ extension ProfileStaticCell {
     }
     
     private func setStackViewConstraints() {
-        textStackView.addArrangedSubview(userNameTextField)
-        textStackView.addArrangedSubview(emailLabel)
-        
-        mainStackView.addArrangedSubview(textStackView)
-        mainStackView.addArrangedSubview(activityIndicator)
-        
         contentView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

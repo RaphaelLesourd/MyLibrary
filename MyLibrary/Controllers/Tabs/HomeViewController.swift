@@ -11,16 +11,17 @@ class HomeViewController: UIViewController {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
+    
     private var dataSource: DataSource!
     
-    private let mainView        = CollectionView()
-    private var layoutComposer  : LayoutComposer
-    private var libraryService  : LibraryServiceProtocol
+    private let mainView = CollectionView()
+    private var layoutComposer: LayoutComposer
+    private var libraryService: LibraryServiceProtocol
     private var categoryService = CategoryService.shared
     
-    private var latestBooks     : [Item] = []
-    private var favoriteBooks   : [Item] = []
+    private var latestBooks: [Item] = []
+    private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
     
     // MARK: - Initializer
@@ -36,9 +37,9 @@ class HomeViewController: UIViewController {
     
     // MARK: - Lifecycle
     override func loadView() {
-        view                 = mainView
+        view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title                = Text.ControllerTitle.home
+        title = Text.ControllerTitle.home
     }
     
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class HomeViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
     }
-   
+    
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -103,21 +104,21 @@ class HomeViewController: UIViewController {
         
         libraryService.getBookList(for: query, limit: 20, forMore: false) { [weak self] result in
             guard let self = self else { return }
-                self.hideIndicator(self.mainView.activityIndicator)
-                self.mainView.refresherControl.endRefreshing()
-                switch result {
-                case .success(let books):
-                    completion(books)
-                case .failure(let error):
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
-                }
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
+            switch result {
+            case .success(let books):
+                completion(books)
+            case .failure(let error):
+                self.presentAlertBanner(as: .error, subtitle: error.description)
+            }
         }
     }
     
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         var query: BookQuery?
-       
+        
         switch dataSource.snapshot().sectionIdentifiers[sender.tag] {
         case .categories:
             showCategories()
@@ -133,8 +134,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
-        let bookListVC = BookLibraryViewController(libraryService: LibraryService(),
-                                                   layoutComposer: ListLayout())
+        let bookListVC = BookLibraryViewController(libraryService: LibraryService(), layoutComposer: ListLayout())
         if let query = query {
             bookListVC.currentQuery = query
             bookListVC.title = title
@@ -158,6 +158,7 @@ extension HomeViewController {
         dataSource = DataSource(collectionView: mainView.collectionView,
                                 cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil }
+            
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch  sections {
             case .categories:
@@ -217,12 +218,10 @@ extension HomeViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         snapshot.appendSections(HomeCollectionViewSections.allCases)
-        
         snapshot.appendItems(categoryService.categories, toSection: .categories)
         snapshot.appendItems(latestBooks, toSection: .newEntry)
         snapshot.appendItems(favoriteBooks, toSection: .favorites)
         snapshot.appendItems(recommandedBooks, toSection: .recommanding)
-
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

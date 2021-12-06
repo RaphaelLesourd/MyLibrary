@@ -12,6 +12,8 @@ class CellTitleView: UIView {
    
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subtitleLabel)
         setStackviewConstrainsts()
     }
     
@@ -19,16 +21,13 @@ class CellTitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
    
-    let titleLabel        = TextLabel(fontSize: 13, weight: .bold)
-    let subtitleLabel     = TextLabel(fontSize: 12, weight: .regular)
+    let titleLabel = TextLabel(fontSize: 13, weight: .bold)
+    let subtitleLabel = TextLabel(fontSize: 12, weight: .regular)
     private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 5)
 }
 // MARK: - Extension
 extension CellTitleView {
     private func setStackviewConstrainsts() {
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
-        
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

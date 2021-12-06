@@ -34,9 +34,9 @@ open class ImagePicker: NSObject {
         self.presentationController = presentationController
         self.delegate = delegate
 
-        self.pickerController.delegate      = self
+        self.pickerController.delegate = self
         self.pickerController.allowsEditing = false
-        self.pickerController.mediaTypes    = ["public.image"]
+        self.pickerController.mediaTypes = ["public.image"]
         if self.pickerController.sourceType == .camera {
             self.pickerController.showsCameraControls = true
         }

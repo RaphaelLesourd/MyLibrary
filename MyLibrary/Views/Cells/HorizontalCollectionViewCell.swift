@@ -34,16 +34,16 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     private let textStackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
     
     override func prepareForReuse() {
-        titleView.titleLabel.text    = nil
+        titleView.titleLabel.text = nil
         titleView.subtitleLabel.text = nil
-        descriptionLabel.text        = nil
-        bookCover.image              = Images.emptyStateBookImage
+        descriptionLabel.text = nil
+        bookCover.image = Images.emptyStateBookImage
     }
     
     func configure(with book: Item) {
-        titleView.titleLabel.text    = book.volumeInfo?.title
+        titleView.titleLabel.text = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
-        descriptionLabel.text        = book.volumeInfo?.volumeInfoDescription
+        descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
         
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
@@ -54,9 +54,8 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
 extension HorizontalCollectionViewCell {
     
     private func setBookCoverViewWidth() {
-        bookCover.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(bookCover)
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

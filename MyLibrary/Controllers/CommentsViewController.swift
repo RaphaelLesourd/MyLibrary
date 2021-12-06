@@ -13,19 +13,19 @@ import FirebaseAuth
 class CommentsViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot   = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
     typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
     private var dataSource: DataSource!
     
-    private let mainView        = CommentControllerView()
+    private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
-    private let commentService  : CommentServiceProtocol
-    private let validator       : ValidatorProtocol
-    private let messageService  : MessageServiceProtocol
+    private let commentService: CommentServiceProtocol
+    private let validator: ValidatorProtocol
+    private let messageService: MessageServiceProtocol
     
-    private var commentList     : [CommentModel] = []
-    private var editedCommentID : String?
-    private var book            : Item?
+    private var commentList: [CommentModel] = []
+    private var editedCommentID: String?
+    private var book: Item?
     
     // MARK: - Initializer
     init(book: Item?,
@@ -33,8 +33,8 @@ class CommentsViewController: UIViewController {
          messageService: MessageServiceProtocol,
          validator: ValidatorProtocol) {
         self.commentService = commentService
-        self.book           = book
-        self.validator      = validator
+        self.book = book
+        self.validator = validator
         self.messageService = messageService
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +61,7 @@ class CommentsViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         getComments()
     }
- 
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         commentService.commentListener?.remove()
@@ -74,13 +74,13 @@ class CommentsViewController: UIViewController {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
-  
+    
     private func setTargets() {
         mainView.refresherControl.addTarget(self, action: #selector(getComments), for: .valueChanged)
     }
     
     private func setDelegates() {
-        mainView.inputBar.delegate  = self
+        mainView.inputBar.delegate = self
         mainView.tableView.delegate = self
     }
     
@@ -111,19 +111,18 @@ class CommentsViewController: UIViewController {
             }
         }
     }
- 
+    
     private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
         guard let userID = comment.userID else { return }
-        
         self.commentService.getUserDetail(for: userID) { [weak self] result in
             switch result {
             case .success(let user):
-                    guard let user = user else {
-                        self?.deleteComment(for: comment)
-                        completion(nil)
-                        return
-                    }
-                    completion(user)
+                guard let user = user else {
+                    self?.deleteComment(for: comment)
+                    completion(nil)
+                    return
+                }
+                completion(user)
             case .failure(_):
                 completion(nil)
             }
@@ -135,9 +134,9 @@ class CommentsViewController: UIViewController {
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
         notifyUser(of: comment)
+        
         commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
             guard let self = self else { return }
-            
             self.hideIndicator(self.mainView.activityIndicator)
             self.editedCommentID = nil
             if let error = error {
@@ -150,6 +149,7 @@ class CommentsViewController: UIViewController {
     
     private func notifyUser(of comment: String) {
         guard let book = book else { return }
+        
         messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
@@ -161,11 +161,10 @@ class CommentsViewController: UIViewController {
     private func deleteComment(for comment: CommentModel) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        
         showIndicator(mainView.activityIndicator)
+        
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
             guard let self = self else { return }
-            
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
@@ -179,7 +178,7 @@ extension CommentsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let numberOfItemsInsection = dataSource.snapshot().numberOfItems(inSection: section)
@@ -199,17 +198,14 @@ extension CommentsViewController: UITableViewDelegate {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
         
-        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
-            return nil
-        }
+        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else { return nil }
         let commentOwnerID = comment.userID
         let currentUserID = Auth.auth().currentUser?.uid
         return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
     }
     
-    private func contextMenuAction(for actionType: CategoryActionType,
-                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-      
+    private func contextMenuAction(for actionType: CategoryActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
         }
@@ -239,11 +235,10 @@ extension CommentsViewController: UITableViewDelegate {
 extension CommentsViewController {
     
     private func createDataSource() {
-        dataSource = DataSource(tableView: mainView.tableView,
-                                cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
-          
-           let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-           switch section {
+        dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
+            
+            let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            switch section {
             case .book:
                 if let item = item as? Item {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
@@ -287,6 +282,7 @@ extension CommentsViewController {
 }
 // MARK: - InputBar delegate
 extension CommentsViewController: InputBarAccessoryViewDelegate {
+    
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         addComment(with: text, commentID: editedCommentID)
         self.mainView.inputBar.inputTextView.text = ""

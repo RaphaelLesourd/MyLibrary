@@ -33,27 +33,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if ProcessInfo.processInfo.environment["unit_tests"] == "true" {
             print("Setting up Firebase emulator localhost:8080")
             let settings = Firestore.firestore().settings
-            settings.host                  = "localhost:8080"
-            settings.isPersistenceEnabled  = false
-            settings.isSSLEnabled          = false
+            settings.host = "localhost:8080"
+            settings.isPersistenceEnabled = false
+            settings.isSSLEnabled = false
             Firestore.firestore().settings = settings
 
             let settingsAuth = Auth.auth().settings
-            settings.host                  = "localhost:9099"
-            settings.isPersistenceEnabled  = false
-            settings.isSSLEnabled          = false
-            Auth.auth().settings           = settingsAuth
+            settings.host = "localhost:9099"
+            settings.isPersistenceEnabled = false
+            settings.isSSLEnabled = false
+            Auth.auth().settings = settingsAuth
             
             Storage.storage().useEmulator(withHost:"localhost", port: 9199)
         }
     }
     
     private func configureKeyboard() {
-        IQKeyboardManager.shared.enable                        = true
-        IQKeyboardManager.shared.toolbarTintColor              = .label
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText  = "Fermer"
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.toolbarTintColor = .label
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Fermer"
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 60
-        IQKeyboardManager.shared.shouldResignOnTouchOutside    = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
 
     private func kingFisherCacheSetup() {

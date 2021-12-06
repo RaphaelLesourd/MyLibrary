@@ -16,6 +16,7 @@ class TitleViewView: UIView {
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(actionButton)
+       
         setStackViewConstrainsts()
     }
     
