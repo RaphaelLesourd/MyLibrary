@@ -11,7 +11,7 @@ import UIKit
 class RatingView: UIView {
     
     // MARK: - Properties
-    public var rating: Int = 0 {
+    var rating: Int = 0 {
       didSet {
         for index in 0..<5 {
             imageViews[index].tintColor = index < rating ? .ratingColor : UIColor.ratingColor.withAlphaComponent(0.2)
@@ -21,7 +21,7 @@ class RatingView: UIView {
     private let imageViews: [UIImageView]
    
     // MARK: - Initializer
-    public init() {
+    init() {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular, scale: .medium)
         
         imageViews = (0..<5).map { _ in

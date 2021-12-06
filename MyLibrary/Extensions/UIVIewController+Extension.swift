@@ -56,7 +56,7 @@ extension UIViewController {
     }
     
     // MARK: - Banner
-    public func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
+    func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
         DispatchQueue.main.async {
             Bauly.shared.forcePresent(configurationHandler: { bauly in
                 bauly.title = type.message

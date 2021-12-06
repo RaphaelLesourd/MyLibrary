@@ -9,14 +9,14 @@ import Foundation
 import Photos
 import UIKit
 
-public protocol ImagePickerDelegate: AnyObject {
+protocol ImagePickerDelegate: AnyObject {
     func didSelect(image: UIImage?)
     func presentAlertBanner(as type: AlertBannerType, subtitle: String)
 }
 
 // Source code and process assimilated from this article
 // https://theswiftdev.com/picking-images-with-uiimagepickercontroller-in-swift-5/
-open class ImagePicker: NSObject {
+class ImagePicker: NSObject {
 
     // MARK: - Properties
     private let pickerController: UIImagePickerController
@@ -28,7 +28,7 @@ open class ImagePicker: NSObject {
     /// - Parameters:
     ///   - presentationController: ViewController calling the ImagePicker
     ///   - delegate: ImagePickerDelegate
-    public init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
+    init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
         self.pickerController = UIImagePickerController()
         super.init()
         self.presentationController = presentationController
@@ -71,7 +71,7 @@ open class ImagePicker: NSObject {
     /// Present a menu to choose a source type.
     /// - Three sources are avaiable, camera, camera roll, photo library.
     /// - Parameter sourceView: source calling the method
-    public func present(from sourceView: UIView) {
+    func present(from sourceView: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if let action = self.action(for: .camera, title: "Take photo") {
             alertController.addAction(action)
@@ -127,14 +127,14 @@ open class ImagePicker: NSObject {
 extension ImagePicker: UIImagePickerControllerDelegate {
     
     /// Hande user cancel action, return no image.
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.pickerController(picker, didSelect: Images.emptyStateBookImage)
     }
     
     /// Handles the image when the user has selected one.
     /// - Uses the original , un edited image.
     /// - Unwrap the image optional, if an image is present it is passed to the call controller via the ImagePickerDelegate protocol.
-    public func imagePickerController(_ picker: UIImagePickerController,
+    func imagePickerController(_ picker: UIImagePickerController,
                                       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else {
             return self.pickerController(picker, didSelect: Images.emptyStateBookImage)

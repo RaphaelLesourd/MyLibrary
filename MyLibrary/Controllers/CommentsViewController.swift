@@ -15,14 +15,14 @@ class CommentsViewController: UIViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
     typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
-    private var dataSource: DataSource!
-    
+   
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
     
+    private var dataSource: DataSource!
     private var commentList: [CommentModel] = []
     private var editedCommentID: String?
     private var book: Item?

@@ -10,8 +10,8 @@ import UIKit
 class BookCoverViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
-    private var scrollView = ImageScrollView()
     var image = UIImage()
+    private var scrollView = ImageScrollView()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

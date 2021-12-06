@@ -34,7 +34,7 @@ class VideoCapture: NSObject {
         self?.processClassification(request)
     }
     
-    public init(presentationController: UIViewController, delegate: VideoCaptureDelegate) {
+    init(presentationController: UIViewController, delegate: VideoCaptureDelegate) {
         super.init()
         self.presentationController = presentationController
         self.delegate = delegate

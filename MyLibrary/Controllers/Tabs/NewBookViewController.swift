@@ -18,6 +18,18 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     
     // MARK: - Properties
+    var isEditingBook = false
+    var bookCategories: [String] = []
+    var bookDescription: String?
+    var bookComment: String?
+    var newBook: Item? {
+        didSet {
+            displayBookDetail()
+        }
+    }
+    
+    weak var bookCardDelegate: BookCardDelegate?
+    
     private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
     private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
@@ -30,17 +42,6 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     private var imagePicker: ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
-    
-    weak var bookCardDelegate: BookCardDelegate?
-    var isEditingBook = false
-    var bookCategories: [String] = []
-    var bookDescription: String?
-    var bookComment: String?
-    var newBook: Item? {
-        didSet {
-            displayBookDetail()
-        }
-    }
     
     init(libraryService: LibraryServiceProtocol,
          formatter: FormatterProtocol,

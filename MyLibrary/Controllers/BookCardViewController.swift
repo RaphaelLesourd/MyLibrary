@@ -15,13 +15,19 @@ protocol BookCardDelegate: AnyObject {
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
+    var searchType: SearchType?
+    var book: Item? {
+        didSet {
+            dispayBookData()
+        }
+    }
+    
     private let mainView = BookCardMainView()
     private let categoryService = CategoryService.shared
     private let formatter: FormatterProtocol
     private let imageLoader: ImageRetriverProtocol
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    
     private var coverImage: UIImage?
     private var isRecommandedStatus = false {
         didSet {
@@ -31,12 +37,6 @@ class BookCardViewController: UIViewController {
     private var isFavorite = false {
         didSet {
             setFavoriteIcon(isFavorite)
-        }
-    }
-    var searchType: SearchType?
-    var book: Item? {
-        didSet {
-            dispayBookData()
         }
     }
     // MARK: - Intializers

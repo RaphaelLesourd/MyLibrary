@@ -43,7 +43,7 @@ enum AccountInterfaceType {
     case deleteAccount
 }
 
-public enum AlertBannerType {
+enum AlertBannerType {
     case error
     case success
     case customMessage(String)

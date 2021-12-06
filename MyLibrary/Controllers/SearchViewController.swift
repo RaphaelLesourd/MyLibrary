@@ -12,18 +12,10 @@ class SearchViewController: UIViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-    private lazy var dataSource = makeDataSource()
-
-    private let mainView = CollectionView()
-    private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: LayoutComposer
-    private var networkService: ApiManagerProtocol
-    private var noMoreBooks: Bool?
-    
+   
     weak var newBookDelegate: NewBookDelegate?
-    
     var searchType: SearchType?
-    var searchedBooks: [Item] = [] 
+    var searchedBooks: [Item] = []
     var currentSearchKeywords = "" {
         didSet {
             searchedBooks.removeAll()
@@ -31,7 +23,15 @@ class SearchViewController: UIViewController {
             getBooks()
         }
     }
-   
+    
+    private let mainView = CollectionView()
+    
+    private lazy var dataSource = makeDataSource()
+    private var footerView = LoadingFooterSupplementaryView()
+    private var layoutComposer: LayoutComposer
+    private var networkService: ApiManagerProtocol
+    private var noMoreBooks: Bool?
+    
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol

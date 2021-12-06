@@ -12,16 +12,16 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-    private lazy var dataSource = makeDataSource()
     
+    var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
+    
+    private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var layoutComposer: LayoutComposer
     private let mainView = CollectionView()
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
     private var bookList: [Item] = []
-    
-    var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {

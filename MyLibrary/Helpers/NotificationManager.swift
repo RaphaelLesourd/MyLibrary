@@ -26,7 +26,7 @@ class NotificationManager: NSObject {
         register(application)
     }
     
-    public func setBadge(to count: Int) {
+    func setBadge(to count: Int) {
         UIApplication.shared.applicationIconBadgeNumber = count
     }
     // MARK: - Private functions
