@@ -68,8 +68,9 @@ extension UIViewController {
     // MARK: - Navigation
     func showBookDetails(for book: Item, searchType: SearchType) {
         let bookCardVC = BookCardViewController(libraryService: LibraryService(),
-                                                recommandationService: RecommandationService(),
-                                                formatter: Formatter())
+                                                recommendationService: RecommandationService(),
+                                                formatter: Formatter(),
+                                                imageLoader: ImageRetriver())
         bookCardVC.hidesBottomBarWhenPushed = true
         bookCardVC.searchType = searchType
         bookCardVC.book = book
@@ -96,5 +97,16 @@ extension UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             indicator.stopAnimating()
         }
+    }
+    
+    // MARK: - Keyboard
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self,action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

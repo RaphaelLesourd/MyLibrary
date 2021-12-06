@@ -68,8 +68,11 @@ class SigningViewController: UIViewController {
     // MARK: - Account
     private func loginToAccount() {
         let user = setUser()
-        userManager.login(with: user) { [weak self] error in
+        mainView.actionButton.displayActivityIndicator(true)
+       userManager.login(with: user) { [weak self] error in
             guard let self = self else { return }
+           
+           self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -80,8 +83,11 @@ class SigningViewController: UIViewController {
     
     private func createAccount() {
         let user = setUser()
+        mainView.actionButton.displayActivityIndicator(true)
         userManager.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
+          
+            self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -122,8 +128,11 @@ class SigningViewController: UIViewController {
     
     private func deleteAccount() {
         let user = setUser()
+        mainView.actionButton.displayActivityIndicator(true)
         self.userManager.deleteAccount(with: user) { [weak self] error in
             guard let self = self else { return }
+            
+            self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 self.presentAlertBanner(as: .error, subtitle: error.description)
                 return

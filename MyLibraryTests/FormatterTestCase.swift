@@ -31,7 +31,7 @@ class FormatterTestCase: XCTestCase {
     }
     
     func givenYearString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
-        let yearString = sut?.displayYearOnly(for: "1980-12-12")
+        let yearString = sut?.formatDateToYearString(for: "1980-12-12")
         XCTAssertEqual(yearString, "1980")
     }
 
@@ -45,14 +45,9 @@ class FormatterTestCase: XCTestCase {
         XCTAssertEqual(sut?.formatDecimalString(decimalString), 2.5)
     }
     
-    func test_givenTimestamp_whenNotNil_thenReturnTimestamp() {
-        let timestamp = 12345678.0
-        XCTAssertEqual(sut?.setTimestamp(for: timestamp), 12345678.0)
-    }
-    
     func test_givenString_whenConvertToInt_thenReturnInt() {
         let value = "1234"
-        XCTAssertEqual(sut?.convertStringToInt(value), 1234)
+        XCTAssertEqual(sut?.formatStringToInt(value), 1234)
     }
     
     func test_givenPriceAndCurrency_whenFormattingPrice_thenReturnPrice() {
@@ -63,15 +58,18 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenLanguageCode_whenConvertingToLanguageName_thenLanguageName() {
-        let languageName = sut?.getlanguageName(from: "fr")
+        let languageName = sut?.formatCodeToName(from: "fr", type: .language)
         XCTAssertEqual(languageName, "French")
     }
     
     func test_givenCurrencyCode_whenGettingLanguageName_thenReturnString() {
-        let currencyName = sut?.getCurrencyName(from: "LTT")
+        let currencyName = sut?.formatCodeToName(from: "LTT", type: .currency)
         XCTAssertEqual(currencyName, "Lithuanian Talonas")
     }
     
+    func test_givenTimesamp_whenFormattingToDate_thenReturnString() {
+        XCTAssertEqual(sut?.formatTimeStampToDateString(for: 123456767), "Nov 29, 1973 at 10:32 PM")
+    }
     // MARK: - Failure tests
     func test_givenNilArray_whenJoining_thenReturnEmptyString() {
         let string = sut?.joinArrayToString(nil)
@@ -79,13 +77,13 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenNilDateString_whenConvertingToYearOnly_thenReturnEmptyString() {
-        let givenDateString = sut?.displayYearOnly(for: nil)
+        let givenDateString = sut?.formatDateToYearString(for: nil)
         XCTAssertEqual(givenDateString, "")
     }
     
     func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnCurrentYear() {
         let givenDateString = "123123D/FSDF3423234"
-        let yearString = sut?.displayYearOnly(for: givenDateString)
+        let yearString = sut?.formatDateToYearString(for: givenDateString)
         XCTAssertEqual(yearString, "2021")
     }
     
@@ -97,17 +95,14 @@ class FormatterTestCase: XCTestCase {
         XCTAssertEqual(sut?.formatDecimalString("abcde"), 0)
     }
     
-    func test_givenNilTimestamp_whenSettingValue_thenReturnCurrentDateConvertedToDouble() {
-        XCTAssertNotNil(sut?.setTimestamp(for: nil))
-    }
     
     func test_givenStringWithLetters_whenConvertingToInt_thenReturnZero() {
         let value = "AZERTY"
-        XCTAssertEqual(sut?.convertStringToInt(value), 0)
+        XCTAssertEqual(sut?.formatStringToInt(value), 0)
     }
     
     func test_givenNilString_whenConvertingToInt_thenReturnZero() {
-        XCTAssertEqual(sut?.convertStringToInt(nil), 0)
+        XCTAssertEqual(sut?.formatStringToInt(nil), 0)
     }
     
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {
@@ -127,20 +122,24 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenNilLanguageCode_whenGettingLanguageName_returnEmptyString() {
-        XCTAssertEqual(sut?.getlanguageName(from: nil), "")
+        XCTAssertEqual(sut?.formatCodeToName(from: nil, type: .language), "")
     }
     
     func test_givenNonExistantLanguageCode_whenGettingLanguageName_returnEmptyString() {
-        XCTAssertEqual(sut?.getlanguageName(from: "eeeeeeeee"), "")
+        XCTAssertEqual(sut?.formatCodeToName(from: "eeeeeeeee", type: .language), "")
     }
     
     func test_givenNilCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {
-        let currencyName = sut?.getCurrencyName(from: nil)
+        let currencyName = sut?.formatCodeToName(from: nil, type: .currency)
         XCTAssertEqual(currencyName, "")
     }
     
     func test_givenNonExistantCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {
-        let currencyName = sut?.getCurrencyName(from: "123455")
+        let currencyName = sut?.formatCodeToName(from: "123455", type: .currency)
         XCTAssertEqual(currencyName, "")
+    }
+    
+    func test_givenNilTimestamp_whenFormattingToDate_thenReturnEmptyString() {
+        XCTAssertEqual(sut?.formatTimeStampToDateString(for: nil), "")
     }
 }

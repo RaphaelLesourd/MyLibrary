@@ -11,10 +11,11 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 protocol UserServiceProtocol {
-    func createUserInDatabase(for user: CurrentUser?, completion: @escaping (FirebaseError?) -> Void)
-    func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void)
+    func createUserInDatabase(for user: UserModel?, completion: @escaping (FirebaseError?) -> Void)
+    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
     func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void)
     func deleteUser(completion: @escaping (FirebaseError?) -> Void)
+    func updateFcmToken(with token: String)
 }
 
 class UserService {
@@ -30,13 +31,25 @@ class UserService {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID        = Auth.auth().currentUser?.uid ?? ""
     }
+    
+    private func updateAuthDisplayName(with name: String, completion: @escaping (FirebaseError?) -> Void) {
+        let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = name
+        changeRequest?.commitChanges { (error) in
+            if let error = error {
+                completion(.firebaseError(error))
+                return
+            }
+            completion(nil)
+        }
+    }
 }
 
 // MARK: - UserServiceProtocol Extension
 extension UserService: UserServiceProtocol {
-
+    
     // MARK: Create
-    func createUserInDatabase(for currentUser: CurrentUser?, completion: @escaping CompletionHandler) {
+    func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
         let userRef = usersCollectionRef.document(currentUser.userId)
@@ -47,20 +60,18 @@ extension UserService: UserServiceProtocol {
     }
     
     // MARK: Retrieve
-    func retrieveUser(completion: @escaping (Result<CurrentUser?, FirebaseError>) -> Void) {
+    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
         let userRef = usersCollectionRef.document(userID)
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            guard let querySnapshot = querySnapshot else {
-                completion(.failure(.nothingFound))
-                return
-            }
             do {
-                if let document = try querySnapshot.data(as: CurrentUser.self) {
+                if let document = try querySnapshot?.data(as: UserModel.self) {
                     completion(.success(document))
+                } else {
+                    completion(.failure(.noUserName))
                 }
             } catch { completion(.failure(.firebaseError(error))) }
         }
@@ -76,12 +87,23 @@ extension UserService: UserServiceProtocol {
             completion(.noUserName)
             return
         }
-        usersCollectionRef.document(userID).updateData([DocumentKey.username.rawValue : username]) { error in
+        usersCollectionRef.document(userID).updateData([DocumentKey.username.rawValue : username]) { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
             }
-            completion(nil)
+            self?.updateAuthDisplayName(with: username) { error in
+                if let error = error {
+                    completion(.firebaseError(error))
+                }
+                completion(nil)
+            }
         }
+    }
+    
+    func updateFcmToken(with token: String) {
+       guard !userID.isEmpty else { return }
+        let userRef = usersCollectionRef.document(userID)
+        userRef.setData([DocumentKey.fcmToken.rawValue: token], merge: true)
     }
     
     // MARK: Delete

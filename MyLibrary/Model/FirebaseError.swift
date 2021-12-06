@@ -6,17 +6,21 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseAuth
 
 enum FirebaseError: Error {
   
     case passwordMismatch
     case noUserName
-    case nothingFound
     case noCategory
+    case categoryExist
     case noBookTitle
+    case noComment
     case noNetwork
-    case documentAlreadyExist(String)
+    case nothingFound
     case firebaseError(Error)
+    case firebaseAuthError(Error)
    
     var description: String {
         switch self {
@@ -24,18 +28,58 @@ enum FirebaseError: Error {
             return "Les mots de passe ne correspondent pas."
         case .noUserName:
             return "Le nom d'utilisateur ne peux être vide."
-        case .nothingFound:
-            return "Je n'ai rien trouvé."
-        case .firebaseError(let error):
-            return error.localizedDescription
         case .noBookTitle:
             return "Vous devez au moins entrer un titre."
-        case .documentAlreadyExist(let value):
-            return "\(value.capitalized) Existe déja."
         case .noCategory:
-            return "Le nom ne peux être vide."
+            return "Catégorie non trouvée."
+        case .categoryExist:
+            return "Cette catégorie existe déja."
         case .noNetwork:
             return "Vous semblez être hors ligne."
+        case .firebaseError(let error):
+            return getFirestoreError(for: error)
+        case .firebaseAuthError(let error):
+            return getAuthError(for: error)
+        case .nothingFound:
+            return "Introuvable"
+        case .noComment:
+            return "Votre commentaire est vide."
+        }
+    }
+    
+    func getFirestoreError(for error: Error) -> String {
+        let errorCode = FirestoreErrorCode(rawValue: error._code)
+        switch errorCode {
+        case .alreadyExists:
+            return "Ce livre existe déja."
+        case .aborted:
+            return "Demande intérompue."
+        case .invalidArgument:
+            return "Requette non valable."
+        case .notFound:
+            return "Livre non trouvable."
+        case .unavailable:
+            return "Livre non disponible."
+        case .some(_), .none:
+            return error.localizedDescription
+        }
+    }
+    
+    func getAuthError(for error: Error) -> String {
+        let errorCode = AuthErrorCode(rawValue: error._code)
+        switch errorCode {
+        case .accountExistsWithDifferentCredential:
+            return "L'email et le mot de passe ne correspondent pas."
+        case .emailAlreadyInUse:
+            return "Email déja utilisé."
+        case .invalidEmail:
+            return "Mauvaise email."
+        case .wrongPassword:
+            return "Mauvais mot de passe."
+        case .invalidRecipientEmail:
+            return "Aucuns compte existe avec cet email."
+        case .some(_), .none:
+            return error.localizedDescription
         }
     }
 }

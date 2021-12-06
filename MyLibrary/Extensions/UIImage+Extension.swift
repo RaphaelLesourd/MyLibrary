@@ -10,22 +10,22 @@ import UIKit
 
 extension UIImage {
     
-    func resizeImage(_ max_size: CGFloat = 1000) -> UIImage {
+    func resizeImage(_ maxSize: CGFloat = 1000) -> UIImage {
         // adjust for device pixel density
-        let max_size_pixels = max_size / UIScreen.main.scale
+        let maxSizePixels = maxSize / UIScreen.main.scale
         // work out aspect ratio
-        let aspectRatio =  size.width/size.height
+        let aspectRatio = size.width / size.height
         // variables for storing calculated data
         var width: CGFloat
         var height: CGFloat
         if aspectRatio > 1 {
             // landscape
-            width = max_size_pixels
-            height = max_size_pixels / aspectRatio
+            width = maxSizePixels
+            height = maxSizePixels / aspectRatio
         } else {
             // portrait
-            height = max_size_pixels
-            width = max_size_pixels * aspectRatio
+            height = maxSizePixels
+            width = maxSizePixels * aspectRatio
         }
         // create an image renderer of the correct size
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: floor(width), height: floor(height)),

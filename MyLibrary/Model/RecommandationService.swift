@@ -9,9 +9,9 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol RecommandationServiceProtocol {
-    func addToRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void)
-    func removeFromRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void)
+protocol RecommendationServiceProtocol {
+    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
+    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
 }
 
 class RecommandationService {
@@ -25,13 +25,10 @@ class RecommandationService {
     }
 }
 // MARK: - RecommandationServiceProtocol extension
-extension RecommandationService: RecommandationServiceProtocol {
+extension RecommandationService: RecommendationServiceProtocol {
     
-    func addToRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let book = book, let bookID = book.etag else {
-            completion(.nothingFound)
-            return
-        }
+    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+        guard let bookID = book.bookID else { return }
         let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
@@ -40,11 +37,8 @@ extension RecommandationService: RecommandationServiceProtocol {
         } catch { completion(.firebaseError(error)) }
     }
     
-    func removeFromRecommandation(for book: Item?, completion: @escaping (FirebaseError?) -> Void) {
-        guard let book = book, let bookID = book.etag else {
-            completion(.nothingFound)
-            return
-        }
+    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+        guard let bookID = book.bookID else { return }
         let ref = recommandationCollectionRef.document(bookID)
         ref.delete { error in
             if let error = error {

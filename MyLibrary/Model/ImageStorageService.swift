@@ -20,9 +20,9 @@ protocol ImageStorageProtocol {
 class ImageStorageService {
     var userID: String
     
-    private let db                  = Firestore.firestore()
-    private let usersCollectionRef  : CollectionReference
-    private var storageReference    : StorageReference
+    private let db = Firestore.firestore()
+    private let usersCollectionRef: CollectionReference
+    private let storageReference  : StorageReference
     
     init() {
         storageReference   = Storage.storage().reference()

@@ -5,52 +5,36 @@
 //  Created by Birkyboy on 04/11/2021.
 //
 
-import XCTest
-import Firebase
-import FirebaseDatabase
-import FirebaseAuth
-import FirebaseStorage
-import FirebaseFirestoreSwift
 @testable import MyLibrary
+import XCTest
 
 class UserServiceTestCase: XCTestCase {
     // MARK: - Propserties
-    private var sut: UserService?
+    private var sut           : UserService?
     private var accountService: AccountService?
-    private let userID = "1"
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "test@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    private lazy var newUser = CurrentUser(userId: "1",
-                                           displayName: credentials.userName ?? "test",
-                                           email: credentials.email,
-                                           photoURL: "")
-    
+    private var exp           : XCTestExpectation?
+
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
+        Networkconnectivity.shared.status = .satisfied
+        exp = self.expectation(description: "Waiting for async operation")
         sut = UserService()
+        sut?.userID = createUser().userId
         accountService = AccountService()
     }
     
     override func tearDown() {
         super.tearDown()
-     //   clearFirestore()
         sut = nil
+        exp = nil
         accountService = nil
+        clearFirestore()
     }
-    
+
     // MARK: - Successful
-    func test_givenNewUser_whenStoringData_thenItReturnsNoErrors() {
-        // when
-        self.sut?.createUserInDatabase(for: newUser, completion: { error in
-            // then
-            XCTAssertNil(error)
-        })
-    }
-    
     func test_givenUserStored_whenRetreivingUser_thenShowData() {
+        let newUser = createUser()
         // when
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
@@ -59,24 +43,27 @@ class UserServiceTestCase: XCTestCase {
                 case .success(let user):
                     // then
                     XCTAssertNotNil(user)
-                    XCTAssertEqual(user?.email, self.newUser.email)
-                    XCTAssertEqual(user?.id, self.newUser.id)
-                    XCTAssertEqual(user?.displayName, self.newUser.displayName)
+                    XCTAssertEqual(user?.email, newUser.email)
+                    XCTAssertEqual(user?.id, newUser.id)
+                    XCTAssertEqual(user?.displayName, newUser.displayName)
                 case .failure(let error):
                     XCTAssertNil(error)
                 }
+                self.exp?.fulfill()
             })
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenUserStored_whenUpdatingName_thenDisplayNewName() {
+        let newUser = createUser()
         // Given
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
             // When
             XCTAssertNil(error)
             self.sut?.updateUserName(with: "updatedName", completion: { error in
                 if let error = error {
-                    XCTAssertNotNil(error)
+                    XCTAssertNil(error)
                 }
                 // Then
                 self.sut?.retrieveUser(completion: { result in
@@ -87,34 +74,33 @@ class UserServiceTestCase: XCTestCase {
                     case .failure(let error):
                         XCTAssertNotNil(error)
                     }
+                    self.exp?.fulfill()
                 })
             })
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenUserStored_whenDeleting_thenNoError() {
+        let newUser = createUser()
         // Given
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
-            if let error = error {
-                XCTAssertNotNil(error)
-            }
             //When
+            XCTAssertNil(error)
             self.sut?.deleteUser(completion: { error in
                 //then
-                if let error = error {
-                    XCTAssertNotNil(error)
-                }
-                
+                XCTAssertNil(error)
+                self.exp?.fulfill()
             })
         })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: - Errors
     func test_givenNoUser_whenRetrivingNonExistingUser_thenReturnError() {
+        let newUser = createUser()
         self.sut?.createUserInDatabase(for: newUser, completion: { error in
-            if let error = error {
-                XCTAssertNotNil(error)
-            }
+            XCTAssertNil(error)
             self.sut?.userID = "12"
             // when
             self.sut?.retrieveUser(completion: { result in
@@ -124,19 +110,40 @@ class UserServiceTestCase: XCTestCase {
                 case .failure(let error):
                     // Then
                     XCTAssertNotNil(error)
+                    XCTAssertEqual(error.description, FirebaseError.noUserName.description)
                 }
+                self.exp?.fulfill()
             })
         })
+        self.waitForExpectations(timeout: 20, handler: nil)
+    }
+    
+    func test_givenUser_whenUpdatingNameNoConnectivity_thenConnectivityError() {
+        let newUser = createUser()
+        // Given
+        self.sut?.createUserInDatabase(for: newUser, completion: { error in
+            // When
+            XCTAssertNil(error)
+            Networkconnectivity.shared.status = .unsatisfied
+            self.sut?.updateUserName(with: "updatedName", completion: { error in
+                // Then
+                XCTAssertNotNil(error)
+                XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
+                self.exp?.fulfill()
+            })
+       })
+        self.waitForExpectations(timeout: 10, handler: nil)
     }
     
     func test_givenNoUSerStored_whenUpdatingName_thenError() {
         // When
         sut?.userID = "12"
         self.sut?.updateUserName(with: "", completion: { error in
-            if let error = error {
-                // Then
-                XCTAssertNotNil(error)
-            }
+            // Then
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error?.description, FirebaseError.noUserName.description)
+            self.exp?.fulfill()
         })
+        self.waitForExpectations(timeout: 20, handler: nil)
     }
 }

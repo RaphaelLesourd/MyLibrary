@@ -14,8 +14,6 @@ class ButtonStaticCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         setButtonConstraints()
-        setActivityIndicatorCosntraints()
-        activityIndicator.hidesWhenStopped = true
     }
     
     required init?(coder: NSCoder) {
@@ -29,24 +27,11 @@ class ButtonStaticCell: UITableViewCell {
                                           tintColor: tintColor,
                                           backgroundColor: backgroundColor)
     }
-    private let activityIndicator = UIActivityIndicatorView()
+   
     let actionButton = ActionButton()
-    
-    func displayActivityIndicator(_ state: Bool) {
-        state ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
-        actionButton.alpha = state ? 0.3 : 1
-        actionButton.isUserInteractionEnabled = !state
-    }
+
 }
 extension ButtonStaticCell {
-    private func setActivityIndicatorCosntraints() {
-        contentView.addSubview(activityIndicator)
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        ])
-    }
     private func setButtonConstraints() {
         contentView.addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false

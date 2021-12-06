@@ -85,6 +85,19 @@ class SearchServiceTestCase: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
+    func test_givenMessage_whenPosting_thenReturnNoError() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { [self] request in
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, nil)
+        }
+        sut.postPushNotification(with: FakeData.correctMessageToPost) { error in
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
  // MARK: - Errors
     func test_givenAnISBN_whenRequestingBookList_thenDataError() {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
@@ -144,6 +157,18 @@ class SearchServiceTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-   
+    
+    func test_givenMessage_whenPosting_thenReturnError() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { [self] request in
+            let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)!
+            return (response, nil)
+        }
+        sut.postPushNotification(with: FakeData.correctMessageToPost) { error in
+            XCTAssertNotNil(error)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
 }
 

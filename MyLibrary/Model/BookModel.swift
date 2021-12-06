@@ -18,7 +18,7 @@ struct BookModel: Codable {
 struct Item: Codable {
     @DocumentID var id: String?
     private let diffableId = UUID()
-    var etag: String?
+    var bookID: String?
     let favorite: Bool?
     var ownerID: String?
     var recommanding: Bool?
@@ -28,7 +28,7 @@ struct Item: Codable {
     let category: [String]?
     
     private enum CodingKeys : String, CodingKey {
-        case etag, volumeInfo, saleInfo, favorite, timestamp, recommanding, ownerID, category
+        case volumeInfo, saleInfo, favorite, recommanding, ownerID, category, bookID, timestamp
     }
 }
 

@@ -10,6 +10,7 @@ import Alamofire
 
 protocol ApiManagerProtocol {
     func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void)
+    func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void)
 }
 
 class ApiManager {
@@ -18,7 +19,7 @@ class ApiManager {
     let validator: ValidatorProtocol
     
     // MARK: - Initializer
-    init(session: Session = .default, validator: ValidatorProtocol) {
+    init(session: Session = .default, validator: ValidatorProtocol = Validator()) {
         self.session   = session
         self.validator = validator
     }
@@ -53,7 +54,7 @@ extension ApiManager: ApiManagerProtocol {
                 switch response.result {
                 case .success(let jsonData):
                     guard let books = jsonData.items, !books.isEmpty else {
-                         completion(.failure(.noBooks))
+                        completion(.failure(.noBooks))
                         return
                     }
                     completion(.success(books))
@@ -61,5 +62,21 @@ extension ApiManager: ApiManagerProtocol {
                     completion(.failure(.afError(error)))
                 }
             }
+    }
+    
+    func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
+        let parameters = AlamofireRouter.sendPushMessage(payload: message)
+        session
+            .request(parameters)
+            .validate()
+            .response { response in
+            switch response.result {
+            case .success(_):
+                print("Notification sent")
+                completion(nil)
+            case .failure(let error):
+                completion(.afError(error))
+            }
+        }
     }
 }
