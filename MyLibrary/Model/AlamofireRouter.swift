@@ -4,7 +4,7 @@
 //
 //  Created by Birkyboy on 30/10/2021.
 //
-
+import Foundation
 import Alamofire
 
 /// This enum allows to have a centralized endpoints query.

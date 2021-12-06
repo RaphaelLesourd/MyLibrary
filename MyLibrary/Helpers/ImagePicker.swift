@@ -134,7 +134,7 @@ extension ImagePicker: UIImagePickerControllerDelegate {
     /// - Uses the original , un edited image.
     /// - Unwrap the image optional, if an image is present it is passed to the call controller via the ImagePickerDelegate protocol.
     func imagePickerController(_ picker: UIImagePickerController,
-                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[.originalImage] as? UIImage else {
             return self.pickerController(picker, didSelect: Images.emptyStateBookImage)
         }

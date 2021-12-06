@@ -12,6 +12,11 @@ class ProfileStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(equalToConstant: 80),
+            contentView.widthAnchor.constraint(equalTo: widthAnchor)
+        ])
         textStackView.addArrangedSubview(userNameTextField)
         textStackView.addArrangedSubview(emailLabel)
         mainStackView.addArrangedSubview(textStackView)
@@ -44,7 +49,7 @@ class ProfileStaticCell: UITableViewCell {
                                fontSize: 15,
                                weight: .regular)
     let activityIndicator     = UIActivityIndicatorView()
-    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -10)
+    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -5)
     private let mainStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
 }
 extension ProfileStaticCell {
@@ -61,8 +66,7 @@ extension ProfileStaticCell {
     private func setStackViewConstraints() {
         contentView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
