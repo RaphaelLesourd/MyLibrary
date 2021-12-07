@@ -13,7 +13,6 @@ protocol VideoCaptureDelegate: AnyObject {
     var fetchedBarcode: String? { get set }
     func showPermissionsAlert()
     func presentNoCameraAlert()
-    func presentAlertBanner(as type: AlertBannerType, subtitle: String)
 }
 
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
@@ -28,7 +27,7 @@ class VideoCapture: NSObject {
     /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..
     private lazy var detectBarcodeRequest = VNDetectBarcodesRequest { [weak self] request, error in
         if let error = error {
-            self?.delegate?.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+            AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             return
         }
         self?.processClassification(request)
@@ -136,7 +135,7 @@ extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         do {
             try imageRequestHandler.perform([detectBarcodeRequest])
         } catch {
-            delegate?.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+            AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
         }
     }
 }

@@ -10,7 +10,6 @@ import UIKit
 
 protocol ImagePickerDelegate: AnyObject {
     func didSelect(image: UIImage?)
-    func presentAlertBanner(as type: AlertBannerType, subtitle: String)
 }
 
 // Source code and process assimilated from this article
@@ -94,7 +93,7 @@ class ImagePicker: NSObject {
                 if granted {
                     self?.presentationController?.present(alertController, animated: true)
                 } else {
-                    self?.delegate?.presentAlertBanner(as: .customMessage("Pélicule photo"), subtitle: "Acces non autorisé")
+                    AlertManager.presentAlertBanner(as: .customMessage("Pélicule photo"), subtitle: "Acces non autorisé")
                 }
             }
         }

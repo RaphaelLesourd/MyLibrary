@@ -10,7 +10,7 @@ import UIKit
 class NewBookControllerView {
     
     // MARK: - Subviews
-    let commonStaticTableViewController = CommonStaticTableViewController()
+    let commonStaticTableViewController = StaticTableViewController()
     
     let activityIndicator = UIActivityIndicatorView()
     var searchController = UISearchController()

@@ -15,7 +15,7 @@ protocol NewBookDelegate: AnyObject {
     var bookCategories : [String] { get set }
 }
 
-class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
+class NewBookViewController: StaticTableViewController, NewBookDelegate {
     
     // MARK: - Properties
     var isEditingBook = false
@@ -190,10 +190,10 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
             guard let self = self else { return }
             self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
     }

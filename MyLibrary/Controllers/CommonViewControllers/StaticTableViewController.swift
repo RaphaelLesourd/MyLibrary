@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CommonStaticTableViewController: UITableViewController {
+class StaticTableViewController: UITableViewController {
     
     // MARK: - Properties
     var sections: [[UITableViewCell]] = [[]]
@@ -19,12 +19,6 @@ class CommonStaticTableViewController: UITableViewController {
         configureTableView()
     }
     
-    // MARK: - Setup
-    private func configureTableView() {
-        tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.backgroundColor = .viewControllerBackgroundColor
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-    }
     /// Create a default cell user to open another controller/
     /// - Parameter text: Cell title
     /// - Returns: cell
@@ -35,10 +29,17 @@ class CommonStaticTableViewController: UITableViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
+    
+    // MARK: - Setup
+    private func configureTableView() {
+        tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.backgroundColor = .viewControllerBackgroundColor
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+    }
 }
 
 // MARK: - TableView DataSource & Delegate
-extension CommonStaticTableViewController {
+extension StaticTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count

@@ -59,7 +59,7 @@ class CommentControllerView: UIView {
         tableView.backgroundColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 500
+        tableView.estimatedRowHeight = 100
         tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = false
         tableView.allowsSelection = false

@@ -74,10 +74,10 @@ class SigningViewController: UIViewController {
             
             self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Bienvenue")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Bienvenue")
         }
     }
     
@@ -89,33 +89,33 @@ class SigningViewController: UIViewController {
             
             self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Compte ouvert")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Compte ouvert")
         }
     }
     
     @objc private func resetPassWordRequest() {
-        presentAlert(withTitle: "Mot de passe oublié",
-                     message: "Etes-vous sûr de vouloir mettre votre mot de passe à jour?",
-                     withCancel: true) { [weak self] _ in
+        AlertManager.presentAlert(withTitle: "Mot de passe oublié",
+                                  message: "Etes-vous sûr de vouloir mettre votre mot de passe à jour?",
+                                  withCancel: true,
+                                  on: self) { [weak self] _ in
             self?.resetPassword()
         }
     }
     
     private func resetPassword() {
         guard let email = mainView.emailTextField.text else {
-            presentAlertBanner(as: .error, subtitle: "Email vide")
+            AlertManager.presentAlertBanner(as: .error, subtitle: "Email vide")
             return
         }
-        userManager.sendPasswordReset(for: email) { [weak self] error in
-            guard let self = self else { return }
+        userManager.sendPasswordReset(for: email) { error in
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .customMessage("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
+            AlertManager.presentAlertBanner(as: .customMessage("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
         }
     }
     
@@ -134,10 +134,10 @@ class SigningViewController: UIViewController {
             
             self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
         }
     }
 }

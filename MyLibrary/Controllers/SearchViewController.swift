@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: CollectionViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -23,9 +23,7 @@ class SearchViewController: UIViewController {
             getBooks()
         }
     }
-    
-    private let mainView = CollectionView()
-    
+   
     private lazy var dataSource = makeDataSource()
     private var footerView = LoadingFooterSupplementaryView()
     private var layoutComposer: LayoutComposer
@@ -46,17 +44,12 @@ class SearchViewController: UIViewController {
     }
 
     // MARK: - Lifecycle
-    override func loadView() {
-        view = mainView
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.search
-        mainView.emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = Text.ControllerTitle.search
+        emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
+        
         configureCollectionView()
-        configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
     
@@ -67,15 +60,15 @@ class SearchViewController: UIViewController {
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
         let layout = layoutComposer.setCollectionViewLayout()
-        mainView.collectionView.collectionViewLayout = layout
-        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
-        mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = dataSource
+        collectionView.collectionViewLayout = layout
+        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(footer: LoadingFooterSupplementaryView.self)
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
     }
     
     private func configureRefresherControl() {
-        mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     // MARK: - API call
@@ -88,14 +81,14 @@ class SearchViewController: UIViewController {
         
         networkService.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
-            self.mainView.refresherControl.endRefreshing()
+            self.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
             
             switch result {
             case .success(let books):
                 self.handleList(for: books)
             case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -138,7 +131,7 @@ extension SearchViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: mainView.collectionView,
+        let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
@@ -153,7 +146,7 @@ extension SearchViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
+        emptyStateView.isHidden = !searchedBooks.isEmpty
         
     }
     /// Adds a footer to the collectionView.

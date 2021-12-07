@@ -12,11 +12,6 @@ class ProfileStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            contentView.heightAnchor.constraint(equalToConstant: 80),
-            contentView.widthAnchor.constraint(equalTo: widthAnchor)
-        ])
         textStackView.addArrangedSubview(userNameTextField)
         textStackView.addArrangedSubview(emailLabel)
         mainStackView.addArrangedSubview(textStackView)

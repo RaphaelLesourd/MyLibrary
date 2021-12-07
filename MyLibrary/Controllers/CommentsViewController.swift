@@ -106,7 +106,7 @@ class CommentsViewController: UIViewController {
                     self.applySnapshot()
                     self.mainView.emptyStateView.isHidden = !comments.isEmpty
                 case .failure(let error):
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                    AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
         }
@@ -131,6 +131,17 @@ class CommentsViewController: UIViewController {
         }
     }
     
+    private func getBookOwnerDetails(completion: @escaping (UserModel?) -> Void) {
+        guard let ownerID = book?.ownerID else { return }
+        self.commentService.getUserDetail(for: ownerID) { result in
+            if case .success(let owner) = result {
+                DispatchQueue.main.async {
+                    completion(owner)
+                }
+            }
+        }
+    }
+    
     private func addComment(with comment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
@@ -141,7 +152,7 @@ class CommentsViewController: UIViewController {
             self.hideIndicator(self.mainView.activityIndicator)
             self.editedCommentID = nil
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
         }
@@ -149,9 +160,9 @@ class CommentsViewController: UIViewController {
     
     private func notifyUser(of comment: String) {
         guard let book = book else { return }
-        messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { [weak self] error in
+        messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { error in
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
         }
@@ -165,7 +176,7 @@ class CommentsViewController: UIViewController {
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -174,7 +185,13 @@ class CommentsViewController: UIViewController {
 extension CommentsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+        switch section {
+        case .book:
+            return 110
+        case .today, .past:
+            return UITableView.automaticDimension
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -243,6 +260,9 @@ extension CommentsViewController {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
                     cell.configure(with: item)
+                    self?.getBookOwnerDetails(completion: { owner in
+                        cell.configureOwnerDetails(with: owner)
+                    })
                     return cell
                 }
             case .today, .past:

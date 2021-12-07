@@ -7,19 +7,16 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: CollectionViewController {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
     private var dataSource: DataSource!
-    
-    private let mainView = CollectionView()
     private var layoutComposer: LayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var categoryService = CategoryService.shared
-    
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
@@ -36,46 +33,35 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    override func loadView() {
-        view = mainView
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.home
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = Text.ControllerTitle.home
         configureCollectionView()
         makeDataSource()
         configureRefresherControl()
-        addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
     }
     
-    // MARK: - Setup
-    private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [activityIndicactorButton]
-    }
-    
+    // MARK: - Setup   
     private func configureCollectionView() {
-        mainView.collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
-        mainView.collectionView.register(cell: CategoryCollectionViewCell.self)
-        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
-        mainView.collectionView.register(cell: HorizontalCollectionViewCell.self)
-        mainView.collectionView.register(header: HeaderSupplementaryView.self)
-        mainView.collectionView.delegate = self
+        collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
+        collectionView.register(cell: CategoryCollectionViewCell.self)
+        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(cell: HorizontalCollectionViewCell.self)
+        collectionView.register(header: HeaderSupplementaryView.self)
+        collectionView.delegate = self
     }
     
     private func configureRefresherControl() {
-        mainView.refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
     }
     
     // MARK: - Api call
     @objc private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
             self?.applySnapshot()
         }
@@ -100,17 +86,17 @@ class HomeViewController: UIViewController {
     }
     
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
-        showIndicator(mainView.activityIndicator)
+        showIndicator(activityIndicator)
         
         libraryService.getBookList(for: query, limit: 20, forMore: false) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
+            self.hideIndicator(self.activityIndicator)
+            self.refresherControl.endRefreshing()
             switch result {
             case .success(let books):
                 completion(books)
             case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -155,7 +141,7 @@ extension HomeViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func makeDataSource() {
-        dataSource = DataSource(collectionView: mainView.collectionView,
+        dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil }
             
@@ -191,7 +177,7 @@ extension HomeViewController {
             return nil
         })
         configureHeader(dataSource)
-        mainView.collectionView.dataSource = dataSource
+        collectionView.dataSource = dataSource
     }
     
     private func provideNoDataCell() -> UICollectionViewCell {

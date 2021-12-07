@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookLibraryViewController: UIViewController {
+class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -18,7 +18,6 @@ class BookLibraryViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var layoutComposer: LayoutComposer
-    private let mainView = CollectionView()
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
     private var bookList: [Item] = []
@@ -35,39 +34,29 @@ class BookLibraryViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    override func loadView() {
-        view  = mainView
-        title = setTitle()
-        view.backgroundColor = .viewControllerBackgroundColor
-        mainView.emptyStateView.titleLabel.text = "Rien dans " + setTitle()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = setTitle()
+        emptyStateView.titleLabel.text = "Rien dans " + setTitle()
+        
         configureCollectionView()
         configureRefresherControl()
-        addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         getBooks()
     }
     
     // MARK: - Setup
-    private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [activityIndicactorButton]
-    }
-    
     private func configureCollectionView() {
         let layout = layoutComposer.setCollectionViewLayout()
-        mainView.collectionView.collectionViewLayout = layout
-        mainView.collectionView.register(cell: VerticalCollectionViewCell.self)
-        mainView.collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = dataSource
+        collectionView.collectionViewLayout = layout
+        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(footer: LoadingFooterSupplementaryView.self)
+        collectionView.delegate = self
+        collectionView.dataSource = dataSource
     }
     
     private func configureRefresherControl() {
-        mainView.refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     private func setTitle() -> String {
@@ -82,13 +71,13 @@ class BookLibraryViewController: UIViewController {
     
     // MARK: - Api call
     private func getBooks(nextPage: Bool = false) {
-        showIndicator(mainView.activityIndicator)
+        showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
         
         libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
+            self.hideIndicator(self.activityIndicator)
+            self.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
             
             switch result {
@@ -98,7 +87,7 @@ class BookLibraryViewController: UIViewController {
                 }
                 self.addToList(books)
             case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -142,7 +131,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 extension BookLibraryViewController {
     
     private func makeDataSource() -> DataSource {
-        dataSource = DataSource(collectionView: mainView.collectionView,
+        dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
@@ -162,7 +151,7 @@ extension BookLibraryViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        mainView.emptyStateView.isHidden = !bookList.isEmpty
+        emptyStateView.isHidden = !bookList.isEmpty
         snapshot.appendSections(SingleSection.allCases)
         snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

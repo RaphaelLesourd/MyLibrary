@@ -62,10 +62,11 @@ class BookDescriptionViewController: UIViewController {
     
     private func updateData() {
         if textView.text != textViewText {
-            presentAlert(withTitle: "Description",
-                         message: "Vous avez modifié la description, voulez-vous grader ces modifications?",
-                         withCancel: true,
-                         cancelHandler: nil) { [weak self] _ in
+            AlertManager.presentAlert(withTitle: "Description",
+                                      message: "Vous avez modifié la description, voulez-vous grader ces modifications?",
+                                      withCancel: true,
+                                      on: self,
+                                      cancelHandler: nil) { [weak self] _ in
                 self?.newBookDelegate?.bookDescription = self?.textView.text
             }
         }

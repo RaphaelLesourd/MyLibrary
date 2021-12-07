@@ -42,15 +42,16 @@ class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
     }
     
     func presentNoCameraAlert() {
-        presentAlert(withTitle: "Caméra introuvable",
-                     message: "Il semblerait y avoir un problème avec votre caméra.") { [weak self] _ in
+        AlertManager.presentAlert(withTitle: "Caméra introuvable",
+                                  message: "Il semblerait y avoir un problème avec votre caméra.",
+                                  on: self) { [weak self] _ in
             self?.dismiss(animated: true)
         }
     }
     
     /// Display alert tot the user when the use of camera is not granted for any reasons.
     func showPermissionsAlert() {
-        presentAlertBanner(as: .customMessage("Permission"),
+        AlertManager.presentAlertBanner(as: .customMessage("Permission"),
                            subtitle: "Veuillez modifier les réglages pour autoriser cet app à utiliser la caméra.")
     }
 }

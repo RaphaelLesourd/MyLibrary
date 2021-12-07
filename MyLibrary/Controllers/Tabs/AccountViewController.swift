@@ -8,7 +8,7 @@
 import UIKit
 import PanModal
 
-class AccountViewController: CommonStaticTableViewController {
+class AccountViewController: StaticTableViewController {
 
     // MARK: - Properties
     private let accountService: AccountServiceProtocol
@@ -91,15 +91,19 @@ class AccountViewController: CommonStaticTableViewController {
     }
     
     @objc private func signoutRequest() {
-        presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.", message: "", withCancel: true) { _ in
+        AlertManager.presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.",
+                                  message: "",
+                                  withCancel: true,
+                                  on: self) { _ in
             self.signoutAccount()
         }
     }
     
     @objc private func deleteAccount() {
-        presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
+        AlertManager.presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
                      message: "Vous allez devoir vous re-authentifier.",
-                     withCancel: true) { _ in
+                     withCancel: true,
+                     on: self) { _ in
             let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
@@ -117,7 +121,7 @@ class AccountViewController: CommonStaticTableViewController {
                 guard let currentUser = currentUser else { return }
                 self.updateProfileInfos(for: currentUser)
             case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -130,10 +134,10 @@ class AccountViewController: CommonStaticTableViewController {
             guard let self = self else { return }
             self.profileCell.activityIndicator.stopAnimating()
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Nom d'utilisateur mis à jour.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Nom d'utilisateur mis à jour.")
         }
     }
     
@@ -144,10 +148,10 @@ class AccountViewController: CommonStaticTableViewController {
         imageService.updateUserImage(for: profileImageData) { [weak self] error in
             self?.profileCell.activityIndicator.stopAnimating()
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.presentAlertBanner(as: .success, subtitle: "Photo de profil mise à jour.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Photo de profil mise à jour.")
         }
     }
     
@@ -159,10 +163,10 @@ class AccountViewController: CommonStaticTableViewController {
             self.signOutCell.actionButton.displayActivityIndicator(false)
             self.hideIndicator(self.activityIndicator)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
+            AlertManager.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
         }
     }
     
@@ -178,8 +182,8 @@ class AccountViewController: CommonStaticTableViewController {
 }
 
 // MARK: - ImagePicker Delegate
-extension AccountViewController: ImagePickerDelegate {    
-    func didSelect(image: UIImage?) {
+extension AccountViewController: ImagePickerDelegate {
+        func didSelect(image: UIImage?) {
         guard let image = image else { return }
         profileCell.profileImageButton.setImage(image, for: .normal)
         saveProfileImage(image)

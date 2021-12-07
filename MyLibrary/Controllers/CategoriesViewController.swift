@@ -77,22 +77,22 @@ class CategoriesViewController: UIViewController {
         guard let categoryName = categoryName else { return }
         categoryService.addCategory(for: categoryName) { [weak self] error in
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             self?.applySnapshot()
-            self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
+            AlertManager.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
         }
     }
     
     private func updateCategory(for category: CategoryModel, with name: String?) {
         categoryService.updateCategoryName(for: category, with: name) { [weak self] error in
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             self?.applySnapshot()
-            self?.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
+            AlertManager.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
         }
     }
     
@@ -100,7 +100,7 @@ class CategoriesViewController: UIViewController {
         categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             if let index = self.categoryService.categories.firstIndex(where: { $0.name?.lowercased() == category.name?.lowercased() }) {
@@ -114,26 +114,28 @@ class CategoriesViewController: UIViewController {
         categoryService.getCategories { [weak self] error in
             self?.listView.refresherControl.endRefreshing()
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
     
     // MARK: - Add categories dialog
     @objc private func addNewCategory() {
-        showInputDialog(title: "Nouvelle catégorie",
-                        subtitle: "Ajouter une nouvelle catégorie.",
-                        actionTitle: "Ajouter", inputText: "",
-                        inputPlaceholder: "Nom de catégorie",
-                        actionHandler: { [weak self] category in
+        AlertManager.showInputDialog(title: "Nouvelle catégorie",
+                                     subtitle: "Ajouter une nouvelle catégorie.",
+                                     actionTitle: "Ajouter", inputText: "",
+                                     inputPlaceholder: "Nom de catégorie",
+                                     on: self,
+                                     actionHandler: { [weak self] category in
             self?.addCategoryToList(category)
         })
     }
     
     private func displayDeleteCategoryAlert(_ category: CategoryModel) {
-        presentAlert(withTitle: "Effacer \(category.name?.capitalized ?? "")",
-                     message: "Etes vous sur de vouloir éffacer cette catégorie?",
-                     withCancel: true) { [weak self] _ in
+        AlertManager.presentAlert(withTitle: "Effacer \(category.name?.capitalized ?? "")",
+                                  message: "Etes vous sur de vouloir éffacer cette catégorie?",
+                                  withCancel: true,
+                                  on: self) { [weak self] _ in
             self?.deleteCategory(for: category)
         }
     }
@@ -146,14 +148,15 @@ class CategoriesViewController: UIViewController {
     }
     
     private func updateCategoryAlert(for category: CategoryModel) {
-        showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
-                        subtitle: "",
-                        actionTitle: "Ok",
-                        cancelTitle: "Annuler",
-                        inputText: category.name?.capitalized,
-                        inputPlaceholder: "",
-                        inputKeyboardType: .default,
-                        cancelHandler: nil) { [weak self] text in
+        AlertManager.showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
+                                     subtitle: "",
+                                     actionTitle: "Ok",
+                                     cancelTitle: "Annuler",
+                                     inputText: category.name?.capitalized,
+                                     inputPlaceholder: "",
+                                     inputKeyboardType: .default,
+                                     on: self,
+                                     cancelHandler: nil) { [weak self] text in
             self?.updateCategory(for: category, with: text)
         }
     }

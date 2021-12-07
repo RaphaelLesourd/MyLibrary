@@ -200,10 +200,10 @@ class BookCardViewController: UIViewController {
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -215,7 +215,7 @@ class BookCardViewController: UIViewController {
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -227,7 +227,7 @@ class BookCardViewController: UIViewController {
             recommendationService.addToRecommandation(for: book) { [weak self] error in
                 self?.mainView.actionButton.displayActivityIndicator(false)
                 if let error = error {
-                    self?.presentAlertBanner(as: .error, subtitle: error.description)
+                    AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
             return
@@ -235,7 +235,7 @@ class BookCardViewController: UIViewController {
         recommendationService.removeFromRecommandation(for: book) { [weak self] error in
             self?.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
-                self?.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -252,9 +252,10 @@ class BookCardViewController: UIViewController {
     }
     
     @objc private func deleteBookAction() {
-        presentAlert(withTitle: "Effacer un livre",
-                     message: "Etes-vous sur de vouloir effacer ce livre?",
-                     withCancel: true) { [weak self] _ in
+        AlertManager.presentAlert(withTitle: "Effacer un livre",
+                                  message: "Etes-vous sur de vouloir effacer ce livre?",
+                                  withCancel: true,
+                                  on: self) { [weak self] _ in
             self?.deleteBook()
         }
     }
@@ -301,7 +302,7 @@ extension BookCardViewController: BookCardDelegate {
                 case .success(let book):
                     self.book = book
                 case .failure(let error):
-                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                    AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
             }
         }
