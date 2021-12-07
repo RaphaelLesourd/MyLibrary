@@ -19,28 +19,28 @@ protocol NotificationManagerDelegate: AnyObject {
 class NotificationManager: NSObject {
     
     var userService: UserServiceProtocol
+    var libraryService: LibraryServiceProtocol
     
-    init(registerIn application: UIApplication, userService: UserServiceProtocol = UserService()) {
+    init(userService: UserServiceProtocol = UserService()) {
         self.userService = userService
+        self.libraryService = LibraryService()
         super.init()
-        register(application)
     }
     
     func setBadge(to count: Int) {
         UIApplication.shared.applicationIconBadgeNumber = count
     }
     // MARK: - Private functions
-    private func register(_ application: UIApplication) {
-        
+    func register() {
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         
         // Register for remote notifications.
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { success, _ in
             if success == true {
                 DispatchQueue.main.async {
-                    application.registerForRemoteNotifications()
+                    UIApplication.shared.registerForRemoteNotifications()
                 }
             }
         }
@@ -52,12 +52,25 @@ class NotificationManager: NSObject {
             userService.updateFcmToken(with: token)
         }
     }
-    
+
     private func didReceive(_ notification: UNNotification) {
+        
         let userInfo = notification.request.content.userInfo
-        if let bookID = userInfo[DocumentKey.postID.rawValue] as? String {
-            print("received bookID: \(bookID)")
-            // TODO: - Navigate to comment VC & display comment for bookID
+        guard let bookID = userInfo[DocumentKey.postID.rawValue] as? String else { return }
+        print(bookID)
+        let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        if let rootViewController = scene?.window?.rootViewController,
+           let tabBarController = rootViewController as? TabBarController,
+           let navController = tabBarController.selectedViewController as? UINavigationController {
+            libraryService.getBook(for: bookID) { result in
+                if case .success(let book) = result {
+                    let commentController = CommentsViewController(book: book,
+                                                                   commentService: CommentService(),
+                                                                   messageService: MessageService(),
+                                                                   validator: Validator())
+                    navController.pushViewController(commentController, animated: true)
+                }
+            }
         }
     }
 }
@@ -71,13 +84,15 @@ extension NotificationManager: MessagingDelegate {
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         didReceive(response.notification)
         completionHandler()
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification,
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         didReceive(notification)
         completionHandler([.banner, .list, .badge, .sound])

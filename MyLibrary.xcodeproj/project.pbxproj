@@ -23,7 +23,7 @@
 		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
 		811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* ListTableView.swift */; };
 		811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC227452ED800C935B5 /* CategoriesViewController.swift */; };
-		811F64BC2758B80D00A24704 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BB2758B80D00A24704 /* TextInputViewController.swift */; };
+		811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */; };
 		811F64BE275A02EF00A24704 /* CommentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BD275A02EF00A24704 /* CommentControllerView.swift */; };
 		811F64C0275A177F00A24704 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BF275A177F00A24704 /* EmptyStateCell.swift */; };
 		811F64C3275A3F8200A24704 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 811F64C2275A3F8200A24704 /* Lottie */; };
@@ -179,7 +179,7 @@
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		811D5BC027452DA600C935B5 /* ListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		811D5BC227452ED800C935B5 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
-		811F64BB2758B80D00A24704 /* TextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputViewController.swift; sourceTree = "<group>"; };
+		811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDescriptionViewController.swift; sourceTree = "<group>"; };
 		811F64BD275A02EF00A24704 /* CommentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentControllerView.swift; sourceTree = "<group>"; };
 		811F64BF275A177F00A24704 /* EmptyStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
 		812047F3272A604800E0A45B /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
@@ -402,7 +402,6 @@
 			children = (
 				81792F5C2731A311005F863B /* CommonStaticTableViewController.swift */,
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
-				811F64BB2758B80D00A24704 /* TextInputViewController.swift */,
 			);
 			path = CommonViewControllers;
 			sourceTree = "<group>";
@@ -505,6 +504,7 @@
 				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
 				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
+				811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */,
 				8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */,
 				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
 				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
@@ -899,7 +899,7 @@
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
 				810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */,
-				811F64BC2758B80D00A24704 /* TextInputViewController.swift in Sources */,
+				811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
 				811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,

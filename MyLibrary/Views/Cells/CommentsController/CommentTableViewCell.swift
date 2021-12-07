@@ -19,8 +19,11 @@ class CommentTableViewCell: UITableViewCell {
         imageLoader = ImageRetriver()
         formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-      
         contentView.backgroundColor = .tertiarySystemBackground
+        
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
         commentLabel.lineBreakMode = .byWordWrapping
         stackView.addArrangedSubview(userNameLabel)
         stackView.addArrangedSubview(dateLabel)
@@ -48,7 +51,7 @@ class CommentTableViewCell: UITableViewCell {
     private let userNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
     private let commentLabel = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
     private let dateLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 11, weight: .light)
-    private let stackView = StackView(axis: .vertical, distribution: .fill, spacing: 15)
+    private let stackView = StackView(axis: .vertical, spacing: 15)
     
     func configure(with model: CommentModel) {
         commentLabel.text = model.comment

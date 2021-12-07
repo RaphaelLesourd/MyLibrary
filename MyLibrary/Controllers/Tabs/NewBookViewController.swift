@@ -246,7 +246,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func presentTextInputController() {
-        let textInputViewController = TextInputViewController()
+        let textInputViewController = BookDescriptionViewController()
         textInputViewController.newBookDelegate = self
         textInputViewController.textViewText = bookDescription
         navigationController?.pushViewController(textInputViewController, animated: true)

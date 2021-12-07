@@ -22,8 +22,8 @@ class CommentsBookCell: UITableViewCell {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        bookCover.rounded(radius: 12, backgroundColor: .clear)
-       
+        bookCover.contentMode = .scaleAspectFit
+        
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
         

@@ -59,13 +59,13 @@ enum AlamofireRouter: URLRequestConvertible {
                     "content_available" : true,
                     "mutable_content": true,
                     "category": "content_added_notification",
-                    "data": ["title": payload.title,
-                             "body": payload.body,
-                             "postID": payload.bookID],
-                    "notification": ["title": payload.title,
+                    "notification": ["title": "My Library",
+                                     "subtitle": payload.title,
                                      "body": payload.body,
                                      "badge": 1,
-                                     "sound": "default"]
+                                     "priority": "high",
+                                     "sound": "default"],
+                    "data": ["postID": payload.bookID]
             ]
         }
     }

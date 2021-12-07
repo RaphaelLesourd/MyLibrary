@@ -95,19 +95,19 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
-        
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             guard let self = self else { return }
-            
-            self.mainView.refresherControl.endRefreshing()
-            self.hideIndicator(self.mainView.activityIndicator)
-            switch result {
-            case .success(let comments):
-                self.commentList = comments
-                self.applySnapshot()
-                self.mainView.emptyStateView.isHidden = !comments.isEmpty
-            case .failure(let error):
-                self.presentAlertBanner(as: .error, subtitle: error.description)
+            DispatchQueue.main.async {
+                self.mainView.refresherControl.endRefreshing()
+                self.hideIndicator(self.mainView.activityIndicator)
+                switch result {
+                case .success(let comments):
+                    self.commentList = comments
+                    self.applySnapshot()
+                    self.mainView.emptyStateView.isHidden = !comments.isEmpty
+                case .failure(let error):
+                    self.presentAlertBanner(as: .error, subtitle: error.description)
+                }
             }
         }
     }
@@ -122,7 +122,9 @@ class CommentsViewController: UIViewController {
                     completion(nil)
                     return
                 }
-                completion(user)
+                DispatchQueue.main.async {
+                    completion(user)
+                }
             case .failure(_):
                 completion(nil)
             }
@@ -134,7 +136,6 @@ class CommentsViewController: UIViewController {
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
         notifyUser(of: comment)
-        
         commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
@@ -144,12 +145,10 @@ class CommentsViewController: UIViewController {
                 return
             }
         }
-        
     }
     
     private func notifyUser(of comment: String) {
         guard let book = book else { return }
-        
         messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { [weak self] error in
             if let error = error {
                 self?.presentAlertBanner(as: .error, subtitle: error.description)
@@ -162,7 +161,6 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
-        
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)

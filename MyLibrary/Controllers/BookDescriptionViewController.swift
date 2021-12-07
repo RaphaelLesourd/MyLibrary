@@ -9,7 +9,7 @@ import UIKit
 import PanModal
 import IQKeyboardManagerSwift
 
-class TextInputViewController: UIViewController {
+class BookDescriptionViewController: UIViewController {
     
     // MARK: - Properties
     var textViewText: String?
@@ -72,7 +72,7 @@ class TextInputViewController: UIViewController {
     }
 }
 // MARK: - Constraints
-extension TextInputViewController {
+extension BookDescriptionViewController {
     private func setTextViewConsraints() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
