@@ -129,7 +129,7 @@ extension SearchViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() -> DataSource{
+    private func createDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)

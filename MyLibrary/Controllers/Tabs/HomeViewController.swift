@@ -141,8 +141,8 @@ extension HomeViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func createDataSource() -> DataSource {
-       let dataSource = DataSource(collectionView: collectionView,
-                                cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
+        let dataSource = DataSource(collectionView: collectionView,
+                                    cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil}
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch sections {
@@ -193,22 +193,11 @@ extension HomeViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        if !categoryService.categories.isEmpty {
-            snapshot.appendSections([.categories])
-            snapshot.appendItems(categoryService.categories, toSection: .categories)
-        }
-        if !latestBooks.isEmpty {
-            snapshot.appendSections([.newEntry])
-            snapshot.appendItems(latestBooks, toSection: .newEntry)
-        }
-        if !favoriteBooks.isEmpty {
-            snapshot.appendSections([.favorites])
-            snapshot.appendItems(favoriteBooks, toSection: .favorites)
-        }
-        if !recommandedBooks.isEmpty {
-            snapshot.appendSections([.recommanding])
-            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
-        }
+        snapshot.appendSections(HomeCollectionViewSections.allCases)
+        snapshot.appendItems(categoryService.categories, toSection: .categories)
+        snapshot.appendItems(latestBooks, toSection: .newEntry)
+        snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        snapshot.appendItems(recommandedBooks, toSection: .recommanding)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
