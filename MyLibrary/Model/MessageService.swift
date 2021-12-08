@@ -39,7 +39,7 @@ class MessageService {
         let userIds = getCommentUserID(from: comments)
         
         userIds.forEach { ids in
-            let docRef = userRef.whereField("userId", in: ids)
+            let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in
                 if let error = error {
                     completion(.failure(.firebaseError(error)))
@@ -62,11 +62,13 @@ class MessageService {
     
     private func postPushNotifications(to users: [UserModel], with message: String, for book: Item) {
         guard let bookTitle = book.volumeInfo?.title,
-              let bookID = book.bookID else { return }
+              let bookID = book.bookID,
+              let ownerID = book.ownerID else { return }
         users.forEach {
             let message = MessageModel(title: bookTitle.capitalized,
                                        body: "\(Auth.auth().currentUser?.displayName?.capitalized ?? "") à dit \(message)",
                                        bookID: bookID,
+                                       ownerID: ownerID,
                                        token: $0.token)
             apiManager.postPushNotification(with: message) { error in
                 if let error = error {

@@ -28,17 +28,16 @@ class CollectionViewController: UIViewController {
     
     // MARK: - Navgation
     func showBookDetails(for book: Item, searchType: SearchType) {
-        let bookCardVC = BookCardViewController(libraryService: LibraryService(),
+        let bookCardVC = BookCardViewController(book: book,
+                                                searchType: searchType,
+                                                libraryService: LibraryService(),
                                                 recommendationService: RecommandationService(),
-                                                formatter: Formatter(),
                                                 imageLoader: ImageRetriver())
         bookCardVC.hidesBottomBarWhenPushed = true
-        bookCardVC.searchType = searchType
-        bookCardVC.book = book
-        navigationController?.pushViewController(bookCardVC, animated: true)
+        navigationController?.show(bookCardVC, sender: nil)
     }
     
-  // MARK: - Set up
+  // MARK: - Setup
     private func configureCollectionView() {
         refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
         refresherControl.tintColor = .label

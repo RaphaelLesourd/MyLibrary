@@ -11,10 +11,10 @@ import FirebaseFirestore
 
 protocol LibraryServiceProtocol {
     func createBook(with book: Item, and imageData: Data, completion: @escaping (FirebaseError?) -> Void)
-    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
+    func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
+    func setStatusTo(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
     var bookListListener: ListenerRegistration? { get set }
 }
 
@@ -182,9 +182,9 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
     
-    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+    func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
         let docRef = usersCollectionRef
-            .document(userID)
+            .document(ownerID)
             .collection(CollectionDocumentKey.books.rawValue)
             .whereField(DocumentKey.bookID.rawValue, isEqualTo: bookID)
         
@@ -232,7 +232,7 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: - Field update
-    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping CompletionHandler) {
+    func setStatusTo(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping CompletionHandler) {
         updateStatus(with: id ?? "", favoriteState: state, collection: .books, field: field) { error in
             if let error = error {
                 completion(.firebaseError(error))

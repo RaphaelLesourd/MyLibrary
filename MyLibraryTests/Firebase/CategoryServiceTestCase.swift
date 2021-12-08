@@ -10,16 +10,15 @@ import XCTest
 
 class CategoryServiceTestCase: XCTestCase {
     // MARK: - Propserties
-    private var sut        : CategoryService?
+    private var sut: CategoryService?
     private var userService: UserServiceProtocol?
-    private var newUser    : UserModel!
+    private var newUser: UserModel!
   
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        newUser     = createUser()
-        sut         = CategoryService.shared
-        sut?.userID = newUser.userId
+        newUser = createUser()
+        sut = CategoryService.shared
         userService = UserService()
         Networkconnectivity.shared.status = .satisfied
     }

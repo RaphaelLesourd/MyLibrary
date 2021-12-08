@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 25/10/2021.
 //
 
+import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -70,11 +71,11 @@ extension AccountService: AccountServiceProtocol {
                 return
             }
             guard let user = authUser?.user else { return }
-            let newUser = UserModel(userId: user.uid,
-                                      displayName: userCredentials.userName ?? "",
-                                      email: user.email ?? "",
-                                      photoURL: "",
-                                      token: self.fcmToken ?? "")
+            let newUser = UserModel(userID: user.uid,
+                                    displayName: userCredentials.userName ?? "",
+                                    email: user.email ?? "",
+                                    photoURL: "",
+                                    token: self.fcmToken ?? "")
             self.saveUser(for: newUser) { error in
                 if let error = error {
                     completion(.firebaseAuthError(error))
@@ -84,7 +85,7 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
-    // MARK: Delete
+    // MARK: Delete Account flow
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {
             completion(.noNetwork)
@@ -137,8 +138,8 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
+        userService.updateFcmToken(with: "")
         do {
-            userService.updateFcmToken(with: "")
             try Auth.auth().signOut()
             completion(nil)
         } catch {

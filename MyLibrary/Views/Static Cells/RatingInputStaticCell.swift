@@ -9,6 +9,7 @@ import UIKit
 
 class RatingInputStaticCell: UITableViewCell {
     
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
@@ -26,6 +27,7 @@ class RatingInputStaticCell: UITableViewCell {
         self.init()
         titleLabel.text = placeholder
     }
+    // MARK: - Subviews
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
     let ratingSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["✗","1 ★","2 ★","3 ★","4 ★","5 ★"])

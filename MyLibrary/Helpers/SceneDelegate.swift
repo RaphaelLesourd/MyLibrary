@@ -12,17 +12,20 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var handle: AuthStateDidChangeListenerHandle?
+    private var handle: AuthStateDidChangeListenerHandle?
+    private let notificationManager: NotificationManagerProtocol
+    
+    override init() {
+        notificationManager = NotificationManager()
+    }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
        
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+        handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
-                let notificationManager = NotificationManager()
-                notificationManager.register()
-                
+                self?.notificationManager.registerNotifications()
                 let tabController = TabBarController()
                 window.rootViewController = tabController
             } else {
@@ -43,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        notificationManager.setBadge(to: 0)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

@@ -9,5 +9,6 @@ struct MessageModel {
     let title: String
     let body: String
     let bookID: String
+    let ownerID: String
     let token: String
 }

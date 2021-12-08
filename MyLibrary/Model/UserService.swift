@@ -45,12 +45,12 @@ class UserService {
 }
 // MARK: - Extension UserServiceProtocol
 extension UserService: UserServiceProtocol {
-    
+
     // MARK: Create
     func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
-        let userRef = usersCollectionRef.document(currentUser.userId)
+        let userRef = usersCollectionRef.document(currentUser.userID)
         do {
             try userRef.setData(from: currentUser)
             completion(nil)
@@ -77,10 +77,6 @@ extension UserService: UserServiceProtocol {
     
     // MARK: Update
     func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
-            completion(.noNetwork)
-            return
-        }
         guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return
@@ -97,7 +93,7 @@ extension UserService: UserServiceProtocol {
             }
         }
     }
-    
+
     func updateFcmToken(with token: String) {
         guard !userID.isEmpty else { return }
         let userRef = usersCollectionRef.document(userID)

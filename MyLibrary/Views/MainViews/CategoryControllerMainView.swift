@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListTableView: UIView {
+class CategoryControllerMainView: UIView {
 
     // MARK: - Initialiser
     override init(frame: CGRect) {
@@ -33,8 +33,7 @@ class ListTableView: UIView {
 }
 
     // MARK: - Constraints
-extension ListTableView {
- 
+extension CategoryControllerMainView {
     private func setTableViewConstraints() {
         addSubview(tableView)
         NSLayoutConstraint.activate([

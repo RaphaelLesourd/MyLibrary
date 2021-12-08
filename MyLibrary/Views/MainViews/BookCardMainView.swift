@@ -7,11 +7,24 @@
 
 import UIKit
 
+protocol BookCardMainViewDelegate: AnyObject {
+    func recommandButtonAction()
+    func deleteBookAction()
+    func favoriteButtonAction()
+    func showComments()
+    func showBookCover()
+}
+
 class BookCardMainView: UIView {
     
+    private var formatter: FormatterProtocol?
+    weak var delegate: BookCardMainViewDelegate?
+    
     // MARK: - Initializers
-    override init(frame: CGRect) {
+    init(frame: CGRect, formatter: FormatterProtocol) {
+        self.formatter = formatter
         super.init(frame: .zero)
+        setTargets()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
         setBookCoverConstraints()
@@ -19,49 +32,19 @@ class BookCardMainView: UIView {
         setFavoriteButtonConstraints()
         bookCover.addShadow()
     }
+  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        backgroundImage.addFadeGradient()
+    }
+    
     // MARK: - Subviews
-    let activityIndicator = UIActivityIndicatorView()
     var editButton = UIBarButtonItem()
     var activityIndicatorButton = UIBarButtonItem()
-    
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.alwaysBounceVertical = true
-        scrollView.alwaysBounceHorizontal = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    /// Create the contentView in the scrollView that will contain all the UI elements.
-    private let contentView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    // BookCard elements
-    let backgroundImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.alpha = 0.55
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    let bookCover = BookCover(frame: .zero)
-    let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
-    let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
-    let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
-    let ratingView = RatingView()
-    let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
-    let purchaseDetailView = PurchaseView()
-    let bookDetailView = BookDetailView()
-    let isbnLabel = TextLabel(color: .secondaryLabel)
+    let activityIndicator = UIActivityIndicatorView()
     let commentView = BookCardCommentView()
     let actionButton = ActionButton(title: "")
     let deleteBookButton: UIButton = {
@@ -70,13 +53,6 @@ class BookCardMainView: UIView {
         button.setTitleColor(.systemRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return button
-    }()
-    let separatorLine: UIView = {
-        let view = UIView()
-        view.backgroundColor = .secondaryLabel
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        return view
     }()
     let favoriteButton: UIButton = {
         let button = UIButton()
@@ -87,11 +63,105 @@ class BookCardMainView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-   
-    private let mainStackView = StackView(axis: .vertical, spacing: 30)
     
-    override func layoutSubviews() {
-        backgroundImage.addFadeGradient()
+    private let bookCover = BookCover(frame: .zero)
+    private let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
+    private let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
+    private let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    private let ratingView = RatingView()
+    private let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    private let purchaseDetailView = PurchaseView()
+    private let bookDetailView = BookDetailView()
+    private let isbnLabel = TextLabel(color: .secondaryLabel)
+    private let mainStackView = StackView(axis: .vertical, spacing: 30)
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    private let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private let backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.alpha = 0.55
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+        
+    // MARK: - Configure
+    func displayBookInfos(with book: Item?) {
+        titleLabel.text = book?.volumeInfo?.title?.capitalized
+        authorLabel.text = book?.volumeInfo?.authors?.first?.capitalized
+        ratingView.rating = book?.volumeInfo?.ratingsCount ?? 0
+        descriptionLabel.text = book?.volumeInfo?.volumeInfoDescription
+       
+        bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
+        bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
+        bookDetailView.numberOfPageView.infoLabel.text = "\(book?.volumeInfo?.pageCount ?? 0)"
+      
+        purchaseDetailView.titleLabel.text = "Prix de vente"
+       
+        if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
+            isbnLabel.text = Text.Book.isbn + isbn
+        }
+        let currency = book?.saleInfo?.retailPrice?.currencyCode
+        let price = book?.saleInfo?.retailPrice?.amount
+        purchaseDetailView.purchasePriceLabel.text = formatter?.formatCurrency(with: price, currencyCode: currency)
+        bookDetailView.languageView.infoLabel.text = formatter?.formatCodeToName(from: book?.volumeInfo?.language,
+                                                                            type: .language).capitalized
+    }
+    
+    func configureBookCoverImage(with image: UIImage) {
+        bookCover.image = image
+        backgroundImage.image = image
+        let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
+        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+            self.backgroundImage.transform = transformation
+        }
+    }
+    
+    func displayCategories(with categoryNames: [String]) {
+        categoryiesLabel.text = formatter?.joinArrayToString(categoryNames).uppercased()
+    }
+    
+    private func setTargets() {
+        actionButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
+        deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(favoriteBook), for: .touchUpInside)
+        commentView.goToCommentButton.addTarget(self, action: #selector(showBookComments), for: .touchUpInside)
+       
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
+        bookCover.addGestureRecognizer(tap)
+    }
+    
+    @objc private func recommandBook() {
+        delegate?.recommandButtonAction()
+    }
+    
+    @objc private func deleteBook() {
+        delegate?.deleteBookAction()
+    }
+    
+    @objc private func favoriteBook() {
+        delegate?.favoriteButtonAction()
+    }
+    
+    @objc private func showBookComments() {
+        delegate?.showComments()
+    }
+    
+    @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
+        delegate?.showBookCover()
     }
 }
 // MARK: - Constraints

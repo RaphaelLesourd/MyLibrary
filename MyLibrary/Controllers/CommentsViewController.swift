@@ -32,10 +32,10 @@ class CommentsViewController: UIViewController {
          commentService: CommentServiceProtocol,
          messageService: MessageServiceProtocol,
          validator: ValidatorProtocol) {
-        self.commentService = commentService
         self.book = book
-        self.validator = validator
+        self.commentService = commentService
         self.messageService = messageService
+        self.validator = validator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -95,6 +95,7 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
+        
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -114,6 +115,7 @@ class CommentsViewController: UIViewController {
     
     private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
         guard let userID = comment.userID else { return }
+       
         self.commentService.getUserDetail(for: userID) { [weak self] result in
             switch result {
             case .success(let user):

@@ -5,48 +5,29 @@
 //  Created by Birkyboy on 05/12/2021.
 //
 
-import UserNotifications
 import UIKit
 import Firebase
 import FirebaseMessaging
+import UserNotifications
 
-typealias NotificationPayload = [AnyHashable: Any]
-
-protocol NotificationManagerDelegate: AnyObject {
-    func notificationsManager(didReceiveNotification payload: NotificationPayload)
+protocol NotificationManagerProtocol {
+    func registerNotifications()
+    func setBadge(to count: Int)
 }
 
 class NotificationManager: NSObject {
+    // MARK: - Properties
+    private var userService: UserServiceProtocol
+    private var libraryService: LibraryServiceProtocol
     
-    var userService: UserServiceProtocol
-    var libraryService: LibraryServiceProtocol
-    
+    // MARK: - Initializer
     init(userService: UserServiceProtocol = UserService()) {
         self.userService = userService
         self.libraryService = LibraryService()
         super.init()
     }
-    
-    func setBadge(to count: Int) {
-        UIApplication.shared.applicationIconBadgeNumber = count
-    }
+
     // MARK: - Private functions
-    func register() {
-        Messaging.messaging().delegate = self
-        UNUserNotificationCenter.current().delegate = self
-        
-        // Register for remote notifications.
-        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(options: options) { success, _ in
-            if success == true {
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        }
-        updateToken()
-    }
-    
     private func updateToken() {
         if let token = Messaging.messaging().fcmToken {
             userService.updateFcmToken(with: token)
@@ -54,36 +35,43 @@ class NotificationManager: NSObject {
     }
 
     private func didReceive(_ notification: UNNotification) {
-        
         let userInfo = notification.request.content.userInfo
-        guard let bookID = userInfo[DocumentKey.postID.rawValue] as? String else { return }
-        print(bookID)
-        let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        if let rootViewController = scene?.window?.rootViewController,
-           let tabBarController = rootViewController as? TabBarController,
-           let navController = tabBarController.selectedViewController as? UINavigationController {
-            libraryService.getBook(for: bookID) { result in
-                if case .success(let book) = result {
-                    let commentController = CommentsViewController(book: book,
-                                                                   commentService: CommentService(),
-                                                                   messageService: MessageService(),
-                                                                   validator: Validator())
-                    navController.pushViewController(commentController, animated: true)
-                }
+        guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
+              let ownerID = userInfo[DocumentKey.ownerID.rawValue] as? String else { return }
+        
+        libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
+            switch result {
+            case .success(let book):
+                self?.presentCommentController(with: book)
+            case .failure(let error):
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
+    }
+    
+    private func presentCommentController(with book: Item) {
+        let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        let rootViewController = scene?.window?.rootViewController as? TabBarController
+        let navController = rootViewController?.selectedViewController as? UINavigationController
+        let commentController = CommentsViewController(book: book,
+                                                       commentService: CommentService(),
+                                                       messageService: MessageService(),
+                                                       validator: Validator())
+        if let currentController = navController?.viewControllers.last,
+           !currentController.isKind(of: CommentsViewController.self) {
+            navController?.show(commentController, sender: nil)
+        }
+        
     }
 }
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
-    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         updateToken()
     }
 }
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -94,7 +82,27 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        didReceive(notification)
         completionHandler([.banner, .list, .badge, .sound])
+    }
+}
+// MARK: - Extension NotificationProtocol
+extension NotificationManager: NotificationManagerProtocol {
+    func setBadge(to count: Int) {
+        UIApplication.shared.applicationIconBadgeNumber = count
+    }
+    
+    func registerNotifications() {
+        Messaging.messaging().delegate = self
+        UNUserNotificationCenter.current().delegate = self
+        
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { success, _ in
+            if success == true {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+        updateToken()
     }
 }

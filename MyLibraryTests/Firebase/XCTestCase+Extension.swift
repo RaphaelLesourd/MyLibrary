@@ -30,7 +30,7 @@ extension XCTestCase {
                                              email: "testuser@test.com",
                                              password: "Test21@",
                                              confirmPassword: "Test21@")
-        return UserModel(userId: "user1",
+        return UserModel(userID: "user1",
                          displayName: credentials.userName ?? "test",
                          email: credentials.email,
                          photoURL: "",

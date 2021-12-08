@@ -37,13 +37,13 @@ class HomeViewController: CollectionViewController {
         super.viewDidLoad()
         title = Text.ControllerTitle.home
         configureCollectionView()
-        makeDataSource()
+        createDataSource()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
     }
     
-    // MARK: - Setup   
+    // MARK: - Setup
     private func configureCollectionView() {
         collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
         collectionView.register(cell: CategoryCollectionViewCell.self)
@@ -124,14 +124,14 @@ class HomeViewController: CollectionViewController {
         if let query = query {
             bookListVC.currentQuery = query
             bookListVC.title = title
-            navigationController?.pushViewController(bookListVC, animated: true)
+            navigationController?.show(bookListVC, sender: nil)
         }
     }
     
     private func showCategories() {
         let categoryListVC = CategoriesViewController()
         categoryListVC.settingBookCategory = false
-        navigationController?.pushViewController(categoryListVC, animated: true)
+        navigationController?.show(categoryListVC, sender: nil)
     }
 }
 
@@ -140,7 +140,7 @@ extension HomeViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func makeDataSource() {
+    private func createDataSource() {
         dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil }
@@ -153,19 +153,11 @@ extension HomeViewController {
                     cell.configure(text: category.name)
                     return cell
                 }
-            case .newEntry:
+            case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
                     return cell
-                }
-            case .favorites:
-                if let book = item as? Item {
-                    let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(with: book)
-                    return cell
-                } else {
-                    return self.provideNoDataCell()
                 }
             case .recommanding:
                 if let book = item as? Item {
@@ -180,16 +172,9 @@ extension HomeViewController {
         collectionView.dataSource = dataSource
     }
     
-    private func provideNoDataCell() -> UICollectionViewCell {
-        let cell = EmptyStateCollectionViewCell()
-        cell.configure(text: "No data")
-        return cell
-    }
-    
     /// Adds a header to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureHeader(_ dataSource: HomeViewController.DataSource) {
-        
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
             

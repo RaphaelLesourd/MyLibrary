@@ -9,61 +9,43 @@ import UIKit
 
 class ProfileStaticCell: UITableViewCell {
     
+    // MARK: - Intializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tertiarySystemBackground
-        textStackView.addArrangedSubview(userNameTextField)
-        textStackView.addArrangedSubview(emailLabel)
-        mainStackView.addArrangedSubview(textStackView)
-        mainStackView.addArrangedSubview(activityIndicator)
-        
-        setProfileButtonConstraints()
-        setStackViewConstraints()
+        backgroundColor = .clear
+        stackView.addArrangedSubview(profileImageButton)
+        stackView.addArrangedSubview(emailLabel)
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Subviews
     let profileImageButton: UIButton = {
         let button = UIButton()
         button.imageView?.contentMode = .scaleAspectFill
-        button.rounded(radius: 30, backgroundColor: .tertiaryLabel)
+        button.rounded(radius: 50, backgroundColor: .tertiaryLabel)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         return button
     }()
-    
-    let userNameTextField = TextField(placeholder: "Nom d'utilisateur",
-                                      keyBoardType: .default,
-                                      returnKey: .done,
-                                      correction: .no,
-                                      capitalization: .sentences)
-    let emailLabel = TextLabel(color: .secondaryLabel,
-                               maxLines: 1,
-                               alignment: .left,
-                               fontSize: 15,
-                               weight: .regular)
-    let activityIndicator     = UIActivityIndicatorView()
-    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -5)
-    private let mainStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
+    let emailLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .center, fontSize: 15, weight: .regular)
+    private let stackView = StackView(axis: .vertical, distribution: .fill, alignment: .center, spacing: 15)
 }
+// MARK: - Constraints
 extension ProfileStaticCell {
-    private func setProfileButtonConstraints() {
-        contentView.addSubview(profileImageButton)
+    private func setConstraints() {
+        contentView.addSubview(stackView)
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            profileImageButton.heightAnchor.constraint(equalToConstant: 60),
-            profileImageButton.widthAnchor.constraint(equalToConstant: 60),
-            profileImageButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            profileImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
-        ])
-    }
-    
-    private func setStackViewConstraints() {
-        contentView.addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            emailLabel.heightAnchor.constraint(equalToConstant: 18),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

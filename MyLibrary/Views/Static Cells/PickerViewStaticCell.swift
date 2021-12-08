@@ -8,7 +8,7 @@
 import UIKit
 
 class PickerViewStaticCell: UITableViewCell {
-    
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
@@ -26,6 +26,8 @@ class PickerViewStaticCell: UITableViewCell {
         self.init()
         titleLabel.text = placeholder
     }
+    
+    // MARK: - Subviews
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
     let pickerView: UIPickerView = {
         let picker = UIPickerView()

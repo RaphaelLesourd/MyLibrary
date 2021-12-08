@@ -33,13 +33,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
     private let textStackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
     
-    override func prepareForReuse() {
-        titleView.titleLabel.text = nil
-        titleView.subtitleLabel.text = nil
-        descriptionLabel.text = nil
-        bookCover.image = Images.emptyStateBookImage
-    }
-    
+    // MARK: - Configure
     func configure(with book: Item) {
         titleView.titleLabel.text = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
@@ -49,10 +43,16 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
             self?.bookCover.image = image
         }
     }
+    
+    override func prepareForReuse() {
+        titleView.titleLabel.text = nil
+        titleView.subtitleLabel.text = nil
+        descriptionLabel.text = nil
+        bookCover.image = Images.emptyStateBookImage
+    }
 }
 // MARK: - Constraints
 extension HorizontalCollectionViewCell {
-    
     private func setBookCoverViewWidth() {
         contentView.addSubview(bookCover)
         bookCover.translatesAutoresizingMaskIntoConstraints = false

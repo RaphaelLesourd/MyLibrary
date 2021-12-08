@@ -11,7 +11,7 @@ import FirebaseAuth
 
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
-
+    
     private let libraryService = LibraryService()
     
     // MARK: - Lifecycle
@@ -37,7 +37,7 @@ class TabBarController: UITabBarController {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
     }
- 
+    
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewControllers() {
@@ -61,6 +61,7 @@ class TabBarController: UITabBarController {
         
         let accountIconImage = Images.accountIcon!
         let accountViewController = createController(for: AccountViewController(accountService: AccountService(),
+                                                                                libratyService: LibraryService(),
                                                                                 userService: UserService(),
                                                                                 imageService: ImageStorageService()),
                                                         title: Text.ControllerTitle.account,

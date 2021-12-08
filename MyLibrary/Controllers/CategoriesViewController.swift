@@ -13,14 +13,13 @@ class CategoriesViewController: UIViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
     typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
     
-    var dataSource: DataSource!
     var selectedCategories: [String] = []
     var settingBookCategory = true
-    
     weak var newBookDelegate: NewBookDelegate?
     
+    private var dataSource: DataSource!
     private let categoryService = CategoryService.shared
-    private let listView = ListTableView()
+    private let listView = CategoryControllerMainView()
     
     // MARK: - Lifecycle
     override func loadView() {
@@ -32,11 +31,11 @@ class CategoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         listView.tableView.allowsSelection = settingBookCategory
-        makeDataSource()
-        applySnapshot(animatingDifferences: false)
         setDelegates()
         setTableViewRefresherControl()
         addNavigationBarButtons()
+        createDataSource()
+        applySnapshot(animatingDifferences: false)
         setCategories()
     }
     
@@ -164,7 +163,7 @@ class CategoriesViewController: UIViewController {
 // MARK: - TableView Datasource
 extension CategoriesViewController {
     
-    private func makeDataSource() {
+    private func createDataSource() {
         dataSource = DataSource(tableView: listView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()

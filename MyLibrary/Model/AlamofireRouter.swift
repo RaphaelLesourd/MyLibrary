@@ -65,7 +65,8 @@ enum AlamofireRouter: URLRequestConvertible {
                                      "badge": 1,
                                      "priority": "high",
                                      "sound": "default"],
-                    "data": ["postID": payload.bookID]
+                    "data": ["bookID": payload.bookID,
+                             "ownerID": payload.ownerID]
             ]
         }
     }

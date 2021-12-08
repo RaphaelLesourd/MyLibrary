@@ -8,7 +8,7 @@
 import UIKit
 
 class TextFieldStaticCell: UITableViewCell {
-    
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
@@ -29,6 +29,7 @@ class TextFieldStaticCell: UITableViewCell {
         textField.placeholder        = placeholder
         textField.keyboardType       = keyboardType
     }
+    // MARK: - Subviews
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
     let textField  = TextField()
     private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)

@@ -12,15 +12,17 @@ class AccountViewController: StaticTableViewController {
 
     // MARK: - Properties
     private let accountService: AccountServiceProtocol
-    private let userService   : UserServiceProtocol
-    private let imageService  : ImageStorageProtocol
-    private let imageLoader   : ImageRetriverProtocol
-    private var imagePicker   : ImagePicker?
+    private let libraryService: LibraryServiceProtocol
+    private let userService: UserServiceProtocol
+    private let imageService: ImageStorageProtocol
+    private let imageLoader: ImageRetriverProtocol
+    private var imagePicker: ImagePicker?
     private var activityIndicator = UIActivityIndicatorView()
     
     // MARK: - Cell
-    private lazy var profileCell  = ProfileStaticCell()
-    private let signOutCell       = ButtonStaticCell(title: Text.ButtonTitle.signOut,
+    private lazy var profileCell = ProfileStaticCell()
+    private lazy var displayNameCell = TextFieldStaticCell(placeholder: "Nom d'utilisateur")
+    private let signOutCell = ButtonStaticCell(title: Text.ButtonTitle.signOut,
                                                      systemImage: "rectangle.portrait.and.arrow.right.fill",
                                                      tintColor: .systemPurple,
                                                      backgroundColor: .systemPurple)
@@ -31,13 +33,15 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
+         libratyService: LibraryServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
          imageLoader: ImageRetriverProtocol = ImageRetriver()) {
         self.accountService = accountService
-        self.userService    = userService
-        self.imageService   = imageService
-        self.imageLoader    = imageLoader
+        self.libraryService = libratyService
+        self.userService = userService
+        self.imageService = imageService
+        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -69,7 +73,7 @@ class AccountViewController: StaticTableViewController {
     }
     
     private func setDelegates() {
-        profileCell.userNameTextField.delegate = self
+        displayNameCell.textField.delegate = self
     }
     
     private func setTargets() {
@@ -81,10 +85,11 @@ class AccountViewController: StaticTableViewController {
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
     private func composeTableView() {
         sections = [[profileCell],
+                    [displayNameCell],
                     [signOutCell],
-                    [deleteAccountCell]]
+                    [deleteAccountCell]
+        ]
     }
-    
     // MARK: - Targets
     @objc private func presentImagePicker() {
         self.imagePicker?.present(from: profileCell.profileImageButton)
@@ -111,11 +116,11 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - Api call
     private func getProfileData() {
-        profileCell.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
         
         userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
-            self.profileCell.activityIndicator.stopAnimating()
+            self.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
@@ -127,12 +132,12 @@ class AccountViewController: StaticTableViewController {
     }
     
     private func saveUserName() {
-        let username = profileCell.userNameTextField.text
-        profileCell.activityIndicator.startAnimating()
+        let username = displayNameCell.textField.text
+        activityIndicator.startAnimating()
         
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
-            self.profileCell.activityIndicator.stopAnimating()
+            self.activityIndicator.stopAnimating()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -143,10 +148,10 @@ class AccountViewController: StaticTableViewController {
     
     private func saveProfileImage(_ image: UIImage) {
         let profileImageData = image.jpegData(.medium)
-        profileCell.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
         
         imageService.updateUserImage(for: profileImageData) { [weak self] error in
-            self?.profileCell.activityIndicator.stopAnimating()
+            self?.activityIndicator.stopAnimating()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -158,6 +163,8 @@ class AccountViewController: StaticTableViewController {
     private func signoutAccount() {
         showIndicator(activityIndicator)
         signOutCell.actionButton.displayActivityIndicator(true)
+        libraryService.bookListListener?.remove()
+        
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
             self.signOutCell.actionButton.displayActivityIndicator(false)
@@ -172,8 +179,8 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - UI update
     private func updateProfileInfos(for currentUser: UserModel) {
-        profileCell.emailLabel.text = "   \(currentUser.email)"
-        profileCell.userNameTextField.text = currentUser.displayName
+        profileCell.emailLabel.text = currentUser.email
+        displayNameCell.textField.text = currentUser.displayName
       
         imageLoader.getImage(for: currentUser.photoURL) { [weak self] image in
             self?.profileCell.profileImageButton.setImage(image, for: .normal)
@@ -193,7 +200,7 @@ extension AccountViewController: ImagePickerDelegate {
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == profileCell.userNameTextField {
+        if textField == displayNameCell.textField {
             saveUserName()
         }
         textField.resignFirstResponder()

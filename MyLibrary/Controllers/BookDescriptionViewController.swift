@@ -35,9 +35,9 @@ class BookDescriptionViewController: UIViewController {
    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        updateData()
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        updateData()
     }
     // MARK: - Setup
     private func configureTextView() {

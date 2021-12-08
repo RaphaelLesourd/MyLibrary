@@ -18,6 +18,7 @@ protocol NewBookDelegate: AnyObject {
 class NewBookViewController: StaticTableViewController, NewBookDelegate {
     
     // MARK: - Properties
+    weak var bookCardDelegate: BookCardDelegate?
     var isEditingBook = false
     var bookCategories: [String] = []
     var bookDescription: String?
@@ -27,9 +28,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
             displayBookDetail()
         }
     }
-    
-    weak var bookCardDelegate: BookCardDelegate?
-    
+
     private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
     private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
@@ -242,14 +241,14 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         let categoryListVC = CategoriesViewController()
         categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
-        navigationController?.pushViewController(categoryListVC, animated: true)
+        navigationController?.show(categoryListVC, sender: nil)
     }
     
     private func presentTextInputController() {
         let textInputViewController = BookDescriptionViewController()
         textInputViewController.newBookDelegate = self
         textInputViewController.textViewText = bookDescription
-        navigationController?.pushViewController(textInputViewController, animated: true)
+        navigationController?.show(textInputViewController, sender: nil)
     }
 }
 
@@ -276,7 +275,7 @@ extension NewBookViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - TableView DataSource & Delegate
+// MARK: - TableView Tapped section
 extension NewBookViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.section, indexPath.row) {
@@ -299,6 +298,7 @@ extension NewBookViewController: ImagePickerDelegate {
 }
 // MARK: - UIPickerDelegate
 extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
@@ -319,9 +319,11 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         pickerLabel?.textColor = .label
         return pickerLabel ?? UILabel()
     }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
         case newBookView.languageCell.pickerView:
@@ -332,6 +334,7 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return 0
         }
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case newBookView.languageCell.pickerView:

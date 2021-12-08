@@ -8,7 +8,6 @@
 import UIKit
 
 class EmptyStateCollectionViewCell: UICollectionViewCell {
-    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -20,22 +19,23 @@ class EmptyStateCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Subview
     private var titleLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 14, weight: .semibold)
     
-    override func prepareForReuse() {
-        titleLabel.text = nil
-    }
-    
+    // MARK: - Configure
     func configure(text: String?) {
         if let categoryName = text {
             titleLabel.sizeToFit()
             titleLabel.text = categoryName.uppercased()
         }
     }
+    
+    override func prepareForReuse() {
+        titleLabel.text = nil
+    }
 }
 // MARK: - Constraints
-extension EmptyStateCollectionViewCell {
-    
+extension EmptyStateCollectionViewCell {    
     private func setLabelConstraints() {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

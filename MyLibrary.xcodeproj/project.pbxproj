@@ -21,7 +21,7 @@
 		811D5BB92743978100C935B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 811D5BB82743978100C935B5 /* Kingfisher */; };
 		811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBC2744E60C00C935B5 /* CategoryModel.swift */; };
 		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
-		811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* ListTableView.swift */; };
+		811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */; };
 		811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC227452ED800C935B5 /* CategoriesViewController.swift */; };
 		811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */; };
 		811F64BE275A02EF00A24704 /* CommentControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811F64BD275A02EF00A24704 /* CommentControllerView.swift */; };
@@ -175,7 +175,7 @@
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
 		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
-		811D5BC027452DA600C935B5 /* ListTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryControllerMainView.swift; sourceTree = "<group>"; };
 		811D5BC227452ED800C935B5 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDescriptionViewController.swift; sourceTree = "<group>"; };
 		811F64BD275A02EF00A24704 /* CommentControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentControllerView.swift; sourceTree = "<group>"; };
@@ -513,13 +513,13 @@
 		81C6CCAC2724799000DE9219 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				816AE81B275F68A800747548 /* AlertManager.swift */,
 				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
 				81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */,
 				81C4CC3B275CDC0200E25628 /* NotificationManager.swift */,
 				81C4CC3D275D05C900E25628 /* VideoCapure.swift */,
-				816AE81B275F68A800747548 /* AlertManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -583,11 +583,11 @@
 		81C6CCC027247A3B00DE9219 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
-				81DB8E0A2753C51600698B92 /* CommonViews */,
 				812047F5272A884100E0A45B /* SignInUp */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
-				81B91840274A772600486176 /* NewBookControllerView.swift */,
+				811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */,
 				811F64BD275A02EF00A24704 /* CommentControllerView.swift */,
+				81B91840274A772600486176 /* NewBookControllerView.swift */,
 			);
 			path = MainViews;
 			sourceTree = "<group>";
@@ -627,14 +627,6 @@
 				81C4CC39275C821600E25628 /* Array+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		81DB8E0A2753C51600698B92 /* CommonViews */ = {
-			isa = PBXGroup;
-			children = (
-				811D5BC027452DA600C935B5 /* ListTableView.swift */,
-			);
-			path = CommonViews;
 			sourceTree = "<group>";
 		};
 		81DE9C9F2733D3AC00FF81C2 /* Firebase */ = {
@@ -896,7 +888,7 @@
 				810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */,
 				811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */,
 				810C447927271351007541C0 /* PanModalCommonView.swift in Sources */,
-				811D5BC127452DA600C935B5 /* ListTableView.swift in Sources */,
+				811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* VerticalCollectionViewCell.swift in Sources */,
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */,

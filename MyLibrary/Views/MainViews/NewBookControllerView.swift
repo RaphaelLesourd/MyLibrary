@@ -18,14 +18,15 @@ class NewBookControllerView {
     let bookImageCell = ImageStaticCell()
     let bookTileCell = TextFieldStaticCell(placeholder: Text.Book.bookName)
     let bookAuthorCell = TextFieldStaticCell(placeholder: Text.Book.authorName)
+    
     let publisherCell = TextFieldStaticCell(placeholder: Text.Book.publisher)
     let publishDateCell = TextFieldStaticCell(placeholder: Text.Book.publishedDate)
-    let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn, keyboardType: .numberPad)
     let numberOfPagesCell = TextFieldStaticCell(placeholder: Text.Book.numberOfPages, keyboardType: .numberPad)
-    let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price, keyboardType: .decimalPad)
-    
-    let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
     let languageCell = PickerViewStaticCell(placeholder: Text.Book.bookLanguage)
+    
+    let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn, keyboardType: .numberPad)
+    let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price, keyboardType: .decimalPad)
+    let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,

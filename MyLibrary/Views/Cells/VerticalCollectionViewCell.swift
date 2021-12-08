@@ -11,6 +11,7 @@ import Kingfisher
 class VerticalCollectionViewCell: UICollectionViewCell {
     
     private let imageLoader: ImageRetriverProtocol
+   
     // MARK: - Initializer
     override init(frame: CGRect) {
         imageLoader = ImageRetriver()
@@ -30,12 +31,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     private let titleView = CellTitleView()
     private let stackView = StackView(axis: .vertical, spacing: 5)
 
-    override func prepareForReuse() {
-        titleView.titleLabel.text = nil
-        titleView.subtitleLabel.text = nil
-        bookCover.image = Images.emptyStateBookImage
-    }
-    
+    // MARK: - Configure
     func configure(with book: Item) {
         titleView.titleLabel.text = book.volumeInfo?.title
         titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
@@ -43,6 +39,12 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
         }
+    }
+    
+    override func prepareForReuse() {
+        titleView.titleLabel.text = nil
+        titleView.subtitleLabel.text = nil
+        bookCover.image = Images.emptyStateBookImage
     }
 }
 // MARK: - Constraints

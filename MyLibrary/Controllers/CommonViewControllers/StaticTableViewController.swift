@@ -34,13 +34,14 @@ class StaticTableViewController: UITableViewController {
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .viewControllerBackgroundColor
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 50, right: 0)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
     }
 }
 
 // MARK: - TableView DataSource & Delegate
 extension StaticTableViewController {
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }

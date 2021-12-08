@@ -15,7 +15,7 @@ class BookLibraryViewController: CollectionViewController {
     
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
-    private lazy var dataSource = makeDataSource()
+    private var dataSource: DataSource!
     private var noMoreBooks = false
     private var layoutComposer: LayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
@@ -40,6 +40,7 @@ class BookLibraryViewController: CollectionViewController {
         emptyStateView.titleLabel.text = "Rien dans " + setTitle()
         
         configureCollectionView()
+        createDataSource()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         getBooks()
@@ -112,9 +113,7 @@ class BookLibraryViewController: CollectionViewController {
 extension BookLibraryViewController: UICollectionViewDelegate {
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
-    func collectionView(_ collectionView: UICollectionView,
-                        willDisplay cell: UICollectionViewCell,
-                        forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
         if indexPath.row == currentRow && noMoreBooks == false {
             getBooks(nextPage: true)
@@ -130,15 +129,14 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     
-    private func makeDataSource() -> DataSource {
-        dataSource = DataSource(collectionView: collectionView,
-                                cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
+    private func createDataSource() {
+        dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell
         })
         configureFooter(dataSource)
-        return dataSource
+        collectionView.dataSource = dataSource
     }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
