@@ -17,7 +17,7 @@ class CategoriesViewController: UIViewController {
     var settingBookCategory = true
     weak var newBookDelegate: NewBookDelegate?
     
-    private var dataSource: DataSource!
+    private lazy var dataSource = makeDataSource()
     private let categoryService = CategoryService.shared
     private let listView = CategoryControllerMainView()
     
@@ -31,10 +31,10 @@ class CategoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         listView.tableView.allowsSelection = settingBookCategory
+        listView.tableView.dataSource = dataSource
         setDelegates()
         setTableViewRefresherControl()
         addNavigationBarButtons()
-        createDataSource()
         applySnapshot(animatingDifferences: false)
         setCategories()
     }
@@ -163,7 +163,7 @@ class CategoriesViewController: UIViewController {
 // MARK: - TableView Datasource
 extension CategoriesViewController {
     
-    private func createDataSource() {
+    private func makeDataSource() -> DataSource {
         dataSource = DataSource(tableView: listView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
@@ -174,8 +174,8 @@ extension CategoriesViewController {
             cell.textLabel?.text = item.name?.capitalized
             return cell
         })
-        listView.tableView.dataSource = dataSource
         applySnapshot()
+        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {

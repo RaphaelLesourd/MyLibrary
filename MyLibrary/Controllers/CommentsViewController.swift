@@ -15,14 +15,14 @@ class CommentsViewController: UIViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
     typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
-   
+    
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
     
-    private var dataSource: DataSource!
+    private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
     private var editedCommentID: String?
     private var book: Item?
@@ -53,7 +53,7 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         IQKeyboardManager.shared.enableAutoToolbar = false
-        createDataSource()
+        mainView.tableView.dataSource = dataSource
         configureKeyboard()
         setDelegates()
         setTargets()
@@ -115,7 +115,7 @@ class CommentsViewController: UIViewController {
     
     private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
         guard let userID = comment.userID else { return }
-       
+        
         self.commentService.getUserDetail(for: userID) { [weak self] result in
             switch result {
             case .success(let user):
@@ -144,12 +144,13 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    private func addComment(with comment: String, commentID: String?) {
+    private func addComment(with newComment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
-        notifyUser(of: comment)
-        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: comment) { [weak self] error in
+        
+        notifyUser(of: newComment)
+        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: newComment) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
             self.editedCommentID = nil
@@ -160,9 +161,9 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    private func notifyUser(of comment: String) {
+    private func notifyUser(of newComment: String) {
         guard let book = book else { return }
-        messageService.sendCommentNotification(for: book, message: comment, for: self.commentList) { error in
+        messageService.sendCommentNotification(for: book, message: newComment, for: self.commentList) { error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -174,6 +175,7 @@ class CommentsViewController: UIViewController {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
+        
         commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
@@ -222,7 +224,6 @@ extension CommentsViewController: UITableViewDelegate {
     }
     
     private func contextMenuAction(for actionType: CategoryActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-        
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
         }
@@ -251,8 +252,8 @@ extension CommentsViewController: UITableViewDelegate {
 // MARK: - TableView Datasource
 extension CommentsViewController {
     
-    private func createDataSource() {
-        dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
+    private func makeDataSource() -> DataSource {
+        let dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
@@ -284,7 +285,7 @@ extension CommentsViewController {
             }
             return nil
         })
-        mainView.tableView.dataSource = dataSource
+        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {

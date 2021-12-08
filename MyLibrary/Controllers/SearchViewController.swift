@@ -24,7 +24,7 @@ class SearchViewController: CollectionViewController {
         }
     }
    
-    private var dataSource: DataSource!
+    private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
     private var layoutComposer: LayoutComposer
     private var networkService: ApiManagerProtocol
@@ -49,7 +49,6 @@ class SearchViewController: CollectionViewController {
         title = Text.ControllerTitle.search
         emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
         configureCollectionView()
-        createDataSource()
         applySnapshot(animatingDifferences: false)
     }
     
@@ -130,15 +129,15 @@ extension SearchViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() {
-        dataSource = DataSource(collectionView: collectionView,
+    private func createDataSource() -> DataSource{
+        let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell
         })
         configureFooter(dataSource)
-        collectionView.dataSource = dataSource
+        return dataSource
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {

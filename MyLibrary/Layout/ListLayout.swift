@@ -30,6 +30,7 @@ class ListLayout {
 }
 // MARK: - Layout composer protocol
 extension ListLayout: LayoutComposer {
+    
     func setCollectionViewLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ in
             return self?.makeVerticalGridLayoutSection()

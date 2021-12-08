@@ -11,7 +11,6 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     case newEntry
     case favorites
     case recommanding
-
     var title: String {
         switch self {
         case .newEntry:
@@ -22,6 +21,7 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return "Favoris"
         case .recommanding:
             return "Recommandations"
+       
         }
     }
     

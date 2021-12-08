@@ -15,7 +15,7 @@ class BookLibraryViewController: CollectionViewController {
     
     var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
     
-    private var dataSource: DataSource!
+    private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var layoutComposer: LayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
@@ -38,9 +38,7 @@ class BookLibraryViewController: CollectionViewController {
         super.viewDidLoad()
         title = setTitle()
         emptyStateView.titleLabel.text = "Rien dans " + setTitle()
-        
         configureCollectionView()
-        createDataSource()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         getBooks()
@@ -129,14 +127,14 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     
-    private func createDataSource() {
-        dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
+    private func makeDataSource() -> DataSource {
+        let dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell
         })
         configureFooter(dataSource)
-        collectionView.dataSource = dataSource
+        return dataSource
     }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer

@@ -57,9 +57,9 @@ class HomeViewControllerLayout {
 }
 // MARK: - Layout composer protocol
 extension HomeViewControllerLayout: LayoutComposer {
-    
+  
     func setCollectionViewLayout() -> UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch HomeCollectionViewSections(rawValue: sectionIndex) {
             case .categories:
                 return self?.makeCategoryLayoutSection()
@@ -73,5 +73,6 @@ extension HomeViewControllerLayout: LayoutComposer {
                 return nil
             }
         }
+        return layout
     }
 }

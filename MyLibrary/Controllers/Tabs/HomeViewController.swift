@@ -13,7 +13,7 @@ class HomeViewController: CollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
-    private var dataSource: DataSource!
+    private lazy var dataSource = createDataSource()
     private var layoutComposer: LayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var categoryService = CategoryService.shared
@@ -37,7 +37,6 @@ class HomeViewController: CollectionViewController {
         super.viewDidLoad()
         title = Text.ControllerTitle.home
         configureCollectionView()
-        createDataSource()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
@@ -46,6 +45,7 @@ class HomeViewController: CollectionViewController {
     // MARK: - Setup
     private func configureCollectionView() {
         collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
+        collectionView.dataSource = dataSource
         collectionView.register(cell: CategoryCollectionViewCell.self)
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(cell: HorizontalCollectionViewCell.self)
@@ -140,20 +140,25 @@ extension HomeViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() {
-        dataSource = DataSource(collectionView: collectionView,
+    private func createDataSource() -> DataSource {
+       let dataSource = DataSource(collectionView: collectionView,
                                 cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
-            guard let self = self else { return nil }
-            
+            guard let self = self else { return nil}
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            switch  sections {
+            switch sections {
             case .categories:
                 if let category = item as? CategoryModel {
                     let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(text: category.name)
                     return cell
                 }
-            case .newEntry, .favorites:
+            case .newEntry:
+                if let book = item as? Item {
+                    let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    cell.configure(with: book)
+                    return cell
+                }
+            case .favorites:
                 if let book = item as? Item {
                     let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
@@ -169,7 +174,7 @@ extension HomeViewController {
             return nil
         })
         configureHeader(dataSource)
-        collectionView.dataSource = dataSource
+        return dataSource
     }
     
     /// Adds a header to the collectionView.
@@ -188,11 +193,22 @@ extension HomeViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(HomeCollectionViewSections.allCases)
-        snapshot.appendItems(categoryService.categories, toSection: .categories)
-        snapshot.appendItems(latestBooks, toSection: .newEntry)
-        snapshot.appendItems(favoriteBooks, toSection: .favorites)
-        snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        if !categoryService.categories.isEmpty {
+            snapshot.appendSections([.categories])
+            snapshot.appendItems(categoryService.categories, toSection: .categories)
+        }
+        if !latestBooks.isEmpty {
+            snapshot.appendSections([.newEntry])
+            snapshot.appendItems(latestBooks, toSection: .newEntry)
+        }
+        if !favoriteBooks.isEmpty {
+            snapshot.appendSections([.favorites])
+            snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        }
+        if !recommandedBooks.isEmpty {
+            snapshot.appendSections([.recommanding])
+            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

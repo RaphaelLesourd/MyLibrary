@@ -32,7 +32,7 @@ class BookCardMainView: UIView {
         setFavoriteButtonConstraints()
         bookCover.addShadow()
     }
-  
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -97,28 +97,28 @@ class BookCardMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-        
+    
     // MARK: - Configure
     func displayBookInfos(with book: Item?) {
         titleLabel.text = book?.volumeInfo?.title?.capitalized
         authorLabel.text = book?.volumeInfo?.authors?.first?.capitalized
         ratingView.rating = book?.volumeInfo?.ratingsCount ?? 0
         descriptionLabel.text = book?.volumeInfo?.volumeInfoDescription
-       
+        
         bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
         bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
         bookDetailView.numberOfPageView.infoLabel.text = "\(book?.volumeInfo?.pageCount ?? 0)"
-      
-        purchaseDetailView.titleLabel.text = "Prix de vente"
-       
+        
         if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
             isbnLabel.text = Text.Book.isbn + isbn
         }
+        
+        purchaseDetailView.titleLabel.text = "Prix de vente"
         let currency = book?.saleInfo?.retailPrice?.currencyCode
         let price = book?.saleInfo?.retailPrice?.amount
         purchaseDetailView.purchasePriceLabel.text = formatter?.formatCurrency(with: price, currencyCode: currency)
         bookDetailView.languageView.infoLabel.text = formatter?.formatCodeToName(from: book?.volumeInfo?.language,
-                                                                            type: .language).capitalized
+                                                                                 type: .language).capitalized
     }
     
     func configureBookCoverImage(with image: UIImage) {
@@ -134,12 +134,13 @@ class BookCardMainView: UIView {
         categoryiesLabel.text = formatter?.joinArrayToString(categoryNames).uppercased()
     }
     
+    // MARK: - Targets
     private func setTargets() {
         actionButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
         deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
         favoriteButton.addTarget(self, action: #selector(favoriteBook), for: .touchUpInside)
         commentView.goToCommentButton.addTarget(self, action: #selector(showBookComments), for: .touchUpInside)
-       
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         bookCover.addGestureRecognizer(tap)
     }

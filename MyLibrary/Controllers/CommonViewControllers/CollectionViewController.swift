@@ -41,6 +41,7 @@ class CollectionViewController: UIViewController {
     private func configureCollectionView() {
         refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
         refresherControl.tintColor = .label
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.refreshControl = refresherControl
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
