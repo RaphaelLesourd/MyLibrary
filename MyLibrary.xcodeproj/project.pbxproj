@@ -385,10 +385,10 @@
 			children = (
 				8147516B2727E67F0080C5BA /* AppText.swift */,
 				81C6CCCC27247AF100DE9219 /* Colors.swift */,
-				819C5DC82724811300F1F8F2 /* Types.swift */,
 				81DE9C9D2733BC4700FF81C2 /* FirebaseKeys.swift */,
 				8147516D2727E9490080C5BA /* Images.swift */,
 				8121F078273A9A1A006EAA8D /* Sections.swift */,
+				819C5DC82724811300F1F8F2 /* Types.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -513,9 +513,9 @@
 		81C6CCAC2724799000DE9219 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				816AE81B275F68A800747548 /* AlertManager.swift */,
 				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
+				816AE81B275F68A800747548 /* AlertManager.swift */,
 				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
 				81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */,
 				81C4CC3B275CDC0200E25628 /* NotificationManager.swift */,
@@ -536,9 +536,9 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81B91844274BCFDD00486176 /* Validator.swift */,
 				8138DDE1274784D400C355C6 /* Formatter.swift */,
 				811713F4274E1F670051059C /* NetworkConnectivity.swift */,
+				81B91844274BCFDD00486176 /* Validator.swift */,
 				81DE9CAD2736E28E00FF81C2 /* DataModel */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
 				81A9BD89272BE37600B7DA81 /* Network */,

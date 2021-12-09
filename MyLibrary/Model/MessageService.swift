@@ -9,7 +9,10 @@ import FirebaseFirestore
 import FirebaseAuth
 
 protocol MessageServiceProtocol {
-    func sendCommentNotification(for book: Item, message: String, for comments: [CommentModel], completion: @escaping (FirebaseError?) -> Void)
+    func sendCommentNotification(for book: Item,
+                                 message: String,
+                                 for comments: [CommentModel],
+                                 completion: @escaping (FirebaseError?) -> Void)
 }
 
 class MessageService {
@@ -36,8 +39,8 @@ class MessageService {
     }
     
     private func getAllCommentSenders(for comments: [CommentModel], completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        let userIds = getCommentUserID(from: comments)
         
+        let userIds = getCommentUserID(from: comments)
         userIds.forEach { ids in
             let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in

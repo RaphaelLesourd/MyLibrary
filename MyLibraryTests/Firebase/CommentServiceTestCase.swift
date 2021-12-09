@@ -36,8 +36,6 @@ class CommentServiceTestCase: XCTestCase {
     func test_givenCommentText_whenAddingComment_returnNoError() {
         let user = createUser()
         let book = createBookDocument()
-        userService?.userID = user.userId
-        libraryservice?.userID = user.userId
         let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: user, completion: { error in
             XCTAssertNil(error)

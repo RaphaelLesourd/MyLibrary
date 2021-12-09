@@ -20,7 +20,6 @@ class UserServiceTestCase: XCTestCase {
         Networkconnectivity.shared.status = .satisfied
         exp = self.expectation(description: "Waiting for async operation")
         sut = UserService()
-        sut?.userID = createUser().userId
         accountService = AccountService()
     }
     

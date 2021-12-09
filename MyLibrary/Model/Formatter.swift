@@ -14,7 +14,7 @@ protocol FormatterProtocol {
     func formatDateToYearString(for dateString: String?) -> String
     func formatDecimalString(_ decimalString: String?) -> Double
     func formatCodeToName(from code: String?, type: CodeType) -> String
-    func formatTimeStampToDateString(for timestamp: Double?) -> String
+    func formatTimeStampToRelativeDate(for timestamp: Double?) -> String
 }
 
 class Formatter: FormatterProtocol {
@@ -26,14 +26,16 @@ class Formatter: FormatterProtocol {
         return dataArray.joined(separator: ", ")
     }
     
-    func formatTimeStampToDateString(for timestamp: Double?) -> String {
+    func formatTimeStampToRelativeDate(for timestamp: Double?) -> String {
         guard let timestamp = timestamp else {
             return ""
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-        return dateFormatter.string(from: Date(timeIntervalSince1970: timestamp))
+        let formatter = RelativeDateTimeFormatter()
+        formatter.dateTimeStyle = .numeric
+        if let preferedLanguage = Locale.preferredLanguages.first {
+            formatter.locale = Locale.init(identifier: preferedLanguage)
+        }
+        return formatter.string(for: Date(timeIntervalSince1970: timestamp))!
     }
     
     func formatDateToYearString(for dateString: String?) -> String {

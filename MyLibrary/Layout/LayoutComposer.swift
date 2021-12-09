@@ -10,3 +10,7 @@ import UIKit
 protocol LayoutComposer {
     func setCollectionViewLayout() -> UICollectionViewLayout
 }
+
+protocol HomeLayoutComposer {
+    func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>) -> UICollectionViewLayout
+}

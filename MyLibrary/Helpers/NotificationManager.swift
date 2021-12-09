@@ -61,17 +61,18 @@ class NotificationManager: NSObject {
            !currentController.isKind(of: CommentsViewController.self) {
             navController?.show(commentController, sender: nil)
         }
-        
     }
 }
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
+   
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         updateToken()
     }
 }
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
+   
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -87,6 +88,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
 }
 // MARK: - Extension NotificationProtocol
 extension NotificationManager: NotificationManagerProtocol {
+  
     func setBadge(to count: Int) {
         UIApplication.shared.applicationIconBadgeNumber = count
     }

@@ -56,11 +56,13 @@ class HomeViewControllerLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension HomeViewControllerLayout: LayoutComposer {
-  
-    func setCollectionViewLayout() -> UICollectionViewLayout {
+extension HomeViewControllerLayout: HomeLayoutComposer {
+    func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>) -> UICollectionViewLayout {
+     
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            switch HomeCollectionViewSections(rawValue: sectionIndex) {
+           
+            let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]
+            switch section {
             case .categories:
                 return self?.makeCategoryLayoutSection()
             case .newEntry:
@@ -69,8 +71,6 @@ extension HomeViewControllerLayout: LayoutComposer {
                 return self?.makeHorizontalScrollLayoutSection()
             case .recommanding:
                 return self?.makeBookDetailLayoutSection(numberItems: 3)
-            case nil:
-                return nil
             }
         }
         return layout

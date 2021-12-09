@@ -14,7 +14,7 @@ class HomeViewController: CollectionViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
     private lazy var dataSource = createDataSource()
-    private var layoutComposer: LayoutComposer
+    private var layoutComposer: HomeLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var categoryService = CategoryService.shared
     private var latestBooks: [Item] = []
@@ -22,7 +22,7 @@ class HomeViewController: CollectionViewController {
     private var recommandedBooks: [Item] = []
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
+    init(libraryService: LibraryServiceProtocol, layoutComposer: HomeLayoutComposer) {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -36,6 +36,7 @@ class HomeViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Text.ControllerTitle.home
+        emptyStateView.titleLabel.text = "Pas encore de Livres dans votre bibliothèque..."
         configureCollectionView()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
@@ -44,7 +45,6 @@ class HomeViewController: CollectionViewController {
     
     // MARK: - Setup
     private func configureCollectionView() {
-        collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout()
         collectionView.dataSource = dataSource
         collectionView.register(cell: CategoryCollectionViewCell.self)
         collectionView.register(cell: VerticalCollectionViewCell.self)
@@ -103,19 +103,8 @@ class HomeViewController: CollectionViewController {
     
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
-        var query: BookQuery?
-        
-        switch dataSource.snapshot().sectionIdentifiers[sender.tag] {
-        case .categories:
-            showCategories()
-        case .newEntry:
-            query = BookQuery.latestBookQuery
-        case .recommanding:
-            query = BookQuery.recommendationQuery
-        case .favorites:
-            query = BookQuery.favoriteBookQuery
-        }
-        showBookList(for: query)
+        let section = HomeCollectionViewSections(rawValue: sender.tag)
+        section == .categories ? showCategories() : showBookList(for: section?.sectionDataQuery)
     }
     
     // MARK: - Navigation
@@ -152,13 +141,7 @@ extension HomeViewController {
                     cell.configure(text: category.name)
                     return cell
                 }
-            case .newEntry:
-                if let book = item as? Item {
-                    let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(with: book)
-                    return cell
-                }
-            case .favorites:
+            case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
@@ -174,6 +157,7 @@ extension HomeViewController {
             return nil
         })
         configureHeader(dataSource)
+        collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout(dataSource: dataSource)
         return dataSource
     }
     
@@ -185,7 +169,7 @@ extension HomeViewController {
             
             let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
             headerView.configure(with: section.title, buttonTitle: section.buttonTitle)
-            headerView.titleView.actionButton.tag = section.rawValue
+            headerView.titleView.actionButton.tag = section.buttonTag
             headerView.titleView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
             return headerView
         }
@@ -193,11 +177,22 @@ extension HomeViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(HomeCollectionViewSections.allCases)
-        snapshot.appendItems(categoryService.categories, toSection: .categories)
-        snapshot.appendItems(latestBooks, toSection: .newEntry)
-        snapshot.appendItems(favoriteBooks, toSection: .favorites)
-        snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        if !categoryService.categories.isEmpty {
+            snapshot.appendSections([.categories])
+            snapshot.appendItems(categoryService.categories, toSection: .categories)
+        }
+        if !latestBooks.isEmpty {
+            snapshot.appendSections([.newEntry])
+            snapshot.appendItems(latestBooks, toSection: .newEntry)
+        }
+        if !favoriteBooks.isEmpty {
+            snapshot.appendSections([.favorites])
+            snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        }
+        if !recommandedBooks.isEmpty {
+            snapshot.appendSections([.recommanding])
+            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

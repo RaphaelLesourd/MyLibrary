@@ -50,13 +50,13 @@ class CommentTableViewCell: UITableViewCell {
 
     private let userNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
     private let commentLabel = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
-    private let dateLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 11, weight: .light)
+    private let dateLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 13, weight: .light)
     private let stackView = StackView(axis: .vertical, spacing: 15)
     
     func configure(with model: CommentModel) {
         commentLabel.text = model.comment
         if let timestamp = model.timestamp {
-            self.dateLabel.text = self.formatter.formatTimeStampToDateString(for: timestamp)
+            self.dateLabel.text = self.formatter.formatTimeStampToRelativeDate(for: timestamp)
         }
     }
     

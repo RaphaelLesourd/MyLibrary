@@ -271,7 +271,8 @@ extension CommentsViewController {
             case .today, .past:
                 if let item = item as? CommentModel {
                     let reuseIdentifier = CommentTableViewCell.reuseIdentifier
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CommentTableViewCell else {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
+                                                                   for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
                     cell.configure(with: item)

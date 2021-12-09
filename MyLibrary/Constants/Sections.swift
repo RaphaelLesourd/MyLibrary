@@ -11,6 +11,7 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     case newEntry
     case favorites
     case recommanding
+    
     var title: String {
         switch self {
         case .newEntry:
@@ -31,6 +32,32 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return "Tout voir"
         case .categories:
             return "Manage"
+        }
+    }
+    
+    var buttonTag: Int {
+        switch self {
+        case .categories:
+            return 0
+        case .newEntry:
+            return 1
+        case .favorites:
+            return 2
+        case .recommanding:
+            return 3
+        }
+    }
+ 
+    var sectionDataQuery: BookQuery? {
+        switch self {
+        case .categories:
+           return nil
+        case .newEntry:
+            return BookQuery.latestBookQuery
+        case .favorites:
+            return BookQuery.favoriteBookQuery
+        case .recommanding:
+            return BookQuery.recommendationQuery
         }
     }
 }

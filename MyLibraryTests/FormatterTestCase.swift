@@ -68,7 +68,7 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenTimesamp_whenFormattingToDate_thenReturnString() {
-        XCTAssertEqual(sut?.formatTimeStampToDateString(for: 123456767), "Nov 29, 1973 at 10:32 PM")
+        XCTAssertEqual(sut?.formatTimeStampToRelativeDate(for: 123456767), "48 years ago")
     }
     // MARK: - Failure tests
     func test_givenNilArray_whenJoining_thenReturnEmptyString() {
@@ -140,6 +140,6 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenNilTimestamp_whenFormattingToDate_thenReturnEmptyString() {
-        XCTAssertEqual(sut?.formatTimeStampToDateString(for: nil), "")
+        XCTAssertEqual(sut?.formatTimeStampToRelativeDate(for: nil), "")
     }
 }

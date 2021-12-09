@@ -36,7 +36,6 @@ class AlertManager {
                                 on controller: UIViewController,
                                 cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
                                 actionHandler: ((_ text: String?) -> Void)? = nil) {
-        
         let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
         alert.addTextField { (textfield: UITextField) in
             textfield.text = inputText

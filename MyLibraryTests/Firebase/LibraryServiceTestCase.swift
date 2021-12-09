@@ -10,8 +10,8 @@ import XCTest
 
 class LibraryServiceTestCase: XCTestCase {
     // MARK: - Properties
-    private var sut        : LibraryService?
-    private var userService: UserService?
+    private var sut        : LibraryService!
+    private var userService: UserService!
     private var book       : Item!
     private var newUser    : UserModel!
     private let imageData  = Data()
@@ -22,7 +22,6 @@ class LibraryServiceTestCase: XCTestCase {
         sut         = LibraryService()
         userService = UserService()
         newUser     = createUser()
-        sut?.userID = newUser.userId
         book        = createBookDocument()
         Networkconnectivity.shared.status = .satisfied
     }
@@ -54,7 +53,7 @@ class LibraryServiceTestCase: XCTestCase {
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
                 XCTAssertNil(error)
-                self.sut?.getBook(for: "11111111", completion: { result in
+                self.sut?.getBook(for: "11111111", ownerID: self.book.ownerID ?? "", completion: { result in
                     switch result {
                     case .success(let book):
                         XCTAssertEqual(book.volumeInfo?.title, "title")
@@ -113,9 +112,9 @@ class LibraryServiceTestCase: XCTestCase {
             XCTAssertNil(error)
             self.sut?.createBook(with: self.book, and: self.imageData, completion: { error in
                 XCTAssertNil(error)
-                self.sut?.setStatusTo(true, field: .favorite, for: self.book.bookID, completion:  { error in
+                self.sut?.setStatusTo(to: true, field: .favorite, for: self.book.bookID, completion:  { error in
                     XCTAssertNil(error)
-                    self.sut?.getBook(for: self.book.bookID ?? "", completion: { result in
+                    self.sut?.getBook(for: self.book.bookID ?? "", ownerID: self.book.ownerID ?? "", completion: { result in
                         switch result {
                         case .success(let book):
                             XCTAssertNotNil(book)
@@ -136,7 +135,7 @@ class LibraryServiceTestCase: XCTestCase {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
         userService?.createUserInDatabase(for: newUser, completion: { error in
             XCTAssertNil(error)
-            self.sut?.getBook(for: "aaaaaa", completion: { result in
+            self.sut?.getBook(for: "aaaaaa", ownerID: self.book.ownerID ?? "", completion: { result in
                 switch result {
                 case .success(let book):
                     XCTAssertNil(book)

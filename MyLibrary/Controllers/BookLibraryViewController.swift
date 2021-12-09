@@ -128,7 +128,8 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 extension BookLibraryViewController {
     
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
+        let dataSource = DataSource(collectionView: collectionView,
+                                    cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
             let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell

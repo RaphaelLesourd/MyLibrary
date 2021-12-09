@@ -72,7 +72,6 @@ extension ApiManager: ApiManagerProtocol {
             .response { response in
             switch response.result {
             case .success(_):
-                print("Notification sent")
                 completion(nil)
             case .failure(let error):
                 completion(.afError(error))
