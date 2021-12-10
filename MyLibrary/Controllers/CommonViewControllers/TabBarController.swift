@@ -61,7 +61,7 @@ class TabBarController: UITabBarController {
         
         let accountIconImage = Images.accountIcon!
         let accountViewController = createController(for: AccountViewController(accountService: AccountService(),
-                                                                                libratyService: LibraryService(),
+                                                                                libraryService: LibraryService(),
                                                                                 userService: UserService(),
                                                                                 imageService: ImageStorageService()),
                                                         title: Text.ControllerTitle.account,

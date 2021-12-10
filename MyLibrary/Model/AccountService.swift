@@ -26,12 +26,15 @@ class AccountService {
     typealias CompletionHandler = (FirebaseError?) -> Void
     let user = Auth.auth().currentUser
     let userService: UserServiceProtocol
+    private let libraryService: LibraryServiceProtocol
     
     private let fcmToken = Messaging.messaging().fcmToken
     
     // MARK: - Initializer
-    init(userService: UserServiceProtocol = UserService()) {
+    init(userService: UserServiceProtocol = UserService(),
+         libraryService: LibraryServiceProtocol = LibraryService()) {
         self.userService = userService
+        self.libraryService = libraryService
     }
     
     // MARK: - Private functions
@@ -47,6 +50,12 @@ class AccountService {
             }
             completion(nil)
         }
+    }
+    
+    private func removeFirestoreListeners() {
+        CategoryService.shared.categoriesListener?.remove()
+        libraryService.bookListListener?.remove()
+        userService.updateFcmToken(with: "")
     }
 }
 // MARK: - Extension AccountServiceProtocol
@@ -138,7 +147,7 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
-        userService.updateFcmToken(with: "")
+        removeFirestoreListeners()
         do {
             try Auth.auth().signOut()
             completion(nil)

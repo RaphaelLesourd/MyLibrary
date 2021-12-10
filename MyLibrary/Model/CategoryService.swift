@@ -15,7 +15,7 @@ class CategoryService {
     static let shared = CategoryService()
     
     private let db = Firestore.firestore()
-    private var categoriesListener: ListenerRegistration?
+    var categoriesListener: ListenerRegistration?
     lazy var usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     var categories: [CategoryModel] = []
     

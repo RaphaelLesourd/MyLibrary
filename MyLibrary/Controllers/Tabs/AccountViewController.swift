@@ -33,12 +33,12 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
-         libratyService: LibraryServiceProtocol,
+         libraryService: LibraryServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
          imageLoader: ImageRetriverProtocol = ImageRetriver()) {
         self.accountService = accountService
-        self.libraryService = libratyService
+        self.libraryService = libraryService
         self.userService = userService
         self.imageService = imageService
         self.imageLoader = imageLoader
