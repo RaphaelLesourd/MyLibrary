@@ -92,6 +92,7 @@
 		81792F672732F93F005F863B /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F662732F93F005F863B /* FirebaseError.swift */; };
 		818657A727649D5C00B25116 /* AccountControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A627649D5C00B25116 /* AccountControllerView.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
+		818657AB27651A6000B25116 /* FeedBackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657AA27651A6000B25116 /* FeedBackManager.swift */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
@@ -148,7 +149,7 @@
 		81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */; };
 		81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8E002753B02800698B92 /* CommentTableViewCell.swift */; };
 		81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8E062753BCD700698B92 /* UIImageView+Extension.swift */; };
-		81DE9C9E2733BC4700FF81C2 /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9C9D2733BC4700FF81C2 /* FirebaseKeys.swift */; };
+		81DE9C9E2733BC4700FF81C2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9C9D2733BC4700FF81C2 /* Keys.swift */; };
 		81DE9CA12733D3E400FF81C2 /* UserServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9CA02733D3E400FF81C2 /* UserServiceTestCase.swift */; };
 		81DE9CA627354C9800FF81C2 /* LibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9CA527354C9800FF81C2 /* LibraryService.swift */; };
 /* End PBXBuildFile section */
@@ -226,6 +227,7 @@
 		81792F662732F93F005F863B /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		818657A627649D5C00B25116 /* AccountControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		818657AA27651A6000B25116 /* FeedBackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackManager.swift; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC82724811300F1F8F2 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
@@ -283,7 +285,7 @@
 		81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		81DB8E002753B02800698B92 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		81DB8E062753BCD700698B92 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
-		81DE9C9D2733BC4700FF81C2 /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
+		81DE9C9D2733BC4700FF81C2 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		81DE9CA02733D3E400FF81C2 /* UserServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceTestCase.swift; sourceTree = "<group>"; };
 		81DE9CA527354C9800FF81C2 /* LibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -389,7 +391,7 @@
 			children = (
 				8147516B2727E67F0080C5BA /* AppText.swift */,
 				81C6CCCC27247AF100DE9219 /* Colors.swift */,
-				81DE9C9D2733BC4700FF81C2 /* FirebaseKeys.swift */,
+				81DE9C9D2733BC4700FF81C2 /* Keys.swift */,
 				8147516D2727E9490080C5BA /* Images.swift */,
 				8121F078273A9A1A006EAA8D /* Sections.swift */,
 				819C5DC82724811300F1F8F2 /* Types.swift */,
@@ -520,6 +522,7 @@
 				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
 				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				816AE81B275F68A800747548 /* AlertManager.swift */,
+				818657AA27651A6000B25116 /* FeedBackManager.swift */,
 				81BC7ECD273040F0009A1629 /* ImagePicker.swift */,
 				81DB8DFA27536E4D00698B92 /* ImageRetriver.swift */,
 				81C4CC3B275CDC0200E25628 /* NotificationManager.swift */,
@@ -888,6 +891,7 @@
 				81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				819CD6E9275B6629002A9B12 /* MessageModel.swift in Sources */,
+				818657AB27651A6000B25116 /* FeedBackManager.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
@@ -936,7 +940,7 @@
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
 				8121F079273A9A1A006EAA8D /* Sections.swift in Sources */,
 				81BC7ECC272F0AC5009A1629 /* LoadingFooterSupplementaryView.swift in Sources */,
-				81DE9C9E2733BC4700FF81C2 /* FirebaseKeys.swift in Sources */,
+				81DE9C9E2733BC4700FF81C2 /* Keys.swift in Sources */,
 				81C6CC732724769B00DE9219 /* SceneDelegate.swift in Sources */,
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,

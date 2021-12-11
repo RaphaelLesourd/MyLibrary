@@ -11,6 +11,7 @@ protocol AccountViewDelegate: AnyObject {
     func presentImagePicker()
     func signoutRequest()
     func deleteAccount()
+    func presentMailComposer()
 }
 
 class AccountControllerView {
@@ -40,20 +41,25 @@ class AccountControllerView {
     private lazy var appVersionCell = TextFieldStaticCell(placeholder: "Version")
     private lazy var appBuildCell = TextFieldStaticCell(placeholder: "Build")
     private lazy var appCreationYearCell = TextFieldStaticCell(placeholder: "Année création")
+    private let contactViewCell = ButtonStaticCell(title: "Contactez nous",
+                                                   systemImage: "",
+                                                   tintColor: .appTintColor,
+                                                   backgroundColor: .appTintColor)
     
     // MARK: - Configuration
     private func setTargets() {
         profileCell.profileImageButton.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
         signOutCell.actionButton.addTarget(self, action: #selector(signoutRequest), for: .touchUpInside)
         deleteAccountCell.actionButton.addTarget(self, action: #selector(deleteAccount), for: .touchUpInside)
+        contactViewCell.actionButton.addTarget(self, action: #selector(presentMail), for: .touchUpInside)
     }
     
     /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
     func composeTableView() -> [[UITableViewCell]] {
         return [[profileCell],
                 [displayNameCell],
-                [appVersionCell, appBuildCell, appCreationYearCell],
-                [signOutCell, deleteAccountCell]
+                [signOutCell, deleteAccountCell],
+                [appVersionCell, appBuildCell, appCreationYearCell, contactViewCell]
         ]
     }
     
@@ -91,5 +97,9 @@ class AccountControllerView {
     
     @objc private func deleteAccount() {
         delegate?.deleteAccount()
+    }
+    
+    @objc private func presentMail() {
+        delegate?.presentMailComposer()
     }
 }

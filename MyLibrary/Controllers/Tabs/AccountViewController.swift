@@ -16,17 +16,19 @@ class AccountViewController: StaticTableViewController {
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private var imagePicker: ImagePicker?
+    private let feedbackManager: FeedBackProtocol?
     private let mainView = AccountControllerView(imageRetriever: ImageRetriver())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
          libraryService: LibraryServiceProtocol,
          userService: UserServiceProtocol,
-         imageService: ImageStorageProtocol) {
+         imageService: ImageStorageProtocol, feedbackManager: FeedBackProtocol) {
         self.accountService = accountService
         self.libraryService = libraryService
         self.userService = userService
         self.imageService = imageService
+        self.feedbackManager = feedbackManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,7 +64,7 @@ class AccountViewController: StaticTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 2 ? "\(UIApplication.appName) Informations" : ""
+        return section == 3 ? "\(UIApplication.appName) Informations" : ""
     }
     
     // MARK: - Api call
@@ -168,5 +170,9 @@ extension AccountViewController: AccountViewDelegate {
             let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
+    }
+    
+    func presentMailComposer() {
+        feedbackManager?.presentMail()
     }
 }

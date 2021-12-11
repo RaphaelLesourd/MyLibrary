@@ -33,6 +33,7 @@ class StaticTableViewController: UITableViewController {
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .viewControllerBackgroundColor
         tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 50, right: 0)
         tableView.rowHeight = UITableView.automaticDimension
