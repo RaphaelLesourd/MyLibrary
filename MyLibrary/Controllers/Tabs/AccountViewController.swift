@@ -9,39 +9,24 @@ import UIKit
 import PanModal
 
 class AccountViewController: StaticTableViewController {
-
+    
     // MARK: - Properties
     private let accountService: AccountServiceProtocol
     private let libraryService: LibraryServiceProtocol
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
-    private let imageLoader: ImageRetriverProtocol
     private var imagePicker: ImagePicker?
-    private var activityIndicator = UIActivityIndicatorView()
-    
-    // MARK: - Cell
-    private lazy var profileCell = ProfileStaticCell()
-    private lazy var displayNameCell = TextFieldStaticCell(placeholder: "Nom d'utilisateur")
-    private let signOutCell = ButtonStaticCell(title: Text.ButtonTitle.signOut,
-                                                     systemImage: "rectangle.portrait.and.arrow.right.fill",
-                                                     tintColor: .systemPurple,
-                                                     backgroundColor: .systemPurple)
-    private let deleteAccountCell = ButtonStaticCell(title: "Supprimer le compte",
-                                                     systemImage: "",
-                                                     tintColor: .systemRed,
-                                                     backgroundColor: .clear)
+    private let mainView = AccountControllerView(imageRetriever: ImageRetriver())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
          libraryService: LibraryServiceProtocol,
          userService: UserServiceProtocol,
-         imageService: ImageStorageProtocol,
-         imageLoader: ImageRetriverProtocol = ImageRetriver()) {
+         imageService: ImageStorageProtocol) {
         self.accountService = accountService
         self.libraryService = libraryService
         self.userService = userService
         self.imageService = imageService
-        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,17 +38,16 @@ class AccountViewController: StaticTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
+        sections = mainView.composeTableView()
         configureViewController()
         addNavigationBarButtons()
-        composeTableView()
         setDelegates()
-        setTargets()
         getProfileData()
     }
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
@@ -73,58 +57,25 @@ class AccountViewController: StaticTableViewController {
     }
     
     private func setDelegates() {
-        displayNameCell.textField.delegate = self
+        mainView.displayNameCell.textField.delegate = self
+        mainView.delegate = self
     }
     
-    private func setTargets() {
-        profileCell.profileImageButton.addTarget(self, action: #selector(presentImagePicker), for: .touchUpInside)
-        signOutCell.actionButton.addTarget(self, action: #selector(signoutRequest), for: .touchUpInside)
-        deleteAccountCell.actionButton.addTarget(self, action: #selector(deleteAccount), for: .touchUpInside)
-    }
-    
-    /// Compose tableView cells and serctions using a 2 dimensional array of cells in  sections.
-    private func composeTableView() {
-        sections = [[profileCell],
-                    [displayNameCell],
-                    [signOutCell],
-                    [deleteAccountCell]
-        ]
-    }
-    // MARK: - Targets
-    @objc private func presentImagePicker() {
-        self.imagePicker?.present(from: profileCell.profileImageButton)
-    }
-    
-    @objc private func signoutRequest() {
-        AlertManager.presentAlert(withTitle: "Etes-vous sûr de vouloir vous déconnecter.",
-                                  message: "",
-                                  withCancel: true,
-                                  on: self) { _ in
-            self.signoutAccount()
-        }
-    }
-    
-    @objc private func deleteAccount() {
-        AlertManager.presentAlert(withTitle: "Etes-vous sûr de vouloir supprimer votre compte?",
-                     message: "Vous allez devoir vous re-authentifier.",
-                     withCancel: true,
-                     on: self) { _ in
-            let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
-            self.presentPanModal(controller)
-        }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 2 ? "\(UIApplication.appName) Informations" : ""
     }
     
     // MARK: - Api call
     private func getProfileData() {
-        activityIndicator.startAnimating()
+        mainView.activityIndicator.startAnimating()
         
         userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
-            self.activityIndicator.stopAnimating()
+            self.mainView.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                self.updateProfileInfos(for: currentUser)
+                self.mainView.updateProfileInfos(for: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -132,67 +83,57 @@ class AccountViewController: StaticTableViewController {
     }
     
     private func saveUserName() {
-        let username = displayNameCell.textField.text
-        activityIndicator.startAnimating()
+        let username = mainView.displayNameCell.textField.text
+        mainView.activityIndicator.startAnimating()
         
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
-            self.activityIndicator.stopAnimating()
+            self.mainView.activityIndicator.stopAnimating()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Nom d'utilisateur mis à jour.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.userNameUpdated)
         }
     }
     
     private func saveProfileImage(_ image: UIImage) {
         let profileImageData = image.jpegData(.medium)
-        activityIndicator.startAnimating()
+        mainView.activityIndicator.startAnimating()
         
         imageService.updateUserImage(for: profileImageData) { [weak self] error in
-            self?.activityIndicator.stopAnimating()
+            self?.mainView.activityIndicator.stopAnimating()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Photo de profil mise à jour.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.profilePhotoUpdated)
         }
     }
     
     private func signoutAccount() {
-        showIndicator(activityIndicator)
-        signOutCell.actionButton.displayActivityIndicator(true)
+        showIndicator(mainView.activityIndicator)
+        mainView.signOutCell.actionButton.displayActivityIndicator(true)
         libraryService.bookListListener?.remove()
         
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
-            self.signOutCell.actionButton.displayActivityIndicator(false)
-            self.hideIndicator(self.activityIndicator)
+            self.mainView.signOutCell.actionButton.displayActivityIndicator(false)
+            self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .customMessage("A bientôt!"), subtitle: "")
-        }
-    }
-    
-    // MARK: - UI update
-    private func updateProfileInfos(for currentUser: UserModel) {
-        profileCell.emailLabel.text = currentUser.email
-        displayNameCell.textField.text = currentUser.displayName
-      
-        imageLoader.getImage(for: currentUser.photoURL) { [weak self] image in
-            self?.profileCell.profileImageButton.setImage(image, for: .normal)
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon), subtitle: "")
         }
     }
 }
 
 // MARK: - ImagePicker Delegate
 extension AccountViewController: ImagePickerDelegate {
-        func didSelect(image: UIImage?) {
+    func didSelect(image: UIImage?) {
         guard let image = image else { return }
-        profileCell.profileImageButton.setImage(image, for: .normal)
+        mainView.profileCell.profileImageButton.setImage(image, for: .normal)
         saveProfileImage(image)
     }
 }
@@ -200,10 +141,32 @@ extension AccountViewController: ImagePickerDelegate {
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == displayNameCell.textField {
+        if textField == mainView.displayNameCell.textField {
             saveUserName()
         }
         textField.resignFirstResponder()
         return true
+    }
+}
+// MARK: - Extension SettingViewProtocol
+extension AccountViewController: AccountViewDelegate {
+    func presentImagePicker() {
+        self.imagePicker?.present(from: mainView.profileCell.profileImageButton)
+    }
+    
+    func signoutRequest() {
+        AlertManager.presentAlert(withTitle: Text.Alert.signout, message: "", withCancel: true, on: self) { _ in
+            self.signoutAccount()
+        }
+    }
+    
+    func deleteAccount() {
+        AlertManager.presentAlert(withTitle: Text.Alert.deleteAccountTitle,
+                                  message: Text.Alert.deleteAccountMessage,
+                                  withCancel: true,
+                                  on: self) { _ in
+            let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
+            self.presentPanModal(controller)
+        }
     }
 }

@@ -195,8 +195,7 @@ class BookCardViewController: UIViewController {
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
                                                       formatter: Formatter(),
-                                                      validator: Validator(),
-                                                      imageLoader: ImageRetriver())
+                                                      validator: Validator())
         newBookController.newBook = book
         newBookController.isEditingBook = true
         newBookController.bookCardDelegate = self

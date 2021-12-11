@@ -13,17 +13,25 @@ class BookLibraryViewController: CollectionViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
-    var currentQuery: BookQuery = BookQuery.defaultAllBookQuery
-    
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var layoutComposer: LayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
+    private var currentQuery: BookQuery
     private var bookList: [Item] = []
+    private var gridItemSize: GridItemSize? {
+        didSet {
+            guard let gridItemSize = gridItemSize else { return }
+            let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
+            collectionView.setCollectionViewLayout(layout, animated: true)
+            applySnapshot()
+        }
+    }
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
+    init(currentQuery: BookQuery, libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
+        self.currentQuery = currentQuery
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -39,6 +47,8 @@ class BookLibraryViewController: CollectionViewController {
         title = setTitle()
         emptyStateView.titleLabel.text = "Rien dans " + setTitle()
         configureCollectionView()
+        gridItemSize = .third
+        configureNavigationBarButton()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         getBooks()
@@ -46,8 +56,6 @@ class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Setup
     private func configureCollectionView() {
-        let layout = layoutComposer.setCollectionViewLayout()
-        collectionView.collectionViewLayout = layout
         collectionView.register(cell: VerticalCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
@@ -58,6 +66,10 @@ class BookLibraryViewController: CollectionViewController {
         refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
+    private func configureNavigationBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.gridLayoutMenu, primaryAction: nil, menu: configureLayoutMenu())
+    }
+    
     private func setTitle() -> String {
         if let categoryTitle = title, !categoryTitle.isEmpty {
             return categoryTitle.capitalized
@@ -66,6 +78,21 @@ class BookLibraryViewController: CollectionViewController {
             return query.title
         }
         return Text.ControllerTitle.myBooks
+    }
+    
+    private func configureLayoutMenu() -> UIMenu {
+        UIMenu(title: "Changer de vue", image: nil, identifier: nil, options: [.displayInline], children: addItemAction())
+    }
+    
+    private func addItemAction() -> [UIMenuElement] {
+        var items: [UIMenuElement] = []
+        GridItemSize.allCases.forEach({ grid in
+            let item = UIAction(title: grid.title, image: grid.image, handler: { [weak self] (_) in
+                self?.gridItemSize = grid
+            })
+            items.append(item)
+        })
+        return items
     }
     
     // MARK: - Api call
@@ -149,7 +176,7 @@ extension BookLibraryViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         emptyStateView.isHidden = !bookList.isEmpty
-        snapshot.appendSections(SingleSection.allCases)
+        snapshot.appendSections([.main])
         snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }

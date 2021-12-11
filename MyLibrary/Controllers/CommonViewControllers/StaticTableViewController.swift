@@ -42,6 +42,7 @@ class StaticTableViewController: UITableViewController {
 
 // MARK: - TableView DataSource & Delegate
 extension StaticTableViewController {
+   
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }

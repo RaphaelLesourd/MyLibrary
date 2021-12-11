@@ -7,7 +7,22 @@
 
 import UIKit
 
+protocol NewBookViewDelegate: AnyObject {
+    func saveBook()
+}
+
 class NewBookControllerView {
+    
+    weak var delegate: NewBookViewDelegate?
+    
+    private let formatter: FormatterProtocol
+    private let imageRetriever: ImageRetriverProtocol
+    
+    init(formatter: FormatterProtocol, imageRetriver: ImageRetriverProtocol) {
+        self.formatter = formatter
+        self.imageRetriever = imageRetriver
+        setButtonTargets()
+    }
     
     // MARK: - Subviews
     let commonStaticTableViewController = StaticTableViewController()
@@ -45,7 +60,7 @@ class NewBookControllerView {
                            numberOfPagesCell.textField,
                            purchasePriceCell.textField]
     
-    // MARK: - Sections
+    // MARK: - Configure
     func composeTableView() -> [[UITableViewCell]] {
         return [[bookImageCell],
                 [bookTileCell, bookAuthorCell],
@@ -55,5 +70,42 @@ class NewBookControllerView {
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
                 [saveButtonCell]]
+    }
+    
+    func setButtonTargets() {
+        saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
+    }
+    
+    // MARK: - Display data
+    func displayBookDetail(with book: Item) {
+        bookTileCell.textField.text = book.volumeInfo?.title
+        bookAuthorCell.textField.text = formatter.joinArrayToString(book.volumeInfo?.authors)
+        publisherCell.textField.text = book.volumeInfo?.publisher
+        publishDateCell.textField.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
+        isbnCell.textField.text = book.volumeInfo?.industryIdentifiers?.first?.identifier
+        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
+        if let price = book.saleInfo?.retailPrice?.amount {
+            purchasePriceCell.textField.text = "\(price)"
+        }
+        if let rating = book.volumeInfo?.ratingsCount {
+            ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
+        }
+    }
+    
+    func displayBookCover(for book: Item) {
+        imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+            self?.bookImageCell.pictureView.image = image
+        }
+    }
+    
+    func resetViews() {
+        bookImageCell.pictureView.image = Images.emptyStateBookImage
+        textFields.forEach { $0.text = nil }
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
+    }
+    
+    // MARK: Targets
+    @objc private func saveBook() {
+        delegate?.saveBook()
     }
 }

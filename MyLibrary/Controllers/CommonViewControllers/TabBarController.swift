@@ -47,15 +47,15 @@ class TabBarController: UITabBarController {
                                                      image: Images.homeIcon!)
         
         let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
-        let libraryViewController = createController(for: BookLibraryViewController(libraryService: LibraryService(),
+        let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
+                                                                                    libraryService: LibraryService(),
                                                                                     layoutComposer: ListLayout()),
                                                         title: Text.ControllerTitle.myBooks,
                                                         image: libraryIconImage)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
                                                                             formatter: Formatter(),
-                                                                            validator: Validator(),
-                                                                            imageLoader: ImageRetriver()),
+                                                                            validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.newBookIcon!)
         

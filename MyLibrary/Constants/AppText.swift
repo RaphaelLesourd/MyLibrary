@@ -71,5 +71,14 @@ enum Text {
     enum Alert {
         static let noCommentsTitle = "Ajouter un commentaire"
         static let noCommentsMessage = "Il n'y a pas encore de commentaires pour ce livre. Voulez vous être le premier en ajouter un?"
+        static let signout = "Etes-vous sûr de vouloir vous déconnecter."
+        static let deleteAccountTitle = "Etes-vous sûr de vouloir supprimer votre compte?"
+        static let deleteAccountMessage = "Vous allez devoir vous re-authentifier."
+    }
+    
+    enum Banner {
+        static let seeYouSoon = "A bientôt!"
+        static let profilePhotoUpdated = "Photo de profil mise à jour."
+        static let userNameUpdated = "Nom d'utilisateur mis à jour."
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LayoutComposer {
-    func setCollectionViewLayout() -> UICollectionViewLayout
+    func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout
 }
 
 protocol HomeLayoutComposer {

@@ -109,12 +109,10 @@ class HomeViewController: CollectionViewController {
     
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
-        let bookListVC = BookLibraryViewController(libraryService: LibraryService(), layoutComposer: ListLayout())
-        if let query = query {
-            bookListVC.currentQuery = query
-            bookListVC.title = title
-            navigationController?.show(bookListVC, sender: nil)
-        }
+        guard let query = query else { return }
+        let bookListVC = BookLibraryViewController(currentQuery: query, libraryService: LibraryService(), layoutComposer: ListLayout())
+        bookListVC.title = title
+        navigationController?.show(bookListVC, sender: nil)
     }
     
     private func showCategories() {
