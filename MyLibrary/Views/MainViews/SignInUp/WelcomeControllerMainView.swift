@@ -12,9 +12,12 @@ class WelcomeControllerMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        loginStackView.addArrangedSubview(loginButton)
+        loginStackView.addArrangedSubview(signupButton)
+        
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(loginStackView)
-        mainStackView.addArrangedSubview(termOfUserButton)
+        mainStackView.addArrangedSubview(appVerionLabel)
         
         setBackGroundImageConstraints()
         setMainStackViewConstraints()
@@ -44,13 +47,7 @@ class WelcomeControllerMainView: UIView {
                                     tintColor: .white,
                                     backgroundColor: .white)
     
-    let termOfUserButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(Text.Account.termOfUseMessage, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        return button
-    }()
+    let appVerionLabel = TextLabel(color: .white, maxLines: 1, alignment: .center, fontSize: 12, weight: .regular)
     
     private let loginStackView = StackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
     private let mainStackView = StackView(axis: .vertical, spacing: 100)
@@ -58,8 +55,7 @@ class WelcomeControllerMainView: UIView {
     private func configureUI() {
         backgroundImage.image = Images.welcomeScreen
         titleLabel.text = Text.Account.welcomeMessage
-        loginStackView.addArrangedSubview(loginButton)
-        loginStackView.addArrangedSubview(signupButton)
+        appVerionLabel.text = UIApplication.appName + " - Version " + UIApplication.release + " build " + UIApplication.build
     }
 }
 // MARK: - Constraints

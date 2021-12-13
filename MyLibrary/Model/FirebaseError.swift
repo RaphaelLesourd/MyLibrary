@@ -56,9 +56,9 @@ enum FirebaseError: Error {
         case .invalidArgument:
             return "Requette non valable."
         case .notFound:
-            return "Livre non trouvable."
+            return "Introuvable."
         case .unavailable:
-            return "Livre non disponible."
+            return "Non disponible."
         case .some(_), .none:
             return error.localizedDescription
         }

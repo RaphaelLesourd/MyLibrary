@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreSwift
 
-struct CategoryModel: Codable {
+struct CategoryModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String?
     var name: String?

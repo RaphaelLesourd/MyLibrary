@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreSwift
 
-struct UserModel: Codable {
+struct UserModel: Codable, Identifiable {
     @DocumentID var id: String?
     var userID: String
     var displayName: String

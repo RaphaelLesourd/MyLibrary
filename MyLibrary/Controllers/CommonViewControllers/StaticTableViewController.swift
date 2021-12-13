@@ -38,6 +38,7 @@ class StaticTableViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 50, right: 0)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = .none
     }
 }
 

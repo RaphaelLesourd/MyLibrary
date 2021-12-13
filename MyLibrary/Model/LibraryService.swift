@@ -15,7 +15,7 @@ protocol LibraryServiceProtocol {
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
     func setStatusTo(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
-    var bookListListener: ListenerRegistration? { get set }
+    func removeBookListener()
 }
 
 class LibraryService {
@@ -26,11 +26,11 @@ class LibraryService {
     private let recommandationService: RecommendationServiceProtocol
     private let imageService : ImageStorageProtocol
     private let db = Firestore.firestore()
+    private var bookListListener: ListenerRegistration?
     
     let usersCollectionRef: CollectionReference
     
     var userID: String
-    var bookListListener: ListenerRegistration?
     var lastBookFetched: QueryDocumentSnapshot?
     
     // MARK: - Initializer
@@ -177,6 +177,7 @@ extension LibraryService: LibraryServiceProtocol {
                 }
             }
             if let data = data {
+                print(data.count)
                 data.isEmpty ? completion(.success([])) : completion(.success(data))
             }
         }
@@ -240,5 +241,10 @@ extension LibraryService: LibraryServiceProtocol {
             }
             completion(nil)
         }
+    }
+    
+    // MARK: - Listerner
+    func removeBookListener() {
+        bookListListener?.remove()
     }
 }

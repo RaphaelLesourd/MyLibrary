@@ -62,6 +62,8 @@ enum Text {
         static let save = "Enregistrer"
         static let signOut = "Déconnexion"
         static let deletaAccount = "Supprimer le compte"
+        static let delete = "Effacer"
+        static let edit = "Editer"
     }
     
     enum SearchBarPlaceholder {
@@ -74,11 +76,15 @@ enum Text {
         static let signout = "Etes-vous sûr de vouloir vous déconnecter."
         static let deleteAccountTitle = "Etes-vous sûr de vouloir supprimer votre compte?"
         static let deleteAccountMessage = "Vous allez devoir vous re-authentifier."
+        static let descriptionChangedTitle = "Description"
+        static let descriptionChangedMessage = "Vous avez modifié la description, voulez-vous grader ces modifications?"
     }
     
     enum Banner {
         static let seeYouSoon = "A bientôt!"
         static let profilePhotoUpdated = "Photo de profil mise à jour."
         static let userNameUpdated = "Nom d'utilisateur mis à jour."
+        static let errorTitle = "Erreur!"
+        static let successTitle = "Succés"
     }
 }

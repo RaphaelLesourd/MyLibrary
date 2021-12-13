@@ -16,7 +16,8 @@ protocol VideoCaptureDelegate: AnyObject {
 }
 
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
-/// Learn this process at: https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
+/// Process assimilated and adapated from this article
+/// https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
 class VideoCapture: NSObject {
  
     var captureSession = AVCaptureSession()

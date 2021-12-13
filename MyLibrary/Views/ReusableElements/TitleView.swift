@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TitleViewView: UIView {
+class TitleView: UIView {
 
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -36,7 +36,7 @@ class TitleViewView: UIView {
     private let stackView = StackView(axis: .horizontal, spacing: 0)
 }
 // MARK: - Constraints
-extension TitleViewView {
+extension TitleView {
     private func setStackViewConstrainsts() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

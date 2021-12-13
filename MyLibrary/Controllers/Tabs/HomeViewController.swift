@@ -88,7 +88,7 @@ class HomeViewController: CollectionViewController {
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
         showIndicator(activityIndicator)
         
-        libraryService.getBookList(for: query, limit: 20, forMore: false) { [weak self] result in
+        libraryService.getBookList(for: query, limit: 10, forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
@@ -110,7 +110,9 @@ class HomeViewController: CollectionViewController {
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
-        let bookListVC = BookLibraryViewController(currentQuery: query, libraryService: LibraryService(), layoutComposer: ListLayout())
+        let bookListVC = BookLibraryViewController(currentQuery: query,
+                                                   libraryService: LibraryService(),
+                                                   layoutComposer: ListLayout())
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
     }

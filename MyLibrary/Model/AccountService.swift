@@ -53,8 +53,8 @@ class AccountService {
     }
     
     private func removeFirestoreListeners() {
+        libraryService.removeBookListener()
         CategoryService.shared.categoriesListener?.remove()
-        libraryService.bookListListener?.remove()
         userService.updateFcmToken(with: "")
     }
 }
@@ -147,8 +147,8 @@ extension AccountService: AccountServiceProtocol {
     }
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
-        removeFirestoreListeners()
         do {
+            removeFirestoreListeners()
             try Auth.auth().signOut()
             completion(nil)
         } catch {

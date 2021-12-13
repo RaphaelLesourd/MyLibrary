@@ -28,7 +28,6 @@ class WelcomeViewController: UIViewController {
     private func configureTargets() {
         mainView.loginButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
         mainView.signupButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
-        mainView.termOfUserButton.addTarget(self, action: #selector(showTermOfUse), for: .touchUpInside)
     }
     
     // MARK: - Targets
@@ -36,9 +35,5 @@ class WelcomeViewController: UIViewController {
         let type: AccountInterfaceType = sender == mainView.loginButton ? .login : .signup
         let signingController = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: type)
         presentPanModal(signingController)
-    }
-    
-    @objc private func showTermOfUse() {
-        // TODO: - ADD Term of usage screen
     }
 }

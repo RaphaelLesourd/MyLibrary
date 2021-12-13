@@ -6,7 +6,8 @@
 //
 
 enum ApiKeys {
-    static let FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo"
+    // swiftlint:disable:next line_length
+    static let fcmKEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo"
 }
 
 enum CollectionDocumentKey: String, CaseIterable {
@@ -19,7 +20,7 @@ enum CollectionDocumentKey: String, CaseIterable {
 
 enum DocumentKey: String {
     case id
-    case username = "displayName"
+    case displayName
     case email
     case photoURL
     case timestamp
@@ -37,4 +38,8 @@ enum DocumentKey: String {
 enum StorageKey: String {
     case images
     case profileImage
+}
+
+enum UserDefaultKey: String {
+    case bookListMenuLayout
 }

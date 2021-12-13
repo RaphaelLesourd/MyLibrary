@@ -17,7 +17,19 @@ class CategoryService {
     private let db = Firestore.firestore()
     var categoriesListener: ListenerRegistration?
     lazy var usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
-    var categories: [CategoryModel] = []
+    var userID: String
+    var categories: [CategoryModel] = [] {
+        didSet {
+            categories = categories.sorted(by: {
+                $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
+            })
+        }
+    }
+   
+    // MARK: - Initializer
+    init() {
+        self.userID = Auth.auth().currentUser?.uid ?? ""
+    }
     
     // MARK: Add
     func addCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
@@ -25,7 +37,7 @@ class CategoryService {
             completion(.noCategory)
             return
         }
-        let userID = Auth.auth().currentUser?.uid ?? ""
+       
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -46,7 +58,7 @@ class CategoryService {
     }
     // MARK: Get
     func getCategories(completion: @escaping (FirebaseError?) -> Void) {
-        let userID = Auth.auth().currentUser?.uid ?? ""
+
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -65,9 +77,7 @@ class CategoryService {
                 }
             }
             if let data = data {
-                self?.categories = data.sorted(by: {
-                    $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
-                })
+                self?.categories = data
             }
             completion(nil)
         }
@@ -86,7 +96,6 @@ class CategoryService {
     
     // MARK: Update
     func updateCategoryName(for category: CategoryModel, with name: String?, completion: @escaping (FirebaseError?) -> Void) {
-        let userID = Auth.auth().currentUser?.uid ?? ""
         guard let name = name, !name.isEmpty else {
             completion(.noCategory)
             return

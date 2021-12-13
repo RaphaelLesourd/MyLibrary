@@ -227,7 +227,7 @@ extension CommentsViewController: UITableViewDelegate {
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
         }
-        let action = UIContextualAction(style: .destructive, title: actionType.rawValue) { [weak self] (_, _, completion) in
+        let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             guard let self = self else {return}
             switch actionType {
             case .delete:

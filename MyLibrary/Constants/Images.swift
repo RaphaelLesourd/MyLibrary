@@ -27,4 +27,5 @@ enum Images {
     static let gridHalfLayout = UIImage(systemName: "square.grid.2x2.fill")!
     static let gridThirdLayout = UIImage(systemName: "square.grid.3x2.fill")!
     static let gridQuarterLayout = UIImage(systemName: "square.grid.4x3.fill")!
+    static let gridFifthLayout = UIImage(systemName: "square.grid.3x3.fill")!
 }

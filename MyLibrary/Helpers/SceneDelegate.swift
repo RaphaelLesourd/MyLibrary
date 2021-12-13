@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let notificationManager: NotificationManagerProtocol
     
     override init() {
-        notificationManager = NotificationManager()
+        notificationManager = NotificationManager(userService: UserService(), libraryService: LibraryService())
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

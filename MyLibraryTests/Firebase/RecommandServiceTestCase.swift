@@ -18,7 +18,7 @@ class RecommandServiceTestCase: XCTestCase {
     override func setUp() {
         super.setUp()
         sut  = RecommandationService()
-        book = createBookDocument()
+        book = createBookDocumentData()
     }
     
     override func tearDown() {

@@ -66,11 +66,8 @@ extension UserService: UserServiceProtocol {
                 return
             }
             do {
-                if let document = try querySnapshot?.data(as: UserModel.self) {
-                    completion(.success(document))
-                } else {
-                    completion(.failure(.noUserName))
-                }
+                let document = try querySnapshot?.data(as: UserModel.self)
+                completion(.success(document))
             } catch { completion(.failure(.firebaseError(error))) }
         }
     }
@@ -81,7 +78,7 @@ extension UserService: UserServiceProtocol {
             completion(.noUserName)
             return
         }
-        usersCollectionRef.document(userID).updateData([DocumentKey.username.rawValue : username]) { [weak self] error in
+        usersCollectionRef.document(userID).updateData([DocumentKey.displayName.rawValue : username]) { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
             }

@@ -12,7 +12,6 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - Properties
     private let accountService: AccountServiceProtocol
-    private let libraryService: LibraryServiceProtocol
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private var imagePicker: ImagePicker?
@@ -21,11 +20,9 @@ class AccountViewController: StaticTableViewController {
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
-         libraryService: LibraryServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol, feedbackManager: FeedBackProtocol) {
         self.accountService = accountService
-        self.libraryService = libraryService
         self.userService = userService
         self.imageService = imageService
         self.feedbackManager = feedbackManager
@@ -66,7 +63,7 @@ class AccountViewController: StaticTableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 3 ? "\(UIApplication.appName) Informations" : ""
     }
-    
+  
     // MARK: - Api call
     private func getProfileData() {
         mainView.activityIndicator.startAnimating()
@@ -116,8 +113,7 @@ class AccountViewController: StaticTableViewController {
     private func signoutAccount() {
         showIndicator(mainView.activityIndicator)
         mainView.signOutCell.actionButton.displayActivityIndicator(true)
-        libraryService.bookListListener?.remove()
-        
+  
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
             self.mainView.signOutCell.actionButton.displayActivityIndicator(false)

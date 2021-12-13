@@ -23,7 +23,7 @@ class CommentService {
     private let db = Firestore.firestore()
   
     let userRef: CollectionReference
-    let userID: String
+    var userID: String
     var commentListener: ListenerRegistration?
     
     // MARK: - Initializer
@@ -84,7 +84,7 @@ extension CommentService: CommentServiceProtocol {
                 }
             }
             if let data = data {
-                return data.isEmpty ? completion(.success([])) : completion(.success(data))
+                return completion(.success(data))
             }
         }
     }

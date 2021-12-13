@@ -19,10 +19,10 @@ class BookLibraryViewController: CollectionViewController {
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
     private var currentQuery: BookQuery
+    private var bookListMenu: BookListLayoutMenu?
     private var bookList: [Item] = []
-    private var gridItemSize: GridItemSize? {
+    private var gridItemSize: GridItemSize = .medium {
         didSet {
-            guard let gridItemSize = gridItemSize else { return }
             let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
             collectionView.setCollectionViewLayout(layout, animated: true)
             applySnapshot()
@@ -30,7 +30,9 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     // MARK: - Initializer
-    init(currentQuery: BookQuery, libraryService: LibraryServiceProtocol, layoutComposer: LayoutComposer) {
+    init(currentQuery: BookQuery,
+         libraryService: LibraryServiceProtocol,
+         layoutComposer: LayoutComposer) {
         self.currentQuery = currentQuery
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
@@ -45,13 +47,19 @@ class BookLibraryViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = setTitle()
+        bookListMenu = BookListLayoutMenu(delegate: self)
+        bookListMenu?.loadLayoutChoice()
         emptyStateView.titleLabel.text = "Rien dans " + setTitle()
         configureCollectionView()
-        gridItemSize = .third
         configureNavigationBarButton()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         getBooks()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+       // libraryService.removeBookListener()
     }
     
     // MARK: - Setup
@@ -67,7 +75,9 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.gridLayoutMenu, primaryAction: nil, menu: configureLayoutMenu())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.gridLayoutMenu,
+                                                            primaryAction: nil,
+                                                            menu: bookListMenu?.configureLayoutMenu())
     }
     
     private func setTitle() -> String {
@@ -78,21 +88,6 @@ class BookLibraryViewController: CollectionViewController {
             return query.title
         }
         return Text.ControllerTitle.myBooks
-    }
-    
-    private func configureLayoutMenu() -> UIMenu {
-        UIMenu(title: "Changer de vue", image: nil, identifier: nil, options: [.displayInline], children: addItemAction())
-    }
-    
-    private func addItemAction() -> [UIMenuElement] {
-        var items: [UIMenuElement] = []
-        GridItemSize.allCases.forEach({ grid in
-            let item = UIAction(title: grid.title, image: grid.image, handler: { [weak self] (_) in
-                self?.gridItemSize = grid
-            })
-            items.append(item)
-        })
-        return items
     }
     
     // MARK: - Api call
@@ -179,5 +174,11 @@ extension BookLibraryViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+}
+
+extension BookLibraryViewController: BookListLayoutDelegate {
+    func setLayout(for layout: GridItemSize) {
+        gridItemSize = layout
     }
 }

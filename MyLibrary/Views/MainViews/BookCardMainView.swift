@@ -46,7 +46,7 @@ class BookCardMainView: UIView {
     var activityIndicatorButton = UIBarButtonItem()
     let activityIndicator = UIActivityIndicatorView()
     let commentView = BookCardCommentView()
-    let actionButton = ActionButton(title: "")
+    let recommandButton = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle("Effacer ce livre", for: .normal)
@@ -136,7 +136,7 @@ class BookCardMainView: UIView {
     
     // MARK: - Targets
     private func setTargets() {
-        actionButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
+        recommandButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
         deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
         favoriteButton.addTarget(self, action: #selector(favoriteBook), for: .touchUpInside)
         commentView.goToCommentButton.addTarget(self, action: #selector(showBookComments), for: .touchUpInside)
@@ -228,7 +228,7 @@ extension BookCardMainView {
                                            isbnLabel,
                                            purchaseDetailView,
                                            commentView,
-                                           actionButton,
+                                           recommandButton,
                                            deleteBookButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(5, after: titleLabel)

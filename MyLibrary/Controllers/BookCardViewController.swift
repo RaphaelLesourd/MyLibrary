@@ -94,11 +94,11 @@ class BookCardViewController: UIViewController {
     func configureUI() {
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         if searchType == .apiSearch {
-            mainView.actionButton.setTitle(Text.ButtonTitle.save, for: .normal)
+            mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
         }
         if book.ownerID != Auth.auth().currentUser?.uid || Networkconnectivity.shared.isReachable == false {
             mainView.deleteBookButton.isHidden = true
-            mainView.actionButton.isHidden = true
+            mainView.recommandButton.isHidden = true
             mainView.favoriteButton.isHidden = true
             navigationItem.rightBarButtonItems = [mainView.activityIndicatorButton]
         }
@@ -110,7 +110,7 @@ class BookCardViewController: UIViewController {
     
     private func setRecommandationButton(isRecommanding: Bool) {
         let title = isRecommanding ? "Ne plus recommander" : "Recommander"
-        mainView.actionButton.setTitle(title, for: .normal)
+        mainView.recommandButton.setTitle(title, for: .normal)
         mainView.commentView.isHidden = !isRecommanding
         isRecommanding ? mainView.commentView.animationView.play() : mainView.commentView.animationView.stop()
     }
@@ -156,10 +156,10 @@ class BookCardViewController: UIViewController {
     }
     
     private func recommnandBook(_ recommanded: Bool) {
-        mainView.actionButton.displayActivityIndicator(true)
+        mainView.recommandButton.displayActivityIndicator(true)
         guard recommanded == false else {
             recommendationService.addToRecommandation(for: book) { [weak self] error in
-                self?.mainView.actionButton.displayActivityIndicator(false)
+                self?.mainView.recommandButton.displayActivityIndicator(false)
                 if let error = error {
                     AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
@@ -167,7 +167,7 @@ class BookCardViewController: UIViewController {
             return
         }
         recommendationService.removeFromRecommandation(for: book) { [weak self] error in
-            self?.mainView.actionButton.displayActivityIndicator(false)
+            self?.mainView.recommandButton.displayActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

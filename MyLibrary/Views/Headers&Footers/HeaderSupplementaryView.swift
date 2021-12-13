@@ -20,7 +20,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
     }
   
     // MARK: - Subviews
-    let titleView = TitleViewView()
+    let titleView = TitleView()
    
     func configure(with title: String, buttonTitle: String) {
         titleView.titleLabel.text = title

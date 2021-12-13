@@ -7,9 +7,18 @@
 
 import UIKit
 
-enum CategoryActionType: String {
-    case delete = "Effacer"
-    case edit = "Editer"
+enum CategoryActionType {
+    case delete
+    case edit
+    
+    var title: String {
+        switch self {
+        case .delete:
+            return Text.ButtonTitle.delete
+        case .edit:
+            return Text.ButtonTitle.edit
+        }
+    }
     
     var color: UIColor {
         switch self {
@@ -50,9 +59,9 @@ enum AlertBannerType {
     var message: String {
         switch self {
         case .error:
-            return "Erreur!"
+            return Text.Banner.errorTitle
         case .success:
-            return "Succés"
+            return Text.Banner.successTitle
         case .customMessage(let message):
             return message
         }

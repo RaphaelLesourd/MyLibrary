@@ -28,13 +28,14 @@ extension ImageStaticCell {
     private func setButtonConstraints() {
         pictureView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(pictureView)
-
+        let heightAnchor = pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+        heightAnchor.priority = UILayoutPriority(999)
         NSLayoutConstraint.activate([
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pictureView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             pictureView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-            pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+            heightAnchor
         ])
     }
 }

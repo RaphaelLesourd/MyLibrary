@@ -21,9 +21,9 @@ class NotificationManager: NSObject {
     private var libraryService: LibraryServiceProtocol
     
     // MARK: - Initializer
-    init(userService: UserServiceProtocol = UserService()) {
+    init(userService: UserServiceProtocol, libraryService: LibraryServiceProtocol) {
         self.userService = userService
-        self.libraryService = LibraryService()
+        self.libraryService = libraryService
         super.init()
     }
 

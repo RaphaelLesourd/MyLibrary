@@ -8,38 +8,36 @@
 import UIKit
 
 enum GridItemSize: CGFloat, CaseIterable {
-    case half = 0.5
-    case third = 0.33333
-    case quarter = 0.25
+    case large = 0.5
+    case medium = 0.33333
+    case small = 0.2
     
     var title: String {
         switch self {
-        case .half:
-            return "Par deux"
-        case .third:
-            return "Par trois"
-        case .quarter:
-            return "Par quatre"
+        case .large:
+            return "Large"
+        case .medium:
+            return "Moyenne"
+        case .small:
+            return "Petite"
         }
     }
     
     var image: UIImage {
         switch self {
-        case .half:
+        case .large:
             return Images.gridHalfLayout
-        case .third:
+        case .medium:
             return Images.gridThirdLayout
-        case .quarter:
+        case .small:
             return Images.gridQuarterLayout
         }
     }
-    
 }
 
 class ListLayout {
  
     private  func makeVerticalGridLayoutSection(gridItemSize: GridItemSize) -> NSCollectionLayoutSection {
-        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(gridItemSize.rawValue), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 2.5, bottom: 17, trailing: 2.5)

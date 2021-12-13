@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreSwift
 
-struct CommentModel: Codable {
+struct CommentModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String?
     let userID: String?
