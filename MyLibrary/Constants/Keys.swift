@@ -16,6 +16,7 @@ enum CollectionDocumentKey: String, CaseIterable {
     case recommanded
     case category
     case comments
+    case keys
 }
 
 enum DocumentKey: String {

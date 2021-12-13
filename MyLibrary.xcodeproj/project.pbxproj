@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		810123F02767B7B300F86932 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 810123EF2767B7B300F86932 /* SwiftKeychainWrapper */; };
 		810C44672726E561007541C0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44662726E561007541C0 /* UserModel.swift */; };
 		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
 		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
@@ -316,6 +317,7 @@
 				8121F089273A9FC2006EAA8D /* FirebaseAuthCombine-Community in Frameworks */,
 				8121F087273A9FC2006EAA8D /* FirebaseAuth in Frameworks */,
 				8121F09B273A9FC2006EAA8D /* FirebaseFunctionsCombine-Community in Frameworks */,
+				810123F02767B7B300F86932 /* SwiftKeychainWrapper in Frameworks */,
 				8121F0AD273A9FC2006EAA8D /* FirebaseStorageCombine-Community in Frameworks */,
 				8121F08B273A9FC2006EAA8D /* FirebaseCrashlytics in Frameworks */,
 				811D5BB92743978100C935B5 /* Kingfisher in Frameworks */,
@@ -728,6 +730,7 @@
 				811D5BB82743978100C935B5 /* Kingfisher */,
 				811713FB274E81880051059C /* InputBarAccessoryView */,
 				811F64C2275A3F8200A24704 /* Lottie */,
+				810123EF2767B7B300F86932 /* SwiftKeychainWrapper */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -789,6 +792,7 @@
 				811D5BB72743978100C935B5 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
 				811F64C1275A3F8100A24704 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				810123EE2767B7B300F86932 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -1278,6 +1282,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		810123EE2767B7B300F86932 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nathantannar4/InputBarAccessoryView.git";
@@ -1345,6 +1357,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		810123EF2767B7B300F86932 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 810123EE2767B7B300F86932 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		811713FB274E81880051059C /* InputBarAccessoryView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 811713FA274E81880051059C /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */;
