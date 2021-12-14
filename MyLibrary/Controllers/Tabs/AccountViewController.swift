@@ -163,7 +163,10 @@ extension AccountViewController: AccountViewDelegate {
                                   message: Text.Alert.deleteAccountMessage,
                                   withCancel: true,
                                   on: self) { _ in
-            let controller = SigningViewController(userManager: AccountService(), validator: Validator(), interfaceType: .deleteAccount)
+            let accountService = AccountService(userService: UserService(),
+                                                libraryService: LibraryService(),
+                                                categoryService: CategoryService())
+            let controller = SigningViewController(userManager: accountService, validator: Validator(), interfaceType: .deleteAccount)
             self.presentPanModal(controller)
         }
     }

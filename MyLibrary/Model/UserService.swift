@@ -86,8 +86,8 @@ extension UserService: UserServiceProtocol {
                 if let error = error {
                     completion(.firebaseError(error))
                 }
-                completion(nil)
             }
+            completion(nil)
         }
     }
 

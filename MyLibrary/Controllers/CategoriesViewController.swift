@@ -18,9 +18,17 @@ class CategoriesViewController: UIViewController {
     weak var newBookDelegate: NewBookDelegate?
     
     private lazy var dataSource = makeDataSource()
-    private let categoryService = CategoryService.shared
+    private var categoryService: CategoryServiceProtocol
     private let listView = CategoryControllerMainView()
     
+    init(categoryService: CategoryServiceProtocol) {
+        self.categoryService = categoryService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Lifecycle
     override func loadView() {
         view = listView
@@ -36,6 +44,7 @@ class CategoriesViewController: UIViewController {
         setTableViewRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
+        getCategoryList()
         setCategories()
     }
     
@@ -51,7 +60,7 @@ class CategoriesViewController: UIViewController {
     
     private func setTableViewRefresherControl() {
         listView.tableView.refreshControl = listView.refresherControl
-        listView.refresherControl.addTarget(self, action: #selector(reloadList), for: .valueChanged)
+        listView.refresherControl.addTarget(self, action: #selector(getCategoryList), for: .valueChanged)
     }
     
     private func addNavigationBarButtons() {
@@ -109,12 +118,13 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    @objc private func reloadList() {
+    @objc private func getCategoryList() {
         categoryService.getCategories { [weak self] error in
             self?.listView.refresherControl.endRefreshing()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+            self?.applySnapshot()
         }
     }
     
@@ -174,7 +184,6 @@ extension CategoriesViewController {
             cell.textLabel?.text = item.name?.capitalized
             return cell
         })
-        applySnapshot()
         return dataSource
     }
     

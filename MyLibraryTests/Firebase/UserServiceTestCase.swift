@@ -61,21 +61,21 @@ class UserServiceTestCase: XCTestCase {
     func test_givenUserStored_whenUpdatingName_thenDisplayNewName() {
         // Given
         let exp = XCTestExpectation(description: "Waiting for async operation")
-            self.sut.updateUserName(with: "updatedName", completion: { error in
-                XCTAssertNil(error)
-                // Then
-                self.sut.retrieveUser(completion: { result in
-                    switch result {
-                    case .success(let user):
-                        XCTAssertNotNil(user)
-                        XCTAssertEqual(user?.displayName, "updatedName")
-                    case .failure(let error):
-                        XCTAssertNotNil(error)
-                    }
-                    exp.fulfill()
-                })
+        self.sut.updateUserName(with: "updatedName", completion: { error in
+            XCTAssertNil(error)
+            // Then
+            self.sut.retrieveUser(completion: { result in
+                switch result {
+                case .success(let user):
+                    XCTAssertNotNil(user)
+                    XCTAssertEqual(user?.displayName, "updatedName")
+                case .failure(let error):
+                    XCTAssertNotNil(error)
+                }
+                exp.fulfill()
             })
-        wait(for: [exp], timeout: 1.0)
+        })
+        wait(for: [exp], timeout: 2.0)
     }
     
     func test_givenUserStored_whenDeleting_thenNoError() {

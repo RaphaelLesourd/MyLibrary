@@ -24,17 +24,19 @@ class AccountService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
-    let user = Auth.auth().currentUser
-    let userService: UserServiceProtocol
+    private let user = Auth.auth().currentUser
+    private let userService: UserServiceProtocol
     private let libraryService: LibraryServiceProtocol
-    
+    private let categoryService: CategoryServiceProtocol
     private let fcmToken = Messaging.messaging().fcmToken
     
     // MARK: - Initializer
-    init(userService: UserServiceProtocol = UserService(),
-         libraryService: LibraryServiceProtocol = LibraryService()) {
+    init(userService: UserServiceProtocol,
+         libraryService: LibraryServiceProtocol,
+         categoryService: CategoryServiceProtocol) {
         self.userService = userService
         self.libraryService = libraryService
+        self.categoryService = categoryService
     }
     
     // MARK: - Private functions
@@ -54,7 +56,7 @@ class AccountService {
     
     private func removeFirestoreListeners() {
         libraryService.removeBookListener()
-        CategoryService.shared.categoriesListener?.remove()
+        categoryService.categoriesListener?.remove()
         userService.updateFcmToken(with: "")
     }
 }
@@ -67,8 +69,7 @@ extension AccountService: AccountServiceProtocol {
             completion(.noNetwork)
             return
         }
-        guard let userCredentials = userCredentials,
-              passwordMatch(with: userCredentials) == true else {
+        guard let userCredentials = userCredentials, passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
             return
         }
@@ -94,6 +95,7 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
+    
     // MARK: Delete Account flow
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {
@@ -134,6 +136,7 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
+    
     // MARK: Log in
     func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard let userCredentials = userCredentials else { return }
@@ -145,6 +148,7 @@ extension AccountService: AccountServiceProtocol {
             completion(nil)
         }
     }
+    
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
         do {
@@ -155,6 +159,7 @@ extension AccountService: AccountServiceProtocol {
             completion(.firebaseError(error))
         }
     }
+    
     // MARK: Forgot password
     func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
         guard Networkconnectivity.isConnectedToNetwork() == true else {

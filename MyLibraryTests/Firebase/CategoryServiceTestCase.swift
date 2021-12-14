@@ -4,12 +4,12 @@
 //
 //  Created by Birkyboy on 23/11/2021.
 //
-//
+
 //@testable import MyLibrary
 //import XCTest
 //
 //class CategoryServiceTestCase: XCTestCase {
-//    // MARK: - Propserties
+//    // MARK: - Properties
 //    private var sut: CategoryService!
 //    private var userService: UserService!
 //    private var libraryService: LibraryService!
@@ -19,21 +19,22 @@
 //    // MARK: - Lifecycle
 //    override func setUp() {
 //        super.setUp()
-//        sut = CategoryService.shared
+//        sut = CategoryService()
+//        sut.categoriesListener?.remove()
 //        libraryService = LibraryService()
 //        userService = UserService()
 //        book = createBookDocumentData()
 //        createUserInDatabase()
 //        createBookInDataBase()
-//        Networkconnectivity.shared.status = .satisfied
 //    }
 //
 //    override func tearDown() {
 //        super.tearDown()
+//        clearFirestore()
+//        sut.categories.removeAll()
 //        sut = nil
 //        libraryService = nil
 //        userService = nil
-//        clearFirestore()
 //    }
 //
 //    private func createUserInDatabase() {
@@ -50,7 +51,7 @@
 //    }
 //
 //    private func createBookInDataBase() {
-//        let expectation = XCTestExpectation(description: "Waiting for async operation")
+//       let expectation = XCTestExpectation(description: "Waiting for async operation")
 //        self.libraryService.createBook(with: self.book, and: self.imageData, completion: { error in
 //            XCTAssertNil(error)
 //            expectation.fulfill()
@@ -62,7 +63,7 @@
 //    func test_givenCategory_whenAdding_thenAddedToTheCategoriesList() {
 //        let expectation = XCTestExpectation(description: "Waiting for async operation")
 //
-//        self.sut?.addCategory(for: "Movie", completion: { error in
+//        self.sut?.addCategory(for: "Travel", completion: { error in
 //            XCTAssertNil(error)
 //            XCTAssertEqual(self.sut?.categories.count, 1)
 //            expectation.fulfill()
@@ -72,18 +73,17 @@
 //
 //    func test_givenCategoryList_whenRequestingList_thenDisplayList() {
 //        let expectation = XCTestExpectation(description: "Waiting for async operation")
-//        self.sut.addCategory(for: "Movie", completion: { error in
+//        self.sut.addCategory(for: "Cinema", completion: { error in
 //            XCTAssertNil(error)
 //            self.sut.getCategories(completion: { error in
 //                XCTAssertNil(error)
 //                XCTAssertEqual(self.sut?.categories.count, 1)
 //                expectation.fulfill()
-//            })
-//
+//           })
 //        })
 //        wait(for: [expectation], timeout: 1.0)
 //    }
-    
+//    
 //    func test_givenCategoryList_whenUpdatingCategory_thenNameUpdated() {
 //        let expectation = XCTestExpectation(description: "Waiting for async operation")
 //        self.sut.addCategory(for: "Movie", completion: { error in
@@ -93,12 +93,12 @@
 //                if let category = self.sut?.categories.first {
 //                    self.sut?.updateCategoryName(for: category, with: "Tv", completion: { error in
 //                        XCTAssertEqual(self.sut?.categories.first?.name, "Tv")
-//                        expectation.fulfill()
 //                    })
+//                    expectation.fulfill()
 //                }
-//            })
+//           })
 //        })
-//        wait(for: [expectation], timeout: 1.0)
+//        wait(for: [expectation], timeout: 5.0)
 //    }
 //
 //    // MARK: - Failure
@@ -113,13 +113,13 @@
 //
 //        wait(for: [expectation], timeout: 1.0)
 //    }
-    
+//    
 //    func test_givenCategory_whenAddingExisitingCategory_thenAlreadyExistCategoryError() {
 //        let expectation = XCTestExpectation(description: "Waiting for async operation")
 //
-//        self.sut.addCategory(for: "Movie", completion: { error in
+//        self.sut.addCategory(for: "BD", completion: { error in
 //            XCTAssertNil(error)
-//            self.sut.addCategory(for: "Movie", completion: { error in
+//            self.sut.addCategory(for: "BD", completion: { error in
 //                XCTAssertNotNil(error)
 //                XCTAssertEqual(error?.description, FirebaseError.categoryExist.description)
 //                expectation.fulfill()

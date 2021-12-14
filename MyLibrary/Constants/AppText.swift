@@ -4,6 +4,7 @@
 //
 //  Created by Birkyboy on 26/10/2021.
 //
+import Foundation
 
 enum Text {
     
@@ -29,8 +30,8 @@ enum Text {
     }
     
     enum ControllerTitle {
-        static let newBook = "Nouveau livre"
-        static let home = "Accueil"
+        static let newBook = NSLocalizedString("Nouveau livre", comment: "new book title") // "Nouveau livre"
+        static let home =  NSLocalizedString("Accueil", comment: "Welcome title")//
         static let myBooks = "Mes livres"
         static let search = "Recherche"
         static let account = "Compte"

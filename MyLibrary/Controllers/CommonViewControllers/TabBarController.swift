@@ -42,7 +42,8 @@ class TabBarController: UITabBarController {
     /// - SFSymbols are used for icon images.
     private func setupViewControllers() {
         let homeViewController = createController(for: HomeViewController(libraryService: LibraryService(),
-                                                                          layoutComposer: HomeViewControllerLayout()),
+                                                                          layoutComposer: HomeViewControllerLayout(),
+                                                                          categoryService: CategoryService()),
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.homeIcon!)
         
@@ -58,8 +59,10 @@ class TabBarController: UITabBarController {
                                                                             validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.newBookIcon!)
-        
-        let accountViewController = createController(for: AccountViewController(accountService: AccountService(),
+        let accountService = AccountService(userService: UserService(),
+                                            libraryService: LibraryService(),
+                                            categoryService: CategoryService())
+        let accountViewController = createController(for: AccountViewController(accountService: accountService,
                                                                                 userService: UserService(),
                                                                                 imageService: ImageStorageService(),
                                                                                 feedbackManager: FeedbackManager(presentationController: self)),

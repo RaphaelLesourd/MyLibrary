@@ -56,7 +56,7 @@ class BookCardMainView: UIView {
     }()
     let favoriteButton: UIButton = {
         let button = UIButton()
-        button.rounded(radius: 20, backgroundColor: UIColor.black.withAlphaComponent(0.5))
+        button.rounded(radius: 20, backgroundColor: UIColor.systemPink.withAlphaComponent(0.3))
         let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .small)
         let image = Images.favoriteImage?.withConfiguration(configuration)
         button.setImage(image, for: .normal)

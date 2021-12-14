@@ -199,7 +199,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private func showCategoryList() {
-        let categoryListVC = CategoriesViewController()
+        let categoryListVC = CategoriesViewController(categoryService: CategoryService())
         categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
         navigationController?.show(categoryListVC, sender: nil)

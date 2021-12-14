@@ -32,7 +32,8 @@ class CollectionViewController: UIViewController {
                                                 searchType: searchType,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService(),
-                                                imageLoader: ImageRetriver())
+                                                imageLoader: ImageRetriver(),
+                                                categoryService: CategoryService())
         bookCardVC.hidesBottomBarWhenPushed = true
         navigationController?.show(bookCardVC, sender: nil)
     }

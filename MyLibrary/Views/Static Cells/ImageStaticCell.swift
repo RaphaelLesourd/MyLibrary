@@ -23,6 +23,7 @@ class ImageStaticCell: UITableViewCell {
     // MARK: - Subview
     let pictureView = BookCover(frame: .zero)
 }
+
 // MARK: - Constraints
 extension ImageStaticCell {
     private func setButtonConstraints() {

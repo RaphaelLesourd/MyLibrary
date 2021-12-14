@@ -13,6 +13,7 @@ class ProfileStaticCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
+        selectionStyle = .none
         stackView.addArrangedSubview(profileImageButton)
         stackView.addArrangedSubview(emailLabel)
         setConstraints()
@@ -26,7 +27,9 @@ class ProfileStaticCell: UITableViewCell {
     let profileImageButton: UIButton = {
         let button = UIButton()
         button.imageView?.contentMode = .scaleAspectFill
-        button.rounded(radius: 50, backgroundColor: .tertiaryLabel)
+        button.rounded(radius: 50, backgroundColor: .clear)
+        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor.white.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 100).isActive = true
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true

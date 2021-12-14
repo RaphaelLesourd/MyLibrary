@@ -10,7 +10,7 @@ import UIKit
 enum GridItemSize: CGFloat, CaseIterable {
     case large = 0.5
     case medium = 0.33333
-    case small = 0.2
+    case small = 0.25
     
     var title: String {
         switch self {

@@ -11,6 +11,6 @@ extension UIColor {
     static let viewControllerBackgroundColor: UIColor = .secondarySystemBackground
     static let appTintColor: UIColor = .systemOrange
     static let ratingColor: UIColor = .systemOrange
-    static let favoriteColor: UIColor = .systemRed
+    static let favoriteColor: UIColor = .systemPink
     static let notFavorite: UIColor = .white
 }

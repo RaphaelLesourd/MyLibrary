@@ -16,7 +16,7 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = BookCardMainView(frame: .zero, formatter: Formatter())
-    private let categoryService = CategoryService.shared
+    private let categoryService: CategoryServiceProtocol
     private let imageLoader: ImageRetriverProtocol
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -40,12 +40,14 @@ class BookCardViewController: UIViewController {
          searchType: SearchType,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
-         imageLoader: ImageRetriverProtocol) {
+         imageLoader: ImageRetriverProtocol,
+         categoryService: CategoryServiceProtocol) {
         self.book = book
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.imageLoader = imageLoader
+        self.categoryService = categoryService
         super.init(nibName: nil, bundle: nil)
     }
     

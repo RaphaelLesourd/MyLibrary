@@ -16,15 +16,18 @@ class HomeViewController: CollectionViewController {
     private lazy var dataSource = createDataSource()
     private var layoutComposer: HomeLayoutComposer
     private var libraryService: LibraryServiceProtocol
-    private var categoryService = CategoryService.shared
+    private var categoryService: CategoryServiceProtocol
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol, layoutComposer: HomeLayoutComposer) {
+    init(libraryService: LibraryServiceProtocol,
+         layoutComposer: HomeLayoutComposer,
+         categoryService: CategoryServiceProtocol) {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
+        self.categoryService = categoryService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -118,7 +121,7 @@ class HomeViewController: CollectionViewController {
     }
     
     private func showCategories() {
-        let categoryListVC = CategoriesViewController()
+        let categoryListVC = CategoriesViewController(categoryService: CategoryService())
         categoryListVC.settingBookCategory = false
         navigationController?.show(categoryListVC, sender: nil)
     }
