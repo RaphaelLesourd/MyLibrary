@@ -28,20 +28,20 @@ class AccountControllerView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     lazy var profileCell = ProfileStaticCell()
-    lazy var displayNameCell = TextFieldStaticCell(placeholder: "Nom d'utilisateur")
+    lazy var displayNameCell = TextFieldStaticCell(placeholder: Text.Account.userName)
     let signOutCell = ButtonStaticCell(title: Text.ButtonTitle.signOut,
                                        systemImage: "rectangle.portrait.and.arrow.right.fill",
                                        tintColor: .systemPurple,
                                        backgroundColor: .systemPurple)
-    let deleteAccountCell = ButtonStaticCell(title: "Supprimer le compte",
+    let deleteAccountCell = ButtonStaticCell(title: Text.ButtonTitle.deletaAccount,
                                              systemImage: "",
                                              tintColor: .systemRed,
                                              backgroundColor: .clear)
     
-    private lazy var appVersionCell = TextFieldStaticCell(placeholder: "Version")
-    private lazy var appBuildCell = TextFieldStaticCell(placeholder: "Build")
-    private lazy var appCreationYearCell = TextFieldStaticCell(placeholder: "Année création")
-    private let contactViewCell = ButtonStaticCell(title: "Contactez nous",
+    private lazy var appVersionCell = TextFieldStaticCell(placeholder: Text.Misc.appVersion)
+    private lazy var appBuildCell = TextFieldStaticCell(placeholder: Text.Misc.appBuild)
+    private lazy var appCreationYearCell = TextFieldStaticCell(placeholder: Text.Misc.appCreationYear)
+    private let contactViewCell = ButtonStaticCell(title: Text.ButtonTitle.contactUs,
                                                    systemImage: "",
                                                    tintColor: .appTintColor,
                                                    backgroundColor: .appTintColor)

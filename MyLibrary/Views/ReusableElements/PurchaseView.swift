@@ -14,7 +14,6 @@ class PurchaseView: UIView {
         super.init(frame: .zero)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(purchasePriceLabel)
-       
         setStackviewConstraints()
     }
     

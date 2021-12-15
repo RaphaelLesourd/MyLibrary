@@ -40,7 +40,7 @@ class CollectionViewController: UIViewController {
     
   // MARK: - Setup
     private func configureCollectionView() {
-        refresherControl.attributedTitle = NSAttributedString(string: "Rechargement")
+        refresherControl.attributedTitle = NSAttributedString(string: Text.Misc.reloading)
         refresherControl.tintColor = .label
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.refreshControl = refresherControl

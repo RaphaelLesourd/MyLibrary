@@ -17,7 +17,7 @@ class FeedbackManager: NSObject {
     // MARK: - Propperties
     private var presentationController: UIViewController?
     private let recipientEmail = "birkyboy@icloud.com"
-    private let appVersion = "\(UIApplication.appName) - Version \(UIApplication.version)"
+    private let appVersion = "\(UIApplication.appName) - \(Text.Misc.appVersion) \(UIApplication.version)"
     
     // MARK: - Initializer
     init(presentationController: UIViewController) {
@@ -35,7 +35,7 @@ extension FeedbackManager: FeedBackProtocol {
 
             presentationController?.present(mail, animated: true)
         } else {
-            AlertManager.presentAlertBanner(as: .error, subtitle: "Impossible d'ouvrir Mail.")
+            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.unableToOpenMailAppTitle)
         }
     }
 }
@@ -56,7 +56,7 @@ extension FeedbackManager: MFMailComposeViewControllerDelegate {
         case .saved:
             break
         case .sent:
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Feedback envoyé")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.feedbackSentTitle)
         @unknown default:
             break
         }

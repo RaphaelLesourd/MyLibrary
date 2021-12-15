@@ -49,7 +49,7 @@ class BookCardMainView: UIView {
     let recommandButton = ActionButton(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Effacer ce livre", for: .normal)
+        button.setTitle(Text.ButtonTitle.deleteBook, for: .normal)
         button.setTitleColor(.systemRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return button
@@ -113,7 +113,7 @@ class BookCardMainView: UIView {
             isbnLabel.text = Text.Book.isbn + isbn
         }
         
-        purchaseDetailView.titleLabel.text = "Prix de vente"
+        purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book?.saleInfo?.retailPrice?.currencyCode
         let price = book?.saleInfo?.retailPrice?.amount
         purchaseDetailView.purchasePriceLabel.text = formatter?.formatCurrency(with: price, currencyCode: currency)

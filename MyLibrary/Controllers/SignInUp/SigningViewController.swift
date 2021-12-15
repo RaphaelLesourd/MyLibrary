@@ -92,13 +92,13 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Compte ouvert")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.accountOpen)
         }
     }
     
     @objc private func resetPassWordRequest() {
-        AlertManager.presentAlert(withTitle: "Mot de passe oublié",
-                                  message: "Etes-vous sûr de vouloir mettre votre mot de passe à jour?",
+        AlertManager.presentAlert(withTitle: Text.Alert.forgotPasswordTitle,
+                                  message: Text.Alert.forgotPasswordMessage,
                                   withCancel: true,
                                   on: self) { [weak self] _ in
             self?.resetPassword()
@@ -107,7 +107,7 @@ class SigningViewController: UIViewController {
     
     private func resetPassword() {
         guard let email = mainView.emailTextField.text else {
-            AlertManager.presentAlertBanner(as: .error, subtitle: "Email vide")
+            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyEmail)
             return
         }
         userManager.sendPasswordReset(for: email) { error in
@@ -115,7 +115,7 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .customMessage("Reset du mot de passe"), subtitle: "Veuillez vérifier vos emails.")
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.resetPassordTitle), subtitle: Text.Banner.resetPasswordMessage)
         }
     }
     
@@ -137,7 +137,7 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Votre compte à été éffacé")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.accountDeleted)
         }
     }
 }

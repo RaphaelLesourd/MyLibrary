@@ -23,7 +23,7 @@ class BookListLayoutMenu {
     
     // MARK: - Public functions
     func configureLayoutMenu() -> UIMenu {
-        UIMenu(title: "Taille des images", image: nil, identifier: nil, options: [.displayInline], children: addItemAction())
+        UIMenu(title: Text.Misc.sizeMenuTitle, image: nil, identifier: nil, options: [.displayInline], children: addItemAction())
     }
     
     func loadLayoutChoice() {

@@ -15,11 +15,11 @@ enum GridItemSize: CGFloat, CaseIterable {
     var title: String {
         switch self {
         case .large:
-            return "Large"
+            return Text.ButtonTitle.large
         case .medium:
-            return "Moyenne"
+            return Text.ButtonTitle.medium
         case .small:
-            return "Petite"
+            return Text.ButtonTitle.small
         }
     }
     
@@ -33,6 +33,10 @@ enum GridItemSize: CGFloat, CaseIterable {
             return Images.gridQuarterLayout
         }
     }
+}
+
+protocol ListLayoutComposer {
+    func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout
 }
 
 class ListLayout {
@@ -60,7 +64,7 @@ class ListLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension ListLayout: LayoutComposer {
+extension ListLayout: ListLayoutComposer {
     
     func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ in

@@ -39,7 +39,7 @@ class HomeViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Text.ControllerTitle.home
-        emptyStateView.titleLabel.text = "Pas encore de Livres dans votre bibliothèque..."
+        emptyStateView.titleLabel.text = Text.Placeholder.homeControllerEmptyState
         configureCollectionView()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)

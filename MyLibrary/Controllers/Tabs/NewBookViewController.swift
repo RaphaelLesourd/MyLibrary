@@ -99,7 +99,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         newBookView.searchController = UISearchController(searchResultsController: resultController)
         newBookView.searchController.searchBar.delegate = self
         newBookView.searchController.obscuresBackgroundDuringPresentation = false
-        newBookView.searchController.searchBar.placeholder = Text.SearchBarPlaceholder.search
+        newBookView.searchController.searchBar.placeholder = Text.Placeholder.search
         newBookView.searchController.definesPresentationContext = false
         resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false

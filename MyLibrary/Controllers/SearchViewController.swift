@@ -26,14 +26,14 @@ class SearchViewController: CollectionViewController {
    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: LayoutComposer
+    private var layoutComposer: ListLayoutComposer
     private var networkService: ApiManagerProtocol
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol
-    init(networkService: ApiManagerProtocol, layoutComposer: LayoutComposer) {
+    init(networkService: ApiManagerProtocol, layoutComposer: ListLayoutComposer) {
         self.networkService = networkService
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -47,7 +47,7 @@ class SearchViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Text.ControllerTitle.search
-        emptyStateView.titleLabel.text = "Recherche de livres, comics, etc..."
+        emptyStateView.titleLabel.text = Text.Placeholder.searchListEmptyState
         configureCollectionView()
         applySnapshot(animatingDifferences: false)
     }

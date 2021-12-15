@@ -15,13 +15,13 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     var title: String {
         switch self {
         case .newEntry:
-            return "Derniers ajouts"
+            return Text.SectionTitle.latestBook
         case .categories:
-            return "Catégories"
+            return Text.ControllerTitle.category
         case .favorites:
-            return "Favoris"
+            return Text.SectionTitle.favoritetBook
         case .recommanding:
-            return "Recommandations"
+            return Text.SectionTitle.userRecommandation
        
         }
     }
@@ -29,9 +29,9 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     var buttonTitle: String {
         switch self {
         case .newEntry, .favorites, .recommanding:
-            return "Tout voir"
+            return Text.ButtonTitle.seeAll
         case .categories:
-            return "Manage"
+            return Text.ButtonTitle.manage
         }
     }
     
@@ -75,7 +75,7 @@ enum CommentsSection: CaseIterable {
         case .book:
             return ""
         case .today:
-            return "Aujourd'hui"
+            return Text.SectionTitle.todayComment
         case .past:
             return ""
         }

@@ -40,7 +40,7 @@ class PanModalCommonView: UIView {
     
     private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
     private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 4, fontSize: 16, weight: .regular)
-    let userNameTextField = TextField(placeholder: Text.Profile.userName,
+    let userNameTextField = TextField(placeholder: Text.Account.userName,
                                    keyBoardType: .emailAddress,
                                    returnKey: .next,
                                    correction: .no,
@@ -98,15 +98,15 @@ class PanModalCommonView: UIView {
         case .signup:
             updateUiTexts(title: Text.Account.signupTitle,
                           subtitle: Text.Account.signupSubtitle,
-                          buttonTitle: Text.Profile.createProfileButtonTitle)
+                          buttonTitle: Text.ButtonTitle.createProfileButtonTitle)
         case .login:
             updateUiTexts(title: Text.Account.loginTitle,
                           subtitle: Text.Account.loginSubtitle,
                           buttonTitle: Text.Account.loginButtonTitle)
         case .deleteAccount:
-            updateUiTexts(title: "Supprimer le compte",
-                          subtitle: "Veuillez vous re-authentifier avec votre email et mot de passe",
-                          buttonTitle: "Suppimer")
+            updateUiTexts(title: Text.ButtonTitle.deletaAccount,
+                          subtitle: Text.Account.reAuthentificationMessage,
+                          buttonTitle: Text.ButtonTitle.delete)
         }
     }
     

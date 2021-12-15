@@ -61,7 +61,7 @@ class AccountViewController: StaticTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 3 ? "\(UIApplication.appName) Informations" : ""
+        return section == 3 ? "\(UIApplication.appName) " + Text.Misc.informations : ""
     }
   
     // MARK: - Api call

@@ -14,7 +14,7 @@ class BookCardCommentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
-        titleLabel.text = "Commentaires des lecteurs"
+        titleLabel.text = Text.SectionTitle.readersComment
        
         stackView.addArrangedSubview(goToCommentButton)
         stackView.addArrangedSubview(titleLabel)
@@ -27,7 +27,7 @@ class BookCardCommentView: UIView {
     }
 
     // MARK: - Subview
-    let animationView:  AnimationView = {
+    let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
         animationView.contentMode = .scaleAspectFill

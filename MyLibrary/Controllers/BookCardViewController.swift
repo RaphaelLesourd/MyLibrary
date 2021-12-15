@@ -111,7 +111,7 @@ class BookCardViewController: UIViewController {
     }
     
     private func setRecommandationButton(isRecommanding: Bool) {
-        let title = isRecommanding ? "Ne plus recommander" : "Recommander"
+        let title = isRecommanding ? Text.ButtonTitle.stopRecommending : Text.ButtonTitle.recommend
         mainView.recommandButton.setTitle(title, for: .normal)
         mainView.commentView.isHidden = !isRecommanding
         isRecommanding ? mainView.commentView.animationView.play() : mainView.commentView.animationView.stop()
@@ -139,7 +139,7 @@ class BookCardViewController: UIViewController {
             if let error = error {
                 return AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Livre éffacé de votre bibliothèque.")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.bookDeleted)
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -240,8 +240,8 @@ extension BookCardViewController: BookCardMainViewDelegate {
     }
     
     func deleteBookAction() {
-        AlertManager.presentAlert(withTitle: "Effacer un livre",
-                                  message: "Etes-vous sur de vouloir effacer ce livre?",
+        AlertManager.presentAlert(withTitle: Text.Alert.deleteBookTitle,
+                                  message: Text.Alert.deleteBookMessage,
                                   withCancel: true,
                                   on: self) { [weak self] _ in
             self?.deleteBook()

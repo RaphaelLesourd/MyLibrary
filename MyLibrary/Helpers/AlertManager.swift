@@ -18,9 +18,9 @@ class AlertManager {
                              actionHandler: ((UIAlertAction) -> Void)?) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: actionHandler))
+            alertController.addAction(UIAlertAction(title: Text.ButtonTitle.okTitle, style: .default, handler: actionHandler))
             if withCancel {
-                alertController.addAction(UIAlertAction(title: "Annulez", style: .cancel, handler: cancelHandler))
+                alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: cancelHandler))
             }
             controller.present(alertController, animated: true)
         }
@@ -28,8 +28,8 @@ class AlertManager {
     
     static func showInputDialog(title: String? = nil,
                                 subtitle: String? = nil,
-                                actionTitle: String? = "Ajouter",
-                                cancelTitle: String? = "Annuler",
+                                actionTitle: String? = Text.ButtonTitle.add,
+                                cancelTitle: String? = Text.ButtonTitle.cancel,
                                 inputText: String? = nil,
                                 inputPlaceholder: String? = nil,
                                 inputKeyboardType: UIKeyboardType = UIKeyboardType.default,

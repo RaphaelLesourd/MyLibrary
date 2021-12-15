@@ -15,7 +15,7 @@ class BookLibraryViewController: CollectionViewController {
     
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
-    private var layoutComposer: LayoutComposer
+    private var layoutComposer: ListLayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
     private var currentQuery: BookQuery
@@ -32,7 +32,7 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Initializer
     init(currentQuery: BookQuery,
          libraryService: LibraryServiceProtocol,
-         layoutComposer: LayoutComposer) {
+         layoutComposer: ListLayoutComposer) {
         self.currentQuery = currentQuery
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
@@ -49,17 +49,12 @@ class BookLibraryViewController: CollectionViewController {
         title = setTitle()
         bookListMenu = BookListLayoutMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
-        emptyStateView.titleLabel.text = "Rien dans " + setTitle()
+        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
         configureCollectionView()
         configureNavigationBarButton()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         getBooks()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-       // libraryService.removeBookListener()
     }
     
     // MARK: - Setup

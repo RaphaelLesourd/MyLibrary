@@ -11,10 +11,10 @@ class BookCover: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentMode              = .scaleAspectFill
-        image                    = Images.emptyStateBookImage
+        contentMode = .scaleAspectFill
+        image = Images.emptyStateBookImage
         isUserInteractionEnabled = true
-        self.rounded(radius: 5, backgroundColor: .clear)
+        self.rounded(radius: 7, backgroundColor: .clear)
     }
     
     required init?(coder: NSCoder) {

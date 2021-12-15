@@ -26,10 +26,10 @@ class BookDetailView: UIView {
     }
     
     // MARK: - Subviews
-    let publisherNameView = BookDetailElementView(title: "Editeur")
-    let publishedDateView = BookDetailElementView(title: "Publié")
-    let numberOfPageView = BookDetailElementView(title: "Pages")
-    let languageView = BookDetailElementView(title: "Langue")
+    let publisherNameView = BookDetailElementView(title: Text.Book.publisher)
+    let publishedDateView = BookDetailElementView(title: Text.Book.publishedDate)
+    let numberOfPageView = BookDetailElementView(title: Text.Book.numberOfPages)
+    let languageView = BookDetailElementView(title: Text.Book.bookLanguage)
     private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
 }
 // MARK: - Constraints

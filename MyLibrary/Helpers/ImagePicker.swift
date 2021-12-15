@@ -71,16 +71,16 @@ class ImagePicker: NSObject {
     /// - Parameter sourceView: source calling the method
     func present(from sourceView: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if let action = self.action(for: .camera, title: "Take photo") {
+        if let action = self.action(for: .camera, title: Text.ButtonTitle.camera) {
             alertController.addAction(action)
         }
-        if let action = self.action(for: .savedPhotosAlbum, title: "Camera roll") {
+        if let action = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
             alertController.addAction(action)
         }
-        if let action = self.action(for: .photoLibrary, title: "Photo library") {
+        if let action = self.action(for: .photoLibrary, title: Text.ButtonTitle.photoLibrary) {
             alertController.addAction(action)
         }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: nil))
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             alertController.popoverPresentationController?.sourceView = sourceView
@@ -93,7 +93,8 @@ class ImagePicker: NSObject {
                 if granted {
                     self?.presentationController?.present(alertController, animated: true)
                 } else {
-                    AlertManager.presentAlertBanner(as: .customMessage("Pélicule photo"), subtitle: "Acces non autorisé")
+                    AlertManager.presentAlertBanner(as: .customMessage(Text.ButtonTitle.photoLibrary),
+                                                    subtitle: Text.Banner.accessNotAuthorizedMessage)
                 }
             }
         }

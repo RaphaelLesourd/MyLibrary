@@ -89,7 +89,7 @@ class CategoriesViewController: UIViewController {
                 return
             }
             self?.applySnapshot()
-            AlertManager.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryAddedTitle))
         }
     }
     
@@ -100,7 +100,7 @@ class CategoriesViewController: UIViewController {
                 return
             }
             self?.applySnapshot()
-            AlertManager.presentAlertBanner(as: .customMessage("Catégorie ajoutée"))
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryModfiedTitle))
         }
     }
     
@@ -130,10 +130,10 @@ class CategoriesViewController: UIViewController {
     
     // MARK: - Add categories dialog
     @objc private func addNewCategory() {
-        AlertManager.showInputDialog(title: "Nouvelle catégorie",
-                                     subtitle: "Ajouter une nouvelle catégorie.",
-                                     actionTitle: "Ajouter", inputText: "",
-                                     inputPlaceholder: "Nom de catégorie",
+        AlertManager.showInputDialog(title: Text.Alert.newCategoryTitle,
+                                     subtitle: Text.Alert.newCategoryMessage,
+                                     actionTitle: Text.ButtonTitle.add, inputText: "",
+                                     inputPlaceholder: Text.Placeholder.categoryName,
                                      on: self,
                                      actionHandler: { [weak self] category in
             self?.addCategoryToList(category)
@@ -141,8 +141,8 @@ class CategoriesViewController: UIViewController {
     }
     
     private func displayDeleteCategoryAlert(_ category: CategoryModel) {
-        AlertManager.presentAlert(withTitle: "Effacer \(category.name?.capitalized ?? "")",
-                                  message: "Etes vous sur de vouloir éffacer cette catégorie?",
+        AlertManager.presentAlert(withTitle: Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? ""),
+                                  message: Text.Alert.deleteCategoryMessage,
                                   withCancel: true,
                                   on: self) { [weak self] _ in
             self?.deleteCategory(for: category)
@@ -157,10 +157,10 @@ class CategoriesViewController: UIViewController {
     }
     
     private func updateCategoryAlert(for category: CategoryModel) {
-        AlertManager.showInputDialog(title: "Modifier \(category.name?.capitalized ?? "")",
+        AlertManager.showInputDialog(title: Text.ButtonTitle.modify + " " + (category.name?.capitalized ?? ""),
                                      subtitle: "",
-                                     actionTitle: "Ok",
-                                     cancelTitle: "Annuler",
+                                     actionTitle: Text.ButtonTitle.okTitle,
+                                     cancelTitle: Text.ButtonTitle.cancel,
                                      inputText: category.name?.capitalized,
                                      inputPlaceholder: "",
                                      inputKeyboardType: .default,

@@ -58,7 +58,7 @@ class CommentsBookCell: UITableViewCell {
             bookOwnerNameLabel.isHidden = true
             return
         }
-        bookOwnerNameLabel.text = "Recommandé par \(owner.displayName.capitalized)"
+        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
     }
 }
 // MARK: - Constraints

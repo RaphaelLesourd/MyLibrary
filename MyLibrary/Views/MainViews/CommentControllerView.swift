@@ -42,7 +42,7 @@ class CommentControllerView: UIView {
         inputTextView.layer.borderWidth = 0.0
         inputTextView.backgroundColor = .secondarySystemGroupedBackground
         inputTextView.font = UIFont.systemFont(ofSize: 18.0)
-        inputTextView.placeholderLabel.text = "Ce que vous en pensez..."
+        inputTextView.placeholderLabel.text = Text.Placeholder.commentEntry
         inputTextView.textContainerInset = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 6, left: 18, bottom: 6, right: 15)
         
@@ -68,7 +68,7 @@ class CommentControllerView: UIView {
     }
     
     private func configureEmptyStateView() {
-        emptyStateView.titleLabel.text = "Soyez le premier à écrire un comentaire sur ce livre..."
+        emptyStateView.titleLabel.text = Text.Placeholder.commentEmptyState
         emptyStateView.isHidden = true
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
     }
