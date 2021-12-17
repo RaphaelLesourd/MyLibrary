@@ -6,20 +6,20 @@
 //
 
 import UIKit
-
+/// Class inherit from a common class CollectionViewController to set up a collectionView.
 class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-    
+   
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var layoutComposer: ListLayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
     private var libraryService: LibraryServiceProtocol
-    private var currentQuery: BookQuery
     private var bookListMenu: BookListLayoutMenu?
+    private var currentQuery: BookQuery
     private var bookList: [Item] = []
     private var gridItemSize: GridItemSize = .medium {
         didSet {
@@ -46,7 +46,6 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = setTitle()
         bookListMenu = BookListLayoutMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
@@ -54,7 +53,7 @@ class BookLibraryViewController: CollectionViewController {
         configureNavigationBarButton()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
-        getBooks()
+        refreshBookList()
     }
     
     // MARK: - Setup
@@ -86,10 +85,10 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     // MARK: - Api call
-    private func getBooks(nextPage: Bool = false) {
+   private func getBooks(nextPage: Bool = false) {
         showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
-        
+       
         libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
@@ -117,7 +116,8 @@ class BookLibraryViewController: CollectionViewController {
         }
     }
     // MARK: - Targets
-    @objc private func refreshBookList() {
+    @objc func refreshBookList() {
+        title = setTitle()
         noMoreBooks = false
         bookList.removeAll()
         getBooks()
@@ -171,9 +171,10 @@ extension BookLibraryViewController {
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
-
+// MARK: - Extension BookListLayoutDelegate
 extension BookLibraryViewController: BookListLayoutDelegate {
-    func setLayout(for layout: GridItemSize) {
+    
+    func setLayoutFromMenu(for layout: GridItemSize) {
         gridItemSize = layout
     }
 }

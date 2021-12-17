@@ -77,7 +77,7 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: "Bienvenue")
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.welcomeTitle)
         }
     }
     
@@ -92,7 +92,7 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.accountOpen)
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.accountOpen))
         }
     }
     

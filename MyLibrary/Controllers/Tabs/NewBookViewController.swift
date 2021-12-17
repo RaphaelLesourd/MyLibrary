@@ -29,7 +29,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         }
     }
     
-    private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
+    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: ListLayout())
     private let newBookView = NewBookControllerView(formatter: Formatter(), imageRetriver: ImageRetriver())
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
@@ -157,7 +157,8 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         bookComment = nil
         bookDescription = nil
     }
-    
+    /// Uses data enterred to create a book.
+    ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
         let isbn = newBookView.isbnCell.textField.text ?? ""
         
@@ -223,6 +224,8 @@ extension NewBookViewController: UITextFieldDelegate {
 
 // MARK: - Barcode protocol
 extension NewBookViewController: BarcodeProtocol {
+    /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
+    /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
         resultController.searchType = .barCodeSearch
         resultController.currentSearchKeywords = code
@@ -231,6 +234,7 @@ extension NewBookViewController: BarcodeProtocol {
 
 // MARK: - Searchbar delegate
 extension NewBookViewController: UISearchBarDelegate {
+    /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         resultController.searchedBooks.removeAll()
         resultController.searchType = .apiSearch
@@ -240,12 +244,14 @@ extension NewBookViewController: UISearchBarDelegate {
 
 // MARK: - ImagePicker Delegate
 extension NewBookViewController: ImagePickerDelegate {
+    /// Users the image returned from the ImagePickerViewController and assign it the BookImageCell as the book cover image.
     func didSelect(image: UIImage?) {
         newBookView.bookImageCell.pictureView.image = image?.resizeImage()
     }
 }
 
 // MARK: - UIPickerDelegate
+/// PickerView delegate functions, handle the language and currency picker by using a switch statement .
 extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
@@ -297,6 +303,8 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 // MARK: - Extension NewBookViewDelegate
+
+/// Accessible functions for the view thru delegate protocol
 extension NewBookViewController: NewBookViewDelegate {
     
     func saveBook() {

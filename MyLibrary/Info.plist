@@ -39,5 +39,11 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>fcmKey</key>
+	<string>$(FCM_KEY)</string>
+	<key>fcmURL</key>
+	<string>$(FCM_URL)</string>
+	<key>googleBookURL</key>
+	<string>$(GOOGLEBOOKS_URL)</string>
 </dict>
 </plist>

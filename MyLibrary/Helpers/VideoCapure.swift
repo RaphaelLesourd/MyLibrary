@@ -44,6 +44,8 @@ class VideoCapture: NSObject {
     /// Prompt the user for permission to use the camera if not already authorized.
     func checkPermissions() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            setupCameraLiveView()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [self] granted in
                 if !granted {
@@ -83,13 +85,15 @@ class VideoCapture: NSObject {
     /// Set the output of your capture session to an instance of AVCaptureVideoDataOutput.
     /// - AVCaptureVideoDataOutput is a capture output that records video and provides access to video frames for processing.
     private func addCaptureOutput() {
-        let captureOutput = AVCaptureVideoDataOutput()
-        // Set video sample rate
-        captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
-        captureOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.default))
-        captureSession.addOutput(captureOutput)
-        configurePreviewLayer()
-        captureSession.startRunning()
+        DispatchQueue.global(qos: .userInitiated).async {
+            let captureOutput = AVCaptureVideoDataOutput()
+            // Set video sample rate
+            captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
+            captureOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: DispatchQoS.QoSClass.default))
+            self.captureSession.addOutput(captureOutput)
+            self.configurePreviewLayer()
+            self.captureSession.startRunning()
+        }
     }
     // MARK: - Vision
     /// Analyze the result of the handled request.
@@ -102,7 +106,6 @@ class VideoCapture: NSObject {
         DispatchQueue.main.async { [self] in
             if captureSession.isRunning {
                 presentationController?.view.layer.sublayers?.removeSubrange(1...)
-                
                 for barcode in barcodes {
                     guard let potentialQRCode = barcode as? VNBarcodeObservation,
                           potentialQRCode.symbology != .QR,
@@ -116,11 +119,13 @@ class VideoCapture: NSObject {
     }
     // MARK: - Overlay
     private func configurePreviewLayer() {
-        let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        cameraPreviewLayer.videoGravity = .resizeAspectFill
-        cameraPreviewLayer.connection?.videoOrientation = .portrait
-        cameraPreviewLayer.frame = presentationController?.view.bounds ?? CGRect(x: 0, y: 0, width: 200, height: 200)
-        presentationController?.view.layer.insertSublayer(cameraPreviewLayer, at: 0)
+        DispatchQueue.main.async {
+            let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+            cameraPreviewLayer.videoGravity = .resizeAspectFill
+            cameraPreviewLayer.connection?.videoOrientation = .portrait
+            cameraPreviewLayer.frame = self.presentationController?.view.bounds ?? CGRect(x: 0, y: 0, width: 200, height: 200)
+            self.presentationController?.view.layer.insertSublayer(cameraPreviewLayer, at: 0)
+        }
     }
 }
 // MARK: - AVCaptureDelegation

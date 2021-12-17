@@ -18,9 +18,9 @@ enum AlamofireRouter: URLRequestConvertible {
     private var baseURL: String {
         switch self {
         case .withIsbn, .withKeyWord:
-            return "https://www.googleapis.com/books/v1/"
+            return ApiUrl.googleBooksURL
         case .sendPushMessage:
-            return "https://fcm.googleapis.com/fcm/"
+            return ApiUrl.fcmURL
         }
     }
     // Http methods

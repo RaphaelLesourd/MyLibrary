@@ -8,6 +8,7 @@
 import UIKit
 import PanModal
 
+/// Class inherits from a base class seting a common static tableView
 class AccountViewController: StaticTableViewController {
     
     // MARK: - Properties
@@ -129,6 +130,7 @@ class AccountViewController: StaticTableViewController {
 
 // MARK: - ImagePicker Delegate
 extension AccountViewController: ImagePickerDelegate {
+    /// User the image return from the ImagePicker to set the profile image.
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         mainView.profileCell.profileImageButton.setImage(image, for: .normal)
@@ -147,7 +149,10 @@ extension AccountViewController: UITextFieldDelegate {
     }
 }
 // MARK: - Extension SettingViewProtocol
+
+/// Accessible functions for the view thru delegate protocol
 extension AccountViewController: AccountViewDelegate {
+    
     func presentImagePicker() {
         self.imagePicker?.present(from: mainView.profileCell.profileImageButton)
     }

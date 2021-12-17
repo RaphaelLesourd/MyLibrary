@@ -70,6 +70,7 @@
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		818657AB27651A6000B25116 /* FeedBackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657AA27651A6000B25116 /* FeedBackManager.swift */; };
 		818657EB27664F9F00B25116 /* BookListLayoutMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */; };
+		8194D544276A154E0098E484 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194D546276A154E0098E484 /* InfoPlist.strings */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
 		819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */; };
@@ -227,6 +228,7 @@
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		818657AA27651A6000B25116 /* FeedBackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackManager.swift; sourceTree = "<group>"; };
 		818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutMenu.swift; sourceTree = "<group>"; };
+		8194D547276A15510098E484 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
 		819C5DC82724811300F1F8F2 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
@@ -240,6 +242,8 @@
 		81A9BD85272BDE2900B7DA81 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		81A9BD8A272BE38400B7DA81 /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
+		81AFE028276BB23F009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		81AFE029276C9C33009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		81B91840274A772600486176 /* NewBookControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerView.swift; sourceTree = "<group>"; };
 		81B91844274BCFDD00486176 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		81B91846274BD2F200486176 /* ValidatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTestCase.swift; sourceTree = "<group>"; };
@@ -429,6 +433,15 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
+		8194D548276A17010098E484 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				81A7958027690695006E8219 /* Localizable.strings */,
+				8194D546276A154E0098E484 /* InfoPlist.strings */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 		81A9BD89272BE37600B7DA81 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,11 +477,10 @@
 				810C446E2726F81A007541C0 /* MyLibrary.entitlements */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
 				814751692727D80E0080C5BA /* GoogleService-Info.plist */,
-				81A7958027690695006E8219 /* Localizable.strings */,
+				8194D548276A17010098E484 /* Localization */,
 				81C6CCAD272479A200DE9219 /* Assets */,
 				81C6CCC927247AB100DE9219 /* Extensions */,
 				8121F07A273A9A3E006EAA8D /* Constants */,
-				811713F3274D6B5D0051059C /* Layout */,
 				81C6CCAC2724799000DE9219 /* Helpers */,
 				81C6CCAE272479B300DE9219 /* Model */,
 				81C6CCB0272479CA00DE9219 /* Views */,
@@ -556,6 +568,7 @@
 			isa = PBXGroup;
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
+				811713F3274D6B5D0051059C /* Layout */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				812047FE272ACE9B00E0A45B /* Static Cells */,
@@ -803,6 +816,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A7957E27690695006E8219 /* Localizable.strings in Resources */,
+				8194D544276A154E0098E484 /* InfoPlist.strings in Resources */,
 				81C6CC7D2724769C00DE9219 /* Assets.xcassets in Resources */,
 				819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */,
 				8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */,
@@ -997,10 +1011,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8194D546276A154E0098E484 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8194D547276A15510098E484 /* fr */,
+				81AFE029276C9C33009735FE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		81A7958027690695006E8219 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				81A79581276906BF006E8219 /* fr */,
+				81AFE028276BB23F009735FE /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1148,7 +1172,10 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
+				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
+				FCM_URL = "https://fcm.googleapis.com/fcm/";
 				GENERATE_INFOPLIST_FILE = YES;
+				GOOGLEBOOKS_URL = "https://www.googleapis.com/books/v1/";
 				INFOPLIST_FILE = MyLibrary/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à botre phototèque pour que ous puissiez choisir un photo pour la couverture d'un livre.";
@@ -1180,7 +1207,10 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
+				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
+				FCM_URL = "https://fcm.googleapis.com/fcm/";
 				GENERATE_INFOPLIST_FILE = YES;
+				GOOGLEBOOKS_URL = "https://www.googleapis.com/books/v1/";
 				INFOPLIST_FILE = MyLibrary/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à botre phototèque pour que ous puissiez choisir un photo pour la couverture d'un livre.";

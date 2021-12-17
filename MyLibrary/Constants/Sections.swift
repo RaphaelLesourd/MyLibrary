@@ -22,7 +22,6 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return Text.SectionTitle.favoritetBook
         case .recommanding:
             return Text.SectionTitle.userRecommandation
-       
         }
     }
     

@@ -177,8 +177,7 @@ extension LibraryService: LibraryServiceProtocol {
                 }
             }
             if let data = data {
-                print(data.count)
-                data.isEmpty ? completion(.success([])) : completion(.success(data))
+                completion(.success(data))
             }
         }
     }

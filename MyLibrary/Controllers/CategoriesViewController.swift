@@ -127,8 +127,8 @@ class CategoriesViewController: UIViewController {
             self?.applySnapshot()
         }
     }
-    
-    // MARK: - Add categories dialog
+
+    // MARK: - Categories dialog
     @objc private func addNewCategory() {
         AlertManager.showInputDialog(title: Text.Alert.newCategoryTitle,
                                      subtitle: Text.Alert.newCategoryMessage,
@@ -148,15 +148,8 @@ class CategoriesViewController: UIViewController {
             self?.deleteCategory(for: category)
         }
     }
-    
-    private func removeCategoryFromList(_ category: CategoryModel) {
-        guard let categoryID = category.uid else { return }
-        if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
-            selectedCategories.remove(at: index)
-        }
-    }
-    
-    private func updateCategoryAlert(for category: CategoryModel) {
+
+    private func updateCategoryNameAlert(for category: CategoryModel) {
         AlertManager.showInputDialog(title: Text.ButtonTitle.modify + " " + (category.name?.capitalized ?? ""),
                                      subtitle: "",
                                      actionTitle: Text.ButtonTitle.okTitle,
@@ -212,7 +205,7 @@ extension CategoriesViewController: UITableViewDelegate {
             case .delete:
                 self.displayDeleteCategoryAlert(category)
             case .edit:
-                self.updateCategoryAlert(for: category)
+                self.updateCategoryNameAlert(for: category)
             }
             completion(true)
         }
@@ -226,7 +219,9 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let category = categoryService.categories[indexPath.row]
-        removeCategoryFromList(category)
+        guard let categoryID = categoryService.categories[indexPath.row].uid else { return }
+        if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
+            selectedCategories.remove(at: index)
+        }
     }
 }

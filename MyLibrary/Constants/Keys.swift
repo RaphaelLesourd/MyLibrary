@@ -6,8 +6,12 @@
 //
 
 enum ApiKeys {
-    // swiftlint:disable:next line_length
-    static let fcmKEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo"
+    static var fcmKEY = ""
+}
+
+enum ApiUrl {
+    static var googleBooksURL = ""
+    static var fcmURL = ""
 }
 
 enum CollectionDocumentKey: String, CaseIterable {
@@ -29,6 +33,7 @@ enum DocumentKey: String {
     case favorite
     case recommanding
     case title = "volumeInfo.title"
+    case author = "VolumeInfo.author"
     case category
     case name
     case fcmToken

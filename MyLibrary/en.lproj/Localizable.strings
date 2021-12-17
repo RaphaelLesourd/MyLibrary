@@ -1,0 +1,138 @@
+/* 
+  Localizable.strings
+  MyLibrary
+    
+  Created by Birkyboy on 14/12/2021.
+  
+*/
+// French translation
+"Newbook" = "New book";
+"Home" = "Home";
+"Mybooks" = "Mybooks";
+"Search" = "Search";
+"Account" = "Account";
+"Profile" = "Profile";
+"Categories" = "Categories";
+"Modify" = "Modify";
+"Comments" = "Comments";
+"Description" = "Description";
+"Username" = "Username";
+ 
+"BookTitle" = "Book title";
+"AuthorName" = "Author name";
+"Categories" = "Categories";
+"Publisher" = "Publisher";
+"PublishedDate" = "Published date";
+"ISBN" = "ISBN ";
+"Pages" = "Pages";
+"Language" = "Language";
+"Description" = "Description";
+"UserComments" = "User comments";
+"Price" = "Price";
+"Currency" = "Currency";
+"Rating" = "Rating\n(0 to 5)";
+"BookSaved" = "Book saved";
+"CreateProfile" = "Create profile";
+ 
+"Save" = "Save";
+"SignOut" = "Sign out";
+"DeleteAccount" = "Delete account";
+"Delete" = "Delete";
+"Edit" = "Edit";
+"Search" = "Search";
+ 
+"LatestBooks" = "Latest books";
+"FavoriteBooks" = "Favorite books";
+"Recommendations" = "Recommendations";
+ 
+"SeeAll" = "See all";
+"Manage" = "Manage";
+ 
+"Add comment" = "Add comment";
+"AlertSignOutMessage" = "Are you sure you want to sign out?";
+"AlertDeleteAccountTitle" = "Are you sure you want to delete your account?";
+"AlertDeleteAccountMessage" = "You wil need to re-authentify.";
+"AlertDescriptionChangedMessage" = "The description of this book changed, would you lie to save those modifications?";
+ 
+"GoodByeMessage" = "See you soon";
+"ProfilePhotoUpdated" = "Photo de profil mise à jour.";
+"UsernameUpdated" = "Username updated";
+"Error" = "Error";
+"Success" = "Success";
+
+"LoginSubtitle" = "Enter you email and password to log in";
+"LoginTitle" = "Log in";
+"SignupSubtitle" = "Choose a password with at least 1 number, a special character and minimum 6 letters.";
+"SignupTitle" = "Sign up";
+"Email" = "Email";
+"Password" = "Password";
+"ConfirmPassword" = "Re-enter password";
+"ForgotPassword" = "Forgot password";
+"WelcomeMessage" = "Welcome\nto your\nBook Library.";
+"Username" = "Username";
+
+"Reloading" = "Reloading";
+"AccountOpen" = "Account open";
+
+"AlertPasswordForgottenTitle" = "Password forgotten";
+"AlertPasswordForgottenMessage" = "Are you sure you would like to reset your password?";
+"EmptyEmail" = "Empty email";
+
+"ResetPassword" = "Password reset";
+"ReauthentifyBannerMessage" = "Please re-authentify.";
+"AccountDeleted" = "Account Deleted";
+
+"HomeControllerEmptyState" = "No books in your library yet";
+"BookListEmptyState" = "No books in ";
+"SearchListEmptyState" = "Search here for book, comics, etc..";
+"CommentEmptyState" = "Be the first one to leave a comment about this book...";
+
+"StopRecommending" = "Stop recommending";
+"Recommend" = "Recommend";
+"BookDeleted" = "Book deleted from your library.";
+
+"AlertDeleteBookTitle" = "Delete book";
+"AlertDeleteBookMessage" = "Are you sure you want to delete this book?";
+
+"AlertCameraUnavailableTitle" = "Camera unavailable";
+"AlertCameraUnavailableMessage" = "It seems there is a problem with your camera.";
+"Permissions" = "Permissions";
+"CameraPermissionsMessage" = "Please update your settings to allow the use of this device camera.";
+
+"CategoryAdded" = "Category added";
+"CategoryModified" = "Category modified";
+
+"AlertNewCategoryTitle" = "New category";
+"AlertNewCategoryMessage" = "Add a new categry";
+"Add" = "Add";
+"CategoryName" = "Category name";
+
+"AlertDeleteCategoryMessage" = "Are you sure you want to delete this category?";
+"OK" = "OK";
+"Modify" = "Modify";
+"Cancel" = "Cancel";
+
+"ReaderComments" = "Reader's comments";
+"ReAuthentificationMessage" = "Please enter your email and password to re-authentify";
+"DeleteThisBook" = "Delete this book";
+"CommentEntry" = "Enter your thoughts...";
+ 
+"Version" = "Version";
+"Build" = "Build";
+"appCreationYear" = "Created in";
+"ContactUs" = "Contact us";
+"Information" = "Information";
+"RecommendedBy" = "Recommended by ";
+"UnableToOpenMailApp" = "Unable to open Mail";
+"FeedbackSent" = "Feedback sent";
+ 
+"TakePhoto" = "Take photo";
+"CameraRoll" = "Camera roll";
+"PhotoLibrary" = "Photo library";
+"AccessNotAuthorized" = "Access not authorized";
+"Today" = "Today";
+"SizeMenuTitle" = "View size";
+"Large" = "Large";
+"Medium" = "Medium";
+"Small" = "Small";
+"Welcome" = "Welcome";

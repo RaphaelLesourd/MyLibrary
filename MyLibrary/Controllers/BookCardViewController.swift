@@ -93,7 +93,7 @@ class BookCardViewController: UIViewController {
         navigationItem.rightBarButtonItems = [mainView.editButton, mainView.activityIndicatorButton]
     }
    
-    func configureUI() {
+    private func configureUI() {
         mainView.deleteBookButton.isHidden = searchType == .apiSearch
         if searchType == .apiSearch {
             mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
@@ -227,6 +227,8 @@ extension BookCardViewController: BookCardDelegate {
     }
 }
 // MARK: Extension BookCardMainViewDelegate
+
+/// Accessible functions for the view thru delegate protocol
 extension BookCardViewController: BookCardMainViewDelegate {
     func favoriteButtonAction() {
         favoriteBook.toggle()

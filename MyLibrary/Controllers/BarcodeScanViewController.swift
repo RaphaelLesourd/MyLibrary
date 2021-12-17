@@ -26,19 +26,12 @@ class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
         view.backgroundColor = .viewControllerBackgroundColor
         videoCapture = VideoCapture(presentationController: self, delegate: self)
         videoCapture?.checkPermissions()
-        videoCapture?.setupCameraLiveView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         videoCapture?.captureSession.stopRunning()
         barcodeResultHandler()
-    }
-    // MARK: - Handler
-    /// Check if there is a barcode after scanning. If not NIl then it is passed back to the previous controller.
-    private func barcodeResultHandler() {
-        guard let fetchedBarcode = fetchedBarcode else { return }
-        barcodeDelegate?.processBarcode(with: fetchedBarcode)
     }
     
     func presentNoCameraAlert() {
@@ -54,8 +47,17 @@ class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
         AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.cameraPermissionsTitle),
                                         subtitle: Text.Banner.cameraPermissionsMessage)
     }
+
+    // MARK: - Private functions
+    /// Check if there is a barcode after scanning. If not NIl then it is passed back to the previous controller.
+    private func barcodeResultHandler() {
+        guard let fetchedBarcode = fetchedBarcode else { return }
+        barcodeDelegate?.processBarcode(with: fetchedBarcode)
+    }
 }
 // MARK: - PanModal Extension
+
+/// Configure the pan modal VviewController
 extension BarcodeScanViewController: PanModalPresentable {
     
     var shortFormHeight: PanModalHeight {

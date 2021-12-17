@@ -21,7 +21,7 @@ class CommentsViewController: UIViewController {
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
-    
+
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
     private var editedCommentID: String?
@@ -113,6 +113,37 @@ class CommentsViewController: UIViewController {
         }
     }
     
+    private func addComment(with newComment: String, commentID: String?) {
+        guard let bookID = book?.bookID,
+              let ownerID = book?.ownerID else { return }
+        showIndicator(mainView.activityIndicator)
+        
+        notifyUser(of: newComment)
+        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: newComment) { [weak self] error in
+            guard let self = self else { return }
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.editedCommentID = nil
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+        }
+    }
+    
+    private func deleteComment(for comment: CommentModel) {
+        guard let bookID = book?.bookID,
+              let ownerID = book?.ownerID else { return }
+        showIndicator(mainView.activityIndicator)
+        
+        commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
+            guard let self = self else { return }
+            self.hideIndicator(self.mainView.activityIndicator)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    
     private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
         guard let userID = comment.userID else { return }
         
@@ -144,43 +175,12 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    private func addComment(with newComment: String, commentID: String?) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
-        showIndicator(mainView.activityIndicator)
-        
-        notifyUser(of: newComment)
-        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: newComment) { [weak self] error in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.editedCommentID = nil
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-        }
-    }
-    
     private func notifyUser(of newComment: String) {
         guard let book = book else { return }
         messageService.sendCommentNotification(for: book, message: newComment, for: self.commentList) { error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
-            }
-        }
-    }
-    
-    private func deleteComment(for comment: CommentModel) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
-        showIndicator(mainView.activityIndicator)
-        
-        commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
@@ -212,6 +212,7 @@ extension CommentsViewController: UITableViewDelegate {
         return 21
     }
     
+    /// Adds swipe gestures to edit or delete comment
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
@@ -223,6 +224,7 @@ extension CommentsViewController: UITableViewDelegate {
         return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
     }
     
+    /// Handles swipe gesture actions
     private func contextMenuAction(for actionType: CategoryActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
@@ -242,6 +244,7 @@ extension CommentsViewController: UITableViewDelegate {
         return action
     }
     
+    /// Add comment text to the input bar to edit and save the comment.
     private func editComment(for comment: CommentModel) {
         editedCommentID = comment.uid
         mainView.inputBar.inputTextView.text = comment.comment
@@ -251,7 +254,8 @@ extension CommentsViewController: UITableViewDelegate {
 
 // MARK: - TableView Datasource
 extension CommentsViewController {
-    
+    /// Create a data source with 3 sections
+    ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
@@ -271,8 +275,7 @@ extension CommentsViewController {
             case .today, .past:
                 if let item = item as? CommentModel {
                     let reuseIdentifier = CommentTableViewCell.reuseIdentifier
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
-                                                                   for: indexPath) as? CommentTableViewCell else {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
                     cell.configure(with: item)

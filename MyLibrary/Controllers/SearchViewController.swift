@@ -27,14 +27,14 @@ class SearchViewController: CollectionViewController {
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
     private var layoutComposer: ListLayoutComposer
-    private var networkService: ApiManagerProtocol
+    private var apiManager: ApiManagerProtocol
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol
-    init(networkService: ApiManagerProtocol, layoutComposer: ListLayoutComposer) {
-        self.networkService = networkService
+    init(apiManager: ApiManagerProtocol, layoutComposer: ListLayoutComposer) {
+        self.apiManager = apiManager
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,7 +78,7 @@ class SearchViewController: CollectionViewController {
     private func getBooks(fromIndex: Int = 0) {
         footerView.displayActivityIndicator(true)
         
-        networkService.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
+        apiManager.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
             self.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
