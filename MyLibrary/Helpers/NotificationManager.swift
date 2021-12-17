@@ -12,7 +12,7 @@ import UserNotifications
 
 protocol NotificationManagerProtocol {
     func registerNotifications()
-    func setBadge(to count: Int)
+    func resetNotificationBadgeCount()
 }
 
 class NotificationManager: NSObject {
@@ -73,24 +73,21 @@ extension NotificationManager: MessagingDelegate {
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
    
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         didReceive(response.notification)
-        completionHandler()
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .list, .badge, .sound])
+                                willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        return [.banner, .list, .badge, .sound]
     }
 }
 // MARK: - Extension NotificationProtocol
 extension NotificationManager: NotificationManagerProtocol {
   
-    func setBadge(to count: Int) {
-        UIApplication.shared.applicationIconBadgeNumber = count
+    func resetNotificationBadgeCount() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        UserDefaults.standard.set(0, forKey: "badge")
     }
     
     func registerNotifications() {

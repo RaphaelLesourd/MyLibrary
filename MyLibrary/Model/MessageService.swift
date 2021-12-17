@@ -66,12 +66,14 @@ class MessageService {
     private func postPushNotifications(to users: [UserModel], with message: String, for book: Item) {
         guard let bookTitle = book.volumeInfo?.title,
               let bookID = book.bookID,
-              let ownerID = book.ownerID else { return }
+              let ownerID = book.ownerID,
+              let imageURL = book.volumeInfo?.imageLinks?.thumbnail else { return }
         users.forEach {
             let message = MessageModel(title: bookTitle.capitalized,
                                        body: "\(Auth.auth().currentUser?.displayName?.capitalized ?? "") à dit \(message)",
                                        bookID: bookID,
                                        ownerID: ownerID,
+                                       imageURL: imageURL,
                                        token: $0.token)
             apiManager.postPushNotification(with: message) { error in
                 if let error = error {

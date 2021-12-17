@@ -107,6 +107,8 @@
 		81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* BookModel.swift */; };
 		81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* ApiManager.swift */; };
 		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
+		81AFE031276CA4C9009735FE /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFE030276CA4C9009735FE /* NotificationService.swift */; };
+		81AFE035276CA4C9009735FE /* RichNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 81AFE02E276CA4C9009735FE /* RichNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		81B91841274A772600486176 /* NewBookControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B91840274A772600486176 /* NewBookControllerView.swift */; };
 		81B91845274BCFDE00486176 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B91844274BCFDD00486176 /* Validator.swift */; };
 		81B91847274BD2F200486176 /* ValidatorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B91846274BD2F200486176 /* ValidatorTestCase.swift */; };
@@ -154,6 +156,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		81AFE033276CA4C9009735FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81C6CC652724769A00DE9219 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81AFE02D276CA4C9009735FE;
+			remoteInfo = RichNotifications;
+		};
 		81C6CC872724769D00DE9219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81C6CC652724769A00DE9219 /* Project object */;
@@ -162,6 +171,20 @@
 			remoteInfo = MyLibrary;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		81AFE039276CA4C9009735FE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				81AFE035276CA4C9009735FE /* RichNotifications.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		810123F127689DAF00F86932 /* AccountServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceTestCase.swift; sourceTree = "<group>"; };
@@ -244,6 +267,9 @@
 		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
 		81AFE028276BB23F009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		81AFE029276C9C33009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		81AFE02E276CA4C9009735FE /* RichNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RichNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AFE030276CA4C9009735FE /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		81AFE032276CA4C9009735FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81B91840274A772600486176 /* NewBookControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerView.swift; sourceTree = "<group>"; };
 		81B91844274BCFDD00486176 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		81B91846274BD2F200486176 /* ValidatorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTestCase.swift; sourceTree = "<group>"; };
@@ -296,6 +322,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		81AFE02B276CA4C9009735FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81C6CC6A2724769B00DE9219 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -452,12 +485,22 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
+		81AFE02F276CA4C9009735FE /* RichNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				81AFE030276CA4C9009735FE /* NotificationService.swift */,
+				81AFE032276CA4C9009735FE /* Info.plist */,
+			);
+			path = RichNotifications;
+			sourceTree = "<group>";
+		};
 		81C6CC642724769A00DE9219 = {
 			isa = PBXGroup;
 			children = (
 				81C6CC6F2724769B00DE9219 /* MyLibrary */,
 				81C6CC892724769D00DE9219 /* MyLibraryTests */,
 				81C6CC932724769D00DE9219 /* MyLibraryUITests */,
+				81AFE02F276CA4C9009735FE /* RichNotifications */,
 				81C6CC6E2724769B00DE9219 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -467,6 +510,7 @@
 			children = (
 				81C6CC6D2724769B00DE9219 /* MyLibrary.app */,
 				81C6CC862724769D00DE9219 /* MyLibraryTests.xctest */,
+				81AFE02E276CA4C9009735FE /* RichNotifications.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -696,6 +740,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		81AFE02D276CA4C9009735FE /* RichNotifications */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81AFE036276CA4C9009735FE /* Build configuration list for PBXNativeTarget "RichNotifications" */;
+			buildPhases = (
+				81AFE02A276CA4C9009735FE /* Sources */,
+				81AFE02B276CA4C9009735FE /* Frameworks */,
+				81AFE02C276CA4C9009735FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RichNotifications;
+			productName = RichNotifications;
+			productReference = 81AFE02E276CA4C9009735FE /* RichNotifications.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		81C6CC6C2724769B00DE9219 /* MyLibrary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81C6CC9A2724769D00DE9219 /* Build configuration list for PBXNativeTarget "MyLibrary" */;
@@ -705,10 +766,12 @@
 				81C6CC6B2724769B00DE9219 /* Resources */,
 				81C6CCCE27247BE200DE9219 /* ShellScript */,
 				81C2AE5C27299E9A00AC69A8 /* ShellScript */,
+				81AFE039276CA4C9009735FE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				81AFE034276CA4C9009735FE /* PBXTargetDependency */,
 			);
 			name = MyLibrary;
 			packageProductDependencies = (
@@ -767,9 +830,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1300;
 				TargetAttributes = {
+					81AFE02D276CA4C9009735FE = {
+						CreatedOnToolsVersion = 13.2;
+					};
 					81C6CC6C2724769B00DE9219 = {
 						CreatedOnToolsVersion = 13.0;
 					};
@@ -806,11 +872,19 @@
 			targets = (
 				81C6CC6C2724769B00DE9219 /* MyLibrary */,
 				81C6CC852724769D00DE9219 /* MyLibraryTests */,
+				81AFE02D276CA4C9009735FE /* RichNotifications */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		81AFE02C276CA4C9009735FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81C6CC6B2724769B00DE9219 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -875,6 +949,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		81AFE02A276CA4C9009735FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81AFE031276CA4C9009735FE /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81C6CC692724769B00DE9219 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1003,6 +1085,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		81AFE034276CA4C9009735FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81AFE02D276CA4C9009735FE /* RichNotifications */;
+			targetProxy = 81AFE033276CA4C9009735FE /* PBXContainerItemProxy */;
+		};
 		81C6CC882724769D00DE9219 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 81C6CC6C2724769B00DE9219 /* MyLibrary */;
@@ -1042,6 +1129,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		81AFE037276CA4C9009735FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = LW66PFZQH6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RichNotifications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RichNotifications;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.birkyboy.MyLibrary.RichNotifications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		81AFE038276CA4C9009735FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = LW66PFZQH6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RichNotifications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RichNotifications;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.birkyboy.MyLibrary.RichNotifications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		81C6CC982724769D00DE9219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1165,11 +1304,12 @@
 		81C6CC9B2724769D00DE9219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -1200,11 +1340,12 @@
 		81C6CC9C2724769D00DE9219 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -1288,6 +1429,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		81AFE036276CA4C9009735FE /* Build configuration list for PBXNativeTarget "RichNotifications" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81AFE037276CA4C9009735FE /* Debug */,
+				81AFE038276CA4C9009735FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		81C6CC682724769A00DE9219 /* Build configuration list for PBXProject "MyLibrary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

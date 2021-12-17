@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        notificationManager.setBadge(to: 0)
+        notificationManager.resetNotificationBadgeCount()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

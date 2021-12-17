@@ -77,4 +77,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        let currentBadgeNumber = UserDefaults.standard.integer(forKey: "badge")
+        let badgeNumber = currentBadgeNumber + 1
+        UIApplication.shared.applicationIconBadgeNumber = badgeNumber
+        UserDefaults.standard.set(badgeNumber, forKey: "badge")
+    }
+
 }

@@ -66,7 +66,8 @@ enum AlamofireRouter: URLRequestConvertible {
                                      "priority": "high",
                                      "sound": "default"],
                     "data": ["bookID": payload.bookID,
-                             "ownerID": payload.ownerID]
+                             "ownerID": payload.ownerID,
+                             "imageURL": payload.imageURL]
             ]
         }
     }

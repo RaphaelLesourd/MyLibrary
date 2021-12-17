@@ -10,5 +10,6 @@ struct MessageModel {
     let body: String
     let bookID: String
     let ownerID: String
+    let imageURL: String
     let token: String
 }
