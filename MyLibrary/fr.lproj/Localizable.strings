@@ -5,9 +5,9 @@
   Created by Birkyboy on 14/12/2021.
   
 */
-"Newbook" = "Nouveau livre";
+"Newbook" = "Nouveau Livre";
 "Home" = "Accueil";
-"Mybooks" = "Mes livres";
+"Mybooks" = "Mes Livres";
 "Search" = "Recherche";
 "Account" = "Compte";
 "Profile" = "Profil";
@@ -24,7 +24,7 @@
 "PublishedDate" = "Date de parution";
 "ISBN" = "ISBN ";
 "Pages" = "Pages";
-"Language" = "Langue du livre";
+"Language" = "Langue";
 "Description" = "Description";
 "UserComments" = "Commentaires, avis...";
 "Price" = "Prix d'achat";
@@ -68,7 +68,7 @@
 "ConfirmPassword" = "Confirmez votre mot de passe";
 "ForgotPassword" = "Mot de passe oublié";
 "WelcomeMessage" = "Bienvenue\ndans votre\nbibliothèque.";
-"Username" = "new book title";
+"Username" = "Nom d'utilisateur";
 
 "Reloading" = "Rechargement";
 "AccountOpen" = "Compte ouvert";
@@ -135,3 +135,7 @@
 "Medium" = "Moyenne";
 "Small" = "Petite";
 "Welcome" = "Bienvenue";
+"said" = "à dit";
+"CloseKeyboard" = "Fermer";
+"BarcodeControllerTitle" = "Scanner code barre";
+"BarcodeControllerSubitle" = "Positionez le code barre au centre.";

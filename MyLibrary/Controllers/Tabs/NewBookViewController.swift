@@ -190,7 +190,20 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     @objc private func showScannerController() {
         let barcodeScannerController = BarcodeScanViewController()
         barcodeScannerController.barcodeDelegate = self
-        presentPanModal(barcodeScannerController)
+        if #available(iOS 15.0, *) {
+            if let sheet = barcodeScannerController.sheetPresentationController {
+                sheet.detents = [.medium()]
+                sheet.largestUndimmedDetentIdentifier = .large
+                sheet.preferredCornerRadius = 23
+                sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+                present(barcodeScannerController, animated: true, completion: nil)
+            }
+        } else {
+            presentPanModal(barcodeScannerController)
+        }
     }
     
     @objc func returnToPreviousController() {

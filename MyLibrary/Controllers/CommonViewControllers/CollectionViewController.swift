@@ -40,6 +40,7 @@ class CollectionViewController: UIViewController {
     
   // MARK: - Setup
     private func configureCollectionView() {
+        collectionView.register(footer: LoadingFooterSupplementaryView.self)
         refresherControl.attributedTitle = NSAttributedString(string: Text.Misc.reloading)
         refresherControl.tintColor = .label
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

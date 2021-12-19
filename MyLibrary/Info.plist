@@ -43,7 +43,7 @@
 	<string>$(FCM_KEY)</string>
 	<key>fcmURL</key>
 	<string>$(FCM_URL)</string>
-	<key>googleBookURL</key>
+	<key>googleBooksURL</key>
 	<string>$(GOOGLEBOOKS_URL)</string>
 </dict>
 </plist>

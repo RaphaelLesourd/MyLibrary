@@ -7,6 +7,7 @@
 
 import UIKit
 import PanModal
+import FirebaseAuth
 
 /// Class inherits from a base class seting a common static tableView
 class AccountViewController: StaticTableViewController {
@@ -62,7 +63,7 @@ class AccountViewController: StaticTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 3 ? "\(UIApplication.appName) " + Text.Misc.informations : ""
+        return section == 3 ? ("\(UIApplication.appName) " + Text.Misc.informations) : ""
     }
   
     // MARK: - Api call
@@ -112,9 +113,10 @@ class AccountViewController: StaticTableViewController {
     }
     
     private func signoutAccount() {
+        let userDisplayName = Auth.auth().currentUser?.displayName ?? ""
         showIndicator(mainView.activityIndicator)
         mainView.signOutCell.actionButton.displayActivityIndicator(true)
-  
+        
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
             self.mainView.signOutCell.actionButton.displayActivityIndicator(false)
@@ -123,7 +125,7 @@ class AccountViewController: StaticTableViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon), subtitle: "")
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon), subtitle: userDisplayName)
         }
     }
 }

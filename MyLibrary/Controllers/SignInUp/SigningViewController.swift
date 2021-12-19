@@ -7,6 +7,7 @@
 
 import UIKit
 import PanModal
+import FirebaseAuth
 
 class SigningViewController: UIViewController {
     
@@ -32,6 +33,15 @@ class SigningViewController: UIViewController {
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if interfaceType == .login {
+            mainView.emailTextField.becomeFirstResponder()
+        } else {
+            mainView.userNameTextField.becomeFirstResponder()
+        }
     }
     
     override func viewDidLoad() {
@@ -77,7 +87,7 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.welcomeTitle)
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.welcomeTitle), subtitle: (Auth.auth().currentUser?.displayName ?? ""))
         }
     }
     
@@ -174,15 +184,13 @@ extension SigningViewController: UITextFieldDelegate {
 }
 // MARK: - Panmodal Presentable
 extension SigningViewController: PanModalPresentable {
-    var longFormHeight: PanModalHeight {
-        let height: CGFloat = interfaceType == .login ? 140 : 100
-        return .maxHeightWithTopInset(height)
-    }
-    
+   
     var cornerRadius: CGFloat {
         return 20
     }
-    
+    var isHapticFeedbackEnabled: Bool {
+        return true
+    }
     var panScrollable: UIScrollView? {
         return nil
     }

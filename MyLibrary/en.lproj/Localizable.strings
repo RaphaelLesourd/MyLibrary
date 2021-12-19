@@ -5,9 +5,9 @@
   Created by Birkyboy on 14/12/2021.
   
 */
-"Newbook" = "New book";
+"Newbook" = "New Book";
 "Home" = "Home";
-"Mybooks" = "Mybooks";
+"Mybooks" = "My Books";
 "Search" = "Search";
 "Account" = "Account";
 "Profile" = "Profile";
@@ -134,4 +134,8 @@
 "Large" = "Large";
 "Medium" = "Medium";
 "Small" = "Small";
-"Welcome" = "Welcome";
+"Welcome" = "Welcome back";
+"said" = "said";
+"CloseKeyboard" = "Close";
+"BarcodeControllerTitle" = "Barcode scanner";
+"BarcodeControllerSubitle" = "Position the barcode in the frame to scan it.";

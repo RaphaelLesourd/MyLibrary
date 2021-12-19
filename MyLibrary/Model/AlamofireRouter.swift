@@ -56,11 +56,10 @@ enum AlamofireRouter: URLRequestConvertible {
                     "img": true]
         case .sendPushMessage(payload: let payload):
             return ["to": payload.token,
-                    "content_available" : true,
+                    "content_available": true,
                     "mutable_content": true,
-                    "category": "content_added_notification",
-                    "notification": ["title": "My Library",
-                                     "subtitle": payload.title,
+                    "category": "comment",
+                    "notification": ["title": payload.title,
                                      "body": payload.body,
                                      "badge": 1,
                                      "priority": "high",

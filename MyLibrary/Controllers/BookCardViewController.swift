@@ -26,12 +26,12 @@ class BookCardViewController: UIViewController {
     private var coverImage: UIImage?
     private var recommandedBook = false {
         didSet {
-            setRecommandationButton(isRecommanding: recommandedBook)
+            mainView.setRecommandedButtonAs(recommandedBook)
         }
     }
     private var favoriteBook = false {
         didSet {
-            setFavoriteIcon(favoriteBook)
+            mainView.setFavoriteButtonAs(favoriteBook)
         }
     }
 
@@ -104,17 +104,6 @@ class BookCardViewController: UIViewController {
             mainView.favoriteButton.isHidden = true
             navigationItem.rightBarButtonItems = [mainView.activityIndicatorButton]
         }
-    }
-    
-    private func setFavoriteIcon(_ isFavorite: Bool) {
-        mainView.favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
-    }
-    
-    private func setRecommandationButton(isRecommanding: Bool) {
-        let title = isRecommanding ? Text.ButtonTitle.stopRecommending : Text.ButtonTitle.recommend
-        mainView.recommandButton.setTitle(title, for: .normal)
-        mainView.commentView.isHidden = !isRecommanding
-        isRecommanding ? mainView.commentView.animationView.play() : mainView.commentView.animationView.stop()
     }
     
     private func setFavoriteState() {
@@ -230,6 +219,7 @@ extension BookCardViewController: BookCardDelegate {
 
 /// Accessible functions for the view thru delegate protocol
 extension BookCardViewController: BookCardMainViewDelegate {
+   
     func favoriteButtonAction() {
         favoriteBook.toggle()
         updateBookStatus(to: favoriteBook, for: .favorite)

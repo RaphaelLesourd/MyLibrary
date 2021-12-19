@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 protocol BookCardMainViewDelegate: AnyObject {
     func recommandButtonAction()
@@ -63,7 +64,7 @@ class BookCardMainView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private let bookCover = BookCover(frame: .zero)
     private let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
     private let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
@@ -132,6 +133,17 @@ class BookCardMainView: UIView {
     
     func displayCategories(with categoryNames: [String]) {
         categoryiesLabel.text = formatter?.joinArrayToString(categoryNames).uppercased()
+    }
+    
+    func setFavoriteButtonAs(_ isFavorite: Bool) {
+        favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
+    }
+    
+    func setRecommandedButtonAs(_ isRecommanding: Bool) {
+        let title = isRecommanding ? Text.ButtonTitle.stopRecommending : Text.ButtonTitle.recommend
+        recommandButton.setTitle(title, for: .normal)
+        commentView.isHidden = !isRecommanding
+        isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
     
     // MARK: - Targets

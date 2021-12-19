@@ -7,6 +7,7 @@
 
 import UIKit
 import PanModal
+import FirebaseAuth
 
 class WelcomeViewController: UIViewController {
     
@@ -37,6 +38,19 @@ class WelcomeViewController: UIViewController {
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
         let signingController = SigningViewController(userManager: accountService, validator: Validator(), interfaceType: type)
-        presentPanModal(signingController)
+        if #available(iOS 15.0, *) {
+            if let sheet = signingController.sheetPresentationController {
+                sheet.detents = [.large()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.preferredCornerRadius = 23
+                sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+                present(signingController, animated: true, completion: nil)
+            }
+        } else {
+            presentPanModal(signingController)
+        }
     }
 }

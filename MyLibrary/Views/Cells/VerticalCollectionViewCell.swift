@@ -18,7 +18,6 @@ class VerticalCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         stackView.addArrangedSubview(bookCover)
         stackView.addArrangedSubview(titleView)
-        
         setStackviewConstrainsts()
     }
     

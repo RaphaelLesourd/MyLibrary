@@ -70,7 +70,7 @@ class MessageService {
               let imageURL = book.volumeInfo?.imageLinks?.thumbnail else { return }
         users.forEach {
             let message = MessageModel(title: bookTitle.capitalized,
-                                       body: "\(Auth.auth().currentUser?.displayName?.capitalized ?? "") à dit \(message)",
+                                       body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
                                        bookID: bookID,
                                        ownerID: ownerID,
                                        imageURL: imageURL,

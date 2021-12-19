@@ -79,10 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        let currentBadgeNumber = UserDefaults.standard.integer(forKey: "badge")
+        let currentBadgeNumber = UserDefaults.standard.integer(forKey: StorageKey.badge.rawValue)
         let badgeNumber = currentBadgeNumber + 1
         UIApplication.shared.applicationIconBadgeNumber = badgeNumber
-        UserDefaults.standard.set(badgeNumber, forKey: "badge")
+        UserDefaults.standard.set(badgeNumber, forKey: StorageKey.badge.rawValue)
     }
 
 }

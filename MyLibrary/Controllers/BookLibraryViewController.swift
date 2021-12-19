@@ -15,8 +15,8 @@ class BookLibraryViewController: CollectionViewController {
    
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
-    private var layoutComposer: ListLayoutComposer
     private var footerView = LoadingFooterSupplementaryView()
+    private var layoutComposer: ListLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var bookListMenu: BookListLayoutMenu?
     private var currentQuery: BookQuery
@@ -59,7 +59,6 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Setup
     private func configureCollectionView() {
         collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
     }

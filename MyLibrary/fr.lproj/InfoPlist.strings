@@ -6,3 +6,5 @@
   
 */
 "CFBundleDisplayName" = "MaBibliothèque";
+"INFOPLIST_KEY_NSCameraUsageDescription" = "Nous avons besoins d'accéder à votre caméra pour scanner des codes bar et faire des recherches de livres avec.";
+"INFOPLIST_KEY_NSPhotoLibraryUsageDescription" = "Nous avons besoin d'acceder à votre phototèque pour que vous puissiez choisir un photo pour la couverture d'un livre.";

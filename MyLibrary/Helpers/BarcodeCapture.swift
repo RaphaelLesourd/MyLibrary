@@ -9,7 +9,7 @@ import AVFoundation
 import Vision
 import UIKit
 
-protocol VideoCaptureDelegate: AnyObject {
+protocol BarcodeCaptureDelegate: AnyObject {
     var fetchedBarcode: String? { get set }
     func showPermissionsAlert()
     func presentNoCameraAlert()
@@ -18,11 +18,11 @@ protocol VideoCaptureDelegate: AnyObject {
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
 /// Process assimilated and adapated from this article
 /// https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
-class VideoCapture: NSObject {
+class BarcodeCapture: NSObject {
  
     var captureSession = AVCaptureSession()
     private weak var presentationController: UIViewController?
-    private weak var delegate: VideoCaptureDelegate?
+    private weak var delegate: BarcodeCaptureDelegate?
     
     /// Set up a VNDetectBarcodesRequest that will detect barcodes when called.
     /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..
@@ -34,7 +34,7 @@ class VideoCapture: NSObject {
         self?.processClassification(request)
     }
     
-    init(presentationController: UIViewController, delegate: VideoCaptureDelegate) {
+    init(presentationController: UIViewController, delegate: BarcodeCaptureDelegate) {
         super.init()
         self.presentationController = presentationController
         self.delegate = delegate
@@ -123,13 +123,16 @@ class VideoCapture: NSObject {
             let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             cameraPreviewLayer.videoGravity = .resizeAspectFill
             cameraPreviewLayer.connection?.videoOrientation = .portrait
-            cameraPreviewLayer.frame = self.presentationController?.view.bounds ?? CGRect(x: 0, y: 0, width: 200, height: 200)
-            self.presentationController?.view.layer.insertSublayer(cameraPreviewLayer, at: 0)
+            if let controller = self.presentationController as? BarcodeScanViewController {
+                cameraPreviewLayer.frame = controller.mainView.videoPreviewContainerView.bounds
+                controller.mainView.videoPreviewContainerView.layer.insertSublayer(cameraPreviewLayer, at: 0)
+                controller.mainView.animationView.play()
+            }
         }
     }
 }
 // MARK: - AVCaptureDelegation
-extension VideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension BarcodeCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.

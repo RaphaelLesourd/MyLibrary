@@ -87,7 +87,7 @@ extension NotificationManager: NotificationManagerProtocol {
   
     func resetNotificationBadgeCount() {
         UIApplication.shared.applicationIconBadgeNumber = 0
-        UserDefaults.standard.set(0, forKey: "badge")
+        UserDefaults.standard.set(0, forKey: StorageKey.badge.rawValue)
     }
     
     func registerNotifications() {

@@ -44,6 +44,7 @@ enum DocumentKey: String {
 enum StorageKey: String {
     case images
     case profileImage
+    case badge
 }
 
 enum UserDefaultKey: String {
