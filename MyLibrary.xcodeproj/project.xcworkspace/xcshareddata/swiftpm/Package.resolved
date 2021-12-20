@@ -20,6 +20,15 @@
         }
       },
       {
+        "package": "AlgoliaSearchClient",
+        "repositoryURL": "https://github.com/algolia/algoliasearch-client-swift",
+        "state": {
+          "branch": null,
+          "revision": "5b795feabf2aa578dc15b4f82a8474a20a4e4290",
+          "version": "8.13.0"
+        }
+      },
+      {
         "package": "Bauly",
         "repositoryURL": "https://github.com/wiencheck/Bauly.git",
         "state": {
@@ -161,6 +170,15 @@
           "branch": null,
           "revision": "611337c330350c9c1823ad6d671e7f936af5ee13",
           "version": "2.0.0"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
+          "version": "1.4.2"
         }
       },
       {
