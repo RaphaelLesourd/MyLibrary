@@ -26,11 +26,11 @@ enum GridItemSize: CGFloat, CaseIterable {
     var image: UIImage {
         switch self {
         case .large:
-            return Images.gridHalfLayout
+            return Images.LayoutMenu.gridHalfLayout
         case .medium:
-            return Images.gridThirdLayout
+            return Images.LayoutMenu.gridThirdLayout
         case .small:
-            return Images.gridQuarterLayout
+            return Images.LayoutMenu.gridQuarterLayout
         }
     }
 }

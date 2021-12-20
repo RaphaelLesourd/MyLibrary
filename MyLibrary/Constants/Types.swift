@@ -32,9 +32,9 @@ enum CategoryActionType {
     var icon: UIImage {
         switch self {
         case .delete:
-            return Images.trashCircleIcon
+            return Images.EditIcon.trashCircleIcon
         case .edit:
-            return Images.editCircleIcon
+            return Images.EditIcon.editCircleIcon
         }
     }
 }

@@ -22,6 +22,7 @@ class CategoryControllerMainView: UIView {
     // MARK: - Subviews
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         tableView.backgroundColor = .clear
         tableView.allowsMultipleSelection = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

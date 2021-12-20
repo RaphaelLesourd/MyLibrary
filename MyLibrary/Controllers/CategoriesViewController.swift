@@ -64,7 +64,7 @@ class CategoriesViewController: UIViewController {
     }
     
     private func addNavigationBarButtons() {
-        let addButton = UIBarButtonItem(image: Images.addIcon,
+        let addButton = UIBarButtonItem(image: Images.NavIcon.addIcon,
                                         style: .plain,
                                         target: self,
                                         action: #selector(addNewCategory))

@@ -13,8 +13,7 @@ enum Text {
         static let loginSubtitle = NSLocalizedString("LoginSubtitle", comment: "log in message")
         static let loginButtonTitle = NSLocalizedString("LoginTitle", comment: "log in title")
         static let signupTitle = NSLocalizedString("SignupTitle", comment: "sign up title")
-        static let signupSubtitle = NSLocalizedString("SignupSubtitle",
-                                                      comment: "password setup message")
+        static let signupSubtitle = NSLocalizedString("SignupSubtitle", comment: "password setup message")
         static let signupButtonTitle = NSLocalizedString("SignupTitle", comment: "sign up title")
         static let email = NSLocalizedString("Email", comment: "email placeholder")
         static let password = NSLocalizedString("Password", comment: "password placeholder")
@@ -22,8 +21,7 @@ enum Text {
         static let forgotPassword = NSLocalizedString("ForgotPassword", comment: "forgotpassword title")
         static let welcomeMessage = NSLocalizedString("WelcomeMessage", comment: "Welcome message")
         static let userName = NSLocalizedString("Username", comment: "username title")
-        static let reAuthentificationMessage = NSLocalizedString("ReAuthentificationMessage",
-                                                                 comment: "Re authentification message")
+        static let reAuthentificationMessage = NSLocalizedString("ReAuthentificationMessage", comment: "Re authentification message")
     }
    
     enum ControllerTitle {
@@ -100,7 +98,6 @@ enum Text {
         static let categoryName = NSLocalizedString("CategoryName", comment: "category name place holder")
         static let commentEntry = NSLocalizedString("CommentEntry", comment: "comment entry placeholder")
         static let commentEmptyState = NSLocalizedString("CommentEmptyState", comment: "No comments message")
-        
     }
   
     enum Alert {
@@ -108,16 +105,13 @@ enum Text {
         static let deleteAccountTitle = NSLocalizedString("AlertDeleteAccountTitle", comment: "delete account title")
         static let deleteAccountMessage = NSLocalizedString("AlertDeleteAccountMessage", comment: "auth message")
         static let descriptionChangedTitle = NSLocalizedString("Description", comment: "description title")
-        static let descriptionChangedMessage = NSLocalizedString("AlertDescriptionChangedMessage",
-                                                                 comment: "description change message")
+        static let descriptionChangedMessage = NSLocalizedString("AlertDescriptionChangedMessage", comment: "description change message")
         static let forgotPasswordTitle = NSLocalizedString("AlertPasswordForgottenTitle",  comment: "Password forgotten title")
-        static let forgotPasswordMessage = NSLocalizedString("AlertPasswordForgottenMessage",
-                                                             comment: "Reset password message")
+        static let forgotPasswordMessage = NSLocalizedString("AlertPasswordForgottenMessage", comment: "Reset password message")
         static let deleteBookTitle = NSLocalizedString("AlertDeleteBookTitle",  comment: "delete book title")
         static let deleteBookMessage = NSLocalizedString("AlertDeleteBookMessage",  comment: "delete book message")
         static let cameraUnavailableTitle = NSLocalizedString("AlertCameraUnavailableTitle", comment: "Camera unavailable title")
-        static let cameraUnavailableMessage = NSLocalizedString("AlertCameraUnavailableMessage",
-                                                                comment: "Camera unavailable message")
+        static let cameraUnavailableMessage = NSLocalizedString("AlertCameraUnavailableMessage", comment: "Camera unavailable message")
         static let newCategoryTitle = NSLocalizedString("AlertNewCategoryTitle", comment: "new category title")
         static let newCategoryMessage = NSLocalizedString("AlertNewCategoryMessage", comment: "new category message")
         static let deleteCategoryMessage = NSLocalizedString("AlertDeleteCategoryMessage", comment: "delete category message")
@@ -136,8 +130,7 @@ enum Text {
         static let accountDeleted = NSLocalizedString("AccountDeleted", comment: "account deleted title")
         static let bookDeleted = NSLocalizedString("BookDeleted", comment: "book deleted title")
         static let cameraPermissionsTitle = NSLocalizedString("Permissions",  comment: "camer aPermissions Title")
-        static let cameraPermissionsMessage = NSLocalizedString("CameraPermissionsMessage",
-                                                                comment: "camera Permissions Message")
+        static let cameraPermissionsMessage = NSLocalizedString("CameraPermissionsMessage", comment: "camera Permissions Message")
         static let categoryAddedTitle = NSLocalizedString("CategoryAdded", comment: "category Added Title")
         static let categoryModfiedTitle = NSLocalizedString("CategoryModified", comment: "category Modfied Title")
         static let unableToOpenMailAppTitle = NSLocalizedString("UnableToOpenMailApp", comment: "unable to open mail Title")

@@ -72,7 +72,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
+        let scannerButton = UIBarButtonItem(image: Images.NavIcon.scanBarcode,
                                             style: .plain,
                                             target: self,
                                             action: #selector(showScannerController))

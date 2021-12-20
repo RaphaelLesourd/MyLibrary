@@ -68,7 +68,7 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.gridLayoutMenu,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                                             primaryAction: nil,
                                                             menu: bookListMenu?.configureLayoutMenu())
     }

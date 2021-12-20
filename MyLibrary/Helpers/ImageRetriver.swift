@@ -19,9 +19,8 @@ class ImageRetriver: ImageRetriverProtocol {
             completion(Images.emptyStateBookImage)
             return
         }
-        KingfisherManager.shared.retrieveImage(with: imageURL,
-                                               options: [.cacheOriginalImage, .keepCurrentImageWhileLoading],
-                                               completionHandler: { response in
+        let options: KingfisherOptionsInfo = [.cacheOriginalImage, .keepCurrentImageWhileLoading]
+        KingfisherManager.shared.retrieveImage(with: imageURL, options: options, completionHandler: { response in
             switch response {
             case .success(let value):
                     completion(value.image)

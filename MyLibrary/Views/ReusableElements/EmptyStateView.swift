@@ -24,7 +24,7 @@ class EmptyStateView: UIView {
     private let image: UIImageView = {
         let imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium, scale: .small)
-        imageView.image = Images.booksIcon
+        imageView.image = Images.TabBarIcon.booksIcon
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .tertiaryLabel
         imageView.translatesAutoresizingMaskIntoConstraints = false

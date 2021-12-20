@@ -85,7 +85,7 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        mainView.editButton = UIBarButtonItem(image: Images.editBookIcon,
+        mainView.editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
                                               style: .plain,
                                               target: self,
                                               action: #selector(editBook))

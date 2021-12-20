@@ -45,9 +45,9 @@ class TabBarController: UITabBarController {
                                                                           layoutComposer: HomeViewControllerLayout(),
                                                                           categoryService: CategoryService()),
                                                      title: Text.ControllerTitle.home,
-                                                     image: Images.homeIcon!)
+                                                     image: Images.TabBarIcon.homeIcon!)
         
-        let libraryIconImage = Images.booksIcon ?? Images.openBookIcon!
+        let libraryIconImage = Images.TabBarIcon.booksIcon ?? Images.TabBarIcon.openBookIcon!
         let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                                                     libraryService: LibraryService(),
                                                                                     layoutComposer: ListLayout()),
@@ -58,7 +58,7 @@ class TabBarController: UITabBarController {
                                                                             formatter: Formatter(),
                                                                             validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,
-                                                    image: Images.newBookIcon!)
+                                                    image: Images.TabBarIcon.newBookIcon!)
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
@@ -67,7 +67,7 @@ class TabBarController: UITabBarController {
                                                                                 imageService: ImageStorageService(),
                                                                                 feedbackManager: FeedbackManager(presentationController: self)),
                                                         title: Text.ControllerTitle.account,
-                                                        image: Images.accountIcon!)
+                                                        image: Images.TabBarIcon.accountIcon!)
         viewControllers = [homeViewController,
                            libraryViewController,
                            newViewController,

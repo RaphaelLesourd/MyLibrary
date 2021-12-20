@@ -36,22 +36,24 @@ class AlertManager {
                                 on controller: UIViewController,
                                 cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
                                 actionHandler: ((_ text: String?) -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
-        alert.addTextField { (textfield: UITextField) in
-            textfield.text = inputText
-            textfield.placeholder = inputPlaceholder
-            textfield.keyboardType = inputKeyboardType
-            textfield.autocapitalizationType = .sentences
-        }
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { _ in
-            guard let textField =  alert.textFields?.first else {
-                actionHandler?(nil)
-                return
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+            alert.addTextField { (textfield: UITextField) in
+                textfield.text = inputText
+                textfield.placeholder = inputPlaceholder
+                textfield.keyboardType = inputKeyboardType
+                textfield.autocapitalizationType = .sentences
             }
-            actionHandler?(textField.text)
-        }))
-        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
-        controller.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { _ in
+                guard let textField =  alert.textFields?.first else {
+                    actionHandler?(nil)
+                    return
+                }
+                actionHandler?(textField.text)
+            }))
+            alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
+            controller.present(alert, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Banner

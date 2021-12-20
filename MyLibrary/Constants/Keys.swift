@@ -6,12 +6,12 @@
 //
 
 enum ApiKeys {
-    static var fcmKEY = ""
+    static var fcmKEY = String()
 }
 
 enum ApiUrl {
-    static var googleBooksURL = ""
-    static var fcmURL = ""
+    static var googleBooksURL = String()
+    static var fcmURL = String()
 }
 
 enum CollectionDocumentKey: String, CaseIterable {
