@@ -66,9 +66,7 @@ class BookCardViewController: UIViewController {
         mainView.delegate = self
         addNavigationBarButtons()
         configureUI()
-        mainView.displayBookInfos(with: book)
-        displayBookCover()
-        displayCategoryNames()
+        displayBookData()
         setFavoriteState()
         setRecommandState()
     }
@@ -117,7 +115,7 @@ class BookCardViewController: UIViewController {
             recommandedBook = recommand
         }
     }
-    
+   
     // MARK: - Api call
     private func deleteBook() {
         showIndicator(mainView.activityIndicator)
@@ -166,6 +164,12 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: - Configure view
+    private func displayBookData() {
+        mainView.displayBookInfos(with: book)
+        displayBookCover()
+        displayCategoryNames()
+    }
+    
     private func displayBookCover() {
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             guard let image = image else { return }
@@ -195,11 +199,11 @@ class BookCardViewController: UIViewController {
 }
 // MARK: - BookCardDelegate
 extension BookCardViewController: BookCardDelegate {
+    
     func fetchBookUpdate() {
         showIndicator(mainView.activityIndicator)
         guard let bookID = book.bookID,
               let ownerID = book.ownerID else { return }
-        
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             guard let self = self else { return }
             
@@ -208,6 +212,7 @@ extension BookCardViewController: BookCardDelegate {
             case .success(let book):
                 DispatchQueue.main.async {
                     self.book = book
+                    self.displayBookData()
                 }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
