@@ -15,10 +15,10 @@ enum Images {
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)
         
-        static let scanBarcode = UIImage(systemName: "viewfinder.circle", withConfiguration: Images.NavIcon.configuration)
-        static let editBookIcon = UIImage(systemName: "pencil.circle", withConfiguration: Images.NavIcon.configuration)
-        static let gridLayoutMenu = UIImage(systemName: "ellipsis.circle", withConfiguration: Images.NavIcon.configuration)
-        static let addIcon = UIImage(systemName: "plus.circle", withConfiguration: Images.NavIcon.configuration)
+        static let scanBarcode = UIImage(systemName: "viewfinder.circle.fill", withConfiguration: Images.NavIcon.configuration)
+        static let editBookIcon = UIImage(systemName: "pencil.circle.fill", withConfiguration: Images.NavIcon.configuration)
+        static let gridLayoutMenu = UIImage(systemName: "ellipsis.circle.fill", withConfiguration: Images.NavIcon.configuration)
+        static let addIcon = UIImage(systemName: "plus.circle.fill", withConfiguration: Images.NavIcon.configuration)
     }
     
     enum LayoutMenu {

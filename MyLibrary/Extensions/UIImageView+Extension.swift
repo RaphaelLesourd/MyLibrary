@@ -8,8 +8,7 @@
 import UIKit
 
 extension UIImageView {
-    
-   func addFadeGradient() {
+    func addFadeGradient() {
         let gradientLayer = CAGradientLayer()
         self.layer.sublayers?.removeAll()
         gradientLayer.removeFromSuperlayer()

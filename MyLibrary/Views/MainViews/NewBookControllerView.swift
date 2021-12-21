@@ -104,7 +104,7 @@ class NewBookControllerView {
         ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
     }
     
-    // MARK: Targets
+    // MARK: - Targets
     @objc private func saveBook() {
         delegate?.saveBook()
     }

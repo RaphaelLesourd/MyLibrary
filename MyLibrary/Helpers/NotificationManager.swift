@@ -42,7 +42,9 @@ class NotificationManager: NSObject {
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             switch result {
             case .success(let book):
-                self?.presentCommentController(with: book)
+                DispatchQueue.main.async {
+                    self?.presentCommentController(with: book)
+                }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -63,6 +65,7 @@ class NotificationManager: NSObject {
         }
     }
 }
+
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
    
@@ -70,21 +73,27 @@ extension NotificationManager: MessagingDelegate {
         updateToken()
     }
 }
+
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
-   
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        didReceive(response.notification)
-    }
-
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        return [.banner, .list, .badge, .sound]
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        didReceive(response.notification)
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .list, .badge, .sound])
     }
 }
+
 // MARK: - Extension NotificationProtocol
 extension NotificationManager: NotificationManagerProtocol {
-  
+    
     func resetNotificationBadgeCount() {
         UIApplication.shared.applicationIconBadgeNumber = 0
         UserDefaults.standard.set(0, forKey: StorageKey.badge.rawValue)

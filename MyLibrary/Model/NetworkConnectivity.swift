@@ -7,6 +7,9 @@
 
 import Network
 
+/// Singleton patern class  monitring if there is network connection or not.
+/// Used only when a image need to be stored in Firebase storage.
+/// All other firebase CRUD fonctions avec peristed offline within the app.
 class Networkconnectivity {
     
     static let shared = Networkconnectivity()

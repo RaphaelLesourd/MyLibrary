@@ -96,8 +96,8 @@ class LibraryService {
         
         switch query.listType {
         case .categories:
-            if let categoryName = query.fieldValue {
-                docRef = docRef.whereField(DocumentKey.category.rawValue, arrayContains: categoryName)
+            if let categoryID = query.fieldValue {
+                docRef = docRef.whereField(DocumentKey.category.rawValue, arrayContains: categoryID)
             }
         case .newEntry, .none:
             docRef = docRef.order(by: query.orderedBy.rawValue, descending: query.descending)

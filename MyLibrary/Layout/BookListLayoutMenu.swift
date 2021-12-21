@@ -9,6 +9,7 @@ import UIKit
 
 protocol BookListLayoutDelegate: AnyObject {
     func setLayoutFromMenu(for layout: GridItemSize)
+    func orderList(by type: DocumentKey)
 }
 
 class BookListLayoutMenu {
@@ -22,8 +23,9 @@ class BookListLayoutMenu {
     }
     
     // MARK: - Public functions
-    func configureLayoutMenu() -> UIMenu {
-        UIMenu(title: Text.Misc.sizeMenuTitle, image: nil, identifier: nil, children: createMenuItems())
+    func configureLayoutMenu(withFilterMenu: Bool) -> UIMenu {
+        let menuItems = createMenuItems(filterOptions: withFilterMenu)
+        return UIMenu(title: Text.ListMenu.bookListMenuTitle, image: nil, identifier: nil, children: menuItems)
     }
     
     func loadLayoutChoice() {
@@ -33,8 +35,12 @@ class BookListLayoutMenu {
     }
     
     // MARK: - Private functions
-    private func createMenuItems() -> [UIMenuElement] {
+    private func createMenuItems(filterOptions: Bool) -> [UIMenuElement] {
         var items: [UIMenuElement] = []
+        if filterOptions == true {
+           items.append(filterMenu())
+        }
+     
         GridItemSize.allCases.forEach({ gridSize in
             let item = UIAction(title: gridSize.title, image: gridSize.image, handler: { [weak self] (_) in
                 self?.delegate?.setLayoutFromMenu(for: gridSize)
@@ -43,6 +49,18 @@ class BookListLayoutMenu {
             items.append(item)
         })
         return items
+    }
+    
+    private func filterMenu() -> UIMenu {
+    
+        var items: [UIMenuElement] = []
+        QueryType.allCases.forEach({ query in
+            let item = UIAction(title: query.title, image: nil, handler: { [weak self] (_) in
+                self?.delegate?.orderList(by: query.documentKey)
+            })
+            items.append(item)
+        })
+        return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: items)
     }
   
     private func saveLayoutChoice(for grid: CGFloat) {

@@ -15,11 +15,11 @@ enum GridItemSize: CGFloat, CaseIterable {
     var title: String {
         switch self {
         case .large:
-            return Text.ButtonTitle.large
+            return Text.ListMenu.large
         case .medium:
-            return Text.ButtonTitle.medium
+            return Text.ListMenu.medium
         case .small:
-            return Text.ButtonTitle.small
+            return Text.ListMenu.small
         }
     }
     

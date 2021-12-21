@@ -63,11 +63,13 @@ class CommentsBookCell: UITableViewCell {
 }
 // MARK: - Constraints
 extension CommentsBookCell {
+    
     private func setBookCoverConstraints() {
-        contentView.addSubview(bookCover)
         let bookCoverHeight = bookCover.heightAnchor.constraint(equalToConstant: 100)
         bookCoverHeight.priority = UILayoutPriority.defaultLow
         bookCover.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
            bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

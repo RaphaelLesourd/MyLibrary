@@ -114,6 +114,7 @@ class HomeViewController: CollectionViewController {
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
         let bookListVC = BookLibraryViewController(currentQuery: query,
+                                                   queryService: QueryService(),
                                                    libraryService: LibraryService(),
                                                    layoutComposer: ListLayout())
         bookListVC.title = title

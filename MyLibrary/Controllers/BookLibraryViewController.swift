@@ -18,6 +18,7 @@ class BookLibraryViewController: CollectionViewController {
     private var footerView = LoadingFooterSupplementaryView()
     private var layoutComposer: ListLayoutComposer
     private var libraryService: LibraryServiceProtocol
+    private var queryService: QueryServiceProtocol
     private var bookListMenu: BookListLayoutMenu?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
@@ -31,9 +32,11 @@ class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Initializer
     init(currentQuery: BookQuery,
+         queryService: QueryService,
          libraryService: LibraryServiceProtocol,
          layoutComposer: ListLayoutComposer) {
         self.currentQuery = currentQuery
+        self.queryService = queryService
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -46,9 +49,11 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        queryService.currentQuery = currentQuery
         bookListMenu = BookListLayoutMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
+      
         configureCollectionView()
         configureNavigationBarButton()
         configureRefresherControl()
@@ -68,9 +73,10 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
+        let show: Bool = currentQuery.listType != .categories
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                                             primaryAction: nil,
-                                                            menu: bookListMenu?.configureLayoutMenu())
+                                                            menu: bookListMenu?.configureLayoutMenu(withFilterMenu: show))
     }
     
     private func setTitle() -> String {
@@ -172,6 +178,12 @@ extension BookLibraryViewController {
 }
 // MARK: - Extension BookListLayoutDelegate
 extension BookLibraryViewController: BookListLayoutDelegate {
+   
+    func orderList(by type: DocumentKey) {
+        queryService.currentQuery = currentQuery
+        currentQuery = queryService.getQuery(with: type)
+        refreshBookList()
+    }
     
     func setLayoutFromMenu(for layout: GridItemSize) {
         gridItemSize = layout

@@ -25,14 +25,14 @@ class TextFieldStaticCell: UITableViewCell {
     
     convenience init(placeholder: String, keyboardType: UIKeyboardType = .default) {
         self.init()
-        titleLabel.text              = placeholder
+        titleLabel.text = placeholder
         textField.autocorrectionType = .no
-        textField.placeholder        = placeholder
-        textField.keyboardType       = keyboardType
+        textField.placeholder = placeholder
+        textField.keyboardType = keyboardType
     }
     // MARK: - Subviews
     let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
-    let textField  = TextField()
+    let textField = TextField()
     private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)
 }
 // MARK: - Constraints

@@ -45,7 +45,7 @@ class CategoriesViewController: UIViewController {
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         getCategoryList()
-        setCategories()
+        highlightBookCategories()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,7 +71,7 @@ class CategoriesViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
-    private func setCategories() {
+    private func highlightBookCategories() {
         selectedCategories.forEach({ categories in
             if let index = categoryService.categories.firstIndex(where: { $0.uid == categories }) {
                 let indexPath = IndexPath(row: index, section: 0)
@@ -185,6 +185,7 @@ extension CategoriesViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(categoryService.categories, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        highlightBookCategories()
     }
 }
 // MARK: - TableView Delegate

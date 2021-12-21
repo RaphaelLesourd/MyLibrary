@@ -58,6 +58,8 @@
 		81451DCE276F345C00F3C0C8 /* BarcodeControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */; };
 		81451DD0276F44B200F3C0C8 /* scanner.json in Resources */ = {isa = PBXBuildFile; fileRef = 81451DCF276F44B200F3C0C8 /* scanner.json */; };
 		81451DD527705FDA00F3C0C8 /* AlgoliaSearchClient in Frameworks */ = {isa = PBXBuildFile; productRef = 81451DD427705FDA00F3C0C8 /* AlgoliaSearchClient */; };
+		81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451DD62770C12400F3C0C8 /* QueryService.swift */; };
+		81451DDB2770CB7A00F3C0C8 /* QueryserviceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */; };
 		8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 814751692727D80E0080C5BA /* GoogleService-Info.plist */; };
 		8147516C2727E67F0080C5BA /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516B2727E67F0080C5BA /* AppText.swift */; };
 		8147516E2727E9490080C5BA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Images.swift */; };
@@ -241,6 +243,8 @@
 		813B7C792733ADFD005BFBDB /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeControllerView.swift; sourceTree = "<group>"; };
 		81451DCF276F44B200F3C0C8 /* scanner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scanner.json; sourceTree = "<group>"; };
+		81451DD62770C12400F3C0C8 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
+		81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryserviceTestCase.swift; sourceTree = "<group>"; };
 		814751692727D80E0080C5BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8147516B2727E67F0080C5BA /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
 		8147516D2727E9490080C5BA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -534,6 +538,7 @@
 				81C6CCC927247AB100DE9219 /* Extensions */,
 				8121F07A273A9A3E006EAA8D /* Constants */,
 				81C6CCAC2724799000DE9219 /* Helpers */,
+				811713F3274D6B5D0051059C /* Layout */,
 				81C6CCAE272479B300DE9219 /* Model */,
 				81C6CCB0272479CA00DE9219 /* Views */,
 				81C6CCA32724774800DE9219 /* Controllers */,
@@ -545,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				8138DDE32747869C00C355C6 /* FormatterTestCase.swift */,
+				81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */,
 				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
 				81242D4C272D984F00CB39B1 /* Network */,
@@ -609,6 +615,7 @@
 			children = (
 				8138DDE1274784D400C355C6 /* Formatter.swift */,
 				811713F4274E1F670051059C /* NetworkConnectivity.swift */,
+				81451DD62770C12400F3C0C8 /* QueryService.swift */,
 				81B91844274BCFDD00486176 /* Validator.swift */,
 				81DE9CAD2736E28E00FF81C2 /* DataModel */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
@@ -621,7 +628,6 @@
 			isa = PBXGroup;
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
-				811713F3274D6B5D0051059C /* Layout */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				812047FE272ACE9B00E0A45B /* Static Cells */,
@@ -992,6 +998,7 @@
 				811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */,
 				81792F612732756D005F863B /* StackView.swift in Sources */,
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
+				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
 				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
 				816AE81C275F68A800747548 /* AlertManager.swift in Sources */,
@@ -1092,6 +1099,7 @@
 				81B9184B274CE12200486176 /* XCTestCase+Extension.swift in Sources */,
 				81B91847274BD2F200486176 /* ValidatorTestCase.swift in Sources */,
 				81242D54272D986100CB39B1 /* SearchServiceTestCase.swift in Sources */,
+				81451DDB2770CB7A00F3C0C8 /* QueryserviceTestCase.swift in Sources */,
 				810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

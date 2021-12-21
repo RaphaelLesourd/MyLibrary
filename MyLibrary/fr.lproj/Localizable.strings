@@ -130,7 +130,7 @@
 "PhotoLibrary" = "Phototèque";
 "AccessNotAuthorized" = "Acces non autorisé";
 "Today" = "Aujourd'hui";
-"SizeMenuTitle" = "Taille des images";
+"BookListMenuTitle" = "Liste";
 "Large" = "Large";
 "Medium" = "Moyenne";
 "Small" = "Petite";
@@ -139,3 +139,7 @@
 "CloseKeyboard" = "Fermer";
 "BarcodeControllerTitle" = "Scanner code barre";
 "BarcodeControllerSubitle" = "Positionez le code barre au centre.";
+"ByTimestampList" = "Par date d'ajout";
+"ByTitleList" = "Par titre";
+"ByAuthorList" = "Par auteur";
+"ByRatingList" = "Par note";

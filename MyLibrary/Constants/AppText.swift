@@ -85,9 +85,6 @@ enum Text {
         static let camera = NSLocalizedString("TakePhoto", comment: "camera title")
         static let cameraRoll = NSLocalizedString("CameraRoll", comment: "camera roll title")
         static let photoLibrary = NSLocalizedString("PhotoLibrary", comment: "photo library title")
-        static let large = NSLocalizedString("Large", comment: "large size title")
-        static let medium = NSLocalizedString("Medium", comment: "medium size title")
-        static let small = NSLocalizedString("Small", comment: "small size title")
     }
     
     enum Placeholder {
@@ -145,8 +142,18 @@ enum Text {
         static let appVersion = NSLocalizedString("Version", comment: "app version title")
         static let appBuild = NSLocalizedString("Build", comment: "app build number title")
         static let appCreationYear = NSLocalizedString("AppCreationYear", comment: "year app created title")
-        static let sizeMenuTitle = NSLocalizedString("SizeMenuTitle", comment: "size menu title")
         static let notificationSaidComment = NSLocalizedString("said", comment: "said word when user said ...")
         static let closeKeyboardButton = NSLocalizedString("CloseKeyboard", comment: "Close keyboard button")
+    }
+    
+    enum ListMenu {
+        static let bookListMenuTitle = NSLocalizedString("BookListMenuTitle", comment: "Book List Menu Title")
+        static let byTimestamp = NSLocalizedString("ByTimestampList", comment: "By Timestamp menu list")
+        static let byTitle = NSLocalizedString("ByTitleList", comment: "ByTitle menu list")
+        static let byAuthor = NSLocalizedString("ByAuthorList", comment: "ByAuthor menu list")
+        static let byRating = NSLocalizedString("ByRatingList", comment: "ByRating menu list")
+        static let large = NSLocalizedString("Large", comment: "large size title")
+        static let medium = NSLocalizedString("Medium", comment: "medium size title")
+        static let small = NSLocalizedString("Small", comment: "small size title")
     }
 }

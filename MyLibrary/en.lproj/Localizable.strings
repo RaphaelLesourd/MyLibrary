@@ -130,7 +130,7 @@
 "PhotoLibrary" = "Photo library";
 "AccessNotAuthorized" = "Access not authorized";
 "Today" = "Today";
-"SizeMenuTitle" = "View size";
+"BookListMenuTitle" = "List";
 "Large" = "Large";
 "Medium" = "Medium";
 "Small" = "Small";
@@ -139,3 +139,7 @@
 "CloseKeyboard" = "Close";
 "BarcodeControllerTitle" = "Barcode scanner";
 "BarcodeControllerSubitle" = "Position the barcode in the frame to scan it.";
+"ByTimestampList" = "By date added";
+"ByTitleList" = "By title";
+"ByAuthorList" = "By author";
+"ByRatingList" = "By rating";

@@ -33,12 +33,14 @@ enum DocumentKey: String {
     case favorite
     case recommanding
     case title = "volumeInfo.title"
-    case author = "VolumeInfo.author"
+    case author = "volumeInfo.authors"
     case category
     case name
     case fcmToken
     case ownerID
     case userID
+    case rating = "volumeInfo.ratingsCount"
+    case publishedDate = "volumeInfo.publishedDate"
 }
 
 enum StorageKey: String {

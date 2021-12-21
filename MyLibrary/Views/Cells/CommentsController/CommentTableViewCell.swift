@@ -12,7 +12,7 @@ class CommentTableViewCell: UITableViewCell {
     static let reuseIdentifier = "cell"
     
     private let imageLoader: ImageRetriverProtocol
-    private let formatter  : FormatterProtocol
+    private let formatter: FormatterProtocol
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
