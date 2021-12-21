@@ -37,12 +37,12 @@ class FormatterTestCase: XCTestCase {
 
     func givenDecimalStringWithComma_whenConvertingToDouble_returnDouble() {
         let decimalString = "25,5"
-        XCTAssertEqual(sut?.formatDecimalString(decimalString), 25.5)
+        XCTAssertEqual(sut?.formatStringToDouble(decimalString), 25.5)
     }
     
     func givenDecimalStringWithPeriod_whenConvertingToDouble_thenReturnDouble() {
         let decimalString = "2.5"
-        XCTAssertEqual(sut?.formatDecimalString(decimalString), 2.5)
+        XCTAssertEqual(sut?.formatStringToDouble(decimalString), 2.5)
     }
     
     func test_givenString_whenConvertToInt_thenReturnInt() {
@@ -53,8 +53,8 @@ class FormatterTestCase: XCTestCase {
     func test_givenPriceAndCurrency_whenFormattingPrice_thenReturnPrice() {
         let currencyCode = "USD"
         let price = 21.5
-        let itemPrice = sut?.formatCurrency(with: price, currencyCode: currencyCode)
-        XCTAssertEqual(itemPrice, "$21.5")
+        let itemPrice = sut?.formatDoubleToCurrency(with: price, currencyCode: currencyCode)
+        XCTAssertEqual(itemPrice, "$21.50")
     }
     
     func test_givenLanguageCode_whenConvertingToLanguageName_thenLanguageName() {
@@ -88,11 +88,11 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenNilDecimalString_whenConvertingToDouble_thenReturnZero() {
-        XCTAssertEqual(sut?.formatDecimalString(nil), 0)
+        XCTAssertEqual(sut?.formatStringToDouble(nil), 0)
     }
     
     func test_givenStringWithLetter_whenConvertingToDouble_thenReturnZero() {
-        XCTAssertEqual(sut?.formatDecimalString("abcde"), 0)
+        XCTAssertEqual(sut?.formatStringToDouble("abcde"), 0)
     }
     
     
@@ -107,17 +107,17 @@ class FormatterTestCase: XCTestCase {
     
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {
         let currencyCode = "USD"
-        let itemPrice = sut?.formatCurrency(with: nil, currencyCode: currencyCode)
+        let itemPrice = sut?.formatDoubleToCurrency(with: nil, currencyCode: currencyCode)
         XCTAssertEqual(itemPrice, "$0")
     }
     
     func test_givenNilPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceSetAtZeroWithDefaultEuroCurrency() {
-        let itemPrice = sut?.formatCurrency(with: nil, currencyCode: nil)
+        let itemPrice = sut?.formatDoubleToCurrency(with: nil, currencyCode: nil)
         XCTAssertEqual(itemPrice, "€0")
     }
     
     func test_givenPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceWithDefaultEuroCurrency() {
-        let itemPrice = sut?.formatCurrency(with: 25, currencyCode: nil)
+        let itemPrice = sut?.formatDoubleToCurrency(with: 25, currencyCode: nil)
         XCTAssertEqual(itemPrice, "€25")
     }
     

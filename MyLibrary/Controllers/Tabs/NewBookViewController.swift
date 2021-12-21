@@ -173,7 +173,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
         
-        let price = formatter.formatDecimalString(newBookView.purchasePriceCell.textField.text)
+        let price = formatter.formatStringToDouble(newBookView.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
         
         return Item(bookID: newBook?.bookID ?? "",

@@ -65,7 +65,7 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Create
     func createAccount(for userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }
@@ -98,7 +98,7 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Delete Account flow
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }
@@ -162,7 +162,7 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Forgot password
     func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }

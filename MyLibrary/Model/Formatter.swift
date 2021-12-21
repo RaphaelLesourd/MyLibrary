@@ -10,9 +10,9 @@ import Foundation
 protocol FormatterProtocol {
     func joinArrayToString(_ dataArray: [String]?) -> String
     func formatStringToInt(_ value: String?) -> Int
-    func formatCurrency(with value: Double?, currencyCode: String?) -> String
+    func formatDoubleToCurrency(with value: Double?, currencyCode: String?) -> String
     func formatDateToYearString(for dateString: String?) -> String
-    func formatDecimalString(_ decimalString: String?) -> Double
+    func formatStringToDouble(_ decimalString: String?) -> Double
     func formatCodeToName(from code: String?, type: CodeType) -> String
     func formatTimeStampToRelativeDate(for timestamp: Double?) -> String
 }
@@ -66,11 +66,12 @@ class Formatter: FormatterProtocol {
     /// Format a String to Double
     /// - Parameter value: Optional  String
     /// - Returns: Double
-    func formatDecimalString(_ value: String?) -> Double {
+    func formatStringToDouble(_ value: String?) -> Double {
         guard let value = value else {
             return 0
         }
-        return NumberFormatter().number(from: value)?.doubleValue ?? 0
+        let formatter = NumberFormatter()
+        return formatter.number(from: value)?.doubleValue ?? 0
     }
     
     /// Format a string to Int
@@ -80,7 +81,8 @@ class Formatter: FormatterProtocol {
         guard let value = value else {
             return 0
         }
-        return NumberFormatter().number(from: value)?.intValue ?? 0
+        let formatter = NumberFormatter()
+        return formatter.number(from: value)?.intValue ?? 0
     }
     
     /// Format a price
@@ -88,14 +90,16 @@ class Formatter: FormatterProtocol {
     /// since we’re in complete control over the NSNumber that is being passed into it.
     /// - Parameter currencyCode: 3 letters currency code (ie: EUR, USD etc)
     /// - Returns: Formatted price with currency symbal and remova lof trailing 0.
-    func formatCurrency(with value: Double?, currencyCode: String?) -> String {
+    func formatDoubleToCurrency(with value: Double?, currencyCode: String?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.minimumFractionDigits = 0
+        formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
+        formatter.locale = .current
         formatter.currencyCode = currencyCode ?? "EUR"
         let number = NSNumber(value: value ?? 0)
-        return formatter.string(from: number)!
+        let stringValue = formatter.string(from: number)!
+        return stringValue.replacingOccurrences(of: ".00", with: "")
     }
     
     /// Format a language or currency code to human readable string.

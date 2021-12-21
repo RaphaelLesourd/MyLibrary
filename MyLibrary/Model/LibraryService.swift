@@ -129,7 +129,7 @@ extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update
     func createBook(with book: Item, and imageData: Data, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }

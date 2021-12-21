@@ -28,8 +28,4 @@ class Networkconnectivity {
         let queue = DispatchQueue(label: "NetworkMonitor")
         networkMonitor.start(queue: queue)
     }
-    
-    class func isConnectedToNetwork() -> Bool {
-        return shared.isReachable
-    }
 }

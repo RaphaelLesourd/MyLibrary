@@ -51,6 +51,7 @@
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */; };
+		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		8138DDE2274784D400C355C6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE1274784D400C355C6 /* Formatter.swift */; };
 		8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE32747869C00C355C6 /* FormatterTestCase.swift */; };
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
@@ -237,6 +238,7 @@
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanViewController.swift; sourceTree = "<group>"; };
+		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		8138DDE1274784D400C355C6 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		8138DDE32747869C00C355C6 /* FormatterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterTestCase.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				8138DDE32747869C00C355C6 /* FormatterTestCase.swift */,
+				812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */,
 				81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */,
 				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
@@ -1089,6 +1092,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */,
+				812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */,
 				81DE9CA12733D3E400FF81C2 /* UserServiceTestCase.swift in Sources */,
 				81242D52272D986100CB39B1 /* FakeData.swift in Sources */,
 				81B9184F274D33C300486176 /* CategoryServiceTestCase.swift in Sources */,

@@ -117,7 +117,7 @@ class BookCardMainView: UIView {
         purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book?.saleInfo?.retailPrice?.currencyCode
         let price = book?.saleInfo?.retailPrice?.amount
-        purchaseDetailView.purchasePriceLabel.text = formatter?.formatCurrency(with: price, currencyCode: currency)
+        purchaseDetailView.purchasePriceLabel.text = formatter?.formatDoubleToCurrency(with: price, currencyCode: currency)
         bookDetailView.languageView.infoLabel.text = formatter?.formatCodeToName(from: book?.volumeInfo?.language,
                                                                                  type: .language).capitalized
     }
