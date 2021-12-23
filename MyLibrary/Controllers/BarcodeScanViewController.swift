@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 /// Protocol to pass barcode string value back to the requesting controller.
 protocol BarcodeScannerDelegate: AnyObject {
@@ -20,7 +21,7 @@ class BarcodeScanViewController: UIViewController {
     var fetchedBarcode: String?
     var flashLightIsOn = false {
         didSet {
-            barcodeCapture?.toggleTorch(onState: flashLightIsOn)
+            toggleTorch(onState: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
@@ -62,6 +63,22 @@ class BarcodeScanViewController: UIViewController {
     @objc private func toggleFlashLight() {
         flashLightIsOn.toggle()
     }
+    
+    private func toggleTorch(onState: Bool) {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video),
+              device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+            device.torchMode = onState ? .on : .off
+            if onState {
+                try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
+            }
+            device.unlockForConfiguration()
+        } catch {
+            print("Torch could not be used")
+        }
+    }
+    
 }
 
 // MARK: - Extension barcode capture delegate

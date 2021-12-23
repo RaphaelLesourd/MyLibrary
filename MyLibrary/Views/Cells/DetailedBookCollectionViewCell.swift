@@ -16,8 +16,10 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         imageLoader = KingFisherImageRetriever()
         super.init(frame: .zero)
-        textStackView.addArrangedSubview(titleView)
-        textStackView.addArrangedSubview(descriptionLabel)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subtitleLabel)
+        stackView.addArrangedSubview(descriptionLabel)
+        stackView.setCustomSpacing(5, after: titleLabel)
         
         setBookCoverViewWidth()
         setTitleStackview()
@@ -26,17 +28,18 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-  
-   // MARK: - Subviews
+    
+    // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleView = CellTitleView()
+    private let titleLabel = TextLabel(fontSize: 13, weight: .bold)
+    private let subtitleLabel = TextLabel(fontSize: 12, weight: .regular)
     private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
-    private let textStackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
+    private let stackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
     
     // MARK: - Configure
     func configure(with book: Item) {
-        titleView.titleLabel.text = book.volumeInfo?.title
-        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
+        titleLabel.text = book.volumeInfo?.title
+        subtitleLabel.text = book.volumeInfo?.authors?.first
         descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
         
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
@@ -45,8 +48,8 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        titleView.titleLabel.text = nil
-        titleView.subtitleLabel.text = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
         descriptionLabel.text = nil
         bookCover.image = Images.emptyStateBookImage
     }
@@ -65,12 +68,12 @@ extension DetailedBookCollectionViewCell {
     }
     
     private func setTitleStackview() {
-        contentView.addSubview(textStackView)
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            textStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            textStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
-            textStackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
-            textStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            stackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

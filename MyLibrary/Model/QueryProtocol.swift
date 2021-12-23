@@ -6,6 +6,5 @@
 //
 
 protocol QueryProtocol {
-    var currentQuery: BookQuery? { get set }
-    func getQuery(with type: DocumentKey?) -> BookQuery
+    func updateQuery(from currentQuery: BookQuery?, with type: DocumentKey?) -> BookQuery
 }

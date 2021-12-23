@@ -48,7 +48,6 @@ class BookLibraryViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
-        queryService.currentQuery = currentQuery
         bookListMenu = BookListLayoutMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         
@@ -184,8 +183,7 @@ extension BookLibraryViewController {
 extension BookLibraryViewController: BookListLayoutDelegate {
    
     func orderList(by listType: DocumentKey) {
-        queryService.currentQuery = currentQuery
-        currentQuery = queryService.getQuery(with: listType)
+        currentQuery = queryService.updateQuery(from: currentQuery, with: listType)
         refreshBookList()
     }
     

@@ -60,7 +60,7 @@ class AccountMainView: UIView {
                                              returnKey: .next,
                                              correction: .no,
                                              capitalization: .none)
-    let actionButton = ActionButton(title: "", tintColor: .appTintColor)
+    let actionButton = Button(title: "", tintColor: .appTintColor)
     
     let forgotPasswordButton: UIButton = {
         let button = UIButton()

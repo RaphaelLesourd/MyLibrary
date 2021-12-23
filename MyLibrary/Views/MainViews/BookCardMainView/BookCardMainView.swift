@@ -10,6 +10,7 @@ import Lottie
 
 protocol BookCardMainViewDelegate: AnyObject {
     func recommandButtonAction()
+    func editBook()
     func deleteBookAction()
     func favoriteButtonAction()
     func showComments()
@@ -45,11 +46,13 @@ class BookCardMainView: UIView {
     }
     
     // MARK: - Subviews
-    var editButton = UIBarButtonItem()
-    var activityIndicatorButton = UIBarButtonItem()
     let activityIndicator = UIActivityIndicatorView()
-    let commentView = BookCardCommentView()
-    let recommandButton = ActionButton(title: "")
+    let editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(editBook))
+    lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
+    let recommandButton = Button(title: "")
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle(Text.ButtonTitle.deleteBook, for: .normal)
@@ -66,17 +69,7 @@ class BookCardMainView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
-    private let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
-    private let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
-    private let ratingView = RatingView()
-    private let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
-    private let purchaseDetailView = PurchaseView()
-    private let bookDetailView = BookDetailView()
-    private let isbnLabel = TextLabel(color: .secondaryLabel)
-    private let mainStackView = StackView(axis: .vertical, spacing: 30)
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -100,6 +93,17 @@ class BookCardMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    private let commentView = BookCardCommentView()
+    private let bookCover = BookCover(frame: .zero)
+    private let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
+    private let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
+    private let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    private let ratingView = RatingView()
+    private let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    private let purchaseDetailView = PriceView()
+    private let bookDetailView = BookDetailView()
+    private let isbnLabel = TextLabel(color: .secondaryLabel)
+    private let mainStackView = StackView(axis: .vertical, spacing: 30)
     
     // MARK: - Configure
     func displayBookInfos(with book: Item?) {
@@ -161,6 +165,10 @@ class BookCardMainView: UIView {
     // MARK: - Targets
     @objc private func recommandBook() {
         delegate?.recommandButtonAction()
+    }
+    
+    @objc private func editBook() {
+        delegate?.editBook()
     }
     
     @objc private func deleteBook() {

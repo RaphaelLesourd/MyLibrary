@@ -52,7 +52,6 @@ class BookListLayoutMenu {
     }
     
     private func filterMenu() -> UIMenu {
-    
         var items: [UIMenuElement] = []
         QueryType.allCases.forEach({ query in
             let item = UIAction(title: query.title, image: nil, handler: { [weak self] (_) in

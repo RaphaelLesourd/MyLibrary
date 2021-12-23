@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PurchaseView: UIView {
+class PriceView: UIView {
    
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -27,7 +27,7 @@ class PurchaseView: UIView {
     private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 20)
 }
 // MARK: - Constraints
-extension PurchaseView {
+extension PriceView {
     private func setStackviewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

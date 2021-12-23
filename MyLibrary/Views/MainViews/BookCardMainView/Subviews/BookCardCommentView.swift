@@ -15,9 +15,9 @@ class BookCardCommentView: UIView {
         super.init(frame: .zero)
         rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
         titleLabel.text = Text.SectionTitle.readersComment
-       
         stackView.addArrangedSubview(goToCommentButton)
         stackView.addArrangedSubview(titleLabel)
+        
         setAnimationViewConstraints()
         setStackViewConstraints()
     }
@@ -26,7 +26,15 @@ class BookCardCommentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Subview
+    // MARK: - Subviews
+    let goToCommentButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .medium)
+        let image = UIImage(systemName: "arrow.right.circle", withConfiguration: configuration)
+        button.contentHorizontalAlignment = .right
+        button.setImage(image, for: .normal)
+        return button
+    }()
     let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
@@ -37,15 +45,8 @@ class BookCardCommentView: UIView {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
     }()
+    
     private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .right, fontSize: 14, weight: .medium)
-    let goToCommentButton: UIButton = {
-        let button = UIButton()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .medium)
-        let image = UIImage(systemName: "arrow.right.circle", withConfiguration: configuration)
-        button.contentHorizontalAlignment = .right
-        button.setImage(image, for: .normal)
-        return button
-    }()
     private let stackView = StackView(axis: .vertical, spacing: 0)
 }
 // MARK: - Constraints

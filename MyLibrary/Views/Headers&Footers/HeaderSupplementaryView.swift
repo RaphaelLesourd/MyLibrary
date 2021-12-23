@@ -12,6 +12,10 @@ class HeaderSupplementaryView: UICollectionReusableView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(moreButton)
+        
         setStackViewConstrainsts()
     }
     
@@ -20,23 +24,32 @@ class HeaderSupplementaryView: UICollectionReusableView {
     }
   
     // MARK: - Subviews
-    let titleView = TitleView()
+    let moreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(Text.ButtonTitle.seeAll, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        return button
+    }()
+    
+    private let titleLabel = TextLabel(fontSize: 20, weight: .bold)
+    private let stackView = StackView(axis: .horizontal, spacing: 0)
    
+    // MARK: - Configure
     func configure(with title: String, buttonTitle: String) {
-        titleView.titleLabel.text = title
-        titleView.actionButton.setTitle(buttonTitle, for: .normal)
+        titleLabel.text = title
+        moreButton.setTitle(buttonTitle, for: .normal)
     }
 }
 // MARK: - Constraints
 extension HeaderSupplementaryView {
     private func setStackViewConstrainsts() {
-        addSubview(titleView)
-        titleView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
         NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: topAnchor),
-            titleView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            titleView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }

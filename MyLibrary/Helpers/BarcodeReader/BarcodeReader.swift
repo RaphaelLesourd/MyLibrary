@@ -29,24 +29,8 @@ class BarcodeReader: NSObject {
     
     func stopCameraLiveView() {
         captureSession.stopRunning()
-        toggleTorch(onState: false)
     }
-    
-    func toggleTorch(onState: Bool) {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video),
-              device.hasTorch else { return }
-        do {
-            try device.lockForConfiguration()
-            device.torchMode = onState ? .on : .off
-            if onState {
-                try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
-            }
-            device.unlockForConfiguration()
-        } catch {
-            print("Torch could not be used")
-        }
-    }
-    
+
     private func checkCameraPermission() {
         permissions.requestCameraPermissions { granted in
             DispatchQueue.main.async {

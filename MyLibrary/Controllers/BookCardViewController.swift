@@ -83,18 +83,14 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        mainView.editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(editBook))
-        mainView.activityIndicatorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [mainView.editButton, mainView.activityIndicatorButton]
     }
    
     private func configureUI() {
-        mainView.deleteBookButton.isHidden = searchType == .apiSearch
+        
         if searchType == .apiSearch {
             mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
+            mainView.deleteBookButton.isHidden = true
         }
         if book.ownerID != Auth.auth().currentUser?.uid || Networkconnectivity.shared.isReachable == false {
             mainView.deleteBookButton.isHidden = true
@@ -163,7 +159,7 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    // MARK: - Configure view
+    // MARK: - Data display
     private func displayBookData() {
         mainView.displayBookInfos(with: book)
         displayBookCover()
@@ -183,18 +179,6 @@ class BookCardViewController: UIViewController {
         categoryService.getCategoryNameList(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categoryNames in
             self?.mainView.displayCategories(with: categoryNames)
         }
-    }
-    
-    // MARK: - Navigation
-    @objc private func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService(),
-                                                      converter: Converter(),
-                                                      formatter: Formatter(),
-                                                      validator: Validator())
-        newBookController.newBook = book
-        newBookController.isEditingBook = true
-        newBookController.bookCardDelegate = self
-        navigationController?.show(newBookController, sender: nil)
     }
 }
 // MARK: - BookCardDelegate
@@ -220,8 +204,7 @@ extension BookCardViewController: BookCardDelegate {
         }
     }
 }
-// MARK: Extension BookCardMainViewDelegate
-
+// MARK: - BookCardMainViewDelegate
 /// Accessible functions for the view thru delegate protocol
 extension BookCardViewController: BookCardMainViewDelegate {
    
@@ -243,6 +226,17 @@ extension BookCardViewController: BookCardMainViewDelegate {
                                   on: self) { [weak self] _ in
             self?.deleteBook()
         }
+    }
+    
+    func editBook() {
+        let newBookController = NewBookViewController(libraryService: LibraryService(),
+                                                      converter: Converter(),
+                                                      formatter: Formatter(),
+                                                      validator: Validator())
+        newBookController.newBook = book
+        newBookController.isEditingBook = true
+        newBookController.bookCardDelegate = self
+        navigationController?.show(newBookController, sender: nil)
     }
     
     func showComments() {

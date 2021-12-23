@@ -22,7 +22,7 @@ class HomeViewControllerLayout {
     private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 10)
-        let size = NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(200))
+        let size = NSCollectionLayoutSize(widthDimension: .absolute(130), heightDimension: .absolute(190))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size, subitem: item, count: 1)
         group.interItemSpacing = .fixed(10)
         return createSection(with: group, horizontal: true)

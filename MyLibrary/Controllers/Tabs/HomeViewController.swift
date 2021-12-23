@@ -172,8 +172,8 @@ extension HomeViewController {
             
             let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
             headerView.configure(with: section.title, buttonTitle: section.buttonTitle)
-            headerView.titleView.actionButton.tag = section.buttonTag
-            headerView.titleView.actionButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
+            headerView.moreButton.tag = section.buttonTag
+            headerView.moreButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
             return headerView
         }
     }

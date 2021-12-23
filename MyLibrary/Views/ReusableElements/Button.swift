@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ActionButton: UIButton {
+class Button: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -73,7 +73,7 @@ class ActionButton: UIButton {
     }
 }
 
-extension ActionButton {
+extension Button {
     private func setActivityIndicatorCosntraints() {
         addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false

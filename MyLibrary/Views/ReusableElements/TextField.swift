@@ -37,11 +37,11 @@ class TextField: UITextField {
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 2))
         self.leftView = leftView
         self.leftViewMode = .always
-        self.clearButtonMode = .never
+        self.clearButtonMode = .whileEditing
         self.adjustsFontSizeToFitWidth = true
         self.textColor = .label
         self.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        self.layer.borderWidth = 1
+        self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.clear.cgColor
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 45).isActive = true

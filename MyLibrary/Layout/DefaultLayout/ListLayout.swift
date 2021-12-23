@@ -15,7 +15,7 @@ class ListLayout {
         item.contentInsets = .init(top: 0, leading: 2.5, bottom: 17, trailing: 2.5)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(gridItemSize.rawValue * 2))
+                                               heightDimension: .fractionalWidth(gridItemSize.rawValue * 1.7))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
        
         let section = NSCollectionLayoutSection(group: group)

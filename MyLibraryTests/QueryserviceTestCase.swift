@@ -27,25 +27,25 @@ class QueryserviceTestCase: XCTestCase {
     // MARK: - Success tests
     func test_givenBookQuery_whenChangingOrder_thenReturnNewQuery() {
         sut?.currentQuery = currentQuery
-        let newQuery = sut?.getQuery(with: .rating)
+        let newQuery = sut?.updateQuery(with: .rating)
         XCTAssertEqual(newQuery?.orderedBy, .rating)
     }
     
     func test_givenBookQuery_whenChangingOrderToAuthorOrTitle_thenReturnNewQueryWithDescendingOrderFalse() {
         sut?.currentQuery = currentQuery
-        let newQuery = sut?.getQuery(with: .title)
+        let newQuery = sut?.updateQuery(with: .title)
         XCTAssertEqual(newQuery?.descending, true)
     }
     
     func test_givenBookQuery_whenChangingOrderNotAuthorOrTitle_thenReturnNewQueryWithDescendingOrderTrue() {
         sut?.currentQuery = currentQuery
-        let newQuery = sut?.getQuery(with: .rating)
+        let newQuery = sut?.updateQuery(with: .rating)
         XCTAssertEqual(newQuery?.descending, true)
     }
     
     func test_givenBookQuery_whenChangingWithNil_thenReturnNewQueryOrderedByTimestamp() {
         sut?.currentQuery = currentQuery
-        let newQuery = sut?.getQuery(with: nil)
+        let newQuery = sut?.updateQuery(with: nil)
         XCTAssertEqual(newQuery?.orderedBy, .timestamp)
     }
 }

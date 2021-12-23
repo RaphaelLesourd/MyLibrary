@@ -37,11 +37,11 @@ class WelcomeControllerMainView: UIView {
         return imageView
     }()
     private let titleLabel = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
-    let loginButton = ActionButton(title: Text.Account.loginTitle,
+    let loginButton = Button(title: Text.Account.loginTitle,
                                    systemImage: "",
                                    imagePlacement: .leading,
                                    tintColor: .appTintColor)
-    let signupButton = ActionButton(title: Text.Account.signupTitle,
+    let signupButton = Button(title: Text.Account.signupTitle,
                                     systemImage: "",
                                     imagePlacement: .leading,
                                     tintColor: .white,

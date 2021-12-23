@@ -17,7 +17,7 @@ final class ImageScrollView: UIScrollView {
     private var imageViewTrailingConstraint = NSLayoutConstraint()
 
     // MARK: - Intializer
-    required init() {
+    init() {
         super.init(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         addSubview(imageView)

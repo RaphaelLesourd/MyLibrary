@@ -10,14 +10,13 @@ import Kingfisher
 
 class BookCollectionViewCell: UICollectionViewCell {
     
-    private let imageLoader: ImageRetriever
+    private let imageRetriever: ImageRetriever
    
     // MARK: - Initializer
     override init(frame: CGRect) {
-        imageLoader = KingFisherImageRetriever()
+        imageRetriever = KingFisherImageRetriever()
         super.init(frame: .zero)
         stackView.addArrangedSubview(bookCover)
-        stackView.addArrangedSubview(titleView)
         setStackviewConstrainsts()
     }
     
@@ -27,22 +26,16 @@ class BookCollectionViewCell: UICollectionViewCell {
    
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleView = CellTitleView()
     private let stackView = StackView(axis: .vertical, spacing: 5)
 
     // MARK: - Configure
     func configure(with book: Item) {
-        titleView.titleLabel.text = book.volumeInfo?.title
-        titleView.subtitleLabel.text = book.volumeInfo?.authors?.first
-        
-        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
+        imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
         }
     }
     
     override func prepareForReuse() {
-        titleView.titleLabel.text = nil
-        titleView.subtitleLabel.text = nil
         bookCover.image = Images.emptyStateBookImage
     }
 }

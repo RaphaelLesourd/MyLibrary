@@ -27,7 +27,7 @@ class ButtonStaticCell: UITableViewCell {
                                           backgroundColor: backgroundColor)
     }
    
-    let actionButton = ActionButton()
+    let actionButton = Button()
 
 }
 extension ButtonStaticCell {
