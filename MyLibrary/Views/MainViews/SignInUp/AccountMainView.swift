@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PanModalCommonView: UIView {
+class AccountMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -119,7 +119,7 @@ class PanModalCommonView: UIView {
     
 }
 // MARK: - Constraints
-extension PanModalCommonView {
+extension AccountMainView {
     
     private func setScrollViewConstraints() {
         addSubview(scrollView)

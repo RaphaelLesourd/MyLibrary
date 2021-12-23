@@ -8,13 +8,13 @@
 import UIKit
 import FirebaseAuth
 
-class SigningViewController: UIViewController {
+class AccountSetupViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView = PanModalCommonView()
-    private var accountService: AccountServiceProtocol
-    private var validator: ValidatorProtocol
-    private var interfaceType: AccountInterfaceType
+    let mainView = AccountMainView()
+    var accountService: AccountServiceProtocol
+    var validator: ValidatorProtocol
+    var interfaceType: AccountInterfaceType
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
@@ -35,7 +35,7 @@ class SigningViewController: UIViewController {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if interfaceType == .login {
@@ -58,7 +58,7 @@ class SigningViewController: UIViewController {
         mainView.passwordTextField.delegate = self
         mainView.confirmPasswordTextField.delegate = self
     }
-    
+
     private func setButtonTargets() {
         mainView.actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         mainView.forgotPasswordButton.addTarget(self, action: #selector(resetPassWordRequest), for: .touchUpInside)
@@ -88,7 +88,8 @@ class SigningViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.welcomeTitle), subtitle: (Auth.auth().currentUser?.displayName ?? ""))
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.welcomeTitle),
+                                            subtitle: (Auth.auth().currentUser?.displayName ?? ""))
         }
     }
     
@@ -97,7 +98,7 @@ class SigningViewController: UIViewController {
         mainView.actionButton.displayActivityIndicator(true)
         accountService.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
-            
+
             self.mainView.actionButton.displayActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
@@ -130,7 +131,7 @@ class SigningViewController: UIViewController {
         }
     }
     
-    private func setUser() -> AccountCredentials {
+    func setUser() -> AccountCredentials {
         return AccountCredentials(userName: mainView.userNameTextField.text ?? "",
                                   email: mainView.emailTextField.text ?? "",
                                   password: mainView.passwordTextField.text ?? "",
@@ -153,8 +154,8 @@ class SigningViewController: UIViewController {
     }
 }
 // MARK: - TextField Delegate
-extension SigningViewController: UITextFieldDelegate {
-    
+extension AccountSetupViewController: UITextFieldDelegate {
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return true }
         var valid = false
@@ -172,7 +173,7 @@ extension SigningViewController: UITextFieldDelegate {
         textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
         return true
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let lastTextField = interfaceType == .login ? mainView.passwordTextField : mainView.confirmPasswordTextField
         if textField == lastTextField {
