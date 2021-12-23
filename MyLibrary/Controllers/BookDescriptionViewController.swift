@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 import IQKeyboardManagerSwift
 
 class BookDescriptionViewController: UIViewController {

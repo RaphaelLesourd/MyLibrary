@@ -8,13 +8,9 @@
 import UIKit
 import Kingfisher
 
-protocol ImageRetriverProtocol {
-    func getImage(for url: String?, completion: @escaping (UIImage?) -> Void)
-}
-
-class ImageRetriver: ImageRetriverProtocol {
+class KingFisherImageRetriever: ImageRetriever {
     
-    func getImage(for url: String?, completion: @escaping (UIImage?) -> Void) {
+    func getImage(for url: String?, completion: @escaping (UIImage) -> Void) {
         guard let url = url, let imageURL = URL(string: url) else {
             completion(Images.emptyStateBookImage)
             return

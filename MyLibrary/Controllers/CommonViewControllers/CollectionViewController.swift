@@ -28,11 +28,12 @@ class CollectionViewController: UIViewController {
     
     // MARK: - Navgation
     func showBookDetails(for book: Item, searchType: SearchType) {
+        
         let bookCardVC = BookCardViewController(book: book,
                                                 searchType: searchType,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService(),
-                                                imageLoader: ImageRetriver(),
+                                                imageLoader: KingFisherImageRetriever(),
                                                 categoryService: CategoryService())
         bookCardVC.hidesBottomBarWhenPushed = true
         navigationController?.show(bookCardVC, sender: nil)

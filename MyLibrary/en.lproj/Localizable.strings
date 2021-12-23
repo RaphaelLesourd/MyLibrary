@@ -143,3 +143,9 @@
 "ByTitleList" = "By title";
 "ByAuthorList" = "By author";
 "ByRatingList" = "By rating";
+"UnsentEmail" = "Email not sent";
+"SentEmail" = "Email sent";
+"NoFlashlightTitle" = "Flashlight";
+"Unavailable" = "Unavailable";
+"Acknowledgments" = "Acknowledgments";
+"Generated with" = "Generated with";

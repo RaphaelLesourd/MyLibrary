@@ -10,7 +10,7 @@ import XCTest
 
 class QueryserviceTestCase: XCTestCase {
 
-    private var sut: QueryServiceProtocol?
+    private var sut: QueryProtocol?
     private let currentQuery = BookQuery(listType: .recommanding, orderedBy: .timestamp, fieldValue: "", descending: true)
     
     // MARK: - Lifecycle
@@ -34,7 +34,7 @@ class QueryserviceTestCase: XCTestCase {
     func test_givenBookQuery_whenChangingOrderToAuthorOrTitle_thenReturnNewQueryWithDescendingOrderFalse() {
         sut?.currentQuery = currentQuery
         let newQuery = sut?.getQuery(with: .title)
-        XCTAssertEqual(newQuery?.descending, false)
+        XCTAssertEqual(newQuery?.descending, true)
     }
     
     func test_givenBookQuery_whenChangingOrderNotAuthorOrTitle_thenReturnNewQueryWithDescendingOrderTrue() {

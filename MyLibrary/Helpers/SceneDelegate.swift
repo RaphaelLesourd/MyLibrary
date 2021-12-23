@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private var handle: AuthStateDidChangeListenerHandle?
-    private let notificationManager: NotificationManagerProtocol
+    private let notificationManager: PushNotifications
     
     override init() {
         notificationManager = NotificationManager(userService: UserService(), libraryService: LibraryService())

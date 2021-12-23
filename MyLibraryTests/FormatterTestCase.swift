@@ -24,36 +24,15 @@ class FormatterTestCase: XCTestCase {
     }
 
     // MARK: - Success tests
-    func test_givenArrayOfString_whenJoining_thenReturnString() {
-        let stringArray = ["One", "Two", "Three", "Four", "Five"]
-        let string = sut?.joinArrayToString(stringArray)
-        XCTAssertEqual(string, "One, Two, Three, Four, Five")
-    }
-    
     func givenYearString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
         let yearString = sut?.formatDateToYearString(for: "1980-12-12")
         XCTAssertEqual(yearString, "1980")
     }
-
-    func givenDecimalStringWithComma_whenConvertingToDouble_returnDouble() {
-        let decimalString = "25,5"
-        XCTAssertEqual(sut?.formatStringToDouble(decimalString), 25.5)
-    }
-    
-    func givenDecimalStringWithPeriod_whenConvertingToDouble_thenReturnDouble() {
-        let decimalString = "2.5"
-        XCTAssertEqual(sut?.formatStringToDouble(decimalString), 2.5)
-    }
-    
-    func test_givenString_whenConvertToInt_thenReturnInt() {
-        let value = "1234"
-        XCTAssertEqual(sut?.formatStringToInt(value), 1234)
-    }
-    
+  
     func test_givenPriceAndCurrency_whenFormattingPrice_thenReturnPrice() {
         let currencyCode = "USD"
         let price = 21.5
-        let itemPrice = sut?.formatDoubleToCurrency(with: price, currencyCode: currencyCode)
+        let itemPrice = sut?.formatDoubleToPrice(with: price, currencyCode: currencyCode)
         XCTAssertEqual(itemPrice, "$21.50")
     }
     
@@ -70,11 +49,6 @@ class FormatterTestCase: XCTestCase {
     func test_givenTimesamp_whenFormattingToDate_thenReturnString() {
         XCTAssertEqual(sut?.formatTimeStampToRelativeDate(for: 123456767), "48 years ago")
     }
-    // MARK: - Failure tests
-    func test_givenNilArray_whenJoining_thenReturnEmptyString() {
-        let string = sut?.joinArrayToString(nil)
-        XCTAssertEqual(string, "")
-    }
     
     func test_givenNilDateString_whenConvertingToYearOnly_thenReturnEmptyString() {
         let givenDateString = sut?.formatDateToYearString(for: nil)
@@ -86,38 +60,20 @@ class FormatterTestCase: XCTestCase {
         let yearString = sut?.formatDateToYearString(for: givenDateString)
         XCTAssertEqual(yearString, "2021")
     }
-    
-    func test_givenNilDecimalString_whenConvertingToDouble_thenReturnZero() {
-        XCTAssertEqual(sut?.formatStringToDouble(nil), 0)
-    }
-    
-    func test_givenStringWithLetter_whenConvertingToDouble_thenReturnZero() {
-        XCTAssertEqual(sut?.formatStringToDouble("abcde"), 0)
-    }
-    
-    
-    func test_givenStringWithLetters_whenConvertingToInt_thenReturnZero() {
-        let value = "AZERTY"
-        XCTAssertEqual(sut?.formatStringToInt(value), 0)
-    }
-    
-    func test_givenNilString_whenConvertingToInt_thenReturnZero() {
-        XCTAssertEqual(sut?.formatStringToInt(nil), 0)
-    }
-    
+ 
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {
         let currencyCode = "USD"
-        let itemPrice = sut?.formatDoubleToCurrency(with: nil, currencyCode: currencyCode)
+        let itemPrice = sut?.formatDoubleToPrice(with: nil, currencyCode: currencyCode)
         XCTAssertEqual(itemPrice, "$0")
     }
     
     func test_givenNilPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceSetAtZeroWithDefaultEuroCurrency() {
-        let itemPrice = sut?.formatDoubleToCurrency(with: nil, currencyCode: nil)
+        let itemPrice = sut?.formatDoubleToPrice(with: nil, currencyCode: nil)
         XCTAssertEqual(itemPrice, "€0")
     }
     
     func test_givenPriceAndNilCurrency_whenFormattingPrice_thenReturnPriceWithDefaultEuroCurrency() {
-        let itemPrice = sut?.formatDoubleToCurrency(with: 25, currencyCode: nil)
+        let itemPrice = sut?.formatDoubleToPrice(with: 25, currencyCode: nil)
         XCTAssertEqual(itemPrice, "€25")
     }
     

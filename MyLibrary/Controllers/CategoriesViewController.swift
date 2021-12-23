@@ -14,15 +14,16 @@ class CategoriesViewController: UIViewController {
     typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
     
     var selectedCategories: [String] = []
-    var settingBookCategory = true
     weak var newBookDelegate: NewBookDelegate?
     
     private lazy var dataSource = makeDataSource()
     private var categoryService: CategoryServiceProtocol
+    private var settingBookCategory: Bool
     private let listView = CategoryControllerMainView()
     
-    init(categoryService: CategoryServiceProtocol) {
+    init(settingBookCategory: Bool, categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
+        self.settingBookCategory = settingBookCategory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,10 +39,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        listView.tableView.allowsSelection = settingBookCategory
-        listView.tableView.dataSource = dataSource
-        setDelegates()
-        setTableViewRefresherControl()
+        configureTableView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         getCategoryList()
@@ -54,11 +52,10 @@ class CategoriesViewController: UIViewController {
     }
     
     // MARK: - Setup
-    private func setDelegates() {
+    private func configureTableView() {
         listView.tableView.delegate = self
-    }
-    
-    private func setTableViewRefresherControl() {
+        listView.tableView.dataSource = dataSource
+        listView.tableView.allowsSelection = settingBookCategory
         listView.tableView.refreshControl = listView.refresherControl
         listView.refresherControl.addTarget(self, action: #selector(getCategoryList), for: .valueChanged)
     }
@@ -123,6 +120,7 @@ class CategoriesViewController: UIViewController {
             self?.listView.refresherControl.endRefreshing()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
             self?.applySnapshot()
         }

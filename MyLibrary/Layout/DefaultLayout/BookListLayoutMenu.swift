@@ -23,8 +23,8 @@ class BookListLayoutMenu {
     }
     
     // MARK: - Public functions
-    func configureLayoutMenu(withFilterMenu: Bool) -> UIMenu {
-        let menuItems = createMenuItems(filterOptions: withFilterMenu)
+    func configureLayoutMenu(for filterMenuIncluded: Bool) -> UIMenu {
+        let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
         return UIMenu(title: Text.ListMenu.bookListMenuTitle, image: nil, identifier: nil, children: menuItems)
     }
     

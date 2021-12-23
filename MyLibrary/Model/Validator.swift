@@ -7,14 +7,6 @@
 
 import Foundation
 
-protocol ValidatorProtocol {
-    func validateEmail(_ email: String?) -> Bool
-    func validatePassword(_ password: String?) -> Bool
-    func validateIsbn(_ value: String) -> Bool
-    func validateTimestamp(for timestamp: Double?) -> Double
-    func isTimestampToday(for timestamp: Double?) -> Bool
-}
-
 class Validator: ValidatorProtocol {
     
     func validateEmail(_ email: String?) -> Bool {

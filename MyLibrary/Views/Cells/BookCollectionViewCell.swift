@@ -8,13 +8,13 @@
 import UIKit
 import Kingfisher
 
-class VerticalCollectionViewCell: UICollectionViewCell {
+class BookCollectionViewCell: UICollectionViewCell {
     
-    private let imageLoader: ImageRetriverProtocol
+    private let imageLoader: ImageRetriever
    
     // MARK: - Initializer
     override init(frame: CGRect) {
-        imageLoader = ImageRetriver()
+        imageLoader = KingFisherImageRetriever()
         super.init(frame: .zero)
         stackView.addArrangedSubview(bookCover)
         stackView.addArrangedSubview(titleView)
@@ -47,7 +47,7 @@ class VerticalCollectionViewCell: UICollectionViewCell {
     }
 }
 // MARK: - Constraints
-extension VerticalCollectionViewCell {
+extension BookCollectionViewCell {
     private func setStackviewConstrainsts() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([

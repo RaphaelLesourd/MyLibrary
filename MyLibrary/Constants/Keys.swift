@@ -5,8 +5,9 @@
 //  Created by Birkyboy on 04/11/2021.
 //
 
-enum ApiKeys {
+enum Keys {
     static var fcmKEY = String()
+    static var feedbackEmail = String()
 }
 
 enum ApiUrl {

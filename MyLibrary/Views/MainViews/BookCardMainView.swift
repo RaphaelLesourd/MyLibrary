@@ -18,11 +18,13 @@ protocol BookCardMainViewDelegate: AnyObject {
 
 class BookCardMainView: UIView {
     
-    private var formatter: FormatterProtocol?
+    private var converter: ConverterProtocol
+    private var formatter: FormatterProtocol
     weak var delegate: BookCardMainViewDelegate?
     
     // MARK: - Initializers
-    init(frame: CGRect, formatter: FormatterProtocol) {
+    init(frame: CGRect, converter: ConverterProtocol, formatter: FormatterProtocol) {
+        self.converter = converter
         self.formatter = formatter
         super.init(frame: .zero)
         setTargets()
@@ -59,7 +61,7 @@ class BookCardMainView: UIView {
         let button = UIButton()
         button.rounded(radius: 20, backgroundColor: UIColor.systemPink.withAlphaComponent(0.3))
         let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .small)
-        let image = Images.ButtonIcon.favoriteImage?.withConfiguration(configuration)
+        let image = Images.ButtonIcon.favorite?.withConfiguration(configuration)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -117,8 +119,8 @@ class BookCardMainView: UIView {
         purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book?.saleInfo?.retailPrice?.currencyCode
         let price = book?.saleInfo?.retailPrice?.amount
-        purchaseDetailView.purchasePriceLabel.text = formatter?.formatDoubleToCurrency(with: price, currencyCode: currency)
-        bookDetailView.languageView.infoLabel.text = formatter?.formatCodeToName(from: book?.volumeInfo?.language,
+        purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: price, currencyCode: currency)
+        bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book?.volumeInfo?.language,
                                                                                  type: .language).capitalized
     }
     
@@ -132,7 +134,7 @@ class BookCardMainView: UIView {
     }
     
     func displayCategories(with categoryNames: [String]) {
-        categoryiesLabel.text = formatter?.joinArrayToString(categoryNames).uppercased()
+        categoryiesLabel.text = converter.convertArrayToString(categoryNames).uppercased()
     }
     
     func setFavoriteButtonAs(_ isFavorite: Bool) {
@@ -146,7 +148,6 @@ class BookCardMainView: UIView {
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
     
-    // MARK: - Targets
     private func setTargets() {
         recommandButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
         deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
@@ -157,6 +158,7 @@ class BookCardMainView: UIView {
         bookCover.addGestureRecognizer(tap)
     }
     
+    // MARK: - Targets
     @objc private func recommandBook() {
         delegate?.recommandButtonAction()
     }

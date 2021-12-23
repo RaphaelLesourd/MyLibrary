@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 
 protocol NewBookDelegate: AnyObject {
     var newBook: Item? { get set }
@@ -30,21 +29,24 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: ListLayout())
-    private let newBookView = NewBookControllerView(formatter: Formatter(), imageRetriver: ImageRetriver())
+    private let newBookView = NewBookControllerView(converter: Converter(), formatter: Formatter(), imageRetriver: KingFisherImageRetriever())
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
+    private let libraryService: LibraryServiceProtocol
+    private let converter: ConverterProtocol
     private let formatter: FormatterProtocol
     private let validator: ValidatorProtocol
-    private let libraryService: LibraryServiceProtocol
-    
+   
     private var imagePicker: ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
     
     init(libraryService: LibraryServiceProtocol,
+         converter: ConverterProtocol,
          formatter: FormatterProtocol,
          validator: ValidatorProtocol) {
         self.libraryService = libraryService
+        self.converter = converter
         self.formatter = formatter
         self.validator = validator
         super.init(nibName: nil, bundle: nil)
@@ -132,13 +134,15 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private func setBookLanguage() {
-        let bookLanguage = newBook?.volumeInfo?.language ?? Bundle.main.preferredLocalizations[0]
-        setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
+        if let bookLanguage = newBook?.volumeInfo?.language {
+            setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
+        }
     }
     
     private func setBookCurrency() {
-        let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode ?? Locale.current.currencyCode
-        setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency ?? "")
+        if let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode {
+            setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency)
+        }
     }
     
     private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
@@ -168,12 +172,12 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                                     publishedDate: newBookView.publishDateCell.textField.text ?? "",
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: formatter.formatStringToInt(newBookView.numberOfPagesCell.textField.text),
+                                    pageCount: converter.convertStringToInt(newBookView.numberOfPagesCell.textField.text),
                                     ratingsCount: newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
         
-        let price = formatter.formatStringToDouble(newBookView.purchasePriceCell.textField.text)
+        let price = converter.convertStringToDouble(newBookView.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
         
         return Item(bookID: newBook?.bookID ?? "",
@@ -202,7 +206,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
                 present(barcodeScannerController, animated: true, completion: nil)
             }
         } else {
-            presentPanModal(barcodeScannerController)
+            navigationController?.pushViewController(barcodeScannerController, animated: true)
         }
     }
     
@@ -213,7 +217,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private func showCategoryList() {
-        let categoryListVC = CategoriesViewController(categoryService: CategoryService())
+        let categoryListVC = CategoriesViewController(settingBookCategory: true, categoryService: CategoryService())
         categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
         navigationController?.show(categoryListVC, sender: nil)
@@ -236,7 +240,7 @@ extension NewBookViewController: UITextFieldDelegate {
 }
 
 // MARK: - Barcode protocol
-extension NewBookViewController: BarcodeProtocol {
+extension NewBookViewController: BarcodeScannerDelegate {
     /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
     /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
@@ -316,7 +320,6 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 // MARK: - Extension NewBookViewDelegate
-
 /// Accessible functions for the view thru delegate protocol
 extension NewBookViewController: NewBookViewDelegate {
     

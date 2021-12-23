@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 import FirebaseAuth
 
 /// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
@@ -47,15 +46,15 @@ class TabBarController: UITabBarController {
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.TabBarIcon.homeIcon!)
         
-        let libraryIconImage = Images.TabBarIcon.booksIcon ?? Images.TabBarIcon.openBookIcon!
         let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                                                     queryService: QueryService(),
                                                                                     libraryService: LibraryService(),
                                                                                     layoutComposer: ListLayout()),
                                                         title: Text.ControllerTitle.myBooks,
-                                                        image: libraryIconImage)
+                                                        image: Images.TabBarIcon.booksIcon!)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
+                                                                            converter: Converter(),
                                                                             formatter: Formatter(),
                                                                             validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,

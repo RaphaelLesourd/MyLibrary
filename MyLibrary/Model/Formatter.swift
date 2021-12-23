@@ -7,29 +7,7 @@
 
 import Foundation
 
-protocol FormatterProtocol {
-    func joinArrayToString(_ dataArray: [String]?) -> String
-    func formatStringToInt(_ value: String?) -> Int
-    func formatDoubleToCurrency(with value: Double?, currencyCode: String?) -> String
-    func formatDateToYearString(for dateString: String?) -> String
-    func formatStringToDouble(_ decimalString: String?) -> Double
-    func formatCodeToName(from code: String?, type: CodeType) -> String
-    func formatTimeStampToRelativeDate(for timestamp: Double?) -> String
-}
-
-/// Concrete implementation of FormatterProtocol
-/// Data formtters are implemented in this class
 class Formatter: FormatterProtocol {
-    
-    /// Joins an Array of string into one single String
-    /// - Parameter dataArray:  Optional Array of Strings
-    /// - Returns: String
-    func joinArrayToString(_ dataArray: [String]?) -> String {
-        guard let dataArray = dataArray else {
-            return ""
-        }
-        return dataArray.joined(separator: ", ")
-    }
     /// Format a timeStamp to a time ago string.
     /// - Parameter timestamp: Otional Double
     /// - Returns: String
@@ -62,35 +40,12 @@ class Formatter: FormatterProtocol {
         outputDateFormatter.dateFormat = "yyyy"
         return outputDateFormatter.string(from: date)
     }
-    
-    /// Format a String to Double
-    /// - Parameter value: Optional  String
-    /// - Returns: Double
-    func formatStringToDouble(_ value: String?) -> Double {
-        guard let value = value else {
-            return 0
-        }
-        let formatter = NumberFormatter()
-        return formatter.number(from: value)?.doubleValue ?? 0
-    }
-    
-    /// Format a string to Int
-    /// - Parameter value: Optional  String
-    /// - Returns: Int
-    func formatStringToInt(_ value: String?) -> Int {
-        guard let value = value else {
-            return 0
-        }
-        let formatter = NumberFormatter()
-        return formatter.number(from: value)?.intValue ?? 0
-    }
-    
     /// Format a price
     /// - Note: We can safely force-unwrap the optional that NumberFormatter returns from the call,
     /// since we’re in complete control over the NSNumber that is being passed into it.
     /// - Parameter currencyCode: 3 letters currency code (ie: EUR, USD etc)
     /// - Returns: Formatted price with currency symbal and remova lof trailing 0.
-    func formatDoubleToCurrency(with value: Double?, currencyCode: String?) -> String {
+    func formatDoubleToPrice(with value: Double?, currencyCode: String?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.minimumFractionDigits = 2
@@ -106,8 +61,8 @@ class Formatter: FormatterProtocol {
     /// - Parameter code: Optional String
     /// - Returns: String
     func formatCodeToName(from code: String?, type: CodeType) -> String {
-        guard let code = code else { return "" }
-        let currentIdentifier = Locale.current.regionCode ?? ""
+        guard let code = code,
+              let currentIdentifier = Locale.current.regionCode else { return "" }
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
         switch type {
         case .language:
@@ -116,5 +71,4 @@ class Formatter: FormatterProtocol {
             return localeFromCurrentIdentifier.localizedString(forCurrencyCode: code) ?? ""
         }
     }
-    
 }

@@ -63,6 +63,6 @@ class AlertManager {
                 bauly.title = type.message
                 bauly.subtitle = subtitle
             }, duration: 1, dismissAfter: 2, feedbackStyle: .medium)
-        }
+     }
     }
 }

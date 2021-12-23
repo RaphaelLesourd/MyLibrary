@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 import FirebaseAuth
 
 class SigningViewController: UIViewController {
@@ -180,18 +179,5 @@ extension SigningViewController: UITextFieldDelegate {
             textField.next?.becomeFirstResponder()
         }
         return true
-    }
-}
-// MARK: - Panmodal Presentable
-extension SigningViewController: PanModalPresentable {
-   
-    var cornerRadius: CGFloat {
-        return 20
-    }
-    var isHapticFeedbackEnabled: Bool {
-        return true
-    }
-    var panScrollable: UIScrollView? {
-        return nil
     }
 }

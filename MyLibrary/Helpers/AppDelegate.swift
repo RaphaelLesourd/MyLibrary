@@ -15,7 +15,8 @@ import Network
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
         kingFisherCacheSetup()
         getUserDefinedData()
@@ -57,13 +58,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func getUserDefinedData() {
         if let fcmKEY = Bundle.main.object(forInfoDictionaryKey: "fcmKey") as? String {
-            ApiKeys.fcmKEY = fcmKEY
+            Keys.fcmKEY = fcmKEY
         }
         if let fcmURL = Bundle.main.object(forInfoDictionaryKey: "fcmURL") as? String {
             ApiUrl.fcmURL = fcmURL
         }
         if let googleBooksURL = Bundle.main.object(forInfoDictionaryKey: "googleBooksURL") as? String {
             ApiUrl.googleBooksURL = googleBooksURL
+        }
+        if let feedbackEmail = Bundle.main.object(forInfoDictionaryKey: "feedbackEmail") as? String {
+            Keys.feedbackEmail = feedbackEmail
         }
     }
     

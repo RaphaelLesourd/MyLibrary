@@ -5,14 +5,6 @@
 //  Created by Birkyboy on 20/12/2021.
 //
 
-import Foundation
-
-protocol QueryServiceProtocol {
-    var currentQuery: BookQuery? { get set }
-    func getQuery(with type: DocumentKey?) -> BookQuery
-}
-
-/// QueryService protocol concrete implementation
 class QueryService {
     var currentQuery: BookQuery?
     
@@ -22,7 +14,7 @@ class QueryService {
     }
 }
 
-extension QueryService: QueryServiceProtocol {
+extension QueryService: QueryProtocol {
     /// Creates a new bookQuery to load data from the API
     /// - Parameter Type: DocumentKey set by the selection in the options menu.
     /// - Returns: A new BookQuerry with new ordering key word.

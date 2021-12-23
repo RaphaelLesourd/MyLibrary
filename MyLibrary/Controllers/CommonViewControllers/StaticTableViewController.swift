@@ -19,17 +19,6 @@ class StaticTableViewController: UITableViewController {
         configureTableView()
     }
     
-    /// Create a default cell user to open another controller/
-    /// - Parameter text: Cell title
-    /// - Returns: cell
-    func createDefaultCell(with text: String) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = text
-        cell.backgroundColor = .tertiarySystemBackground
-        cell.accessoryType = .disclosureIndicator
-        return cell
-    }
-    
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)

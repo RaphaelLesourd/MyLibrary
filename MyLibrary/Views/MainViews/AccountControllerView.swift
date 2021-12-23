@@ -16,10 +16,10 @@ protocol AccountViewDelegate: AnyObject {
 
 class AccountControllerView {
     
-    private let imageRetriever: ImageRetriverProtocol
+    private let imageRetriever: ImageRetriever
     weak var delegate: AccountViewDelegate?
     
-    init(imageRetriever: ImageRetriverProtocol) {
+    init(imageRetriever: ImageRetriever) {
         self.imageRetriever = imageRetriever
         displayAppInfos()
         setTargets()
@@ -27,22 +27,22 @@ class AccountControllerView {
     
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
-    lazy var profileCell = ProfileStaticCell()
-    lazy var displayNameCell = TextFieldStaticCell(placeholder: Text.Account.userName)
+    let profileCell = ProfileStaticCell()
+    let displayNameCell = TextFieldStaticCell(placeholder: Text.Account.userName)
     let signOutCell = ButtonStaticCell(title: Text.ButtonTitle.signOut,
                                        systemImage: "rectangle.portrait.and.arrow.right.fill",
                                        tintColor: .systemPurple,
                                        backgroundColor: .systemPurple)
-    let deleteAccountCell = ButtonStaticCell(title: Text.ButtonTitle.deletaAccount,
+   
+    private let deleteAccountCell = ButtonStaticCell(title: Text.ButtonTitle.deletaAccount,
                                              systemImage: "",
                                              tintColor: .systemRed,
                                              backgroundColor: .clear)
-    
-    private lazy var appVersionCell = TextFieldStaticCell(placeholder: Text.Misc.appVersion)
-    private lazy var appBuildCell = TextFieldStaticCell(placeholder: Text.Misc.appBuild)
-    private lazy var appCreationYearCell = TextFieldStaticCell(placeholder: Text.Misc.appCreationYear)
+    private let appVersionCell = TextFieldStaticCell(placeholder: Text.Misc.appVersion)
+    private let appBuildCell = TextFieldStaticCell(placeholder: Text.Misc.appBuild)
+    private let appCreationYearCell = TextFieldStaticCell(placeholder: Text.Misc.appCreationYear)
     private let contactViewCell = ButtonStaticCell(title: Text.ButtonTitle.contactUs,
-                                                   systemImage: "",
+                                                   systemImage: "envelope.badge.fill",
                                                    tintColor: .appTintColor,
                                                    backgroundColor: .appTintColor)
     
@@ -59,7 +59,8 @@ class AccountControllerView {
         return [[profileCell],
                 [displayNameCell],
                 [signOutCell, deleteAccountCell],
-                [appVersionCell, appBuildCell, appCreationYearCell, contactViewCell]
+                [appVersionCell, appBuildCell, appCreationYearCell],
+                [contactViewCell]
         ]
     }
     

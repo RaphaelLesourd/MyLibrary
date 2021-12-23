@@ -10,11 +10,6 @@ import Firebase
 import FirebaseMessaging
 import UserNotifications
 
-protocol NotificationManagerProtocol {
-    func registerNotifications()
-    func resetNotificationBadgeCount()
-}
-
 class NotificationManager: NSObject {
     // MARK: - Properties
     private var userService: UserServiceProtocol
@@ -92,7 +87,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
 }
 
 // MARK: - Extension NotificationProtocol
-extension NotificationManager: NotificationManagerProtocol {
+extension NotificationManager: PushNotifications {
     
     func resetNotificationBadgeCount() {
         UIApplication.shared.applicationIconBadgeNumber = 0

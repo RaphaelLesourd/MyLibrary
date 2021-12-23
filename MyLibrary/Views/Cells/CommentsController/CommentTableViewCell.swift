@@ -11,12 +11,12 @@ class CommentTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "cell"
     
-    private let imageLoader: ImageRetriverProtocol
+    private let imageLoader: ImageRetriever
     private let formatter: FormatterProtocol
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = ImageRetriver()
+        imageLoader = KingFisherImageRetriever()
         formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .tertiarySystemBackground

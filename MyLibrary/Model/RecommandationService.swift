@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol RecommendationServiceProtocol {
+protocol Recommendation {
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
 }
@@ -24,7 +24,7 @@ class RecommandationService {
     }
 }
 // MARK: - RecommandationServiceProtocol extension
-extension RecommandationService: RecommendationServiceProtocol {
+extension RecommandationService: Recommendation {
     
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }

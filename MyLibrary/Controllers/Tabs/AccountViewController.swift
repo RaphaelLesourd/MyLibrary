@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 import FirebaseAuth
 
 /// Class inherits from a base class seting a common static tableView
@@ -17,13 +16,14 @@ class AccountViewController: StaticTableViewController {
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private var imagePicker: ImagePicker?
-    private let feedbackManager: FeedBackProtocol?
-    private let mainView = AccountControllerView(imageRetriever: ImageRetriver())
+    private let feedbackManager: FeedbackSender?
+    private let mainView = AccountControllerView(imageRetriever: KingFisherImageRetriever())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
          userService: UserServiceProtocol,
-         imageService: ImageStorageProtocol, feedbackManager: FeedBackProtocol) {
+         imageService: ImageStorageProtocol,
+         feedbackManager: FeedbackSender) {
         self.accountService = accountService
         self.userService = userService
         self.imageService = imageService
@@ -174,7 +174,7 @@ extension AccountViewController: AccountViewDelegate {
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
             let controller = SigningViewController(userManager: accountService, validator: Validator(), interfaceType: .deleteAccount)
-            self.presentPanModal(controller)
+            self.present(controller, animated: true, completion: nil)
         }
     }
     

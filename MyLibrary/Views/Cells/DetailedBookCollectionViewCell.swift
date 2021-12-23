@@ -8,13 +8,13 @@
 import UIKit
 import Kingfisher
 
-class HorizontalCollectionViewCell: UICollectionViewCell {
+class DetailedBookCollectionViewCell: UICollectionViewCell {
     
-    private let imageLoader: ImageRetriverProtocol
+    private let imageLoader: ImageRetriever
     
     // MARK: - Initializer
     override init(frame: CGRect) {
-        imageLoader = ImageRetriver()
+        imageLoader = KingFisherImageRetriever()
         super.init(frame: .zero)
         textStackView.addArrangedSubview(titleView)
         textStackView.addArrangedSubview(descriptionLabel)
@@ -52,7 +52,7 @@ class HorizontalCollectionViewCell: UICollectionViewCell {
     }
 }
 // MARK: - Constraints
-extension HorizontalCollectionViewCell {
+extension DetailedBookCollectionViewCell {
     private func setBookCoverViewWidth() {
         contentView.addSubview(bookCover)
         bookCover.translatesAutoresizingMaskIntoConstraints = false

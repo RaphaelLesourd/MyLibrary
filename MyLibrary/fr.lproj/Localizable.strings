@@ -143,3 +143,9 @@
 "ByTitleList" = "Par titre";
 "ByAuthorList" = "Par auteur";
 "ByRatingList" = "Par note";
+"UnsentEmail" = "Email non envoyé";
+"SentEmail" = "Email envoyé";
+"NoFlashlightTitle" = "Torche";
+"Unavailable" = "Non disponible";
+"Acknowledgments" = "Remerciements";
+"Generated with" = "Généré par";

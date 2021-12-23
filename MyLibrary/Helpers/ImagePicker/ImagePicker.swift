@@ -14,20 +14,25 @@ protocol ImagePickerDelegate: AnyObject {
 
 // Source code and process assimilated and adapated from this article
 // https://theswiftdev.com/picking-images-with-uiimagepickercontroller-in-swift-5/
+
 class ImagePicker: NSObject {
     
     // MARK: - Properties
     private let pickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
     private weak var delegate: ImagePickerDelegate?
+    private var permissions: Permissions
     
     // MARK: - Initializer
     /// Initialize the ImagePicker  and set properties.
     /// - Parameters:
     ///   - presentationController: ViewController calling the ImagePicker
     ///   - delegate: ImagePickerDelegate
-    init(presentationController: UIViewController, delegate: ImagePickerDelegate) {
+    init(presentationController: UIViewController,
+         delegate: ImagePickerDelegate,
+         permissions: Permissions = PermissionManager()) {
         self.pickerController = UIImagePickerController()
+        self.permissions = permissions
         super.init()
         self.presentationController = presentationController
         self.delegate = delegate
@@ -62,6 +67,30 @@ class ImagePicker: NSObject {
         }
         return UIAlertAction(title: title, style: .default) { [unowned self] _ in
             self.pickerController.sourceType = type
+            switch type {
+            case .photoLibrary, .savedPhotosAlbum:
+                permissions.requestPhotoPermission { [weak self] granted in
+                    self?.presentPhotoPicker(isGranted: granted,
+                                             errorTitle: Text.ButtonTitle.photoLibrary,
+                                             errorMessage: Text.Banner.accessNotAuthorizedMessage)
+                }
+            case .camera:
+                permissions.requestCameraPermissions { [weak self] granted in
+                    self?.presentPhotoPicker(isGranted: granted,
+                                             errorTitle: Text.Banner.cameraPermissionsTitle,
+                                             errorMessage: Text.Banner.cameraPermissionsMessage)
+                }
+            @unknown default:
+                return
+            }
+        }
+    }
+    
+    private func presentPhotoPicker(isGranted: Bool, errorTitle: String, errorMessage: String) {
+        guard isGranted == true else {
+            return AlertManager.presentAlertBanner(as: .customMessage(errorTitle), subtitle: errorMessage)
+        }
+        DispatchQueue.main.async {
             self.presentationController?.present(self.pickerController, animated: true)
         }
     }
@@ -77,9 +106,6 @@ class ImagePicker: NSObject {
         if let action = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
             alertController.addAction(action)
         }
-        if let action = self.action(for: .photoLibrary, title: Text.ButtonTitle.photoLibrary) {
-            alertController.addAction(action)
-        }
         alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: nil))
         
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -87,39 +113,7 @@ class ImagePicker: NSObject {
             alertController.popoverPresentationController?.sourceRect = sourceView.bounds
             alertController.popoverPresentationController?.permittedArrowDirections = [.down, .up]
         }
-        // verifies permission before presenting the menu
-        requestAccessPermission { [weak self] granted in
-            DispatchQueue.main.async {
-                if granted {
-                    self?.presentationController?.present(alertController, animated: true)
-                } else {
-                    AlertManager.presentAlertBanner(as: .customMessage(Text.ButtonTitle.photoLibrary),
-                                                    subtitle: Text.Banner.accessNotAuthorizedMessage)
-                }
-            }
-        }
-    }
-    
-    // MARK: - Authorization request
-    /// Request user permission to access the photo library or camera.
-    /// - If authotization station is undetermined, the request authorization is done again.
-    /// - Parameter completion: return true or false if access is granted or not.
-    func requestAccessPermission(completion: @escaping (Bool) -> Void) {
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        case .authorized, .limited:
-            completion(true)
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({ (newStatus) in
-                if newStatus == PHAuthorizationStatus.authorized {
-                    completion(true)
-                }
-            })
-        case .restricted, .denied:
-            completion(false)
-        @unknown default:
-            completion(false)
-        }
+        presentationController?.present(alertController, animated: true)
     }
 }
 // MARK: - UIImagepickerController Delegate

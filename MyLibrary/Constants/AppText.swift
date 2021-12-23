@@ -37,6 +37,7 @@ enum Text {
         static let description = NSLocalizedString("Description", comment: "description title")
         static let barcodeController = NSLocalizedString("BarcodeControllerTitle", comment: "Barcode Controller Title")
         static let barcodeControllerSubitle = NSLocalizedString("BarcodeControllerSubitle", comment: "Barcode Controller Subitle")
+        static let acknowledgements = NSLocalizedString("Acknowledgments", comment: "Acknoledgements title")
     }
     
     enum Book {
@@ -122,6 +123,8 @@ enum Text {
         static let successTitle = NSLocalizedString("Success", comment: "Success title")
         static let accountOpen = NSLocalizedString("AccountOpen", comment: "account open title")
         static let emptyEmail = NSLocalizedString("EmptyEmail", comment: "empty email title")
+        static let unsentEmail = NSLocalizedString("UnsentEmail", comment: "email is not sent")
+        static let sentEmail = NSLocalizedString("SentEmail", comment: "email is sent")
         static let resetPassordTitle = NSLocalizedString("ResetPassword", comment: "reset password title")
         static let resetPasswordMessage = NSLocalizedString("ReauthentifyBannerMessage", comment: "re authentify subtitle")
         static let accountDeleted = NSLocalizedString("AccountDeleted", comment: "account deleted title")
@@ -134,6 +137,7 @@ enum Text {
         static let feedbackSentTitle = NSLocalizedString("FeedbackSent", comment: "feedback sent Title")
         static let accessNotAuthorizedMessage = NSLocalizedString("AccessNotAuthorized", comment: "access not authorized message")
         static let welcomeTitle = NSLocalizedString("Welcome", comment: "welcome title")
+        static let noFlashLightTitle = NSLocalizedString("NoFlashlightTitle", comment: "flash light unavailable")
     }
     
     enum Misc {
@@ -144,6 +148,7 @@ enum Text {
         static let appCreationYear = NSLocalizedString("AppCreationYear", comment: "year app created title")
         static let notificationSaidComment = NSLocalizedString("said", comment: "said word when user said ...")
         static let closeKeyboardButton = NSLocalizedString("CloseKeyboard", comment: "Close keyboard button")
+        static let unavailable = NSLocalizedString("Unavailable", comment: "when something not available")
     }
     
     enum ListMenu {

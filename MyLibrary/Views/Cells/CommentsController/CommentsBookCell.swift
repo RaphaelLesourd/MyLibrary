@@ -12,13 +12,15 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
     
-    private let imageLoader: ImageRetriverProtocol
-    private let formatter  : FormatterProtocol
+    private let imageLoader: ImageRetriever
+    private let converter: ConverterProtocol
+    private let formatter: FormatterProtocol
    
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = ImageRetriver()
-        formatter   = Formatter()
+        imageLoader = KingFisherImageRetriever()
+        converter = Converter()
+        formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -47,7 +49,7 @@ class CommentsBookCell: UITableViewCell {
    
     func configure(with book: Item) {
         titleLabel.text = book.volumeInfo?.title
-        subtitleLabel.text = formatter.joinArrayToString(book.volumeInfo?.authors)
+        subtitleLabel.text = converter.convertArrayToString(book.volumeInfo?.authors)
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
         }

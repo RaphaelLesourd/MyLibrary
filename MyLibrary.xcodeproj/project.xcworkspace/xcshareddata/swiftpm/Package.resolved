@@ -14,27 +14,18 @@
         "package": "Alamofire",
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "f82c23a8a7ef8dc1a49a8bfc6a96883e79121864",
-          "version": "5.5.0"
-        }
-      },
-      {
-        "package": "AlgoliaSearchClient",
-        "repositoryURL": "https://github.com/algolia/algoliasearch-client-swift",
-        "state": {
-          "branch": null,
-          "revision": "5b795feabf2aa578dc15b4f82a8474a20a4e4290",
-          "version": "8.13.0"
+          "version": null
         }
       },
       {
         "package": "Bauly",
         "repositoryURL": "https://github.com/wiencheck/Bauly.git",
         "state": {
-          "branch": "master",
+          "branch": null,
           "revision": "fb6cfffb64d206b9545147f77b92dfaf2d6f60c2",
-          "version": null
+          "version": "0.1.7"
         }
       },
       {
@@ -51,7 +42,7 @@
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
           "branch": "master",
-          "revision": "67038afb460140faf364ff0267f8e48009658832",
+          "revision": "0feef36e6037de8aeb22607372f440845d52548c",
           "version": null
         }
       },
@@ -123,7 +114,7 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": "master",
-          "revision": "0c02c46cfdc0656ce74fd0963a75e5000a0b7f23",
+          "revision": "0a2924c703902d444002d017b6e9491c819b1f9f",
           "version": null
         }
       },
@@ -141,7 +132,7 @@
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
           "branch": "master",
-          "revision": "99129df52c66dffd47d536372ec7558b12e188a0",
+          "revision": "f237d87961d78c08baefd2e134b72fd07eb5c98b",
           "version": null
         }
       },
@@ -155,30 +146,12 @@
         }
       },
       {
-        "package": "PanModal",
-        "repositoryURL": "https://github.com/slackhq/PanModal.git",
-        "state": {
-          "branch": "master",
-          "revision": "b2f5bd7d169cba564d5c5b7203864f79be3fe826",
-          "version": null
-        }
-      },
-      {
         "package": "Promises",
         "repositoryURL": "https://github.com/google/promises.git",
         "state": {
           "branch": null,
           "revision": "611337c330350c9c1823ad6d671e7f936af5ee13",
           "version": "2.0.0"
-        }
-      },
-      {
-        "package": "swift-log",
-        "repositoryURL": "https://github.com/apple/swift-log.git",
-        "state": {
-          "branch": null,
-          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
-          "version": "1.4.2"
         }
       },
       {

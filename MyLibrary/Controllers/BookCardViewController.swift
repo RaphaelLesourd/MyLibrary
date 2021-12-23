@@ -15,11 +15,11 @@ protocol BookCardDelegate: AnyObject {
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView = BookCardMainView(frame: .zero, formatter: Formatter())
+    private let mainView = BookCardMainView(frame: .zero, converter: Converter(), formatter: Formatter())
     private let categoryService: CategoryServiceProtocol
-    private let imageLoader: ImageRetriverProtocol
+    private let imageLoader: ImageRetriever
     private let libraryService: LibraryServiceProtocol
-    private let recommendationService: RecommendationServiceProtocol
+    private let recommendationService: Recommendation
     
     private var book: Item
     private var searchType: SearchType
@@ -39,8 +39,8 @@ class BookCardViewController: UIViewController {
     init(book: Item,
          searchType: SearchType,
          libraryService: LibraryServiceProtocol,
-         recommendationService: RecommendationServiceProtocol,
-         imageLoader: ImageRetriverProtocol,
+         recommendationService: Recommendation,
+         imageLoader: ImageRetriever,
          categoryService: CategoryServiceProtocol) {
         self.book = book
         self.searchType = searchType
@@ -172,7 +172,6 @@ class BookCardViewController: UIViewController {
     
     private func displayBookCover() {
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            guard let image = image else { return }
             self?.coverImage = image
             self?.mainView.configureBookCoverImage(with: image)
         }
@@ -189,6 +188,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Navigation
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
+                                                      converter: Converter(),
                                                       formatter: Formatter(),
                                                       validator: Validator())
         newBookController.newBook = book

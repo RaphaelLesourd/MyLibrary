@@ -26,14 +26,14 @@ class SearchViewController: CollectionViewController {
    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: ListLayoutComposer
+    private var layoutComposer: DefaultLayoutComposer
     private var apiManager: ApiManagerProtocol
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
     /// Demands a netWorks service to fetch data.
     /// - Parameter networkService: NetworkProtocol
-    init(apiManager: ApiManagerProtocol, layoutComposer: ListLayoutComposer) {
+    init(apiManager: ApiManagerProtocol, layoutComposer: DefaultLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +60,7 @@ class SearchViewController: CollectionViewController {
     private func configureCollectionView() {
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: .medium)
         collectionView.collectionViewLayout = layout
-        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
@@ -132,7 +132,7 @@ extension SearchViewController {
     private func createDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
-            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+            let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell
         })

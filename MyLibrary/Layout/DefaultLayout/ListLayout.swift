@@ -7,38 +7,6 @@
 
 import UIKit
 
-enum GridItemSize: CGFloat, CaseIterable {
-    case large = 0.5
-    case medium = 0.33333
-    case small = 0.25
-    
-    var title: String {
-        switch self {
-        case .large:
-            return Text.ListMenu.large
-        case .medium:
-            return Text.ListMenu.medium
-        case .small:
-            return Text.ListMenu.small
-        }
-    }
-    
-    var image: UIImage {
-        switch self {
-        case .large:
-            return Images.LayoutMenu.gridHalfLayout
-        case .medium:
-            return Images.LayoutMenu.gridThirdLayout
-        case .small:
-            return Images.LayoutMenu.gridQuarterLayout
-        }
-    }
-}
-
-protocol ListLayoutComposer {
-    func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout
-}
-
 class ListLayout {
  
     private  func makeVerticalGridLayoutSection(gridItemSize: GridItemSize) -> NSCollectionLayoutSection {
@@ -64,7 +32,7 @@ class ListLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension ListLayout: ListLayoutComposer {
+extension ListLayout: DefaultLayoutComposer {
     
     func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ in

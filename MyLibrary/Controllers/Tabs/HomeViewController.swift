@@ -50,8 +50,8 @@ class HomeViewController: CollectionViewController {
     private func configureCollectionView() {
         collectionView.dataSource = dataSource
         collectionView.register(cell: CategoryCollectionViewCell.self)
-        collectionView.register(cell: VerticalCollectionViewCell.self)
-        collectionView.register(cell: HorizontalCollectionViewCell.self)
+        collectionView.register(cell: BookCollectionViewCell.self)
+        collectionView.register(cell: DetailedBookCollectionViewCell.self)
         collectionView.register(header: HeaderSupplementaryView.self)
         collectionView.delegate = self
     }
@@ -122,8 +122,7 @@ class HomeViewController: CollectionViewController {
     }
     
     private func showCategories() {
-        let categoryListVC = CategoriesViewController(categoryService: CategoryService())
-        categoryListVC.settingBookCategory = false
+        let categoryListVC = CategoriesViewController(settingBookCategory: false, categoryService: CategoryService())
         navigationController?.show(categoryListVC, sender: nil)
     }
 }
@@ -147,13 +146,13 @@ extension HomeViewController {
                 }
             case .newEntry, .favorites:
                 if let book = item as? Item {
-                    let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
                     return cell
                 }
             case .recommanding:
                 if let book = item as? Item {
-                    let cell: HorizontalCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: book)
                     return cell
                 }

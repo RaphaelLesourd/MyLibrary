@@ -16,17 +16,19 @@ class NewBookControllerView {
     weak var delegate: NewBookViewDelegate?
     
     private let formatter: FormatterProtocol
-    private let imageRetriever: ImageRetriverProtocol
+    private let converter: ConverterProtocol
+    private let imageRetriever: ImageRetriever
     
-    init(formatter: FormatterProtocol, imageRetriver: ImageRetriverProtocol) {
+    init(converter: ConverterProtocol,
+         formatter: FormatterProtocol,
+         imageRetriver: ImageRetriever) {
+        self.converter = converter
         self.formatter = formatter
         self.imageRetriever = imageRetriver
         setButtonTargets()
     }
     
     // MARK: - Subviews
-    let commonStaticTableViewController = StaticTableViewController()
-    
     let activityIndicator = UIActivityIndicatorView()
     var searchController = UISearchController()
     
@@ -49,8 +51,8 @@ class NewBookControllerView {
                                           tintColor: .appTintColor,
                                           backgroundColor: .appTintColor)
     
-    lazy var descriptionCell = commonStaticTableViewController.createDefaultCell(with: Text.Book.bookDescription)
-    lazy var bookCategoryCell = commonStaticTableViewController.createDefaultCell(with: Text.Book.bookCategories)
+    lazy var descriptionCell = DisclosureTableViewCell(title: Text.Book.bookDescription)
+    lazy var bookCategoryCell = DisclosureTableViewCell(title: Text.Book.bookCategories)
     
     lazy var textFields = [bookTileCell.textField,
                            bookAuthorCell.textField,
@@ -79,7 +81,7 @@ class NewBookControllerView {
     // MARK: - Display data
     func displayBookDetail(with book: Item) {
         bookTileCell.textField.text = book.volumeInfo?.title
-        bookAuthorCell.textField.text = formatter.joinArrayToString(book.volumeInfo?.authors)
+        bookAuthorCell.textField.text = converter.convertArrayToString(book.volumeInfo?.authors)
         publisherCell.textField.text = book.volumeInfo?.publisher
         publishDateCell.textField.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         isbnCell.textField.text = book.volumeInfo?.industryIdentifiers?.first?.identifier

@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol HomeLayoutComposer {
-    func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections,
-                                 AnyHashable>) -> UICollectionViewLayout
-}
-
 class HomeViewControllerLayout {
     
     // Categories section layout

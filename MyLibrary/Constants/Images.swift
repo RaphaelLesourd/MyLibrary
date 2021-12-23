@@ -10,7 +10,7 @@ import UIKit
 enum Images {
     
     static let welcomeScreen = UIImage(named: "welcomeScreenImage")
-    static let emptyStateBookImage = UIImage(named: "cover")
+    static let emptyStateBookImage = UIImage(named: "cover")!
     
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)
@@ -29,7 +29,7 @@ enum Images {
     
     enum TabBarIcon {
         static let homeIcon = UIImage(systemName: "house.fill")
-        static let booksIcon = UIImage(systemName: "books.vertical.fill")
+        static let booksIcon = UIImage(systemName: "books.vertical.fill") ?? UIImage(systemName: "book.fill")
         static let accountIcon = UIImage(systemName: "person.fill")
         static let newBookIcon = UIImage(systemName: "plus.circle.fill")
         static let openBookIcon = UIImage(systemName: "book.fill")
@@ -41,6 +41,8 @@ enum Images {
     }
     
     enum ButtonIcon {
-        static let favoriteImage = UIImage(systemName: "heart.fill")
+        static let favorite = UIImage(systemName: "heart.fill")
+        static let lightBulbOn = UIImage(systemName: "lightbulb.slash.fill")
+        static let lightBulbOff = UIImage(systemName: "lightbulb.fill")
     }
 }

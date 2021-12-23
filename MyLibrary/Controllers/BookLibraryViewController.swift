@@ -16,17 +16,15 @@ class BookLibraryViewController: CollectionViewController {
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: ListLayoutComposer
+    private var layoutComposer: DefaultLayoutComposer
     private var libraryService: LibraryServiceProtocol
-    private var queryService: QueryServiceProtocol
+    private var queryService: QueryProtocol
     private var bookListMenu: BookListLayoutMenu?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
     private var gridItemSize: GridItemSize = .medium {
         didSet {
-            let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
-            collectionView.setCollectionViewLayout(layout, animated: true)
-            applySnapshot()
+            updateGridLayout()
         }
     }
     
@@ -34,7 +32,7 @@ class BookLibraryViewController: CollectionViewController {
     init(currentQuery: BookQuery,
          queryService: QueryService,
          libraryService: LibraryServiceProtocol,
-         layoutComposer: ListLayoutComposer) {
+         layoutComposer: DefaultLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
         self.libraryService = libraryService
@@ -49,11 +47,11 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
         queryService.currentQuery = currentQuery
         bookListMenu = BookListLayoutMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
-        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
-      
+        
         configureCollectionView()
         configureNavigationBarButton()
         configureRefresherControl()
@@ -63,7 +61,7 @@ class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Setup
     private func configureCollectionView() {
-        collectionView.register(cell: VerticalCollectionViewCell.self)
+        collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
     }
@@ -73,10 +71,10 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
-        let show: Bool = currentQuery.listType != .categories
+        let listType: Bool = currentQuery.listType != .categories
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                                             primaryAction: nil,
-                                                            menu: bookListMenu?.configureLayoutMenu(withFilterMenu: show))
+                                                            menu: bookListMenu?.configureLayoutMenu(for: listType))
     }
     
     private func setTitle() -> String {
@@ -87,6 +85,12 @@ class BookLibraryViewController: CollectionViewController {
             return query.title
         }
         return Text.ControllerTitle.myBooks
+    }
+    
+    private func updateGridLayout() {
+        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
+        collectionView.setCollectionViewLayout(layout, animated: true)
+        applySnapshot()
     }
     
     // MARK: - Api call
@@ -105,14 +109,14 @@ class BookLibraryViewController: CollectionViewController {
                 guard !books.isEmpty else {
                     return self.noMoreBooks = true
                 }
-                self.addToList(books)
+                self.addBookToList(books)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
     
-    private func addToList(_ books: [Item]) {
+    private func addBookToList(_ books: [Item]) {
         books.forEach { book in
             if !bookList.contains(where: { $0.bookID == book.bookID }) {
                 bookList.append(book)
@@ -134,7 +138,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
+        let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
         if indexPath.row == currentRow && noMoreBooks == false {
             getBooks(nextPage: true)
         }
@@ -152,7 +156,7 @@ extension BookLibraryViewController {
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
-            let cell: VerticalCollectionViewCell = collectionView.dequeue(for: indexPath)
+            let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: books)
             return cell
         })
@@ -179,13 +183,13 @@ extension BookLibraryViewController {
 // MARK: - Extension BookListLayoutDelegate
 extension BookLibraryViewController: BookListLayoutDelegate {
    
-    func orderList(by type: DocumentKey) {
+    func orderList(by listType: DocumentKey) {
         queryService.currentQuery = currentQuery
-        currentQuery = queryService.getQuery(with: type)
+        currentQuery = queryService.getQuery(with: listType)
         refreshBookList()
     }
     
-    func setLayoutFromMenu(for layout: GridItemSize) {
-        gridItemSize = layout
+    func setLayoutFromMenu(for size: GridItemSize) {
+        gridItemSize = size
     }
 }

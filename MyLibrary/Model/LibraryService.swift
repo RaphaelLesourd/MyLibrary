@@ -23,7 +23,7 @@ class LibraryService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     
-    private let recommandationService: RecommendationServiceProtocol
+    private let recommandationService: Recommendation
     private let imageService : ImageStorageProtocol
     private let db = Firestore.firestore()
     private var bookListListener: ListenerRegistration?

@@ -81,7 +81,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return try URLEncoding.default.encode(request, with: parameters)
         case .sendPushMessage:
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue(ApiKeys.fcmKEY, forHTTPHeaderField: "Authorization")
+            request.setValue(Keys.fcmKEY, forHTTPHeaderField: "Authorization")
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
             return try URLEncoding.httpBody.encode(request, with: nil)
         }

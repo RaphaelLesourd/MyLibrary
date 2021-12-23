@@ -1,5 +1,5 @@
 //
-//  VideoCapure.swift
+//  BarcodeReader.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 05/12/2021.
@@ -9,59 +9,61 @@ import AVFoundation
 import Vision
 import UIKit
 
-protocol BarcodeCaptureDelegate: AnyObject {
-    var fetchedBarcode: String? { get set }
-    func showPermissionsAlert()
-    func presentNoCameraAlert()
-}
-
 /// Class allowing to scan barcode. It returns a string value used as ISBN for api search.
-/// Process assimilated and adapated from this article
-/// https://www.raywenderlich.com/12663654-vision-framework-tutorial-for-ios-scanning-barcodes
-class BarcodeCapture: NSObject {
- 
-    var captureSession = AVCaptureSession()
+class BarcodeReader: NSObject {
+    
+    private let captureSession = AVCaptureSession()
     private weak var presentationController: UIViewController?
-    private weak var delegate: BarcodeCaptureDelegate?
-    
-    /// Set up a VNDetectBarcodesRequest that will detect barcodes when called.
-    /// - When the method found a barcode, it’ll pass the barcode on to processClassification(_:)..
-    private lazy var detectBarcodeRequest = VNDetectBarcodesRequest { [weak self] request, error in
-        if let error = error {
-            AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
-            return
-        }
-        self?.processClassification(request)
-    }
-    
-    init(presentationController: UIViewController, delegate: BarcodeCaptureDelegate) {
-        super.init()
+    private weak var delegate: BarcodeProvider?
+    private var permissions: Permissions
+
+    init(presentationController: UIViewController,
+         delegate: BarcodeProvider,
+         permissions: Permissions = PermissionManager()) {
         self.presentationController = presentationController
         self.delegate = delegate
+        self.permissions = permissions
+        super.init()
+        self.checkCameraPermission()
     }
     
-    // MARK: - Camera
-    /// Prompt the user for permission to use the camera if not already authorized.
-    func checkPermissions() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            setupCameraLiveView()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [self] granted in
-                if !granted {
-                    self.delegate?.showPermissionsAlert()
-                }
+    func stopCameraLiveView() {
+        captureSession.stopRunning()
+        toggleTorch(onState: false)
+    }
+    
+    func toggleTorch(onState: Bool) {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video),
+              device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+            device.torchMode = onState ? .on : .off
+            if onState {
+                try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
             }
-        case .denied, .restricted:
-            delegate?.showPermissionsAlert()
-        default:
-            return
+            device.unlockForConfiguration()
+        } catch {
+            print("Torch could not be used")
         }
     }
+    
+    private func checkCameraPermission() {
+        permissions.requestCameraPermissions { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    self.setupCameraLiveView()
+                } else {
+                    self.delegate?.presentError(with: .restrictedAccess)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Private functions
     /// Setup camera session.
     /// - captureSession is an instance of AVCaptureSession.
     /// - With an AVCaptureSession, you can manage capture activity and coordinate how data flows from input devices to capture outputs.
-    func setupCameraLiveView() {
+    private func setupCameraLiveView() {
         captureSession.sessionPreset = .hd1280x720
         guard let videoDeviceInput = addVideoInput() else { return }
         captureSession.addInput(videoDeviceInput)
@@ -77,7 +79,7 @@ class BarcodeCapture: NSObject {
         guard let device = videoDevice,
               let videoDeviceInput = try? AVCaptureDeviceInput(device: device),
               captureSession.canAddInput(videoDeviceInput) else {
-                  delegate?.presentNoCameraAlert()
+                  delegate?.presentError(with: .noCamera)
                   return nil
               }
         return videoDeviceInput
@@ -95,29 +97,7 @@ class BarcodeCapture: NSObject {
             self.captureSession.startRunning()
         }
     }
-    // MARK: - Vision
-    /// Analyze the result of the handled request.
-    /// - Get a list of potential barcodes from the request.
-    /// - Loop through the potential barcodes to analyze each one individually.
-    /// - A positive result is passed back to the previous view controller
-    /// - Parameter request: VNDetectBarcodesRequest from detectBarcodeRequest
-    func processClassification(_ request: VNRequest) {
-        guard let barcodes = request.results else { return }
-        DispatchQueue.main.async { [self] in
-            if captureSession.isRunning {
-                presentationController?.view.layer.sublayers?.removeSubrange(1...)
-                for barcode in barcodes {
-                    guard let potentialQRCode = barcode as? VNBarcodeObservation,
-                          potentialQRCode.symbology != .QR,
-                          potentialQRCode.confidence > 0.9
-                    else { return }
-                    delegate?.fetchedBarcode = potentialQRCode.payloadStringValue
-                    presentationController?.dismiss(animated: true)
-                }
-            }
-        }
-    }
-    // MARK: - Overlay
+    // MARK: Overlay
     private func configurePreviewLayer() {
         DispatchQueue.main.async {
             let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
@@ -130,21 +110,51 @@ class BarcodeCapture: NSObject {
             }
         }
     }
+    // MARK: Vision
+    /// Analyze the result of the handled request.
+    /// - Get a list of potential barcodes from the request.
+    /// - Loop through the potential barcodes to analyze each one individually.
+    /// - A positive result is passed back to the previous view controller
+    /// - Parameter request: VNDetectBarcodesRequest from detectBarcodeRequest
+    private func processClassification(_ request: VNRequest) {
+        guard let barcodes = request.results else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                    self.captureSession.isRunning else { return }
+            
+            self.presentationController?.view.layer.sublayers?.removeSubrange(1...)
+            for barcode in barcodes {
+                guard let potentialQRCode = barcode as? VNBarcodeObservation,
+                      potentialQRCode.symbology != .QR,
+                      potentialQRCode.confidence > 0.9 else { return }
+                self.delegate?.provideBarcode(with: potentialQRCode.payloadStringValue)
+            }
+        }
+    }
 }
 // MARK: - AVCaptureDelegation
-extension BarcodeCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension BarcodeReader: AVCaptureVideoDataOutputSampleBufferDelegate {
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.
     /// - Perform the detectBarcodeRequest using the handler.
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
                        from connection: AVCaptureConnection) {
+        
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .right)
         do {
-            try imageRequestHandler.perform([detectBarcodeRequest])
+            try imageRequestHandler.perform(
+                [VNDetectBarcodesRequest(completionHandler: { [weak self] request, error in
+                    guard let self = self else { return }
+                    if let error = error {
+                        self.delegate?.presentError(with: .defaultError(error))
+                        return
+                    }
+                    self.processClassification(request)
+                })])
         } catch {
-            AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+            print(error.localizedDescription)
         }
     }
 }

@@ -43,6 +43,8 @@
 	<string>$(FCM_KEY)</string>
 	<key>fcmURL</key>
 	<string>$(FCM_URL)</string>
+	<key>feebackEmail</key>
+	<string>$(FEEDBACK_EMAIL)</string>
 	<key>googleBooksURL</key>
 	<string>$(GOOGLEBOOKS_URL)</string>
 </dict>

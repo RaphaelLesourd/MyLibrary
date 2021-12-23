@@ -13,14 +13,19 @@ class BarcodeControllerView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(infoLabel)
+        titleStackView.addArrangedSubview(titleLabel)
+        titleStackView.addArrangedSubview(infoLabel)
+        
+        headerStackView.addArrangedSubview(titleStackView)
+        headerStackView.addArrangedSubview(flashLightButton)
+        
+        stackView.addArrangedSubview(headerStackView)
         stackView.addArrangedSubview(videoPreviewContainerView)
-        stackView.setCustomSpacing(20, after: infoLabel)
         
         setStackViewConstraints()
         setAnimationViewConstraints()
         configureView()
+        toggleButton(onState: false)
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +38,7 @@ class BarcodeControllerView: UIView {
         view.rounded(radius: 12, backgroundColor: .systemBackground)
         return view
     }()
+    
     let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
@@ -42,14 +48,27 @@ class BarcodeControllerView: UIView {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
     }()
+
+    let flashLightButton = UIButton()
     private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 25, weight: .bold)
     private let infoLabel = TextLabel(color: .label, maxLines: 1, alignment: .left, fontSize: 14, weight: .light)
-    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 5)
+    private let titleStackView = StackView(axis: .vertical, spacing: 5)
+    private let headerStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
+    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 20)
     
     // MARK: - Configure
     private func configureView() {
         titleLabel.text = Text.ControllerTitle.barcodeController
         infoLabel.text = Text.ControllerTitle.barcodeControllerSubitle
+    }
+    
+    func toggleButton(onState: Bool) {
+        let configuration = UIImage.SymbolConfiguration(pointSize: 28, weight: .regular, scale: .medium)
+        let onImage = Images.ButtonIcon.lightBulbOn?.withConfiguration(configuration)
+        let offImage = Images.ButtonIcon.lightBulbOff?.withConfiguration(configuration)
+        let buttonImage = onState ? onImage : offImage
+        flashLightButton.setImage(buttonImage, for: .normal)
+        flashLightButton.tintColor = onState ? .systemOrange : .label
     }
 }
 // MARK: - Constraints
