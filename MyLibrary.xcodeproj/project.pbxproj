@@ -78,6 +78,14 @@
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		818657EB27664F9F00B25116 /* BookListLayoutMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */; };
 		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
+		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
+		8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */; };
+		8188523B27748D06002813A1 /* CommentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523A27748D06002813A1 /* CommentServiceProtocol.swift */; };
+		8188523E27748D44002813A1 /* ImageStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523D27748D44002813A1 /* ImageStorageProtocol.swift */; };
+		8188524127748D9D002813A1 /* LibraryServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */; };
+		8188524427748DDF002813A1 /* MessageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188524327748DDF002813A1 /* MessageServiceProtocol.swift */; };
+		8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188524627748E16002813A1 /* RecommendationServiceProtocol.swift */; };
+		8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188524927748E42002813A1 /* UserServiceProtocol.swift */; };
 		8194D544276A154E0098E484 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194D546276A154E0098E484 /* InfoPlist.strings */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
@@ -281,6 +289,14 @@
 		818657A627649D5C00B25116 /* AccountControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutMenu.swift; sourceTree = "<group>"; };
+		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
+		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
+		8188523A27748D06002813A1 /* CommentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceProtocol.swift; sourceTree = "<group>"; };
+		8188523D27748D44002813A1 /* ImageStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStorageProtocol.swift; sourceTree = "<group>"; };
+		8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryServiceProtocol.swift; sourceTree = "<group>"; };
+		8188524327748DDF002813A1 /* MessageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageServiceProtocol.swift; sourceTree = "<group>"; };
+		8188524627748E16002813A1 /* RecommendationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationServiceProtocol.swift; sourceTree = "<group>"; };
+		8188524927748E42002813A1 /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
 		8194D547276A15510098E484 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
@@ -521,6 +537,78 @@
 				812B16122772106200D65C6A /* BarcodeReader.swift */,
 			);
 			path = BarcodeReader;
+			sourceTree = "<group>";
+		};
+		8188523627748BC2002813A1 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				8188523427748BAB002813A1 /* AccountServiceProtocol.swift */,
+				813B7C792733ADFD005BFBDB /* AccountService.swift */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
+		8188523927748CBA002813A1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				811D5BBE2744F6FD00C935B5 /* CategoryService.swift */,
+				8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		8188523C27748D23002813A1 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				8188523A27748D06002813A1 /* CommentServiceProtocol.swift */,
+				81DB8DFC275399C400698B92 /* CommentService.swift */,
+			);
+			name = Comments;
+			sourceTree = "<group>";
+		};
+		8188523F27748D4E002813A1 /* ImageStorage */ = {
+			isa = PBXGroup;
+			children = (
+				8188523D27748D44002813A1 /* ImageStorageProtocol.swift */,
+				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
+			);
+			name = ImageStorage;
+			sourceTree = "<group>";
+		};
+		8188524227748DB0002813A1 /* BookLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */,
+				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
+			);
+			name = BookLibrary;
+			sourceTree = "<group>";
+		};
+		8188524527748DFA002813A1 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
+				8188524327748DDF002813A1 /* MessageServiceProtocol.swift */,
+			);
+			name = Messages;
+			sourceTree = "<group>";
+		};
+		8188524827748E20002813A1 /* Recommendation */ = {
+			isa = PBXGroup;
+			children = (
+				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
+				8188524627748E16002813A1 /* RecommendationServiceProtocol.swift */,
+			);
+			name = Recommendation;
+			sourceTree = "<group>";
+		};
+		8188524B27748E4B002813A1 /* UserService */ = {
+			isa = PBXGroup;
+			children = (
+				813B7C702733A44F005BFBDB /* UserService.swift */,
+				8188524927748E42002813A1 /* UserServiceProtocol.swift */,
+			);
+			name = UserService;
 			sourceTree = "<group>";
 		};
 		8194D548276A17010098E484 /* Localization */ = {
@@ -777,14 +865,14 @@
 			isa = PBXGroup;
 			children = (
 				81792F662732F93F005F863B /* FirebaseError.swift */,
-				813B7C792733ADFD005BFBDB /* AccountService.swift */,
-				811D5BBE2744F6FD00C935B5 /* CategoryService.swift */,
-				81DB8DFC275399C400698B92 /* CommentService.swift */,
-				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
-				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
-				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
-				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
-				813B7C702733A44F005BFBDB /* UserService.swift */,
+				8188523627748BC2002813A1 /* Account */,
+				8188523927748CBA002813A1 /* Categories */,
+				8188523C27748D23002813A1 /* Comments */,
+				8188523F27748D4E002813A1 /* ImageStorage */,
+				8188524227748DB0002813A1 /* BookLibrary */,
+				8188524527748DFA002813A1 /* Messages */,
+				8188524827748E20002813A1 /* Recommendation */,
+				8188524B27748E4B002813A1 /* UserService */,
 			);
 			name = Firebase;
 			sourceTree = "<group>";
@@ -1179,10 +1267,12 @@
 				8121F0BF273FEC22006EAA8D /* RatingView.swift in Sources */,
 				811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */,
 				81FA72772774835700040BEF /* SingleSection.swift in Sources */,
+				8188524127748D9D002813A1 /* LibraryServiceProtocol.swift in Sources */,
 				81792F612732756D005F863B /* StackView.swift in Sources */,
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
+				8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */,
 				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
 				816AE81C275F68A800747548 /* AlertManager.swift in Sources */,
 				81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */,
@@ -1192,6 +1282,7 @@
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
+				8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */,
 				810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */,
 				81FA724E27747E1200040BEF /* PushNotifications.swift in Sources */,
 				811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */,
@@ -1219,6 +1310,7 @@
 				8147516E2727E9490080C5BA /* Images.swift in Sources */,
 				8121F0C6274182EA006EAA8D /* PickerViewStaticCell.swift in Sources */,
 				81FA725027747E3800040BEF /* Permissions.swift in Sources */,
+				8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */,
 				81B91841274A772600486176 /* NewBookControllerView.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
@@ -1237,6 +1329,7 @@
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
 				81C6CCBB27247A2B00DE9219 /* ActionButton.swift in Sources */,
 				810C44772727102D007541C0 /* SigningViewController.swift in Sources */,
+				8188523B27748D06002813A1 /* CommentServiceProtocol.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
 				8121F079273A9A1A006EAA8D /* HomeSections.swift in Sources */,
@@ -1247,6 +1340,7 @@
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
 				81C6CCBE27247A2B00DE9219 /* BookDetailElementView.swift in Sources */,
+				8188524427748DDF002813A1 /* MessageServiceProtocol.swift in Sources */,
 				8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */,
 				81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */,
 				81DB8DE52752329300698B92 /* ListLayout.swift in Sources */,
@@ -1266,6 +1360,7 @@
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				81FA724527747CD300040BEF /* LayoutComposer.swift in Sources */,
+				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				8121F0C127400541006EAA8D /* CollectionViewController.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				818657A727649D5C00B25116 /* AccountControllerView.swift in Sources */,
@@ -1284,6 +1379,7 @@
 				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
 				81885230277486E7002813A1 /* GridSize.swift in Sources */,
 				81B91845274BCFDE00486176 /* Validator.swift in Sources */,
+				8188523E27748D44002813A1 /* ImageStorageProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

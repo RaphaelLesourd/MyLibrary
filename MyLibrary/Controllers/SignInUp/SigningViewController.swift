@@ -12,13 +12,15 @@ class SigningViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = PanModalCommonView()
-    private var userManager: AccountServiceProtocol
+    private var accountService: AccountServiceProtocol
     private var validator: ValidatorProtocol
     private var interfaceType: AccountInterfaceType
     
     // MARK: - Initializer
-    init(userManager: AccountServiceProtocol, validator: ValidatorProtocol, interfaceType: AccountInterfaceType) {
-        self.userManager = userManager
+    init(accountService: AccountServiceProtocol,
+         validator: ValidatorProtocol,
+         interfaceType: AccountInterfaceType) {
+        self.accountService = accountService
         self.validator = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
@@ -78,7 +80,7 @@ class SigningViewController: UIViewController {
     private func loginToAccount() {
         let user = setUser()
         mainView.actionButton.displayActivityIndicator(true)
-        userManager.login(with: user) { [weak self] error in
+        accountService.login(with: user) { [weak self] error in
             guard let self = self else { return }
             
             self.mainView.actionButton.displayActivityIndicator(false)
@@ -93,7 +95,7 @@ class SigningViewController: UIViewController {
     private func createAccount() {
         let user = setUser()
         mainView.actionButton.displayActivityIndicator(true)
-        userManager.createAccount(for: user) { [weak self] error in
+        accountService.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
             
             self.mainView.actionButton.displayActivityIndicator(false)
@@ -119,7 +121,7 @@ class SigningViewController: UIViewController {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyEmail)
             return
         }
-        userManager.sendPasswordReset(for: email) { error in
+        accountService.sendPasswordReset(for: email) { error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -138,7 +140,7 @@ class SigningViewController: UIViewController {
     private func deleteAccount() {
         let user = setUser()
         mainView.actionButton.displayActivityIndicator(true)
-        self.userManager.deleteAccount(with: user) { [weak self] error in
+        self.accountService.deleteAccount(with: user) { [weak self] error in
             guard let self = self else { return }
             
             self.mainView.actionButton.displayActivityIndicator(false)

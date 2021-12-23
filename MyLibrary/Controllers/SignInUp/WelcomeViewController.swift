@@ -36,7 +36,7 @@ class WelcomeViewController: UIViewController {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let signingController = SigningViewController(userManager: accountService, validator: Validator(), interfaceType: type)
+        let signingController = SigningViewController(accountService: accountService, validator: Validator(), interfaceType: type)
         present(signingController, animated: true, completion: nil)
     }
 }

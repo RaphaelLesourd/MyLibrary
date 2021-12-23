@@ -173,7 +173,7 @@ extension AccountViewController: AccountViewDelegate {
             let accountService = AccountService(userService: UserService(),
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
-            let controller = SigningViewController(userManager: accountService, validator: Validator(), interfaceType: .deleteAccount)
+            let controller = SigningViewController(accountService: accountService, validator: Validator(), interfaceType: .deleteAccount)
             self.present(controller, animated: true, completion: nil)
         }
     }

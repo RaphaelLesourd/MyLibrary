@@ -9,14 +9,6 @@ import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-protocol UserServiceProtocol {
-    func createUserInDatabase(for user: UserModel?, completion: @escaping (FirebaseError?) -> Void)
-    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
-    func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void)
-    func deleteUser(completion: @escaping (FirebaseError?) -> Void)
-    func updateFcmToken(with token: String)
-}
-
 class UserService {
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void

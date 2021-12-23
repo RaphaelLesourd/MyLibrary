@@ -8,13 +8,6 @@
 import FirebaseFirestore
 import FirebaseAuth
 
-protocol MessageServiceProtocol {
-    func sendCommentNotification(for book: Item,
-                                 message: String,
-                                 for comments: [CommentModel],
-                                 completion: @escaping (FirebaseError?) -> Void)
-}
-
 class MessageService {
     
     // MARK: - Properties

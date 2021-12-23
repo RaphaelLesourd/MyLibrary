@@ -64,7 +64,7 @@ class CommentsViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        commentService.commentListener?.remove()
+        commentService.removeListener()
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
     }

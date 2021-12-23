@@ -8,11 +8,6 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol Recommendation {
-    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-}
-
 class RecommandationService {
     
     private let db = Firestore.firestore()

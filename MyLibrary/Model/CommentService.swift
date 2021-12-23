@@ -9,22 +9,14 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol CommentServiceProtocol {
-    func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String, completion: @escaping (FirebaseError?) -> Void)
-    func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void)
-    func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void)
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
-    var commentListener: ListenerRegistration? { get set }
-}
-
 class CommentService {
     
     // MARK: - Properties
-    private let db = Firestore.firestore()
-  
-    let userRef: CollectionReference
     var userID: String
-    var commentListener: ListenerRegistration?
+    
+    private let userRef: CollectionReference
+    private var commentListener: ListenerRegistration?
+    private let db = Firestore.firestore()
     
     // MARK: - Initializer
     init() {
@@ -34,7 +26,7 @@ class CommentService {
  }
 // MARK: - Extension CommentServiceProtocol 
 extension CommentService: CommentServiceProtocol {
- 
+  
     func addComment(for bookID: String,
                     ownerID: String,
                     commentID: String?,
@@ -126,4 +118,9 @@ extension CommentService: CommentServiceProtocol {
             }
         }
     }
+    
+    func removeListener() {
+        commentListener?.remove()
+    }
+    
 }

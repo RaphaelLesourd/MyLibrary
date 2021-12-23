@@ -34,4 +34,3 @@ enum GridItemSize: CGFloat, CaseIterable {
         }
     }
 }
-

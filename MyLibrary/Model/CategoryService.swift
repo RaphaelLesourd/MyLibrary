@@ -9,21 +9,10 @@ import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-protocol CategoryServiceProtocol {
-    var categories: [CategoryModel] { get set }
-    var categoriesListener: ListenerRegistration? { get set }
-    func addCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void)
-    func getCategories(completion: @escaping (FirebaseError?) -> Void)
-    func getCategoryNameList(for categoryIds: [String], bookOwnerID: String, completion: @escaping ([String]) -> Void)
-    func updateCategoryName(for category: CategoryModel, with name: String?, completion: @escaping (FirebaseError?) -> Void)
-    func deleteCategory(for category: CategoryModel, completion: @escaping (FirebaseError?) -> Void)
-}
-
 class CategoryService {
     
     // MARK: - Properties
     var userID: String
-    var categoriesListener: ListenerRegistration?
     var categories: [CategoryModel] = [] {
         didSet {
             categories = categories.sorted(by: {
@@ -31,7 +20,7 @@ class CategoryService {
             })
         }
     }
-
+    private var categoriesListener: ListenerRegistration?
     private lazy var usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     private let db = Firestore.firestore()
     
@@ -183,5 +172,9 @@ extension CategoryService: CategoryServiceProtocol {
             }
             completion(nil)
         }
+    }
+    
+    func removeListener() {
+        categoriesListener?.remove()
     }
 }

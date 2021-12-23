@@ -12,14 +12,6 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 import FirebaseMessaging
 
-protocol AccountServiceProtocol {
-    func createAccount(for userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func login(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func signOut(completion: @escaping (FirebaseError?) -> Void)
-    func sendPasswordReset(for email: String, completion: @escaping (FirebaseError?) -> Void)
-}
-
 class AccountService {
     
     // MARK: - Properties
@@ -56,7 +48,7 @@ class AccountService {
     
     private func removeFirestoreListeners() {
         libraryService.removeBookListener()
-        categoryService.categoriesListener?.remove()
+        categoryService.removeListener()
         userService.updateFcmToken(with: "")
     }
 }
