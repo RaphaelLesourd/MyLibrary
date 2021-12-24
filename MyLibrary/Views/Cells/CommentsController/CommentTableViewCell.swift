@@ -48,10 +48,23 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let userNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
-    private let commentLabel = TextLabel(color: .label, maxLines: 0, alignment: .natural, fontSize: 18, weight: .light)
-    private let dateLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 13, weight: .light)
-    private let stackView = StackView(axis: .vertical, spacing: 15)
+    private let userNameLabel = TextLabel(color: .appTintColor,
+                                          maxLines: 1,
+                                          alignment: .left,
+                                          fontSize: 16,
+                                          weight: .medium)
+    private let commentLabel = TextLabel(color: .label,
+                                         maxLines: 0,
+                                         alignment: .natural,
+                                         fontSize: 18,
+                                         weight: .light)
+    private let dateLabel = TextLabel(color: .secondaryLabel,
+                                      maxLines: 1,
+                                      alignment: .left,
+                                      fontSize: 13,
+                                      weight: .light)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 15)
     
     func configure(with model: CommentModel) {
         commentLabel.text = model.comment
@@ -62,6 +75,7 @@ class CommentTableViewCell: UITableViewCell {
     
     func configureUser(with user: UserModel?) {
         guard let user = user else { return }
+        
         userNameLabel.text = user.displayName.capitalized
         imageLoader.getImage(for: user.photoURL) { [weak self] image in
             self?.profileImageView.image = image

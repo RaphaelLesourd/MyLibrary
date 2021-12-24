@@ -41,10 +41,10 @@ class AccountMainView: UIView {
     private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
     private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 4, fontSize: 16, weight: .regular)
     let userNameTextField = TextField(placeholder: Text.Account.userName,
-                                   keyBoardType: .emailAddress,
-                                   returnKey: .next,
-                                   correction: .no,
-                                   capitalization: .none)
+                                      keyBoardType: .emailAddress,
+                                      returnKey: .next,
+                                      correction: .no,
+                                      capitalization: .none)
     let emailTextField = TextField(placeholder: Text.Account.email,
                                    keyBoardType: .emailAddress,
                                    returnKey: .next,
@@ -60,7 +60,8 @@ class AccountMainView: UIView {
                                              returnKey: .next,
                                              correction: .no,
                                              capitalization: .none)
-    let actionButton = Button(title: "", tintColor: .appTintColor)
+    let actionButton = Button(title: "",
+                              tintColor: .appTintColor)
     
     let forgotPasswordButton: UIButton = {
         let button = UIButton()
@@ -70,8 +71,9 @@ class AccountMainView: UIView {
         return button
     }()
     
-    private let mainStackView = StackView(axis: .vertical, spacing: 10)
- 
+    private let mainStackView = StackView(axis: .vertical,
+                                          spacing: 10)
+    
     // MARK: - Configuration
     func configureUI(for type: AccountInterfaceType) {
         
@@ -87,7 +89,7 @@ class AccountMainView: UIView {
         confirmPasswordTextField.autocapitalizationType = .none
         confirmPasswordTextField.textContentType = .password
 #endif
-       
+        
         userNameTextField.isHidden = type != .signup
         confirmPasswordTextField.isHidden = type != .signup
         forgotPasswordButton.isHidden = type == .signup
@@ -157,7 +159,7 @@ extension AccountMainView {
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-           mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

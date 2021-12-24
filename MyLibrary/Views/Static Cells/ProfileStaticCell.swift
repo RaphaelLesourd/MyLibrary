@@ -35,14 +35,22 @@ class ProfileStaticCell: UITableViewCell {
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         return button
     }()
-    let emailLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .center, fontSize: 15, weight: .regular)
-    private let stackView = StackView(axis: .vertical, distribution: .fill, alignment: .center, spacing: 15)
+    let emailLabel = TextLabel(color: .secondaryLabel,
+                               maxLines: 1,
+                               alignment: .center,
+                               fontSize: 15,
+                               weight: .regular)
+    private let stackView = StackView(axis: .vertical,
+                                      distribution: .fill,
+                                      alignment: .center,
+                                      spacing: 15)
 }
 // MARK: - Constraints
 extension ProfileStaticCell {
     private func setConstraints() {
-        contentView.addSubview(stackView)
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             emailLabel.heightAnchor.constraint(equalToConstant: 18),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),

@@ -42,14 +42,28 @@ class CommentsBookCell: UITableViewCell {
   
    // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 21, weight: .bold)
-    private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .left, fontSize: 16, weight: .medium)
-    private let bookOwnerNameLabel = TextLabel(color: .appTintColor, maxLines: 1, alignment: .left, fontSize: 14, weight: .regular)
-    private let stackView = StackView(axis: .vertical, spacing: 10)
+    private let titleLabel = TextLabel(color: .label,
+                                       maxLines: 2,
+                                       alignment: .left,
+                                       fontSize: 21,
+                                       weight: .bold)
+    private let subtitleLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 1,
+                                          alignment: .left,
+                                          fontSize: 16,
+                                          weight: .medium)
+    private let bookOwnerNameLabel = TextLabel(color: .appTintColor,
+                                               maxLines: 1,
+                                               alignment: .left,
+                                               fontSize: 14,
+                                               weight: .regular)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 10)
    
     func configure(with book: Item) {
         titleLabel.text = book.volumeInfo?.title
         subtitleLabel.text = converter.convertArrayToString(book.volumeInfo?.authors)
+        
         imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
             self?.bookCover.image = image
         }

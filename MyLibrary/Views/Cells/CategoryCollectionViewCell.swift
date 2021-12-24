@@ -12,7 +12,8 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         backgroundColor = .red
-        rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
+        rounded(radius: 10,
+                backgroundColor: UIColor.label.withAlphaComponent(0.05))
         setLabelConstraints()
     }
     
@@ -21,7 +22,10 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Subview
-    private var categoryLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 14, weight: .semibold)
+    private var categoryLabel = TextLabel(color: .secondaryLabel,
+                                          alignment: .center,
+                                          fontSize: 14,
+                                          weight: .semibold)
     
     // MARK: - Configure
     func configure(text: String?) {

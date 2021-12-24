@@ -91,7 +91,9 @@ class HomeViewController: CollectionViewController {
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
         showIndicator(activityIndicator)
         
-        libraryService.getBookList(for: query, limit: 10, forMore: false) { [weak self] result in
+        libraryService.getBookList(for: query,
+                                      limit: 10,
+                                      forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
             self.refresherControl.endRefreshing()
@@ -99,7 +101,8 @@ class HomeViewController: CollectionViewController {
             case .success(let books):
                 completion(books)
             case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error,
+                                                subtitle: error.description)
             }
         }
     }
@@ -122,7 +125,8 @@ class HomeViewController: CollectionViewController {
     }
     
     private func showCategories() {
-        let categoryListVC = CategoriesViewController(settingBookCategory: false, categoryService: CategoryService())
+        let categoryListVC = CategoriesViewController(settingBookCategory: false,
+                                                      categoryService: CategoryService())
         navigationController?.show(categoryListVC, sender: nil)
     }
 }

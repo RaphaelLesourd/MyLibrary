@@ -28,9 +28,16 @@ class BookDetailComponent: UIView {
     }
     
     // MARK: - Subviews
-    let infoLabel = TextLabel(alignment: .center, fontSize: 14, weight: .light)
-    private let titleLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 12, weight: .light)
-    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 2)
+    let infoLabel = TextLabel(alignment: .center,
+                              fontSize: 14,
+                              weight: .light)
+    private let titleLabel = TextLabel(color: .secondaryLabel,
+                                       alignment: .center,
+                                       fontSize: 12,
+                                       weight: .light)
+    private let stackView = StackView(axis: .vertical,
+                                      distribution: .fillProportionally,
+                                      spacing: 2)
 
 }
 // MARK: - Constraints
@@ -38,6 +45,7 @@ extension BookDetailComponent {
     private func setConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.heightAnchor.constraint(equalToConstant: 40).isActive = true
+       
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),

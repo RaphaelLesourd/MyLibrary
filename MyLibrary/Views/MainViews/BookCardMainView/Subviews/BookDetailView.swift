@@ -30,11 +30,13 @@ class BookDetailView: UIView {
     let publishedDateView = BookDetailComponent(title: Text.Book.publishedDate)
     let numberOfPageView = BookDetailComponent(title: Text.Book.numberOfPages)
     let languageView = BookDetailComponent(title: Text.Book.bookLanguage)
-    private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
+    private let stackView = StackView(axis: .horizontal,
+                                      distribution: .fillProportionally,
+                                      spacing: 10)
 }
 // MARK: - Constraints
 extension BookDetailView {
-   
+    
     private func setStackViewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

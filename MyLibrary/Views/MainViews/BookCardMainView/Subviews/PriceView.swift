@@ -22,12 +22,20 @@ class PriceView: UIView {
     }
    
     // MARK: - Subviews
-    let titleLabel = TextLabel(color: .secondaryLabel, fontSize: 14, weight: .light)
-    let purchasePriceLabel = TextLabel(color: .secondaryLabel,alignment: .right, fontSize: 20, weight: .semibold)
-    private let stackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 20)
+    let titleLabel = TextLabel(color: .secondaryLabel,
+                               fontSize: 14,
+                               weight: .light)
+    let purchasePriceLabel = TextLabel(color: .secondaryLabel,
+                                       alignment: .right,
+                                       fontSize: 20,
+                                       weight: .semibold)
+    private let stackView = StackView(axis: .horizontal,
+                                      distribution: .fillProportionally,
+                                      spacing: 20)
 }
 // MARK: - Constraints
 extension PriceView {
+  
     private func setStackviewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

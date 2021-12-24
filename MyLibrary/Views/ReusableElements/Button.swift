@@ -41,6 +41,7 @@ class Button: UIButton {
                          imagePlacement: NSDirectionalRectEdge = .leading,
                          tintColor: UIColor = .appTintColor,
                          backgroundColor: UIColor = .appTintColor) {
+       
         let font = UIFont.systemFont(ofSize: 16, weight: .medium)
         if #available(iOS 15.0, *) {
             configuration = UIButton.Configuration.tinted()

@@ -46,14 +46,20 @@ class BookCardCommentView: UIView {
         return animationView
     }()
     
-    private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .right, fontSize: 14, weight: .medium)
-    private let stackView = StackView(axis: .vertical, spacing: 0)
+    private let titleLabel = TextLabel(color: .label,
+                                       maxLines: 2,
+                                       alignment: .right,
+                                       fontSize: 14,
+                                       weight: .medium)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 0)
 }
 // MARK: - Constraints
 extension BookCardCommentView {
     private func setAnimationViewConstraints() {
-        addSubview(animationView)
         animationView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(animationView)
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: topAnchor),
             animationView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -64,8 +70,9 @@ extension BookCardCommentView {
     }
     
     private func setStackViewConstraints() {
-        addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(stackView)
         NSLayoutConstraint.activate([
            stackView.topAnchor.constraint(equalTo: topAnchor),
            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),

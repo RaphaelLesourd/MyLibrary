@@ -49,11 +49,24 @@ class BarcodeControllerView: UIView {
     }()
     let flashLightButton = UIButton()
     
-    private let titleLabel = TextLabel(color: .label, maxLines: 2, alignment: .left, fontSize: 25, weight: .bold)
-    private let infoLabel = TextLabel(color: .label, maxLines: 1, alignment: .left, fontSize: 14, weight: .light)
-    private let titleStackView = StackView(axis: .vertical, spacing: 5)
-    private let headerStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
-    private let stackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: 20)
+    private let titleLabel = TextLabel(color: .label,
+                                       maxLines: 2,
+                                       alignment: .left,
+                                       fontSize: 25,
+                                       weight: .bold)
+    private let infoLabel = TextLabel(color: .label,
+                                      maxLines: 1,
+                                      alignment: .left,
+                                      fontSize: 14,
+                                      weight: .light)
+    private let titleStackView = StackView(axis: .vertical,
+                                           spacing: 5)
+    private let headerStackView = StackView(axis: .horizontal,
+                                            distribution: .fillProportionally,
+                                            spacing: 10)
+    private let stackView = StackView(axis: .vertical,
+                                      distribution: .fillProportionally,
+                                      spacing: 20)
     
     // MARK: - Configure
     func toggleButton(onState: Bool) {

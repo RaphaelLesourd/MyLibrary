@@ -28,20 +28,27 @@ class PickerViewStaticCell: UITableViewCell {
     }
     
     // MARK: - Subviews
-    let titleLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .left, fontSize: 12, weight: .regular)
+    let titleLabel = TextLabel(color: .secondaryLabel,
+                               maxLines: 2,
+                               alignment: .left,
+                               fontSize: 12,
+                               weight: .regular)
     let pickerView: UIPickerView = {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return picker
     }()
-    private let stackView = StackView(axis: .horizontal, distribution: .fill, spacing: 0)
+    private let stackView = StackView(axis: .horizontal,
+                                      distribution: .fill,
+                                      spacing: 0)
 }
 // MARK: - Constraints
 extension PickerViewStaticCell {
     private func setConstraints() {
-        contentView.addSubview(stackView)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

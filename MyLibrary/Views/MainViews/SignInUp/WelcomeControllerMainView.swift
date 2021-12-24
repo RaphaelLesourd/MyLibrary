@@ -29,14 +29,6 @@ class WelcomeControllerMainView: UIView {
     }
     
     // MARK: - Subviews
-    private let backgroundImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.alpha = 0.3
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    private let titleLabel = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
     let loginButton = Button(title: Text.Account.loginTitle,
                                    systemImage: "",
                                    imagePlacement: .leading,
@@ -46,11 +38,29 @@ class WelcomeControllerMainView: UIView {
                                     imagePlacement: .leading,
                                     tintColor: .white,
                                     backgroundColor: .white)
+    let appVerionLabel = TextLabel(color: .white,
+                                   maxLines: 1,
+                                   alignment: .center,
+                                   fontSize: 12,
+                                   weight: .regular)
     
-    let appVerionLabel = TextLabel(color: .white, maxLines: 1, alignment: .center, fontSize: 12, weight: .regular)
-    
-    private let loginStackView = StackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
-    private let mainStackView = StackView(axis: .vertical, spacing: 100)
+    private let backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.alpha = 0.3
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    private let titleLabel = TextLabel(color: .white,
+                                       maxLines: 3,
+                                       alignment: .left,
+                                       fontSize: 40,
+                                       weight: .bold)
+    private let loginStackView = StackView(axis: .horizontal,
+                                           distribution: .fillEqually,
+                                           spacing: 20)
+    private let mainStackView = StackView(axis: .vertical,
+                                          spacing: 100)
     
     private func configureUI() {
         backgroundImage.image = Images.welcomeScreen

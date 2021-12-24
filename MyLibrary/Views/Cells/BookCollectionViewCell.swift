@@ -26,7 +26,8 @@ class BookCollectionViewCell: UICollectionViewCell {
    
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let stackView = StackView(axis: .vertical, spacing: 5)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 5)
 
     // MARK: - Configure
     func configure(with book: Item) {
@@ -38,6 +39,19 @@ class BookCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         bookCover.image = Images.emptyStateBookImage
     }
+    
+    override var isHighlighted: Bool {
+        didSet {
+            let scale = isHighlighted ? 1.05 : 1
+            UIView.animate(withDuration: 0.1,
+                           delay: 0,
+                           options: .curveEaseOut,
+                           animations: {
+                self.transform = CGAffineTransform(scaleX: scale, y: scale)
+            })
+        }
+    }
+    
 }
 // MARK: - Constraints
 extension BookCollectionViewCell {

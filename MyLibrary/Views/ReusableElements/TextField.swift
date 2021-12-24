@@ -40,7 +40,7 @@ class TextField: UITextField {
         self.clearButtonMode = .whileEditing
         self.adjustsFontSizeToFitWidth = true
         self.textColor = .label
-        self.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        self.font = .systemFont(ofSize: 18, weight: .regular)
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.clear.cgColor
         self.translatesAutoresizingMaskIntoConstraints = false

@@ -31,10 +31,16 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(fontSize: 13, weight: .bold)
-    private let subtitleLabel = TextLabel(fontSize: 12, weight: .regular)
-    private let descriptionLabel = TextLabel(maxLines: 4, fontSize: 13, weight: .regular)
-    private let stackView = StackView(axis: .vertical, alignment: .top, spacing: 10)
+    private let titleLabel = TextLabel(fontSize: 13,
+                                       weight: .bold)
+    private let subtitleLabel = TextLabel(fontSize: 12,
+                                          weight: .regular)
+    private let descriptionLabel = TextLabel(maxLines: 4,
+                                             fontSize: 13,
+                                             weight: .regular)
+    private let stackView = StackView(axis: .vertical,
+                                      alignment: .top,
+                                      spacing: 10)
     
     // MARK: - Configure
     func configure(with book: Item) {

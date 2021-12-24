@@ -27,6 +27,7 @@ class BookCardMainView: UIView {
         self.converter = converter
         self.formatter = formatter
         super.init(frame: .zero)
+        
         setTargets()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
@@ -52,7 +53,7 @@ class BookCardMainView: UIView {
         let button = UIButton()
         button.setTitle(Text.ButtonTitle.deleteBook, for: .normal)
         button.setTitleColor(.systemRed, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         return button
     }()
     let favoriteButton: UIButton = {
@@ -90,15 +91,28 @@ class BookCardMainView: UIView {
     }()
     private let commentView = BookCardCommentView()
     private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(maxLines: 5, alignment: .center, fontSize: 21, weight: .semibold)
-    private let authorLabel = TextLabel(maxLines: 3, alignment: .center, fontSize: 16, weight: .regular)
-    private let categoryiesLabel = TextLabel(color: .secondaryLabel, maxLines: 2, alignment: .center, fontSize: 13, weight: .medium)
+    private let titleLabel = TextLabel(maxLines: 5,
+                                       alignment: .center,
+                                       fontSize: 21,
+                                       weight: .semibold)
+    private let authorLabel = TextLabel(maxLines: 3,
+                                        alignment: .center,
+                                        fontSize: 16,
+                                        weight: .regular)
+    private let categoryiesLabel = TextLabel(color: .secondaryLabel,
+                                             maxLines: 2,
+                                             alignment: .center,
+                                             fontSize: 13,
+                                             weight: .medium)
     private let ratingView = RatingView()
-    private let descriptionLabel = TextLabel(maxLines: 0, fontSize: 16, weight: .light)
+    private let descriptionLabel = TextLabel(maxLines: 0,
+                                             fontSize: 16,
+                                             weight: .light)
     private let purchaseDetailView = PriceView()
     private let bookDetailView = BookDetailView()
     private let isbnLabel = TextLabel(color: .secondaryLabel)
-    private let mainStackView = StackView(axis: .vertical, spacing: 30)
+    private let mainStackView = StackView(axis: .vertical,
+                                          spacing: 30)
     
     // MARK: - Configure
     func displayBookInfos(with book: Item?) {
@@ -118,7 +132,8 @@ class BookCardMainView: UIView {
         purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book?.saleInfo?.retailPrice?.currencyCode
         let price = book?.saleInfo?.retailPrice?.amount
-        purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: price, currencyCode: currency)
+        purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: price,
+                                                                                   currencyCode: currency)
         bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book?.volumeInfo?.language,
                                                                                  type: .language).capitalized
     }
@@ -210,6 +225,7 @@ extension BookCardMainView {
     
     private func setBookCoverConstraints() {
         bookCover.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
@@ -250,6 +266,7 @@ extension BookCardMainView {
         mainStackView.setCustomSpacing(50, after: ratingView)
         mainStackView.setCustomSpacing(20, after: bookDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
+       
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

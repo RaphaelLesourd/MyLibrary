@@ -38,11 +38,14 @@ class NewBookControllerView {
     
     let publisherCell = TextFieldStaticCell(placeholder: Text.Book.publisher)
     let publishDateCell = TextFieldStaticCell(placeholder: Text.Book.publishedDate)
-    let numberOfPagesCell = TextFieldStaticCell(placeholder: Text.Book.numberOfPages, keyboardType: .numberPad)
+    let numberOfPagesCell = TextFieldStaticCell(placeholder: Text.Book.numberOfPages,
+                                                keyboardType: .numberPad)
     let languageCell = PickerViewStaticCell(placeholder: Text.Book.bookLanguage)
     
-    let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn, keyboardType: .numberPad)
-    let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price, keyboardType: .decimalPad)
+    let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn,
+                                       keyboardType: .numberPad)
+    let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price,
+                                                keyboardType: .decimalPad)
     let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
