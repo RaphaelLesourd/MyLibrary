@@ -10,7 +10,6 @@ import Lottie
 
 protocol BookCardMainViewDelegate: AnyObject {
     func recommandButtonAction()
-    func editBook()
     func deleteBookAction()
     func favoriteButtonAction()
     func showComments()
@@ -47,10 +46,6 @@ class BookCardMainView: UIView {
     
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
-    let editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(editBook))
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
     let recommandButton = Button(title: "")
     let deleteBookButton: UIButton = {
@@ -165,10 +160,6 @@ class BookCardMainView: UIView {
     // MARK: - Targets
     @objc private func recommandBook() {
         delegate?.recommandButtonAction()
-    }
-    
-    @objc private func editBook() {
-        delegate?.editBook()
     }
     
     @objc private func deleteBook() {

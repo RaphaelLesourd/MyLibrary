@@ -83,7 +83,11 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        navigationItem.rightBarButtonItems = [mainView.editButton, mainView.activityIndicatorButton]
+        let editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(editBook))
+        navigationItem.rightBarButtonItems = [editButton, mainView.activityIndicatorButton]
     }
    
     private func configureUI() {
@@ -180,6 +184,18 @@ class BookCardViewController: UIViewController {
             self?.mainView.displayCategories(with: categoryNames)
         }
     }
+    
+    // MARK: - Navigation
+    @objc private func editBook() {
+        let newBookController = NewBookViewController(libraryService: LibraryService(),
+                                                      converter: Converter(),
+                                                      formatter: Formatter(),
+                                                      validator: Validator())
+        newBookController.newBook = book
+        newBookController.isEditingBook = true
+        newBookController.bookCardDelegate = self
+        navigationController?.show(newBookController, sender: nil)
+    }
 }
 // MARK: - BookCardDelegate
 extension BookCardViewController: BookCardDelegate {
@@ -226,17 +242,6 @@ extension BookCardViewController: BookCardMainViewDelegate {
                                   on: self) { [weak self] _ in
             self?.deleteBook()
         }
-    }
-    
-    func editBook() {
-        let newBookController = NewBookViewController(libraryService: LibraryService(),
-                                                      converter: Converter(),
-                                                      formatter: Formatter(),
-                                                      validator: Validator())
-        newBookController.newBook = book
-        newBookController.isEditingBook = true
-        newBookController.bookCardDelegate = self
-        navigationController?.show(newBookController, sender: nil)
     }
     
     func showComments() {
