@@ -14,17 +14,8 @@ protocol NewBookViewDelegate: AnyObject {
 class NewBookControllerView {
     
     weak var delegate: NewBookViewDelegate?
-    
-    private let formatter: FormatterProtocol
-    private let converter: ConverterProtocol
-    private let imageRetriever: ImageRetriever
-    
-    init(converter: ConverterProtocol,
-         formatter: FormatterProtocol,
-         imageRetriver: ImageRetriever) {
-        self.converter = converter
-        self.formatter = formatter
-        self.imageRetriever = imageRetriver
+   
+    init() {
         setButtonTargets()
     }
     
@@ -82,25 +73,16 @@ class NewBookControllerView {
     }
     
     // MARK: - Display data
-    func displayBookDetail(with book: Item) {
-        bookTileCell.textField.text = book.volumeInfo?.title
-        bookAuthorCell.textField.text = converter.convertArrayToString(book.volumeInfo?.authors)
-        publisherCell.textField.text = book.volumeInfo?.publisher
-        publishDateCell.textField.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
-        isbnCell.textField.text = book.volumeInfo?.industryIdentifiers?.first?.identifier
-        numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        if let price = book.saleInfo?.retailPrice?.amount {
-            purchasePriceCell.textField.text = "\(price)"
-        }
-        if let rating = book.volumeInfo?.ratingsCount {
-            ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
-        }
-    }
-    
-    func displayBookCover(for book: Item) {
-        imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            self?.bookImageCell.pictureView.image = image
-        }
+    func displayBookDetail(with book: NewBookData) {
+        bookTileCell.textField.text = book.title
+        bookAuthorCell.textField.text = book.author
+        publisherCell.textField.text = book.publisherName
+        publishDateCell.textField.text = book.publishedDate
+        isbnCell.textField.text = book.isbn
+        numberOfPagesCell.textField.text = book.pages
+        purchasePriceCell.textField.text = book.price
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = book.rating
+        bookImageCell.pictureView.image = book.image
     }
     
     func resetViews() {

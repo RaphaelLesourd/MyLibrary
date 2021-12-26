@@ -89,6 +89,7 @@
 		818852522774BE87002813A1 /* BookDetailComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailComponent.swift */; };
 		8188525527785CD8002813A1 /* BookCellAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525427785CD8002813A1 /* BookCellAdapter.swift */; };
 		8188525727785FA0002813A1 /* BookCardAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525627785FA0002813A1 /* BookCardAdapter.swift */; };
+		8188525927786D9F002813A1 /* NewBookCardAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525827786D9F002813A1 /* NewBookCardAdapter.swift */; };
 		8194D544276A154E0098E484 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194D546276A154E0098E484 /* InfoPlist.strings */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
@@ -299,6 +300,7 @@
 		8188524927748E42002813A1 /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
 		8188525427785CD8002813A1 /* BookCellAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellAdapter.swift; sourceTree = "<group>"; };
 		8188525627785FA0002813A1 /* BookCardAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardAdapter.swift; sourceTree = "<group>"; };
+		8188525827786D9F002813A1 /* NewBookCardAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookCardAdapter.swift; sourceTree = "<group>"; };
 		8194D547276A15510098E484 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
@@ -637,6 +639,7 @@
 			children = (
 				8188525427785CD8002813A1 /* BookCellAdapter.swift */,
 				8188525627785FA0002813A1 /* BookCardAdapter.swift */,
+				8188525827786D9F002813A1 /* NewBookCardAdapter.swift */,
 			);
 			name = Adapters;
 			sourceTree = "<group>";
@@ -1364,6 +1367,7 @@
 				812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */,
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
+				8188525927786D9F002813A1 /* NewBookCardAdapter.swift in Sources */,
 				8188524427748DDF002813A1 /* MessageServiceProtocol.swift in Sources */,
 				8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */,
 				81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */,

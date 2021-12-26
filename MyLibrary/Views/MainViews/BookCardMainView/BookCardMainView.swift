@@ -52,6 +52,7 @@ class BookCardMainView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
         return button
     }()
+    
     let favoriteButton: UIButton = {
         let button = UIButton()
         button.rounded(radius: 20, backgroundColor: UIColor.systemPink.withAlphaComponent(0.3))
@@ -71,12 +72,14 @@ class BookCardMainView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
+    
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.alpha = 0.55
@@ -85,6 +88,7 @@ class BookCardMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
     private let commentView = BookCardCommentView()
     private let bookCover = BookCover(frame: .zero)
     private let titleLabel = TextLabel(maxLines: 5,
@@ -116,7 +120,7 @@ class BookCardMainView: UIView {
         authorLabel.text = book.author
         ratingView.rating = book.rating
         descriptionLabel.text = book.description
-        isbnLabel.text = book.isbn
+        isbnLabel.text = Text.Book.isbn + book.isbn
         
         bookDetailView.publisherNameView.infoLabel.text = book.publisherName
         bookDetailView.publishedDateView.infoLabel.text = book.publishedDate

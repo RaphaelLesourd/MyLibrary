@@ -34,7 +34,8 @@ class BookCardDataAdapter {
     
     init(imageRetriever: ImageRetriever,
          converter: ConverterProtocol,
-         formatter: FormatterProtocol, categoryService: CategoryService) {
+         formatter: FormatterProtocol,
+         categoryService: CategoryService) {
         self.imageRetriever = imageRetriever
         self.converter = converter
         self.formatter = formatter
@@ -48,14 +49,14 @@ extension BookCardDataAdapter: BookCardAdapter {
         let authors = converter.convertArrayToString(book.volumeInfo?.authors)
         let rating = book.volumeInfo?.ratingsCount ?? 0
         let publisherName = book.volumeInfo?.publisher?.capitalized
-        let publishedDate = book.volumeInfo?.publishedDate
+        let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         let currency = book.saleInfo?.retailPrice?.currencyCode
         let value = book.saleInfo?.retailPrice?.amount
         let price = formatter.formatDoubleToPrice(with: value,
                                                   currencyCode: currency)
         let language = formatter.formatCodeToName(from: book.volumeInfo?.language,
                                                   type: .language).capitalized
-        let isbn = Text.Book.isbn + (book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "")
+        let isbn = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
         let pages = String(book.volumeInfo?.pageCount ?? 0)
 
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail, completion: { image in
@@ -64,7 +65,7 @@ extension BookCardDataAdapter: BookCardAdapter {
                                         rating: rating,
                                         description: book.volumeInfo?.volumeInfoDescription ?? "",
                                         publisherName: publisherName ?? "",
-                                        publishedDate: publishedDate ?? "",
+                                        publishedDate: publishedDate,
                                         pages: pages,
                                         isbn: isbn,
                                         price: price,

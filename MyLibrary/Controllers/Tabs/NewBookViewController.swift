@@ -29,13 +29,14 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     }
     
     private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: ListLayout())
-    private let newBookView = NewBookControllerView(converter: Converter(), formatter: Formatter(), imageRetriver: KingFisherImageRetriever())
+    private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let formatter: FormatterProtocol
     private let validator: ValidatorProtocol
+    private let newBookDataAdpater: NewBookAdapter?
    
     private var imagePicker: ImagePicker?
     private var chosenLanguage: String?
@@ -49,6 +50,9 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         self.converter = converter
         self.formatter = formatter
         self.validator = validator
+        self.newBookDataAdpater = NewBookDataAdapter(imageRetriever: KingFisherImageRetriever(),
+                                                     converter: converter,
+                                                     formatter: formatter)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -124,8 +128,10 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     func setBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookView.displayBookDetail(with: book)
-        newBookView.displayBookCover(for: book)
+        newBookDataAdpater?.getNewBookData(for: book, completion: { [weak self] newBookData in
+            self?.newBookView.displayBookDetail(with: newBookData)
+        })
+        
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
         
