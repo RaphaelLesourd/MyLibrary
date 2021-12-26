@@ -12,7 +12,7 @@ protocol BookCardMainViewDelegate: AnyObject {
     func recommandButtonAction()
     func deleteBookAction()
     func favoriteButtonAction()
-    func showComments()
+    func showCommentsViewController()
     func showBookCover()
 }
 
@@ -181,7 +181,7 @@ class BookCardMainView: UIView {
     }
     
     @objc private func showBookComments() {
-        delegate?.showComments()
+        delegate?.showCommentsViewController()
     }
     
     @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {

@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-/// Setup the app tab bar and add a navigation controller to the ViewController of each tabs.
+/// Setup the app Tab Bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
     
     private let libraryService = LibraryService()
@@ -26,10 +26,15 @@ class TabBarController: UITabBarController {
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithDefaultBackground()
         tabBarAppearance.backgroundColor = .tertiarySystemBackground
-        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
-        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
-        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        
+        let titleNormalColor: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = titleNormalColor
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
+        
+        let titleSelectedColor: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.appTintColor]
+        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = titleSelectedColor
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
+        
         UITabBar.appearance().standardAppearance = tabBarAppearance
         
         if #available(iOS 15.0, *) {

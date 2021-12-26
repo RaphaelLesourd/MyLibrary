@@ -137,6 +137,7 @@ enum Text {
         static let accessNotAuthorizedMessage = NSLocalizedString("AccessNotAuthorized", comment: "access not authorized message")
         static let welcomeTitle = NSLocalizedString("Welcome", comment: "welcome title")
         static let noFlashLightTitle = NSLocalizedString("NoFlashlightTitle", comment: "flash light unavailable")
+        static let flashLightErrorMessage = NSLocalizedString("flashLightErrorMessage", comment: "flashLight Error Message")
     }
     
     enum Misc {

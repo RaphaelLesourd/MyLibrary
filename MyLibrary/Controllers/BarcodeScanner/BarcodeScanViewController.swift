@@ -17,7 +17,7 @@ class BarcodeScanViewController: UIViewController {
     var fetchedBarcode: String?
     var flashLightIsOn = false {
         didSet {
-            toggleTorch(onState: flashLightIsOn)
+            toggleFlashlight(onState: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
@@ -58,11 +58,12 @@ class BarcodeScanViewController: UIViewController {
         }
     }
     
+    // MARK: - Flashlight
     @objc private func toggleFlashLight() {
         flashLightIsOn.toggle()
     }
     
-    private func toggleTorch(onState: Bool) {
+    private func toggleFlashlight(onState: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }
         do {
@@ -73,7 +74,8 @@ class BarcodeScanViewController: UIViewController {
             }
             device.unlockForConfiguration()
         } catch {
-            print("Torch could not be used")
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.noFlashLightTitle),
+                                            subtitle: Text.Banner.flashLightErrorMessage)
         }
     }
     
@@ -83,7 +85,8 @@ class BarcodeScanViewController: UIViewController {
 extension BarcodeScanViewController: BarcodeProvider {
  
     func presentError(with error: BarcodeReaderError) {
-        AlertManager.presentAlertBanner(as: .customMessage(error.title), subtitle: error.description)
+        AlertManager.presentAlertBanner(as: .customMessage(error.title),
+                                        subtitle: error.description)
         dismissViewController()
     }
     

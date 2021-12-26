@@ -61,8 +61,8 @@ class BookCardViewController: UIViewController {
         addNavigationBarButtons()
         configureUI()
         displayBookData()
-        setFavoriteState()
-        setRecommandState()
+        setBookFavoriteState()
+        setBookRecommandState()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,7 +85,6 @@ class BookCardViewController: UIViewController {
     }
    
     private func configureUI() {
-        
         if searchType == .keywordSearch {
             mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
             mainView.deleteBookButton.isHidden = true
@@ -98,13 +97,13 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    private func setFavoriteState() {
+    private func setBookFavoriteState() {
         if let favorite = self.book.favorite {
             favoriteBook = favorite
         }
     }
     
-    private func setRecommandState() {
+    private func setBookRecommandState() {
         if let recommand = self.book.recommanding {
             recommandedBook = recommand
         }
@@ -232,7 +231,7 @@ extension BookCardViewController: BookCardMainViewDelegate {
         }
     }
     
-    func showComments() {
+    func showCommentsViewController() {
         let commentsViewController = CommentsViewController(book: book,
                                                             commentService: CommentService(),
                                                             messageService: MessageService(),

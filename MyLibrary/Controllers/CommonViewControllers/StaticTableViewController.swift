@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Provide  Common TableView with Static cells to other UIViewcontroller that can inherit from this class.
 class StaticTableViewController: UITableViewController {
     
     // MARK: - Properties

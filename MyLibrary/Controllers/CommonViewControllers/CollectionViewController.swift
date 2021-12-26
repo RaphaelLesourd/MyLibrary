@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Provide  Common Collectionview to other UIViewcontroller that can inherit from this class.
 class CollectionViewController: UIViewController {
     
     // MARK: - Properties

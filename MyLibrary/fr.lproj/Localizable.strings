@@ -146,4 +146,5 @@
 "UnsentEmail" = "Email non envoyé";
 "SentEmail" = "Email envoyé";
 "NoFlashlightTitle" = "Torche";
+"flashLightErrorMessage" = "Il a y un problème avec la lampe torche."
 "Unavailable" = "Non disponible";
