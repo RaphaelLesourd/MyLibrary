@@ -11,6 +11,7 @@ enum GridItemSize: CGFloat, CaseIterable {
     case large = 0.5
     case medium = 0.33333
     case small = 0.25
+    case extraSmall = 0.13
     
     var title: String {
         switch self {
@@ -20,17 +21,21 @@ enum GridItemSize: CGFloat, CaseIterable {
             return Text.ListMenu.medium
         case .small:
             return Text.ListMenu.small
+        case .extraSmall:
+            return Text.ListMenu.xsmall
         }
     }
     
     var image: UIImage {
         switch self {
         case .large:
-            return Images.LayoutMenu.gridHalfLayout
+            return Images.LayoutMenu.gridLargeLayout
         case .medium:
-            return Images.LayoutMenu.gridThirdLayout
+            return Images.LayoutMenu.gridMediumLayout
         case .small:
-            return Images.LayoutMenu.gridQuarterLayout
+            return Images.LayoutMenu.gridSmallLayout
+        case .extraSmall:
+            return Images.LayoutMenu.gridExtraSmallLayout
         }
     }
 }

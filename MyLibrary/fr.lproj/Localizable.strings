@@ -134,6 +134,7 @@
 "Large" = "Large";
 "Medium" = "Moyenne";
 "Small" = "Petite";
+"Xsmall" = "Trés Petite";
 "Welcome" = "Bienvenue";
 "said" = "à dit";
 "CloseKeyboard" = "Fermer";
@@ -146,5 +147,5 @@
 "UnsentEmail" = "Email non envoyé";
 "SentEmail" = "Email envoyé";
 "NoFlashlightTitle" = "Torche";
-"flashLightErrorMessage" = "Il a y un problème avec la lampe torche."
+"flashLightErrorMessage" = "Il a y un problème avec la lampe torche.";
 "Unavailable" = "Non disponible";

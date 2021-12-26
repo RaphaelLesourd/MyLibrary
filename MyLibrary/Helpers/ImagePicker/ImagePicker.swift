@@ -24,8 +24,7 @@ class ImagePicker: NSObject {
     private var permissions: Permissions
     
     // MARK: - Initializer
-   
-    
+
     /// Initialize the ImagePicker  and set properties.
     /// - Parameters:
     ///   - presentationController: ViewController calling the ImagePicker

@@ -134,6 +134,7 @@
 "Large" = "Large";
 "Medium" = "Medium";
 "Small" = "Small";
+"Xsmall" = "Extra small";
 "Welcome" = "Welcome back";
 "said" = "said";
 "CloseKeyboard" = "Close";
@@ -146,5 +147,5 @@
 "UnsentEmail" = "Email not sent";
 "SentEmail" = "Email sent";
 "NoFlashlightTitle" = "Flashlight";
-"flashLightErrorMessage" = "There is a problem with the flashlight."
+"flashLightErrorMessage" = "There is a problem with the flashlight.";
 "Unavailable" = "Unavailable";

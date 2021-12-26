@@ -6,16 +6,26 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ListLayout {
  
-    private  func makeVerticalGridLayoutSection(gridItemSize: GridItemSize) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(gridItemSize.rawValue), heightDimension: .fractionalHeight(1.0))
+    private  func makeVerticalGridLayoutSection(gridItemSize: GridItemSize,
+                                                environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        
+        let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.rawValue
+        print(desiredWidth)
+        let itemCount = environment.container.effectiveContentSize.width / desiredWidth
+        print(itemCount)
+        let fractionWidth: CGFloat = 1 / (itemCount.rounded())
+        print(fractionWidth)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fractionWidth), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0, leading: 2.5, bottom: 17, trailing: 2.5)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(gridItemSize.rawValue * 1.7))
+      
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalWidth(fractionWidth * 1.7))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
        
         let section = NSCollectionLayoutSection(group: group)
@@ -35,8 +45,8 @@ class ListLayout {
 extension ListLayout: DefaultLayoutComposer {
     
     func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { [weak self] _, _ in
-            return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize)
+        UICollectionViewCompositionalLayout { [weak self] _, environement in
+            return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize, environment: environement)
         }
     }
 }

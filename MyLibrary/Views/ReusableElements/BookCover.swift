@@ -14,7 +14,7 @@ class BookCover: UIImageView {
         contentMode = .scaleAspectFill
         image = Images.emptyStateBookImage
         isUserInteractionEnabled = true
-        self.rounded(radius: 7, backgroundColor: .clear)
+        self.rounded(radius: 5, backgroundColor: .clear)
     }
     
     required init?(coder: NSCoder) {

@@ -21,9 +21,10 @@ enum Images {
     }
     
     enum LayoutMenu {
-        static let gridHalfLayout = UIImage(systemName: "square.grid.2x2.fill")!
-        static let gridThirdLayout = UIImage(systemName: "square.grid.3x2.fill")!
-        static let gridQuarterLayout = UIImage(systemName: "square.grid.4x3.fill")!
+        static let gridLargeLayout = UIImage(systemName: "square.grid.2x2.fill")!
+        static let gridMediumLayout = UIImage(systemName: "square.grid.3x2.fill")!
+        static let gridSmallLayout = UIImage(systemName: "square.grid.3x3.fill")!
+        static let gridExtraSmallLayout = UIImage(systemName: "square.grid.4x3.fill")!
     }
     
     enum TabBarIcon {

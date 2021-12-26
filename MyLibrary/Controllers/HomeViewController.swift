@@ -94,7 +94,7 @@ class HomeViewController: CollectionViewController {
         showIndicator(activityIndicator)
         
         libraryService.getBookList(for: query,
-                                      limit: 10,
+                                      limit: 15,
                                       forMore: false) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
@@ -129,7 +129,7 @@ class HomeViewController: CollectionViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
                                                       categoryService: CategoryService())
-        navigationController?.show(categoryListVC, sender: nil)
+        presentController(categoryListVC)
     }
 }
 

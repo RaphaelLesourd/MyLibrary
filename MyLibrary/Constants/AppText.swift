@@ -160,5 +160,6 @@ enum Text {
         static let large = NSLocalizedString("Large", comment: "large size title")
         static let medium = NSLocalizedString("Medium", comment: "medium size title")
         static let small = NSLocalizedString("Small", comment: "small size title")
+        static let xsmall = NSLocalizedString("Xsmall", comment: "xsmall size title")
     }
 }
