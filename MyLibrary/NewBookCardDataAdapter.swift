@@ -7,22 +7,6 @@
 
 import UIKit
 
-struct NewBookData {
-    let title: String
-    let author: String
-    let rating: Int
-    let publisherName: String
-    let publishedDate: String
-    let pages: String
-    let isbn: String
-    let price: String
-    let image: UIImage
-}
-
-protocol NewBookAdapter {
-    func getNewBookData(for book: Item, completion: @escaping(NewBookData) -> Void)
-}
-
 class NewBookDataAdapter {
     private let imageRetriever: ImageRetriever
     private let converter: ConverterProtocol
