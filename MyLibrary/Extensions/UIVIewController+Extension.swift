@@ -9,7 +9,7 @@ import UIKit
 import Bauly
 
 extension UIViewController {
-
+    
     // MARK: - NavigationController
     func makeNavigationBarClear() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -22,10 +22,14 @@ extension UIViewController {
     }
     
     // MARK: - Activity Indicator
+    /// Shows UIActivity indicator
+    ///  - Parameters indicator: Passed in UIActivityIndicatorView
     func showIndicator(_ indicator: UIActivityIndicatorView) {
         indicator.startAnimating()
     }
-
+    /// Hides UIActivity indicator
+    ///  - Parameters indicator: Passed in UIActivityIndicatorView
+    ///  - Note: The animation stops with  delay of 0.3 to allow the user time to see very short acities.
     func hideIndicator(_ indicator: UIActivityIndicatorView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             indicator.stopAnimating()
@@ -33,6 +37,7 @@ extension UIViewController {
     }
     
     // MARK: - Keyboard
+    /// Dismiss keyboard when the UIViewcontroller view is tapped
     func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self,action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
