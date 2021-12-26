@@ -38,7 +38,7 @@ class BookCardMainView: UIView {
     }
     
     override func layoutSubviews() {
-        backgroundImage.addFadeGradient()
+        backgroundImage.addFadeGradientFromClear()
     }
     
     // MARK: - Subviews
