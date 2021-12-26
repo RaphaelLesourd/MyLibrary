@@ -8,6 +8,7 @@
 import UIKit
 
 extension NSDirectionalEdgeInsets {
+    
     static func uniform(size: CGFloat) -> NSDirectionalEdgeInsets {
         return NSDirectionalEdgeInsets(top: size, leading: size, bottom: size, trailing: size)
     }
