@@ -19,7 +19,7 @@ class BarcodeReader: NSObject {
 
     init(presentationController: UIViewController,
          delegate: BarcodeProvider,
-         permissions: Permissions = PermissionManager()) {
+         permissions: Permissions) {
         self.presentationController = presentationController
         self.delegate = delegate
         self.permissions = permissions
@@ -31,14 +31,11 @@ class BarcodeReader: NSObject {
         captureSession.stopRunning()
     }
 
+    /// Checks if the user granted permission to use the camera
     private func checkCameraPermission() {
-        permissions.requestCameraPermissions { granted in
+        permissions.requestCameraPermissions { [weak self] granted in
             DispatchQueue.main.async {
-                if granted {
-                    self.setupCameraLiveView()
-                } else {
-                    self.delegate?.presentError(with: .restrictedAccess)
-                }
+                granted ? self?.setupCameraLiveView() : self?.delegate?.presentError(with: .restrictedAccess)
             }
         }
     }

@@ -47,7 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 60
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
-
+    
+    /// Setup Kingfisher cache
     private func kingFisherCacheSetup() {
         let cache = ImageCache.default
         cache.memoryStorage.config.countLimit = 150
@@ -55,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cache.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
         KingfisherManager.shared.downloader.downloadTimeout = 3000.0
     }
-    
+    ///  Fetch User defined data from the bundle
     private func getUserDefinedData() {
         if let fcmKEY = Bundle.main.object(forInfoDictionaryKey: "fcmKey") as? String {
             Keys.fcmKEY = fcmKEY
@@ -71,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    // MARK: UISceneSession Lifecycle
+    // MARK: - UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }

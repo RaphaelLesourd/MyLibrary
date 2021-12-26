@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import CloudKit
 
 class BarcodeScanViewController: UIViewController {
 
@@ -35,7 +36,9 @@ class BarcodeScanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        barcodeCapture = BarcodeReader(presentationController: self, delegate: self)
+        barcodeCapture = BarcodeReader(presentationController: self,
+                                       delegate: self,
+                                       permissions: PermissionManager())
         mainView.flashLightButton.addTarget(self, action: #selector(toggleFlashLight), for: .touchUpInside)
     }
     
