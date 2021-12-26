@@ -38,7 +38,7 @@ class BookLibraryViewController: CollectionViewController {
         self.queryService = queryService
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KingFisherImageRetriever(), converter: Converter())
+        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever(), converter: Converter())
         super.init(nibName: nil, bundle: nil)
     }
     

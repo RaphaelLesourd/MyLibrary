@@ -8,10 +8,6 @@
 import UIKit
 import FirebaseAuth
 
-protocol BookCardDelegate: AnyObject {
-    func fetchBookUpdate()
-}
-
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
@@ -43,7 +39,7 @@ class BookCardViewController: UIViewController {
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KingFisherImageRetriever(),
+        self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KFImageRetriever(),
                                                    converter: Converter(),
                                                    formatter: Formatter(),
                                                    categoryService: CategoryService())

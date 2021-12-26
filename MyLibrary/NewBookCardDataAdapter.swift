@@ -8,10 +8,13 @@
 import UIKit
 
 class NewBookDataAdapter {
+    
+    // MARK: - Properties
     private let imageRetriever: ImageRetriever
     private let converter: ConverterProtocol
     private let formatter: FormatterProtocol
     
+    // MARK: - Initializer
     init(imageRetriever: ImageRetriever,
          converter: ConverterProtocol,
          formatter: FormatterProtocol) {
@@ -20,6 +23,7 @@ class NewBookDataAdapter {
         self.formatter = formatter
     }
 }
+// MARK: - NewBook adapter protocol
 extension NewBookDataAdapter: NewBookAdapter {
    
     func getNewBookData(for book: Item, completion: @escaping (NewBookData) -> Void) {

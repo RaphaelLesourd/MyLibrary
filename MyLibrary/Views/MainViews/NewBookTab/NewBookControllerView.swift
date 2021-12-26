@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol NewBookViewDelegate: AnyObject {
-    func saveBook()
-}
-
 class NewBookControllerView {
     
     weak var delegate: NewBookViewDelegate?

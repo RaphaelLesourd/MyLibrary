@@ -22,7 +22,7 @@ class CommentsViewController: UIViewController {
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
     private let bookCellAdapter: BookCellAdapter?
-
+    
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
     private var editedCommentID: String?
@@ -37,7 +37,7 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
-        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KingFisherImageRetriever(),
+        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KFImageRetriever(),
                                                    converter: Converter())
         super.init(nibName: nil, bundle: nil)
     }
@@ -205,7 +205,11 @@ extension CommentsViewController: UITableViewDelegate {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let numberOfItemsInsection = dataSource.snapshot().numberOfItems(inSection: section)
         
-        let sectionTitleLabel = TextLabel(color: .secondaryLabel, maxLines: 1, alignment: .center, fontSize: 14, weight: .light)
+        let sectionTitleLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 1,
+                                          alignment: .center,
+                                          fontSize: 14,
+                                          weight: .light)
         sectionTitleLabel.text = section.headerTitle.uppercased()
         
         return numberOfItemsInsection == 0 ? nil : sectionTitleLabel

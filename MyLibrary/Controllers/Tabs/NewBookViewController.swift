@@ -7,13 +7,6 @@
 
 import UIKit
 
-protocol NewBookDelegate: AnyObject {
-    var newBook: Item? { get set }
-    var bookDescription: String? { get set }
-    var bookComment: String? { get set }
-    var bookCategories : [String] { get set }
-}
-
 class NewBookViewController: StaticTableViewController, NewBookDelegate {
     
     // MARK: - Properties
@@ -50,7 +43,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         self.converter = converter
         self.formatter = formatter
         self.validator = validator
-        self.newBookDataAdpater = NewBookDataAdapter(imageRetriever: KingFisherImageRetriever(),
+        self.newBookDataAdpater = NewBookDataAdapter(imageRetriever: KFImageRetriever(),
                                                      converter: converter,
                                                      formatter: formatter)
         super.init(nibName: nil, bundle: nil)

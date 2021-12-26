@@ -7,18 +7,13 @@
 
 import UIKit
 
-protocol AccountViewDelegate: AnyObject {
-    func presentImagePicker()
-    func signoutRequest()
-    func deleteAccount()
-    func presentMailComposer()
-}
-
 class AccountControllerView {
     
-    private let imageRetriever: ImageRetriever
+    // MARK: - Properties
     weak var delegate: AccountViewDelegate?
+    private let imageRetriever: ImageRetriever
     
+    // MARK: - Intialiazer
     init(imageRetriever: ImageRetriever) {
         self.imageRetriever = imageRetriever
         displayAppInfos()

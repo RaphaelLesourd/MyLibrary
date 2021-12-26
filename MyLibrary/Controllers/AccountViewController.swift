@@ -17,7 +17,7 @@ class AccountViewController: StaticTableViewController {
     private let imageService: ImageStorageProtocol
     private var imagePicker: ImagePicker?
     private let feedbackManager: FeedbackSender?
-    private let mainView = AccountControllerView(imageRetriever: KingFisherImageRetriever())
+    private let mainView = AccountControllerView(imageRetriever: KFImageRetriever())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,

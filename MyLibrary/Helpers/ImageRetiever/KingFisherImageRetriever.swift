@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class KingFisherImageRetriever: ImageRetriever {
+class KFImageRetriever: ImageRetriever {
     
     func getImage(for url: String?, completion: @escaping (UIImage) -> Void) {
         guard let url = url, let imageURL = URL(string: url) else {

@@ -23,11 +23,14 @@ class BookCellDataAdapter {
 extension BookCellDataAdapter: BookCellAdapter {
     
     func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
+        let title = book.volumeInfo?.title?.capitalized ?? ""
+        let authors = converter.convertArrayToString(book.volumeInfo?.authors)
+        let description = book.volumeInfo?.volumeInfoDescription ?? ""
         
-        imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            let bookData =  BookCellData(title: book.volumeInfo?.title?.capitalized ?? "",
-                                         author: self?.converter.convertArrayToString(book.volumeInfo?.authors) ?? "",
-                                         description: book.volumeInfo?.volumeInfoDescription ?? "",
+        imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { image in
+            let bookData =  BookCellData(title: title,
+                                         author: authors,
+                                         description: description,
                                          image: image)
             completion(bookData)
         }

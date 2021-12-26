@@ -16,7 +16,7 @@ class CommentTableViewCell: UITableViewCell {
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = KingFisherImageRetriever()
+        imageLoader = KFImageRetriever()
         formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .tertiarySystemBackground

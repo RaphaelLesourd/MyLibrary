@@ -8,11 +8,6 @@
 import UIKit
 import AVFoundation
 
-/// Protocol to pass barcode string value back to the requesting controller.
-protocol BarcodeScannerDelegate: AnyObject {
-    func processBarcode(with code: String)
-}
-
 class BarcodeScanViewController: UIViewController {
 
     // MARK: - Properties

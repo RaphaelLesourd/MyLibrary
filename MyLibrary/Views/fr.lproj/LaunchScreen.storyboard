@@ -21,7 +21,7 @@
                                 <rect key="frame" x="-193" y="0.0" width="800" height="896"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.55000000000000004" contentMode="scaleAspectFit" image="books.vertical.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="iAQ-cf-tml">
-                                <rect key="frame" x="157" y="645.5" width="100" height="90.5"/>
+                                <rect key="frame" x="157" y="402.5" width="100" height="90.5"/>
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="Pgb-Ug-WUc"/>
@@ -36,7 +36,7 @@
                             <constraint firstItem="iAQ-cf-tml" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Dag-kb-brh"/>
                             <constraint firstItem="ykj-wH-4AH" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="KoF-T2-d5u"/>
                             <constraint firstAttribute="bottom" secondItem="ykj-wH-4AH" secondAttribute="bottom" id="LKO-lP-nri"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="iAQ-cf-tml" secondAttribute="bottom" constant="126" id="cvS-ag-l7s"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="iAQ-cf-tml" secondAttribute="bottom" constant="369" id="cvS-ag-l7s"/>
                         </constraints>
                     </view>
                 </viewController>
