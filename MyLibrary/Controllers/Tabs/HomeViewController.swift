@@ -17,6 +17,7 @@ class HomeViewController: CollectionViewController {
     private var layoutComposer: HomeLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var categoryService: CategoryServiceProtocol
+    private var bookCellAdater: BookCellAdapter?
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
@@ -28,6 +29,7 @@ class HomeViewController: CollectionViewController {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService
+        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KingFisherImageRetriever(), converter: Converter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -151,13 +153,17 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(with: book)
+                    self.bookCellAdater?.getBookData(for: book) { bookData in
+                        cell.configure(with: bookData)
+                    }
                     return cell
                 }
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(with: book)
+                    self.bookCellAdater?.getBookData(for: book) { bookData in
+                        cell.configure(with: bookData)
+                    }
                     return cell
                 }
             }

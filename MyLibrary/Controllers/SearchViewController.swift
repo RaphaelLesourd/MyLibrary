@@ -28,6 +28,7 @@ class SearchViewController: CollectionViewController {
     private var footerView = LoadingFooterSupplementaryView()
     private var layoutComposer: DefaultLayoutComposer
     private var apiManager: ApiManagerProtocol
+    private var bookCellAdater: BookCellAdapter?
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
@@ -36,6 +37,7 @@ class SearchViewController: CollectionViewController {
     init(apiManager: ApiManagerProtocol, layoutComposer: DefaultLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
+        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KingFisherImageRetriever(), converter: Converter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -131,9 +133,11 @@ extension SearchViewController {
     /// - Returns: UICollectionViewDiffableDataSource
     private func createDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
-                                    cellProvider: { (collectionView, indexPath, books) -> UICollectionViewCell? in
+                                    cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            cell.configure(with: books)
+            self.bookCellAdater?.getBookData(for: book) { bookData in
+                cell.configure(with: bookData)
+            }
             return cell
         })
         configureFooter(dataSource)

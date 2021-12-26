@@ -21,6 +21,7 @@ class CommentsViewController: UIViewController {
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
+    private let bookCellAdapter: BookCellAdapter?
 
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
@@ -36,6 +37,8 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
+        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KingFisherImageRetriever(),
+                                                   converter: Converter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -264,9 +267,12 @@ extension CommentsViewController {
             case .book:
                 if let item = item as? Item {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CommentsBookCell else {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
+                                                                   for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
-                    cell.configure(with: item)
+                    self?.bookCellAdapter?.getBookData(for: item) { bookData in
+                        cell.configure(with: bookData)
+                    }
                     self?.getBookOwnerDetails(completion: { owner in
                         cell.configureOwnerDetails(with: owner)
                     })
@@ -275,7 +281,8 @@ extension CommentsViewController {
             case .today, .past:
                 if let item = item as? CommentModel {
                     let reuseIdentifier = CommentTableViewCell.reuseIdentifier
-                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? CommentTableViewCell else {
+                    guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
+                                                                   for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
                     cell.configure(with: item)

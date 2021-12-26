@@ -172,7 +172,7 @@ extension LibraryService: LibraryServiceProtocol {
             }
         }
     }
-    
+  
     func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
         let docRef = usersCollectionRef
             .document(ownerID)

@@ -18,14 +18,10 @@ protocol BookCardMainViewDelegate: AnyObject {
 
 class BookCardMainView: UIView {
     
-    private var converter: ConverterProtocol
-    private var formatter: FormatterProtocol
     weak var delegate: BookCardMainViewDelegate?
     
     // MARK: - Initializers
-    init(frame: CGRect, converter: ConverterProtocol, formatter: FormatterProtocol) {
-        self.converter = converter
-        self.formatter = formatter
+    override init(frame: CGRect) {
         super.init(frame: .zero)
         
         setTargets()
@@ -115,40 +111,28 @@ class BookCardMainView: UIView {
                                           spacing: 30)
     
     // MARK: - Configure
-    func displayBookInfos(with book: Item?) {
-        titleLabel.text = book?.volumeInfo?.title?.capitalized
-        authorLabel.text = book?.volumeInfo?.authors?.first?.capitalized
-        ratingView.rating = book?.volumeInfo?.ratingsCount ?? 0
-        descriptionLabel.text = book?.volumeInfo?.volumeInfoDescription
+    func displayBookInfos(with book: BookCardData) {
+        titleLabel.text = book.title
+        authorLabel.text = book.author
+        ratingView.rating = book.rating
+        descriptionLabel.text = book.description
+        isbnLabel.text = book.isbn
         
-        bookDetailView.publisherNameView.infoLabel.text = book?.volumeInfo?.publisher?.capitalized
-        bookDetailView.publishedDateView.infoLabel.text = book?.volumeInfo?.publishedDate
-        bookDetailView.numberOfPageView.infoLabel.text = "\(book?.volumeInfo?.pageCount ?? 0)"
-        
-        if let isbn = book?.volumeInfo?.industryIdentifiers?.first?.identifier {
-            isbnLabel.text = Text.Book.isbn + isbn
-        }
+        bookDetailView.publisherNameView.infoLabel.text = book.publisherName
+        bookDetailView.publishedDateView.infoLabel.text = book.publishedDate
+        bookDetailView.numberOfPageView.infoLabel.text = book.pages
+        bookDetailView.languageView.infoLabel.text = book.language
         
         purchaseDetailView.titleLabel.text = Text.Book.price
-        let currency = book?.saleInfo?.retailPrice?.currencyCode
-        let price = book?.saleInfo?.retailPrice?.amount
-        purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: price,
-                                                                                   currencyCode: currency)
-        bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book?.volumeInfo?.language,
-                                                                                 type: .language).capitalized
+        purchaseDetailView.purchasePriceLabel.text = book.price
+        
+        bookCover.image = book.image
+        backgroundImage.image = book.image
+        animateBookImage()
     }
     
-    func configureBookCoverImage(with image: UIImage) {
-        bookCover.image = image
-        backgroundImage.image = image
-        let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
-        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
-            self.backgroundImage.transform = transformation
-        }
-    }
-    
-    func displayCategories(with categoryNames: [String]) {
-        categoryiesLabel.text = converter.convertArrayToString(categoryNames).uppercased()
+    func displayCategories(with categorylist: String) {
+        categoryiesLabel.text = categorylist
     }
     
     func setFavoriteButtonAs(_ isFavorite: Bool) {
@@ -160,6 +144,13 @@ class BookCardMainView: UIView {
         recommandButton.setTitle(title, for: .normal)
         commentView.isHidden = !isRecommanding
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
+    }
+    
+    private func animateBookImage() {
+        let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
+        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+            self.backgroundImage.transform = transformation
+        }
     }
     
     private func setTargets() {
@@ -266,7 +257,7 @@ extension BookCardMainView {
         mainStackView.setCustomSpacing(50, after: ratingView)
         mainStackView.setCustomSpacing(20, after: bookDetailView)
         mainStackView.setCustomSpacing(5, after: deleteBookButton)
-       
+        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

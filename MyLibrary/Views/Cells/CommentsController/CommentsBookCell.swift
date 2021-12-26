@@ -12,15 +12,8 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
     
-    private let imageLoader: ImageRetriever
-    private let converter: ConverterProtocol
-    private let formatter: FormatterProtocol
-   
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = KingFisherImageRetriever()
-        converter = Converter()
-        formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -60,13 +53,10 @@ class CommentsBookCell: UITableViewCell {
     private let stackView = StackView(axis: .vertical,
                                       spacing: 10)
    
-    func configure(with book: Item) {
-        titleLabel.text = book.volumeInfo?.title
-        subtitleLabel.text = converter.convertArrayToString(book.volumeInfo?.authors)
-        
-        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            self?.bookCover.image = image
-        }
+    func configure(with book: BookCellData) {
+        titleLabel.text = book.title
+        subtitleLabel.text = book.author
+        bookCover.image = book.image
     }
     
     func configureOwnerDetails(with owner: UserModel?) {

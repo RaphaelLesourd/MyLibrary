@@ -15,11 +15,10 @@ protocol BookCardDelegate: AnyObject {
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
-    private let mainView = BookCardMainView(frame: .zero, converter: Converter(), formatter: Formatter())
-    private let categoryService: CategoryServiceProtocol
-    private let imageLoader: ImageRetriever
+    private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: Recommendation
+    private let bookCardAdapter: BookCardAdapter?
     
     private var book: Item
     private var searchType: SearchType
@@ -39,15 +38,15 @@ class BookCardViewController: UIViewController {
     init(book: Item,
          searchType: SearchType,
          libraryService: LibraryServiceProtocol,
-         recommendationService: Recommendation,
-         imageLoader: ImageRetriever,
-         categoryService: CategoryServiceProtocol) {
+         recommendationService: Recommendation) {
         self.book = book
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.imageLoader = imageLoader
-        self.categoryService = categoryService
+        self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KingFisherImageRetriever(),
+                                                   converter: Converter(),
+                                                   formatter: Formatter(),
+                                                   categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -165,24 +164,18 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Data display
     private func displayBookData() {
-        mainView.displayBookInfos(with: book)
-        displayBookCover()
-        displayCategoryNames()
+        bookCardAdapter?.getBookCardData(for: book, completion: { [weak self] bookCardData in
+            self?.mainView.displayBookInfos(with: bookCardData)
+            self?.coverImage = bookCardData.image
+        })
     }
-    
-    private func displayBookCover() {
-        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            self?.coverImage = image
-            self?.mainView.configureBookCoverImage(with: image)
-        }
-    }
-    
+ 
     private func displayCategoryNames() {
         guard let categoryIds = book.category,
               let bookOwnerID = book.ownerID else { return }
-        categoryService.getCategoryNameList(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categoryNames in
-            self?.mainView.displayCategories(with: categoryNames)
-        }
+        bookCardAdapter?.getBookCategories(for: categoryIds, bookOwnerID: bookOwnerID, completion: { [weak self] categories in
+            self?.mainView.displayCategories(with: categories)
+        })
     }
     
     // MARK: - Navigation
