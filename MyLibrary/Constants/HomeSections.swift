@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 09/11/2021.
 //
 
-/// Enum giving name to each section of the HomeController CollectionView for better readability
+/// HomeController CollectionView sections 
 enum HomeCollectionViewSections: Int, CaseIterable {
     case categories
     case newEntry

@@ -8,7 +8,6 @@
 import UIKit
 
 enum Images {
-    
     static let welcomeScreen = UIImage(named: "welcomeScreenImage")
     static let emptyStateBookImage = UIImage(named: "cover")!
     

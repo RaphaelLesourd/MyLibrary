@@ -27,13 +27,13 @@ class CollectionViewController: UIViewController {
     }
     
     // MARK: - Navgation
-    func showBookDetails(for book: Item, searchType: SearchType) {
+    func showBookDetails(for book: Item, searchType: SearchType?) {
         
         let bookCardVC = BookCardViewController(book: book,
-                                                searchType: searchType,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService())
         bookCardVC.hidesBottomBarWhenPushed = true
+        bookCardVC.searchType = searchType
         navigationController?.show(bookCardVC, sender: nil)
     }
     

@@ -223,7 +223,7 @@ extension HomeViewController: UICollectionViewDelegate {
             showBookList(for: categoryQuery, title: category.name)
         }
         if let book = selectedItem as? Item {
-            showBookDetails(for: book, searchType: .librarySearch)
+            showBookDetails(for: book, searchType: nil)
         }
     }
 }

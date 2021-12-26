@@ -7,7 +7,6 @@
 import Foundation
 
 enum Text {
-    
     enum Account {
         static let loginTitle = NSLocalizedString("LoginTitle", comment: "log in title")
         static let loginSubtitle = NSLocalizedString("LoginSubtitle", comment: "log in message")
@@ -23,7 +22,7 @@ enum Text {
         static let userName = NSLocalizedString("Username", comment: "username title")
         static let reAuthentificationMessage = NSLocalizedString("ReAuthentificationMessage", comment: "Re authentification message")
     }
-   
+    
     enum ControllerTitle {
         static let newBook = NSLocalizedString("Newbook", comment: "new book title")
         static let home =  NSLocalizedString("Home", comment: "home title")
@@ -56,7 +55,7 @@ enum Text {
         static let rating = NSLocalizedString("Rating", comment: "rating title")
         static let bookSaved = NSLocalizedString("BookSaved", comment: "book saved title")
         static let recommendedBy = NSLocalizedString("RecommendedBy", comment: "recommended by title text")
-   }
+    }
     
     enum SectionTitle {
         static let latestBook = NSLocalizedString("LatestBooks", comment: "latest book title")
@@ -97,7 +96,7 @@ enum Text {
         static let commentEntry = NSLocalizedString("CommentEntry", comment: "comment entry placeholder")
         static let commentEmptyState = NSLocalizedString("CommentEmptyState", comment: "No comments message")
     }
-  
+    
     enum Alert {
         static let signout = NSLocalizedString("AlertSignOutMessage", comment: "signout alert message")
         static let deleteAccountTitle = NSLocalizedString("AlertDeleteAccountTitle", comment: "delete account title")
@@ -114,7 +113,7 @@ enum Text {
         static let newCategoryMessage = NSLocalizedString("AlertNewCategoryMessage", comment: "new category message")
         static let deleteCategoryMessage = NSLocalizedString("AlertDeleteCategoryMessage", comment: "delete category message")
     }
-
+    
     enum Banner {
         static let seeYouSoon = NSLocalizedString("GoodByeMessage", comment: "Goodbye message")
         static let profilePhotoUpdated = NSLocalizedString("ProfilePhotoUpdated", comment: "profile photo updted message")

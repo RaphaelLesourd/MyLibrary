@@ -147,7 +147,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        showBookDetails(for: selectedBook, searchType: .librarySearch)
+        showBookDetails(for: selectedBook, searchType: nil)
     }
 }
 

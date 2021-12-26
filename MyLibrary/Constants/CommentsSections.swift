@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 23/12/2021.
 //
 
+/// Comments ViewController TableView sections
 enum CommentsSection: CaseIterable {
     case book
     case today

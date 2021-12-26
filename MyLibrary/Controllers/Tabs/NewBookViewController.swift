@@ -253,7 +253,7 @@ extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         resultController.searchedBooks.removeAll()
-        resultController.searchType = .apiSearch
+        resultController.searchType = .keywordSearch
         resultController.currentSearchKeywords = newBookView.searchController.searchBar.text ?? ""
     }
 }

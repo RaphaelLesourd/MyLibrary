@@ -4,9 +4,8 @@
 //
 //  Created by Birkyboy on 23/12/2021.
 //
-
+/// Type of  API search.
 enum SearchType {
-    case librarySearch
-    case apiSearch
+    case keywordSearch
     case barCodeSearch
 }

@@ -100,12 +100,10 @@ class SearchViewController: CollectionViewController {
     /// - Parameter books: List of books fetch from API
     private func handleList(for books: [Item]) {
         switch searchType {
-        case .apiSearch:
+        case .keywordSearch:
             books.isEmpty ? noMoreBooks = true : addBooks(books)
         case .barCodeSearch:
             newBookDelegate?.newBook = books.first
-        case .librarySearch:
-            return
         case .none:
             return
         }

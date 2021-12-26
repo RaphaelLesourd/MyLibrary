@@ -6,7 +6,8 @@
 //
 import UIKit
 
-enum CategoryActionType {
+/// Type of action for CollectionView or TableView context menu
+enum ActionType {
     case delete
     case edit
     

@@ -11,13 +11,14 @@ import FirebaseAuth
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
+    var searchType: SearchType?
+    
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: Recommendation
     private let bookCardAdapter: BookCardAdapter?
     
     private var book: Item
-    private var searchType: SearchType
     private var coverImage: UIImage?
     private var recommandedBook = false {
         didSet {
@@ -32,11 +33,9 @@ class BookCardViewController: UIViewController {
 
     // MARK: - Intializers
     init(book: Item,
-         searchType: SearchType,
          libraryService: LibraryServiceProtocol,
          recommendationService: Recommendation) {
         self.book = book
-        self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KFImageRetriever(),
@@ -87,7 +86,7 @@ class BookCardViewController: UIViewController {
    
     private func configureUI() {
         
-        if searchType == .apiSearch {
+        if searchType == .keywordSearch {
             mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
             mainView.deleteBookButton.isHidden = true
         }
