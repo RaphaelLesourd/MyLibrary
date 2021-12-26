@@ -60,7 +60,6 @@ extension HomeViewControllerLayout: HomeLayoutComposer {
     func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>) -> UICollectionViewLayout {
      
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-           
             let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]
             switch section {
             case .categories:

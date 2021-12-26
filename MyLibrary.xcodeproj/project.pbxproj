@@ -1011,9 +1011,9 @@
 		81FA724327747C9600040BEF /* DefaultLayout */ = {
 			isa = PBXGroup;
 			children = (
-				818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */,
-				81FA724127747C0D00040BEF /* GridSize.swift */,
 				81FA724427747CD300040BEF /* LayoutComposer.swift */,
+				81FA724127747C0D00040BEF /* GridSize.swift */,
+				818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */,
 				81DB8DE22752329300698B92 /* ListLayout.swift */,
 			);
 			path = DefaultLayout;
@@ -1587,7 +1587,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -1615,7 +1615,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -1767,7 +1767,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -1806,7 +1806,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
