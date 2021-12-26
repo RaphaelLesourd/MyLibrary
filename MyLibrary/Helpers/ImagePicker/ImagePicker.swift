@@ -24,19 +24,25 @@ class ImagePicker: NSObject {
     private var permissions: Permissions
     
     // MARK: - Initializer
+   
+    
     /// Initialize the ImagePicker  and set properties.
     /// - Parameters:
     ///   - presentationController: ViewController calling the ImagePicker
     ///   - delegate: ImagePickerDelegate
     init(presentationController: UIViewController,
          delegate: ImagePickerDelegate,
-         permissions: Permissions = PermissionManager()) {
+         permissions: Permissions) {
         self.pickerController = UIImagePickerController()
-        self.permissions = permissions
-        super.init()
         self.presentationController = presentationController
         self.delegate = delegate
-        
+        self.permissions = permissions
+        super.init()
+        setupImagePicker()
+    }
+    
+    // MARK: - Picker
+    private func setupImagePicker() {
         self.pickerController.delegate = self
         self.pickerController.allowsEditing = false
         self.pickerController.mediaTypes = ["public.image"]
@@ -45,7 +51,6 @@ class ImagePicker: NSObject {
         }
     }
     
-    // MARK: - Picker
     ///  Image picker presneting the device photos.
     /// - Parameters:
     ///   - image: Image elected by the user

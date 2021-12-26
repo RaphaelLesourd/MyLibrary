@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 
+/// Implement the ImageRetriever Protocol by using Kingfisher
 class KFImageRetriever: ImageRetriever {
     
     func getImage(for url: String?, completion: @escaping (UIImage) -> Void) {

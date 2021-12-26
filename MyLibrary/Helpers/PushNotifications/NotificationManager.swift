@@ -23,12 +23,15 @@ class NotificationManager: NSObject {
     }
 
     // MARK: - Private functions
+    /// Update the database userInfo messaging token
     private func updateToken() {
         if let token = Messaging.messaging().fcmToken {
             userService.updateFcmToken(with: token)
         }
     }
 
+    /// Handles a received push notification.
+    /// - Note: Retrieve the bookID and bookOwnerID from the notification Data and fetch the book then present the commentViewController.
     private func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
@@ -45,7 +48,7 @@ class NotificationManager: NSObject {
             }
         }
     }
-    
+    /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     private func presentCommentController(with book: Item) {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         let rootViewController = scene?.window?.rootViewController as? TabBarController

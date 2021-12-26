@@ -38,7 +38,9 @@ class AccountViewController: StaticTableViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self,
+                                  delegate: self,
+                                  permissions: PermissionManager())
         sections = mainView.composeTableView()
         configureViewController()
         addNavigationBarButtons()

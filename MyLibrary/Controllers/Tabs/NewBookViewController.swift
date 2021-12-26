@@ -56,7 +56,9 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self,
+                                  delegate: self,
+                                  permissions: PermissionManager())
         sections = newBookView.composeTableView()
         setDelegates()
         addNavigationBarButtons()
