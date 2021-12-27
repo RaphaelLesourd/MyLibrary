@@ -64,7 +64,7 @@ extension BookCardCommentView {
             animationView.topAnchor.constraint(equalTo: topAnchor),
             animationView.bottomAnchor.constraint(equalTo: bottomAnchor),
             animationView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-            animationView.heightAnchor.constraint(equalToConstant: 70),
+            animationView.heightAnchor.constraint(equalToConstant: 80),
             animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -10)
         ])
     }
