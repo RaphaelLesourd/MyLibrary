@@ -23,13 +23,7 @@ class ConverterTestCase: XCTestCase {
         sut = nil
     }
 
-    // MARK: - Success tests
-    func test_givenArrayOfString_whenJoining_thenReturnString() {
-        let stringArray = ["One", "Two", "Three", "Four", "Five"]
-        let string = sut?.convertArrayToString(stringArray)
-        XCTAssertEqual(string, "One, Two, Three, Four, Five")
-    }
-    
+    // MARK: - tests
     func givenDecimalStringWithComma_whenConvertingToDouble_returnDouble() {
         let decimalString = "25,5"
         XCTAssertEqual(sut?.convertStringToDouble(decimalString), 25.5)
@@ -43,11 +37,6 @@ class ConverterTestCase: XCTestCase {
     func test_givenString_whenConvertToInt_thenReturnInt() {
         let value = "1234"
         XCTAssertEqual(sut?.convertStringToInt(value), 1234)
-    }
-    
-    func test_givenNilArray_whenJoining_thenReturnEmptyString() {
-        let string = sut?.convertArrayToString(nil)
-        XCTAssertEqual(string, "")
     }
     
     func test_givenNilDecimalString_whenConvertingToDouble_thenReturnZero() {

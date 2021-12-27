@@ -37,7 +37,7 @@ class SearchViewController: CollectionViewController {
     init(apiManager: ApiManagerProtocol, layoutComposer: DefaultLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever(), converter: Converter())
+        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

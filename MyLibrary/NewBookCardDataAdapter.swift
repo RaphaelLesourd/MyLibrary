@@ -28,7 +28,7 @@ extension NewBookDataAdapter: NewBookAdapter {
    
     func getNewBookData(for book: Item, completion: @escaping (NewBookData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""
-        let authors = converter.convertArrayToString(book.volumeInfo?.authors)
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         let rating = book.volumeInfo?.ratingsCount ?? 0
         let publisherName = book.volumeInfo?.publisher?.capitalized ?? ""
         let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)

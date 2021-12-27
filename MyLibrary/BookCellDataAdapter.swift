@@ -10,13 +10,10 @@ import UIKit
 class BookCellDataAdapter {
     // MARK: - Properties
     private var imageRetriever: ImageRetriever
-    private var converter: ConverterProtocol
     
     // MARK: - Initializer
-    init(imageRetriever: ImageRetriever,
-         converter: ConverterProtocol) {
+    init(imageRetriever: ImageRetriever) {
         self.imageRetriever = imageRetriever
-        self.converter = converter
     }
 }
 // MARK: BookCell Adapter protocol
@@ -24,7 +21,7 @@ extension BookCellDataAdapter: BookCellAdapter {
     
     func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""
-        let authors = converter.convertArrayToString(book.volumeInfo?.authors)
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         let description = book.volumeInfo?.volumeInfoDescription ?? ""
         
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { image in

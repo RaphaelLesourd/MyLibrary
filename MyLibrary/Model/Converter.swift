@@ -8,15 +8,6 @@
 import Foundation
 
 class Converter: ConverterProtocol {
-    /// Joins an Array of string into one single String
-    /// - Parameter dataArray:  Optional Array of Strings
-    /// - Returns: String
-    func convertArrayToString(_ dataArray: [String]?) -> String {
-        guard let dataArray = dataArray else {
-            return ""
-        }
-        return dataArray.joined(separator: ", ")
-    }
     /// Format a String to Double
     /// - Parameter value: Optional  String
     /// - Returns: Double

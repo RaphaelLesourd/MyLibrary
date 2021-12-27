@@ -39,7 +39,6 @@ class BookCardViewController: UIViewController {
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KFImageRetriever(),
-                                                   converter: Converter(),
                                                    formatter: Formatter(),
                                                    categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)

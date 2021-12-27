@@ -37,8 +37,7 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
-        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KFImageRetriever(),
-                                                   converter: Converter())
+        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

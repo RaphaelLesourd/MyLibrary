@@ -29,7 +29,7 @@ class HomeViewController: CollectionViewController {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever(), converter: Converter())
+        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

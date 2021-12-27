@@ -1086,8 +1086,8 @@
 		81FA72642774811900040BEF /* Converter */ = {
 			isa = PBXGroup;
 			children = (
-				81FA71D727734ECA00040BEF /* Converter.swift */,
 				81FA72622774810F00040BEF /* ConverterProtocol.swift */,
+				81FA71D727734ECA00040BEF /* Converter.swift */,
 			);
 			name = Converter;
 			sourceTree = "<group>";
