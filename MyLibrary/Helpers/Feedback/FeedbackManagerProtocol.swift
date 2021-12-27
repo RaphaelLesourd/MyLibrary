@@ -5,6 +5,6 @@
 //  Created by Birkyboy on 23/12/2021.
 //
 
-protocol FeedbackSender {
+protocol FeedbackManagerProtocol {
     func presentMail()
 }

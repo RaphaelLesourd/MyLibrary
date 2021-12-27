@@ -49,21 +49,21 @@ class TabBarController: UITabBarController {
                                                                           layoutComposer: HomeViewControllerLayout(),
                                                                           categoryService: CategoryService()),
                                                      title: Text.ControllerTitle.home,
-                                                     image: Images.TabBarIcon.homeIcon!)
+                                                     image: Images.TabBarIcon.homeIcon)
         
         let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                                                     queryService: QueryService(),
                                                                                     libraryService: LibraryService(),
                                                                                     layoutComposer: ListLayout()),
                                                         title: Text.ControllerTitle.myBooks,
-                                                        image: Images.TabBarIcon.booksIcon!)
+                                                        image: Images.TabBarIcon.booksIcon)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
                                                                             converter: Converter(),
                                                                             formatter: Formatter(),
                                                                             validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,
-                                                    image: Images.TabBarIcon.newBookIcon!)
+                                                    image: Images.TabBarIcon.newBookIcon)
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
@@ -72,7 +72,7 @@ class TabBarController: UITabBarController {
                                                                                 imageService: ImageStorageService(),
                                                                                 feedbackManager: FeedbackManager(presentationController: self)),
                                                         title: Text.ControllerTitle.account,
-                                                        image: Images.TabBarIcon.accountIcon!)
+                                                        image: Images.TabBarIcon.accountIcon)
         viewControllers = [homeViewController,
                            libraryViewController,
                            newViewController,

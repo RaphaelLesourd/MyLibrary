@@ -42,7 +42,7 @@ extension FeedbackManager: MFMailComposeViewControllerDelegate {
     }
 }
 // MARK: - Extension FeedBackSender
-extension FeedbackManager: FeedbackSender {
+extension FeedbackManager: FeedbackManagerProtocol {
     func presentMail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()

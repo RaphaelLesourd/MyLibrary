@@ -25,7 +25,10 @@ class BookListLayoutMenu {
     // MARK: - Public functions
     func configureLayoutMenu(for filterMenuIncluded: Bool) -> UIMenu {
         let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
-        return UIMenu(title: Text.ListMenu.bookListMenuTitle, image: nil, identifier: nil, children: menuItems)
+        return UIMenu(title: Text.ListMenu.bookListMenuTitle,
+                      image: nil,
+                      identifier: nil,
+                      children: menuItems)
     }
     
     func loadLayoutChoice() {
@@ -42,7 +45,9 @@ class BookListLayoutMenu {
         }
      
         GridItemSize.allCases.forEach({ gridSize in
-            let item = UIAction(title: gridSize.title, image: gridSize.image, handler: { [weak self] (_) in
+            let item = UIAction(title: gridSize.title,
+                                image: gridSize.image,
+                                handler: { [weak self] (_) in
                 self?.delegate?.setLayoutFromMenu(for: gridSize)
                 self?.saveLayoutChoice(for: gridSize.rawValue)
             })
@@ -54,12 +59,18 @@ class BookListLayoutMenu {
     private func filterMenu() -> UIMenu {
         var items: [UIMenuElement] = []
         QueryType.allCases.forEach({ query in
-            let item = UIAction(title: query.title, image: nil, handler: { [weak self] (_) in
+            let item = UIAction(title: query.title,
+                                image: nil,
+                                handler: { [weak self] (_) in
                 self?.delegate?.orderList(by: query.documentKey)
             })
             items.append(item)
         })
-        return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: items)
+        return UIMenu(title: "",
+                      image: nil,
+                      identifier: nil,
+                      options: .displayInline,
+                      children: items)
     }
   
     private func saveLayoutChoice(for grid: CGFloat) {

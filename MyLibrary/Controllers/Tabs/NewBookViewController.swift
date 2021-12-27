@@ -7,6 +7,13 @@
 
 import UIKit
 
+protocol NewBookDelegate: AnyObject {
+    var newBook: Item? { get set }
+    var bookDescription: String? { get set }
+    var bookComment: String? { get set }
+    var bookCategories : [String] { get set }
+}
+
 class NewBookViewController: StaticTableViewController, NewBookDelegate {
     
     // MARK: - Properties

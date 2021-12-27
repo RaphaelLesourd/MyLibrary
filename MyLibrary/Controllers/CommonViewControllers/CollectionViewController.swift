@@ -29,19 +29,12 @@ class CollectionViewController: UIViewController {
     
     // MARK: - Navgation
     func showBookDetails(for book: Item, searchType: SearchType?) {
-        
         let bookCardVC = BookCardViewController(book: book,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService())
         bookCardVC.hidesBottomBarWhenPushed = true
         bookCardVC.searchType = searchType
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let vc = UINavigationController(rootViewController: bookCardVC)
-            present(vc, animated: true)
-        } else {
-            navigationController?.show(bookCardVC, sender: nil)
-        }
+        navigationController?.show(bookCardVC, sender: nil)
    }
     
   // MARK: - Setup

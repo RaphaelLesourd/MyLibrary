@@ -8,6 +8,10 @@
 import UIKit
 import FirebaseAuth
 
+protocol BookCardDelegate: AnyObject {
+    func fetchBookUpdate()
+}
+
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties

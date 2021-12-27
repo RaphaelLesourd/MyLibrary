@@ -16,14 +16,14 @@ class AccountViewController: StaticTableViewController {
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private var imagePicker: ImagePicker?
-    private let feedbackManager: FeedbackSender?
+    private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountControllerView(imageRetriever: KFImageRetriever())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
-         feedbackManager: FeedbackSender) {
+         feedbackManager: FeedbackManagerProtocol) {
         self.accountService = accountService
         self.userService = userService
         self.imageService = imageService
