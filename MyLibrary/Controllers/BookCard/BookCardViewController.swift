@@ -61,6 +61,7 @@ class BookCardViewController: UIViewController {
         addNavigationBarButtons()
         configureUI()
         displayBookData()
+        displayCategoryNames()
         setBookFavoriteState()
         setBookRecommandState()
     }
@@ -200,6 +201,7 @@ extension BookCardViewController: BookCardDelegate {
                 DispatchQueue.main.async {
                     self.book = book
                     self.displayBookData()
+                    self.displayCategoryNames()
                 }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)

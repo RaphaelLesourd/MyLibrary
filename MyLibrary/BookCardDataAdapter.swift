@@ -62,8 +62,9 @@ extension BookCardDataAdapter: BookCardAdapter {
     func getBookCategories(for categoryIds: [String], bookOwnerID: String,completion: @escaping (String) -> Void) {
      
         categoryService.getCategoryNameList(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categoryNames in
-            let categories = self?.converter.convertArrayToString(categoryNames)
-            completion(categories ?? "")
+            let sortedCategories = categoryNames.sorted()
+            let categories = self?.converter.convertArrayToString(sortedCategories)
+            completion(categories?.uppercased() ?? "")
         }
     }
 }
