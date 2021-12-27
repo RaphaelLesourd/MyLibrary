@@ -129,7 +129,7 @@ class HomeViewController: CollectionViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
                                                       categoryService: CategoryService())
-        presentController(categoryListVC)
+        navigationController?.show(categoryListVC, sender: nil)
     }
 }
 
