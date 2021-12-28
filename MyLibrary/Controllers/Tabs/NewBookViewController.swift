@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PanModal
 
 protocol NewBookDelegate: AnyObject {
     var newBook: Item? { get set }
@@ -15,41 +14,46 @@ protocol NewBookDelegate: AnyObject {
     var bookCategories : [String] { get set }
 }
 
-class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
-   
-    // MARK: - Properties
-    private let resultController = SearchViewController(networkService: ApiManager(), layoutComposer: ListLayout())
-    private let newBookView      = NewBookControllerView()
-    private let languageList     = Locale.isoLanguageCodes
-    private let currencyList     = Locale.isoCurrencyCodes
+class NewBookViewController: StaticTableViewController, NewBookDelegate {
     
-    private let formatter     : FormatterProtocol
-    private let validator     : ValidatorProtocol
+    // MARK: - Properties
+    weak var bookCardDelegate: BookCardDelegate?
+    var isEditingBook = false
+    var bookCategories: [String] = []
+    var bookDescription: String?
+    var bookComment: String?
+    var newBook: Item? {
+        didSet {
+            setBookDetail()
+        }
+    }
+    
+    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: BookListLayout())
+    private let newBookView = NewBookControllerView()
+    private let languageList = Locale.isoLanguageCodes
+    private let currencyList = Locale.isoCurrencyCodes
+   
     private let libraryService: LibraryServiceProtocol
-    private let imageLoader   : ImageRetriverProtocol
-    private var imagePicker   : ImagePicker?
+    private let converter: ConverterProtocol
+    private let formatter: FormatterProtocol
+    private let validator: ValidatorProtocol
+    private let newBookDataPresenter: NewBookPresenter?
+   
+    private var imagePicker: ImagePicker?
     private var chosenLanguage: String?
     private var chosenCurrency: String?
     
-    weak var bookCardDelegate: BookCardDelegate?
-    var isEditingBook  = false
-    var bookCategories : [String] = []
-    var bookDescription: String?
-    var bookComment    : String?
-    var newBook: Item? {
-        didSet {
-            displayBookDetail()
-        }
-    }
-   
     init(libraryService: LibraryServiceProtocol,
+         converter: ConverterProtocol,
          formatter: FormatterProtocol,
-         validator: ValidatorProtocol,
-         imageLoader: ImageRetriverProtocol) {
+         validator: ValidatorProtocol) {
         self.libraryService = libraryService
-        self.formatter      = formatter
-        self.validator      = validator
-        self.imageLoader    = imageLoader
+        self.converter = converter
+        self.formatter = formatter
+        self.validator = validator
+        self.newBookDataPresenter = NewBookDataPresenter(imageRetriever: KFImageRetriever(),
+                                                         converter: converter,
+                                                         formatter: formatter)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,12 +64,13 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        imagePicker = ImagePicker(presentationController: self, delegate: self)
+        imagePicker = ImagePicker(presentationController: self,
+                                  delegate: self,
+                                  permissions: PermissionManager())
         sections = newBookView.composeTableView()
         setDelegates()
         addNavigationBarButtons()
         configureSearchController()
-        setButtonTargets()
         configureUI()
     }
     
@@ -76,7 +81,7 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let scannerButton = UIBarButtonItem(image: Images.scanBarcode,
+        let scannerButton = UIBarButtonItem(image: Images.NavIcon.scanBarcode,
                                             style: .plain,
                                             target: self,
                                             action: #selector(showScannerController))
@@ -91,110 +96,79 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func setDelegates() {
+        newBookView.delegate = self
         newBookView.textFields.forEach { $0.delegate = self }
-        newBookView.languageCell.pickerView.delegate   = self
+        newBookView.languageCell.pickerView.delegate = self
         newBookView.languageCell.pickerView.dataSource = self
-        newBookView.currencyCell.pickerView.delegate   = self
+        newBookView.currencyCell.pickerView.delegate = self
         newBookView.currencyCell.pickerView.dataSource = self
     }
     
-    private func setButtonTargets() {
-        newBookView.saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
-    }
-
     private func configureSearchController() {
         newBookView.searchController = UISearchController(searchResultsController: resultController)
-        newBookView.searchController.searchBar.delegate                   = self
+        newBookView.searchController.searchBar.delegate = self
         newBookView.searchController.obscuresBackgroundDuringPresentation = false
-        newBookView.searchController.searchBar.placeholder                = Text.SearchBarPlaceholder.search
-        newBookView.searchController.definesPresentationContext           = false
+        newBookView.searchController.searchBar.placeholder = Text.Placeholder.search
+        newBookView.searchController.definesPresentationContext = false
         resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            imagePicker?.present(from: newBookView.bookImageCell.pictureView)
+        case (2, 0):
+            showCategoryList()
+        case (4, 0):
+            presentTextInputController()
+        default:
+            break
+        }
+    }
+    
     // MARK: - Data Display
-    func displayBookDetail() {
+    func setBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookView.bookTileCell.textField.text      = book.volumeInfo?.title
-        newBookView.bookAuthorCell.textField.text    = formatter.joinArrayToString(book.volumeInfo?.authors)
-        newBookView.publisherCell.textField.text     = book.volumeInfo?.publisher
-        newBookView.publishDateCell.textField.text   = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
-        newBookView.isbnCell.textField.text          = book.volumeInfo?.industryIdentifiers?.first?.identifier
-        newBookView.numberOfPagesCell.textField.text = "\(book.volumeInfo?.pageCount ?? 0)"
-        bookDescription                              = book.volumeInfo?.volumeInfoDescription
-        bookCategories                               = book.category ?? []
-      
-        displayBookCover(for: book)
-        displayBookPrice(for: book)
-        displayRating(for: book)
+        newBookDataPresenter?.configure(newBookView, with: book)
+        bookDescription = book.volumeInfo?.volumeInfoDescription
+        bookCategories = book.category ?? []
+        
         setBookCurrency()
         setBookLanguage()
     }
     
-    private func displayBookCover(for book: Item) {
-        imageLoader.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { [weak self] image in
-            self?.newBookView.bookImageCell.pictureView.image = image
-        }
-    }
-    private func displayBookPrice(for book: Item) {
-        if let price = book.saleInfo?.retailPrice?.amount {
-            newBookView.purchasePriceCell.textField.text = "\(price)"
-        }
-    }
-    private func displayRating(for book: Item) {
-        if let rating = book.volumeInfo?.ratingsCount {
-            newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex = rating
-        }
-    }
     private func setBookLanguage() {
-        let bookLanguage = newBook?.volumeInfo?.language ?? Bundle.main.preferredLocalizations[0]
-        setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
+        if let bookLanguage = newBook?.volumeInfo?.language {
+            setPickerValue(for: newBookView.languageCell.pickerView, list: languageList, with: bookLanguage)
+        }
     }
+    
     private func setBookCurrency() {
-        let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode ?? Locale.current.currencyCode
-        setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency ?? "")
+        if let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode {
+            setPickerValue(for: newBookView.currencyCell.pickerView, list: currencyList, with: bookCurrency)
+        }
     }
+    
     private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
-        if let index = list.firstIndex(where: {
-            $0.lowercased() == code.lowercased()
-        }) {
+        if let index = list.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
             picker.selectRow(index, inComponent: 0, animated: false)
             self.pickerView(picker, didSelectRow: index, inComponent: 0)
         }
     }
     
     private func clearData() {
+        newBookView.resetViews()
+        tableView.setContentOffset(.zero, animated: true)
         newBookView.searchController.isActive = false
-        newBookView.bookImageCell.pictureView.image = Images.emptyStateBookImage
+        resultController.searchedBooks.removeAll()
+        bookCategories.removeAll()
         bookComment = nil
         bookDescription = nil
-        bookCategories.removeAll()
-        resultController.searchedBooks.removeAll()
-        newBookView.textFields.forEach { $0.text = nil }
-        newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
-        tableView.setContentOffset(.zero, animated: true)
     }
-    
-    // MARK: - Api Call
-    @objc private func saveBook() {
-        newBookView.saveButtonCell.actionButton.displayActivityIndicator(true)
-        guard let book = createBookDocument(),
-              let imageData = newBookView.bookImageCell.pictureView.image?.jpegData(.high) else { return }
-        
-        libraryService.createBook(with: book, and: imageData) { [weak self] error in
-            guard let self = self else { return }
-            
-            self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
-            if let error = error {
-                self.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            self.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
-            self.isEditingBook ? self.returnToPreviousController() : self.clearData()
-        }
-    }
-    
+    /// Uses data enterred to create a book.
+    ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
         let isbn = newBookView.isbnCell.textField.text ?? ""
         
@@ -204,12 +178,12 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
                                     publishedDate: newBookView.publishDateCell.textField.text ?? "",
                                     volumeInfoDescription: bookDescription,
                                     industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: formatter.formatStringToInt(newBookView.numberOfPagesCell.textField.text),
+                                    pageCount: converter.convertStringToInt(newBookView.numberOfPagesCell.textField.text),
                                     ratingsCount: newBookView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
                                     language: chosenLanguage ?? "")
         
-        let price = formatter.formatDecimalString(newBookView.purchasePriceCell.textField.text)
+        let price = converter.convertStringToDouble(newBookView.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
         
         return Item(bookID: newBook?.bookID ?? "",
@@ -226,7 +200,20 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     @objc private func showScannerController() {
         let barcodeScannerController = BarcodeScanViewController()
         barcodeScannerController.barcodeDelegate = self
-        presentPanModal(barcodeScannerController)
+        if #available(iOS 15.0, *) {
+            if let sheet = barcodeScannerController.sheetPresentationController {
+                sheet.detents = [.medium()]
+                sheet.largestUndimmedDetentIdentifier = .large
+                sheet.preferredCornerRadius = 23
+                sheet.prefersGrabberVisible = true
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+                present(barcodeScannerController, animated: true, completion: nil)
+            }
+        } else {
+            navigationController?.pushViewController(barcodeScannerController, animated: true)
+        }
     }
     
     @objc func returnToPreviousController() {
@@ -236,17 +223,17 @@ class NewBookViewController: CommonStaticTableViewController, NewBookDelegate {
     }
     
     private func showCategoryList() {
-        let categoryListVC = CategoriesViewController()
-        categoryListVC.newBookDelegate    = self
+        let categoryListVC = CategoriesViewController(settingBookCategory: true, categoryService: CategoryService())
+        categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
-        navigationController?.pushViewController(categoryListVC, animated: true)
+        navigationController?.show(categoryListVC, sender: nil)
     }
     
     private func presentTextInputController() {
-        let textInputViewController = TextInputViewController()
+        let textInputViewController = BookDescriptionViewController()
         textInputViewController.newBookDelegate = self
-        textInputViewController.textViewText    = bookDescription 
-        navigationController?.pushViewController(textInputViewController, animated: true)
+        textInputViewController.textViewText = bookDescription
+        navigationController?.show(textInputViewController, sender: nil)
     }
 }
 
@@ -257,45 +244,39 @@ extension NewBookViewController: UITextFieldDelegate {
         return true
     }
 }
+
 // MARK: - Barcode protocol
-extension NewBookViewController: BarcodeProtocol {
+extension NewBookViewController: BarcodeScannerDelegate {
+    /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
+    /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
         resultController.searchType = .barCodeSearch
         resultController.currentSearchKeywords = code
     }
 }
+
 // MARK: - Searchbar delegate
 extension NewBookViewController: UISearchBarDelegate {
+    /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         resultController.searchedBooks.removeAll()
-        resultController.searchType = .apiSearch
+        resultController.searchType = .keywordSearch
         resultController.currentSearchKeywords = newBookView.searchController.searchBar.text ?? ""
     }
 }
 
-// MARK: - TableView DataSource & Delegate
-extension NewBookViewController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch (indexPath.section, indexPath.row) {
-        case (0, 0):
-            imagePicker?.present(from: newBookView.bookImageCell.pictureView)
-        case (2, 0):
-            showCategoryList()
-        case (4, 0):
-            presentTextInputController()
-        default:
-            break
-        }
-    }
-}
 // MARK: - ImagePicker Delegate
 extension NewBookViewController: ImagePickerDelegate {
+    /// Users the image returned from the ImagePickerViewController and assign it the BookImageCell as the book cover image.
     func didSelect(image: UIImage?) {
         newBookView.bookImageCell.pictureView.image = image?.resizeImage()
     }
 }
+
 // MARK: - UIPickerDelegate
+/// PickerView delegate functions, handle the language and currency picker by using a switch statement .
 extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
@@ -316,9 +297,11 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         pickerLabel?.textColor = .label
         return pickerLabel ?? UILabel()
     }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
         case newBookView.languageCell.pickerView:
@@ -329,6 +312,7 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return 0
         }
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case newBookView.languageCell.pickerView:
@@ -337,6 +321,28 @@ extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             chosenCurrency = currencyList[row]
         default:
             return
+        }
+    }
+}
+
+// MARK: - Extension NewBookViewDelegate
+/// Accessible functions for the view thru delegate protocol
+extension NewBookViewController: NewBookViewDelegate {
+    
+    func saveBook() {
+        newBookView.saveButtonCell.actionButton.displayActivityIndicator(true)
+        guard let book = createBookDocument(),
+              let imageData = newBookView.bookImageCell.pictureView.image?.jpegData(.high) else { return }
+        
+        libraryService.createBook(with: book, and: imageData) { [weak self] error in
+            guard let self = self else { return }
+            self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
+            self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
     }
 }

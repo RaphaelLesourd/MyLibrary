@@ -10,8 +10,17 @@ import UIKit
 class BookCoverViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
+    private var image: UIImage
     private var scrollView = ImageScrollView()
-    var image = UIImage()
+    
+    init(image: UIImage) {
+        self.image = image
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {

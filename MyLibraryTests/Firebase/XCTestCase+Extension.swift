@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 23/11/2021.
 //
 
-import Foundation
 import XCTest
 import Firebase
 @testable import MyLibrary
@@ -26,19 +25,19 @@ extension XCTestCase {
         semaphore.wait()
     }
     
-    func createUser() -> UserModel {
+    func createUserData() -> UserModel {
         let credentials = AccountCredentials(userName: "testuser",
                                              email: "testuser@test.com",
                                              password: "Test21@",
                                              confirmPassword: "Test21@")
-        return UserModel(userId: "user1",
+        return UserModel(userID: "user1",
                          displayName: credentials.userName ?? "test",
                          email: credentials.email,
                          photoURL: "",
                          token: "")
     }
     
-    func createBookDocument() -> Item {
+    func createBookDocumentData() -> Item {
         let volumeInfo = VolumeInfo(title: "title",
                                     authors: ["author"],
                                     publisher: "publisher",
@@ -50,11 +49,14 @@ extension XCTestCase {
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(bookID: "11111111",
-                    favorite: false,
+        return Item(id: "1111111",
+                    bookID: "11111111",
+                    favorite: true,
+                    ownerID: "user1",
+                    recommanding: true,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
-                    timestamp: 1,
+                    timestamp: 0,
                     category: [])
     }
 }

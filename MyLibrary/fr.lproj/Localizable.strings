@@ -1,0 +1,168 @@
+/* 
+  Localizable.strings
+  MyLibrary
+    
+  Created by Birkyboy on 14/12/2021.
+  
+*/
+"Newbook" = "Nouveau Livre";
+"Home" = "Accueil";
+"Mybooks" = "Mes Livres";
+"Search" = "Recherche";
+"Account" = "Compte";
+"Profile" = "Profil";
+"Categories" = "Catégories";
+"Modify" = "Modifier";
+"Comments" = "Commentaires";
+"Description" = "Description";
+"Username" = "Nom d'utilisateur";
+
+"BookTitle" = "Titre du livre";
+"AuthorName" = "Nom de l'auteur";
+"Categories" = "Catégories";
+"Publisher" = "Editeur";
+"PublishedDate" = "Date de parution";
+"ISBN" = "ISBN ";
+"Pages" = "Pages";
+"Language" = "Langue";
+"Description" = "Description";
+"UserComments" = "Commentaires, avis...";
+"Price" = "Prix d'achat";
+"Currency" = "Monnaie";
+"Rating" = "Note\n(0 à 5)";
+"BookSaved" = "Livre enregistré.";
+"CreateProfile" = "Créer un profil";
+
+"Save" = "Enregistrer";
+"SignOut" = "Déconnexion";
+"DeleteAccount" = "Effacer le compte";
+"Delete" = "Effacer";
+"Edit" = "Editer";
+"Search" = "Rechercher";
+
+"LatestBooks" = "Derniers ajouts";
+"FavoriteBooks" = "Livres favoris";
+"Recommendations" = "Recommandations";
+
+"SeeAll" = "Tout voir";
+"Manage" = "Manage";
+
+"Add comment" = "Ajouter un commentaire";
+"AlertSignOutMessage" = "Etes-vous sûr de vouloir vous déconnecter?";
+"AlertDeleteAccountTitle" = "Etes-vous sûr de vouloir supprimer votre compte?";
+"AlertDeleteAccountMessage" = "Vous allez devoir vous re-authentifier.";
+"AlertDescriptionChangedMessage" = "Vous avez modifié la description, voulez-vous grader ces modifications?";
+
+"GoodByeMessage" = "A bientôt";
+"ProfilePhotoUpdated" = "Photo de profil mise à jour.";
+"UsernameUpdated" = "Nom d'utilisateur mis à jour.";
+"Error" = "Erreur!";
+"Success" = "Succés";
+
+"LoginSubtitle" = "Veuillez entrer votre email et votre mot de passe pour vous connecter à votre compte.";
+"LoginTitle" = "Se connecter";
+"SignupSubtitle" = "Choisissez un mot de passe avec minimum 1 chiffre, un charactère spécial et minimum 6 lettres.";
+"SignupTitle" = "S'inscrire";
+"Email" = "Email";
+"Password" = "Mot de passe";
+"ConfirmPassword" = "Confirmez votre mot de passe";
+"ForgotPassword" = "Mot de passe oublié";
+"WelcomeMessage" = "Bienvenue\ndans votre\nbibliothèque.";
+"Username" = "Nom d'utilisateur";
+
+"Reloading" = "Rechargement";
+"AccountOpen" = "Compte ouvert";
+
+"AlertPasswordForgottenTitle" = "Mot de passe oublié";
+"AlertPasswordForgottenMessage" = "Etes-vous sûr de vouloir mettre votre mot de passe à jour?";
+"EmptyEmail" = "Email vide";
+
+"ResetPassword" = "Reset du mot de passe";
+"ReauthentifyBannerMessage" = "Veuillez vous authentifier à nouveau.";
+"AccountDeleted" = "Votre compte à été éffacé";
+
+"HomeControllerEmptyState" = "Pas encore de Livres dans votre bibliothèque...";
+"BookListEmptyState" = "Pas de livre pour ";
+"SearchListEmptyState" = "Recherche de livres, comics, etc...";
+"CommentEmptyState" = "Soyez le premier à écrire un comentaire sur ce livre...";
+
+"StopRecommending" = "Ne plus recommander";
+"Recommend" = "Recommander";
+"BookDeleted" = "Livre éffacé de votre bibliothèque.";
+
+"AlertDeleteBookTitle" = "Effacer un livre";
+"AlertDeleteBookMessage" = "Etes-vous sur de vouloir effacer ce livre?";
+
+"AlertCameraUnavailableTitle" = "Caméra introuvable";
+"AlertCameraUnavailableMessage" = "Il semblerait y avoir un problème avec votre caméra.";
+"Permissions" = "Permissions";
+"CameraPermissionsMessage" = "Veuillez modifier les réglages pour autoriser cet app à utiliser la caméra.";
+
+"CategoryAdded" = "Catégorie ajoutée";
+"CategoryModified" = "Catégorie modifiée";
+
+"AlertNewCategoryTitle" = "Nouvelle catégorie";
+"AlertNewCategoryMessage" = "Ajouter une nouvelle catégorie.";
+"Add" = "Ajouter";
+"CategoryName" = "Nom de catégorie";
+
+"AlertDeleteCategoryMessage" = "Etes vous sur de vouloir éffacer cette catégorie?";
+"OK" = "OK";
+"Modify" = "Modifier";
+"Cancel" = "Annuler";
+
+"ReaderComments" = "Commentaires des lecteurs";
+"ReAuthentificationMessage" = "Veuillez vous re-authentifier avec votre email et mot de passe";
+"DeleteThisBook" = "Effacer ce livre";
+"CommentEntry" = "Ce que vous en pensez...";
+
+"Version" = "Version";
+"Build" = "Build";
+"appCreationYear" = "Année création";
+"ContactUs" = "Contactez nous";
+"Information" = "Information";
+"RecommendedBy" = "Recommandé par ";
+"UnableToOpenMailApp" = "Impossible d'ouvrir Mail.";
+"FeedbackSent" = "Feedback envoyé";
+
+"TakePhoto" = "Prendre une photo";
+"CameraRoll" = "Pellicule";
+"PhotoLibrary" = "Phototèque";
+"AccessNotAuthorized" = "Acces non autorisé";
+"Today" = "Aujourd'hui";
+"BookListMenuTitle" = "Liste";
+"Large" = "Large";
+"Medium" = "Moyenne";
+"Small" = "Petite";
+"Xsmall" = "Trés Petite";
+"Welcome" = "Bienvenue";
+"said" = "à dit";
+"CloseKeyboard" = "Fermer";
+"BarcodeControllerTitle" = "Scanner code barre";
+"BarcodeControllerSubitle" = "Positionez le code barre au centre.";
+"ByTimestampList" = "Par date d'ajout";
+"ByTitleList" = "Par titre";
+"ByAuthorList" = "Par auteur";
+"ByRatingList" = "Par note";
+"UnsentEmail" = "Email non envoyé";
+"SentEmail" = "Email envoyé";
+"NoFlashlightTitle" = "Torche";
+"flashLightErrorMessage" = "Il a y un problème avec la lampe torche.";
+"Unavailable" = "Non disponible";
+
+"PasswordMissmatch" = "Les mots de passe ne correspondent pas.";
+"UsernameEmpty" = "Le nom d'utilisateur ne peux être vide.";
+"TitleMissing" = "Vous devez au moins entrer un titre.";
+"CategoryNotFound" = "Catégorie non trouvée.";
+"CategoryExist" = "Cette catégorie existe déja.";
+"NoNetwork" = "Vous semblez être hors ligne.";
+"NotFound" = "Introuvable";
+"EmptyComment" = "Votre commentaire est vide.";
+"BookExist" = "Ce livre existe déja.";
+"RequestCancelled" = "Demande intérompue.";
+"InvalidRequest" = "Requette non valable.";
+"EmailPasswordNotFound" = "L'email et le mot de passe ne correspondent pas.";
+"EmailExist" = "Email déja utilisé.";
+"InvalidEmail" = "Email non valable.";
+"InvalidPassword" = "Mauvais mot de passe.";
+"AccountDontExist" = "Aucun compte existe avec cet email.";

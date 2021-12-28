@@ -5,11 +5,12 @@
 //  Created by Birkyboy on 11/11/2021.
 //
 
-import Foundation
 import UIKit
 
 extension UIImage {
-    
+    /// Resize a UIimage
+    /// - Parameters maxSize: Maximum returned image size (1000 pts by default)
+    /// - Returns resized UIImage
     func resizeImage(_ maxSize: CGFloat = 1000) -> UIImage {
         // adjust for device pixel density
         let maxSizePixels = maxSize / UIScreen.main.scale

@@ -12,26 +12,23 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 import FirebaseMessaging
 
-protocol AccountServiceProtocol {
-    func createAccount(for userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func login(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void)
-    func signOut(completion: @escaping (FirebaseError?) -> Void)
-    func sendPasswordReset(for email: String, completion: @escaping (FirebaseError?) -> Void)
-}
-
 class AccountService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
-    let user = Auth.auth().currentUser
-    let userService: UserServiceProtocol
-    
+    private let user = Auth.auth().currentUser
+    private let userService: UserServiceProtocol
+    private let libraryService: LibraryServiceProtocol
+    private let categoryService: CategoryServiceProtocol
     private let fcmToken = Messaging.messaging().fcmToken
     
     // MARK: - Initializer
-    init(userService: UserServiceProtocol = UserService()) {
+    init(userService: UserServiceProtocol,
+         libraryService: LibraryServiceProtocol,
+         categoryService: CategoryServiceProtocol) {
         self.userService = userService
+        self.libraryService = libraryService
+        self.categoryService = categoryService
     }
     
     // MARK: - Private functions
@@ -48,18 +45,23 @@ class AccountService {
             completion(nil)
         }
     }
+    
+    private func removeFirestoreListeners() {
+        libraryService.removeBookListener()
+        categoryService.removeListener()
+        userService.updateFcmToken(with: "")
+    }
 }
-// MARK: - AccountServiceProtocol Extension
+// MARK: - Extension AccountServiceProtocol
 extension AccountService: AccountServiceProtocol {
     
     // MARK: Create
     func createAccount(for userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }
-        guard let userCredentials = userCredentials,
-              passwordMatch(with: userCredentials) == true else {
+        guard let userCredentials = userCredentials, passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
             return
         }
@@ -71,11 +73,11 @@ extension AccountService: AccountServiceProtocol {
                 return
             }
             guard let user = authUser?.user else { return }
-            let newUser = UserModel(userId: user.uid,
-                                      displayName: userCredentials.userName ?? "",
-                                      email: user.email ?? "",
-                                      photoURL: "",
-                                      token: self.fcmToken ?? "")
+            let newUser = UserModel(userID: user.uid,
+                                    displayName: userCredentials.userName ?? "",
+                                    email: user.email ?? "",
+                                    photoURL: "",
+                                    token: self.fcmToken ?? "")
             self.saveUser(for: newUser) { error in
                 if let error = error {
                     completion(.firebaseAuthError(error))
@@ -85,9 +87,10 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
-    // MARK: Delete
+    
+    // MARK: Delete Account flow
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }
@@ -125,6 +128,7 @@ extension AccountService: AccountServiceProtocol {
             }
         }
     }
+    
     // MARK: Log in
     func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard let userCredentials = userCredentials else { return }
@@ -136,19 +140,21 @@ extension AccountService: AccountServiceProtocol {
             completion(nil)
         }
     }
+    
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
         do {
-            userService.updateFcmToken(with: "")
+            removeFirestoreListeners()
             try Auth.auth().signOut()
             completion(nil)
         } catch {
             completion(.firebaseError(error))
         }
     }
+    
     // MARK: Forgot password
     func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }

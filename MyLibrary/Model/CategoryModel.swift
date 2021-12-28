@@ -5,10 +5,9 @@
 //  Created by Birkyboy on 17/11/2021.
 //
 
-import Foundation
 import FirebaseFirestoreSwift
 
-struct CategoryModel: Codable {
+struct CategoryModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String?
     var name: String?

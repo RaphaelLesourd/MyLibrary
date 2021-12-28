@@ -6,63 +6,97 @@
 //
 
 import UIKit
-import PanModal
+import AVFoundation
+import CloudKit
 
-/// Protocol to pass barcode string value back to the requesting controller.
-protocol BarcodeProtocol: AnyObject {
+protocol BarcodeScannerDelegate: AnyObject {
     func processBarcode(with code: String)
 }
 
-class BarcodeScanViewController: UIViewController, VideoCaptureDelegate {
-    
+class BarcodeScanViewController: UIViewController {
+
     // MARK: - Properties
+    let mainView = BarcodeControllerView()
+    weak var barcodeDelegate: BarcodeScannerDelegate?
     var fetchedBarcode: String?
-    weak var barcodeDelegate: BarcodeProtocol?
-    private var videoCapture: VideoCapture?
+    var flashLightIsOn = false {
+        didSet {
+            toggleFlashlight(onState: flashLightIsOn)
+            mainView.toggleButton(onState: flashLightIsOn)
+        }
+    }
+    private var barcodeCapture: BarcodeReader?
     
     // MARK: - Lifecyle
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
-        videoCapture = VideoCapture(presentationController: self, delegate: self)
-        videoCapture?.checkPermissions()
-        videoCapture?.setupCameraLiveView()
+        barcodeCapture = BarcodeReader(presentationController: self,
+                                       delegate: self,
+                                       permissions: PermissionManager())
+        mainView.flashLightButton.addTarget(self, action: #selector(toggleFlashLight), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        videoCapture?.captureSession.stopRunning()
-        barcodeResultHandler()
-    }
-    // MARK: - Handler
-    /// Check if there is a barcode after scanning. If not NIl then it is passed back to the previous controller.
-    private func barcodeResultHandler() {
-        guard let fetchedBarcode = fetchedBarcode else { return }
-        barcodeDelegate?.processBarcode(with: fetchedBarcode)
+        navigationItem.largeTitleDisplayMode = .always
+        barcodeCapture?.stopCameraLiveView()
+        mainView.animationView.stop()
+        flashLightIsOn = false
     }
     
-    func presentNoCameraAlert() {
-        presentAlert(withTitle: "Caméra introuvable",
-                     message: "Il semblerait y avoir un problème avec votre caméra.") { [weak self] _ in
-            self?.dismiss(animated: true)
+    private func dismissViewController() {
+        if #available(iOS 15.0, *) {
+            dismiss(animated: true)
+        } else {
+            navigationController?.popViewController(animated: true)
         }
     }
     
-    /// Display alert tot the user when the use of camera is not granted for any reasons.
-    func showPermissionsAlert() {
-        presentAlertBanner(as: .customMessage("Permission"),
-                           subtitle: "Veuillez modifier les réglages pour autoriser cet app à utiliser la caméra.")
+    // MARK: - Flashlight
+    @objc private func toggleFlashLight() {
+        flashLightIsOn.toggle()
     }
+    
+    private func toggleFlashlight(onState: Bool) {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video),
+              device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+            device.torchMode = onState ? .on : .off
+            if onState {
+                try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
+            }
+            device.unlockForConfiguration()
+        } catch {
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.noFlashLightTitle),
+                                            subtitle: Text.Banner.flashLightErrorMessage)
+        }
+    }
+    
 }
-// MARK: - PanModal Extension
-extension BarcodeScanViewController: PanModalPresentable {
-    var shortFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(view.frame.height * 0.20)
+
+// MARK: - Extension barcode capture delegate
+extension BarcodeScanViewController: BarcodeReaderDelegate {
+ 
+    func presentError(with error: BarcodeReaderError) {
+        AlertManager.presentAlertBanner(as: .customMessage(error.title),
+                                        subtitle: error.description)
+        dismissViewController()
     }
-    var cornerRadius: CGFloat {
-        return 20
-    }
-    var panScrollable: UIScrollView? {
-        return nil
+    
+    func provideBarcode(with data: String?) {
+        guard let data = data else { return }
+        barcodeDelegate?.processBarcode(with: data)
+        dismissViewController()
     }
 }

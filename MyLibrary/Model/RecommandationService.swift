@@ -5,14 +5,8 @@
 //  Created by Birkyboy on 12/11/2021.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-
-protocol RecommendationServiceProtocol {
-    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-}
 
 class RecommandationService {
     
@@ -25,10 +19,11 @@ class RecommandationService {
     }
 }
 // MARK: - RecommandationServiceProtocol extension
-extension RecommandationService: RecommendationServiceProtocol {
+extension RecommandationService: Recommendation {
     
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
+       
         let ref = recommandationCollectionRef.document(bookID)
         do {
             try ref.setData(from: book)
@@ -39,6 +34,7 @@ extension RecommandationService: RecommendationServiceProtocol {
     
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
+       
         let ref = recommandationCollectionRef.document(bookID)
         ref.delete { error in
             if let error = error {

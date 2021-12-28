@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.293201156576-t2ovj525nlnq34up32rpfiii93cptgg7</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -24,5 +35,17 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>fcmKey</key>
+	<string>$(FCM_KEY)</string>
+	<key>fcmURL</key>
+	<string>$(FCM_URL)</string>
+	<key>feebackEmail</key>
+	<string>$(FEEDBACK_EMAIL)</string>
+	<key>googleBooksURL</key>
+	<string>$(GOOGLEBOOKS_URL)</string>
 </dict>
 </plist>

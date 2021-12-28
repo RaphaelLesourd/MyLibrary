@@ -4,7 +4,6 @@
 //
 //  Created by Birkyboy on 30/10/2021.
 //
-
 import Foundation
 import Alamofire
 
@@ -19,9 +18,9 @@ enum AlamofireRouter: URLRequestConvertible {
     private var baseURL: String {
         switch self {
         case .withIsbn, .withKeyWord:
-            return "https://www.googleapis.com/books/v1/"
+            return ApiUrl.googleBooksURL
         case .sendPushMessage:
-            return "https://fcm.googleapis.com/fcm/"
+            return ApiUrl.fcmURL
         }
     }
     // Http methods
@@ -57,16 +56,17 @@ enum AlamofireRouter: URLRequestConvertible {
                     "img": true]
         case .sendPushMessage(payload: let payload):
             return ["to": payload.token,
-                    "content_available" : true,
+                    "content_available": true,
                     "mutable_content": true,
-                    "category": "content_added_notification",
-                    "data": ["title": payload.title,
-                             "body": payload.body,
-                             "postID": payload.bookID],
+                    "category": "comment",
                     "notification": ["title": payload.title,
                                      "body": payload.body,
                                      "badge": 1,
-                                     "sound": "default"]
+                                     "priority": "high",
+                                     "sound": "default"],
+                    "data": ["bookID": payload.bookID,
+                             "ownerID": payload.ownerID,
+                             "imageURL": payload.imageURL]
             ]
         }
     }
@@ -81,7 +81,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return try URLEncoding.default.encode(request, with: parameters)
         case .sendPushMessage:
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue(ApiKeys.FCM_KEY, forHTTPHeaderField: "Authorization")
+            request.setValue(Keys.fcmKEY, forHTTPHeaderField: "Authorization")
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
             return try URLEncoding.httpBody.encode(request, with: nil)
         }

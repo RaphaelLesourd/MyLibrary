@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 28/10/2021.
 //
 
-import Foundation
 import UIKit
 
 class ButtonStaticCell: UITableViewCell {
@@ -28,7 +27,7 @@ class ButtonStaticCell: UITableViewCell {
                                           backgroundColor: backgroundColor)
     }
    
-    let actionButton = ActionButton()
+    let actionButton = Button()
 
 }
 extension ButtonStaticCell {

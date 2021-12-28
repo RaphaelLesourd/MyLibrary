@@ -10,21 +10,21 @@ import XCTest
 
 class RecommandServiceTestCase: XCTestCase {
     // MARK: - Properties
-    private var sut       : RecommendationServiceProtocol?
-    private var book      : Item!
+    private var sut: Recommendation?
+    private var book: Item!
     private let imageData = Data()
     
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
         sut  = RecommandationService()
-        book = createBookDocument()
+        book = createBookDocumentData()
     }
     
     override func tearDown() {
         super.tearDown()
-        sut            = nil
-        book           = nil
+        sut = nil
+        book = nil
         clearFirestore()
     }
     

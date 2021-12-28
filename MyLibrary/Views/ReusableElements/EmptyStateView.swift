@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 01/12/2021.
 //
 
-import Foundation
 import UIKit
 
 class EmptyStateView: UIView {
@@ -25,15 +24,20 @@ class EmptyStateView: UIView {
     private let image: UIImageView = {
         let imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium, scale: .small)
-        imageView.image = Images.booksIcon
+        imageView.image = Images.TabBarIcon.booksIcon
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .tertiaryLabel
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return imageView
     }()
-    let titleLabel = TextLabel(color: .tertiaryLabel, maxLines: 3, alignment: .center, fontSize: 14, weight: .medium)
-    private let stackView = StackView(axis: .vertical, spacing: 10)
+    let titleLabel = TextLabel(color: .tertiaryLabel,
+                               maxLines: 3,
+                               alignment: .center,
+                               fontSize: 14,
+                               weight: .medium)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 10)
 }
 
 // MARK: - Constraints

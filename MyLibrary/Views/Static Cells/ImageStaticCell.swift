@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 28/10/2021.
 //
 
-import Foundation
 import UIKit
 
 class ImageStaticCell: UITableViewCell {
@@ -24,18 +23,21 @@ class ImageStaticCell: UITableViewCell {
     // MARK: - Subview
     let pictureView = BookCover(frame: .zero)
 }
+
 // MARK: - Constraints
 extension ImageStaticCell {
     private func setButtonConstraints() {
         pictureView.translatesAutoresizingMaskIntoConstraints = false
+        let heightAnchor = pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+        heightAnchor.priority = UILayoutPriority(999)
+        
         contentView.addSubview(pictureView)
-
         NSLayoutConstraint.activate([
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pictureView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             pictureView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
-            pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+            heightAnchor
         ])
     }
 }

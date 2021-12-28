@@ -8,7 +8,6 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -21,22 +20,26 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var categoryLabel = TextLabel(color: .secondaryLabel, alignment: .center, fontSize: 14, weight: .semibold)
+    // MARK: - Subview
+    private var categoryLabel = TextLabel(color: .secondaryLabel,
+                                          alignment: .center,
+                                          fontSize: 14,
+                                          weight: .semibold)
     
-    override func prepareForReuse() {
-        categoryLabel.text = nil
-    }
-    
+    // MARK: - Configure
     func configure(text: String?) {
         if let categoryName = text {
             categoryLabel.sizeToFit()
             categoryLabel.text = categoryName.uppercased()
         }
     }
+    
+    override func prepareForReuse() {
+        categoryLabel.text = nil
+    }
 }
 // MARK: - Constraints
 extension CategoryCollectionViewCell {
-    
     private func setLabelConstraints() {
         contentView.addSubview(categoryLabel)
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false

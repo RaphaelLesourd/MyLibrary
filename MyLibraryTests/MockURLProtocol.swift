@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 30/10/2021.
 //
 
-import Foundation
 import XCTest
 
 class MockURLProtocol: URLProtocol {

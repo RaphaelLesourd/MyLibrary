@@ -5,36 +5,28 @@
 //  Created by Birkyboy on 28/11/2021.
 //
 
-import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-protocol CommentServiceProtocol {
-    func addComment(for bookID: String, ownerID: String, commentID: String?, comment: String, completion: @escaping (FirebaseError?) -> Void)
-    func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void)
-    func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void)
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
-    var commentListener: ListenerRegistration? { get set }
-}
-
-class CommentService: CommentServiceProtocol {
+class CommentService {
     
     // MARK: - Properties
+    var userID: String
+    
+    private let userRef: CollectionReference
+    private var commentListener: ListenerRegistration?
     private let db = Firestore.firestore()
-  
-    let userRef        : CollectionReference
-    let userID         : String
-    var commentListener: ListenerRegistration?
     
     // MARK: - Initializer
     init() {
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID  = Auth.auth().currentUser?.uid ?? ""
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
  }
-extension CommentService {
- 
+// MARK: - Extension CommentServiceProtocol 
+extension CommentService: CommentServiceProtocol {
+  
     func addComment(for bookID: String,
                     ownerID: String,
                     commentID: String?,
@@ -84,7 +76,7 @@ extension CommentService {
                 }
             }
             if let data = data {
-                return data.isEmpty ? completion(.success([])) : completion(.success(data))
+                return completion(.success(data))
             }
         }
     }
@@ -112,6 +104,7 @@ extension CommentService {
     
     func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
+        
         docRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
@@ -125,4 +118,9 @@ extension CommentService {
             }
         }
     }
+    
+    func removeListener() {
+        commentListener?.remove()
+    }
+    
 }

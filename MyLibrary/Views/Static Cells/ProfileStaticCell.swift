@@ -5,68 +5,58 @@
 //  Created by Birkyboy on 03/11/2021.
 //
 
-import Foundation
 import UIKit
 
 class ProfileStaticCell: UITableViewCell {
     
+    // MARK: - Intializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tertiarySystemBackground
-        setProfileButtonConstraints()
-        setStackViewConstraints()
+        backgroundColor = .clear
+        selectionStyle = .none
+        stackView.addArrangedSubview(profileImageButton)
+        stackView.addArrangedSubview(emailLabel)
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Subviews
     let profileImageButton: UIButton = {
         let button = UIButton()
         button.imageView?.contentMode = .scaleAspectFill
-        button.rounded(radius: 30, backgroundColor: .tertiaryLabel)
+        button.rounded(radius: 50, backgroundColor: .clear)
+        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor.white.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         return button
     }()
-    
-    let userNameTextField = TextField(placeholder: "Nom d'utilisateur",
-                                      keyBoardType: .default,
-                                      returnKey: .done,
-                                      correction: .no,
-                                      capitalization: .sentences)
     let emailLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 1,
-                               alignment: .left,
+                               alignment: .center,
                                fontSize: 15,
                                weight: .regular)
-    let activityIndicator     = UIActivityIndicatorView()
-    private let textStackView = StackView(axis: .vertical, distribution: .fillProportionally, spacing: -10)
-    private let mainStackView = StackView(axis: .horizontal, distribution: .fillProportionally, spacing: 10)
+    private let stackView = StackView(axis: .vertical,
+                                      distribution: .fill,
+                                      alignment: .center,
+                                      spacing: 15)
 }
+// MARK: - Constraints
 extension ProfileStaticCell {
-    private func setProfileButtonConstraints() {
-        contentView.addSubview(profileImageButton)
-        NSLayoutConstraint.activate([
-            profileImageButton.heightAnchor.constraint(equalToConstant: 60),
-            profileImageButton.widthAnchor.constraint(equalToConstant: 60),
-            profileImageButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            profileImageButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
-        ])
-    }
-    
-    private func setStackViewConstraints() {
-        textStackView.addArrangedSubview(userNameTextField)
-        textStackView.addArrangedSubview(emailLabel)
+    private func setConstraints() {
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        mainStackView.addArrangedSubview(textStackView)
-        mainStackView.addArrangedSubview(activityIndicator)
-        
-        contentView.addSubview(mainStackView)
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            mainStackView.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            emailLabel.heightAnchor.constraint(equalToConstant: 18),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

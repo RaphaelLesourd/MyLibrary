@@ -5,41 +5,31 @@
 //  Created by Birkyboy on 05/11/2021.
 //
 
-import Foundation
 import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
-
-protocol LibraryServiceProtocol {
-    func createBook(with book: Item, and imageData: Data, completion: @escaping (FirebaseError?) -> Void)
-    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void)
-    func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void)
-    func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
-    var bookListListener: ListenerRegistration? { get set }
-}
 
 class LibraryService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
     
-    private let recommandationService: RecommendationServiceProtocol
-    private let imageService         : ImageStorageProtocol
-    private let db                   = Firestore.firestore()
-   
+    private let recommandationService: Recommendation
+    private let imageService : ImageStorageProtocol
+    private let db = Firestore.firestore()
+    private var bookListListener: ListenerRegistration?
+    
     let usersCollectionRef: CollectionReference
-   
-    var userID          : String
-    var bookListListener: ListenerRegistration?
-    var lastBookFetched : QueryDocumentSnapshot?
-
+    
+    var userID: String
+    var lastBookFetched: QueryDocumentSnapshot?
+    
     // MARK: - Initializer
     init() {
-        usersCollectionRef         = db.collection(CollectionDocumentKey.users.rawValue)
+        usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.recommandationService = RecommandationService()
-        self.imageService          = ImageStorageService()
-        self.userID                = Auth.auth().currentUser?.uid ?? ""
+        self.imageService = ImageStorageService()
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func createBaseRef() -> DocumentReference? {
@@ -94,10 +84,11 @@ class LibraryService {
     // MARK: Query
     private func createQuery(query: BookQuery, next: Bool) -> Query? {
         var docRef: Query = usersCollectionRef.document(userID).collection(CollectionDocumentKey.books.rawValue)
+        
         switch query.listType {
         case .categories:
-            if let categoryName = query.fieldValue {
-                docRef = docRef.whereField(DocumentKey.category.rawValue, arrayContains: categoryName)
+            if let categoryID = query.fieldValue {
+                docRef = docRef.whereField(DocumentKey.category.rawValue, arrayContains: categoryID)
             }
         case .newEntry, .none:
             docRef = docRef.order(by: query.orderedBy.rawValue, descending: query.descending)
@@ -106,9 +97,11 @@ class LibraryService {
                 .order(by: query.orderedBy.rawValue, descending: query.descending)
                 .whereField(DocumentKey.favorite.rawValue, isEqualTo: true)
         case .recommanding:
-            docRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
+            docRef = db
+                .collection(CollectionDocumentKey.recommanded.rawValue)
                 .order(by: query.orderedBy.rawValue, descending: query.descending)
         }
+        
         if let lastBook = lastBookFetched, next == true {
             docRef = docRef.start(afterDocument: lastBook)
         }
@@ -122,13 +115,12 @@ class LibraryService {
         return UUID().uuidString
     }
 }
-
-// MARK: - LibraryServiceProtocol Extension
+// MARK: - Extension LibraryServiceProtocol
 extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update
     func createBook(with book: Item, and imageData: Data, completion: @escaping CompletionHandler) {
-        guard Networkconnectivity.isConnectedToNetwork() == true else {
+        guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
         }
@@ -139,7 +131,6 @@ extension LibraryService: LibraryServiceProtocol {
         var book = book
         let bookID = setBookId(for: book)
         saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
-            
             book.volumeInfo?.imageLinks?.thumbnail = storageLink
             book.ownerID = self?.userID
             book.bookID = bookID
@@ -156,10 +147,10 @@ extension LibraryService: LibraryServiceProtocol {
         }
     }
     
-   // MARK: Retrieve
+    // MARK: Retrieve
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool, completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
         guard let docRef = createQuery(query: query, next: forMore) else { return }
-     
+        
         bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
@@ -177,14 +168,14 @@ extension LibraryService: LibraryServiceProtocol {
                 }
             }
             if let data = data {
-                data.isEmpty ? completion(.success([])) : completion(.success(data))
+                completion(.success(data))
             }
         }
     }
-    
-    func getBook(for bookID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+  
+    func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
         let docRef = usersCollectionRef
-            .document(userID)
+            .document(ownerID)
             .collection(CollectionDocumentKey.books.rawValue)
             .whereField(DocumentKey.bookID.rawValue, isEqualTo: bookID)
         
@@ -204,10 +195,11 @@ extension LibraryService: LibraryServiceProtocol {
             }
         }
     }
-
-// MARK: Delete
+    
+    // MARK: Delete
     func deleteBook(book: Item, completion: @escaping CompletionHandler) {
         guard let bookID = book.bookID else { return }
+        
         imageService.deleteImageFromStorage(for: bookID) {  [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -231,7 +223,7 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: - Field update
-    func setStatusTo(_ state: Bool, field: DocumentKey, for id: String?, completion: @escaping CompletionHandler) {
+    func setStatusTo(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping CompletionHandler) {
         updateStatus(with: id ?? "", favoriteState: state, collection: .books, field: field) { error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -239,5 +231,10 @@ extension LibraryService: LibraryServiceProtocol {
             }
             completion(nil)
         }
+    }
+    
+    // MARK: - Listerner
+    func removeBookListener() {
+        bookListListener?.remove()
     }
 }

@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 03/11/2021.
 //
 
-import Foundation
 import Firebase
 import FirebaseAuth
 
@@ -25,25 +24,25 @@ enum FirebaseError: Error {
     var description: String {
         switch self {
         case .passwordMismatch:
-            return "Les mots de passe ne correspondent pas."
+            return Text.Banner.passwordMissmatch
         case .noUserName:
-            return "Le nom d'utilisateur ne peux être vide."
+            return Text.Banner.titleMissing
         case .noBookTitle:
-            return "Vous devez au moins entrer un titre."
+            return Text.Banner.titleMissing
         case .noCategory:
-            return "Catégorie non trouvée."
+            return Text.Banner.categoryNotFound
         case .categoryExist:
-            return "Cette catégorie existe déja."
+            return Text.Banner.categoryExist
         case .noNetwork:
-            return "Vous semblez être hors ligne."
+            return Text.Banner.noNetwork
         case .firebaseError(let error):
             return getFirestoreError(for: error)
         case .firebaseAuthError(let error):
             return getAuthError(for: error)
         case .nothingFound:
-            return "Introuvable"
+            return Text.Banner.notFound
         case .noComment:
-            return "Votre commentaire est vide."
+            return Text.Banner.emptyComment
         }
     }
     
@@ -51,15 +50,15 @@ enum FirebaseError: Error {
         let errorCode = FirestoreErrorCode(rawValue: error._code)
         switch errorCode {
         case .alreadyExists:
-            return "Ce livre existe déja."
+            return Text.Banner.bookExist
         case .aborted:
-            return "Demande intérompue."
+            return Text.Banner.requestCancelled
         case .invalidArgument:
-            return "Requette non valable."
+            return Text.Banner.invalidRequest
         case .notFound:
-            return "Livre non trouvable."
+            return Text.Banner.notFound
         case .unavailable:
-            return "Livre non disponible."
+            return Text.Misc.unavailable
         case .some(_), .none:
             return error.localizedDescription
         }
@@ -69,15 +68,15 @@ enum FirebaseError: Error {
         let errorCode = AuthErrorCode(rawValue: error._code)
         switch errorCode {
         case .accountExistsWithDifferentCredential:
-            return "L'email et le mot de passe ne correspondent pas."
+            return Text.Banner.emailPasswordMismatch
         case .emailAlreadyInUse:
-            return "Email déja utilisé."
+            return Text.Banner.emailExist
         case .invalidEmail:
-            return "Mauvaise email."
+            return Text.Banner.invalidEmail
         case .wrongPassword:
-            return "Mauvais mot de passe."
+            return Text.Banner.invalidPassword
         case .invalidRecipientEmail:
-            return "Aucuns compte existe avec cet email."
+            return Text.Banner.accountDontExist
         case .some(_), .none:
             return error.localizedDescription
         }

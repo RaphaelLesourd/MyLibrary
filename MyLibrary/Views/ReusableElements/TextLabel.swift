@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 23/10/2021.
 //
 
-import Foundation
 import UIKit
 
 class TextLabel: UILabel {
@@ -17,7 +16,7 @@ class TextLabel: UILabel {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        fatalError("init(coder:) has not been implemented")
     }
     
     convenience init(color: UIColor = .label,
@@ -34,10 +33,10 @@ class TextLabel: UILabel {
                             alignment: NSTextAlignment = .left,
                             fontSize: CGFloat = 14,
                             weight: UIFont.Weight = .regular) {
-        self.textColor     = color
+        self.textColor = color
         self.numberOfLines = maxLines
         self.textAlignment = alignment
-        self.font          = UIFont.systemFont(ofSize: fontSize, weight: weight)
-        self.text          = "--"
+        self.text = "--"
+        self.font = UIFont.systemFont(ofSize: fontSize, weight: weight)
     }
 }

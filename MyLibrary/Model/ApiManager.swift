@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 30/10/2021.
 //
 
-import Foundation
 import Alamofire
 
 protocol ApiManagerProtocol {
@@ -20,7 +19,7 @@ class ApiManager {
     
     // MARK: - Initializer
     init(session: Session = .default, validator: ValidatorProtocol = Validator()) {
-        self.session   = session
+        self.session = session
         self.validator = validator
     }
     /// Verifies is the query keyword is a en ISBN.
@@ -66,13 +65,13 @@ extension ApiManager: ApiManagerProtocol {
     
     func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
         let parameters = AlamofireRouter.sendPushMessage(payload: message)
+        
         session
             .request(parameters)
             .validate()
             .response { response in
             switch response.result {
             case .success(_):
-                print("Notification sent")
                 completion(nil)
             case .failure(let error):
                 completion(.afError(error))

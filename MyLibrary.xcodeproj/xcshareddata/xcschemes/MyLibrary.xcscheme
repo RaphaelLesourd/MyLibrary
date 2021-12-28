@@ -27,6 +27,8 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "NO"
+      language = "en"
+      region = "US"
       codeCoverageEnabled = "YES">
       <EnvironmentVariables>
          <EnvironmentVariable
@@ -45,6 +47,23 @@
                BlueprintName = "MyLibraryTests"
                ReferencedContainer = "container:MyLibrary.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AccountServiceTestCase">
+               </Test>
+               <Test
+                  Identifier = "CommentServiceTestCase">
+               </Test>
+               <Test
+                  Identifier = "LibraryServiceTestCase">
+               </Test>
+               <Test
+                  Identifier = "RecommandServiceTestCase">
+               </Test>
+               <Test
+                  Identifier = "UserServiceTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

@@ -5,30 +5,25 @@
 //  Created by Birkyboy on 04/12/2021.
 //
 
-import Foundation
 import FirebaseFirestore
 import FirebaseAuth
-
-protocol MessageServiceProtocol {
-    func sendCommentNotification(for book: Item, message: String, for comments: [CommentModel], completion: @escaping (FirebaseError?) -> Void)
-}
 
 class MessageService {
     
     // MARK: - Properties
     private let db = Firestore.firestore()
     
-    let userRef   : CollectionReference
+    let userRef: CollectionReference
     let apiManager: ApiManagerProtocol
-    let userID    : String
+    let userID: String
     
     // MARK: - Initializer
     init(apiManager: ApiManagerProtocol = ApiManager(session: .default)) {
         self.apiManager = apiManager
-        self.userRef    = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID     = Auth.auth().currentUser?.uid ?? ""
+        self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-   
+    
     // MARK: - Private functions
     private func getCommentUserID(from comments: [CommentModel]) -> [[String]] {
         return comments
@@ -37,10 +32,10 @@ class MessageService {
     }
     
     private func getAllCommentSenders(for comments: [CommentModel], completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        let userIds = getCommentUserID(from: comments)
         
+        let userIds = getCommentUserID(from: comments)
         userIds.forEach { ids in
-            let docRef = userRef.whereField("userId", in: ids)
+            let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in
                 if let error = error {
                     completion(.failure(.firebaseError(error)))
@@ -63,11 +58,15 @@ class MessageService {
     
     private func postPushNotifications(to users: [UserModel], with message: String, for book: Item) {
         guard let bookTitle = book.volumeInfo?.title,
-              let bookID = book.bookID else { return }
+              let bookID = book.bookID,
+              let ownerID = book.ownerID,
+              let imageURL = book.volumeInfo?.imageLinks?.thumbnail else { return }
         users.forEach {
             let message = MessageModel(title: bookTitle.capitalized,
-                                       body: "\(Auth.auth().currentUser?.displayName?.capitalized ?? "") à dit \(message)",
+                                       body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
                                        bookID: bookID,
+                                       ownerID: ownerID,
+                                       imageURL: imageURL,
                                        token: $0.token)
             apiManager.postPushNotification(with: message) { error in
                 if let error = error {
@@ -80,9 +79,7 @@ class MessageService {
 // MARK: - MessageService Protocol
 extension MessageService: MessageServiceProtocol {
     
-    func sendCommentNotification(for book: Item,
-                                 message: String,
-                                 for comments: [CommentModel],
+    func sendCommentNotification(for book: Item, message: String, for comments: [CommentModel],
                                  completion: @escaping (FirebaseError?) -> Void) {
         getAllCommentSenders(for: comments) { [weak self] result in
             switch result {

@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 03/11/2021.
 //
 
-import Foundation
 import UIKit
 
 class StackView: UIStackView {
@@ -23,10 +22,10 @@ class StackView: UIStackView {
                      spacing: CGFloat,
                      resizingMask: Bool = false) {
         self.init(frame: .zero)
-        self.axis          = axis
+        self.axis = axis
         self.distribution = distribution
-        self.alignment    = alignment
-        self.spacing      = spacing
+        self.alignment = alignment
+        self.spacing = spacing
         self.translatesAutoresizingMaskIntoConstraints = resizingMask
     }
 }

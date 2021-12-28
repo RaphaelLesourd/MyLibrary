@@ -14,9 +14,9 @@
         "package": "Alamofire",
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
-          "branch": null,
-          "revision": "d120af1e8638c7da36c8481fd61a66c0c08dc4fc",
-          "version": "5.4.4"
+          "branch": "master",
+          "revision": "f82c23a8a7ef8dc1a49a8bfc6a96883e79121864",
+          "version": null
         }
       },
       {
@@ -41,9 +41,9 @@
         "package": "Firebase",
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk.git",
         "state": {
-          "branch": null,
-          "revision": "839cc6b0cd80b0b8bf81fe9bd82b743b25dc6446",
-          "version": "8.9.1"
+          "branch": "master",
+          "revision": "0feef36e6037de8aeb22607372f440845d52548c",
+          "version": null
         }
       },
       {
@@ -95,27 +95,27 @@
         "package": "InputBarAccessoryView",
         "repositoryURL": "https://github.com/nathantannar4/InputBarAccessoryView.git",
         "state": {
-          "branch": null,
-          "revision": "6d3d205f29b80f8fa9a9616ad801c488293242bf",
-          "version": "5.4.0"
+          "branch": "master",
+          "revision": "246155f1462c8473dfceb9bab331ec58850e6b1b",
+          "version": null
         }
       },
       {
         "package": "IQKeyboardManagerSwift",
         "repositoryURL": "https://github.com/hackiftekhar/IQKeyboardManager.git",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "474f849accae40fe61b5302d9b057dd48ee073ba",
-          "version": "6.5.9"
+          "version": null
         }
       },
       {
         "package": "Kingfisher",
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
-          "branch": null,
-          "revision": "318e319998bf555c3e914d5c3adb6da05af86a32",
-          "version": "7.1.1"
+          "branch": "master",
+          "revision": "0a2924c703902d444002d017b6e9491c819b1f9f",
+          "version": null
         }
       },
       {
@@ -131,9 +131,9 @@
         "package": "Lottie",
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
-          "branch": null,
-          "revision": "79a0b70547f7c40ea54c67487f935fa2f2eaaadc",
-          "version": "3.2.3"
+          "branch": "master",
+          "revision": "f237d87961d78c08baefd2e134b72fd07eb5c98b",
+          "version": null
         }
       },
       {
@@ -143,15 +143,6 @@
           "branch": null,
           "revision": "7ee9ef9f627d85cbe1b8c4f49a3ed26eed216c77",
           "version": "2.30908.0"
-        }
-      },
-      {
-        "package": "PanModal",
-        "repositoryURL": "https://github.com/slackhq/PanModal.git",
-        "state": {
-          "branch": null,
-          "revision": "b012aecb6b67a8e46369227f893c12544846613f",
-          "version": "1.2.7"
         }
       },
       {

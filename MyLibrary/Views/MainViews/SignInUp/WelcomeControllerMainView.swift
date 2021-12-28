@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 25/10/2021.
 //
 
-import Foundation
 import UIKit
 import AuthenticationServices
 
@@ -13,6 +12,13 @@ class WelcomeControllerMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        loginStackView.addArrangedSubview(loginButton)
+        loginStackView.addArrangedSubview(signupButton)
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(loginStackView)
+        mainStackView.addArrangedSubview(appVerionLabel)
+        
         setBackGroundImageConstraints()
         setMainStackViewConstraints()
         configureUI()
@@ -23,6 +29,21 @@ class WelcomeControllerMainView: UIView {
     }
     
     // MARK: - Subviews
+    let loginButton = Button(title: Text.Account.loginTitle,
+                                   systemImage: "",
+                                   imagePlacement: .leading,
+                                   tintColor: .appTintColor)
+    let signupButton = Button(title: Text.Account.signupTitle,
+                                    systemImage: "",
+                                    imagePlacement: .leading,
+                                    tintColor: .white,
+                                    backgroundColor: .white)
+    let appVerionLabel = TextLabel(color: .white,
+                                   maxLines: 1,
+                                   alignment: .center,
+                                   fontSize: 12,
+                                   weight: .regular)
+    
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.alpha = 0.3
@@ -30,27 +51,21 @@ class WelcomeControllerMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private let titleLabel = TextLabel(color: .white, maxLines: 3, alignment: .left, fontSize: 40, weight: .bold)
-    let loginButton  = ActionButton(title: Text.Account.loginTitle, systemImage: "", imagePlacement: .leading, tintColor: .appTintColor)
-    let signupButton = ActionButton(title: Text.Account.signupTitle, systemImage: "", imagePlacement: .leading,
-                                    tintColor: .white, backgroundColor: .white)
+    private let titleLabel = TextLabel(color: .white,
+                                       maxLines: 3,
+                                       alignment: .left,
+                                       fontSize: 40,
+                                       weight: .bold)
+    private let loginStackView = StackView(axis: .horizontal,
+                                           distribution: .fillEqually,
+                                           spacing: 20)
+    private let mainStackView = StackView(axis: .vertical,
+                                          spacing: 100)
     
-    let termOfUserButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(Text.Account.termOfUseMessage, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        return button
-    }()
-    
-    private let loginStackView = StackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
-    private let mainStackView  = StackView(axis: .vertical, spacing: 100)
- 
     private func configureUI() {
         backgroundImage.image = Images.welcomeScreen
-        titleLabel.text       = Text.Account.welcomeMessage
-        loginStackView.addArrangedSubview(loginButton)
-        loginStackView.addArrangedSubview(signupButton)
+        titleLabel.text = Text.Account.welcomeMessage
+        appVerionLabel.text = UIApplication.appName + " - Version " + UIApplication.release + " build " + UIApplication.build
     }
 }
 // MARK: - Constraints
@@ -67,10 +82,6 @@ extension WelcomeControllerMainView {
     
     private func setMainStackViewConstraints() {
         addSubview(mainStackView)
-        mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(loginStackView)
-        mainStackView.addArrangedSubview(termOfUserButton)
-        mainStackView.setCustomSpacing(200, after: loginStackView)
         NSLayoutConstraint.activate([
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),

@@ -5,29 +5,22 @@
 //  Created by Birkyboy on 11/11/2021.
 //
 
-import Foundation
 import FirebaseStorage
 import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseAuth
-
-protocol ImageStorageProtocol {
-    func storeBookCoverImage(for imageData: Data?, nameID: String, completion: @escaping (Result<String, FirebaseError>) -> Void)
-    func updateUserImage(for imageData: Data?, completion: @escaping (FirebaseError?) -> Void)
-    func deleteImageFromStorage(for id: String, completion: @escaping (FirebaseError?) -> Void)
-}
 
 class ImageStorageService {
     var userID: String
     
     private let db = Firestore.firestore()
     private let usersCollectionRef: CollectionReference
-    private let storageReference  : StorageReference
+    private let storageReference: StorageReference
     
     init() {
-        storageReference   = Storage.storage().reference()
+        storageReference = Storage.storage().reference()
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
-        self.userID        = Auth.auth().currentUser?.uid ?? ""
+        self.userID = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func addImageToStorage(for imageData: Data?, id: String,
@@ -38,7 +31,7 @@ class ImageStorageService {
             .child(userID).child(StorageKey.images.rawValue)
             .child(id)
         
-        imageStorageRef.putData(imageData, metadata: nil, completion: { ( _, error) in
+        imageStorageRef.putData(imageData, metadata: nil) { ( _, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
@@ -50,15 +43,14 @@ class ImageStorageService {
                 }
                 completion(.success(url?.absoluteString))
             })
-        })
+        }
     }
 }
 
-// MARK: - ImageStorageProtocol Extension
+// MARK: - Extension ImageStorageProtocol
 extension ImageStorageService: ImageStorageProtocol {
     
-    func storeBookCoverImage(for imageData: Data?, nameID: String,
-                             completion: @escaping (Result<String, FirebaseError>) -> Void) {
+    func storeBookCoverImage(for imageData: Data?, nameID: String, completion: @escaping (Result<String, FirebaseError>) -> Void) {
         addImageToStorage(for: imageData, id: nameID) { result in
             switch result {
             case .success(let imageStringURL):
