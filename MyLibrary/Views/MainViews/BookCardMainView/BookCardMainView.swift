@@ -80,7 +80,7 @@ class BookCardMainView: UIView {
         return view
     }()
     
-    private let backgroundImage: UIImageView = {
+    let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         imageView.alpha = 0.55
         imageView.contentMode = .scaleAspectFill
@@ -89,56 +89,32 @@ class BookCardMainView: UIView {
         return imageView
     }()
     
-    private let commentView = BookCardCommentView()
-    private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(maxLines: 5,
+    let commentView = BookCardCommentView()
+    let bookCover = BookCover(frame: .zero)
+    let titleLabel = TextLabel(maxLines: 5,
                                        alignment: .center,
                                        fontSize: 21,
                                        weight: .semibold)
-    private let authorLabel = TextLabel(maxLines: 3,
+    let authorLabel = TextLabel(maxLines: 3,
                                         alignment: .center,
                                         fontSize: 16,
                                         weight: .regular)
-    private let categoryiesLabel = TextLabel(color: .secondaryLabel,
+    let categoryiesLabel = TextLabel(color: .secondaryLabel,
                                              maxLines: 2,
                                              alignment: .center,
                                              fontSize: 13,
                                              weight: .medium)
-    private let ratingView = RatingView()
-    private let descriptionLabel = TextLabel(maxLines: 0,
+    let ratingView = RatingView()
+    let descriptionLabel = TextLabel(maxLines: 0,
                                              fontSize: 16,
                                              weight: .light)
-    private let purchaseDetailView = PriceView()
-    private let bookDetailView = BookDetailView()
-    private let isbnLabel = TextLabel(color: .secondaryLabel)
-    private let mainStackView = StackView(axis: .vertical,
+    let purchaseDetailView = PriceView()
+    let bookDetailView = BookDetailView()
+    let isbnLabel = TextLabel(color: .secondaryLabel)
+    let mainStackView = StackView(axis: .vertical,
                                           spacing: 30)
     
     // MARK: - Configure
-    func displayBookInfos(with book: BookCardData) {
-        titleLabel.text = book.title
-        authorLabel.text = book.author
-        ratingView.rating = book.rating
-        descriptionLabel.text = book.description
-        isbnLabel.text = Text.Book.isbn + book.isbn
-        
-        bookDetailView.publisherNameView.infoLabel.text = book.publisherName
-        bookDetailView.publishedDateView.infoLabel.text = book.publishedDate
-        bookDetailView.numberOfPageView.infoLabel.text = book.pages
-        bookDetailView.languageView.infoLabel.text = book.language
-        
-        purchaseDetailView.titleLabel.text = Text.Book.price
-        purchaseDetailView.purchasePriceLabel.text = book.price
-        
-        bookCover.image = book.image
-        backgroundImage.image = book.image
-        animateBookImage()
-    }
-    
-    func displayCategories(with categorylist: String) {
-        categoryiesLabel.text = categorylist
-    }
-    
     func setFavoriteButtonAs(_ isFavorite: Bool) {
         favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
     }

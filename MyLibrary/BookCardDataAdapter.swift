@@ -1,5 +1,5 @@
 //
-//  BookCardAdapter.swift
+//  BookCardData.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCardDataAdapter {
+class BookCardData {
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
     private let formatter: FormatterProtocol
@@ -23,47 +23,41 @@ class BookCardDataAdapter {
     }
 }
 // MARK: - BookCard adapater protocol
-extension BookCardDataAdapter: BookCardAdapter {
+extension BookCardData: BookCardDataPresenter {
     
-    func getBookCardData(for book: Item, completion: @escaping (BookCardData) -> Void) {
-        let title = book.volumeInfo?.title?.capitalized  ?? ""
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
-        let rating = book.volumeInfo?.ratingsCount ?? 0
-        let publisherName = book.volumeInfo?.publisher?.capitalized  ?? ""
-        let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
+    func configure(_ view: BookCardMainView, with book: Item) {
+        view.titleLabel.text = book.volumeInfo?.title?.capitalized  ?? ""
+        view.authorLabel.text = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
+        view.ratingView.rating = book.volumeInfo?.ratingsCount ?? 0
+        view.descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
+        view.isbnLabel.text = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
+        
+        view.bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book.volumeInfo?.language,
+                                                                                     type: .language).capitalized
+        view.bookDetailView.publisherNameView.infoLabel.text = book.volumeInfo?.publisher?.capitalized  ?? ""
+        view.bookDetailView.publishedDateView.infoLabel.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
+        view.bookDetailView.numberOfPageView.infoLabel.text = String(book.volumeInfo?.pageCount ?? 0)
+        
+        view.purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book.saleInfo?.retailPrice?.currencyCode
         let value = book.saleInfo?.retailPrice?.amount
-        let price = formatter.formatDoubleToPrice(with: value,
-                                                  currencyCode: currency)
-        let language = formatter.formatCodeToName(from: book.volumeInfo?.language,
-                                                  type: .language).capitalized
-        let isbn = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
-        let pages = String(book.volumeInfo?.pageCount ?? 0)
-
+        view.purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: value,
+                                                                                        currencyCode: currency)
+        
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail, completion: { image in
-            let bookData = BookCardData(title: title,
-                                        author: authors,
-                                        rating: rating,
-                                        description: book.volumeInfo?.volumeInfoDescription ?? "",
-                                        publisherName: publisherName,
-                                        publishedDate: publishedDate,
-                                        pages: pages,
-                                        isbn: isbn,
-                                        price: price,
-                                        language: language,
-                                        image: image)
-            completion(bookData)
+            view.bookCover.image = image
+            view.backgroundImage.image = image
         })
     }
     
-    func getBookCategories(for categoryIds: [String], bookOwnerID: String,completion: @escaping (String) -> Void) {
-     
+    func setCategoriesLabel(_ view: BookCardMainView, for categoryIds: [String], bookOwnerID: String) {
         categoryService.getCategoryNameList(for: categoryIds, bookOwnerID: bookOwnerID) { categoryNames in
             let sortedCategories = categoryNames
                 .map({ $0.uppercased() })
                 .sorted()
                 .joined(separator: ", ")
-            completion(sortedCategories)
+            view.categoryiesLabel.text = sortedCategories
         }
     }
+    
 }

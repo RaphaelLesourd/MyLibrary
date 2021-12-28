@@ -69,18 +69,6 @@ class NewBookControllerView {
     }
     
     // MARK: - Display data
-    func displayBookDetail(with book: NewBookData) {
-        bookTileCell.textField.text = book.title
-        bookAuthorCell.textField.text = book.author
-        publisherCell.textField.text = book.publisherName
-        publishDateCell.textField.text = book.publishedDate
-        isbnCell.textField.text = book.isbn
-        numberOfPagesCell.textField.text = book.pages
-        purchasePriceCell.textField.text = book.price
-        ratingCell.ratingSegmentedControl.selectedSegmentIndex = book.rating
-        bookImageCell.pictureView.image = book.image
-    }
-    
     func resetViews() {
         bookImageCell.pictureView.image = Images.emptyStateBookImage
         textFields.forEach { $0.text = nil }

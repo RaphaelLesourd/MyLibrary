@@ -1,5 +1,5 @@
 //
-//  BookCellAdapter.swift
+//  BookCellPresenter.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCellDataAdapter {
+class BookCellPresenter {
     // MARK: - Properties
     private var imageRetriever: ImageRetriever
     
@@ -17,7 +17,7 @@ class BookCellDataAdapter {
     }
 }
 // MARK: BookCell Adapter protocol
-extension BookCellDataAdapter: BookCellAdapter {
+extension BookCellPresenter: CellPresenter {
     
     func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""

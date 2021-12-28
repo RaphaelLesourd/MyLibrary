@@ -21,7 +21,7 @@ class CommentsViewController: UIViewController {
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
-    private let bookCellAdapter: BookCellAdapter?
+    private let cellPresenter: CellPresenter?
     
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
@@ -37,7 +37,7 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
-        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -273,7 +273,7 @@ extension CommentsViewController {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
-                    self?.bookCellAdapter?.getBookData(for: item) { bookData in
+                    self?.cellPresenter?.getBookData(for: item) { bookData in
                         cell.configure(with: bookData)
                     }
                     self?.getBookOwnerDetails(completion: { owner in

@@ -20,7 +20,7 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: Recommendation
-    private let bookCardAdapter: BookCardAdapter?
+    private let bookCardPresenter: BookCardDataPresenter?
     
     private var book: Item
     private var coverImage: UIImage?
@@ -42,7 +42,7 @@ class BookCardViewController: UIViewController {
         self.book = book
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.bookCardAdapter = BookCardDataAdapter(imageRetriever: KFImageRetriever(),
+        self.bookCardPresenter = BookCardData(imageRetriever: KFImageRetriever(),
                                                    formatter: Formatter(),
                                                    categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)
@@ -162,18 +162,13 @@ class BookCardViewController: UIViewController {
     
     // MARK: - Data display
     private func displayBookData() {
-        bookCardAdapter?.getBookCardData(for: book, completion: { [weak self] bookCardData in
-            self?.mainView.displayBookInfos(with: bookCardData)
-            self?.coverImage = bookCardData.image
-        })
+        bookCardPresenter?.configure(mainView, with: book)
     }
  
     private func displayCategoryNames() {
         guard let categoryIds = book.category,
               let bookOwnerID = book.ownerID else { return }
-        bookCardAdapter?.getBookCategories(for: categoryIds, bookOwnerID: bookOwnerID, completion: { [weak self] categories in
-            self?.mainView.displayCategories(with: categories)
-        })
+        bookCardPresenter?.setCategoriesLabel(mainView, for: categoryIds, bookOwnerID: bookOwnerID)
     }
     
     // MARK: - Navigation

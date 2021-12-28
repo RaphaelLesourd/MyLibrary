@@ -20,7 +20,7 @@ class BookLibraryViewController: CollectionViewController {
     private var libraryService: LibraryServiceProtocol
     private var queryService: QueryProtocol
     private var bookListMenu: BookListLayoutMenu?
-    private var bookCellAdater: BookCellAdapter?
+    private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
     private var gridItemSize: GridItemSize = .medium {
@@ -38,7 +38,7 @@ class BookLibraryViewController: CollectionViewController {
         self.queryService = queryService
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -158,7 +158,7 @@ extension BookLibraryViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self.bookCellAdater?.getBookData(for: book) { bookData in
+            self.cellPresenter?.getBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell
