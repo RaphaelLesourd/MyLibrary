@@ -89,7 +89,8 @@ enum Text {
     
     enum Placeholder {
         static let search = NSLocalizedString("Search", comment: "search bar title")
-        static let homeControllerEmptyState = NSLocalizedString("HomeControllerEmptyState", comment: "home controller empty state message")
+        static let homeControllerEmptyState = NSLocalizedString("HomeControllerEmptyState",
+                                                                comment: "home controller empty state message")
         static let bookListEmptyState = NSLocalizedString("BookListEmptyState", comment: "books empty state message")
         static let searchListEmptyState = NSLocalizedString("SearchListEmptyState", comment: "search empty state message")
         static let categoryName = NSLocalizedString("CategoryName", comment: "category name place holder")
@@ -102,7 +103,8 @@ enum Text {
         static let deleteAccountTitle = NSLocalizedString("AlertDeleteAccountTitle", comment: "delete account title")
         static let deleteAccountMessage = NSLocalizedString("AlertDeleteAccountMessage", comment: "auth message")
         static let descriptionChangedTitle = NSLocalizedString("Description", comment: "description title")
-        static let descriptionChangedMessage = NSLocalizedString("AlertDescriptionChangedMessage", comment: "description change message")
+        static let descriptionChangedMessage = NSLocalizedString("AlertDescriptionChangedMessage",
+                                                                 comment: "description change message")
         static let forgotPasswordTitle = NSLocalizedString("AlertPasswordForgottenTitle",  comment: "Password forgotten title")
         static let forgotPasswordMessage = NSLocalizedString("AlertPasswordForgottenMessage", comment: "Reset password message")
         static let deleteBookTitle = NSLocalizedString("AlertDeleteBookTitle",  comment: "delete book title")
@@ -138,6 +140,25 @@ enum Text {
         static let welcomeTitle = NSLocalizedString("Welcome", comment: "welcome title")
         static let noFlashLightTitle = NSLocalizedString("NoFlashlightTitle", comment: "flash light unavailable")
         static let flashLightErrorMessage = NSLocalizedString("flashLightErrorMessage", comment: "flashLight Error Message")
+      
+        static let passwordMissmatch = NSLocalizedString("PasswordMissmatch", comment: "Password missmatch")
+        static let usernameEmpty = NSLocalizedString("UsernameEmpty", comment: "Username can't be empty.")
+        static let titleMissing = NSLocalizedString("TitleMissing", comment: "Title can't be empty.")
+        static let categoryNotFound = NSLocalizedString("CategoryNotFound", comment: "Catagory not found.")
+        static let categoryExist = NSLocalizedString("CategoryExist", comment: "This catagory already exist.")
+        static let noNetwork = NSLocalizedString("NoNetwork", comment: "You seem to be offline.")
+        static let notFound = NSLocalizedString("NotFound", comment: "Not found")
+        static let emptyComment = NSLocalizedString("EmptyComment", comment: "Comment can't be empty.")
+        static let bookExist = NSLocalizedString("BookExist", comment: "This book already exist.")
+        static let requestCancelled = NSLocalizedString("RequestCancelled", comment: "RequestCancelled.")
+        static let emailPasswordMismatch = NSLocalizedString("EmailPasswordNotFound", comment: "Email and password missmatch.")
+        static let emailExist = NSLocalizedString("EmailExist", comment: "Email already in use.")
+        
+        static let invalidRequest = NSLocalizedString("InvalidRequest", comment: "Invalid request")
+        static let invalidEmail = NSLocalizedString("InvalidPassword", comment: "Invalid password")
+        static let invalidPassword = NSLocalizedString("InvalidEmail", comment: "Invalid email")
+        static let accountDontExist = NSLocalizedString("AccountDontExist", comment: "No account exist with this email.")
+        
     }
     
     enum Misc {

@@ -26,13 +26,13 @@ class SearchViewController: CollectionViewController {
    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: DefaultLayoutComposer
+    private var layoutComposer: BookListLayoutComposer
     private var apiManager: ApiManagerProtocol
     private var cellPresenter: CellPresenter?
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
-    init(apiManager: ApiManagerProtocol, layoutComposer: DefaultLayoutComposer) {
+    init(apiManager: ApiManagerProtocol, layoutComposer: BookListLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
         self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())

@@ -28,7 +28,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
         }
     }
     
-    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: ListLayout())
+    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: BookListLayout())
     private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes

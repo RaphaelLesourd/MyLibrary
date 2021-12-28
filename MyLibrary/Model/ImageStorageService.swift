@@ -31,7 +31,7 @@ class ImageStorageService {
             .child(userID).child(StorageKey.images.rawValue)
             .child(id)
         
-        imageStorageRef.putData(imageData, metadata: nil, completion: { ( _, error) in
+        imageStorageRef.putData(imageData, metadata: nil) { ( _, error) in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
@@ -43,7 +43,7 @@ class ImageStorageService {
                 }
                 completion(.success(url?.absoluteString))
             })
-        })
+        }
     }
 }
 

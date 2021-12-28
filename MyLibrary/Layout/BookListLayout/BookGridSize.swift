@@ -1,5 +1,5 @@
 //
-//  Grid.swift
+//  BookGridSize.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 23/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum GridItemSize: CGFloat, CaseIterable {
+enum BookGridSize: CGFloat, CaseIterable {
     case large = 0.5
     case medium = 0.33333
     case small = 0.25

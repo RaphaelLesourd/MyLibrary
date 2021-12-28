@@ -16,14 +16,14 @@ class BookLibraryViewController: CollectionViewController {
     private lazy var dataSource = makeDataSource()
     private var noMoreBooks = false
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: DefaultLayoutComposer
+    private var layoutComposer: BookListLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var queryService: QueryProtocol
     private var bookListMenu: BookListLayoutMenu?
     private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
-    private var gridItemSize: GridItemSize = .medium {
+    private var gridItemSize: BookGridSize = .medium {
         didSet {
             updateGridLayout()
         }
@@ -33,7 +33,7 @@ class BookLibraryViewController: CollectionViewController {
     init(currentQuery: BookQuery,
          queryService: QueryService,
          libraryService: LibraryServiceProtocol,
-         layoutComposer: DefaultLayoutComposer) {
+         layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
         self.libraryService = libraryService
@@ -184,14 +184,14 @@ extension BookLibraryViewController {
     }
 }
 // MARK: - Extension BookListLayoutDelegate
-extension BookLibraryViewController: BookListLayoutDelegate {
+extension BookLibraryViewController: BookListMenuDelegate {
    
     func orderList(by listType: DocumentKey) {
         currentQuery = queryService.updateQuery(from: currentQuery, with: listType)
         refreshBookList()
     }
     
-    func setLayoutFromMenu(for size: GridItemSize) {
+    func setLayoutFromMenu(for size: BookGridSize) {
         gridItemSize = size
     }
 }

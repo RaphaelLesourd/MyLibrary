@@ -121,7 +121,7 @@ class HomeViewController: CollectionViewController {
         let bookListVC = BookLibraryViewController(currentQuery: query,
                                                    queryService: QueryService(),
                                                    libraryService: LibraryService(),
-                                                   layoutComposer: ListLayout())
+                                                   layoutComposer: BookListLayout())
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
     }

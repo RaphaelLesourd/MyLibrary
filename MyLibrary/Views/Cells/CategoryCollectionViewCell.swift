@@ -12,8 +12,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         backgroundColor = .red
-        rounded(radius: 10,
-                backgroundColor: UIColor.label.withAlphaComponent(0.05))
+        rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
         setLabelConstraints()
     }
     

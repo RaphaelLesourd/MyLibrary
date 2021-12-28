@@ -8,14 +8,6 @@
 import UIKit
 import Lottie
 
-protocol BookCardMainViewDelegate: AnyObject {
-    func recommandButtonAction()
-    func deleteBookAction()
-    func favoriteButtonAction()
-    func showCommentsViewController()
-    func showBookCover()
-}
-
 class BookCardMainView: UIView {
     
     weak var delegate: BookCardMainViewDelegate?

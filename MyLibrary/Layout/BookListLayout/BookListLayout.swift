@@ -8,9 +8,9 @@
 import UIKit
 import SwiftUI
 
-class ListLayout {
+class BookListLayout {
  
-    private  func makeVerticalGridLayoutSection(gridItemSize: GridItemSize,
+    private  func makeVerticalGridLayoutSection(gridItemSize: BookGridSize,
                                                 environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
         let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.rawValue
@@ -48,9 +48,9 @@ class ListLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension ListLayout: DefaultLayoutComposer {
+extension BookListLayout: BookListLayoutComposer {
     
-    func setCollectionViewLayout(gridItemSize: GridItemSize) -> UICollectionViewLayout {
+    func setCollectionViewLayout(gridItemSize: BookGridSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, environement in
             return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize,
                                                        environment: environement)
