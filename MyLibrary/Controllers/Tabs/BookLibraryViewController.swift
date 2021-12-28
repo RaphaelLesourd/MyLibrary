@@ -19,7 +19,7 @@ class BookLibraryViewController: CollectionViewController {
     private var layoutComposer: BookListLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var queryService: QueryProtocol
-    private var bookListMenu: BookListLayoutMenu?
+    private var bookListMenu: BookListMenu?
     private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
@@ -50,7 +50,7 @@ class BookLibraryViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
-        bookListMenu = BookListLayoutMenu(delegate: self)
+        bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         
         configureCollectionView()

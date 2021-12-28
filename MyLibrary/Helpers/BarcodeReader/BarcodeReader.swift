@@ -14,11 +14,11 @@ class BarcodeReader: NSObject {
     
     private let captureSession = AVCaptureSession()
     private weak var presentationController: UIViewController?
-    private weak var delegate: BarcodeProvider?
+    private weak var delegate: BarcodeReaderDelegate?
     private var permissions: Permissions
 
     init(presentationController: UIViewController,
-         delegate: BarcodeProvider,
+         delegate: BarcodeReaderDelegate,
          permissions: Permissions) {
         self.presentationController = presentationController
         self.delegate = delegate

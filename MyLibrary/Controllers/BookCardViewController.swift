@@ -42,7 +42,7 @@ class BookCardViewController: UIViewController {
         self.book = book
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.bookCardPresenter = BookCardData(imageRetriever: KFImageRetriever(),
+        self.bookCardPresenter = BookCardDataPresenter(imageRetriever: KFImageRetriever(),
                                                    formatter: Formatter(),
                                                    categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)

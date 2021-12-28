@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookListLayoutMenu {
+class BookListMenu {
     
     // MARK: - Property
     private weak var delegate: BookListMenuDelegate?

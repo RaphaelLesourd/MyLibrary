@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCardData {
+class BookCardDataPresenter {
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
     private let formatter: FormatterProtocol
@@ -23,7 +23,7 @@ class BookCardData {
     }
 }
 // MARK: - BookCard presenter protocol
-extension BookCardData: BookCardPresenter {
+extension BookCardDataPresenter: BookCardPresenter {
     
     func configure(_ view: BookCardMainView, with book: Item) {
         view.titleLabel.text = book.volumeInfo?.title?.capitalized  ?? ""
@@ -47,6 +47,7 @@ extension BookCardData: BookCardPresenter {
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail, completion: { image in
             view.bookCover.image = image
             view.backgroundImage.image = image
+            view.animateBookImage()
         })
     }
     

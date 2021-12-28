@@ -80,7 +80,6 @@ class AccountViewController: StaticTableViewController {
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                dump(currentUser)
                 self.accountDataPresenter?.configure(self.mainView, with: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)

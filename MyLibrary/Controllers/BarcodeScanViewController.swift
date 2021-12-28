@@ -86,7 +86,7 @@ class BarcodeScanViewController: UIViewController {
 }
 
 // MARK: - Extension barcode capture delegate
-extension BarcodeScanViewController: BarcodeProvider {
+extension BarcodeScanViewController: BarcodeReaderDelegate {
  
     func presentError(with error: BarcodeReaderError) {
         AlertManager.presentAlertBanner(as: .customMessage(error.title),

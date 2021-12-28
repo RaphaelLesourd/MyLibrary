@@ -118,7 +118,7 @@ class BookCardMainView: UIView {
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
     
-    private func animateBookImage() {
+    func animateBookImage() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
         UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
             self.backgroundImage.transform = transformation

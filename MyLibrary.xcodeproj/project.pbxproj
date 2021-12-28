@@ -52,7 +52,7 @@
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
-		812B160F27720D6200D65C6A /* BarcodeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeProvider.swift */; };
+		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
 		812B16132772106200D65C6A /* BarcodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16122772106200D65C6A /* BarcodeReader.swift */; };
 		8138DDE2274784D400C355C6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE1274784D400C355C6 /* Formatter.swift */; };
@@ -82,7 +82,7 @@
 		81792F672732F93F005F863B /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F662732F93F005F863B /* FirebaseError.swift */; };
 		818657A727649D5C00B25116 /* AccountControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A627649D5C00B25116 /* AccountControllerView.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
-		818657EB27664F9F00B25116 /* BookListLayoutMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */; };
+		818657EB27664F9F00B25116 /* BookListMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657EA27664F9E00B25116 /* BookListMenu.swift */; };
 		81885230277486E7002813A1 /* BookGridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* BookGridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
 		8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */; };
@@ -94,7 +94,7 @@
 		8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188524927748E42002813A1 /* UserServiceProtocol.swift */; };
 		818852522774BE87002813A1 /* BookDetailComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCB827247A2B00DE9219 /* BookDetailComponent.swift */; };
 		8188525527785CD8002813A1 /* BookCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525427785CD8002813A1 /* BookCellPresenter.swift */; };
-		8188525727785FA0002813A1 /* BookCardDataAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525627785FA0002813A1 /* BookCardDataAdapter.swift */; };
+		8188525727785FA0002813A1 /* BookCardDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525627785FA0002813A1 /* BookCardDataPresenter.swift */; };
 		8188525927786D9F002813A1 /* NewBookCardDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525827786D9F002813A1 /* NewBookCardDataPresenter.swift */; };
 		8188525B27788567002813A1 /* BookCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525A27788567002813A1 /* BookCellData.swift */; };
 		8188525D2778858B002813A1 /* CellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525C2778858B002813A1 /* CellPresenter.swift */; };
@@ -277,7 +277,7 @@
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanViewController.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
-		812B160B27720CDF00D65C6A /* BarcodeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeProvider.swift; sourceTree = "<group>"; };
+		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
 		812B16122772106200D65C6A /* BarcodeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReader.swift; sourceTree = "<group>"; };
 		8138DDE1274784D400C355C6 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 		81792F662732F93F005F863B /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		818657A627649D5C00B25116 /* AccountControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
-		818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutMenu.swift; sourceTree = "<group>"; };
+		818657EA27664F9E00B25116 /* BookListMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListMenu.swift; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523A27748D06002813A1 /* CommentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceProtocol.swift; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 		8188524627748E16002813A1 /* RecommendationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationServiceProtocol.swift; sourceTree = "<group>"; };
 		8188524927748E42002813A1 /* UserServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProtocol.swift; sourceTree = "<group>"; };
 		8188525427785CD8002813A1 /* BookCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellPresenter.swift; sourceTree = "<group>"; };
-		8188525627785FA0002813A1 /* BookCardDataAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDataAdapter.swift; sourceTree = "<group>"; };
+		8188525627785FA0002813A1 /* BookCardDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDataPresenter.swift; sourceTree = "<group>"; };
 		8188525827786D9F002813A1 /* NewBookCardDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookCardDataPresenter.swift; sourceTree = "<group>"; };
 		8188525A27788567002813A1 /* BookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellData.swift; sourceTree = "<group>"; };
 		8188525C2778858B002813A1 /* CellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellPresenter.swift; sourceTree = "<group>"; };
@@ -539,9 +539,9 @@
 		812B160D27720CFD00D65C6A /* BarcodeReader */ = {
 			isa = PBXGroup;
 			children = (
-				812B160B27720CDF00D65C6A /* BarcodeProvider.swift */,
-				812B161027720F5400D65C6A /* BarcodeReaderError.swift */,
+				812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */,
 				812B16122772106200D65C6A /* BarcodeReader.swift */,
+				812B161027720F5400D65C6A /* BarcodeReaderError.swift */,
 			);
 			path = BarcodeReader;
 			sourceTree = "<group>";
@@ -684,7 +684,7 @@
 			isa = PBXGroup;
 			children = (
 				818852612778863B002813A1 /* BookCardPresenter.swift */,
-				8188525627785FA0002813A1 /* BookCardDataAdapter.swift */,
+				8188525627785FA0002813A1 /* BookCardDataPresenter.swift */,
 			);
 			name = BookCardPresenter;
 			sourceTree = "<group>";
@@ -750,8 +750,8 @@
 			isa = PBXGroup;
 			children = (
 				81AFE03A276CD232009735FE /* RichNotifications.entitlements */,
-				81AFE030276CA4C9009735FE /* NotificationService.swift */,
 				81AFE032276CA4C9009735FE /* Info.plist */,
+				81AFE030276CA4C9009735FE /* NotificationService.swift */,
 			);
 			path = RichNotifications;
 			sourceTree = "<group>";
@@ -783,16 +783,16 @@
 				810C446E2726F81A007541C0 /* MyLibrary.entitlements */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
 				814751692727D80E0080C5BA /* GoogleService-Info.plist */,
-				8194D548276A17010098E484 /* Localization */,
 				81C6CCAD272479A200DE9219 /* Assets */,
-				81C6CCC927247AB100DE9219 /* Extensions */,
 				8121F07A273A9A3E006EAA8D /* Constants */,
+				81C6CCA32724774800DE9219 /* Controllers */,
+				81C6CCC927247AB100DE9219 /* Extensions */,
 				81C6CCAC2724799000DE9219 /* Helpers */,
 				811713F3274D6B5D0051059C /* Layout */,
-				8188525327785CC2002813A1 /* Presenters */,
+				8194D548276A17010098E484 /* Localization */,
 				81C6CCAE272479B300DE9219 /* Model */,
+				8188525327785CC2002813A1 /* Presenters */,
 				81C6CCB0272479CA00DE9219 /* Views */,
-				81C6CCA32724774800DE9219 /* Controllers */,
 			);
 			path = MyLibrary;
 			sourceTree = "<group>";
@@ -1007,7 +1007,7 @@
 				81FA724127747C0D00040BEF /* BookGridSize.swift */,
 				81FA724427747CD300040BEF /* BookListLayoutComposer.swift */,
 				81DB8DE22752329300698B92 /* BookListLayout.swift */,
-				818657EA27664F9E00B25116 /* BookListLayoutMenu.swift */,
+				818657EA27664F9E00B25116 /* BookListMenu.swift */,
 				8157F4DB277AFBDF005F182A /* BookListMenuDelegate.swift */,
 			);
 			path = BookListLayout;
@@ -1375,7 +1375,7 @@
 				8188525B27788567002813A1 /* BookCellData.swift in Sources */,
 				81C4CC3A275C821600E25628 /* Array+Extension.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */,
-				8188525727785FA0002813A1 /* BookCardDataAdapter.swift in Sources */,
+				8188525727785FA0002813A1 /* BookCardDataPresenter.swift in Sources */,
 				81C6CCA9272477E200DE9219 /* NewBookViewController.swift in Sources */,
 				8121F0B7273D53A5006EAA8D /* UIImage+Extension.swift in Sources */,
 				8121F0BF273FEC22006EAA8D /* RatingView.swift in Sources */,
@@ -1409,7 +1409,7 @@
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */,
 				81DB8DFB27536E4D00698B92 /* KingFisherImageRetriever.swift in Sources */,
-				812B160F27720D6200D65C6A /* BarcodeProvider.swift in Sources */,
+				812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */,
 				812047FB272ACE6E00E0A45B /* TextFieldStaticCell.swift in Sources */,
 				812047FD272ACE8C00E0A45B /* ButtonStaticCell.swift in Sources */,
 				81DB8DFD275399C400698B92 /* CommentService.swift in Sources */,
@@ -1492,7 +1492,7 @@
 				81792F5D2731A311005F863B /* StaticTableViewController.swift in Sources */,
 				8157F4D0277AEF3D005F182A /* AccountPresenter.swift in Sources */,
 				81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */,
-				818657EB27664F9F00B25116 /* BookListLayoutMenu.swift in Sources */,
+				818657EB27664F9F00B25116 /* BookListMenu.swift in Sources */,
 				811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */,
 				81FA72692774817E00040BEF /* Validation.swift in Sources */,
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
@@ -1601,7 +1601,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1629,7 +1629,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1776,7 +1776,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1788,7 +1788,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1815,7 +1815,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1827,7 +1827,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
