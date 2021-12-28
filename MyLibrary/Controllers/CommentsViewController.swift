@@ -22,6 +22,7 @@ class CommentsViewController: UIViewController {
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
     private let cellPresenter: CellPresenter?
+    private let commentCellPresenter: CommentCellPresenter?
     
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
@@ -38,6 +39,8 @@ class CommentsViewController: UIViewController {
         self.messageService = messageService
         self.validator = validator
         self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.commentCellPresenter = CommentCellDataPresenter(imageRetriever: KFImageRetriever(),
+                                                             formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -260,6 +263,7 @@ extension CommentsViewController: UITableViewDelegate {
 
 // MARK: - TableView Datasource
 extension CommentsViewController {
+    
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
     private func makeDataSource() -> DataSource {
@@ -288,10 +292,7 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    cell.configure(with: item)
-                    self?.getCommentOwnerDetails(for: item) { user in
-                        cell.configureUser(with: user)
-                    }
+                    self?.configureCommentCell(with: item, for: cell)
                     return cell
                 }
             case .none:
@@ -300,6 +301,14 @@ extension CommentsViewController {
             return nil
         })
         return dataSource
+    }
+    
+    private func configureCommentCell(with item: CommentModel, for cell: CommentTableViewCell) {
+      
+        getCommentOwnerDetails(for: item) { [weak self] user in
+            guard let user = user else { return }
+            self?.commentCellPresenter?.configure(cell, with: item, and: user)
+        }
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {

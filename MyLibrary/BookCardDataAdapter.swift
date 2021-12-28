@@ -22,8 +22,8 @@ class BookCardData {
         self.categoryService = categoryService
     }
 }
-// MARK: - BookCard adapater protocol
-extension BookCardData: BookCardDataPresenter {
+// MARK: - BookCard presenter protocol
+extension BookCardData: BookCardPresenter {
     
     func configure(_ view: BookCardMainView, with book: Item) {
         view.titleLabel.text = book.volumeInfo?.title?.capitalized  ?? ""

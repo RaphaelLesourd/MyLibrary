@@ -25,10 +25,10 @@ extension BookCellPresenter: CellPresenter {
         let description = book.volumeInfo?.volumeInfoDescription ?? ""
         
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { image in
-            let bookData =  BookCellData(title: title,
-                                         author: authors,
-                                         description: description,
-                                         image: image)
+            let bookData = BookCellData(title: title,
+                                        author: authors,
+                                        description: description,
+                                        image: image)
             completion(bookData)
         }
     }

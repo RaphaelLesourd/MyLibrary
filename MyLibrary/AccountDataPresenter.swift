@@ -17,7 +17,7 @@ class AccountDataPresenter {
         self.imageRetriever = imageRetriever
     }
 }
-// MARK: - NewBook adapter protocol
+// MARK: - Account presenter protocol
 extension AccountDataPresenter: AccountPresenter {
     
     func configure(_ view: AccountControllerView, with user: UserModel) {

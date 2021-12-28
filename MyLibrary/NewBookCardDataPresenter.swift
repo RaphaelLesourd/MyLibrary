@@ -23,7 +23,7 @@ class NewBookDataPresenter {
         self.formatter = formatter
     }
 }
-// MARK: - NewBook adapter protocol
+// MARK: - NewBook presenter protocol
 extension NewBookDataPresenter: NewBookPresenter {
     
     func configure(_ view: NewBookControllerView, with book: Item) {

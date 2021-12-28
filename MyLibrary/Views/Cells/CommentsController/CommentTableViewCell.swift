@@ -11,13 +11,8 @@ class CommentTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "cell"
     
-    private let imageLoader: ImageRetriever
-    private let formatter: FormatterProtocol
     // MARK: - Initializer
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        imageLoader = KFImageRetriever()
-        formatter = Formatter()
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .tertiarySystemBackground
         
@@ -48,40 +43,24 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    private let userNameLabel = TextLabel(color: .appTintColor,
+    let userNameLabel = TextLabel(color: .appTintColor,
                                           maxLines: 1,
                                           alignment: .left,
                                           fontSize: 16,
                                           weight: .medium)
-    private let commentLabel = TextLabel(color: .label,
+    let commentLabel = TextLabel(color: .label,
                                          maxLines: 0,
                                          alignment: .natural,
                                          fontSize: 18,
                                          weight: .light)
-    private let dateLabel = TextLabel(color: .secondaryLabel,
+    let dateLabel = TextLabel(color: .secondaryLabel,
                                       maxLines: 1,
                                       alignment: .left,
                                       fontSize: 13,
                                       weight: .light)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
-    
-    func configure(with model: CommentModel) {
-        commentLabel.text = model.comment
-        if let timestamp = model.timestamp {
-            self.dateLabel.text = self.formatter.formatTimeStampToRelativeDate(for: timestamp)
-        }
-    }
-    
-    func configureUser(with user: UserModel?) {
-        guard let user = user else { return }
-        
-        userNameLabel.text = user.displayName.capitalized
-        imageLoader.getImage(for: user.photoURL) { [weak self] image in
-            self?.profileImageView.image = image
-        }
-    }
-    
+
     override func prepareForReuse() {
         profileImageView.image = Images.emptyStateBookImage
     }

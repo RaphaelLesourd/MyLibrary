@@ -20,7 +20,7 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: Recommendation
-    private let bookCardPresenter: BookCardDataPresenter?
+    private let bookCardPresenter: BookCardPresenter?
     
     private var book: Item
     private var coverImage: UIImage?

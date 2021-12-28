@@ -68,6 +68,8 @@
 		8147516E2727E9490080C5BA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Images.swift */; };
 		8157F4D0277AEF3D005F182A /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4CF277AEF3D005F182A /* AccountPresenter.swift */; };
 		8157F4D2277AEFB6005F182A /* AccountDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D1277AEFB6005F182A /* AccountDataPresenter.swift */; };
+		8157F4D5277AF60F005F182A /* CommentCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D4277AF60F005F182A /* CommentCellPresenter.swift */; };
+		8157F4D7277AF654005F182A /* CommentCellDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D6277AF654005F182A /* CommentCellDataPresenter.swift */; };
 		816AE81C275F68A800747548 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AE81B275F68A800747548 /* AlertManager.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
 		81792F5D2731A311005F863B /* StaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F5C2731A311005F863B /* StaticTableViewController.swift */; };
@@ -94,7 +96,7 @@
 		8188525927786D9F002813A1 /* NewBookCardDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525827786D9F002813A1 /* NewBookCardDataPresenter.swift */; };
 		8188525B27788567002813A1 /* BookCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525A27788567002813A1 /* BookCellData.swift */; };
 		8188525D2778858B002813A1 /* CellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525C2778858B002813A1 /* CellPresenter.swift */; };
-		818852622778863B002813A1 /* BookCardDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818852612778863B002813A1 /* BookCardDataPresenter.swift */; };
+		818852622778863B002813A1 /* BookCardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818852612778863B002813A1 /* BookCardPresenter.swift */; };
 		8188526727788693002813A1 /* NewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188526627788693002813A1 /* NewBookPresenter.swift */; };
 		8188526A2778A461002813A1 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818852692778A461002813A1 /* AccountControllerViewDelegate.swift */; };
 		8188526D2778A48A002813A1 /* NewBookControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188526C2778A48A002813A1 /* NewBookControllerViewDelegate.swift */; };
@@ -289,6 +291,8 @@
 		8147516D2727E9490080C5BA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		8157F4CF277AEF3D005F182A /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		8157F4D1277AEFB6005F182A /* AccountDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDataPresenter.swift; sourceTree = "<group>"; };
+		8157F4D4277AF60F005F182A /* CommentCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellPresenter.swift; sourceTree = "<group>"; };
+		8157F4D6277AF654005F182A /* CommentCellDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellDataPresenter.swift; sourceTree = "<group>"; };
 		816AE81B275F68A800747548 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		81792F5C2731A311005F863B /* StaticTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTableViewController.swift; sourceTree = "<group>"; };
@@ -313,7 +317,7 @@
 		8188525827786D9F002813A1 /* NewBookCardDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookCardDataPresenter.swift; sourceTree = "<group>"; };
 		8188525A27788567002813A1 /* BookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellData.swift; sourceTree = "<group>"; };
 		8188525C2778858B002813A1 /* CellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellPresenter.swift; sourceTree = "<group>"; };
-		818852612778863B002813A1 /* BookCardDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDataPresenter.swift; sourceTree = "<group>"; };
+		818852612778863B002813A1 /* BookCardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardPresenter.swift; sourceTree = "<group>"; };
 		8188526627788693002813A1 /* NewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPresenter.swift; sourceTree = "<group>"; };
 		818852692778A461002813A1 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
 		8188526C2778A48A002813A1 /* NewBookControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerViewDelegate.swift; sourceTree = "<group>"; };
@@ -547,6 +551,15 @@
 			name = AccountPresenter;
 			sourceTree = "<group>";
 		};
+		8157F4D8277AF9FA005F182A /* CommentCellPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				8157F4D4277AF60F005F182A /* CommentCellPresenter.swift */,
+				8157F4D6277AF654005F182A /* CommentCellDataPresenter.swift */,
+			);
+			name = CommentCellPresenter;
+			sourceTree = "<group>";
+		};
 		8188523627748BC2002813A1 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +660,7 @@
 				8188525E277885B0002813A1 /* BookCellPresenter */,
 				8188526327788646002813A1 /* BookCardPresenter */,
 				81885268277886AE002813A1 /* NewBookPresenter */,
+				8157F4D8277AF9FA005F182A /* CommentCellPresenter */,
 			);
 			name = Presenters;
 			sourceTree = "<group>";
@@ -664,7 +678,7 @@
 		8188526327788646002813A1 /* BookCardPresenter */ = {
 			isa = PBXGroup;
 			children = (
-				818852612778863B002813A1 /* BookCardDataPresenter.swift */,
+				818852612778863B002813A1 /* BookCardPresenter.swift */,
 				8188525627785FA0002813A1 /* BookCardDataAdapter.swift */,
 			);
 			name = BookCardPresenter;
@@ -1343,6 +1357,7 @@
 				819C5DC92724811300F1F8F2 /* CodeTypes.swift in Sources */,
 				81FA71D827734ECA00040BEF /* Converter.swift in Sources */,
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
+				8157F4D5277AF60F005F182A /* CommentCellPresenter.swift in Sources */,
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
 				8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */,
 				81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */,
@@ -1397,7 +1412,7 @@
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				8138DDE2274784D400C355C6 /* Formatter.swift in Sources */,
 				81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */,
-				818852622778863B002813A1 /* BookCardDataPresenter.swift in Sources */,
+				818852622778863B002813A1 /* BookCardPresenter.swift in Sources */,
 				81FA72792774837100040BEF /* CommentsSections.swift in Sources */,
 				819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */,
 				8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */,
@@ -1408,6 +1423,7 @@
 				81FA725027747E3800040BEF /* Permissions.swift in Sources */,
 				8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */,
 				81B91841274A772600486176 /* NewBookControllerView.swift in Sources */,
+				8157F4D7277AF654005F182A /* CommentCellDataPresenter.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				81C6CCBF27247A2B00DE9219 /* TextLabel.swift in Sources */,
