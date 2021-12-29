@@ -118,7 +118,7 @@
  
 "Version" = "Version";
 "Build" = "Build";
-"appCreationYear" = "Created in";
+"AppCreationYear" = "Created in";
 "ContactUs" = "Contact us";
 "Information" = "Information";
 "RecommendedBy" = "Recommended by ";

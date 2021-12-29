@@ -51,8 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// Setup Kingfisher cache
     private func kingFisherCacheSetup() {
         let cache = ImageCache.default
-        cache.memoryStorage.config.countLimit = 150
-        cache.memoryStorage.config.totalCostLimit = 500 * 1024 * 1024
+        cache.memoryStorage.config.countLimit = 1 // 150
+        cache.memoryStorage.config.totalCostLimit = 1 // 500 * 1024 * 1024
         cache.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
         KingfisherManager.shared.downloader.downloadTimeout = 3000.0
     }
