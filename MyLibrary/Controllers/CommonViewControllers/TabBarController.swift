@@ -52,6 +52,7 @@ class TabBarController: UITabBarController {
                                                      image: Images.TabBarIcon.homeIcon)
         
         let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
+                                                                                    showFilterMenu: true,
                                                                                     queryService: QueryService(),
                                                                                     libraryService: LibraryService(),
                                                                                     layoutComposer: BookListLayout()),
