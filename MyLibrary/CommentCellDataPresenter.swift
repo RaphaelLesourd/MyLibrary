@@ -19,14 +19,16 @@ class CommentCellDataPresenter {
 }
 // MARK: - CommentCell presenter protocol
 extension CommentCellDataPresenter: CommentCellPresenter {
-  
-    func configure(_ cell: CommentTableViewCell, with comment: CommentModel, and user: UserModel) {
+      
+    func configure(_ cell: CommentTableViewCell, with comment: CommentModel) {
         cell.commentLabel.text = comment.comment
         if let timestamp = comment.timestamp {
             cell.dateLabel.text = self.formatter.formatTimeStampToRelativeDate(for: timestamp)
         }
+    }
+    
+    func setUserDetails(for cell: CommentTableViewCell, with user: UserModel) {
         cell.userNameLabel.text = user.displayName.capitalized
-        
         imageRetriever.getImage(for: user.photoURL) { image in
             cell.profileImageView.image = image
         }

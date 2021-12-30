@@ -292,7 +292,8 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.configureCommentCell(with: item, for: cell)
+                    self?.commentCellPresenter?.configure(cell, with: item)
+                    self?.setUserDetails(with: item, for: cell)
                     return cell
                 }
             case .none:
@@ -303,11 +304,11 @@ extension CommentsViewController {
         return dataSource
     }
     
-    private func configureCommentCell(with item: CommentModel, for cell: CommentTableViewCell) {
+    private func setUserDetails(with item: CommentModel, for cell: CommentTableViewCell) {
       
         getCommentOwnerDetails(for: item) { [weak self] user in
             guard let user = user else { return }
-            self?.commentCellPresenter?.configure(cell, with: item, and: user)
+            self?.commentCellPresenter?.setUserDetails(for: cell, with: user)
         }
     }
     
