@@ -15,6 +15,8 @@ import Network
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    private var currentBadgeNumber = 0
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configureKeyboard()
@@ -84,10 +86,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        let currentBadgeNumber = UserDefaults.standard.integer(forKey: StorageKey.badge.rawValue)
-        let badgeNumber = currentBadgeNumber + 1
-        UIApplication.shared.applicationIconBadgeNumber = badgeNumber
-        UserDefaults.standard.set(badgeNumber, forKey: StorageKey.badge.rawValue)
+        currentBadgeNumber = UserDefaults.standard.integer(forKey: StorageKey.badge.rawValue)
+        currentBadgeNumber += 1
+        UIApplication.shared.applicationIconBadgeNumber = currentBadgeNumber
+        UserDefaults.standard.set(currentBadgeNumber, forKey: StorageKey.badge.rawValue)
     }
-
 }
