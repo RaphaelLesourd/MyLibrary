@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class BookCollectionViewCell: UICollectionViewCell {
     
@@ -34,19 +33,6 @@ class BookCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         bookCover.image = Images.emptyStateBookImage
     }
-    
-    override var isHighlighted: Bool {
-        didSet {
-            let scale = isHighlighted ? 1.05 : 1
-            UIView.animate(withDuration: 0.1,
-                           delay: 0,
-                           options: .curveEaseOut,
-                           animations: {
-                self.transform = CGAffineTransform(scaleX: scale, y: scale)
-            })
-        }
-    }
-    
 }
 // MARK: - Constraints
 extension BookCollectionViewCell {

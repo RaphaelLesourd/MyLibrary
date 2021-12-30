@@ -7,7 +7,14 @@
 
 import UIKit
 
-class NewBookViewController: StaticTableViewController, NewBookDelegate {
+protocol NewBookDelegate: AnyObject {
+    var newBook: Item? { get set }
+    var bookDescription: String? { get set }
+    var bookComment: String? { get set }
+    var bookCategories : [String] { get set }
+}
+
+class NewBookViewController: StaticTableViewController, NewBookDelegate, NewBookPickerDelegate {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
@@ -15,37 +22,36 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
+    var chosenLanguage: String?
+    var chosenCurrency: String?
     var newBook: Item? {
         didSet {
             setBookDetail()
         }
     }
     
-    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: ListLayout())
+    private let resultController = SearchViewController(apiManager: ApiManager(),
+                                                        layoutComposer: BookListLayout())
     private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
+   
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
-    private let formatter: FormatterProtocol
     private let validator: ValidatorProtocol
-    private let newBookDataAdpater: NewBookAdapter?
-   
+    private let newBookDataPresenter: NewBookPresenter?
+    private var pickerDataSource: NewbookPickerDataSource?
     private var imagePicker: ImagePicker?
-    private var chosenLanguage: String?
-    private var chosenCurrency: String?
     
     init(libraryService: LibraryServiceProtocol,
          converter: ConverterProtocol,
-         formatter: FormatterProtocol,
          validator: ValidatorProtocol) {
         self.libraryService = libraryService
         self.converter = converter
-        self.formatter = formatter
         self.validator = validator
-        self.newBookDataAdpater = NewBookDataAdapter(imageRetriever: KFImageRetriever(),
-                                                     converter: converter,
-                                                     formatter: formatter)
+        self.newBookDataPresenter = NewBookDataPresenter(imageRetriever: KFImageRetriever(),
+                                                         converter: converter,
+                                                         formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,6 +62,9 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        pickerDataSource = NewbookPickerDataSource(newBookView: newBookView,
+                                                   formatter: Formatter(),
+                                                   delegate: self)
         imagePicker = ImagePicker(presentationController: self,
                                   delegate: self,
                                   permissions: PermissionManager())
@@ -90,10 +99,10 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     private func setDelegates() {
         newBookView.delegate = self
         newBookView.textFields.forEach { $0.delegate = self }
-        newBookView.languageCell.pickerView.delegate = self
-        newBookView.languageCell.pickerView.dataSource = self
-        newBookView.currencyCell.pickerView.delegate = self
-        newBookView.currencyCell.pickerView.dataSource = self
+        newBookView.languageCell.pickerView.delegate = pickerDataSource
+        newBookView.languageCell.pickerView.dataSource = pickerDataSource
+        newBookView.currencyCell.pickerView.delegate = pickerDataSource
+        newBookView.currencyCell.pickerView.dataSource = pickerDataSource
     }
     
     private func configureSearchController() {
@@ -123,10 +132,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     func setBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookDataAdpater?.getNewBookData(for: book, completion: { [weak self] newBookData in
-            self?.newBookView.displayBookDetail(with: newBookData)
-        })
-        
+        newBookDataPresenter?.configure(newBookView, with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
         
@@ -149,7 +155,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate {
     private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
         if let index = list.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
             picker.selectRow(index, inComponent: 0, animated: false)
-            self.pickerView(picker, didSelectRow: index, inComponent: 0)
+            self.pickerDataSource?.pickerView(picker, didSelectRow: index, inComponent: 0)
         }
     }
     
@@ -265,58 +271,6 @@ extension NewBookViewController: ImagePickerDelegate {
     /// Users the image returned from the ImagePickerViewController and assign it the BookImageCell as the book cover image.
     func didSelect(image: UIImage?) {
         newBookView.bookImageCell.pictureView.image = image?.resizeImage()
-    }
-}
-
-// MARK: - UIPickerDelegate
-/// PickerView delegate functions, handle the language and currency picker by using a switch statement .
-extension NewBookViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var pickerLabel: UILabel? = (view as? UILabel)
-        if pickerLabel == nil {
-            pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-            pickerLabel?.textAlignment = .left
-        }
-        switch pickerView {
-        case newBookView.languageCell.pickerView:
-            let language = self.languageList[row]
-            pickerLabel?.text = "  " + formatter.formatCodeToName(from: language, type: .language).capitalized
-        case newBookView.currencyCell.pickerView:
-            let currencyCode = self.currencyList[row]
-            pickerLabel?.text = "  " + formatter.formatCodeToName(from: currencyCode, type: .currency).capitalized
-        default:
-            return UIView()
-        }
-        pickerLabel?.textColor = .label
-        return pickerLabel ?? UILabel()
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView {
-        case newBookView.languageCell.pickerView:
-            return languageList.count
-        case newBookView.currencyCell.pickerView:
-            return currencyList.count
-        default:
-            return 0
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView {
-        case newBookView.languageCell.pickerView:
-            chosenLanguage = languageList[row]
-        case newBookView.currencyCell.pickerView:
-            chosenCurrency = currencyList[row]
-        default:
-            return
-        }
     }
 }
 

@@ -26,18 +26,16 @@ class SearchViewController: CollectionViewController {
    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: DefaultLayoutComposer
+    private var layoutComposer: BookListLayoutComposer
     private var apiManager: ApiManagerProtocol
-    private var bookCellAdater: BookCellAdapter?
+    private var cellPresenter: CellPresenter?
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
-    /// Demands a netWorks service to fetch data.
-    /// - Parameter networkService: NetworkProtocol
-    init(apiManager: ApiManagerProtocol, layoutComposer: DefaultLayoutComposer) {
+    init(apiManager: ApiManagerProtocol, layoutComposer: BookListLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -133,7 +131,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self.bookCellAdater?.getBookData(for: book) { bookData in
+            self.cellPresenter?.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell

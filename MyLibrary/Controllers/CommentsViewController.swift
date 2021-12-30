@@ -21,7 +21,8 @@ class CommentsViewController: UIViewController {
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
-    private let bookCellAdapter: BookCellAdapter?
+    private let cellPresenter: CellPresenter?
+    private let commentCellPresenter: CommentCellPresenter?
     
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
@@ -37,7 +38,9 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
-        self.bookCellAdapter = BookCellDataAdapter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.commentCellPresenter = CommentCellDataPresenter(imageRetriever: KFImageRetriever(),
+                                                             formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -260,6 +263,7 @@ extension CommentsViewController: UITableViewDelegate {
 
 // MARK: - TableView Datasource
 extension CommentsViewController {
+    
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
     private func makeDataSource() -> DataSource {
@@ -273,7 +277,7 @@ extension CommentsViewController {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
-                    self?.bookCellAdapter?.getBookData(for: item) { bookData in
+                    self?.cellPresenter?.setBookData(for: item) { bookData in
                         cell.configure(with: bookData)
                     }
                     self?.getBookOwnerDetails(completion: { owner in
@@ -288,10 +292,8 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    cell.configure(with: item)
-                    self?.getCommentOwnerDetails(for: item) { user in
-                        cell.configureUser(with: user)
-                    }
+                    self?.commentCellPresenter?.configure(cell, with: item)
+                    self?.setUserDetails(with: item, for: cell)
                     return cell
                 }
             case .none:
@@ -300,6 +302,14 @@ extension CommentsViewController {
             return nil
         })
         return dataSource
+    }
+    
+    private func setUserDetails(with item: CommentModel, for cell: CommentTableViewCell) {
+      
+        getCommentOwnerDetails(for: item) { [weak self] user in
+            guard let user = user else { return }
+            self?.commentCellPresenter?.setUserDetails(for: cell, with: user)
+        }
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {

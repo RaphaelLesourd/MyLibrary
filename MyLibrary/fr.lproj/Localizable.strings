@@ -118,7 +118,7 @@
 
 "Version" = "Version";
 "Build" = "Build";
-"appCreationYear" = "Année création";
+"AppCreationYear" = "Année création";
 "ContactUs" = "Contactez nous";
 "Information" = "Information";
 "RecommendedBy" = "Recommandé par ";
@@ -149,3 +149,20 @@
 "NoFlashlightTitle" = "Torche";
 "flashLightErrorMessage" = "Il a y un problème avec la lampe torche.";
 "Unavailable" = "Non disponible";
+
+"PasswordMissmatch" = "Les mots de passe ne correspondent pas.";
+"UsernameEmpty" = "Le nom d'utilisateur ne peux être vide.";
+"TitleMissing" = "Vous devez au moins entrer un titre.";
+"CategoryNotFound" = "Catégorie non trouvée.";
+"CategoryExist" = "Cette catégorie existe déja.";
+"NoNetwork" = "Vous semblez être hors ligne.";
+"NotFound" = "Introuvable";
+"EmptyComment" = "Votre commentaire est vide.";
+"BookExist" = "Ce livre existe déja.";
+"RequestCancelled" = "Demande intérompue.";
+"InvalidRequest" = "Requette non valable.";
+"EmailPasswordNotFound" = "L'email et le mot de passe ne correspondent pas.";
+"EmailExist" = "Email déja utilisé.";
+"InvalidEmail" = "Email non valable.";
+"InvalidPassword" = "Mauvais mot de passe.";
+"AccountDontExist" = "Aucun compte existe avec cet email.";

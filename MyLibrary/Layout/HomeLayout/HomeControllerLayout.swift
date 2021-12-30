@@ -9,6 +9,8 @@ import UIKit
 
 class HomeViewControllerLayout {
     
+    typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
+    
     // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100),
@@ -20,7 +22,8 @@ class HomeViewControllerLayout {
                                                           top: nil,
                                                           trailing: .fixed(5),
                                                           bottom: nil)
-        return createSection(with: group, horizontal: true)
+        return createSection(with: group,
+                             horizontal: true)
     }
     
     // Horizontal scroll single cell
@@ -35,7 +38,8 @@ class HomeViewControllerLayout {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
                                                        subitem: item, count: 1)
         group.interItemSpacing = .fixed(10)
-        return createSection(with: group, horizontal: true)
+        return createSection(with: group,
+                             horizontal: true)
     }
     
     // Horizontal scroll layout, cell with description
@@ -48,14 +52,15 @@ class HomeViewControllerLayout {
         let desiredWidth: CGFloat = 600
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
-        print(fractionWidth)
+   
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fractionWidth - 0.1),
                                           heightDimension: .absolute(290))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
                                                      subitem: item,
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
-        return createSection(with: group, horizontal: true)
+        return createSection(with: group,
+                             horizontal: true)
     }
     
     private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -81,8 +86,8 @@ class HomeViewControllerLayout {
 }
 // MARK: - Layout composer protocol
 extension HomeViewControllerLayout: HomeLayoutComposer {
-    func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections,
-                                 AnyHashable>) -> UICollectionViewLayout {
+    
+    func setCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
      
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, environement in
             let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]

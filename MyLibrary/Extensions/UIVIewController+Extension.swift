@@ -21,15 +21,6 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
-    func presentController(_ controller: UIViewController) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let viewController = UINavigationController(rootViewController: controller)
-            present(viewController, animated: true)
-        } else {
-            navigationController?.show(controller, sender: nil)
-        }
-    }
-    
     // MARK: - Activity Indicator
     /// Shows UIActivity indicator
     ///  - Parameters indicator: Passed in UIActivityIndicatorView

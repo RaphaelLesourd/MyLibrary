@@ -10,8 +10,8 @@ import XCTest
 
 class RecommandServiceTestCase: XCTestCase {
     // MARK: - Properties
-    private var sut       : RecommendationServiceProtocol?
-    private var book      : Item!
+    private var sut: Recommendation?
+    private var book: Item!
     private let imageData = Data()
     
     // MARK: - Lifecycle
@@ -23,8 +23,8 @@ class RecommandServiceTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        sut            = nil
-        book           = nil
+        sut = nil
+        book = nil
         clearFirestore()
     }
     

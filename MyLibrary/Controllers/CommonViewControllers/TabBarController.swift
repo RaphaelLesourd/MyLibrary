@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
         
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithDefaultBackground()
-        tabBarAppearance.backgroundColor = .tertiarySystemBackground
+        tabBarAppearance.backgroundColor = UIColor.tertiarySystemBackground.withAlphaComponent(0.5)
         
         let titleNormalColor: [NSAttributedString.Key : Any] = [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
         tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = titleNormalColor
@@ -49,34 +49,36 @@ class TabBarController: UITabBarController {
                                                                           layoutComposer: HomeViewControllerLayout(),
                                                                           categoryService: CategoryService()),
                                                      title: Text.ControllerTitle.home,
-                                                     image: Images.TabBarIcon.homeIcon!)
+                                                     image: Images.TabBarIcon.homeIcon)
         
         let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
+                                                                                    showFilterMenu: true,
                                                                                     queryService: QueryService(),
                                                                                     libraryService: LibraryService(),
-                                                                                    layoutComposer: ListLayout()),
+                                                                                    layoutComposer: BookListLayout()),
                                                         title: Text.ControllerTitle.myBooks,
-                                                        image: Images.TabBarIcon.booksIcon!)
+                                                        image: Images.TabBarIcon.booksIcon)
         
         let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
                                                                             converter: Converter(),
-                                                                            formatter: Formatter(),
                                                                             validator: Validator()),
                                                     title: Text.ControllerTitle.newBook,
-                                                    image: Images.TabBarIcon.newBookIcon!)
+                                                    image: Images.TabBarIcon.newBookIcon)
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
+        let feedBackManger = FeedbackManager(presentationController: self)
         let accountViewController = createController(for: AccountViewController(accountService: accountService,
                                                                                 userService: UserService(),
                                                                                 imageService: ImageStorageService(),
-                                                                                feedbackManager: FeedbackManager(presentationController: self)),
+                                                                                feedbackManager: feedBackManger),
                                                         title: Text.ControllerTitle.account,
-                                                        image: Images.TabBarIcon.accountIcon!)
-        viewControllers = [homeViewController,
-                           libraryViewController,
-                           newViewController,
-                           accountViewController]
+                                                        image: Images.TabBarIcon.accountIcon)
+        setViewControllers([homeViewController,
+                            libraryViewController,
+                            newViewController,
+                            accountViewController],
+                           animated: true)
     }
     /// Adds tab with an icon image and a title.
     /// - Parameters:

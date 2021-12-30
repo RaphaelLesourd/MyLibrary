@@ -28,11 +28,11 @@ enum Images {
     }
     
     enum TabBarIcon {
-        static let homeIcon = UIImage(systemName: "house.fill")
-        static let booksIcon = UIImage(systemName: "books.vertical.fill") ?? UIImage(systemName: "book.fill")
-        static let accountIcon = UIImage(systemName: "person.fill")
-        static let newBookIcon = UIImage(systemName: "plus.circle.fill")
-        static let openBookIcon = UIImage(systemName: "book.fill")
+        static let homeIcon = UIImage(systemName: "house.fill")!
+        static let booksIcon = UIImage(systemName: "books.vertical.fill") ?? UIImage(systemName: "book.fill")!
+        static let accountIcon = UIImage(systemName: "person.fill")!
+        static let newBookIcon = UIImage(systemName: "plus.circle.fill")!
+        static let openBookIcon = UIImage(systemName: "book.fill")!
     }
     
     enum EditIcon {

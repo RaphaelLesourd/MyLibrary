@@ -4,11 +4,20 @@
 //
 //  Created by Birkyboy on 23/12/2021.
 //
-
+import UIKit
 import AVFoundation
 import Photos
 
 class PermissionManager {
+    
+    private func openSettings() {
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsUrl)
+        }
+    }
+}
+
+extension PermissionManager: Permissions {
     /// Prompt the user for permission to use the camera if not already authorized.
     func requestCameraPermissions(completion: @escaping (Bool) -> Void) {
         let cameraAuthorizationstatus = AVCaptureDevice.authorizationStatus(for: .video)
@@ -20,6 +29,7 @@ class PermissionManager {
                 completion(granted)
             }
         case .denied, .restricted:
+            openSettings()
             completion(false)
         default:
             completion(false)
@@ -42,12 +52,10 @@ class PermissionManager {
                 }
             })
         case .restricted, .denied:
+            openSettings()
             completion(false)
         @unknown default:
             completion(false)
         }
     }
-    
 }
-
-extension PermissionManager: Permissions {}

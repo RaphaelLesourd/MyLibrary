@@ -1,5 +1,5 @@
 //
-//  BookCellAdapter.swift
+//  BookCellPresenter.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCellDataAdapter {
+class BookCellPresenter {
     // MARK: - Properties
     private var imageRetriever: ImageRetriever
     
@@ -17,18 +17,18 @@ class BookCellDataAdapter {
     }
 }
 // MARK: BookCell Adapter protocol
-extension BookCellDataAdapter: BookCellAdapter {
+extension BookCellPresenter: CellPresenter {
     
-    func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
+    func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""
         let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         let description = book.volumeInfo?.volumeInfoDescription ?? ""
         
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail) { image in
-            let bookData =  BookCellData(title: title,
-                                         author: authors,
-                                         description: description,
-                                         image: image)
+            let bookData = BookCellData(title: title,
+                                        author: authors,
+                                        description: description,
+                                        image: image)
             completion(bookData)
         }
     }

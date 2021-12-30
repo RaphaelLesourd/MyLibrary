@@ -7,30 +7,28 @@
 
 import UIKit
 
-protocol BookListLayoutDelegate: AnyObject {
-    func setLayoutFromMenu(for layout: GridItemSize)
-    func orderList(by type: DocumentKey)
-}
-
-class BookListLayoutMenu {
+class BookListMenu {
     
     // MARK: - Property
-    private weak var delegate: BookListLayoutDelegate?
+    private weak var delegate: BookListMenuDelegate?
    
     // MARK: - Initializer
-    init(delegate: BookListLayoutDelegate) {
+    init(delegate: BookListMenuDelegate) {
         self.delegate = delegate
     }
     
     // MARK: - Public functions
-    func configureLayoutMenu(for filterMenuIncluded: Bool) -> UIMenu {
+    func configureLayoutMenu(with filterMenuIncluded: Bool) -> UIMenu {
         let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
-        return UIMenu(title: Text.ListMenu.bookListMenuTitle, image: nil, identifier: nil, children: menuItems)
+        return UIMenu(title: Text.ListMenu.bookListMenuTitle,
+                      image: nil,
+                      identifier: nil,
+                      children: menuItems)
     }
     
     func loadLayoutChoice() {
         let savedChoice = UserDefaults.standard.integer(forKey: UserDefaultKey.bookListMenuLayout.rawValue)
-        let gridSize = GridItemSize.allCases[savedChoice]
+        let gridSize = BookGridSize.allCases[savedChoice]
         delegate?.setLayoutFromMenu(for: gridSize)
     }
     
@@ -41,8 +39,10 @@ class BookListLayoutMenu {
            items.append(filterMenu())
         }
      
-        GridItemSize.allCases.forEach({ gridSize in
-            let item = UIAction(title: gridSize.title, image: gridSize.image, handler: { [weak self] (_) in
+        BookGridSize.allCases.forEach({ gridSize in
+            let item = UIAction(title: gridSize.title,
+                                image: gridSize.image,
+                                handler: { [weak self] (_) in
                 self?.delegate?.setLayoutFromMenu(for: gridSize)
                 self?.saveLayoutChoice(for: gridSize.rawValue)
             })
@@ -54,16 +54,22 @@ class BookListLayoutMenu {
     private func filterMenu() -> UIMenu {
         var items: [UIMenuElement] = []
         QueryType.allCases.forEach({ query in
-            let item = UIAction(title: query.title, image: nil, handler: { [weak self] (_) in
+            let item = UIAction(title: query.title,
+                                image: nil,
+                                handler: { [weak self] (_) in
                 self?.delegate?.orderList(by: query.documentKey)
             })
             items.append(item)
         })
-        return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: items)
+        return UIMenu(title: "",
+                      image: nil,
+                      identifier: nil,
+                      options: .displayInline,
+                      children: items)
     }
   
     private func saveLayoutChoice(for grid: CGFloat) {
-        if let index = GridItemSize.allCases.firstIndex(where: { $0.rawValue == grid }) {
+        if let index = BookGridSize.allCases.firstIndex(where: { $0.rawValue == grid }) {
             UserDefaults.standard.set(index, forKey: UserDefaultKey.bookListMenuLayout.rawValue)
         }
     }

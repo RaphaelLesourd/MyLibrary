@@ -79,6 +79,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         didReceive(response.notification)
+
         completionHandler()
     }
     

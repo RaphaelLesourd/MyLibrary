@@ -11,11 +11,9 @@ class AccountControllerView {
     
     // MARK: - Properties
     weak var delegate: AccountViewDelegate?
-    private let imageRetriever: ImageRetriever
     
     // MARK: - Intialiazer
-    init(imageRetriever: ImageRetriever) {
-        self.imageRetriever = imageRetriever
+    init() {
         displayAppInfos()
         setTargets()
     }
@@ -60,18 +58,7 @@ class AccountControllerView {
     }
     
     // MARK: - Display data
-    func updateProfileInfos(for currentUser: UserModel) {
-        profileCell.emailLabel.text = currentUser.email
-        
-        displayNameCell.textField.clearButtonMode = .always
-        displayNameCell.textField.text = currentUser.displayName
-      
-        imageRetriever.getImage(for: currentUser.photoURL) { [weak self] image in
-            self?.profileCell.profileImageButton.setImage(image, for: .normal)
-        }
-    }
-    
-    private func displayAppInfos() {
+   private func displayAppInfos() {
         appVersionCell.textField.isUserInteractionEnabled = false
         appVersionCell.textField.text = UIApplication.release
         

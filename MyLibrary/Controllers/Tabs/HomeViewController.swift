@@ -17,7 +17,7 @@ class HomeViewController: CollectionViewController {
     private var layoutComposer: HomeLayoutComposer
     private var libraryService: LibraryServiceProtocol
     private var categoryService: CategoryServiceProtocol
-    private var bookCellAdater: BookCellAdapter?
+    private var cellPresenter: CellPresenter?
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
@@ -29,7 +29,7 @@ class HomeViewController: CollectionViewController {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService
-        self.bookCellAdater = BookCellDataAdapter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -119,9 +119,10 @@ class HomeViewController: CollectionViewController {
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
         let bookListVC = BookLibraryViewController(currentQuery: query,
+                                                   showFilterMenu: false,
                                                    queryService: QueryService(),
                                                    libraryService: LibraryService(),
-                                                   layoutComposer: ListLayout())
+                                                   layoutComposer: BookListLayout())
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
     }
@@ -129,7 +130,7 @@ class HomeViewController: CollectionViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
                                                       categoryService: CategoryService())
-        presentController(categoryListVC)
+        navigationController?.show(categoryListVC, sender: nil)
     }
 }
 
@@ -153,7 +154,7 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.bookCellAdater?.getBookData(for: book) { bookData in
+                    self.cellPresenter?.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
@@ -161,7 +162,7 @@ extension HomeViewController {
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.bookCellAdater?.getBookData(for: book) { bookData in
+                    self.cellPresenter?.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell

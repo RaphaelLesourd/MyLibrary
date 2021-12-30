@@ -15,19 +15,21 @@ class AccountViewController: StaticTableViewController {
     private let accountService: AccountServiceProtocol
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
+    private let feedbackManager: FeedbackManagerProtocol?
+    private let mainView = AccountControllerView()
+    private var accountDataPresenter: AccountPresenter?
     private var imagePicker: ImagePicker?
-    private let feedbackManager: FeedbackSender?
-    private let mainView = AccountControllerView(imageRetriever: KFImageRetriever())
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
          userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
-         feedbackManager: FeedbackSender) {
+         feedbackManager: FeedbackManagerProtocol) {
         self.accountService = accountService
         self.userService = userService
         self.imageService = imageService
         self.feedbackManager = feedbackManager
+        self.accountDataPresenter = AccountDataPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,7 +80,7 @@ class AccountViewController: StaticTableViewController {
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                self.mainView.updateProfileInfos(for: currentUser)
+                self.accountDataPresenter?.configure(self.mainView, with: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
