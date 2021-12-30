@@ -16,26 +16,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let notificationManager: PushNotifications
     
     override init() {
-        notificationManager = NotificationManager(userService: UserService(), libraryService: LibraryService())
+        notificationManager = NotificationManager(userService: UserService(),
+                                                  libraryService: LibraryService())
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
-        let window = UIWindow(windowScene: windowScene)
-       
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                let tabController = TabBarController()
-                window.rootViewController = tabController
+                self?.window?.rootViewController = TabBarController()
             } else {
-                let welcomeController = WelcomeViewController()
-                window.rootViewController = welcomeController
+                self?.window?.rootViewController = WelcomeViewController()
             }
         }
-        window.tintColor = .label
-        self.window = window
-        window.makeKeyAndVisible()
+        window?.tintColor = .label
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

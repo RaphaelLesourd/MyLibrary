@@ -32,8 +32,8 @@ class CommentTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
-   // MARK: - Subviews
+    
+    // MARK: - Subviews
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -42,25 +42,25 @@ class CommentTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     let userNameLabel = TextLabel(color: .appTintColor,
-                                          maxLines: 1,
-                                          alignment: .left,
-                                          fontSize: 16,
-                                          weight: .medium)
+                                  maxLines: 1,
+                                  alignment: .left,
+                                  fontSize: 16,
+                                  weight: .medium)
     let commentLabel = TextLabel(color: .label,
-                                         maxLines: 0,
-                                         alignment: .natural,
-                                         fontSize: 18,
-                                         weight: .light)
+                                 maxLines: 0,
+                                 alignment: .natural,
+                                 fontSize: 18,
+                                 weight: .light)
     let dateLabel = TextLabel(color: .secondaryLabel,
-                                      maxLines: 1,
-                                      alignment: .left,
-                                      fontSize: 13,
-                                      weight: .light)
+                              maxLines: 1,
+                              alignment: .left,
+                              fontSize: 13,
+                              weight: .light)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
-
+    
     override func prepareForReuse() {
         profileImageView.image = Images.emptyStateBookImage
     }
@@ -77,7 +77,7 @@ extension CommentTableViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
-
+    
     private func setMainStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
