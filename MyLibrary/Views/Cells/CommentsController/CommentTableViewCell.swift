@@ -38,7 +38,7 @@ class CommentTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = Images.emptyStateBookImage
-        imageView.rounded(radius: 25, backgroundColor: .systemBackground)
+        imageView.roundView(radius: 25, backgroundColor: .systemBackground)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

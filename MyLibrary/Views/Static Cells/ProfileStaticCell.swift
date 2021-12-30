@@ -27,7 +27,7 @@ class ProfileStaticCell: UITableViewCell {
     let profileImageButton: UIButton = {
         let button = UIButton()
         button.imageView?.contentMode = .scaleAspectFill
-        button.rounded(radius: 50, backgroundColor: .clear)
+        button.roundView(radius: 50, backgroundColor: .clear)
         button.layer.borderWidth = 3
         button.layer.borderColor = UIColor.white.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false

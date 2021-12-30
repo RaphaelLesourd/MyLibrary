@@ -13,7 +13,7 @@ class BookCardCommentView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
+        roundView(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
         titleLabel.text = Text.SectionTitle.readersComment
         stackView.addArrangedSubview(goToCommentButton)
         stackView.addArrangedSubview(titleLabel)

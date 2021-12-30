@@ -35,7 +35,7 @@ class BarcodeControllerView: UIView {
     // MARK: - Subviews    
     let videoPreviewContainerView: UIView = {
         let view = UIView()
-        view.rounded(radius: 12, backgroundColor: .systemBackground)
+        view.roundView(radius: 12, backgroundColor: .systemBackground)
         return view
     }()
     let animationView: AnimationView = {

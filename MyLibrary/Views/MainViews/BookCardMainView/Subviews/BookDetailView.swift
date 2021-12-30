@@ -18,7 +18,7 @@ class BookDetailView: UIView {
         stackView.addArrangedSubview(languageView)
         
         setStackViewConstraints()
-        self.rounded(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
+        self.roundView(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
     }
     
     required init?(coder: NSCoder) {
