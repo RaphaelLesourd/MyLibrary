@@ -175,7 +175,6 @@ class BookCardViewController: UIViewController {
     @objc private func editBook() {
         let newBookController = NewBookViewController(libraryService: LibraryService(),
                                                       converter: Converter(),
-                                                      formatter: Formatter(),
                                                       validator: Validator())
         newBookController.newBook = book
         newBookController.isEditingBook = true
