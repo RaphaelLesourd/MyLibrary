@@ -277,7 +277,7 @@ extension CommentsViewController {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
-                    self?.cellPresenter?.getBookData(for: item) { bookData in
+                    self?.cellPresenter?.setBookData(for: item) { bookData in
                         cell.configure(with: bookData)
                     }
                     self?.getBookOwnerDetails(completion: { owner in

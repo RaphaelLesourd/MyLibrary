@@ -160,7 +160,7 @@ extension BookLibraryViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self.cellPresenter?.getBookData(for: book) { bookData in
+            self.cellPresenter?.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell

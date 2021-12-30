@@ -6,5 +6,5 @@
 //
 
 protocol CellPresenter {
-    func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void)
+    func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void)
 }

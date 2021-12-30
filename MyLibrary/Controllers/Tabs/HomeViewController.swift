@@ -154,7 +154,7 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter?.getBookData(for: book) { bookData in
+                    self.cellPresenter?.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
@@ -162,7 +162,7 @@ extension HomeViewController {
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter?.getBookData(for: book) { bookData in
+                    self.cellPresenter?.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
