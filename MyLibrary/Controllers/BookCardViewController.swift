@@ -23,7 +23,6 @@ class BookCardViewController: UIViewController {
     private let bookCardPresenter: BookCardPresenter?
     
     private var book: Item
-    private var coverImage: UIImage?
     private var recommandedBook = false {
         didSet {
             mainView.setRecommandedButtonAs(recommandedBook)
@@ -43,8 +42,8 @@ class BookCardViewController: UIViewController {
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.bookCardPresenter = BookCardDataPresenter(imageRetriever: KFImageRetriever(),
-                                                   formatter: Formatter(),
-                                                   categoryService: CategoryService())
+                                                       formatter: Formatter(),
+                                                       categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -239,7 +238,7 @@ extension BookCardViewController: BookCardMainViewDelegate {
     }
     
     func showBookCover() {
-        guard let coverImage = coverImage else { return  }
+        guard let coverImage = mainView.bookCover.image else { return  }
         let bookCoverController = BookCoverViewController(image: coverImage)
         navigationController?.show(bookCoverController, sender: nil)
     }

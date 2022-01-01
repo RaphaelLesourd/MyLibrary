@@ -40,7 +40,7 @@ class HomeViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = Text.ControllerTitle.home
+        title = UIDevice.current.userInterfaceIdiom == .pad ? Text.ControllerTitle.myBooks : Text.ControllerTitle.home
         emptyStateView.titleLabel.text = Text.Placeholder.homeControllerEmptyState
         configureCollectionView()
         configureRefresherControl()
@@ -119,7 +119,6 @@ class HomeViewController: CollectionViewController {
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
         let bookListVC = BookLibraryViewController(currentQuery: query,
-                                                   showFilterMenu: false,
                                                    queryService: QueryService(),
                                                    libraryService: LibraryService(),
                                                    layoutComposer: BookListLayout())

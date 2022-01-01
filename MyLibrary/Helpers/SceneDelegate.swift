@@ -10,10 +10,11 @@ import Firebase
 import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     private var handle: AuthStateDidChangeListenerHandle?
     private let notificationManager: PushNotifications
+    private let splitViewController = UISplitViewController()
     
     override init() {
         notificationManager = NotificationManager(userService: UserService(),
@@ -24,47 +25,77 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
+        window?.tintColor = .label
         
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.window?.rootViewController = TabBarController()
+                self?.presentLoggedInUserInterface()
             } else {
                 self?.window?.rootViewController = WelcomeViewController()
             }
         }
-        window?.tintColor = .label
         window?.makeKeyAndVisible()
     }
-
+    
+    private func presentLoggedInUserInterface() {
+        let device = UIDevice.current.userInterfaceIdiom
+        let homeViewController = HomeViewController(libraryService: LibraryService(),
+                                                    layoutComposer: IpadHomeTabLayout(),
+                                                    categoryService: CategoryService())
+        let accountService = AccountService(userService: UserService(),
+                                            libraryService: LibraryService(),
+                                            categoryService: CategoryService())
+        let feedBackManger = FeedbackManager(presentationController: homeViewController)
+ 
+        let accountViewController = AccountViewController(accountService: accountService,
+                                                              userService: UserService(),
+                                                              imageService: ImageStorageService(),
+                                                              feedbackManager: feedBackManger)
+        
+        splitViewController.viewControllers = [accountViewController,
+                                               UINavigationController(rootViewController: homeViewController)]
+        splitViewController.preferredPrimaryColumnWidthFraction = 0.24
+        splitViewController.primaryEdge = .leading
+        splitViewController.primaryBackgroundStyle = .sidebar
+        window?.rootViewController = device == .pad ? splitViewController : TabBarController()
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         notificationManager.resetNotificationBadgeCount()
     }
-
+    
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-
+        
         // Save changes in the application's managed object context when the application transitions to the background.
-       // (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        // (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
 
+extension SceneDelegate: UISplitViewControllerDelegate {
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,
+                             onto primaryViewController: UIViewController) -> Bool {
+        return true
+    }
+}

@@ -20,7 +20,6 @@ class BookLibraryViewController: CollectionViewController {
     private var libraryService: LibraryServiceProtocol
     private var queryService: QueryProtocol
     private var bookListMenu: BookListMenu?
-    private var showFilterMenu: Bool
     private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
@@ -32,12 +31,10 @@ class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Initializer
     init(currentQuery: BookQuery,
-         showFilterMenu: Bool,
          queryService: QueryService,
          libraryService: LibraryServiceProtocol,
          layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
-        self.showFilterMenu = showFilterMenu
         self.queryService = queryService
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
@@ -75,6 +72,7 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
+        let showFilterMenu = currentQuery.listType != .categories
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                                             primaryAction: nil,
                                                             menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))

@@ -45,33 +45,39 @@ class TabBarController: UITabBarController {
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
     private func setupViewControllers() {
-        let homeViewController = createController(for: HomeViewController(libraryService: LibraryService(),
-                                                                          layoutComposer: HomeViewControllerLayout(),
-                                                                          categoryService: CategoryService()),
+        // Home tab
+        let homeVC = HomeViewController(libraryService: LibraryService(),
+                                        layoutComposer: IphoneHomeTabLayout(),
+                                        categoryService: CategoryService())
+        let homeViewController = createController(for: homeVC,
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.TabBarIcon.homeIcon)
-        
-        let libraryViewController = createController(for: BookLibraryViewController(currentQuery: .defaultAllBookQuery,
-                                                                                    showFilterMenu: true,
-                                                                                    queryService: QueryService(),
-                                                                                    libraryService: LibraryService(),
-                                                                                    layoutComposer: BookListLayout()),
+        // Library tab
+        let bookVC = BookLibraryViewController(currentQuery: .defaultAllBookQuery,
+                                               queryService: QueryService(),
+                                               libraryService: LibraryService(),
+                                               layoutComposer: BookListLayout())
+        let libraryViewController = createController(for: bookVC,
                                                         title: Text.ControllerTitle.myBooks,
                                                         image: Images.TabBarIcon.booksIcon)
-        
-        let newViewController = createController(for: NewBookViewController(libraryService: LibraryService(),
-                                                                            converter: Converter(),
-                                                                            validator: Validator()),
+        // Newbook tab
+        let newVC = NewBookViewController(libraryService: LibraryService(),
+                                          converter: Converter(),
+                                          validator: Validator())
+        let newViewController = createController(for: newVC,
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.TabBarIcon.newBookIcon)
+        // Account tab
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
         let feedBackManger = FeedbackManager(presentationController: self)
-        let accountViewController = createController(for: AccountViewController(accountService: accountService,
-                                                                                userService: UserService(),
-                                                                                imageService: ImageStorageService(),
-                                                                                feedbackManager: feedBackManger),
+        
+        let accountVC = AccountViewController(accountService: accountService,
+                                              userService: UserService(),
+                                              imageService: ImageStorageService(),
+                                              feedbackManager: feedBackManger)
+        let accountViewController = createController(for: accountVC,
                                                         title: Text.ControllerTitle.account,
                                                         image: Images.TabBarIcon.accountIcon)
         setViewControllers([homeViewController,

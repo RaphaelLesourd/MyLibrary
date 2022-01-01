@@ -28,7 +28,8 @@ class ImageStaticCell: UITableViewCell {
 extension ImageStaticCell {
     private func setButtonConstraints() {
         pictureView.translatesAutoresizingMaskIntoConstraints = false
-        let heightAnchor = pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8)
+        
+        let heightAnchor = pictureView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6)
         heightAnchor.priority = UILayoutPriority(999)
         
         contentView.addSubview(pictureView)
@@ -36,7 +37,7 @@ extension ImageStaticCell {
             pictureView.topAnchor.constraint(equalTo: contentView.topAnchor),
             pictureView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             pictureView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            pictureView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            pictureView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4),
             heightAnchor
         ])
     }

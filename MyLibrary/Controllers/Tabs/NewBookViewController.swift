@@ -14,7 +14,7 @@ protocol NewBookDelegate: AnyObject {
     var bookCategories : [String] { get set }
 }
 
-class NewBookViewController: StaticTableViewController, NewBookDelegate, NewBookPickerDelegate {
+class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPickerDelegate {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
@@ -42,6 +42,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate, NewBook
     private let newBookDataPresenter: NewBookPresenter?
     private var pickerDataSource: NewbookPickerDataSource?
     private var imagePicker: ImagePicker?
+    private var sections: [[UITableViewCell]] = [[]]
     
     init(libraryService: LibraryServiceProtocol,
          converter: ConverterProtocol,
@@ -69,6 +70,7 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate, NewBook
                                   delegate: self,
                                   permissions: PermissionManager())
         sections = newBookView.composeTableView()
+        configureTableView()
         setDelegates()
         addNavigationBarButtons()
         configureSearchController()
@@ -81,6 +83,16 @@ class NewBookViewController: StaticTableViewController, NewBookDelegate, NewBook
         setBookCurrency()
     }
     // MARK: - Setup
+    private func configureTableView() {
+        tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .viewControllerBackgroundColor
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 50, right: 0)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = .none
+    }
+    
     private func addNavigationBarButtons() {
         let scannerButton = UIBarButtonItem(image: Images.NavIcon.scanBarcode,
                                             style: .plain,
@@ -293,5 +305,21 @@ extension NewBookViewController: NewBookViewDelegate {
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
+    }
+}
+
+// MARK: - TableView DataSource & Delegate
+extension NewBookViewController {
+   
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return sections[indexPath.section][indexPath.row]
     }
 }

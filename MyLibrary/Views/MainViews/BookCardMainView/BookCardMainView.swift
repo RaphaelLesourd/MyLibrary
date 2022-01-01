@@ -152,7 +152,7 @@ class BookCardMainView: UIView {
         delegate?.showCommentsViewController()
     }
     
-    @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
+    @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         delegate?.showBookCover()
     }
 }

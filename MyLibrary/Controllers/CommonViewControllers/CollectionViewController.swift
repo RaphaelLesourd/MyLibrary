@@ -16,6 +16,8 @@ class CollectionViewController: UIViewController {
     let refresherControl = UIRefreshControl()
     let emptyStateView = EmptyStateView()
     
+    private let device = UIDevice.current.userInterfaceIdiom
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,18 +28,8 @@ class CollectionViewController: UIViewController {
         addNavigationBarButtons()
         emptyStateView.isHidden = true
     }
-    
-    // MARK: - Navgation
-    func showBookDetails(for book: Item, searchType: SearchType?) {
-        let bookCardVC = BookCardViewController(book: book,
-                                                libraryService: LibraryService(),
-                                                recommendationService: RecommandationService())
-        bookCardVC.hidesBottomBarWhenPushed = true
-        bookCardVC.searchType = searchType
-        navigationController?.show(bookCardVC, sender: nil)
-   }
-    
-  // MARK: - Setup
+  
+    // MARK: - Setup
     private func configureCollectionView() {
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
         refresherControl.attributedTitle = NSAttributedString(string: Text.Misc.reloading)
@@ -53,6 +45,22 @@ class CollectionViewController: UIViewController {
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
+    }
+    
+    // MARK: - Navigation
+    func showBookDetails(for book: Item, searchType: SearchType?) {
+        let bookCardVC = BookCardViewController(book: book,
+                                                libraryService: LibraryService(),
+                                                recommendationService: RecommandationService())
+        bookCardVC.hidesBottomBarWhenPushed = true
+        bookCardVC.searchType = searchType
+        
+        if device == .pad {
+            let viewController = UINavigationController(rootViewController: bookCardVC)
+            present(viewController, animated: true)
+        } else {
+            navigationController?.show(bookCardVC, sender: nil)
+        }
     }
 }
 // MARK: - Constraints

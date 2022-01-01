@@ -18,6 +18,7 @@ enum Images {
         static let editBookIcon = UIImage(systemName: "pencil.circle.fill", withConfiguration: Images.NavIcon.configuration)
         static let gridLayoutMenu = UIImage(systemName: "ellipsis.circle.fill", withConfiguration: Images.NavIcon.configuration)
         static let addIcon = UIImage(systemName: "plus.circle.fill", withConfiguration: Images.NavIcon.configuration)
+        static let accountIcon = UIImage(systemName: "person.fill", withConfiguration: Images.NavIcon.configuration)
     }
     
     enum LayoutMenu {

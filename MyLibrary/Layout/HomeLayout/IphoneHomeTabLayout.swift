@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewControllerLayout {
+class IphoneHomeTabLayout {
     
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     
@@ -85,7 +85,7 @@ class HomeViewControllerLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension HomeViewControllerLayout: HomeLayoutComposer {
+extension IphoneHomeTabLayout: HomeLayoutComposer {
     
     func setCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
      
