@@ -60,7 +60,7 @@ class Button: UIButton {
         } else {
             self.setTitle(title, for: .normal)
             self.titleLabel?.font = font
-            self.roundView(radius: 10, backgroundColor: tintColor.withAlphaComponent(0.2))
+            self.roundView(radius: 10, backgroundColor: backgroundColor.withAlphaComponent(0.2))
             self.setTitleColor(tintColor, for: .normal)
             self.titleEdgeInsets = UIEdgeInsets(top: 30, left: 20, bottom: 30, right: 20)
         }

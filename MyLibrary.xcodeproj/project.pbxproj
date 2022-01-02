@@ -102,6 +102,7 @@
 		8157F5552781A607005F182A /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5542781A607005F182A /* SwitchCell.swift */; };
 		8157F5572781D519005F182A /* BookCardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5562781D519005F182A /* BookCardDelegate.swift */; };
 		8157F55A2781D585005F182A /* BarcodeScannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */; };
+		8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F55C278201D3005F182A /* IpadSplitViewController.swift */; };
 		816AE81C275F68A800747548 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AE81B275F68A800747548 /* AlertManager.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
 		81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F5E27326BF9005F863B /* ProfileStaticCell.swift */; };
@@ -315,6 +316,7 @@
 		8157F5542781A607005F182A /* SwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		8157F5562781D519005F182A /* BookCardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDelegate.swift; sourceTree = "<group>"; };
 		8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerDelegate.swift; sourceTree = "<group>"; };
+		8157F55C278201D3005F182A /* IpadSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IpadSplitViewController.swift; sourceTree = "<group>"; };
 		816AE81B275F68A800747548 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		81792F5E27326BF9005F863B /* ProfileStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStaticCell.swift; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 			children = (
 				8121F0C027400541006EAA8D /* CollectionViewController.swift */,
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
+				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
 			);
 			path = CommonViewControllers;
 			sourceTree = "<group>";
@@ -1563,6 +1566,7 @@
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				8121F0C127400541006EAA8D /* CollectionViewController.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
+				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
 				81FA727C2774848800040BEF /* FeedbackManager.swift in Sources */,
 				8157F4D0277AEF3D005F182A /* AccountTabPresenter.swift in Sources */,
 				81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */,
@@ -1853,6 +1857,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1893,6 +1898,7 @@
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

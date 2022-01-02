@@ -14,8 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var handle: AuthStateDidChangeListenerHandle?
     private let notificationManager: PushNotifications
-    private let splitViewController = UISplitViewController(style: .tripleColumn)
-    
+ 
     override init() {
         notificationManager = NotificationManager(userService: UserService(),
                                                   libraryService: LibraryService())
@@ -31,41 +30,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.window?.rootViewController = device == .pad ? self?.setIpadRootViewController() : TabBarController()
+                self?.window?.rootViewController = device == .pad ? IpadSplitViewController(style: .tripleColumn) : TabBarController()
             } else {
                 self?.window?.rootViewController = WelcomeViewController()
             }
         }
         window?.makeKeyAndVisible()
     }
-    
-    private func setIpadRootViewController() -> UIViewController  {
-        let homeViewController = HomeViewController(libraryService: LibraryService(),
-                                                    layoutComposer: IpadHomeTabLayout(),
-                                                    categoryService: CategoryService())
 
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        let feedBackManger = FeedbackManager(presentationController: homeViewController)
-        let accountViewController = AccountViewController(accountService: accountService,
-                                                              userService: UserService(),
-                                                              imageService: ImageStorageService(),
-                                                              feedbackManager: feedBackManger)
-        let newBookViewController = NewBookViewController(libraryService: LibraryService(),
-                                          converter: Converter(),
-                                          validator: Validator())
-       
-        splitViewController.viewControllers = [accountViewController,
-                                               newBookViewController,
-                                               UINavigationController(rootViewController: homeViewController)]
-        splitViewController.primaryEdge = .leading
-        splitViewController.primaryBackgroundStyle = .none
-        splitViewController.showsSecondaryOnlyButton = true
-        splitViewController.preferredDisplayMode = UISplitViewController.DisplayMode.secondaryOnly
-        return splitViewController
-    }
-    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

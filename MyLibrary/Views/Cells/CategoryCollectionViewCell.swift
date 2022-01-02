@@ -13,7 +13,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         backgroundColor = .red
         roundView(radius: 10,
-                  backgroundColor: .cellBackgroundColor)
+                  backgroundColor: UIColor.appTintColor.withAlphaComponent(0.2))
         setLabelConstraints()
     }
     
@@ -22,7 +22,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Subview
-    private var categoryLabel = TextLabel(color: .secondaryLabel,
+    private var categoryLabel = TextLabel(color: .appTintColor,
                                           alignment: .center,
                                           fontSize: 14,
                                           weight: .semibold)
