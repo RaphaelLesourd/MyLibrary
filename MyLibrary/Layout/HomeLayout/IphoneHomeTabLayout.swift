@@ -16,14 +16,14 @@ class IphoneHomeTabLayout {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100),
                                           heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
                                                        subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil,
                                                           top: nil,
                                                           trailing: .fixed(5),
                                                           bottom: nil)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuous)
     }
     
     // Horizontal scroll single cell
@@ -39,11 +39,12 @@ class IphoneHomeTabLayout {
                                                        subitem: item, count: 1)
         group.interItemSpacing = .fixed(10)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuousGroupLeadingBoundary)
     }
     
     // Horizontal scroll layout, cell with description
-    private func makeBookDetailLayoutSection(numberItems: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+    private func makeBookDetailLayoutSection(numberItems: Int,
+                                             environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0,
                                    leading: 0,
@@ -60,7 +61,7 @@ class IphoneHomeTabLayout {
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuousGroupLeadingBoundary)
     }
     
     private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -71,11 +72,10 @@ class IphoneHomeTabLayout {
                                                            alignment: .top)
     }
     
-    private func createSection(with group: NSCollectionLayoutGroup, horizontal: Bool) -> NSCollectionLayoutSection {
+    private func createSection(with group: NSCollectionLayoutGroup,
+                               scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
-        if horizontal == true {
-            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        }
+        section.orthogonalScrollingBehavior = scrollType
         section.contentInsets = .init(top: 10,
                                       leading: 7,
                                       bottom: 40,

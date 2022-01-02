@@ -48,6 +48,7 @@ enum StorageKey: String {
     case images
     case profileImage
     case badge
+    case recommendingSwitch
 }
 
 enum UserDefaultKey: String {

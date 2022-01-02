@@ -13,7 +13,7 @@ class BookListLayout {
     private  func makeVerticalGridLayoutSection(gridItemSize: BookGridSize,
                                                 environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
-        let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.rawValue
+        let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.size
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
   

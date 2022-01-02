@@ -1,20 +1,20 @@
 //
-//  TextFieldCell.swift
+//  SwitchCell.swift
 //  MyLibrary
 //
-//  Created by Birkyboy on 28/10/2021.
+//  Created by Birkyboy on 02/01/2022.
 //
 
 import UIKit
 
-class TextFieldStaticCell: UITableViewCell {
+class SwitchCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
         selectionStyle = .none
         stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(textField)
+        stackView.addArrangedSubview(valueSwitch)
         
         setConstraints()
     }
@@ -23,35 +23,34 @@ class TextFieldStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(placeholder: String, keyboardType: UIKeyboardType = .default) {
+    convenience init(placeholder: String) {
         self.init()
         titleLabel.text = placeholder
-        textField.autocorrectionType = .no
-        textField.placeholder = placeholder
-        textField.keyboardType = keyboardType
     }
     // MARK: - Subviews
-    let titleLabel = TextLabel(color: .secondaryLabel,
-                               maxLines: 2,
+    let valueSwitch: UISwitch = {
+        let valueSwitch = UISwitch()
+        valueSwitch.onTintColor = .appTintColor
+        return valueSwitch
+    }()
+    private let titleLabel = TextLabel(color: .secondaryLabel,
+                               maxLines: 1,
                                alignment: .left,
-                               fontSize: 12,
+                               fontSize: 18,
                                weight: .regular)
-    let textField = TextField()
     private let stackView = StackView(axis: .horizontal,
                                       distribution: .fill,
                                       spacing: 0)
 }
 // MARK: - Constraints
-extension TextFieldStaticCell {
+extension SwitchCell {
     private func setConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(equalToConstant: 70),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
-   
 }

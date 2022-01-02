@@ -14,10 +14,10 @@ class AccountTabMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(newBookView)
         stackView.addArrangedSubview(accountView)
         stackView.addArrangedSubview(contactView)
-        
+        stackView.addArrangedSubview(newBookView)
+        stackView.setCustomSpacing(40, after: contactView)
         setScrollViewConstraints()
         setStackViewConstraints()
         setTargets()
@@ -30,9 +30,10 @@ class AccountTabMainView: UIView {
     }
     
     // MARK: - Subviews
-    let newBookView = NewBookView()
     let accountView = AccountView()
     let contactView = ContactView()
+    let newBookView = AppLogoView()
+    
     let activityIndicator = UIActivityIndicatorView()
     
     private let scrollView: UIScrollView = {
@@ -64,29 +65,13 @@ class AccountTabMainView: UIView {
         contactView.versionLabel.text = Text.Misc.appVersion + UIApplication.version
         contactView.copyrightLabel.text = "© Birkyboy 2021"
      }
-    
-    private var remainingSpace: CGFloat {
-        let screenHeight = UIScreen.main.bounds.height
-        let navigationControllerHeight: CGFloat = 110
-        let totalSubviewsHeight = newBookView.bounds.height + accountView.bounds.height + contactView.bounds.height + navigationControllerHeight
-        return totalSubviewsHeight >= screenHeight ? 20 : (screenHeight - totalSubviewsHeight)
-    }
-    
-    override func layoutSubviews() {
-        stackView.setCustomSpacing(remainingSpace, after: newBookView)
-    }
-    
+   
     // MARK: - Targets
     private func setTargets() {
-        newBookView.newBookButton.addTarget(self, action: #selector(newBook), for: .touchUpInside)
         accountView.profileImageButton.addTarget(self, action: #selector(updateProfileImage), for: .touchUpInside)
         accountView.signoutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         accountView.deleteButton.addTarget(self, action: #selector(deleteAccount), for: .touchUpInside)
         contactView.contactButton.addTarget(self, action: #selector(sendFeedback), for: .touchUpInside)
-    }
-    
-    @objc private func newBook() {
-        delegate?.presentNewBookViewController()
     }
     
     @objc private func updateProfileImage() {
@@ -127,7 +112,7 @@ extension AccountTabMainView {
     private func setStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 50),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)

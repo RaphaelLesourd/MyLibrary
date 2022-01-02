@@ -11,7 +11,7 @@ class AccountView: UIView {
     // MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        roundView(radius: 15, backgroundColor: UIColor.label.withAlphaComponent(0.03))
+        roundView(radius: 15, backgroundColor: .cellBackgroundColor)
         
         stackView.addArrangedSubview(profileImageContainerView)
         stackView.addArrangedSubview(emailLabel)

@@ -36,10 +36,14 @@ class NewBookControllerView {
     let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
+    let recommendSwitchCell = SwitchCell(placeholder: Text.ButtonTitle.recommend)
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,
                                           systemImage: "arrow.down.doc.fill",
                                           tintColor: .appTintColor,
                                           backgroundColor: .appTintColor)
+    let eraseButtonCell = ButtonStaticCell(title: Text.ButtonTitle.delete,
+                                       tintColor: .systemRed,
+                                       backgroundColor: .clear)
     
     lazy var descriptionCell = DisclosureTableViewCell(title: Text.Book.bookDescription)
     lazy var bookCategoryCell = DisclosureTableViewCell(title: Text.Book.bookCategories)
@@ -61,11 +65,14 @@ class NewBookControllerView {
                 [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
-                [saveButtonCell]]
+                [recommendSwitchCell],
+                [saveButtonCell, eraseButtonCell]]
     }
     
     func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
+        eraseButtonCell.actionButton.addTarget(self, action: #selector(eraseBook), for: .touchUpInside)
+        recommendSwitchCell.valueSwitch.addTarget(self, action: #selector(recommendBook(sender:)), for: .valueChanged)
     }
     
     // MARK: - Display data
@@ -78,5 +85,13 @@ class NewBookControllerView {
     // MARK: - Targets
     @objc private func saveBook() {
         delegate?.saveBook()
+    }
+    
+    @objc private func eraseBook() {
+        delegate?.clearData()
+    }
+    
+    @objc private func recommendBook(sender: UISwitch) {
+        delegate?.isRecommending = sender.isOn
     }
 }

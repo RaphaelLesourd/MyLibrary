@@ -9,10 +9,6 @@ import UIKit
 import AVFoundation
 import CloudKit
 
-protocol BarcodeScannerDelegate: AnyObject {
-    func processBarcode(with code: String)
-}
-
 class BarcodeScanViewController: UIViewController {
 
     // MARK: - Properties

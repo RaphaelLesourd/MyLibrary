@@ -8,10 +8,6 @@
 import UIKit
 import FirebaseAuth
 
-protocol BookCardDelegate: AnyObject {
-    func fetchBookUpdate()
-}
-
 class BookCardViewController: UIViewController {
     
     // MARK: - Properties
@@ -162,6 +158,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Data display
     private func displayBookData() {
         bookCardPresenter?.configure(mainView, with: book)
+        
     }
  
     private func displayCategoryNames() {
@@ -198,6 +195,7 @@ extension BookCardViewController: BookCardDelegate {
                     self.book = book
                     self.displayBookData()
                     self.displayCategoryNames()
+                    self.setBookRecommandState()
                 }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)

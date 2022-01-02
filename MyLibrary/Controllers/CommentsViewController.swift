@@ -305,7 +305,6 @@ extension CommentsViewController {
     }
     
     private func setUserDetails(with item: CommentModel, for cell: CommentTableViewCell) {
-      
         getCommentOwnerDetails(for: item) { [weak self] user in
             guard let user = user else { return }
             self?.commentCellPresenter?.setUserDetails(for: cell, with: user)

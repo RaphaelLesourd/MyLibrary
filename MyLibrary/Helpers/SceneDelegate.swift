@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var handle: AuthStateDidChangeListenerHandle?
     private let notificationManager: PushNotifications
-    private let splitViewController = UISplitViewController()
+    private let splitViewController = UISplitViewController(style: .tripleColumn)
     
     override init() {
         notificationManager = NotificationManager(userService: UserService(),
@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
+        let device = UIDevice.current.userInterfaceIdiom
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.tintColor = .label
@@ -30,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.presentLoggedInUserInterface()
+                self?.window?.rootViewController = device == .pad ? self?.setIpadRootViewController() : TabBarController()
             } else {
                 self?.window?.rootViewController = WelcomeViewController()
             }
@@ -38,27 +39,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     
-    private func presentLoggedInUserInterface() {
-        let device = UIDevice.current.userInterfaceIdiom
+    private func setIpadRootViewController() -> UIViewController  {
         let homeViewController = HomeViewController(libraryService: LibraryService(),
                                                     layoutComposer: IpadHomeTabLayout(),
                                                     categoryService: CategoryService())
+
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
         let feedBackManger = FeedbackManager(presentationController: homeViewController)
- 
         let accountViewController = AccountViewController(accountService: accountService,
                                                               userService: UserService(),
                                                               imageService: ImageStorageService(),
                                                               feedbackManager: feedBackManger)
-        
+        let newBookViewController = NewBookViewController(libraryService: LibraryService(),
+                                          converter: Converter(),
+                                          validator: Validator())
+       
         splitViewController.viewControllers = [accountViewController,
+                                               newBookViewController,
                                                UINavigationController(rootViewController: homeViewController)]
-        splitViewController.preferredPrimaryColumnWidthFraction = 0.24
         splitViewController.primaryEdge = .leading
-        splitViewController.primaryBackgroundStyle = .sidebar
-        window?.rootViewController = device == .pad ? splitViewController : TabBarController()
+        splitViewController.primaryBackgroundStyle = .none
+        splitViewController.showsSecondaryOnlyButton = true
+        splitViewController.preferredDisplayMode = UISplitViewController.DisplayMode.secondaryOnly
+        return splitViewController
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

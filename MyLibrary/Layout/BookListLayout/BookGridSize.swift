@@ -8,10 +8,13 @@
 import UIKit
 
 enum BookGridSize: CGFloat, CaseIterable {
-    case large = 0.5
-    case medium = 0.33333
-    case small = 0.25
-    case extraSmall = 0.13
+    
+    private static let baseSize: CGFloat =  UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
+    
+    case large
+    case medium
+    case small
+    case extraSmall
     
     var title: String {
         switch self {
@@ -36,6 +39,19 @@ enum BookGridSize: CGFloat, CaseIterable {
             return Images.LayoutMenu.gridSmallLayout
         case .extraSmall:
             return Images.LayoutMenu.gridExtraSmallLayout
+        }
+    }
+    
+    var size: CGFloat {
+        switch self {
+        case .large:
+            return BookGridSize.baseSize * 0.5
+        case .medium:
+            return BookGridSize.baseSize * 0.4
+        case .small:
+            return BookGridSize.baseSize * 0.25
+        case .extraSmall:
+            return BookGridSize.baseSize * 0.13
         }
     }
 }

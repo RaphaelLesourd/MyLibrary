@@ -14,9 +14,9 @@ enum Images {
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)
         
-        static let scanBarcode = UIImage(systemName: "viewfinder.circle.fill", withConfiguration: Images.NavIcon.configuration)
-        static let editBookIcon = UIImage(systemName: "pencil.circle.fill", withConfiguration: Images.NavIcon.configuration)
-        static let gridLayoutMenu = UIImage(systemName: "ellipsis.circle.fill", withConfiguration: Images.NavIcon.configuration)
+        static let scanBarcode = UIImage(systemName: "viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let editBookIcon = UIImage(systemName: "square.and.pencil", withConfiguration: Images.NavIcon.configuration)
+        static let gridLayoutMenu = UIImage(systemName: "ellipsis", withConfiguration: Images.NavIcon.configuration)
         static let addIcon = UIImage(systemName: "plus.circle.fill", withConfiguration: Images.NavIcon.configuration)
         static let accountIcon = UIImage(systemName: "person.fill", withConfiguration: Images.NavIcon.configuration)
     }
@@ -37,8 +37,8 @@ enum Images {
     }
     
     enum EditIcon {
-        static let editCircleIcon = UIImage(systemName: "pencil.circle.fill")!
-        static let trashCircleIcon = UIImage(systemName: "trash.circle.fill")!
+        static let editCircleIcon = UIImage(systemName: "square.and.pencil")!
+        static let trashCircleIcon = UIImage(systemName: "trash.fill")!
     }
     
     enum ButtonIcon {

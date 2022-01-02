@@ -19,6 +19,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
     var isEditingBook = false
+    var isRecommending = false
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
@@ -108,6 +109,11 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         self.navigationItem.searchController = isEditingBook ? nil : newBookView.searchController
     }
     
+    private func setRecommendingState() {
+        let state = UserDefaults.standard.bool(forKey: StorageKey.recommendingSwitch.rawValue)
+        newBookView.recommendSwitchCell.valueSwitch.isOn = state
+    }
+    
     private func setDelegates() {
         newBookView.delegate = self
         newBookView.textFields.forEach { $0.delegate = self }
@@ -171,18 +177,10 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         }
     }
     
-    private func clearData() {
-        newBookView.resetViews()
-        tableView.setContentOffset(.zero, animated: true)
-        newBookView.searchController.isActive = false
-        resultController.searchedBooks.removeAll()
-        bookCategories.removeAll()
-        bookComment = nil
-        bookDescription = nil
-    }
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
+        print(isRecommending)
         let isbn = newBookView.isbnCell.textField.text ?? ""
         
         let volumeInfo = VolumeInfo(title: newBookView.bookTileCell.textField.text,
@@ -202,7 +200,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         return Item(bookID: newBook?.bookID ?? "",
                     favorite: newBook?.favorite ?? false,
                     ownerID: newBook?.ownerID ?? "",
-                    recommanding: newBook?.recommanding ?? false,
+                    recommanding: isRecommending,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: validator.validateTimestamp(for: newBook?.timestamp),
@@ -305,6 +303,16 @@ extension NewBookViewController: NewBookViewDelegate {
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditingBook ? self.returnToPreviousController() : self.clearData()
         }
+    }
+    
+    func clearData() {
+        newBookView.resetViews()
+        tableView.setContentOffset(.zero, animated: true)
+        newBookView.searchController.isActive = false
+        resultController.searchedBooks.removeAll()
+        bookCategories.removeAll()
+        bookComment = nil
+        bookDescription = nil
     }
 }
 

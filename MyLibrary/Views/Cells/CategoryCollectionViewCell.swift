@@ -13,7 +13,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         backgroundColor = .red
         roundView(radius: 10,
-                backgroundColor: UIColor.label.withAlphaComponent(0.05))
+                  backgroundColor: .cellBackgroundColor)
         setLabelConstraints()
     }
     

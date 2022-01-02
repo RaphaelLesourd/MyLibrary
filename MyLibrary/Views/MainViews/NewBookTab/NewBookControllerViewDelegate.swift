@@ -6,5 +6,7 @@
 //
 
 protocol NewBookViewDelegate: AnyObject {
+    var isRecommending: Bool { get set }
     func saveBook()
+    func clearData()
 }

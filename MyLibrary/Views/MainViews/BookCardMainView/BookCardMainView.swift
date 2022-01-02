@@ -120,7 +120,9 @@ class BookCardMainView: UIView {
     
     func animateBookImage() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
-        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction, .preferredFramesPerSecond60]) {
+        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut,
+                                                            .allowUserInteraction,
+                                                            .preferredFramesPerSecond60]) {
             self.backgroundImage.transform = transformation
         }
     }
@@ -193,8 +195,8 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
-            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
+            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
+            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4)
         ])
     }
     
@@ -234,7 +236,7 @@ extension BookCardMainView {
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 }

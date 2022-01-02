@@ -41,7 +41,7 @@ class AccountViewController: UIViewController {
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.account
+        title = UIDevice.current.userInterfaceIdiom == .pad ? "" : Text.ControllerTitle.account
     }
     
     override func viewDidLoad() {
@@ -178,13 +178,5 @@ extension AccountViewController: AccountViewDelegate {
     
     func presentMailComposer() {
         feedbackManager?.presentMail()
-    }
-    
-    func presentNewBookViewController() {
-        let newVC = NewBookViewController(libraryService: LibraryService(),
-                                          converter: Converter(),
-                                          validator: Validator())
-        let newBookViewController = UINavigationController(rootViewController: newVC)
-        present(newBookViewController, animated: true, completion: nil)
     }
 }

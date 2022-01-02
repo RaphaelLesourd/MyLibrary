@@ -7,12 +7,11 @@
 
 import UIKit
 
-class NewBookView: UIView {
+class AppLogoView: UIView {
     // MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         stackView.addArrangedSubview(appLogoView)
-        stackView.addArrangedSubview(newBookButton)
         setStackViewConstraints()
     }
     
@@ -21,25 +20,20 @@ class NewBookView: UIView {
     }
     
     // MARK: - Subviews
-    let newBookButton = Button(title: "New book",
-                               systemImage: "",
-                               imagePlacement: .leading,
-                               tintColor: .appTintColor,
-                               backgroundColor: .appTintColor)
     private let appLogoView: UIImageView = {
         let view = UIImageView()
         view.image = Images.TabBarIcon.booksIcon
-        view.tintColor = .appTintColor
+        view.tintColor = UIColor.appTintColor.withAlphaComponent(0.7)
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return view
     }()
     private let stackView = StackView(axis: .vertical,
                                       spacing: 20)
 }
 // MARK: - Constraints
-extension NewBookView {
+extension AppLogoView {
     private func setStackViewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

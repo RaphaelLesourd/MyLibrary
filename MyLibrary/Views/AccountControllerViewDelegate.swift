@@ -10,5 +10,4 @@ protocol AccountViewDelegate: AnyObject {
     func signoutRequest()
     func deleteAccount()
     func presentMailComposer()
-    func presentNewBookViewController()
 }
