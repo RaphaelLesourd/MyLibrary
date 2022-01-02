@@ -83,7 +83,8 @@ class BarcodeReader: NSObject {
         DispatchQueue.main.async {
             let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             cameraPreviewLayer.videoGravity = .resizeAspectFill
-            cameraPreviewLayer.connection?.videoOrientation = .portrait
+            cameraPreviewLayer.connection?.videoOrientation = self.previewOrientation()
+            
             if let controller = self.presentationController as? BarcodeScanViewController {
                 cameraPreviewLayer.frame = controller.mainView.videoPreviewContainerView.bounds
                 controller.mainView.videoPreviewContainerView.layer.insertSublayer(cameraPreviewLayer, at: 0)
@@ -91,6 +92,22 @@ class BarcodeReader: NSObject {
             }
         }
     }
+    
+    private func previewOrientation() -> AVCaptureVideoOrientation {
+        switch UIDevice.current.orientation {
+        case .portrait, .faceUp, .faceDown:
+            return .portrait
+        case .portraitUpsideDown, .unknown:
+            return .portraitUpsideDown
+        case .landscapeLeft:
+            return .landscapeLeft
+        case .landscapeRight:
+            return .landscapeRight
+        @unknown default:
+            return .portrait
+        }
+    }
+    
     // MARK: Vision
     /// Analyze the result of the handled request.
     /// - Get a list of potential barcodes from the request.

@@ -559,8 +559,8 @@
 			isa = PBXGroup;
 			children = (
 				812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */,
-				812B16122772106200D65C6A /* BarcodeReader.swift */,
 				812B161027720F5400D65C6A /* BarcodeReaderError.swift */,
+				812B16122772106200D65C6A /* BarcodeReader.swift */,
 			);
 			path = BarcodeReader;
 			sourceTree = "<group>";
