@@ -30,7 +30,7 @@ extension BookCardDataPresenter: BookCardPresenter {
         view.authorLabel.text = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         view.ratingView.rating = book.volumeInfo?.ratingsCount ?? 0
         view.descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
-        view.isbnLabel.text = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
+        view.isbnLabel.text = Text.Book.isbn + (book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "")
         
         view.bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book.volumeInfo?.language,
                                                                                      type: .language).capitalized

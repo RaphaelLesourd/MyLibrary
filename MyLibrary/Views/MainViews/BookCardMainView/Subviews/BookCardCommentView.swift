@@ -38,7 +38,7 @@ class BookCardCommentView: UIView {
     let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
-        animationView.contentMode = .scaleAspectFill
+        animationView.contentMode = .scaleAspectFit
         animationView.animation = Animation.named("CommentsLottieAnimation")
         animationView.backgroundBehavior = .pauseAndRestore
         animationView.alpha = 0.8
@@ -57,15 +57,12 @@ class BookCardCommentView: UIView {
 // MARK: - Constraints
 extension BookCardCommentView {
     private func setAnimationViewConstraints() {
-        animationView.translatesAutoresizingMaskIntoConstraints = false
-        
         addSubview(animationView)
         NSLayoutConstraint.activate([
-            animationView.topAnchor.constraint(equalTo: topAnchor),
-            animationView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            animationView.topAnchor.constraint(equalTo: topAnchor, constant: -20),
+            animationView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 20),
             animationView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-            animationView.heightAnchor.constraint(equalToConstant: 80),
-            animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -10)
+            animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -30)
         ])
     }
     
@@ -77,7 +74,9 @@ extension BookCardCommentView {
            stackView.topAnchor.constraint(equalTo: topAnchor),
            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
            stackView.leadingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: -40),
-           stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+           stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+         
+           heightAnchor.constraint(equalToConstant: 90)
         ])
     }
 }

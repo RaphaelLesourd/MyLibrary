@@ -539,8 +539,6 @@
 			isa = PBXGroup;
 			children = (
 				8121F0C027400541006EAA8D /* CollectionViewController.swift */,
-				81C6CCA42724776900DE9219 /* TabBarController.swift */,
-				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
 			);
 			path = CommonViewControllers;
 			sourceTree = "<group>";
@@ -892,6 +890,8 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCA42724776900DE9219 /* TabBarController.swift */,
+				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
 				8121F0C227401252006EAA8D /* CommonViewControllers */,
 				818852782779DB45002813A1 /* Tabs */,
 				8157F51F2780904F005F182A /* WelcomeFlow */,
@@ -951,11 +951,11 @@
 			isa = PBXGroup;
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
-				81C6CCB327247A1600DE9219 /* ReusableElements */,
-				81C6CCC227247A5000DE9219 /* Headers&Footers */,
-				812047FE272ACE9B00E0A45B /* TableView Cells */,
 				81C6CCC127247A4300DE9219 /* Cells */,
+				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
+				81C6CCB327247A1600DE9219 /* ReusableElements */,
+				812047FE272ACE9B00E0A45B /* TableView Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";

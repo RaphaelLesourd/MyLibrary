@@ -51,15 +51,21 @@ class NotificationManager: NSObject {
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     private func presentCommentController(with book: Item) {
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        let rootViewController = scene?.window?.rootViewController as? TabBarController
-        let navController = rootViewController?.selectedViewController as? UINavigationController
         let commentController = CommentsViewController(book: book,
                                                        commentService: CommentService(),
                                                        messageService: MessageService(),
                                                        validator: Validator())
-        if let currentController = navController?.viewControllers.last,
-           !currentController.isKind(of: CommentsViewController.self) {
-            navController?.show(commentController, sender: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
+            rootViewController?.dismiss(animated: true, completion: nil)
+            rootViewController?.present(commentController, animated: true, completion: nil)
+        } else {
+            let rootViewController = scene?.window?.rootViewController as? TabBarController
+            let navController = rootViewController?.selectedViewController as? UINavigationController
+            if let currentController = navController?.viewControllers.last,
+               !currentController.isKind(of: CommentsViewController.self) {
+                navController?.show(commentController, sender: nil)
+            }
         }
     }
 }
