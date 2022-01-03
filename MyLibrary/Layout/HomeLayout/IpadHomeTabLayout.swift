@@ -14,7 +14,7 @@ class IpadHomeTabLayout {
     // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(120),
-                                          heightDimension: .absolute(50))
+                                          heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
                                                        subitems: [item])

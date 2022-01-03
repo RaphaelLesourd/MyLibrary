@@ -17,6 +17,7 @@ extension UIView {
     ///   - withBlur: Boolean value if a blur effect should be added, true by default.
     func roundView(radius: CGFloat = 17, backgroundColor: UIColor = .clear) {
         self.layer.cornerRadius = radius
+        self.layer.cornerCurve = .continuous
         self.layer.masksToBounds = true
         self.backgroundColor = backgroundColor
     }

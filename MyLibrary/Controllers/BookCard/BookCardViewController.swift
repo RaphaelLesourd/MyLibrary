@@ -49,7 +49,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Lifecycle
     override func loadView() {
         view = mainView
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .viewControllerBackgroundColor
         title = nil
     }
     

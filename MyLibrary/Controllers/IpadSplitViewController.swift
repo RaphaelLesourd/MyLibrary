@@ -39,7 +39,7 @@ class IpadSplitViewController: UISplitViewController {
                                                     layoutComposer: IpadHomeTabLayout(),
                                                     categoryService: CategoryService())
         
-        // First Colum as primary
+        // Primary
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
@@ -50,7 +50,7 @@ class IpadSplitViewController: UISplitViewController {
                                                           feedbackManager: feedBackManger)
         accountViewController.title = Text.ControllerTitle.account
         
-        // Second column
+        // Sidebar
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())

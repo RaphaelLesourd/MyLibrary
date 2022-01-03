@@ -10,7 +10,7 @@ import UIKit
 extension UIImageView {
     /// Add a fade gradient to a UIimageView from clear to any color.
     /// - Parameters color: Ending color of the gradient
-    func addFadeGradientFromClear(to color: UIColor = .secondarySystemBackground) {
+    func addFadeGradientFromClear(to color: UIColor = .viewControllerBackgroundColor) {
         let gradientLayer = CAGradientLayer()
         self.layer.sublayers?.removeAll()
         gradientLayer.removeFromSuperlayer()
