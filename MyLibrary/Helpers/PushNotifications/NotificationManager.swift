@@ -32,7 +32,7 @@ class NotificationManager: NSObject {
 
     /// Handles a received push notification.
     /// - Note: Retrieve the bookID and bookOwnerID from the notification Data and fetch the book then present the commentViewController.
-    private func didReceive(_ notification: UNNotification) {
+    func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
               let ownerID = userInfo[DocumentKey.ownerID.rawValue] as? String else { return }

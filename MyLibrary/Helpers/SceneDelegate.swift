@@ -36,6 +36,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
         window?.makeKeyAndVisible()
+        
+        if let notificationResponse = connectionOptions.notificationResponse?.notification {
+            notificationManager.didReceive(notificationResponse)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
