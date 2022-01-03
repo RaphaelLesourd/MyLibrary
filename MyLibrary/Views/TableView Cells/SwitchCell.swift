@@ -12,6 +12,7 @@ class SwitchCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tertiarySystemBackground
+        contentView.isUserInteractionEnabled = false
         selectionStyle = .none
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(valueSwitch)
@@ -30,6 +31,7 @@ class SwitchCell: UITableViewCell {
     // MARK: - Subviews
     let valueSwitch: UISwitch = {
         let valueSwitch = UISwitch()
+        valueSwitch.isUserInteractionEnabled = true
         valueSwitch.onTintColor = .appTintColor
         return valueSwitch
     }()

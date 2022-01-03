@@ -10,7 +10,7 @@ import SwiftUI
 
 class BookListLayout {
  
-    private  func makeVerticalGridLayoutSection(gridItemSize: BookGridSize,
+    private  func makeVerticalGridLayoutSection(gridItemSize: GridSize,
                                                 environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
         let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.size
@@ -50,7 +50,7 @@ class BookListLayout {
 // MARK: - Layout composer protocol
 extension BookListLayout: BookListLayoutComposer {
     
-    func setCollectionViewLayout(gridItemSize: BookGridSize) -> UICollectionViewLayout {
+    func setCollectionViewLayout(gridItemSize: GridSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, environement in
             return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize,
                                                        environment: environement)

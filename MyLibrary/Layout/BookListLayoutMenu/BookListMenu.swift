@@ -28,7 +28,7 @@ class BookListMenu {
     
     func loadLayoutChoice() {
         let savedChoice = UserDefaults.standard.integer(forKey: UserDefaultKey.bookListMenuLayout.rawValue)
-        let gridSize = BookGridSize.allCases[savedChoice]
+        let gridSize = GridSize.allCases[savedChoice]
         delegate?.setLayoutFromMenu(for: gridSize)
     }
     
@@ -39,7 +39,7 @@ class BookListMenu {
            items.append(filterMenu())
         }
      
-        BookGridSize.allCases.forEach({ gridSize in
+        GridSize.allCases.forEach({ gridSize in
             let item = UIAction(title: gridSize.title,
                                 image: gridSize.image,
                                 handler: { [weak self] (_) in
@@ -69,7 +69,7 @@ class BookListMenu {
     }
   
     private func saveLayoutChoice(for grid: CGFloat) {
-        if let index = BookGridSize.allCases.firstIndex(where: { $0.rawValue == grid }) {
+        if let index = GridSize.allCases.firstIndex(where: { $0.rawValue == grid }) {
             UserDefaults.standard.set(index, forKey: UserDefaultKey.bookListMenuLayout.rawValue)
         }
     }

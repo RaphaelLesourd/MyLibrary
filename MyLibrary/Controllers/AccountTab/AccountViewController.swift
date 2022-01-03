@@ -17,7 +17,7 @@ class AccountViewController: UIViewController {
     private let imageService: ImageStorageProtocol
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
-    private var accountDataPresenter: AccountTabPresenter?
+    private var accountDataPresenter: AccountTabPresenter
     private var imagePicker: ImagePicker?
     
     // MARK: - Initializer
@@ -75,7 +75,7 @@ class AccountViewController: UIViewController {
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                self.accountDataPresenter?.configure(self.mainView, with: currentUser)
+                self.accountDataPresenter.configure(self.mainView, with: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

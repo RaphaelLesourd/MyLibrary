@@ -18,9 +18,7 @@ class SearchViewController: CollectionViewController {
     var searchedBooks: [Item] = []
     var currentSearchKeywords = "" {
         didSet {
-            searchedBooks.removeAll()
-            noMoreBooks = false
-            getBooks()
+            refreshBookList()
         }
     }
    
@@ -32,7 +30,8 @@ class SearchViewController: CollectionViewController {
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
-    init(apiManager: ApiManagerProtocol, layoutComposer: BookListLayoutComposer) {
+    init(apiManager: ApiManagerProtocol,
+         layoutComposer: BookListLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
         self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
@@ -49,6 +48,7 @@ class SearchViewController: CollectionViewController {
         title = Text.ControllerTitle.search
         emptyStateView.titleLabel.text = Text.Placeholder.searchListEmptyState
         configureCollectionView()
+        configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
     
@@ -58,7 +58,8 @@ class SearchViewController: CollectionViewController {
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
-        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: .medium)
+        let size: GridSize = device == .pad ? .large : .small
+        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
         collectionView.collectionViewLayout = layout
         collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
@@ -129,9 +130,9 @@ extension SearchViewController {
     /// - Returns: UICollectionViewDiffableDataSource
     private func createDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
-                                    cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
+                                    cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self.cellPresenter?.setBookData(for: book) { bookData in
+            self?.cellPresenter?.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell
@@ -140,14 +141,6 @@ extension SearchViewController {
         return dataSource
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(searchedBooks, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        emptyStateView.isHidden = !searchedBooks.isEmpty
-        
-    }
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
@@ -155,6 +148,14 @@ extension SearchViewController {
             self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
             return self?.footerView
         }
+    }
+    
+    private func applySnapshot(animatingDifferences: Bool = true) {
+        emptyStateView.isHidden = !searchedBooks.isEmpty
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(searchedBooks, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - CollectionView Delegate

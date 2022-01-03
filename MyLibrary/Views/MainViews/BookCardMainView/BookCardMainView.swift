@@ -84,27 +84,27 @@ class BookCardMainView: UIView {
     let commentView = BookCardCommentView()
     let bookCover = BookCover(frame: .zero)
     let titleLabel = TextLabel(maxLines: 5,
-                                       alignment: .center,
-                                       fontSize: 21,
-                                       weight: .semibold)
+                               alignment: .center,
+                               fontSize: 21,
+                               weight: .semibold)
     let authorLabel = TextLabel(maxLines: 3,
-                                        alignment: .center,
-                                        fontSize: 16,
-                                        weight: .regular)
+                                alignment: .center,
+                                fontSize: 16,
+                                weight: .regular)
     let categoryiesLabel = TextLabel(color: .secondaryLabel,
-                                             maxLines: 2,
-                                             alignment: .center,
-                                             fontSize: 13,
-                                             weight: .medium)
+                                     maxLines: 2,
+                                     alignment: .center,
+                                     fontSize: 13,
+                                     weight: .medium)
     let ratingView = RatingView()
     let descriptionLabel = TextLabel(maxLines: 0,
-                                             fontSize: 16,
-                                             weight: .light)
+                                     fontSize: 16,
+                                     weight: .light)
     let purchaseDetailView = PriceView()
     let bookDetailView = BookDetailView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
     let mainStackView = StackView(axis: .vertical,
-                                          spacing: 30)
+                                  spacing: 30)
     
     // MARK: - Configure
     func setFavoriteButtonAs(_ isFavorite: Bool) {
@@ -120,9 +120,7 @@ class BookCardMainView: UIView {
     
     func animateBookImage() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
-        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut,
-                                                            .allowUserInteraction,
-                                                            .preferredFramesPerSecond60]) {
+        UIView.animate(withDuration: 7, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
             self.backgroundImage.transform = transformation
         }
     }

@@ -66,13 +66,14 @@ class NewBookControllerView {
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
                 [recommendSwitchCell],
-                [saveButtonCell, eraseButtonCell]]
+                [saveButtonCell, eraseButtonCell]
+        ]
     }
     
     func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
         eraseButtonCell.actionButton.addTarget(self, action: #selector(eraseBook), for: .touchUpInside)
-        recommendSwitchCell.valueSwitch.addTarget(self, action: #selector(recommendBook(sender:)), for: .valueChanged)
+        recommendSwitchCell.valueSwitch.addTarget(self, action: #selector(recommendBook), for: .valueChanged)
     }
     
     // MARK: - Display data
@@ -91,7 +92,7 @@ class NewBookControllerView {
         delegate?.clearData()
     }
     
-    @objc private func recommendBook(sender: UISwitch) {
-        delegate?.isRecommending = sender.isOn
+    @objc private func recommendBook() {
+        delegate?.isRecommending = recommendSwitchCell.valueSwitch.isOn
     }
 }

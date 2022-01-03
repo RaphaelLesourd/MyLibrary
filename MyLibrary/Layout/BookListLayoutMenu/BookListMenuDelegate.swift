@@ -6,6 +6,6 @@
 //
 
 protocol BookListMenuDelegate: AnyObject {
-    func setLayoutFromMenu(for layout: BookGridSize)
+    func setLayoutFromMenu(for layout: GridSize)
     func orderList(by type: DocumentKey)
 }

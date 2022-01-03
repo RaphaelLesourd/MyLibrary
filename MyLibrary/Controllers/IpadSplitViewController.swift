@@ -34,10 +34,12 @@ class IpadSplitViewController: UISplitViewController {
     }
     
     private func setViewControllers() {
+        // Secondary
         let homeViewController = HomeViewController(libraryService: LibraryService(),
                                                     layoutComposer: IpadHomeTabLayout(),
                                                     categoryService: CategoryService())
         
+        // First Colum as primary
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
@@ -46,9 +48,13 @@ class IpadSplitViewController: UISplitViewController {
                                                           userService: UserService(),
                                                           imageService: ImageStorageService(),
                                                           feedbackManager: feedBackManger)
+        accountViewController.title = Text.ControllerTitle.account
+        
+        // Second column
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())
+        newBookViewController.title = Text.ControllerTitle.newBook
         
         viewControllers = [accountViewController,
                            newBookViewController,

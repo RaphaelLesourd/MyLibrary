@@ -23,7 +23,7 @@ class BookLibraryViewController: CollectionViewController {
     private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
-    private var gridItemSize: BookGridSize = .medium {
+    private var gridItemSize: GridSize = .medium {
         didSet {
             updateGridLayout()
         }
@@ -138,14 +138,17 @@ class BookLibraryViewController: CollectionViewController {
 extension BookLibraryViewController: UICollectionViewDelegate {
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
         if indexPath.row == currentRow && noMoreBooks == false {
             getBooks(nextPage: true)
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
         showBookDetails(for: selectedBook, searchType: nil)
     }
@@ -156,9 +159,9 @@ extension BookLibraryViewController {
     
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: collectionView,
-                                    cellProvider: { (collectionView, indexPath, book) -> UICollectionViewCell? in
+                                    cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self.cellPresenter?.setBookData(for: book) { bookData in
+            self?.cellPresenter?.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell
@@ -191,7 +194,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
         refreshBookList()
     }
     
-    func setLayoutFromMenu(for size: BookGridSize) {
+    func setLayoutFromMenu(for size: GridSize) {
         gridItemSize = size
     }
 }

@@ -13,6 +13,7 @@ class BookDescriptionViewController: UIViewController {
     // MARK: - Properties
     var textViewText: String?
     weak var newBookDelegate: NewBookDelegate?
+   
     private let textView = UITextView()
   
     // MARK: - Lifecycle

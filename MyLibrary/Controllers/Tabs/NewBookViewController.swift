@@ -14,6 +14,11 @@ protocol NewBookDelegate: AnyObject {
     var bookCategories : [String] { get set }
 }
 
+protocol NewBookPickerDelegate: AnyObject {
+    var chosenLanguage: String? { get set }
+    var chosenCurrency: String? { get set }
+}
+
 class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPickerDelegate {
     
     // MARK: - Properties
@@ -40,8 +45,8 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
-    private let newBookDataPresenter: NewBookPresenter?
-    private var pickerDataSource: NewbookPickerDataSource?
+    private let newBookDataPresenter: NewBookPresenter
+    private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
     
@@ -150,10 +155,10 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     func setBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookDataPresenter?.configure(newBookView, with: book)
+        newBookDataPresenter.configure(newBookView, with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
-        
+       
         setBookCurrency()
         setBookLanguage()
     }
@@ -180,7 +185,6 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
-        print(isRecommending)
         let isbn = newBookView.isbnCell.textField.text ?? ""
         
         let volumeInfo = VolumeInfo(title: newBookView.bookTileCell.textField.text,
@@ -234,7 +238,8 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     }
     
     private func showCategoryList() {
-        let categoryListVC = CategoriesViewController(settingBookCategory: true, categoryService: CategoryService())
+        let categoryListVC = CategoriesViewController(settingBookCategory: true,
+                                                      categoryService: CategoryService())
         categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
         navigationController?.show(categoryListVC, sender: nil)

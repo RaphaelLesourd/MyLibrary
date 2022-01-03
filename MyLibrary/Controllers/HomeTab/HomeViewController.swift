@@ -40,7 +40,7 @@ class HomeViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = UIDevice.current.userInterfaceIdiom == .pad ? Text.ControllerTitle.myBooks : Text.ControllerTitle.home
+        title = device == .pad ? Text.ControllerTitle.myBooks : Text.ControllerTitle.home
         emptyStateView.titleLabel.text = Text.Placeholder.homeControllerEmptyState
         configureCollectionView()
         configureRefresherControl()
@@ -63,6 +63,7 @@ class HomeViewController: CollectionViewController {
     }
     
     // MARK: - Api call
+   
     @objc private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
             if let error = error {
@@ -129,7 +130,12 @@ class HomeViewController: CollectionViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
                                                       categoryService: CategoryService())
-        navigationController?.show(categoryListVC, sender: nil)
+        if device == .pad {
+            let categoryVC = UINavigationController(rootViewController: categoryListVC)
+            present(categoryVC, animated: true, completion: nil)
+        } else {
+            navigationController?.show(categoryListVC, sender: nil)
+        }
     }
 }
 

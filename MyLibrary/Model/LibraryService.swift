@@ -81,6 +81,15 @@ class LibraryService {
             completion(nil)
         }
     }
+    
+    private func setRecommendation(for book: Item) {
+        if book.recommanding == true {
+            recommandationService.addToRecommandation(for: book) { _ in }
+        } else {
+            recommandationService.removeFromRecommandation(for: book) { _ in }
+        }
+    }
+    
     // MARK: Query
     private func createQuery(query: BookQuery, next: Bool) -> Query? {
         var docRef: Query = usersCollectionRef.document(userID).collection(CollectionDocumentKey.books.rawValue)
@@ -134,13 +143,10 @@ extension LibraryService: LibraryServiceProtocol {
             book.volumeInfo?.imageLinks?.thumbnail = storageLink
             book.ownerID = self?.userID
             book.bookID = bookID
-            
+            self?.setRecommendation(for: book)
             self?.saveDocument(for: book, with: bookID, collection: .books) { error in
                 if let error = error {
                     completion(.firebaseError(error))
-                }
-                if book.recommanding == true {
-                    self?.recommandationService.addToRecommandation(for: book) { _ in }
                 }
                 completion(nil)
             }

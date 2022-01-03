@@ -12,8 +12,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(bookCover)
-        setStackviewConstrainsts()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -22,9 +21,7 @@ class BookCollectionViewCell: UICollectionViewCell {
    
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let stackView = StackView(axis: .vertical,
-                                      spacing: 5)
-
+    
     // MARK: - Configure
     func configure(with book: BookCellData) {
         bookCover.image = book.image
@@ -36,13 +33,14 @@ class BookCollectionViewCell: UICollectionViewCell {
 }
 // MARK: - Constraints
 extension BookCollectionViewCell {
-    private func setStackviewConstrainsts() {
-        contentView.addSubview(stackView)
+    private func setConstraints() {
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bookCover.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }

@@ -15,8 +15,7 @@ class CollectionViewController: UIViewController {
     let activityIndicator = UIActivityIndicatorView()
     let refresherControl = UIRefreshControl()
     let emptyStateView = EmptyStateView()
-    
-    private let device = UIDevice.current.userInterfaceIdiom
+    let device = UIDevice.current.userInterfaceIdiom
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -34,7 +33,6 @@ class CollectionViewController: UIViewController {
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
         refresherControl.attributedTitle = NSAttributedString(string: Text.Misc.reloading)
         refresherControl.tintColor = .label
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.refreshControl = refresherControl
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
