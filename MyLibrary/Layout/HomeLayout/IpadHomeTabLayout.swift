@@ -10,7 +10,7 @@ import UIKit
 class IpadHomeTabLayout {
     
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
-   
+    
     // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(120),
@@ -23,7 +23,7 @@ class IpadHomeTabLayout {
                                                           trailing: .fixed(5),
                                                           bottom: nil)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuous)
     }
     
     // Horizontal scroll single cell
@@ -39,7 +39,7 @@ class IpadHomeTabLayout {
                                                        subitem: item, count: 1)
         group.interItemSpacing = .fixed(10)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuousGroupLeadingBoundary)
     }
     
     // Horizontal scroll layout, cell with description
@@ -52,7 +52,7 @@ class IpadHomeTabLayout {
         let desiredWidth: CGFloat = 600
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
-   
+        
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fractionWidth - 0.1),
                                           heightDimension: .absolute(500))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
@@ -60,7 +60,7 @@ class IpadHomeTabLayout {
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
         return createSection(with: group,
-                             horizontal: true)
+                             scrollType: .continuousGroupLeadingBoundary)
     }
     
     private func createHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
@@ -71,13 +71,12 @@ class IpadHomeTabLayout {
                                                            alignment: .top)
     }
     
-    private func createSection(with group: NSCollectionLayoutGroup, horizontal: Bool) -> NSCollectionLayoutSection {
+    private func createSection(with group: NSCollectionLayoutGroup,
+                               scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let header = createHeader()
         let section = NSCollectionLayoutSection(group: group)
-        if horizontal == true {
-            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        }
-        section.contentInsets = .init(top: 20,
+        section.orthogonalScrollingBehavior = scrollType
+        section.contentInsets = .init(top: 5,
                                       leading: 7,
                                       bottom: 40,
                                       trailing: 7)
@@ -89,7 +88,7 @@ class IpadHomeTabLayout {
 extension IpadHomeTabLayout: HomeLayoutComposer {
     
     func setCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
-     
+        
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, environement in
             let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]
             switch section {

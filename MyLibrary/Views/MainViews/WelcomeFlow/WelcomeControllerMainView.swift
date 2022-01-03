@@ -9,6 +9,10 @@ import UIKit
 import AuthenticationServices
 
 class WelcomeControllerMainView: UIView {
+    
+    private let device = UIDevice.current.userInterfaceIdiom
+    private lazy var titleFontSize: CGFloat = device == .pad ? 60 : 40
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -32,7 +36,7 @@ class WelcomeControllerMainView: UIView {
     let loginButton = Button(title: Text.Account.loginTitle,
                                    systemImage: "",
                                    imagePlacement: .leading,
-                                   tintColor: .appTintColor)
+                                   tintColor: .systemOrange)
     let signupButton = Button(title: Text.Account.signupTitle,
                                     systemImage: "",
                                     imagePlacement: .leading,
@@ -51,10 +55,10 @@ class WelcomeControllerMainView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private let titleLabel = TextLabel(color: .white,
+    private lazy var titleLabel = TextLabel(color: .white,
                                        maxLines: 3,
                                        alignment: .left,
-                                       fontSize: 40,
+                                       fontSize: titleFontSize,
                                        weight: .bold)
     private let loginStackView = StackView(axis: .horizontal,
                                            distribution: .fillEqually,
@@ -66,6 +70,11 @@ class WelcomeControllerMainView: UIView {
         backgroundImage.image = Images.welcomeScreen
         titleLabel.text = Text.Account.welcomeMessage
         appVerionLabel.text = UIApplication.appName + " - Version " + UIApplication.release + " build " + UIApplication.build
+    }
+    
+    override func layoutSubviews() {
+        let spacing: CGFloat = device == .pad ? 250 : 100
+        mainStackView.setCustomSpacing(spacing, after: titleLabel)
     }
 }
 // MARK: - Constraints
@@ -81,11 +90,13 @@ extension WelcomeControllerMainView {
     }
     
     private func setMainStackViewConstraints() {
+        
+        let offSet: CGFloat = device == .pad ? 0.5 : 0.9
         addSubview(mainStackView)
         NSLayoutConstraint.activate([
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mainStackView.widthAnchor.constraint(equalTo: widthAnchor, constant: -32)
+            mainStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: offSet)
         ])
     }
 }

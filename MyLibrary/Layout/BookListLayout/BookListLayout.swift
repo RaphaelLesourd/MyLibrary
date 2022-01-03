@@ -22,11 +22,11 @@ class BookListLayout {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0,
                                    leading: 2.5,
-                                   bottom: 17,
+                                   bottom: 5,
                                    trailing: 2.5)
       
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .fractionalWidth(fractionWidth * 1.7))
+                                               heightDimension: .fractionalWidth(fractionWidth * 1.5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
     
