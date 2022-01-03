@@ -35,10 +35,7 @@ extension NewBookDataPresenter: NewBookPresenter {
         view.purchasePriceCell.textField.text = String(book.saleInfo?.retailPrice?.amount ?? 0)
         view.isbnCell.textField.text = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
         view.numberOfPagesCell.textField.text = String(book.volumeInfo?.pageCount ?? 0)
-        if let recommending = book.recommanding {
-            view.recommendSwitchCell.valueSwitch.isOn = recommending
-        }
-        
+       
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail, completion: { image in
             view.bookImageCell.pictureView.image = image
         })

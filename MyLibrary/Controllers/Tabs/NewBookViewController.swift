@@ -7,24 +7,11 @@
 
 import UIKit
 
-protocol NewBookDelegate: AnyObject {
-    var newBook: Item? { get set }
-    var bookDescription: String? { get set }
-    var bookComment: String? { get set }
-    var bookCategories : [String] { get set }
-}
-
-protocol NewBookPickerDelegate: AnyObject {
-    var chosenLanguage: String? { get set }
-    var chosenCurrency: String? { get set }
-}
-
 class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPickerDelegate {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
     var isEditingBook = false
-    var isRecommending = false
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
@@ -69,7 +56,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        pickerDataSource = NewbookPickerDataSource(newBookView: newBookView,
+        pickerDataSource = NewBookPickerDataSource(newBookView: newBookView,
                                                    formatter: Formatter(),
                                                    delegate: self)
         imagePicker = ImagePicker(presentationController: self,
@@ -112,11 +99,6 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
         self.navigationItem.searchController = isEditingBook ? nil : newBookView.searchController
-    }
-    
-    private func setRecommendingState() {
-        let state = UserDefaults.standard.bool(forKey: StorageKey.recommendingSwitch.rawValue)
-        newBookView.recommendSwitchCell.valueSwitch.isOn = state
     }
     
     private func setDelegates() {
@@ -204,7 +186,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         return Item(bookID: newBook?.bookID ?? "",
                     favorite: newBook?.favorite ?? false,
                     ownerID: newBook?.ownerID ?? "",
-                    recommanding: isRecommending,
+                    recommanding: newBook?.recommanding ?? false,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: validator.validateTimestamp(for: newBook?.timestamp),

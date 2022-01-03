@@ -36,7 +36,6 @@ class NewBookControllerView {
     let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
-    let recommendSwitchCell = SwitchCell(placeholder: Text.ButtonTitle.recommend)
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,
                                           systemImage: "arrow.down.doc.fill",
                                           tintColor: .appTintColor,
@@ -65,7 +64,6 @@ class NewBookControllerView {
                 [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
-                [recommendSwitchCell],
                 [saveButtonCell, eraseButtonCell]
         ]
     }
@@ -73,7 +71,6 @@ class NewBookControllerView {
     func setButtonTargets() {
         saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
         eraseButtonCell.actionButton.addTarget(self, action: #selector(eraseBook), for: .touchUpInside)
-        recommendSwitchCell.valueSwitch.addTarget(self, action: #selector(recommendBook), for: .valueChanged)
     }
     
     // MARK: - Display data
@@ -90,9 +87,5 @@ class NewBookControllerView {
     
     @objc private func eraseBook() {
         delegate?.clearData()
-    }
-    
-    @objc private func recommendBook() {
-        delegate?.isRecommending = recommendSwitchCell.valueSwitch.isOn
     }
 }
