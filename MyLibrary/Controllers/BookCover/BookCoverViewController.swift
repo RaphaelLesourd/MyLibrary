@@ -11,7 +11,7 @@ class BookCoverViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
     private var image: UIImage
-    private var scrollView = ImageScrollView()
+    private let scrollView = ImageScrollView()
     
     init(image: UIImage) {
         self.image = image

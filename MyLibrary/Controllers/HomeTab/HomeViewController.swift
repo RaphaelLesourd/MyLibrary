@@ -14,10 +14,11 @@ class HomeViewController: CollectionViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
     private lazy var dataSource = createDataSource()
-    private var layoutComposer: HomeLayoutComposer
-    private var libraryService: LibraryServiceProtocol
-    private var categoryService: CategoryServiceProtocol
-    private var cellPresenter: CellPresenter?
+    private let layoutComposer: HomeLayoutComposer
+    private let libraryService: LibraryServiceProtocol
+    private let categoryService: CategoryServiceProtocol
+    private let cellPresenter: CellPresenter?
+ 
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []

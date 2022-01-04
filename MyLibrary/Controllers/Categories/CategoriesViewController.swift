@@ -16,11 +16,12 @@ class CategoriesViewController: UIViewController {
     var selectedCategories: [String] = []
     weak var newBookDelegate: NewBookDelegate?
     
+    private let listView = CategoryControllerMainView()
+    
     private lazy var dataSource = makeDataSource()
     private var categoryService: CategoryServiceProtocol
     private var settingBookCategory: Bool
-    private let listView = CategoryControllerMainView()
-    
+
     init(settingBookCategory: Bool, categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
         self.settingBookCategory = settingBookCategory

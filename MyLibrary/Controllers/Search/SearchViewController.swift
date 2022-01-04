@@ -22,10 +22,11 @@ class SearchViewController: CollectionViewController {
         }
     }
    
+    private let layoutComposer: BookListLayoutComposer
+    private let apiManager: ApiManagerProtocol
+    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: BookListLayoutComposer
-    private var apiManager: ApiManagerProtocol
     private var cellPresenter: CellPresenter?
     private var noMoreBooks: Bool?
     

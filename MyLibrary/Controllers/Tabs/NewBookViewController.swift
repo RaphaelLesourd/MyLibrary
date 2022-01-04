@@ -28,11 +28,11 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
-   
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
     private let newBookDataPresenter: NewBookPresenter
+   
     private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]

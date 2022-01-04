@@ -41,11 +41,11 @@ class IpadSplitViewController: UISplitViewController {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let feedBackManger = FeedbackManager(presentationController: homeViewController)
+        
         let accountViewController = AccountViewController(accountService: accountService,
                                                           userService: UserService(),
                                                           imageService: ImageStorageService(),
-                                                          feedbackManager: feedBackManger)
+                                                          feedbackManager: FeedbackManager())
         accountViewController.title = Text.ControllerTitle.account
         
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),

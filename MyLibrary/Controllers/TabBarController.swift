@@ -71,12 +71,11 @@ class TabBarController: UITabBarController {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let feedBackManger = FeedbackManager(presentationController: self)
         
         let accountVC = AccountViewController(accountService: accountService,
                                               userService: UserService(),
                                               imageService: ImageStorageService(),
-                                              feedbackManager: feedBackManger)
+                                              feedbackManager: FeedbackManager())
         let accountViewController = createController(for: accountVC,
                                                         title: Text.ControllerTitle.account,
                                                         image: Images.TabBarIcon.accountIcon)

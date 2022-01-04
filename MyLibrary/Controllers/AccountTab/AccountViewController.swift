@@ -17,6 +17,7 @@ class AccountViewController: UIViewController {
     private let imageService: ImageStorageProtocol
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
+  
     private var accountDataPresenter: AccountTabPresenter
     private var imagePicker: ImagePicker?
     
@@ -177,6 +178,6 @@ extension AccountViewController: AccountViewDelegate {
     }
     
     func presentMailComposer() {
-        feedbackManager?.presentMail()
+        feedbackManager?.presentMail(on: self)
     }
 }

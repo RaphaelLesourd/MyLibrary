@@ -11,10 +11,10 @@ import FirebaseAuth
 class AccountSetupViewController: UIViewController {
     
     // MARK: - Properties
-    let mainView = AccountMainView()
-    var accountService: AccountServiceProtocol
-    var validator: ValidatorProtocol
-    var interfaceType: AccountInterfaceType
+    private let mainView = AccountMainView()
+    private let accountService: AccountServiceProtocol
+    private let validator: ValidatorProtocol
+    private let interfaceType: AccountInterfaceType
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,

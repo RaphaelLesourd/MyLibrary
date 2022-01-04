@@ -14,13 +14,14 @@ class BookLibraryViewController: CollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
    
     private lazy var dataSource = makeDataSource()
+    private let layoutComposer: BookListLayoutComposer
+    private let libraryService: LibraryServiceProtocol
+    private let queryService: QueryProtocol
+    private let cellPresenter: CellPresenter
+    
     private var noMoreBooks = false
     private var footerView = LoadingFooterSupplementaryView()
-    private var layoutComposer: BookListLayoutComposer
-    private var libraryService: LibraryServiceProtocol
-    private var queryService: QueryProtocol
     private var bookListMenu: BookListMenu?
-    private var cellPresenter: CellPresenter?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
     private var gridItemSize: GridSize = .medium {
@@ -161,7 +162,7 @@ extension BookLibraryViewController {
         let dataSource = DataSource(collectionView: collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self?.cellPresenter?.setBookData(for: book) { bookData in
+            self?.cellPresenter.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell
