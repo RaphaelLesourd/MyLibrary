@@ -109,6 +109,8 @@ class LibraryService {
             docRef = db
                 .collection(CollectionDocumentKey.recommanded.rawValue)
                 .order(by: query.orderedBy.rawValue, descending: query.descending)
+        case .followedUsers:
+            return nil
         }
         
         if let lastBook = lastBookFetched, next == true {

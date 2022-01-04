@@ -35,8 +35,9 @@ class IpadSplitViewController: UISplitViewController {
     
     private func setViewControllers() {
         let homeViewController = HomeViewController(libraryService: LibraryService(),
-                                                    layoutComposer: IpadHomeTabLayout(),
-                                                    categoryService: CategoryService())
+                                                    layoutComposer: HomeTabLayout(),
+                                                    categoryService: CategoryService(),
+                                                    recommendationService: RecommandationService())
         
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),

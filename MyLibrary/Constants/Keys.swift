@@ -22,6 +22,7 @@ enum CollectionDocumentKey: String, CaseIterable {
     case category
     case comments
     case keys
+    case followedUsers
 }
 
 enum DocumentKey: String {

@@ -10,6 +10,7 @@ enum HomeCollectionViewSections: Int, CaseIterable {
     case categories
     case newEntry
     case favorites
+    case followedUsers
     case recommanding
     
     var title: String {
@@ -22,6 +23,8 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return Text.SectionTitle.favoritetBook
         case .recommanding:
             return Text.SectionTitle.userRecommandation
+        case .followedUsers:
+            return "Users recommending"
         }
     }
     
@@ -31,6 +34,8 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return Text.ButtonTitle.seeAll
         case .categories:
             return Text.ButtonTitle.manage
+        case .followedUsers:
+            return ""
         }
     }
     
@@ -42,14 +47,16 @@ enum HomeCollectionViewSections: Int, CaseIterable {
             return 1
         case .favorites:
             return 2
-        case .recommanding:
+        case .followedUsers:
             return 3
+        case .recommanding:
+            return 4
         }
     }
  
     var sectionDataQuery: BookQuery? {
         switch self {
-        case .categories:
+        case .categories, .followedUsers:
            return nil
         case .newEntry:
             return BookQuery.latestBookQuery

@@ -17,20 +17,26 @@ class HomeViewController: CollectionViewController {
     private let layoutComposer: HomeLayoutComposer
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
-    private let cellPresenter: CellPresenter?
- 
+    private let recommendationService: RecommandationService
+    private let cellPresenter: CellPresenter
+    private let userCellPresenter: UserCellPresenter
+    
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
     private var recommandedBooks: [Item] = []
+    private var followedUser: [UserModel] = []
     
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol,
          layoutComposer: HomeLayoutComposer,
-         categoryService: CategoryServiceProtocol) {
+         categoryService: CategoryServiceProtocol,
+         recommendationService: RecommandationService) {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService
+        self.recommendationService = recommendationService
         self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.userCellPresenter = FollowedUserDataCellPresenter(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,6 +59,7 @@ class HomeViewController: CollectionViewController {
     private func configureCollectionView() {
         collectionView.dataSource = dataSource
         collectionView.register(cell: CategoryCollectionViewCell.self)
+        collectionView.register(cell: FollowedUserCollectionViewCell.self)
         collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.register(cell: DetailedBookCollectionViewCell.self)
         collectionView.register(header: HeaderSupplementaryView.self)
@@ -64,7 +71,7 @@ class HomeViewController: CollectionViewController {
     }
     
     // MARK: - Api call
-   
+    
     @objc private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
             if let error = error {
@@ -88,6 +95,17 @@ class HomeViewController: CollectionViewController {
             DispatchQueue.main.async {
                 self?.recommandedBooks = books
                 self?.applySnapshot()
+            }
+        }
+        recommendationService.retrieveRecommendingUsers { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let users):
+                    self?.followedUser = users
+                    self?.applySnapshot()
+                case .failure(let error):
+                    AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                }
             }
         }
     }
@@ -160,7 +178,7 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter?.setBookData(for: book) { bookData in
+                    self.cellPresenter.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
@@ -168,8 +186,16 @@ extension HomeViewController {
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter?.setBookData(for: book) { bookData in
+                    self.cellPresenter.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
+                    }
+                    return cell
+                }
+            case .followedUsers:
+                if let followedUser = item as? UserModel {
+                    let cell: FollowedUserCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    self.userCellPresenter.setData(with: followedUser) { data in
+                        cell.configure(with: data)
                     }
                     return cell
                 }
@@ -209,6 +235,10 @@ extension HomeViewController {
             snapshot.appendSections([.favorites])
             snapshot.appendItems(favoriteBooks, toSection: .favorites)
         }
+        if !followedUser.isEmpty {
+            snapshot.appendSections([.followedUsers])
+            snapshot.appendItems(followedUser, toSection: .followedUsers)
+        }
         if !recommandedBooks.isEmpty {
             snapshot.appendSections([.recommanding])
             snapshot.appendItems(recommandedBooks, toSection: .recommanding)
@@ -231,6 +261,13 @@ extension HomeViewController: UICollectionViewDelegate {
         }
         if let book = selectedItem as? Item {
             showBookDetails(for: book, searchType: nil)
+        }
+        if let followedUser = selectedItem as? UserModel {
+            let query = BookQuery(listType: .recommanding,
+                                  orderedBy: .ownerID,
+                                  fieldValue: followedUser.userID,
+                                  descending: true)
+            showBookList(for: query, title: followedUser.displayName)
         }
     }
 }

@@ -47,8 +47,9 @@ class TabBarController: UITabBarController {
     private func setupViewControllers() {
         // Home tab
         let homeVC = HomeViewController(libraryService: LibraryService(),
-                                        layoutComposer: IphoneHomeTabLayout(),
-                                        categoryService: CategoryService())
+                                        layoutComposer: HomeTabLayout(),
+                                        categoryService: CategoryService(),
+                                        recommendationService: RecommandationService())
         let homeViewController = createController(for: homeVC,
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.TabBarIcon.homeIcon)

@@ -7,16 +7,19 @@
 
 import UIKit
 
-class IpadHomeTabLayout {
+class HomeTabLayout {
     
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     
+    private let device = UIDevice.current.userInterfaceIdiom
+    
     // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
-        let size = NSCollectionLayoutSize(widthDimension: .estimated(120),
+       
+        let size = NSCollectionLayoutSize(widthDimension: .estimated(100),
                                           heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
                                                        subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil,
                                                           top: nil,
@@ -26,6 +29,20 @@ class IpadHomeTabLayout {
                              scrollType: .continuous)
     }
     
+    private func makeFollowedUserLayoutSection() -> NSCollectionLayoutSection {
+        let size = NSCollectionLayoutSize(widthDimension: .absolute(80),
+                                          heightDimension: .absolute(100))
+        let item = NSCollectionLayoutItem(layoutSize: size)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
+                                                       subitems: [item])
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil,
+                                                          top: nil,
+                                                          trailing: .fixed(5),
+                                                          bottom: nil)
+        return createSection(with: group,
+                             scrollType: .continuousGroupLeadingBoundary)
+    }
+    
     // Horizontal scroll single cell
     private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
@@ -33,17 +50,22 @@ class IpadHomeTabLayout {
                                    leading: 0,
                                    bottom: 0,
                                    trailing: 10)
-        let size = NSCollectionLayoutSize(widthDimension: .absolute(150),
+        let iphoneSize = NSCollectionLayoutSize(widthDimension: .absolute(130),
+                                          heightDimension: .absolute(190))
+        let ipadSize = NSCollectionLayoutSize(widthDimension: .absolute(150),
                                           heightDimension: .absolute(210))
+        let size = device == .pad ? ipadSize : iphoneSize
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
-                                                       subitem: item, count: 1)
+                                                       subitem: item,
+                                                       count: 1)
         group.interItemSpacing = .fixed(10)
         return createSection(with: group,
                              scrollType: .continuousGroupLeadingBoundary)
     }
     
     // Horizontal scroll layout, cell with description
-    private func makeBookDetailLayoutSection(numberItems: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+    private func makeBookDetailLayoutSection(numberItems: Int,
+                                             environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0,
                                    leading: 0,
@@ -53,8 +75,9 @@ class IpadHomeTabLayout {
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
         
+        let height: CGFloat = device == .pad ? 500 : 290
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fractionWidth - 0.1),
-                                          heightDimension: .absolute(500))
+                                          heightDimension: .absolute(height))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
                                                      subitem: item,
                                                      count: numberItems)
@@ -73,22 +96,22 @@ class IpadHomeTabLayout {
     
     private func createSection(with group: NSCollectionLayoutGroup,
                                scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
-        let header = createHeader()
+        let topSpacing: CGFloat = device == .pad ? 5 : 10
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = scrollType
-        section.contentInsets = .init(top: 5,
+        section.contentInsets = .init(top: topSpacing,
                                       leading: 7,
                                       bottom: 40,
                                       trailing: 7)
-        section.boundarySupplementaryItems = [header]
+        section.boundarySupplementaryItems = [createHeader()]
         return section
     }
 }
 // MARK: - Layout composer protocol
-extension IpadHomeTabLayout: HomeLayoutComposer {
+extension HomeTabLayout: HomeLayoutComposer {
     
     func setCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
-        
+     
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, environement in
             let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]
             switch section {
@@ -99,7 +122,9 @@ extension IpadHomeTabLayout: HomeLayoutComposer {
             case .favorites:
                 return self?.makeHorizontalScrollLayoutSection()
             case .recommanding:
-                return self?.makeBookDetailLayoutSection(numberItems: 4, environment: environement)
+                return self?.makeBookDetailLayoutSection(numberItems: 3, environment: environement)
+            case .followedUsers:
+                return self?.makeFollowedUserLayoutSection()
             }
         }
         return layout
