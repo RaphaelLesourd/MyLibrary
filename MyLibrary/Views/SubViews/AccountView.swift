@@ -12,6 +12,7 @@ class AccountView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         roundView(radius: 15, backgroundColor: .cellBackgroundColor)
+        userNameTextfield.clearButtonMode = .always
         
         stackView.addArrangedSubview(profileImageContainerView)
         stackView.addArrangedSubview(emailLabel)

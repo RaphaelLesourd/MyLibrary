@@ -34,12 +34,10 @@ class IpadSplitViewController: UISplitViewController {
     }
     
     private func setViewControllers() {
-        // Secondary
         let homeViewController = HomeViewController(libraryService: LibraryService(),
                                                     layoutComposer: IpadHomeTabLayout(),
                                                     categoryService: CategoryService())
         
-        // Primary
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
@@ -50,14 +48,12 @@ class IpadSplitViewController: UISplitViewController {
                                                           feedbackManager: feedBackManger)
         accountViewController.title = Text.ControllerTitle.account
         
-        // Sidebar
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())
         newBookViewController.title = Text.ControllerTitle.newBook
-        
-        viewControllers = [accountViewController,
-                           newBookViewController,
-                           UINavigationController(rootViewController: homeViewController)]
+        setViewController(accountViewController, for: .primary)
+        setViewController(newBookViewController, for: .supplementary)
+        setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
     }
 }

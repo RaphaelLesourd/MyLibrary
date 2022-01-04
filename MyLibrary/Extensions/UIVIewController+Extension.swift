@@ -23,12 +23,14 @@ extension UIViewController {
     
     // MARK: - Activity Indicator
     /// Shows UIActivity indicator
-    ///  - Parameters indicator: Passed in UIActivityIndicatorView
+    ///  - Parameters:
+    ///  - indicator: Passed in UIActivityIndicatorView
     func showIndicator(_ indicator: UIActivityIndicatorView) {
         indicator.startAnimating()
     }
     /// Hides UIActivity indicator
-    ///  - Parameters indicator: Passed in UIActivityIndicatorView
+    ///  - Parameters:
+    ///  - indicator: Passed in UIActivityIndicatorView
     ///  - Note: The animation stops with  delay of 0.3 to allow the user time to see very short acities.
     func hideIndicator(_ indicator: UIActivityIndicatorView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

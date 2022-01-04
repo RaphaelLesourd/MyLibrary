@@ -994,7 +994,7 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81DE9CAD2736E28E00FF81C2 /* DataModel */,
+				81DE9CAD2736E28E00FF81C2 /* Entities */,
 				81FA726B277481D500040BEF /* Connectivity */,
 				81FA72642774811900040BEF /* Converter */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
@@ -1115,7 +1115,7 @@
 			name = Firebase;
 			sourceTree = "<group>";
 		};
-		81DE9CAD2736E28E00FF81C2 /* DataModel */ = {
+		81DE9CAD2736E28E00FF81C2 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				81792F642732F3E4005F863B /* AccountCredentials.swift */,
@@ -1126,7 +1126,7 @@
 				819CD6E8275B6629002A9B12 /* MessageModel.swift */,
 				810C44662726E561007541C0 /* UserModel.swift */,
 			);
-			name = DataModel;
+			name = Entities;
 			sourceTree = "<group>";
 		};
 		81FA724327747C9600040BEF /* BookListLayout */ = {
@@ -1912,7 +1912,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à votre phototèque pour que vous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -1953,7 +1953,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à votre phototèque pour que vous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

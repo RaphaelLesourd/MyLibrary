@@ -22,7 +22,6 @@ extension AccountTabDataPresenter: AccountTabPresenter {
     
     func configure(_ view: AccountTabMainView, with user: UserModel) {
         view.accountView.emailLabel.text = user.email
-        view.accountView.userNameTextfield.clearButtonMode = .always
         view.accountView.userNameTextfield.text = user.displayName
       
         imageRetriever.getImage(for: user.photoURL) { image in
