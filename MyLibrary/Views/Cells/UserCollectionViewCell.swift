@@ -14,7 +14,8 @@ class UserCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(userNameLabel)
-        setConstraints()
+        setStackViewConstraints()
+        setCurrentUserIconConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -30,6 +31,14 @@ class UserCollectionViewCell: UICollectionViewCell {
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         return imageView
     }()
+    private let currentUserIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "seal.fill")
+        imageView.tintColor = .appTintColor
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     private let userNameLabel = TextLabel(color: .label,
                                           maxLines: 1,
                                           alignment: .center,
@@ -42,17 +51,27 @@ class UserCollectionViewCell: UICollectionViewCell {
     func configure(with user: UserCellData) {
         imageView.image = user.image
         userNameLabel.text = user.userName
+        currentUserIcon.isHidden = !user.currentUser
     }
 }
 // MARK: - Constraints
 extension UserCollectionViewCell {
-    private func setConstraints() {
+    private func setStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    private func setCurrentUserIconConstraints() {
+        contentView.addSubview(currentUserIcon)
+        NSLayoutConstraint.activate([
+            currentUserIcon.topAnchor.constraint(equalTo: contentView.topAnchor),
+            currentUserIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            currentUserIcon.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }

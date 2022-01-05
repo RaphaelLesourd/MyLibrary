@@ -10,4 +10,5 @@ import UIKit
 struct UserCellData {
     var image: UIImage
     var userName: String
+    var currentUser: Bool
 }

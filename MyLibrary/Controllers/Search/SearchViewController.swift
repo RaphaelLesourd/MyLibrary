@@ -110,7 +110,8 @@ class SearchViewController: CollectionViewController {
     }
     
     private func addBooks(_ books: [Item]) {
-        books.forEach { book in
+        books.forEach {  book in
+           
             if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
                 self.searchedBooks.append(book)
                 self.applySnapshot()

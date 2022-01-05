@@ -843,14 +843,14 @@
 			name = Localization;
 			sourceTree = "<group>";
 		};
-		81A9BD89272BE37600B7DA81 /* Network */ = {
+		81A9BD89272BE37600B7DA81 /* ApiCall */ = {
 			isa = PBXGroup;
 			children = (
 				81242D55272DB21200CB39B1 /* ApiErrors.swift */,
 				81A9BD8A272BE38400B7DA81 /* ApiManager.swift */,
 				81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */,
 			);
-			name = Network;
+			name = ApiCall;
 			sourceTree = "<group>";
 		};
 		81AFE02F276CA4C9009735FE /* RichNotifications */ = {
@@ -980,7 +980,7 @@
 				81FA72642774811900040BEF /* Converter */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
 				81FA72672774814100040BEF /* Formatter */,
-				81A9BD89272BE37600B7DA81 /* Network */,
+				81A9BD89272BE37600B7DA81 /* ApiCall */,
 				81FA7261277480E200040BEF /* Query */,
 				81FA726A277481A200040BEF /* Validation */,
 			);

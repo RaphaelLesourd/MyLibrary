@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class FollowedUserDataCellPresenter {
     private var imageRetriever: ImageRetriever
@@ -19,9 +20,12 @@ extension FollowedUserDataCellPresenter: UserCellPresenter {
     
     func setData(with user: UserModel, completion: @escaping (UserCellData) -> Void) {
         let userName = user.displayName.capitalized
-     
+        let currentUser: Bool = user.userID == Auth.auth().currentUser?.uid
+        
         imageRetriever.getImage(for: user.photoURL) { image in
-            let followedUserData = UserCellData(image: image, userName: userName)
+            let followedUserData = UserCellData(image: image,
+                                                userName: userName,
+                                                currentUser: currentUser)
             completion(followedUserData)
         }
     }

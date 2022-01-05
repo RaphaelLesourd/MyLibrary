@@ -32,7 +32,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
         return button
     }()
     
-    private let titleLabel = TextLabel(fontSize: 19,
+    private let titleLabel = TextLabel(fontSize: 21,
                                        weight: .bold)
     private let stackView = StackView(axis: .horizontal,
                                       spacing: 0)
