@@ -96,12 +96,10 @@ extension AccountTabMainView {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
             scrollView.widthAnchor.constraint(equalTo: widthAnchor),
             scrollView.topAnchor.constraint(equalTo: topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
