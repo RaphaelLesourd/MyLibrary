@@ -17,7 +17,7 @@ class HomeViewController: CollectionViewController {
     private let layoutComposer: HomeLayoutComposer
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
-    private let recommendationService: RecommandationService
+    private let recommendationService: RecommendationServiceProtocol
     private let cellPresenter: CellPresenter
     private let userCellPresenter: UserCellPresenter
     
@@ -30,7 +30,7 @@ class HomeViewController: CollectionViewController {
     init(libraryService: LibraryServiceProtocol,
          layoutComposer: HomeLayoutComposer,
          categoryService: CategoryServiceProtocol,
-         recommendationService: RecommandationService) {
+         recommendationService: RecommendationServiceProtocol) {
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService

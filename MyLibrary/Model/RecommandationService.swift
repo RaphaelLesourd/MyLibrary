@@ -51,7 +51,7 @@ class RecommandationService {
     private func getUsersFromIds(with idList: [Any],
                                  completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
         var users: [UserModel] = []
-        let ids = idList.chunked(into: 10)
+        let ids = idList.chunked(into: 1)
         ids.forEach { user in
             let docRef = self.userRef.whereField(DocumentKey.userID.rawValue, in: user)
             
@@ -77,7 +77,7 @@ class RecommandationService {
     }
 }
 // MARK: - RecommandationServiceProtocol extension
-extension RecommandationService: Recommendation {
+extension RecommandationService: RecommendationServiceProtocol {
     
     func addToRecommandation(for book: Item,
                              completion: @escaping (FirebaseError?) -> Void) {

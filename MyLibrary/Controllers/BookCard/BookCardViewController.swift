@@ -15,7 +15,7 @@ class BookCardViewController: UIViewController {
     
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
-    private let recommendationService: Recommendation
+    private let recommendationService: RecommendationServiceProtocol
     private let bookCardPresenter: BookCardPresenter?
     
     private var book: Item
@@ -33,7 +33,7 @@ class BookCardViewController: UIViewController {
     // MARK: - Intializers
     init(book: Item,
          libraryService: LibraryServiceProtocol,
-         recommendationService: Recommendation) {
+         recommendationService: RecommendationServiceProtocol) {
         self.book = book
         self.libraryService = libraryService
         self.recommendationService = recommendationService
