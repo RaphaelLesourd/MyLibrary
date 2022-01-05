@@ -132,7 +132,14 @@ class HomeViewController: CollectionViewController {
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         let section = HomeCollectionViewSections(rawValue: sender.tag)
-        section == .categories ? showCategories() : showBookList(for: section?.sectionDataQuery)
+        switch section {
+        case .categories:
+            showCategories()
+        case .users:
+            showBookList(for: section?.sectionDataQuery, title: Text.SectionTitle.userRecommandation)
+        default:
+            showBookList(for: section?.sectionDataQuery)
+        }
     }
     
     // MARK: - Navigation
@@ -235,14 +242,14 @@ extension HomeViewController {
             snapshot.appendSections([.favorites])
             snapshot.appendItems(favoriteBooks, toSection: .favorites)
         }
-        if !recommandedBooks.isEmpty {
-            snapshot.appendSections([.recommanding])
-            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
-        }
         if !followedUser.isEmpty {
             snapshot.appendSections([.users])
             snapshot.appendItems(followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
                                  toSection: .users)
+        }
+        if !recommandedBooks.isEmpty {
+            snapshot.appendSections([.recommanding])
+            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
         }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }

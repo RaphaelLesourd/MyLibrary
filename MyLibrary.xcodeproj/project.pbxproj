@@ -843,14 +843,14 @@
 			name = Localization;
 			sourceTree = "<group>";
 		};
-		81A9BD89272BE37600B7DA81 /* ApiCall */ = {
+		81A9BD89272BE37600B7DA81 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				81242D55272DB21200CB39B1 /* ApiErrors.swift */,
 				81A9BD8A272BE38400B7DA81 /* ApiManager.swift */,
 				81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */,
 			);
-			name = ApiCall;
+			name = Network;
 			sourceTree = "<group>";
 		};
 		81AFE02F276CA4C9009735FE /* RichNotifications */ = {
@@ -899,7 +899,7 @@
 				8194D548276A17010098E484 /* Localization */,
 				81C6CCAE272479B300DE9219 /* Model */,
 				81F692D52784BE8B0001450D /* Presenters */,
-				81C6CCB0272479CA00DE9219 /* Views */,
+				81C6CCB0272479CA00DE9219 /* View */,
 			);
 			path = MyLibrary;
 			sourceTree = "<group>";
@@ -980,14 +980,14 @@
 				81FA72642774811900040BEF /* Converter */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
 				81FA72672774814100040BEF /* Formatter */,
-				81A9BD89272BE37600B7DA81 /* ApiCall */,
+				81A9BD89272BE37600B7DA81 /* Network */,
 				81FA7261277480E200040BEF /* Query */,
 				81FA726A277481A200040BEF /* Validation */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		81C6CCB0272479CA00DE9219 /* Views */ = {
+		81C6CCB0272479CA00DE9219 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
@@ -997,7 +997,7 @@
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				812047FE272ACE9B00E0A45B /* TableViewStaticCells */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		81C6CCB327247A1600DE9219 /* ReusableElements */ = {

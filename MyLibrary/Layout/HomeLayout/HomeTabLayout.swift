@@ -38,9 +38,10 @@ class HomeTabLayout {
                                                        subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil,
                                                           top: nil,
-                                                          trailing: .fixed(5),
+                                                          trailing: .fixed(10),
                                                           bottom: nil)
         return createSection(with: group,
+                             spacing: -10,
                              scrollType: .continuousGroupLeadingBoundary)
     }
     
@@ -84,7 +85,6 @@ class HomeTabLayout {
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
         return createSection(with: group,
-                             spacing: 0,
                              scrollType: .continuousGroupLeadingBoundary)
     }
     
