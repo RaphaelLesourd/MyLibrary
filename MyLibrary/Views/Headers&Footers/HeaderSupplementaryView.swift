@@ -28,11 +28,11 @@ class HeaderSupplementaryView: UICollectionReusableView {
         let button = UIButton()
         button.setTitle(Text.ButtonTitle.seeAll, for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         return button
     }()
     
-    private let titleLabel = TextLabel(fontSize: 20,
+    private let titleLabel = TextLabel(fontSize: 19,
                                        weight: .bold)
     private let stackView = StackView(axis: .horizontal,
                                       spacing: 0)

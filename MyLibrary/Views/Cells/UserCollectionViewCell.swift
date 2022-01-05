@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FollowedUserCollectionViewCell: UICollectionViewCell {
+class UserCollectionViewCell: UICollectionViewCell {
   
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -25,8 +25,6 @@ class FollowedUserCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.roundView(radius: 35, backgroundColor: .cellBackgroundColor)
         imageView.contentMode = .scaleAspectFill
-//        imageView.layer.borderColor = UIColor.appTintColor.cgColor
-//        imageView.layer.borderWidth = 2
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
@@ -35,7 +33,7 @@ class FollowedUserCollectionViewCell: UICollectionViewCell {
     private let userNameLabel = TextLabel(color: .label,
                                           maxLines: 1,
                                           alignment: .center,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           weight: .regular)
     private let stackView = StackView(axis: .vertical,
                                       alignment: .center,
@@ -47,7 +45,7 @@ class FollowedUserCollectionViewCell: UICollectionViewCell {
     }
 }
 // MARK: - Constraints
-extension FollowedUserCollectionViewCell {
+extension UserCollectionViewCell {
     private func setConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([

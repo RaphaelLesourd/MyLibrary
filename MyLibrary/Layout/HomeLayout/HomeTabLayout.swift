@@ -12,6 +12,7 @@ class HomeTabLayout {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     
     private let device = UIDevice.current.userInterfaceIdiom
+    private let edgeSpacing: CGFloat = 7
     
     // Categories section layout
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
@@ -29,7 +30,7 @@ class HomeTabLayout {
                              scrollType: .continuous)
     }
     
-    private func makeFollowedUserLayoutSection() -> NSCollectionLayoutSection {
+    private func makeUserLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .absolute(80),
                                           heightDimension: .absolute(100))
         let item = NSCollectionLayoutItem(layoutSize: size)
@@ -83,6 +84,7 @@ class HomeTabLayout {
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
         return createSection(with: group,
+                             spacing: 0,
                              scrollType: .continuousGroupLeadingBoundary)
     }
     
@@ -95,14 +97,15 @@ class HomeTabLayout {
     }
     
     private func createSection(with group: NSCollectionLayoutGroup,
+                               spacing: CGFloat = 40,
                                scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let topSpacing: CGFloat = device == .pad ? 5 : 10
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = scrollType
         section.contentInsets = .init(top: topSpacing,
-                                      leading: 7,
-                                      bottom: 40,
-                                      trailing: 7)
+                                      leading: edgeSpacing,
+                                      bottom: spacing,
+                                      trailing: edgeSpacing)
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
@@ -123,8 +126,8 @@ extension HomeTabLayout: HomeLayoutComposer {
                 return self?.makeHorizontalScrollLayoutSection()
             case .recommanding:
                 return self?.makeBookDetailLayoutSection(numberItems: 3, environment: environement)
-            case .followedUsers:
-                return self?.makeFollowedUserLayoutSection()
+            case .users:
+                return self?.makeUserLayoutSection()
             }
         }
         return layout

@@ -11,6 +11,7 @@ import FirebaseAuth
 
 class RecommandationService {
     
+    // MARK: - Properties
     private let db = Firestore.firestore()
     let recommandationCollectionRef: CollectionReference
     let userRef: CollectionReference
@@ -23,6 +24,7 @@ class RecommandationService {
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
     
+    // MARK: - Private functions
     private func getUserIds(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
         let ref = recommandationCollectionRef
         
@@ -46,7 +48,8 @@ class RecommandationService {
         }
     }
     
-    private func getUsersFromIds(with idList: [Any], completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
+    private func getUsersFromIds(with idList: [Any],
+                                 completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
         var users: [UserModel] = []
         let ids = idList.chunked(into: 10)
         ids.forEach { user in
@@ -76,7 +79,8 @@ class RecommandationService {
 // MARK: - RecommandationServiceProtocol extension
 extension RecommandationService: Recommendation {
     
-    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    func addToRecommandation(for book: Item,
+                             completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -87,7 +91,8 @@ extension RecommandationService: Recommendation {
         } catch { completion(.firebaseError(error)) }
     }
     
-    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    func removeFromRecommandation(for book: Item,
+                                  completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -101,7 +106,6 @@ extension RecommandationService: Recommendation {
     }
     
     func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        
         getUserIds { [weak self] result in
             switch result {
             case .success(let userIds):

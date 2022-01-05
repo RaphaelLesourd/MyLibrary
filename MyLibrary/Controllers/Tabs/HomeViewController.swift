@@ -59,7 +59,7 @@ class HomeViewController: CollectionViewController {
     private func configureCollectionView() {
         collectionView.dataSource = dataSource
         collectionView.register(cell: CategoryCollectionViewCell.self)
-        collectionView.register(cell: FollowedUserCollectionViewCell.self)
+        collectionView.register(cell: UserCollectionViewCell.self)
         collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.register(cell: DetailedBookCollectionViewCell.self)
         collectionView.register(header: HeaderSupplementaryView.self)
@@ -191,9 +191,9 @@ extension HomeViewController {
                     }
                     return cell
                 }
-            case .followedUsers:
+            case .users:
                 if let followedUser = item as? UserModel {
-                    let cell: FollowedUserCollectionViewCell = collectionView.dequeue(for: indexPath)
+                    let cell: UserCollectionViewCell = collectionView.dequeue(for: indexPath)
                     self.userCellPresenter.setData(with: followedUser) { data in
                         cell.configure(with: data)
                     }
@@ -235,13 +235,14 @@ extension HomeViewController {
             snapshot.appendSections([.favorites])
             snapshot.appendItems(favoriteBooks, toSection: .favorites)
         }
-        if !followedUser.isEmpty {
-            snapshot.appendSections([.followedUsers])
-            snapshot.appendItems(followedUser, toSection: .followedUsers)
-        }
         if !recommandedBooks.isEmpty {
             snapshot.appendSections([.recommanding])
             snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        }
+        if !followedUser.isEmpty {
+            snapshot.appendSections([.users])
+            snapshot.appendItems(followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
+                                 toSection: .users)
         }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
@@ -263,7 +264,7 @@ extension HomeViewController: UICollectionViewDelegate {
             showBookDetails(for: book, searchType: nil)
         }
         if let followedUser = selectedItem as? UserModel {
-            let query = BookQuery(listType: .recommanding,
+            let query = BookQuery(listType: .users,
                                   orderedBy: .ownerID,
                                   fieldValue: followedUser.userID,
                                   descending: true)

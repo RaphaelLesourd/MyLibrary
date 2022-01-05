@@ -73,7 +73,10 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureNavigationBarButton() {
-        let showFilterMenu = currentQuery.listType != .categories
+        var showFilterMenu = true
+        if currentQuery.listType == .categories || currentQuery.listType == .users {
+            showFilterMenu = false
+        }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                                             primaryAction: nil,
                                                             menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))

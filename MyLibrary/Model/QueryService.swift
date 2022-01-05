@@ -11,7 +11,6 @@ class QueryService {
         return type != .title || type != .author
     }
 }
-
 extension QueryService: QueryProtocol {
     /// Creates a new bookQuery to load data from the API
     /// - Parameters:
@@ -24,7 +23,7 @@ extension QueryService: QueryProtocol {
         let descencing = setDescendingOrder(for: type)
         return BookQuery(listType: currentQuery?.listType,
                          orderedBy: type ?? .timestamp,
-                         fieldValue: "",
+                         fieldValue: currentQuery?.fieldValue,
                          descending: descencing)
     }
 }

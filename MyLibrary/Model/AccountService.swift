@@ -36,7 +36,8 @@ class AccountService {
         return userCredentials.password == userCredentials.confirmPassword
     }
     
-    private func saveUser(for newUser: UserModel, completion: @escaping (FirebaseError?) -> Void) {
+    private func saveUser(for newUser: UserModel,
+                          completion: @escaping (FirebaseError?) -> Void) {
         userService.createUserInDatabase(for: newUser) { error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -56,7 +57,8 @@ class AccountService {
 extension AccountService: AccountServiceProtocol {
     
     // MARK: Create
-    func createAccount(for userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+    func createAccount(for userCredentials: AccountCredentials?,
+                       completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
@@ -89,7 +91,8 @@ extension AccountService: AccountServiceProtocol {
     }
     
     // MARK: Delete Account flow
-    func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+    func deleteAccount(with userCredentials: AccountCredentials?,
+                       completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
@@ -130,7 +133,8 @@ extension AccountService: AccountServiceProtocol {
     }
     
     // MARK: Log in
-    func login(with userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
+    func login(with userCredentials: AccountCredentials?,
+               completion: @escaping CompletionHandler) {
         guard let userCredentials = userCredentials else { return }
         Auth.auth().signIn(withEmail: userCredentials.email, password: userCredentials.password) { _, error in
             if let error = error {
@@ -153,7 +157,8 @@ extension AccountService: AccountServiceProtocol {
     }
     
     // MARK: Forgot password
-    func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
+    func sendPasswordReset(for email: String,
+                           completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
