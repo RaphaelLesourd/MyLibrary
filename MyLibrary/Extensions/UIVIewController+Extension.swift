@@ -21,6 +21,13 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
+    func dismissController() {
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        dismiss(animated: true)
+    }
     // MARK: - Activity Indicator
     /// Shows UIActivity indicator
     ///  - Parameters:

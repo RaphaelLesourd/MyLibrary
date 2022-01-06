@@ -17,7 +17,6 @@ class BookCardViewController: UIViewController {
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     private let bookCardPresenter: BookCardPresenter?
-    
     private var book: Item
     private var recommandedBook = false {
         didSet {
@@ -119,10 +118,10 @@ class BookCardViewController: UIViewController {
                 return AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.bookDeleted)
-            self.navigationController?.popViewController(animated: true)
+            self.dismissController()
         }
     }
-    
+  
     private func updateBookStatus(to state: Bool, for documentKey: DocumentKey) {
         guard let bookID = book.bookID else { return }
         showIndicator(mainView.activityIndicator)

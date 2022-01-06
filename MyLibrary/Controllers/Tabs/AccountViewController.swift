@@ -42,7 +42,7 @@ class AccountViewController: UIViewController {
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
-        title = UIDevice.current.userInterfaceIdiom == .pad ? "" : Text.ControllerTitle.account
+        title = Text.ControllerTitle.account
     }
     
     override func viewDidLoad() {
@@ -68,11 +68,11 @@ class AccountViewController: UIViewController {
     
     // MARK: - Api call
     private func getProfileData() {
-        //     mainView.activityIndicator.startAnimating()
+        mainView.activityIndicator.startAnimating()
         
         userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
-            //       self.mainView.activityIndicator.stopAnimating()
+            self.mainView.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
@@ -113,13 +113,13 @@ class AccountViewController: UIViewController {
     
     private func signoutAccount() {
         let userDisplayName = Auth.auth().currentUser?.displayName ?? ""
-        // showIndicator(mainView.activityIndicator)
+        showIndicator(mainView.activityIndicator)
         mainView.accountView.signoutButton.displayActivityIndicator(true)
         
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
             self.mainView.accountView.signoutButton.displayActivityIndicator(false)
-            // self.hideIndicator(self.mainView.activityIndicator)
+            self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

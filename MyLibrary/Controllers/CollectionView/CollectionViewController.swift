@@ -17,7 +17,6 @@ class CollectionViewController: UIViewController {
     let emptyStateView = EmptyStateView()
     let device = UIDevice.current.userInterfaceIdiom
     
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

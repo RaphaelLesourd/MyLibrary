@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.window?.rootViewController = device == .pad ? IpadSplitViewController(style: .tripleColumn) : TabBarController()
+                self?.window?.rootViewController = device == .pad ? IpadSplitViewController(style: .doubleColumn) : TabBarController()
             } else {
                 self?.window?.rootViewController = WelcomeViewController()
             }

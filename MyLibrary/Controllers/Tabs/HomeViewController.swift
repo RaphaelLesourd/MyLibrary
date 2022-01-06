@@ -53,6 +53,7 @@ class HomeViewController: CollectionViewController {
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
+        addNavigationBarButtons()
     }
     
     // MARK: - Setup
@@ -68,6 +69,15 @@ class HomeViewController: CollectionViewController {
     
     private func configureRefresherControl() {
         refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
+    }
+    
+    private func addNavigationBarButtons() {
+        guard device == .pad else { return }
+        let addButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(showAccountController))
+        navigationItem.rightBarButtonItem = addButton
     }
     
     // MARK: - Api call
@@ -162,6 +172,18 @@ class HomeViewController: CollectionViewController {
         } else {
             navigationController?.show(categoryListVC, sender: nil)
         }
+    }
+    
+    @objc private func showAccountController() {
+        let accountService = AccountService(userService: UserService(),
+                                            libraryService: libraryService,
+                                            categoryService: categoryService)
+        let accountController = AccountViewController(accountService: accountService,
+                                                      userService: UserService(),
+                                                      imageService: ImageStorageService(),
+                                                      feedbackManager: FeedbackManager())
+        let accountVC = UINavigationController(rootViewController: accountController)
+        present(accountVC, animated: true, completion: nil)
     }
 }
 

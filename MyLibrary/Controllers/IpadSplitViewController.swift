@@ -30,7 +30,7 @@ class IpadSplitViewController: UISplitViewController {
         primaryEdge = .leading
         primaryBackgroundStyle = .none
         showsSecondaryOnlyButton = true
-        preferredDisplayMode = UISplitViewController.DisplayMode.secondaryOnly
+    //    preferredDisplayMode = UISplitViewController.DisplayMode.secondaryOnly
     }
     
     private func setViewControllers() {
@@ -38,23 +38,11 @@ class IpadSplitViewController: UISplitViewController {
                                                     layoutComposer: HomeTabLayout(),
                                                     categoryService: CategoryService(),
                                                     recommendationService: RecommandationService())
-        
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        
-        let accountViewController = AccountViewController(accountService: accountService,
-                                                          userService: UserService(),
-                                                          imageService: ImageStorageService(),
-                                                          feedbackManager: FeedbackManager())
-        accountViewController.title = Text.ControllerTitle.account
-        
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())
         newBookViewController.title = Text.ControllerTitle.newBook
-        setViewController(accountViewController, for: .primary)
-        setViewController(newBookViewController, for: .supplementary)
+        setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
     }
 }

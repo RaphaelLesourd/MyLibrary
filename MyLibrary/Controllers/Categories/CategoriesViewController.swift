@@ -110,7 +110,8 @@ class CategoriesViewController: UIViewController {
     }
     
     private func displayDeleteCategoryAlert(_ category: CategoryModel) {
-        AlertManager.presentAlert(withTitle: Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? ""),
+        let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
+        AlertManager.presentAlert(withTitle: title,
                                   message: Text.Alert.deleteCategoryMessage,
                                   withCancel: true,
                                   on: self) { [weak self] _ in
