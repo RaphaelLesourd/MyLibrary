@@ -53,6 +53,12 @@ class UserCollectionViewCell: UICollectionViewCell {
         userNameLabel.text = user.userName
         currentUserIcon.isHidden = !user.currentUser
     }
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        userNameLabel.text = nil
+        currentUserIcon.isHidden = true
+    }
 }
 // MARK: - Constraints
 extension UserCollectionViewCell {
@@ -71,7 +77,7 @@ extension UserCollectionViewCell {
         NSLayoutConstraint.activate([
             currentUserIcon.topAnchor.constraint(equalTo: contentView.topAnchor),
             currentUserIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            currentUserIcon.heightAnchor.constraint(equalToConstant: 20)
+            currentUserIcon.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
 }

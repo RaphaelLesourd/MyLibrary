@@ -77,6 +77,7 @@ extension CategoryService: CategoryServiceProtocol {
     
     // MARK: Add
     func addCategory(for categoryName: String,
+                     color: String,
                      completion: @escaping (FirebaseError?) -> Void) {
         guard !categoryName.isEmpty else {
             completion(.noCategory)
@@ -93,7 +94,7 @@ extension CategoryService: CategoryServiceProtocol {
                 return
             }
             let id = UUID().uuidString
-            let category = CategoryModel(uid: id, name: categoryName.lowercased())
+            let category = CategoryModel(uid: id, name: categoryName.lowercased(), color: color)
             do {
                 try docRef.document(id).setData(from: category)
                 self?.categories.append(category)
@@ -144,6 +145,7 @@ extension CategoryService: CategoryServiceProtocol {
     // MARK: Update
     func updateCategoryName(for category: CategoryModel,
                             with name: String?,
+                            color: String,
                             completion: @escaping (FirebaseError?) -> Void) {
         guard let name = name, !name.isEmpty else {
             completion(.noCategory)
@@ -154,7 +156,8 @@ extension CategoryService: CategoryServiceProtocol {
             .collection(CollectionDocumentKey.category.rawValue)
             .document(category.uid ?? "")
         
-        docRef.updateData([DocumentKey.name.rawValue : name]) { error in
+        docRef.updateData([DocumentKey.name.rawValue : name,
+                           DocumentKey.color.rawValue: color]) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return

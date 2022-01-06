@@ -21,7 +21,7 @@ class CategoriesViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     private var categoryService: CategoryServiceProtocol
     private var settingBookCategory: Bool
-
+    
     init(settingBookCategory: Bool, categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
         self.settingBookCategory = settingBookCategory
@@ -79,29 +79,6 @@ class CategoriesViewController: UIViewController {
     }
     
     // MARK: - Api call
-    private func addCategoryToList(_ categoryName: String?) {
-        guard let categoryName = categoryName else { return }
-        categoryService.addCategory(for: categoryName) { [weak self] error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            self?.applySnapshot()
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryAddedTitle))
-        }
-    }
-    
-    private func updateCategory(for category: CategoryModel, with name: String?) {
-        categoryService.updateCategoryName(for: category, with: name) { [weak self] error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            self?.applySnapshot()
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryModfiedTitle))
-        }
-    }
-    
     private func deleteCategory(for category: CategoryModel) {
         categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
@@ -126,17 +103,10 @@ class CategoriesViewController: UIViewController {
             self?.applySnapshot()
         }
     }
-
+    
     // MARK: - Categories dialog
     @objc private func addNewCategory() {
-        AlertManager.showInputDialog(title: Text.Alert.newCategoryTitle,
-                                     subtitle: Text.Alert.newCategoryMessage,
-                                     actionTitle: Text.ButtonTitle.add, inputText: "",
-                                     inputPlaceholder: Text.Placeholder.categoryName,
-                                     on: self,
-                                     actionHandler: { [weak self] category in
-            self?.addCategoryToList(category)
-        })
+        presentNewCategoryController(editing: false)
     }
     
     private func displayDeleteCategoryAlert(_ category: CategoryModel) {
@@ -147,19 +117,13 @@ class CategoriesViewController: UIViewController {
             self?.deleteCategory(for: category)
         }
     }
-
-    private func updateCategoryNameAlert(for category: CategoryModel) {
-        AlertManager.showInputDialog(title: Text.ButtonTitle.modify + " " + (category.name?.capitalized ?? ""),
-                                     subtitle: "",
-                                     actionTitle: Text.ButtonTitle.okTitle,
-                                     cancelTitle: Text.ButtonTitle.cancel,
-                                     inputText: category.name?.capitalized,
-                                     inputPlaceholder: "",
-                                     inputKeyboardType: .default,
-                                     on: self,
-                                     cancelHandler: nil) { [weak self] text in
-            self?.updateCategory(for: category, with: text)
-        }
+    
+    // MARK: - Navigation
+    private func presentNewCategoryController(editing: Bool, category: CategoryModel? = nil) {
+        let newCategoryViewController = NewCategoryViewController(editingCategory: editing,
+                                                                  category: category,
+                                                                  categoryService: CategoryService())
+        present(newCategoryViewController, animated: true, completion: nil)
     }
 }
 // MARK: - TableView Datasource
@@ -205,7 +169,7 @@ extension CategoriesViewController: UITableViewDelegate {
             case .delete:
                 self.displayDeleteCategoryAlert(category)
             case .edit:
-                self.updateCategoryNameAlert(for: category)
+                self.presentNewCategoryController(editing: true, category: category)
             }
             completion(true)
         }

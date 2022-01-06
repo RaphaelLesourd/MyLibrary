@@ -38,6 +38,7 @@ enum DocumentKey: String {
     case author = "volumeInfo.authors"
     case category
     case name
+    case color
     case fcmToken
     case ownerID
     case userID

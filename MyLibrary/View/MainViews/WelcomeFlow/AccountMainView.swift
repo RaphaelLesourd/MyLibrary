@@ -8,6 +8,7 @@
 import UIKit
 
 class AccountMainView: UIView {
+ 
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -20,7 +21,7 @@ class AccountMainView: UIView {
     }
     
     // MARK: - Subviews
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.alwaysBounceHorizontal = false
@@ -39,7 +40,10 @@ class AccountMainView: UIView {
     }()
     
     private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
-    private let subtitleLabel = TextLabel(color: .secondaryLabel, maxLines: 4, fontSize: 16, weight: .regular)
+    private let subtitleLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 4,
+                                          fontSize: 16,
+                                          weight: .regular)
     let userNameTextField = TextField(placeholder: Text.Account.userName,
                                       keyBoardType: .emailAddress,
                                       returnKey: .next,

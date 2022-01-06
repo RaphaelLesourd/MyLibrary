@@ -11,9 +11,10 @@ struct CategoryModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String?
     var name: String?
+    var color: String?
    
     private enum CodingKeys : String, CodingKey {
-        case uid, name
+        case uid, name, color
     }
 }
 
@@ -22,6 +23,8 @@ extension CategoryModel: Hashable {
         hasher.combine(uid)
     }
     static func == (lhs: CategoryModel, rhs: CategoryModel) -> Bool {
-        return lhs.uid == rhs.uid && lhs.name == rhs.name
+        return lhs.uid == rhs.uid
+        && lhs.name == rhs.name
+        && lhs.color == rhs.color
     }
 }

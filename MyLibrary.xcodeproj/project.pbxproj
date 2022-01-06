@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		810123F227689DB000F86932 /* AccountServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810123F127689DAF00F86932 /* AccountServiceTestCase.swift */; };
+		8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */; };
+		8105937D278705CC00ACBA2C /* NewCategoryMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */; };
+		8105937F27870D2000ACBA2C /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */; };
 		810C44672726E561007541C0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44662726E561007541C0 /* UserModel.swift */; };
 		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
 		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
@@ -172,7 +175,7 @@
 		81C6CCC627247A6200DE9219 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC427247A6200DE9219 /* BookCollectionViewCell.swift */; };
 		81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */; };
 		81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */; };
-		81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCC27247AF100DE9219 /* Colors.swift */; };
+		81C6CCCD27247AF100DE9219 /* UIColors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */; };
 		81DB8DE42752329300698B92 /* HomeTabLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DE12752329300698B92 /* HomeTabLayout.swift */; };
 		81DB8DE52752329300698B92 /* BookListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DE22752329300698B92 /* BookListLayout.swift */; };
 		81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF42752709600698B92 /* BookCardCommentView.swift */; };
@@ -246,6 +249,9 @@
 
 /* Begin PBXFileReference section */
 		810123F127689DAF00F86932 /* AccountServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceTestCase.swift; sourceTree = "<group>"; };
+		8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryMainView.swift; sourceTree = "<group>"; };
+		8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		810C44662726E561007541C0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		810C446A2726EAC4007541C0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeControllerMainView.swift; sourceTree = "<group>"; };
@@ -400,7 +406,7 @@
 		81C6CCC427247A6200DE9219 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		81C6CCCC27247AF100DE9219 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColors+Extension.swift"; sourceTree = "<group>"; };
 		81DB8DE12752329300698B92 /* HomeTabLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabLayout.swift; sourceTree = "<group>"; };
 		81DB8DE22752329300698B92 /* BookListLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookListLayout.swift; sourceTree = "<group>"; };
 		81DB8DF42752709600698B92 /* BookCardCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardCommentView.swift; sourceTree = "<group>"; };
@@ -526,7 +532,6 @@
 			isa = PBXGroup;
 			children = (
 				8147516B2727E67F0080C5BA /* AppText.swift */,
-				81C6CCCC27247AF100DE9219 /* Colors.swift */,
 				81DE9C9D2733BC4700FF81C2 /* Keys.swift */,
 				8147516D2727E9490080C5BA /* Images.swift */,
 				81FA727A2774837A00040BEF /* CollectionViewSections */,
@@ -674,6 +679,7 @@
 			isa = PBXGroup;
 			children = (
 				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
+				8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1022,6 +1028,7 @@
 				812047F5272A884100E0A45B /* WelcomeFlow */,
 				81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */,
 				811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */,
+				8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */,
 				811F64BD275A02EF00A24704 /* CommentControllerView.swift */,
 				8121F0C72742418F006EAA8D /* ImageScrollView.swift */,
 			);
@@ -1037,6 +1044,7 @@
 				810D7FA2275625F40043280E /* CommentsBookCell.swift */,
 				81C6CCC327247A6200DE9219 /* DetailedBookCollectionViewCell.swift */,
 				81F692D1278497010001450D /* UserCollectionViewCell.swift */,
+				8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1053,6 +1061,7 @@
 		81C6CCC927247AB100DE9219 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */,
 				818657A82764B16100B25116 /* UIApplication+Extension.swift */,
 				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
 				8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */,
@@ -1589,9 +1598,11 @@
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
 				81FA72662774813500040BEF /* FormatterProtocol.swift in Sources */,
 				813B7C712733A44F005BFBDB /* UserService.swift in Sources */,
+				8105937F27870D2000ACBA2C /* NewCategoryViewController.swift in Sources */,
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
 				81C6CCBB27247A2B00DE9219 /* Button.swift in Sources */,
 				810C44772727102D007541C0 /* AccountSetupViewController.swift in Sources */,
+				8105937D278705CC00ACBA2C /* NewCategoryMainView.swift in Sources */,
 				8188523B27748D06002813A1 /* CommentServiceProtocol.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
@@ -1628,6 +1639,7 @@
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				81F692D2278497010001450D /* UserCollectionViewCell.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
+				8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */,
 				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				8121F0C127400541006EAA8D /* CollectionViewController.swift in Sources */,
@@ -1643,7 +1655,7 @@
 				812B16132772106200D65C6A /* BarcodeReader.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* AccountViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
-				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
+				81C6CCCD27247AF100DE9219 /* UIColors+Extension.swift in Sources */,
 				81885230277486E7002813A1 /* GridSize.swift in Sources */,
 				814765782782E61C00B4ED12 /* NewBookDelegate.swift in Sources */,
 				8157F57C2782E36F005F182A /* BookListMenuDelegate.swift in Sources */,

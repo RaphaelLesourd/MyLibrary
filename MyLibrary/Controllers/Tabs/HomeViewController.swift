@@ -179,7 +179,7 @@ extension HomeViewController {
             case .categories:
                 if let category = item as? CategoryModel {
                     let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(text: category.name)
+                    cell.configure(with: category)
                     return cell
                 }
             case .newEntry, .favorites:
