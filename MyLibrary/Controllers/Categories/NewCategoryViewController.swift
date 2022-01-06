@@ -22,7 +22,6 @@ class NewCategoryViewController: UIViewController {
                                            "6b875e","96975e","958850",
                                            "937942","bb8122","cf8512",
                                            "e38801"]
-    // ["00A5FF", "A60FFF", "FF55D1", "D50000", "FFA200", "9DBA00", "119704", "909090"]
     
     // MARK: Initializer
     init(editingCategory: Bool,
