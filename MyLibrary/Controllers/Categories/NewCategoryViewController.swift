@@ -52,7 +52,9 @@ class NewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        mainView.categoryTextField.delegate = self
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
         setEditedCategoryName()
     }
 
@@ -62,21 +64,15 @@ class NewCategoryViewController: UIViewController {
     }
     
     // MARK: - Setup
-    private func setupCollectionView() {
-        mainView.categoryTextField.delegate = self
-        mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = self
-    }
-  
     private func setEditedCategoryName() {
         guard let category = category,
-              let name = category.name,
-              let color = category.color else { return }
+              let name = category.name else { return }
         mainView.categoryTextField.text = name.capitalized
-        chosenColor = color
-        if let index = defaultColors.firstIndex(of: color) {
+        if let color = category.color,
+            let index = defaultColors.firstIndex(of: color) {
             let indexPath = IndexPath(item: index, section: 0)
             mainView.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+            chosenColor = color
         }
     }
     

@@ -134,7 +134,8 @@ extension CategoriesViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
-            
+            cell.imageView?.tintColor = UIColor(hexString: item.color ?? "FFFFFF")
+            cell.imageView?.image = UIImage(systemName: "circle.fill")
             cell.backgroundColor = .tertiarySystemBackground
             cell.selectedBackgroundView = backgroundView
             cell.textLabel?.text = item.name?.capitalized
