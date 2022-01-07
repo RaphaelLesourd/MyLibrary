@@ -6,12 +6,12 @@
 //
 
 import UIKit
-import IQKeyboardManagerSwift
 
 class NewCategoryViewController: UIViewController {
-
+    
     // MARK: - Properties
     private let mainView = NewCategoryMainView()
+    private var colorPicker = UIColorPickerViewController()
     private let editingCategory: Bool
     private let category: CategoryModel?
     private let categoryService: CategoryServiceProtocol
@@ -20,13 +20,13 @@ class NewCategoryViewController: UIViewController {
             mainView.updateBackgroundColor(with: chosenColor)
         }
     }
-    private let defaultColors: [String] = ["426db3","4c7e9c","579188","4a8259","58a94c","a8c81b",
-                                           "97a948","858974","a4a68c","ad8587","d1a8b4","a480cf",
-                                           "af689b","ba5066","dd6e33","e25928","d23408","bb3237",
-                                           "a32f65","586ba4","324376","5a6072","837f72","bc854e",
-                                           "f29340","f64c3c","ad3434","747781","219bab","0abfc2"]
-
-    // MARK: Initializer
+    private let defaultColors: [String] = ["426db3","4c7e9c","579188","4a8259","58a94c","a8c81b","97a948",
+                                           "858974","a4a68c","ad8587","d1a8b4","a480cf","af689b","ba5066",
+                                           "dd6e33","e25928","d23408","bb3237","a32f65","586ba4","324376",
+                                           "5a6072","837f72","bc854e","f29340","f64c3c","ad3434","747781",
+                                           "219bab","0abfc2"]
+    
+    // MARK: - Initializer
     init(editingCategory: Bool,
          category: CategoryModel?,
          categoryService: CategoryServiceProtocol) {
@@ -64,18 +64,24 @@ class NewCategoryViewController: UIViewController {
         super.viewDidAppear(animated)
         setEditedCategoryName()
     }
-
+    
     // MARK: - Setup
     private func setEditedCategoryName() {
         guard let category = category,
               let name = category.name else { return }
         mainView.categoryTextField.text = name.capitalized
         if let color = category.color,
-            let index = defaultColors.firstIndex(of: color) {
+           let index = defaultColors.firstIndex(of: color) {
             let indexPath = IndexPath(item: index, section: 0)
             mainView.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             chosenColor = color
         }
+    }
+    
+    private func selectColor() {
+        colorPicker.supportsAlpha = true
+        colorPicker.selectedColor = UIColor(hexString: chosenColor)
+        self.present(colorPicker, animated: true)
     }
     
     // MARK: - Api call
@@ -104,8 +110,7 @@ class NewCategoryViewController: UIViewController {
     }
 }
 // MARK: - CollectionView DataSource
-extension NewCategoryViewController: UICollectionViewDataSource {
-    
+extension NewCategoryViewController: UICollectionViewDataSource {    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return defaultColors.count
     }
@@ -128,7 +133,6 @@ extension NewCategoryViewController: UICollectionViewDelegate {
 
 // MARK: - TextField Delegate
 extension NewCategoryViewController: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         saveCategory()
         return true

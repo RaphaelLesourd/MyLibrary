@@ -78,7 +78,7 @@ class NewCategoryMainView: UIView {
                                     tintColor: .appTintColor,
                                     backgroundColor: .appTintColor)
     private let mainStackView = StackView(axis: .vertical,
-                                          spacing: 50)
+                                          spacing: 20)
    
     // MARK: - Configure
     func updateBackgroundColor(with colorHex: String) {
@@ -130,8 +130,9 @@ extension NewCategoryMainView {
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(10, after: colorSectionTitleLabel)
         mainStackView.setCustomSpacing(80, after: categoryTextField)
+        mainStackView.setCustomSpacing(10, after: colorSectionTitleLabel)
+        mainStackView.setCustomSpacing(60, after: collectionView)
         mainStackView.setCustomSpacing(100, after: saveButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),

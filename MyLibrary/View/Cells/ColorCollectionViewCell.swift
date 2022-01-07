@@ -29,8 +29,14 @@ class ColorCollectionViewCell: UICollectionViewCell {
     }()
     
     // MARK: - Configure
-    func configure(with hex: String) {
-        colorBadge.tintColor = UIColor(hexString: hex)
+    
+    func configurePickerCell(with colorHex: String) {
+        colorBadge.image = UIImage(systemName: "paintpalette.fill")
+        configure(with: colorHex)
+    }
+   
+    func configure(with colorHex: String) {
+        colorBadge.tintColor = UIColor(hexString: colorHex)
     }
     
     override var isSelected: Bool {
