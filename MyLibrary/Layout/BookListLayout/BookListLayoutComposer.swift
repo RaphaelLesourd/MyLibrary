@@ -7,5 +7,5 @@
 import UIKit
 
 protocol BookListLayoutComposer {
-    func setCollectionViewLayout(gridItemSize: BookGridSize) -> UICollectionViewLayout
+    func setCollectionViewLayout(gridItemSize: GridSize) -> UICollectionViewLayout
 }

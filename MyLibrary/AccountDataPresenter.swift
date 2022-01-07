@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AccountDataPresenter {
+class AccountTabDataPresenter {
     
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
@@ -18,15 +18,14 @@ class AccountDataPresenter {
     }
 }
 // MARK: - Account presenter protocol
-extension AccountDataPresenter: AccountPresenter {
+extension AccountTabDataPresenter: AccountTabPresenter {
     
-    func configure(_ view: AccountControllerView, with user: UserModel) {
-        view.profileCell.emailLabel.text = user.email
-        view.displayNameCell.textField.clearButtonMode = .always
-        view.displayNameCell.textField.text = user.displayName
+    func configure(_ view: AccountTabMainView, with user: UserModel) {
+        view.accountView.emailLabel.text = user.email
+        view.accountView.userNameTextfield.text = user.displayName
       
         imageRetriever.getImage(for: user.photoURL) { image in
-            view.profileCell.profileImageButton.setImage(image, for: .normal)
+            view.accountView.profileImageButton.setImage(image, for: .normal)
         }
     }
 }

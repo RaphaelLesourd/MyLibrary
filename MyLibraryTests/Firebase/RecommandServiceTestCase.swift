@@ -10,7 +10,7 @@ import XCTest
 
 class RecommandServiceTestCase: XCTestCase {
     // MARK: - Properties
-    private var sut: Recommendation?
+    private var sut: RecommendationServiceProtocol?
     private var book: Item!
     private let imageData = Data()
     

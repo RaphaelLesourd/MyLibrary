@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		810123F227689DB000F86932 /* AccountServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810123F127689DAF00F86932 /* AccountServiceTestCase.swift */; };
+		8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */; };
+		8105937D278705CC00ACBA2C /* NewCategoryMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */; };
+		8105937F27870D2000ACBA2C /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */; };
 		810C44672726E561007541C0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44662726E561007541C0 /* UserModel.swift */; };
 		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
 		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
@@ -66,25 +69,55 @@
 		8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 814751692727D80E0080C5BA /* GoogleService-Info.plist */; };
 		8147516C2727E67F0080C5BA /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516B2727E67F0080C5BA /* AppText.swift */; };
 		8147516E2727E9490080C5BA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Images.swift */; };
-		8157F4D0277AEF3D005F182A /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4CF277AEF3D005F182A /* AccountPresenter.swift */; };
-		8157F4D2277AEFB6005F182A /* AccountDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D1277AEFB6005F182A /* AccountDataPresenter.swift */; };
+		814765762782E5B700B4ED12 /* NewBookControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */; };
+		814765782782E61C00B4ED12 /* NewBookDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814765772782E61C00B4ED12 /* NewBookDelegate.swift */; };
+		8147657A2782E63700B4ED12 /* NewBookPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814765792782E63700B4ED12 /* NewBookPickerDelegate.swift */; };
 		8157F4D5277AF60F005F182A /* CommentCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D4277AF60F005F182A /* CommentCellPresenter.swift */; };
 		8157F4D7277AF654005F182A /* CommentCellDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D6277AF654005F182A /* CommentCellDataPresenter.swift */; };
 		8157F4DA277AFAFA005F182A /* BookCardMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */; };
-		8157F4DC277AFBDF005F182A /* BookListMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4DB277AFBDF005F182A /* BookListMenuDelegate.swift */; };
-		8157F509277DE954005F182A /* NewbookPickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F508277DE954005F182A /* NewbookPickerDataSource.swift */; };
+		8157F509277DE954005F182A /* NewBookPickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F508277DE954005F182A /* NewBookPickerDataSource.swift */; };
+		8157F50F277F4260005F182A /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F50E277F4260005F182A /* ContactView.swift */; };
+		8157F511277F448E005F182A /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F510277F448E005F182A /* AccountView.swift */; };
+		8157F513277F4627005F182A /* AccountTabMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F512277F4627005F182A /* AccountTabMainView.swift */; };
+		8157F515277F5140005F182A /* AppLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F514277F5140005F182A /* AppLogoView.swift */; };
+		8157F5222780B2DB005F182A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5212780B2DB005F182A /* FirebaseAnalytics */; };
+		8157F5242780B2DB005F182A /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5232780B2DB005F182A /* FirebaseAnalyticsSwift-Beta */; };
+		8157F5262780B2DB005F182A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5252780B2DB005F182A /* FirebaseAuth */; };
+		8157F5282780B2DB005F182A /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5272780B2DB005F182A /* FirebaseAuthCombine-Community */; };
+		8157F52A2780B2DB005F182A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5292780B2DB005F182A /* FirebaseCrashlytics */; };
+		8157F52C2780B2DB005F182A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F52B2780B2DB005F182A /* FirebaseDatabase */; };
+		8157F52E2780B2DB005F182A /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F52D2780B2DB005F182A /* FirebaseDatabaseSwift-Beta */; };
+		8157F5302780B2DB005F182A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F52F2780B2DB005F182A /* FirebaseFirestore */; };
+		8157F5322780B2DB005F182A /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5312780B2DB005F182A /* FirebaseFirestoreCombine-Community */; };
+		8157F5342780B2DB005F182A /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5332780B2DB005F182A /* FirebaseFirestoreSwift-Beta */; };
+		8157F5362780B2DB005F182A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5352780B2DB005F182A /* FirebaseMessaging */; };
+		8157F5382780B2DB005F182A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5372780B2DB005F182A /* FirebaseStorage */; };
+		8157F53A2780B2DB005F182A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5392780B2DB005F182A /* FirebaseStorageCombine-Community */; };
+		8157F53C2780B2DB005F182A /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F53B2780B2DB005F182A /* FirebaseStorageSwift-Beta */; };
+		8157F53F2780B2F3005F182A /* Bauly in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F53E2780B2F3005F182A /* Bauly */; };
+		8157F5452780B34D005F182A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5442780B34D005F182A /* Lottie */; };
+		8157F5472780B34D005F182A /* _LottieCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5462780B34D005F182A /* _LottieCore */; };
+		8157F54A2780B369005F182A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5492780B369005F182A /* Kingfisher */; };
+		8157F54D2780B386005F182A /* InputBarAccessoryView in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F54C2780B386005F182A /* InputBarAccessoryView */; };
+		8157F5502780B3A5005F182A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F54F2780B3A5005F182A /* Alamofire */; };
+		8157F5532780B3C6005F182A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5522780B3C6005F182A /* IQKeyboardManagerSwift */; };
+		8157F5572781D519005F182A /* BookCardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5562781D519005F182A /* BookCardDelegate.swift */; };
+		8157F55A2781D585005F182A /* BarcodeScannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */; };
+		8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F55C278201D3005F182A /* IpadSplitViewController.swift */; };
+		8157F5722782DBF9005F182A /* AccountDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F56E2782DBB0005F182A /* AccountDataPresenter.swift */; };
+		8157F5742782E12F005F182A /* AccountTabPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5732782E12F005F182A /* AccountTabPresenter.swift */; };
+		8157F5762782E1F1005F182A /* NewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F5752782E1F1005F182A /* NewBookPresenter.swift */; };
+		8157F57C2782E36F005F182A /* BookListMenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F57A2782E36E005F182A /* BookListMenuDelegate.swift */; };
+		8157F57D2782E36F005F182A /* BookListMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F57B2782E36E005F182A /* BookListMenu.swift */; };
 		816AE81C275F68A800747548 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816AE81B275F68A800747548 /* AlertManager.swift */; };
 		8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */; };
-		81792F5D2731A311005F863B /* StaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F5C2731A311005F863B /* StaticTableViewController.swift */; };
 		81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F5E27326BF9005F863B /* ProfileStaticCell.swift */; };
 		81792F612732756D005F863B /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F602732756D005F863B /* StackView.swift */; };
 		81792F632732B970005F863B /* BookEmptyFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81792F622732B970005F863B /* BookEmptyFakeData.json */; };
 		81792F652732F3E4005F863B /* AccountCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F642732F3E4005F863B /* AccountCredentials.swift */; };
 		81792F672732F93F005F863B /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81792F662732F93F005F863B /* FirebaseError.swift */; };
-		818657A727649D5C00B25116 /* AccountControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A627649D5C00B25116 /* AccountControllerView.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
-		818657EB27664F9F00B25116 /* BookListMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657EA27664F9E00B25116 /* BookListMenu.swift */; };
-		81885230277486E7002813A1 /* BookGridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* BookGridSize.swift */; };
+		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
 		8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */; };
 		8188523B27748D06002813A1 /* CommentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523A27748D06002813A1 /* CommentServiceProtocol.swift */; };
@@ -100,9 +133,7 @@
 		8188525B27788567002813A1 /* BookCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525A27788567002813A1 /* BookCellData.swift */; };
 		8188525D2778858B002813A1 /* CellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188525C2778858B002813A1 /* CellPresenter.swift */; };
 		818852622778863B002813A1 /* BookCardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818852612778863B002813A1 /* BookCardPresenter.swift */; };
-		8188526727788693002813A1 /* NewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188526627788693002813A1 /* NewBookPresenter.swift */; };
 		8188526A2778A461002813A1 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818852692778A461002813A1 /* AccountControllerViewDelegate.swift */; };
-		8188526D2778A48A002813A1 /* NewBookControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188526C2778A48A002813A1 /* NewBookControllerViewDelegate.swift */; };
 		8194D544276A154E0098E484 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8194D546276A154E0098E484 /* InfoPlist.strings */; };
 		819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */; };
 		819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */; };
@@ -144,8 +175,8 @@
 		81C6CCC627247A6200DE9219 /* BookCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC427247A6200DE9219 /* BookCollectionViewCell.swift */; };
 		81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */; };
 		81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */; };
-		81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCC27247AF100DE9219 /* Colors.swift */; };
-		81DB8DE42752329300698B92 /* HomeControllerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DE12752329300698B92 /* HomeControllerLayout.swift */; };
+		81C6CCCD27247AF100DE9219 /* UIColors+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */; };
+		81DB8DE42752329300698B92 /* HomeTabLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DE12752329300698B92 /* HomeTabLayout.swift */; };
 		81DB8DE52752329300698B92 /* BookListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DE22752329300698B92 /* BookListLayout.swift */; };
 		81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF42752709600698B92 /* BookCardCommentView.swift */; };
 		81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB8DF82752765D00698B92 /* CommentModel.swift */; };
@@ -157,28 +188,13 @@
 		81DE9C9E2733BC4700FF81C2 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9C9D2733BC4700FF81C2 /* Keys.swift */; };
 		81DE9CA12733D3E400FF81C2 /* UserServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9CA02733D3E400FF81C2 /* UserServiceTestCase.swift */; };
 		81DE9CA627354C9800FF81C2 /* LibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE9CA527354C9800FF81C2 /* LibraryService.swift */; };
+		81F692D2278497010001450D /* UserCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F692D1278497010001450D /* UserCollectionViewCell.swift */; };
+		81F692D427849B140001450D /* UserDataCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F692D327849B140001450D /* UserDataCellPresenter.swift */; };
+		81F692D92784BFD30001450D /* UserCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F692D82784BFD30001450D /* UserCellPresenter.swift */; };
+		81F692DE2784C14D0001450D /* UserCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F692DD2784C14D0001450D /* UserCellData.swift */; };
 		81FA71D827734ECA00040BEF /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA71D727734ECA00040BEF /* Converter.swift */; };
 		81FA71DA2773508700040BEF /* ConverterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA71D92773508700040BEF /* ConverterTestCase.swift */; };
 		81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA71DB27735F0200040BEF /* DisclosureTableViewCell.swift */; };
-		81FA71FE277386CA00040BEF /* Bauly in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA71FD277386CA00040BEF /* Bauly */; };
-		81FA7201277386D800040BEF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA7200277386D800040BEF /* Alamofire */; };
-		81FA7204277386E800040BEF /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA7203277386E800040BEF /* IQKeyboardManagerSwift */; };
-		81FA72072773876000040BEF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72062773876000040BEF /* FirebaseAnalytics */; };
-		81FA72092773876000040BEF /* FirebaseAnalyticsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72082773876000040BEF /* FirebaseAnalyticsSwift-Beta */; };
-		81FA720B2773876000040BEF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA720A2773876000040BEF /* FirebaseAuth */; };
-		81FA720D2773876000040BEF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA720C2773876000040BEF /* FirebaseCrashlytics */; };
-		81FA720F2773876000040BEF /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA720E2773876000040BEF /* FirebaseDatabase */; };
-		81FA72112773876000040BEF /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72102773876000040BEF /* FirebaseDatabaseSwift-Beta */; };
-		81FA72132773876000040BEF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72122773876000040BEF /* FirebaseFirestore */; };
-		81FA72152773876000040BEF /* FirebaseFirestoreSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72142773876000040BEF /* FirebaseFirestoreSwift-Beta */; };
-		81FA72172773876000040BEF /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72162773876000040BEF /* FirebaseFunctions */; };
-		81FA72192773876000040BEF /* FirebaseFunctionsSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72182773876000040BEF /* FirebaseFunctionsSwift-Beta */; };
-		81FA721B2773876000040BEF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA721A2773876000040BEF /* FirebaseMessaging */; };
-		81FA721D2773876000040BEF /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA721C2773876000040BEF /* FirebaseStorage */; };
-		81FA721F2773876000040BEF /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA721E2773876000040BEF /* FirebaseStorageSwift-Beta */; };
-		81FA72222773878C00040BEF /* InputBarAccessoryView in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72212773878C00040BEF /* InputBarAccessoryView */; };
-		81FA7225277387C400040BEF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA7224277387C400040BEF /* Kingfisher */; };
-		81FA72282773880C00040BEF /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81FA72272773880C00040BEF /* Lottie */; };
 		81FA723C27745B2F00040BEF /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA723B27745B2F00040BEF /* PermissionManager.swift */; };
 		81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724427747CD300040BEF /* BookListLayoutComposer.swift */; };
 		81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724627747D0600040BEF /* HomeLayoutComposer.swift */; };
@@ -233,6 +249,9 @@
 
 /* Begin PBXFileReference section */
 		810123F127689DAF00F86932 /* AccountServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceTestCase.swift; sourceTree = "<group>"; };
+		8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryMainView.swift; sourceTree = "<group>"; };
+		8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		810C44662726E561007541C0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		810C446A2726EAC4007541C0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeControllerMainView.swift; sourceTree = "<group>"; };
@@ -292,24 +311,33 @@
 		814751692727D80E0080C5BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8147516B2727E67F0080C5BA /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
 		8147516D2727E9490080C5BA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
-		8157F4CF277AEF3D005F182A /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
-		8157F4D1277AEFB6005F182A /* AccountDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDataPresenter.swift; sourceTree = "<group>"; };
+		814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookControllerViewDelegate.swift; sourceTree = "<group>"; };
+		814765772782E61C00B4ED12 /* NewBookDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookDelegate.swift; sourceTree = "<group>"; };
+		814765792782E63700B4ED12 /* NewBookPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPickerDelegate.swift; sourceTree = "<group>"; };
 		8157F4D4277AF60F005F182A /* CommentCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellPresenter.swift; sourceTree = "<group>"; };
 		8157F4D6277AF654005F182A /* CommentCellDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellDataPresenter.swift; sourceTree = "<group>"; };
 		8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardMainViewDelegate.swift; sourceTree = "<group>"; };
-		8157F4DB277AFBDF005F182A /* BookListMenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListMenuDelegate.swift; sourceTree = "<group>"; };
-		8157F508277DE954005F182A /* NewbookPickerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewbookPickerDataSource.swift; sourceTree = "<group>"; };
+		8157F508277DE954005F182A /* NewBookPickerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPickerDataSource.swift; sourceTree = "<group>"; };
+		8157F50E277F4260005F182A /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
+		8157F510277F448E005F182A /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		8157F512277F4627005F182A /* AccountTabMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabMainView.swift; sourceTree = "<group>"; };
+		8157F514277F5140005F182A /* AppLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLogoView.swift; sourceTree = "<group>"; };
+		8157F5562781D519005F182A /* BookCardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDelegate.swift; sourceTree = "<group>"; };
+		8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerDelegate.swift; sourceTree = "<group>"; };
+		8157F55C278201D3005F182A /* IpadSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IpadSplitViewController.swift; sourceTree = "<group>"; };
+		8157F56E2782DBB0005F182A /* AccountDataPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountDataPresenter.swift; path = MyLibrary/AccountDataPresenter.swift; sourceTree = "<group>"; };
+		8157F5732782E12F005F182A /* AccountTabPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabPresenter.swift; sourceTree = "<group>"; };
+		8157F5752782E1F1005F182A /* NewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPresenter.swift; sourceTree = "<group>"; };
+		8157F57A2782E36E005F182A /* BookListMenuDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookListMenuDelegate.swift; sourceTree = "<group>"; };
+		8157F57B2782E36E005F182A /* BookListMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookListMenu.swift; sourceTree = "<group>"; };
 		816AE81B275F68A800747548 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
-		81792F5C2731A311005F863B /* StaticTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTableViewController.swift; sourceTree = "<group>"; };
 		81792F5E27326BF9005F863B /* ProfileStaticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStaticCell.swift; sourceTree = "<group>"; };
 		81792F602732756D005F863B /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		81792F622732B970005F863B /* BookEmptyFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookEmptyFakeData.json; sourceTree = "<group>"; };
 		81792F642732F3E4005F863B /* AccountCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCredentials.swift; sourceTree = "<group>"; };
 		81792F662732F93F005F863B /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
-		818657A627649D5C00B25116 /* AccountControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
-		818657EA27664F9E00B25116 /* BookListMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListMenu.swift; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523A27748D06002813A1 /* CommentServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceProtocol.swift; sourceTree = "<group>"; };
@@ -324,9 +352,7 @@
 		8188525A27788567002813A1 /* BookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellData.swift; sourceTree = "<group>"; };
 		8188525C2778858B002813A1 /* CellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellPresenter.swift; sourceTree = "<group>"; };
 		818852612778863B002813A1 /* BookCardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardPresenter.swift; sourceTree = "<group>"; };
-		8188526627788693002813A1 /* NewBookPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPresenter.swift; sourceTree = "<group>"; };
 		818852692778A461002813A1 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
-		8188526C2778A48A002813A1 /* NewBookControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookControllerViewDelegate.swift; sourceTree = "<group>"; };
 		8194D547276A15510098E484 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardViewController.swift; sourceTree = "<group>"; };
 		819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCardMainView.swift; sourceTree = "<group>"; };
@@ -380,8 +406,8 @@
 		81C6CCC427247A6200DE9219 /* BookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCollectionViewCell.swift; sourceTree = "<group>"; };
 		81C6CCC727247A7000DE9219 /* HeaderSupplementaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderSupplementaryView.swift; sourceTree = "<group>"; };
 		81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		81C6CCCC27247AF100DE9219 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		81DB8DE12752329300698B92 /* HomeControllerLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeControllerLayout.swift; sourceTree = "<group>"; };
+		81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColors+Extension.swift"; sourceTree = "<group>"; };
+		81DB8DE12752329300698B92 /* HomeTabLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabLayout.swift; sourceTree = "<group>"; };
 		81DB8DE22752329300698B92 /* BookListLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookListLayout.swift; sourceTree = "<group>"; };
 		81DB8DF42752709600698B92 /* BookCardCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardCommentView.swift; sourceTree = "<group>"; };
 		81DB8DF82752765D00698B92 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -393,11 +419,15 @@
 		81DE9C9D2733BC4700FF81C2 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		81DE9CA02733D3E400FF81C2 /* UserServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceTestCase.swift; sourceTree = "<group>"; };
 		81DE9CA527354C9800FF81C2 /* LibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryService.swift; sourceTree = "<group>"; };
+		81F692D1278497010001450D /* UserCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCollectionViewCell.swift; sourceTree = "<group>"; };
+		81F692D327849B140001450D /* UserDataCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataCellPresenter.swift; sourceTree = "<group>"; };
+		81F692D82784BFD30001450D /* UserCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellPresenter.swift; sourceTree = "<group>"; };
+		81F692DD2784C14D0001450D /* UserCellData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCellData.swift; sourceTree = "<group>"; };
 		81FA71D727734ECA00040BEF /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		81FA71D92773508700040BEF /* ConverterTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterTestCase.swift; sourceTree = "<group>"; };
 		81FA71DB27735F0200040BEF /* DisclosureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureTableViewCell.swift; sourceTree = "<group>"; };
 		81FA723B27745B2F00040BEF /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
-		81FA724127747C0D00040BEF /* BookGridSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookGridSize.swift; sourceTree = "<group>"; };
+		81FA724127747C0D00040BEF /* GridSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSize.swift; sourceTree = "<group>"; };
 		81FA724427747CD300040BEF /* BookListLayoutComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutComposer.swift; sourceTree = "<group>"; };
 		81FA724627747D0600040BEF /* HomeLayoutComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLayoutComposer.swift; sourceTree = "<group>"; };
 		81FA724927747D7000040BEF /* ImageRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetriever.swift; sourceTree = "<group>"; };
@@ -430,25 +460,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81FA72112773876000040BEF /* FirebaseDatabaseSwift-Beta in Frameworks */,
-				81FA72092773876000040BEF /* FirebaseAnalyticsSwift-Beta in Frameworks */,
-				81FA721F2773876000040BEF /* FirebaseStorageSwift-Beta in Frameworks */,
-				81FA7201277386D800040BEF /* Alamofire in Frameworks */,
-				81FA7204277386E800040BEF /* IQKeyboardManagerSwift in Frameworks */,
-				81FA71FE277386CA00040BEF /* Bauly in Frameworks */,
-				81FA721D2773876000040BEF /* FirebaseStorage in Frameworks */,
-				81FA72072773876000040BEF /* FirebaseAnalytics in Frameworks */,
-				81FA720D2773876000040BEF /* FirebaseCrashlytics in Frameworks */,
-				81FA720F2773876000040BEF /* FirebaseDatabase in Frameworks */,
-				81FA720B2773876000040BEF /* FirebaseAuth in Frameworks */,
-				81FA72222773878C00040BEF /* InputBarAccessoryView in Frameworks */,
-				81FA72172773876000040BEF /* FirebaseFunctions in Frameworks */,
-				81FA72152773876000040BEF /* FirebaseFirestoreSwift-Beta in Frameworks */,
-				81FA72132773876000040BEF /* FirebaseFirestore in Frameworks */,
-				81FA72282773880C00040BEF /* Lottie in Frameworks */,
-				81FA721B2773876000040BEF /* FirebaseMessaging in Frameworks */,
-				81FA7225277387C400040BEF /* Kingfisher in Frameworks */,
-				81FA72192773876000040BEF /* FirebaseFunctionsSwift-Beta in Frameworks */,
+				8157F52C2780B2DB005F182A /* FirebaseDatabase in Frameworks */,
+				8157F5242780B2DB005F182A /* FirebaseAnalyticsSwift-Beta in Frameworks */,
+				8157F5262780B2DB005F182A /* FirebaseAuth in Frameworks */,
+				8157F53A2780B2DB005F182A /* FirebaseStorageCombine-Community in Frameworks */,
+				8157F5322780B2DB005F182A /* FirebaseFirestoreCombine-Community in Frameworks */,
+				8157F5502780B3A5005F182A /* Alamofire in Frameworks */,
+				8157F53C2780B2DB005F182A /* FirebaseStorageSwift-Beta in Frameworks */,
+				8157F54D2780B386005F182A /* InputBarAccessoryView in Frameworks */,
+				8157F53F2780B2F3005F182A /* Bauly in Frameworks */,
+				8157F5452780B34D005F182A /* Lottie in Frameworks */,
+				8157F52A2780B2DB005F182A /* FirebaseCrashlytics in Frameworks */,
+				8157F5382780B2DB005F182A /* FirebaseStorage in Frameworks */,
+				8157F5222780B2DB005F182A /* FirebaseAnalytics in Frameworks */,
+				8157F5472780B34D005F182A /* _LottieCore in Frameworks */,
+				8157F5532780B3C6005F182A /* IQKeyboardManagerSwift in Frameworks */,
+				8157F54A2780B369005F182A /* Kingfisher in Frameworks */,
+				8157F5302780B2DB005F182A /* FirebaseFirestore in Frameworks */,
+				8157F5342780B2DB005F182A /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				8157F52E2780B2DB005F182A /* FirebaseDatabaseSwift-Beta in Frameworks */,
+				8157F5362780B2DB005F182A /* FirebaseMessaging in Frameworks */,
+				8157F5282780B2DB005F182A /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,34 +494,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		810D7FA4275625FB0043280E /* CommentsController */ = {
-			isa = PBXGroup;
-			children = (
-				81DB8E002753B02800698B92 /* CommentTableViewCell.swift */,
-				810D7FA2275625F40043280E /* CommentsBookCell.swift */,
-			);
-			path = CommentsController;
-			sourceTree = "<group>";
-		};
 		811713F3274D6B5D0051059C /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				81FA724127747C0D00040BEF /* GridSize.swift */,
 				81FA724827747D1000040BEF /* HomeLayout */,
 				81FA724327747C9600040BEF /* BookListLayout */,
+				8157F5772782E2BD005F182A /* BookListLayoutMenu */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		812047F5272A884100E0A45B /* SignInUp */ = {
+		812047F5272A884100E0A45B /* WelcomeFlow */ = {
 			isa = PBXGroup;
 			children = (
 				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
 				810C447827271351007541C0 /* AccountMainView.swift */,
 			);
-			path = SignInUp;
+			path = WelcomeFlow;
 			sourceTree = "<group>";
 		};
-		812047FE272ACE9B00E0A45B /* Static Cells */ = {
+		812047FE272ACE9B00E0A45B /* TableViewStaticCells */ = {
 			isa = PBXGroup;
 			children = (
 				812047FC272ACE8C00E0A45B /* ButtonStaticCell.swift */,
@@ -500,14 +525,13 @@
 				8121F0C3274153F4006EAA8D /* RatingInputStaticCell.swift */,
 				812047FA272ACE6E00E0A45B /* TextFieldStaticCell.swift */,
 			);
-			path = "Static Cells";
+			path = TableViewStaticCells;
 			sourceTree = "<group>";
 		};
 		8121F07A273A9A3E006EAA8D /* Constants */ = {
 			isa = PBXGroup;
 			children = (
 				8147516B2727E67F0080C5BA /* AppText.swift */,
-				81C6CCCC27247AF100DE9219 /* Colors.swift */,
 				81DE9C9D2733BC4700FF81C2 /* Keys.swift */,
 				8147516D2727E9490080C5BA /* Images.swift */,
 				81FA727A2774837A00040BEF /* CollectionViewSections */,
@@ -516,17 +540,15 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		8121F0C227401252006EAA8D /* CommonViewControllers */ = {
+		8121F0C227401252006EAA8D /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				8121F0C027400541006EAA8D /* CollectionViewController.swift */,
-				81792F5C2731A311005F863B /* StaticTableViewController.swift */,
-				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 			);
-			path = CommonViewControllers;
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
-		81242D4C272D984F00CB39B1 /* Network */ = {
+		81242D4C272D984F00CB39B1 /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
 				81242D50272D986100CB39B1 /* SearchServiceTestCase.swift */,
@@ -535,26 +557,27 @@
 				81792F622732B970005F863B /* BookEmptyFakeData.json */,
 				81242D4F272D986000CB39B1 /* BookFakeData.json */,
 			);
-			name = Network;
+			name = Alamofire;
 			sourceTree = "<group>";
 		};
 		812B160D27720CFD00D65C6A /* BarcodeReader */ = {
 			isa = PBXGroup;
 			children = (
 				812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */,
-				812B16122772106200D65C6A /* BarcodeReader.swift */,
 				812B161027720F5400D65C6A /* BarcodeReaderError.swift */,
+				812B16122772106200D65C6A /* BarcodeReader.swift */,
 			);
 			path = BarcodeReader;
 			sourceTree = "<group>";
 		};
-		8157F4D3277AF478005F182A /* AccountPresenter */ = {
+		8157F4D3277AF478005F182A /* AccountTabPresenter */ = {
 			isa = PBXGroup;
 			children = (
-				8157F4CF277AEF3D005F182A /* AccountPresenter.swift */,
-				8157F4D1277AEFB6005F182A /* AccountDataPresenter.swift */,
+				8157F5732782E12F005F182A /* AccountTabPresenter.swift */,
+				8157F56E2782DBB0005F182A /* AccountDataPresenter.swift */,
 			);
-			name = AccountPresenter;
+			name = AccountTabPresenter;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		8157F4D8277AF9FA005F182A /* CommentCellPresenter */ = {
@@ -566,20 +589,131 @@
 			name = CommentCellPresenter;
 			sourceTree = "<group>";
 		};
-		8157F50A277DE987005F182A /* NewBook */ = {
+		8157F50A277DE987005F182A /* NewBookTab */ = {
 			isa = PBXGroup;
 			children = (
 				81C6CCA8272477E200DE9219 /* NewBookViewController.swift */,
-				8157F508277DE954005F182A /* NewbookPickerDataSource.swift */,
+				814765792782E63700B4ED12 /* NewBookPickerDelegate.swift */,
+				814765772782E61C00B4ED12 /* NewBookDelegate.swift */,
+				8157F508277DE954005F182A /* NewBookPickerDataSource.swift */,
 			);
-			name = NewBook;
+			name = NewBookTab;
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		8157F50D277F4246005F182A /* AccountMainView */ = {
+			isa = PBXGroup;
+			children = (
+				8157F51E27808545005F182A /* SubViews */,
+				818852692778A461002813A1 /* AccountControllerViewDelegate.swift */,
+				8157F512277F4627005F182A /* AccountTabMainView.swift */,
+			);
+			name = AccountMainView;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8157F51E27808545005F182A /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				8157F510277F448E005F182A /* AccountView.swift */,
+				8157F50E277F4260005F182A /* ContactView.swift */,
+				8157F514277F5140005F182A /* AppLogoView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		8157F51F2780904F005F182A /* WelcomeFlow */ = {
+			isa = PBXGroup;
+			children = (
+				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
+				810C446A2726EAC4007541C0 /* WelcomeViewController.swift */,
+			);
+			path = WelcomeFlow;
+			sourceTree = "<group>";
+		};
+		8157F5582781D52D005F182A /* BookCard */ = {
+			isa = PBXGroup;
+			children = (
+				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				8157F5562781D519005F182A /* BookCardDelegate.swift */,
+			);
+			path = BookCard;
+			sourceTree = "<group>";
+		};
+		8157F55B2781D58E005F182A /* BarcodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */,
+				8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */,
+			);
+			path = BarcodeScanner;
+			sourceTree = "<group>";
+		};
+		8157F5612782CB97005F182A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		8157F5632782CBFB005F182A /* UsersCellPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				81F692DD2784C14D0001450D /* UserCellData.swift */,
+				81F692D82784BFD30001450D /* UserCellPresenter.swift */,
+				81F692D327849B140001450D /* UserDataCellPresenter.swift */,
+			);
+			path = UsersCellPresenter;
+			sourceTree = "<group>";
+		};
+		8157F5642782CC2A005F182A /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		8157F5652782CC3A005F182A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
+				8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		8157F5662782CC76005F182A /* BookDescription */ = {
+			isa = PBXGroup;
+			children = (
+				811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */,
+			);
+			path = BookDescription;
+			sourceTree = "<group>";
+		};
+		8157F5672782CC88005F182A /* BookCover */ = {
+			isa = PBXGroup;
+			children = (
+				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
+			);
+			path = BookCover;
+			sourceTree = "<group>";
+		};
+		8157F5772782E2BD005F182A /* BookListLayoutMenu */ = {
+			isa = PBXGroup;
+			children = (
+				8157F57A2782E36E005F182A /* BookListMenuDelegate.swift */,
+				8157F57B2782E36E005F182A /* BookListMenu.swift */,
+			);
+			path = BookListLayoutMenu;
 			sourceTree = "<group>";
 		};
 		8188523627748BC2002813A1 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				8188523427748BAB002813A1 /* AccountServiceProtocol.swift */,
 				813B7C792733ADFD005BFBDB /* AccountService.swift */,
+				8188523427748BAB002813A1 /* AccountServiceProtocol.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -596,8 +730,8 @@
 		8188523C27748D23002813A1 /* Comments */ = {
 			isa = PBXGroup;
 			children = (
-				8188523A27748D06002813A1 /* CommentServiceProtocol.swift */,
 				81DB8DFC275399C400698B92 /* CommentService.swift */,
+				8188523A27748D06002813A1 /* CommentServiceProtocol.swift */,
 			);
 			name = Comments;
 			sourceTree = "<group>";
@@ -605,19 +739,19 @@
 		8188523F27748D4E002813A1 /* ImageStorage */ = {
 			isa = PBXGroup;
 			children = (
-				8188523D27748D44002813A1 /* ImageStorageProtocol.swift */,
 				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
+				8188523D27748D44002813A1 /* ImageStorageProtocol.swift */,
 			);
 			name = ImageStorage;
 			sourceTree = "<group>";
 		};
-		8188524227748DB0002813A1 /* BookLibrary */ = {
+		8188524227748DB0002813A1 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */,
 				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
+				8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */,
 			);
-			name = BookLibrary;
+			name = Library;
 			sourceTree = "<group>";
 		};
 		8188524527748DFA002813A1 /* Messages */ = {
@@ -650,9 +784,9 @@
 		8188524E2774B9E6002813A1 /* BookCardMainView */ = {
 			isa = PBXGroup;
 			children = (
+				818852512774BE2F002813A1 /* Subviews */,
 				8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
-				818852512774BE2F002813A1 /* Subviews */,
 			);
 			path = BookCardMainView;
 			sourceTree = "<group>";
@@ -667,18 +801,6 @@
 				8121F0BE273FEC20006EAA8D /* RatingView.swift */,
 			);
 			path = Subviews;
-			sourceTree = "<group>";
-		};
-		8188525327785CC2002813A1 /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-				8157F4D3277AF478005F182A /* AccountPresenter */,
-				8188525E277885B0002813A1 /* BookCellPresenter */,
-				8188526327788646002813A1 /* BookCardPresenter */,
-				81885268277886AE002813A1 /* NewBookPresenter */,
-				8157F4D8277AF9FA005F182A /* CommentCellPresenter */,
-			);
-			name = Presenters;
 			sourceTree = "<group>";
 		};
 		8188525E277885B0002813A1 /* BookCellPresenter */ = {
@@ -703,39 +825,19 @@
 		81885268277886AE002813A1 /* NewBookPresenter */ = {
 			isa = PBXGroup;
 			children = (
-				8188526627788693002813A1 /* NewBookPresenter.swift */,
+				8157F5752782E1F1005F182A /* NewBookPresenter.swift */,
 				8188525827786D9F002813A1 /* NewBookCardDataPresenter.swift */,
 			);
 			name = NewBookPresenter;
 			sourceTree = "<group>";
 		};
-		8188526B2778A46C002813A1 /* AccountTab */ = {
-			isa = PBXGroup;
-			children = (
-				818852692778A461002813A1 /* AccountControllerViewDelegate.swift */,
-				818657A627649D5C00B25116 /* AccountControllerView.swift */,
-			);
-			path = AccountTab;
-			sourceTree = "<group>";
-		};
 		8188526E2778A495002813A1 /* NewBookTab */ = {
 			isa = PBXGroup;
 			children = (
-				8188526C2778A48A002813A1 /* NewBookControllerViewDelegate.swift */,
+				814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */,
 				81B91840274A772600486176 /* NewBookControllerView.swift */,
 			);
 			path = NewBookTab;
-			sourceTree = "<group>";
-		};
-		818852782779DB45002813A1 /* Tabs */ = {
-			isa = PBXGroup;
-			children = (
-				81C6CCAA2724781100DE9219 /* AccountViewController.swift */,
-				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
-				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
-				8157F50A277DE987005F182A /* NewBook */,
-			);
-			path = Tabs;
 			sourceTree = "<group>";
 		};
 		8194D548276A17010098E484 /* Localization */ = {
@@ -802,8 +904,8 @@
 				811713F3274D6B5D0051059C /* Layout */,
 				8194D548276A17010098E484 /* Localization */,
 				81C6CCAE272479B300DE9219 /* Model */,
-				8188525327785CC2002813A1 /* Presenters */,
-				81C6CCB0272479CA00DE9219 /* Views */,
+				81F692D52784BE8B0001450D /* Presenters */,
+				81C6CCB0272479CA00DE9219 /* View */,
 			);
 			path = MyLibrary;
 			sourceTree = "<group>";
@@ -817,7 +919,7 @@
 				81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */,
 				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
-				81242D4C272D984F00CB39B1 /* Network */,
+				81242D4C272D984F00CB39B1 /* Alamofire */,
 			);
 			path = MyLibraryTests;
 			sourceTree = "<group>";
@@ -834,17 +936,18 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8121F0C227401252006EAA8D /* CommonViewControllers */,
-				818852782779DB45002813A1 /* Tabs */,
-				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
-				8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */,
-				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
-				8121F0B8273E6A9A006EAA8D /* BookCoverViewController.swift */,
-				811F64BB2758B80D00A24704 /* BookDescriptionViewController.swift */,
-				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
-				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
-				8124B9912725CB4D004E9AE0 /* SearchViewController.swift */,
-				810C446A2726EAC4007541C0 /* WelcomeViewController.swift */,
+				81C6CCA42724776900DE9219 /* TabBarController.swift */,
+				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
+				81F692DA2784C0720001450D /* Tabs */,
+				8157F55B2781D58E005F182A /* BarcodeScanner */,
+				8157F5582781D52D005F182A /* BookCard */,
+				8157F5672782CC88005F182A /* BookCover */,
+				8157F5662782CC76005F182A /* BookDescription */,
+				8157F5652782CC3A005F182A /* Categories */,
+				8121F0C227401252006EAA8D /* CollectionView */,
+				8157F5612782CB97005F182A /* Comments */,
+				8157F5642782CC2A005F182A /* Search */,
+				8157F51F2780904F005F182A /* WelcomeFlow */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -878,7 +981,7 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81DE9CAD2736E28E00FF81C2 /* DataModel */,
+				81DE9CAD2736E28E00FF81C2 /* Entities */,
 				81FA726B277481D500040BEF /* Connectivity */,
 				81FA72642774811900040BEF /* Converter */,
 				81DE9CA427354C4500FF81C2 /* Firebase */,
@@ -890,17 +993,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		81C6CCB0272479CA00DE9219 /* Views */ = {
+		81C6CCB0272479CA00DE9219 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
-				81C6CCB327247A1600DE9219 /* ReusableElements */,
-				81C6CCC227247A5000DE9219 /* Headers&Footers */,
-				812047FE272ACE9B00E0A45B /* Static Cells */,
 				81C6CCC127247A4300DE9219 /* Cells */,
+				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
+				81C6CCB327247A1600DE9219 /* ReusableElements */,
+				812047FE272ACE9B00E0A45B /* TableViewStaticCells */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		81C6CCB327247A1600DE9219 /* ReusableElements */ = {
@@ -919,12 +1022,13 @@
 		81C6CCC027247A3B00DE9219 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
-				8188526B2778A46C002813A1 /* AccountTab */,
+				8157F50D277F4246005F182A /* AccountMainView */,
 				8188524E2774B9E6002813A1 /* BookCardMainView */,
 				8188526E2778A495002813A1 /* NewBookTab */,
-				812047F5272A884100E0A45B /* SignInUp */,
+				812047F5272A884100E0A45B /* WelcomeFlow */,
 				81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */,
 				811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */,
+				8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */,
 				811F64BD275A02EF00A24704 /* CommentControllerView.swift */,
 				8121F0C72742418F006EAA8D /* ImageScrollView.swift */,
 			);
@@ -934,10 +1038,13 @@
 		81C6CCC127247A4300DE9219 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				810D7FA4275625FB0043280E /* CommentsController */,
 				81C6CCC427247A6200DE9219 /* BookCollectionViewCell.swift */,
 				8171AF9527258623002F96B9 /* CategoryCollectionViewCell.swift */,
+				81DB8E002753B02800698B92 /* CommentTableViewCell.swift */,
+				810D7FA2275625F40043280E /* CommentsBookCell.swift */,
 				81C6CCC327247A6200DE9219 /* DetailedBookCollectionViewCell.swift */,
+				81F692D1278497010001450D /* UserCollectionViewCell.swift */,
+				8105937A2787028800ACBA2C /* ColorCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -954,6 +1061,7 @@
 		81C6CCC927247AB100DE9219 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CCCC27247AF100DE9219 /* UIColors+Extension.swift */,
 				818657A82764B16100B25116 /* UIApplication+Extension.swift */,
 				81C6CCCA27247ABF00DE9219 /* UIView+Extension.swift */,
 				8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */,
@@ -990,7 +1098,7 @@
 				8188523927748CBA002813A1 /* Categories */,
 				8188523C27748D23002813A1 /* Comments */,
 				8188523F27748D4E002813A1 /* ImageStorage */,
-				8188524227748DB0002813A1 /* BookLibrary */,
+				8188524227748DB0002813A1 /* Library */,
 				8188524527748DFA002813A1 /* Messages */,
 				8188524827748E20002813A1 /* Recommendation */,
 				8188524B27748E4B002813A1 /* UserService */,
@@ -998,7 +1106,7 @@
 			name = Firebase;
 			sourceTree = "<group>";
 		};
-		81DE9CAD2736E28E00FF81C2 /* DataModel */ = {
+		81DE9CAD2736E28E00FF81C2 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				81792F642732F3E4005F863B /* AccountCredentials.swift */,
@@ -1009,17 +1117,38 @@
 				819CD6E8275B6629002A9B12 /* MessageModel.swift */,
 				810C44662726E561007541C0 /* UserModel.swift */,
 			);
-			name = DataModel;
+			name = Entities;
+			sourceTree = "<group>";
+		};
+		81F692D52784BE8B0001450D /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				8157F4D3277AF478005F182A /* AccountTabPresenter */,
+				8188526327788646002813A1 /* BookCardPresenter */,
+				8188525E277885B0002813A1 /* BookCellPresenter */,
+				8157F4D8277AF9FA005F182A /* CommentCellPresenter */,
+				81885268277886AE002813A1 /* NewBookPresenter */,
+				8157F5632782CBFB005F182A /* UsersCellPresenter */,
+			);
+			name = Presenters;
+			sourceTree = "<group>";
+		};
+		81F692DA2784C0720001450D /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CCAA2724781100DE9219 /* AccountViewController.swift */,
+				81242D90272EACFD00CB39B1 /* BookLibraryViewController.swift */,
+				81C6CCA6272477D200DE9219 /* HomeViewController.swift */,
+				8157F50A277DE987005F182A /* NewBookTab */,
+			);
+			path = Tabs;
 			sourceTree = "<group>";
 		};
 		81FA724327747C9600040BEF /* BookListLayout */ = {
 			isa = PBXGroup;
 			children = (
-				81FA724127747C0D00040BEF /* BookGridSize.swift */,
 				81FA724427747CD300040BEF /* BookListLayoutComposer.swift */,
 				81DB8DE22752329300698B92 /* BookListLayout.swift */,
-				818657EA27664F9E00B25116 /* BookListMenu.swift */,
-				8157F4DB277AFBDF005F182A /* BookListMenuDelegate.swift */,
 			);
 			path = BookListLayout;
 			sourceTree = "<group>";
@@ -1028,7 +1157,7 @@
 			isa = PBXGroup;
 			children = (
 				81FA724627747D0600040BEF /* HomeLayoutComposer.swift */,
-				81DB8DE12752329300698B92 /* HomeControllerLayout.swift */,
+				81DB8DE12752329300698B92 /* HomeTabLayout.swift */,
 			);
 			path = HomeLayout;
 			sourceTree = "<group>";
@@ -1190,25 +1319,27 @@
 			);
 			name = MyLibrary;
 			packageProductDependencies = (
-				81FA71FD277386CA00040BEF /* Bauly */,
-				81FA7200277386D800040BEF /* Alamofire */,
-				81FA7203277386E800040BEF /* IQKeyboardManagerSwift */,
-				81FA72062773876000040BEF /* FirebaseAnalytics */,
-				81FA72082773876000040BEF /* FirebaseAnalyticsSwift-Beta */,
-				81FA720A2773876000040BEF /* FirebaseAuth */,
-				81FA720C2773876000040BEF /* FirebaseCrashlytics */,
-				81FA720E2773876000040BEF /* FirebaseDatabase */,
-				81FA72102773876000040BEF /* FirebaseDatabaseSwift-Beta */,
-				81FA72122773876000040BEF /* FirebaseFirestore */,
-				81FA72142773876000040BEF /* FirebaseFirestoreSwift-Beta */,
-				81FA72162773876000040BEF /* FirebaseFunctions */,
-				81FA72182773876000040BEF /* FirebaseFunctionsSwift-Beta */,
-				81FA721A2773876000040BEF /* FirebaseMessaging */,
-				81FA721C2773876000040BEF /* FirebaseStorage */,
-				81FA721E2773876000040BEF /* FirebaseStorageSwift-Beta */,
-				81FA72212773878C00040BEF /* InputBarAccessoryView */,
-				81FA7224277387C400040BEF /* Kingfisher */,
-				81FA72272773880C00040BEF /* Lottie */,
+				8157F5212780B2DB005F182A /* FirebaseAnalytics */,
+				8157F5232780B2DB005F182A /* FirebaseAnalyticsSwift-Beta */,
+				8157F5252780B2DB005F182A /* FirebaseAuth */,
+				8157F5272780B2DB005F182A /* FirebaseAuthCombine-Community */,
+				8157F5292780B2DB005F182A /* FirebaseCrashlytics */,
+				8157F52B2780B2DB005F182A /* FirebaseDatabase */,
+				8157F52D2780B2DB005F182A /* FirebaseDatabaseSwift-Beta */,
+				8157F52F2780B2DB005F182A /* FirebaseFirestore */,
+				8157F5312780B2DB005F182A /* FirebaseFirestoreCombine-Community */,
+				8157F5332780B2DB005F182A /* FirebaseFirestoreSwift-Beta */,
+				8157F5352780B2DB005F182A /* FirebaseMessaging */,
+				8157F5372780B2DB005F182A /* FirebaseStorage */,
+				8157F5392780B2DB005F182A /* FirebaseStorageCombine-Community */,
+				8157F53B2780B2DB005F182A /* FirebaseStorageSwift-Beta */,
+				8157F53E2780B2F3005F182A /* Bauly */,
+				8157F5442780B34D005F182A /* Lottie */,
+				8157F5462780B34D005F182A /* _LottieCore */,
+				8157F5492780B369005F182A /* Kingfisher */,
+				8157F54C2780B386005F182A /* InputBarAccessoryView */,
+				8157F54F2780B3A5005F182A /* Alamofire */,
+				8157F5522780B3C6005F182A /* IQKeyboardManagerSwift */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -1266,13 +1397,13 @@
 			);
 			mainGroup = 81C6CC642724769A00DE9219;
 			packageReferences = (
-				81FA71FC277386CA00040BEF /* XCRemoteSwiftPackageReference "Bauly" */,
-				81FA71FF277386D800040BEF /* XCRemoteSwiftPackageReference "Alamofire" */,
-				81FA7202277386E800040BEF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				81FA72202773878C00040BEF /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
-				81FA7223277387C300040BEF /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				81FA72262773880C00040BEF /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8157F53D2780B2F3005F182A /* XCRemoteSwiftPackageReference "Bauly" */,
+				8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
+				8157F54E2780B3A5005F182A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -1376,10 +1507,12 @@
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
 				8157F4D5277AF60F005F182A /* CommentCellPresenter.swift in Sources */,
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
+				8157F5762782E1F1005F182A /* NewBookPresenter.swift in Sources */,
 				8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */,
 				81C6CCBC27247A2B00DE9219 /* BookCover.swift in Sources */,
 				81DE9CA627354C9800FF81C2 /* LibraryService.swift in Sources */,
 				819C5DC527247FB400F1F8F2 /* BookCardMainView.swift in Sources */,
+				8157F50F277F4260005F182A /* ContactView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* DetailedBookCollectionViewCell.swift in Sources */,
 				811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */,
 				81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */,
@@ -1394,11 +1527,10 @@
 				81FA72772774835700040BEF /* SingleSection.swift in Sources */,
 				8188524127748D9D002813A1 /* LibraryServiceProtocol.swift in Sources */,
 				81792F612732756D005F863B /* StackView.swift in Sources */,
-				8188526727788693002813A1 /* NewBookPresenter.swift in Sources */,
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
-				8157F509277DE954005F182A /* NewbookPickerDataSource.swift in Sources */,
+				8157F509277DE954005F182A /* NewBookPickerDataSource.swift in Sources */,
 				8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */,
 				81242D91272EACFD00CB39B1 /* BookLibraryViewController.swift in Sources */,
 				816AE81C275F68A800747548 /* AlertManager.swift in Sources */,
@@ -1406,9 +1538,10 @@
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				81FA725727747F1E00040BEF /* AlertBannerTypes.swift in Sources */,
 				819CD6E9275B6629002A9B12 /* MessageModel.swift in Sources */,
+				8157F57D2782E36F005F182A /* BookListMenu.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
-				8188526D2778A48A002813A1 /* NewBookControllerViewDelegate.swift in Sources */,
 				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
+				8157F5742782E12F005F182A /* AccountTabPresenter.swift in Sources */,
 				818852522774BE87002813A1 /* BookDetailComponent.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
 				8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */,
@@ -1416,7 +1549,10 @@
 				81FA724E27747E1200040BEF /* PushNotifications.swift in Sources */,
 				811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */,
 				810C447927271351007541C0 /* AccountMainView.swift in Sources */,
+				81F692D427849B140001450D /* UserDataCellPresenter.swift in Sources */,
 				811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */,
+				8157F513277F4627005F182A /* AccountTabMainView.swift in Sources */,
+				81F692DE2784C14D0001450D /* UserCellData.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* BookCollectionViewCell.swift in Sources */,
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */,
@@ -1427,11 +1563,13 @@
 				81DB8DFD275399C400698B92 /* CommentService.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				81FA724A27747D7000040BEF /* ImageRetriever.swift in Sources */,
+				81F692D92784BFD30001450D /* UserCellPresenter.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				8157F4DA277AFAFA005F182A /* BookCardMainViewDelegate.swift in Sources */,
 				8138DDE2274784D400C355C6 /* Formatter.swift in Sources */,
 				81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */,
 				818852622778863B002813A1 /* BookCardPresenter.swift in Sources */,
+				8157F5572781D519005F182A /* BookCardDelegate.swift in Sources */,
 				81FA72792774837100040BEF /* CommentsSections.swift in Sources */,
 				819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */,
 				8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */,
@@ -1450,6 +1588,8 @@
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
 				81C6CCBA27247A2B00DE9219 /* PriceView.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
+				8157F55A2781D585005F182A /* BarcodeScannerDelegate.swift in Sources */,
+				8157F5722782DBF9005F182A /* AccountDataPresenter.swift in Sources */,
 				81FA725A27747F6F00040BEF /* QueryTypes.swift in Sources */,
 				8188526A2778A461002813A1 /* AccountControllerViewDelegate.swift in Sources */,
 				811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */,
@@ -1458,10 +1598,11 @@
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
 				81FA72662774813500040BEF /* FormatterProtocol.swift in Sources */,
 				813B7C712733A44F005BFBDB /* UserService.swift in Sources */,
+				8105937F27870D2000ACBA2C /* NewCategoryViewController.swift in Sources */,
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
 				81C6CCBB27247A2B00DE9219 /* Button.swift in Sources */,
 				810C44772727102D007541C0 /* AccountSetupViewController.swift in Sources */,
-				8157F4D2277AEFB6005F182A /* AccountDataPresenter.swift in Sources */,
+				8105937D278705CC00ACBA2C /* NewCategoryMainView.swift in Sources */,
 				8188523B27748D06002813A1 /* CommentServiceProtocol.swift in Sources */,
 				810C447B2727189B007541C0 /* TextField.swift in Sources */,
 				81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */,
@@ -1473,18 +1614,20 @@
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
 				8188525927786D9F002813A1 /* NewBookCardDataPresenter.swift in Sources */,
+				814765762782E5B700B4ED12 /* NewBookControllerViewDelegate.swift in Sources */,
 				8188524427748DDF002813A1 /* MessageServiceProtocol.swift in Sources */,
 				8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */,
 				81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */,
 				8188525D2778858B002813A1 /* CellPresenter.swift in Sources */,
 				81DB8DE52752329300698B92 /* BookListLayout.swift in Sources */,
+				8157F511277F448E005F182A /* AccountView.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81FA72632774810F00040BEF /* ConverterProtocol.swift in Sources */,
-				81DB8DE42752329300698B92 /* HomeControllerLayout.swift in Sources */,
+				81DB8DE42752329300698B92 /* HomeTabLayout.swift in Sources */,
 				81FA726E277482B700040BEF /* ActionTypes.swift in Sources */,
 				81451DCE276F345C00F3C0C8 /* BarcodeControllerView.swift in Sources */,
 				81FA72752774831E00040BEF /* AccountInterfaceTypes.swift in Sources */,
-				8157F4DC277AFBDF005F182A /* BookListMenuDelegate.swift in Sources */,
+				8157F515277F5140005F182A /* AppLogoView.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				8188525527785CD8002813A1 /* BookCellPresenter.swift in Sources */,
 				81C6CCA7272477D200DE9219 /* HomeViewController.swift in Sources */,
@@ -1494,26 +1637,28 @@
 				81FA725527747EB100040BEF /* FeedbackManagerProtocol.swift in Sources */,
 				81FA72602774803C00040BEF /* QueryProtocol.swift in Sources */,
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
+				81F692D2278497010001450D /* UserCollectionViewCell.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
+				8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */,
 				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				8121F0C127400541006EAA8D /* CollectionViewController.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
-				818657A727649D5C00B25116 /* AccountControllerView.swift in Sources */,
+				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
 				81FA727C2774848800040BEF /* FeedbackManager.swift in Sources */,
-				81792F5D2731A311005F863B /* StaticTableViewController.swift in Sources */,
-				8157F4D0277AEF3D005F182A /* AccountPresenter.swift in Sources */,
 				81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */,
-				818657EB27664F9F00B25116 /* BookListMenu.swift in Sources */,
 				811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */,
 				81FA72692774817E00040BEF /* Validation.swift in Sources */,
+				8147657A2782E63700B4ED12 /* NewBookPickerDelegate.swift in Sources */,
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
 				81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */,
 				812B16132772106200D65C6A /* BarcodeReader.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* AccountViewController.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
-				81C6CCCD27247AF100DE9219 /* Colors.swift in Sources */,
-				81885230277486E7002813A1 /* BookGridSize.swift in Sources */,
+				81C6CCCD27247AF100DE9219 /* UIColors+Extension.swift in Sources */,
+				81885230277486E7002813A1 /* GridSize.swift in Sources */,
+				814765782782E61C00B4ED12 /* NewBookDelegate.swift in Sources */,
+				8157F57C2782E36F005F182A /* BookListMenuDelegate.swift in Sources */,
 				81B91845274BCFDE00486176 /* Validator.swift in Sources */,
 				8188523E27748D44002813A1 /* ImageStorageProtocol.swift in Sources */,
 			);
@@ -1594,7 +1739,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -1613,7 +1758,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1622,7 +1767,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -1641,7 +1786,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1774,7 +1919,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -1787,8 +1932,10 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à votre phototèque pour que vous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1813,7 +1960,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -1826,8 +1973,10 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Nous avons besoin d'acceder à votre phototèque pour que vous puissiez choisir un photo pour la couverture d'un livre.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1938,31 +2087,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		81FA71FC277386CA00040BEF /* XCRemoteSwiftPackageReference "Bauly" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/wiencheck/Bauly.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.7;
-			};
-		};
-		81FA71FF277386D800040BEF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		81FA7202277386E800040BEF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1970,15 +2095,23 @@
 				kind = branch;
 			};
 		};
-		81FA72202773878C00040BEF /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
+		8157F53D2780B2F3005F182A /* XCRemoteSwiftPackageReference "Bauly" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nathantannar4/InputBarAccessoryView.git";
+			repositoryURL = "https://github.com/wiencheck/Bauly.git";
 			requirement = {
 				branch = master;
 				kind = branch;
 			};
 		};
-		81FA7223277387C300040BEF /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -1986,9 +2119,25 @@
 				kind = branch;
 			};
 		};
-		81FA72262773880C00040BEF /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			repositoryURL = "https://github.com/nathantannar4/InputBarAccessoryView.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		8157F54E2780B3A5005F182A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -1997,100 +2146,110 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		81FA71FD277386CA00040BEF /* Bauly */ = {
+		8157F5212780B2DB005F182A /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA71FC277386CA00040BEF /* XCRemoteSwiftPackageReference "Bauly" */;
-			productName = Bauly;
-		};
-		81FA7200277386D800040BEF /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81FA71FF277386D800040BEF /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		81FA7203277386E800040BEF /* IQKeyboardManagerSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81FA7202277386E800040BEF /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
-			productName = IQKeyboardManagerSwift;
-		};
-		81FA72062773876000040BEF /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
 		};
-		81FA72082773876000040BEF /* FirebaseAnalyticsSwift-Beta */ = {
+		8157F5232780B2DB005F182A /* FirebaseAnalyticsSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseAnalyticsSwift-Beta";
 		};
-		81FA720A2773876000040BEF /* FirebaseAuth */ = {
+		8157F5252780B2DB005F182A /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		81FA720C2773876000040BEF /* FirebaseCrashlytics */ = {
+		8157F5272780B2DB005F182A /* FirebaseAuthCombine-Community */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		8157F5292780B2DB005F182A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
 		};
-		81FA720E2773876000040BEF /* FirebaseDatabase */ = {
+		8157F52B2780B2DB005F182A /* FirebaseDatabase */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabase;
 		};
-		81FA72102773876000040BEF /* FirebaseDatabaseSwift-Beta */ = {
+		8157F52D2780B2DB005F182A /* FirebaseDatabaseSwift-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseDatabaseSwift-Beta";
 		};
-		81FA72122773876000040BEF /* FirebaseFirestore */ = {
+		8157F52F2780B2DB005F182A /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		81FA72142773876000040BEF /* FirebaseFirestoreSwift-Beta */ = {
+		8157F5312780B2DB005F182A /* FirebaseFirestoreCombine-Community */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		8157F5332780B2DB005F182A /* FirebaseFirestoreSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreSwift-Beta";
 		};
-		81FA72162773876000040BEF /* FirebaseFunctions */ = {
+		8157F5352780B2DB005F182A /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFunctions;
-		};
-		81FA72182773876000040BEF /* FirebaseFunctionsSwift-Beta */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseFunctionsSwift-Beta";
-		};
-		81FA721A2773876000040BEF /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
 		};
-		81FA721C2773876000040BEF /* FirebaseStorage */ = {
+		8157F5372780B2DB005F182A /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
-		81FA721E2773876000040BEF /* FirebaseStorageSwift-Beta */ = {
+		8157F5392780B2DB005F182A /* FirebaseStorageCombine-Community */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72052773876000040BEF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+		8157F53B2780B2DB005F182A /* FirebaseStorageSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
 		};
-		81FA72212773878C00040BEF /* InputBarAccessoryView */ = {
+		8157F53E2780B2F3005F182A /* Bauly */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72202773878C00040BEF /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */;
-			productName = InputBarAccessoryView;
+			package = 8157F53D2780B2F3005F182A /* XCRemoteSwiftPackageReference "Bauly" */;
+			productName = Bauly;
 		};
-		81FA7224277387C400040BEF /* Kingfisher */ = {
+		8157F5442780B34D005F182A /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA7223277387C300040BEF /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = 8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		8157F5462780B34D005F182A /* _LottieCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = _LottieCore;
+		};
+		8157F5492780B369005F182A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
-		81FA72272773880C00040BEF /* Lottie */ = {
+		8157F54C2780B386005F182A /* InputBarAccessoryView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81FA72262773880C00040BEF /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
+			package = 8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */;
+			productName = InputBarAccessoryView;
+		};
+		8157F54F2780B3A5005F182A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F54E2780B3A5005F182A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		8157F5522780B3C6005F182A /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

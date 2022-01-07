@@ -9,7 +9,8 @@ import Foundation
 
 class Formatter: FormatterProtocol {
     /// Format a timeStamp to a time ago string.
-    /// - Parameter timestamp: Otional Double
+    /// - Parameters:
+    ///  - timestamp: Otional Double
     /// - Returns: String
     /// - Note: Returns a string in the device prefered language.
     func formatTimeStampToRelativeDate(for timestamp: Double?) -> String {
@@ -25,7 +26,8 @@ class Formatter: FormatterProtocol {
     }
     
     /// Format a Date String to Year only String.
-    ///  - Parameter dateString: Optional String
+    ///  - Parameters:
+    ///     - dateString: Optional String
     ///  - Returns: Four digits Year String
     ///  - Note: For example 2021-12-12 to 2021. Uses "yyyy-MM-dd" as input formatter as the API provides only this type odf date format.
     func formatDateToYearString(for dateString: String?) -> String {
@@ -43,7 +45,8 @@ class Formatter: FormatterProtocol {
     /// Format a price
     /// - Note: We can safely force-unwrap the optional that NumberFormatter returns from the call,
     /// since we’re in complete control over the NSNumber that is being passed into it.
-    /// - Parameter currencyCode: 3 letters currency code (ie: EUR, USD etc)
+    /// - Parameters:
+    ///  - currencyCode: 3 letters currency code (ie: EUR, USD etc)
     /// - Returns: Formatted price with currency symbal and remova lof trailing 0.
     func formatDoubleToPrice(with value: Double?, currencyCode: String?) -> String {
         let formatter = NumberFormatter()
@@ -58,7 +61,8 @@ class Formatter: FormatterProtocol {
     }
     
     /// Format a language or currency code to human readable string.
-    /// - Parameter code: Optional String
+    /// - Parameters:
+    ///  - code: Optional String
     /// - Returns: String
     func formatCodeToName(from code: String?, type: CodeType) -> String {
         guard let code = code,

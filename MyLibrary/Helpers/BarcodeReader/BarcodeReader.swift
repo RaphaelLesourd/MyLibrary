@@ -16,6 +16,20 @@ class BarcodeReader: NSObject {
     private weak var presentationController: UIViewController?
     private weak var delegate: BarcodeReaderDelegate?
     private var permissions: Permissions
+    private var previewOrientation: AVCaptureVideoOrientation {
+        switch UIApplication.shared.windows.first?.windowScene?.interfaceOrientation {
+        case .portrait, .none:
+            return .portrait
+        case .portraitUpsideDown, .unknown:
+            return .portraitUpsideDown
+        case .landscapeLeft:
+            return .landscapeLeft
+        case .landscapeRight:
+            return .landscapeRight
+        @unknown default:
+            return .portrait
+        }
+    }
 
     init(presentationController: UIViewController,
          delegate: BarcodeReaderDelegate,
@@ -83,7 +97,8 @@ class BarcodeReader: NSObject {
         DispatchQueue.main.async {
             let cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             cameraPreviewLayer.videoGravity = .resizeAspectFill
-            cameraPreviewLayer.connection?.videoOrientation = .portrait
+            cameraPreviewLayer.connection?.videoOrientation = self.previewOrientation
+            
             if let controller = self.presentationController as? BarcodeScanViewController {
                 cameraPreviewLayer.frame = controller.mainView.videoPreviewContainerView.bounds
                 controller.mainView.videoPreviewContainerView.layer.insertSublayer(cameraPreviewLayer, at: 0)
@@ -91,6 +106,7 @@ class BarcodeReader: NSObject {
             }
         }
     }
+    
     // MARK: Vision
     /// Analyze the result of the handled request.
     /// - Get a list of potential barcodes from the request.

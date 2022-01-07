@@ -11,13 +11,8 @@ import MessageUI
 class FeedbackManager: NSObject {
     
     // MARK: - Propperties
-    private var presentationController: UIViewController?
     private let appVersion = "\(UIApplication.appName) - \(Text.Misc.appVersion) \(UIApplication.version)"
-    
-    // MARK: - Initializer
-    init(presentationController: UIViewController) {
-        self.presentationController = presentationController
-    }
+  
 }
 // MARK: - Extension MFMailCompseDelegate
 extension FeedbackManager: MFMailComposeViewControllerDelegate {
@@ -43,14 +38,15 @@ extension FeedbackManager: MFMailComposeViewControllerDelegate {
 }
 // MARK: - Extension FeedBackSender
 extension FeedbackManager: FeedbackManagerProtocol {
-    func presentMail() {
+ 
+    func presentMail(on controller: UIViewController) {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients([Keys.feedbackEmail])
             mail.setMessageBody("<p>\(appVersion)</p>", isHTML: true)
 
-            presentationController?.present(mail, animated: true)
+            controller.present(mail, animated: true)
         } else {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.unableToOpenMailAppTitle)
         }

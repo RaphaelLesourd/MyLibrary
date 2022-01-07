@@ -28,8 +28,10 @@ class CategoryService {
     init() {
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-      
-    private func checkIfDocumentExist(categoryName: String, completion: @escaping (String?) -> Void) {
+    
+    // MARK: - Private functions
+    private func checkIfDocumentExist(categoryName: String,
+                                      completion: @escaping (String?) -> Void) {
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -49,7 +51,9 @@ class CategoryService {
         }
     }
     
-    private func getCategoryName(for id: String, bookOwnerID: String, completion: @escaping (String?) -> Void) {
+    private func getCategoryName(for id: String,
+                                 bookOwnerID: String,
+                                 completion: @escaping (String?) -> Void) {
         let docRef = usersCollectionRef
             .document(bookOwnerID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -72,7 +76,9 @@ class CategoryService {
 extension CategoryService: CategoryServiceProtocol {
     
     // MARK: Add
-    func addCategory(for categoryName: String, completion: @escaping (FirebaseError?) -> Void) {
+    func addCategory(for categoryName: String,
+                     color: String,
+                     completion: @escaping (FirebaseError?) -> Void) {
         guard !categoryName.isEmpty else {
             completion(.noCategory)
             return
@@ -88,7 +94,7 @@ extension CategoryService: CategoryServiceProtocol {
                 return
             }
             let id = UUID().uuidString
-            let category = CategoryModel(uid: id, name: categoryName.lowercased())
+            let category = CategoryModel(uid: id, name: categoryName.lowercased(), color: color)
             do {
                 try docRef.document(id).setData(from: category)
                 self?.categories.append(category)
@@ -123,7 +129,9 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
     
-    func getCategoryNameList(for categoryIds: [String], bookOwnerID: String, completion: @escaping ([String]) -> Void) {
+    func getCategoryNameList(for categoryIds: [String],
+                             bookOwnerID: String,
+                             completion: @escaping ([String]) -> Void) {
         var categoryList: [String] = []
         categoryIds.forEach {
             getCategoryName(for: $0, bookOwnerID: bookOwnerID) { categoryName in
@@ -135,7 +143,10 @@ extension CategoryService: CategoryServiceProtocol {
     }
     
     // MARK: Update
-    func updateCategoryName(for category: CategoryModel, with name: String?, completion: @escaping (FirebaseError?) -> Void) {
+    func updateCategoryName(for category: CategoryModel,
+                            with name: String?,
+                            color: String,
+                            completion: @escaping (FirebaseError?) -> Void) {
         guard let name = name, !name.isEmpty else {
             completion(.noCategory)
             return
@@ -145,7 +156,8 @@ extension CategoryService: CategoryServiceProtocol {
             .collection(CollectionDocumentKey.category.rawValue)
             .document(category.uid ?? "")
         
-        docRef.updateData([DocumentKey.name.rawValue : name]) { error in
+        docRef.updateData([DocumentKey.name.rawValue : name,
+                           DocumentKey.color.rawValue: color]) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
@@ -155,7 +167,8 @@ extension CategoryService: CategoryServiceProtocol {
     }
     
     // MARK: Delete
-    func deleteCategory(for category: CategoryModel, completion: @escaping (FirebaseError?) -> Void) {
+    func deleteCategory(for category: CategoryModel,
+                        completion: @escaping (FirebaseError?) -> Void) {
         guard let categoryID = category.uid else {
             completion(.noCategory)
             return

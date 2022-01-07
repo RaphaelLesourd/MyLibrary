@@ -31,7 +31,8 @@ class MessageService {
             .chunked(into: 10)
     }
     
-    private func getAllCommentSenders(for comments: [CommentModel], completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
+    private func getAllCommentSenders(for comments: [CommentModel],
+                                      completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
         
         let userIds = getCommentUserID(from: comments)
         userIds.forEach { ids in
@@ -56,7 +57,9 @@ class MessageService {
         }
     }
     
-    private func postPushNotifications(to users: [UserModel], with message: String, for book: Item) {
+    private func postPushNotifications(to users: [UserModel],
+                                       with message: String,
+                                       for book: Item) {
         guard let bookTitle = book.volumeInfo?.title,
               let bookID = book.bookID,
               let ownerID = book.ownerID,
@@ -79,7 +82,9 @@ class MessageService {
 // MARK: - MessageService Protocol
 extension MessageService: MessageServiceProtocol {
     
-    func sendCommentNotification(for book: Item, message: String, for comments: [CommentModel],
+    func sendCommentNotification(for book: Item,
+                                 message: String,
+                                 for comments: [CommentModel],
                                  completion: @escaping (FirebaseError?) -> Void) {
         getAllCommentSenders(for: comments) { [weak self] result in
             switch result {

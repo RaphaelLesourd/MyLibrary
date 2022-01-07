@@ -116,7 +116,7 @@
 "DeleteThisBook" = "Delete this book";
 "CommentEntry" = "Enter your thoughts...";
  
-"Version" = "Version";
+"Version" = "Version ";
 "Build" = "Build";
 "AppCreationYear" = "Created in";
 "ContactUs" = "Contact us";
@@ -165,3 +165,7 @@
 "InvalidEmail" = "Invalid email";
 "InvalidPassword" = "Invalid password";
 "AccountDontExist" = "No account exist with this email.";
+
+"NewCategoryTitle" = "New category";
+"NewCategorySubtitle" = "Create a new category by giving a name and set a color.";
+"CategoryColorSectionTitle" = "Category color";

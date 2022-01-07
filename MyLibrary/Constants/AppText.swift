@@ -37,8 +37,10 @@ enum Text {
         static let barcodeController = NSLocalizedString("BarcodeControllerTitle", comment: "Barcode Controller Title")
         static let barcodeControllerSubitle = NSLocalizedString("BarcodeControllerSubitle", comment: "Barcode Controller Subitle")
         static let acknowledgements = NSLocalizedString("Acknowledgments", comment: "Acknoledgements title")
+        static let newCategoryTitle = NSLocalizedString("NewCategoryTitle", comment: "New Category Title")
+        static let newCategorySubtitle = NSLocalizedString("NewCategorySubtitle", comment: "New Category Subtitle")
     }
-    
+  
     enum Book {
         static let bookName = NSLocalizedString("BookTitle", comment: "book title")
         static let authorName = NSLocalizedString("AuthorName", comment: "Author name")
@@ -63,6 +65,7 @@ enum Text {
         static let userRecommandation = NSLocalizedString("Recommendations", comment: "book title")
         static let readersComment = NSLocalizedString("ReaderComments", comment: "reader's comment view title")
         static let todayComment = NSLocalizedString("Today", comment: "today's comments")
+        static let categoryColor = NSLocalizedString("CategoryColorSectionTitle", comment: "Category Color Title")
     }
     
     enum ButtonTitle {

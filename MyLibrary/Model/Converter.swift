@@ -9,7 +9,8 @@ import Foundation
 
 class Converter: ConverterProtocol {
     /// Format a String to Double
-    /// - Parameter value: Optional  String
+    /// - Parameters:
+    ///  - value: Optional  String
     /// - Returns: Double
     func convertStringToDouble(_ value: String?) -> Double {
         guard let value = value?.replacingOccurrences(of: ",", with: ".") else {
@@ -22,7 +23,8 @@ class Converter: ConverterProtocol {
     }
     
     /// Format a string to Int
-    /// - Parameter value: Optional  String
+    /// - Parameters:
+    ///  - value: Optional  String
     /// - Returns: Int
     func convertStringToInt(_ value: String?) -> Int {
         guard let value = value else {

@@ -16,7 +16,7 @@ class BookCellPresenter {
         self.imageRetriever = imageRetriever
     }
 }
-// MARK: BookCell Adapter protocol
+// MARK: Cell presenter 
 extension BookCellPresenter: CellPresenter {
     
     func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {

@@ -23,9 +23,9 @@
         "package": "Bauly",
         "repositoryURL": "https://github.com/wiencheck/Bauly.git",
         "state": {
-          "branch": null,
+          "branch": "master",
           "revision": "fb6cfffb64d206b9545147f77b92dfaf2d6f60c2",
-          "version": "0.1.7"
+          "version": null
         }
       },
       {
@@ -114,7 +114,7 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": "master",
-          "revision": "0a2924c703902d444002d017b6e9491c819b1f9f",
+          "revision": "15dde451f97a8ae18ea4f94969b7c8546f034b37",
           "version": null
         }
       },
