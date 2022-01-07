@@ -25,7 +25,7 @@ class ContactView: UIView {
     
     // MARK: - Subviews
     let contactButton = Button(title: Text.ButtonTitle.contactUs,
-                               systemImage: "envelope.badge.fill",
+                               systemImage: Images.ButtonIcon.feedBack,
                                imagePlacement: .leading,
                                tintColor: .appTintColor,
                                backgroundColor: .appTintColor)

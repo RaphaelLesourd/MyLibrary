@@ -39,6 +39,8 @@ enum Text {
         static let acknowledgements = NSLocalizedString("Acknowledgments", comment: "Acknoledgements title")
         static let newCategoryTitle = NSLocalizedString("NewCategoryTitle", comment: "New Category Title")
         static let newCategorySubtitle = NSLocalizedString("NewCategorySubtitle", comment: "New Category Subtitle")
+        static let editCategoryTitle = NSLocalizedString("EditCategoryTitle", comment: "New Category Title")
+        static let editCategorySubtitle = NSLocalizedString("EditCategorySubtitle", comment: "New Category Subtitle")
     }
   
     enum Book {
@@ -71,6 +73,7 @@ enum Text {
     enum ButtonTitle {
         static let createProfileButtonTitle = NSLocalizedString("CreateProfile", comment: "create profile title")
         static let save = NSLocalizedString("Save", comment: "save title")
+        static let update = NSLocalizedString("Update", comment: "update title")
         static let signOut = NSLocalizedString("SignOut", comment: "sign out title")
         static let deletaAccount = NSLocalizedString("DeleteAccount", comment: "delete account title")
         static let delete = NSLocalizedString("Delete", comment: "delete title")

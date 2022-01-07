@@ -19,7 +19,7 @@ class ButtonStaticCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(title: String, systemImage: String = "", tintColor: UIColor, backgroundColor: UIColor) {
+    convenience init(title: String, systemImage: UIImage = UIImage(), tintColor: UIColor, backgroundColor: UIColor) {
         self.init()
         self.actionButton.configureButton(with: title,
                                           systemImage: systemImage,

@@ -37,7 +37,7 @@ class NewBookControllerView {
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,
-                                          systemImage: "arrow.down.doc.fill",
+                                          systemImage: Images.ButtonIcon.save,
                                           tintColor: .appTintColor,
                                           backgroundColor: .appTintColor)
     let eraseButtonCell = ButtonStaticCell(title: Text.ButtonTitle.delete,

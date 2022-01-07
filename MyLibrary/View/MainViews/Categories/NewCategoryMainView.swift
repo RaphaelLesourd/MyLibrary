@@ -9,12 +9,15 @@ import UIKit
 
 class NewCategoryMainView: UIView {
     
+    weak var delegate: NewCategoryViewDelegate?
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        contentView.roundView(radius: 12, backgroundColor: .cellBackgroundColor)
+        
         setScrollViewConstraints()
         setMainStackViewConstraints()
-        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +33,7 @@ class NewCategoryMainView: UIView {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 30
+        layout.minimumLineSpacing = 25
         layout.itemSize = CGSize(width: 40, height: 40)
         let collection = UICollectionView(frame: .zero,
                                           collectionViewLayout: layout)
@@ -70,13 +73,30 @@ class NewCategoryMainView: UIView {
     private let colorSectionTitleLabel = TextLabel(fontSize: 18,
                                                    weight: .semibold)
     private let logoView = AppLogoView()
+    private let saveButton = Button(title: Text.ButtonTitle.save,
+                                    imagePlacement: .leading,
+                                    tintColor: .appTintColor,
+                                    backgroundColor: .appTintColor)
     private let mainStackView = StackView(axis: .vertical,
                                           spacing: 50)
+   
+    // MARK: - Configure
+    func updateBackgroundColor(with colorHex: String) {
+        contentView.backgroundColor = UIColor(hexString: colorHex).withAlphaComponent(0.05)
+    }
     
-    private func configure() {
-        titleLabel.text = Text.ControllerTitle.newCategoryTitle
-        subtitleLabel.text = Text.ControllerTitle.newCategorySubtitle
+    func configure(for editing: Bool) {
+        titleLabel.text = editing ? Text.ControllerTitle.editCategoryTitle : Text.ControllerTitle.newCategoryTitle
+        subtitleLabel.text = editing ? Text.ControllerTitle.editCategorySubtitle : Text.ControllerTitle.newCategorySubtitle
         colorSectionTitleLabel.text = Text.SectionTitle.categoryColor
+       
+        let buttonTitle = editing ? Text.ButtonTitle.update : Text.ButtonTitle.save
+        saveButton.configureButton(with: buttonTitle)
+        saveButton.addTarget(self, action: #selector(saveCategory), for: .touchUpInside)
+    }
+    
+    @objc private func saveCategory() {
+        delegate?.saveCategory()
     }
 }
 
@@ -87,14 +107,12 @@ extension NewCategoryMainView {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: centerXAnchor),
             scrollView.widthAnchor.constraint(equalTo: widthAnchor),
             scrollView.topAnchor.constraint(equalTo: topAnchor, constant: 30),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor,  constant: -16),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
@@ -107,17 +125,19 @@ extension NewCategoryMainView {
                                            categoryTextField,
                                            colorSectionTitleLabel,
                                            collectionView,
+                                           saveButton,
                                            logoView]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
         mainStackView.setCustomSpacing(10, after: colorSectionTitleLabel)
-        mainStackView.setCustomSpacing(80, after: collectionView)
+        mainStackView.setCustomSpacing(80, after: categoryTextField)
+        mainStackView.setCustomSpacing(100, after: saveButton)
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 }

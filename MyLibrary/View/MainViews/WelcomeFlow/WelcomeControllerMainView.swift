@@ -34,11 +34,9 @@ class WelcomeControllerMainView: UIView {
     
     // MARK: - Subviews
     let loginButton = Button(title: Text.Account.loginTitle,
-                                   systemImage: "",
                                    imagePlacement: .leading,
                                    tintColor: .systemOrange)
     let signupButton = Button(title: Text.Account.signupTitle,
-                                    systemImage: "",
                                     imagePlacement: .leading,
                                     tintColor: .white,
                                     backgroundColor: .white)

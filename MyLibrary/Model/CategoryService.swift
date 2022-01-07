@@ -51,9 +51,9 @@ class CategoryService {
         }
     }
     
-    private func getCategoryName(for id: String,
-                                 bookOwnerID: String,
-                                 completion: @escaping (String?) -> Void) {
+    private func getCategory(for id: String,
+                             bookOwnerID: String,
+                             completion: @escaping (CategoryModel?) -> Void) {
         let docRef = usersCollectionRef
             .document(bookOwnerID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -67,7 +67,7 @@ class CategoryService {
                 return
             }
             if let document = try? querySnapshot.data(as: CategoryModel.self) {
-                completion(document.name)
+                completion(document)
             }
         }
     }
@@ -129,14 +129,14 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
     
-    func getCategoryNameList(for categoryIds: [String],
-                             bookOwnerID: String,
-                             completion: @escaping ([String]) -> Void) {
-        var categoryList: [String] = []
+    func getCategoryList(for categoryIds: [String],
+                         bookOwnerID: String,
+                         completion: @escaping ([CategoryModel]) -> Void) {
+        var categoryList: [CategoryModel] = []
         categoryIds.forEach {
-            getCategoryName(for: $0, bookOwnerID: bookOwnerID) { categoryName in
-                guard let categoryName = categoryName else { return }
-                categoryList.append(categoryName)
+            getCategory(for: $0, bookOwnerID: bookOwnerID) { category in
+                guard let category = category else { return }
+                categoryList.append(category)
                 completion(categoryList)
             }
         }

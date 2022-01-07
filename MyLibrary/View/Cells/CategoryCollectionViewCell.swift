@@ -8,7 +8,7 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
-    private let colorAlpha: CGFloat = 0.3
+    private let colorAlpha: CGFloat = 0.1
     
     // MARK: - Initializer
     override init(frame: CGRect) {

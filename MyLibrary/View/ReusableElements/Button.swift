@@ -22,7 +22,7 @@ class Button: UIButton {
     }
     
     convenience init(title: String,
-                     systemImage: String = "book.fill",
+                     systemImage: UIImage = UIImage(),
                      imagePlacement: NSDirectionalRectEdge = .leading,
                      tintColor: UIColor = .appTintColor,
                      backgroundColor: UIColor = .appTintColor) {
@@ -37,7 +37,7 @@ class Button: UIButton {
     private let activityIndicator = UIActivityIndicatorView()
     
     func configureButton(with title: String = "",
-                         systemImage: String = "",
+                         systemImage: UIImage? = nil,
                          imagePlacement: NSDirectionalRectEdge = .leading,
                          tintColor: UIColor = .appTintColor,
                          backgroundColor: UIColor = .appTintColor) {
@@ -45,13 +45,12 @@ class Button: UIButton {
         let font = UIFont.systemFont(ofSize: 16, weight: .medium)
         if #available(iOS 15.0, *) {
             configuration = UIButton.Configuration.tinted()
-            configuration?.image = UIImage(systemName: systemImage)
             configuration?.cornerStyle = .medium
             configuration?.baseForegroundColor = tintColor
             configuration?.baseBackgroundColor = backgroundColor
             configuration?.buttonSize = .large
             configuration?.titlePadding = 10
-            configuration?.image = UIImage(systemName: systemImage)
+            configuration?.image = systemImage
             configuration?.imagePadding = 10
             configuration?.imagePlacement = imagePlacement
             var container = AttributeContainer()

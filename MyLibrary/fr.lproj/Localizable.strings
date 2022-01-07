@@ -34,6 +34,7 @@
 "CreateProfile" = "Créer un profil";
 
 "Save" = "Enregistrer";
+"Update" = "Mettre à jour";
 "SignOut" = "Déconnexion";
 "DeleteAccount" = "Effacer le compte";
 "Delete" = "Effacer";
@@ -168,5 +169,7 @@
 "AccountDontExist" = "Aucun compte existe avec cet email.";
 
 "NewCategoryTitle" = "Nouvelle catégorie";
-"NewCategorySubtitle" = "Céez une nouvelle catégorie en lui donnant un nom et une couleur.";
+"NewCategorySubtitle" = "Créez une nouvelle catégorie en lui donnant un nom et une couleur.";
 "CategoryColorSectionTitle" = "Couleur de la catégorie";
+"EditCategoryTitle" = "Editer catégorie";
+"EditCategorySubtitle" = "Changer cette catégorie en lui donnant un nom et une couleur.";

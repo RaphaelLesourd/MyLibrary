@@ -35,6 +35,7 @@
  
 "Save" = "Save";
 "SignOut" = "Sign out";
+"Update" = "Update";
 "DeleteAccount" = "Delete account";
 "Delete" = "Delete";
 "Edit" = "Edit";
@@ -169,3 +170,5 @@
 "NewCategoryTitle" = "New category";
 "NewCategorySubtitle" = "Create a new category by giving a name and set a color.";
 "CategoryColorSectionTitle" = "Category color";
+"EditCategoryTitle" = "Edit category";
+"EditCategorySubtitle" = "Modify this category by giving a name and set a color.";

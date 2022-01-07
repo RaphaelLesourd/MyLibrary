@@ -45,7 +45,9 @@ enum Images {
         static let favorite = UIImage(systemName: "heart.fill")
         static let lightBulbOn = UIImage(systemName: "lightbulb.slash.fill")
         static let lightBulbOff = UIImage(systemName: "lightbulb.fill")
-        static let selectedCategoryBadge = UIImage(systemName: "circle.inset.filled")
+        static let selectedCategoryBadge = UIImage(systemName: "circle.inset.filled") ?? UIImage(systemName: "checkmark.circle.fill")!
         static let categoryBadge = UIImage(systemName: "circle.fill")
+        static let feedBack = UIImage(systemName: "envelope.badge.fill")!
+        static let save = UIImage(systemName: "arrow.down.doc.fill")!
     }
 }

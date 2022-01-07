@@ -50,15 +50,13 @@ class AccountView: UIView {
                                       correction: .no,
                                       capitalization: .none)
     let signoutButton = Button(title: Text.ButtonTitle.signOut,
-                               systemImage: Text.ButtonTitle.signOut,
                                imagePlacement: .leading,
                                tintColor: .systemPurple,
                                backgroundColor: .systemPurple)
     let deleteButton = Button(title: Text.ButtonTitle.deletaAccount,
-                               systemImage: "",
                               imagePlacement: .leading,
-                               tintColor: .systemRed,
-                               backgroundColor: .clear)
+                              tintColor: .systemRed,
+                              backgroundColor: .clear)
     private let profileImageContainerView = UIView()
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)

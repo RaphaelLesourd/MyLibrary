@@ -15,7 +15,11 @@ class NewCategoryViewController: UIViewController {
     private let editingCategory: Bool
     private let category: CategoryModel?
     private let categoryService: CategoryServiceProtocol
-    private var chosenColor: String = "e38801"
+    private var chosenColor: String = "e38801" {
+        didSet {
+            mainView.updateBackgroundColor(with: chosenColor)
+        }
+    }
     private let defaultColors: [String] = ["426db3","4c7e9c","579188","4a8259","58a94c","a8c81b",
                                            "97a948","858974","a4a68c","ad8587","d1a8b4","a480cf",
                                            "af689b","ba5066","dd6e33","e25928","d23408","bb3237",
@@ -44,23 +48,23 @@ class NewCategoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = false
         mainView.categoryTextField.becomeFirstResponder()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.configure(for: editingCategory)
+        mainView.delegate = self
         mainView.categoryTextField.delegate = self
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setEditedCategoryName()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
-    }
-    
     // MARK: - Setup
     private func setEditedCategoryName() {
         guard let category = category,
@@ -69,7 +73,7 @@ class NewCategoryViewController: UIViewController {
         if let color = category.color,
             let index = defaultColors.firstIndex(of: color) {
             let indexPath = IndexPath(item: index, section: 0)
-            mainView.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+            mainView.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             chosenColor = color
         }
     }
@@ -124,9 +128,16 @@ extension NewCategoryViewController: UICollectionViewDelegate {
 
 // MARK: - TextField Delegate
 extension NewCategoryViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        saveCategory()
+        return true
+    }
+}
+// MARK: - NewCategoryViewDelegate
+extension NewCategoryViewController: NewCategoryViewDelegate {
+    func saveCategory() {
         let name = mainView.categoryTextField.text
         editingCategory ? updateCategory(for: category, with: name) : addCategoryToList(name)
-        return true
     }
 }

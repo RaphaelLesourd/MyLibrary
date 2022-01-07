@@ -33,7 +33,7 @@ class UserCollectionViewCell: UICollectionViewCell {
     }()
     private let currentUserIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "seal.fill")
+        imageView.image = Images.ButtonIcon.categoryBadge
         imageView.tintColor = .appTintColor
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
