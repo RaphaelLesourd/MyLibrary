@@ -9,31 +9,45 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
     
-    private let selectionColor = UIColor.label.withAlphaComponent(0.8).cgColor
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentView.roundView(radius: 15, backgroundColor: .clear)
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Subview
+    private let colorBadge: UIImageView = {
+        let view = UIImageView()
+        view.image = Images.ButtonIcon.categoryBadge
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // MARK: - Configure
     func configure(with hex: String) {
-        contentView.backgroundColor = UIColor(hexString: hex)
+        colorBadge.tintColor = UIColor(hexString: hex)
     }
     
     override var isSelected: Bool {
         didSet {
-            contentView.layer.borderColor = selectionColor
-            contentView.layer.borderWidth = isSelected ? 2 : 0
+            colorBadge.image = isSelected ? Images.ButtonIcon.selectedCategoryBadge : Images.ButtonIcon.categoryBadge
         }
     }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        contentView.layer.borderColor = selectionColor
+}
+// MARK: - Constrains
+extension ColorCollectionViewCell {
+    private func setConstraints() {
+        contentView.addSubview(colorBadge)
+        NSLayoutConstraint.activate([
+            colorBadge.topAnchor.constraint(equalTo: contentView.topAnchor),
+            colorBadge.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            colorBadge.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            colorBadge.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
 }

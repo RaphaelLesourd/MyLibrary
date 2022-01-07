@@ -16,13 +16,12 @@ class NewCategoryViewController: UIViewController {
     private let category: CategoryModel?
     private let categoryService: CategoryServiceProtocol
     private var chosenColor: String = "e38801"
-    private let defaultColors: [String] = ["b83545","be4c74","ae50ae",
-                                           "7e6bac","677eab","5090aa",
-                                           "5e97a0","6c9d95","6c927a",
-                                           "6b875e","96975e","958850",
-                                           "937942","bb8122","cf8512",
-                                           "e38801"]
-    
+    private let defaultColors: [String] = ["426db3","4c7e9c","579188","4a8259","58a94c","a8c81b",
+                                           "97a948","858974","a4a68c","ad8587","d1a8b4","a480cf",
+                                           "af689b","ba5066","dd6e33","e25928","d23408","bb3237",
+                                           "a32f65","586ba4","324376","5a6072","837f72","bc854e",
+                                           "f29340","f64c3c","ad3434","747781","219bab","0abfc2"]
+
     // MARK: Initializer
     init(editingCategory: Bool,
          category: CategoryModel?,

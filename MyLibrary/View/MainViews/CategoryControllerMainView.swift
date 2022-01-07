@@ -25,6 +25,7 @@ class CategoryControllerMainView: UIView {
         tableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         tableView.backgroundColor = .clear
         tableView.allowsMultipleSelection = true
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView

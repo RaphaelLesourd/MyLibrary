@@ -166,3 +166,7 @@
 "InvalidEmail" = "Email non valable.";
 "InvalidPassword" = "Mauvais mot de passe.";
 "AccountDontExist" = "Aucun compte existe avec cet email.";
+
+"NewCategoryTitle" = "Nouvelle catégorie";
+"NewCategorySubtitle" = "Céez une nouvelle catégorie en lui donnant un nom et une couleur.";
+"CategoryColorSectionTitle" = "Couleur de la catégorie";

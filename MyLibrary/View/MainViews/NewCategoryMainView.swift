@@ -30,8 +30,8 @@ class NewCategoryMainView: UIView {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 25
-        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.minimumLineSpacing = 30
+        layout.itemSize = CGSize(width: 40, height: 40)
         let collection = UICollectionView(frame: .zero,
                                           collectionViewLayout: layout)
         collection.register(ColorCollectionViewCell.self,
@@ -40,7 +40,7 @@ class NewCategoryMainView: UIView {
         collection.backgroundColor = .clear
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        collection.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return collection
     }()
     
@@ -67,16 +67,16 @@ class NewCategoryMainView: UIView {
                                           maxLines: 4,
                                           fontSize: 16,
                                           weight: .regular)
-    private let colorSectionTitleLabel = TextLabel(fontSize: 16,
-                                                   weight: .regular)
+    private let colorSectionTitleLabel = TextLabel(fontSize: 18,
+                                                   weight: .semibold)
     private let logoView = AppLogoView()
     private let mainStackView = StackView(axis: .vertical,
                                           spacing: 50)
     
     private func configure() {
-        titleLabel.text = "New category"
-        subtitleLabel.text = "Create a new category by giving a name and set a color."
-        colorSectionTitleLabel.text = "Set category color"
+        titleLabel.text = Text.ControllerTitle.newCategoryTitle
+        subtitleLabel.text = Text.ControllerTitle.newCategorySubtitle
+        colorSectionTitleLabel.text = Text.SectionTitle.categoryColor
     }
 }
 

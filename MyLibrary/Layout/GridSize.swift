@@ -47,7 +47,7 @@ enum GridSize: CGFloat, CaseIterable {
         case .large:
             return GridSize.baseSize * 0.5
         case .medium:
-            return GridSize.baseSize * 0.4
+            return GridSize.baseSize * 0.35
         case .small:
             return GridSize.baseSize * 0.25
         case .extraSmall:
