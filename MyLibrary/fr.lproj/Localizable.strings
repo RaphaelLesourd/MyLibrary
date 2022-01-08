@@ -174,3 +174,4 @@
 "CategoryColorSectionTitle" = "Couleur de la catégorie";
 "EditCategoryTitle" = "Editer catégorie";
 "EditCategorySubtitle" = "Changer cette catégorie en lui donnant un nom et une couleur.";
+"NoText" = "Il n'y a rien à sauver.";

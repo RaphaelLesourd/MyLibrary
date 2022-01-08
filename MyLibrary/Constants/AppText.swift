@@ -165,6 +165,7 @@ enum Text {
         static let invalidEmail = NSLocalizedString("InvalidPassword", comment: "Invalid password")
         static let invalidPassword = NSLocalizedString("InvalidEmail", comment: "Invalid email")
         static let accountDontExist = NSLocalizedString("AccountDontExist", comment: "No account exist with this email.")
+        static let noText = NSLocalizedString("NoText", comment: "When textfield is empty")
         
     }
     

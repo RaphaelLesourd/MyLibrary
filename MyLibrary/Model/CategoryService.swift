@@ -80,7 +80,7 @@ extension CategoryService: CategoryServiceProtocol {
                      color: String,
                      completion: @escaping (FirebaseError?) -> Void) {
         guard !categoryName.isEmpty else {
-            completion(.noCategory)
+            completion(.noText)
             return
         }
        
@@ -148,7 +148,7 @@ extension CategoryService: CategoryServiceProtocol {
                             color: String,
                             completion: @escaping (FirebaseError?) -> Void) {
         guard let name = name, !name.isEmpty else {
-            completion(.noCategory)
+            completion(.noText)
             return
         }
         let docRef = usersCollectionRef

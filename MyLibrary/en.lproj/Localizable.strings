@@ -173,3 +173,4 @@
 "CategoryColorSectionTitle" = "Category color";
 "EditCategoryTitle" = "Edit category";
 "EditCategorySubtitle" = "Modify this category by giving a name and set a color.";
+"NoText" = "There is nothing to save.";
