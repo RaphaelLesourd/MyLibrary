@@ -124,7 +124,11 @@ class CategoriesViewController: UIViewController {
         let newCategoryViewController = NewCategoryViewController(editingCategory: editing,
                                                                   category: category,
                                                                   categoryService: CategoryService())
-        present(newCategoryViewController, animated: true, completion: nil)
+        if #available(iOS 15.0, *) {
+            presentSheetController(newCategoryViewController, detents: [.medium()])
+        } else {
+            present(newCategoryViewController, animated: true, completion: nil)
+        }
     }
 }
 // MARK: - TableView Datasource

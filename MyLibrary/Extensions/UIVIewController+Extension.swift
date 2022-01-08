@@ -21,6 +21,20 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
+    @available(iOS 15.0, *)
+    func presentSheetController(_ controller: UIViewController, detents: [UISheetPresentationController.Detent]) {
+        if let sheet = controller.sheetPresentationController {
+            sheet.detents = detents
+            sheet.largestUndimmedDetentIdentifier = .large
+            sheet.preferredCornerRadius = 23
+            sheet.prefersGrabberVisible = true
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+        }
+        present(controller, animated: true, completion: nil)
+    }
+    
     func dismissController() {
         guard UIDevice.current.userInterfaceIdiom == .pad else {
             navigationController?.popViewController(animated: true)

@@ -198,16 +198,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         let barcodeScannerController = BarcodeScanViewController()
         barcodeScannerController.barcodeDelegate = self
         if #available(iOS 15.0, *) {
-            if let sheet = barcodeScannerController.sheetPresentationController {
-                sheet.detents = [.medium()]
-                sheet.largestUndimmedDetentIdentifier = .large
-                sheet.preferredCornerRadius = 23
-                sheet.prefersGrabberVisible = true
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersEdgeAttachedInCompactHeight = true
-                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-                present(barcodeScannerController, animated: true, completion: nil)
-            }
+            presentSheetController(barcodeScannerController, detents: [.medium()])
         } else {
             navigationController?.pushViewController(barcodeScannerController, animated: true)
         }

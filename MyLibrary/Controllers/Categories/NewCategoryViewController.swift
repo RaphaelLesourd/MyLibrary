@@ -11,7 +11,7 @@ class NewCategoryViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = NewCategoryMainView()
-    private var colorPicker = UIColorPickerViewController()
+    private let colorPicker = UIColorPickerViewController()
     private let editingCategory: Bool
     private let category: CategoryModel?
     private let categoryService: CategoryServiceProtocol
@@ -45,12 +45,7 @@ class NewCategoryViewController: UIViewController {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        mainView.categoryTextField.becomeFirstResponder()
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.configure(for: editingCategory)

@@ -15,7 +15,6 @@ class BookCardMainView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
         setTargets()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
@@ -103,8 +102,8 @@ class BookCardMainView: UIView {
     let purchaseDetailView = PriceView()
     let bookDetailView = BookDetailView()
     let isbnLabel = TextLabel(color: .secondaryLabel)
-    let mainStackView = StackView(axis: .vertical,
-                                  spacing: 30)
+    private let mainStackView = StackView(axis: .vertical,
+                                          spacing: 30)
     
     // MARK: - Configure
     func setFavoriteButtonAs(_ isFavorite: Bool) {
@@ -119,7 +118,7 @@ class BookCardMainView: UIView {
     }
     
     func animateBookImage() {
-        let transformation = CGAffineTransform.identity.scaledBy(x: 1.2, y: 1.2).translatedBy(x: 0, y: -10)
+        let transformation = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3).translatedBy(x: 0, y: -20)
         let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
         animator.addAnimations {
             self.backgroundImage.transform = transformation
@@ -132,7 +131,7 @@ class BookCardMainView: UIView {
         deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
         favoriteButton.addTarget(self, action: #selector(favoriteBook), for: .touchUpInside)
         commentView.goToCommentButton.addTarget(self, action: #selector(showBookComments), for: .touchUpInside)
-        
+      
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         bookCover.addGestureRecognizer(tap)
     }
