@@ -39,8 +39,10 @@ class DescriptionMainView: UIView {
         textView.sizeToFit()
         return textView
     }()
-    private let doneButton = Button(title: "Done", systemImage: UIImage(systemName: "checkmark")!)
-    private let stackView = StackView(axis: .vertical, spacing: 20)
+    private let doneButton = Button(title: Text.ButtonTitle.done,
+                                    systemImage: Images.ButtonIcon.done)
+    private let stackView = StackView(axis: .vertical,
+                                      spacing: 20)
     
     // MARK: - Target
     private func addTarget() {

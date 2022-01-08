@@ -49,5 +49,6 @@ enum Images {
         static let categoryBadge = UIImage(systemName: "circle.fill")
         static let feedBack = UIImage(systemName: "envelope.badge.fill")!
         static let save = UIImage(systemName: "arrow.down.doc.fill")!
+        static let done = UIImage(systemName: "hand.tap.fill")!
     }
 }

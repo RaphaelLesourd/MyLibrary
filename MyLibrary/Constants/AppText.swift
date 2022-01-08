@@ -91,6 +91,7 @@ enum Text {
         static let camera = NSLocalizedString("TakePhoto", comment: "camera title")
         static let cameraRoll = NSLocalizedString("CameraRoll", comment: "camera roll title")
         static let photoLibrary = NSLocalizedString("PhotoLibrary", comment: "photo library title")
+        static let done = NSLocalizedString("Done", comment: "done title")
     }
     
     enum Placeholder {
