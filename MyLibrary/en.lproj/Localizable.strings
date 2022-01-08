@@ -174,3 +174,6 @@
 "EditCategoryTitle" = "Edit category";
 "EditCategorySubtitle" = "Modify this category by giving a name and set a color.";
 "NoText" = "There is nothing to save.";
+
+"CategoryListSectionHeader" = "All your books categories";
+"CategoryListSectionFooter" = "Swipe left to edit or delete a category.";

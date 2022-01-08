@@ -27,7 +27,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
     let moreButton: UIButton = {
         let button = UIButton()
         button.setTitle(Text.ButtonTitle.seeAll, for: .normal)
-        button.setTitleColor(.label, for: .normal)
+        button.setTitleColor(.secondaryLabel, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return button
     }()

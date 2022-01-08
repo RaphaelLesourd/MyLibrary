@@ -68,6 +68,10 @@ enum Text {
         static let readersComment = NSLocalizedString("ReaderComments", comment: "reader's comment view title")
         static let todayComment = NSLocalizedString("Today", comment: "today's comments")
         static let categoryColor = NSLocalizedString("CategoryColorSectionTitle", comment: "Category Color Title")
+        static let categoryListSectionHeader = NSLocalizedString("CategoryListSectionHeader",
+                                                                 comment: "categoryList Sectionv Header")
+        static let categoryListSectionFooter = NSLocalizedString("CategoryListSectionFooter",
+                                                                 comment: "category List Section footer")
     }
     
     enum ButtonTitle {
@@ -91,7 +95,7 @@ enum Text {
         static let camera = NSLocalizedString("TakePhoto", comment: "camera title")
         static let cameraRoll = NSLocalizedString("CameraRoll", comment: "camera roll title")
         static let photoLibrary = NSLocalizedString("PhotoLibrary", comment: "photo library title")
-        static let done = NSLocalizedString("Done", comment: "done title")
+        static let done = NSLocalizedString("Done", comment: "done titletoday")
     }
     
     enum Placeholder {

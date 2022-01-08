@@ -155,7 +155,37 @@ extension CategoriesViewController {
 }
 // MARK: - TableView Delegate
 extension CategoriesViewController: UITableViewDelegate {
+    // Header
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionTitleLabel = TextLabel(color: .label,
+                                          maxLines: 2,
+                                          alignment: .left,
+                                          fontSize: 16,
+                                          weight: .regular)
+        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader
+        return sectionTitleLabel
+    }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    // Footer
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let sectionTitleLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 2,
+                                          alignment: .center,
+                                          fontSize: 14,
+                                          weight: .light)
+        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionFooter
+        return sectionTitleLabel
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    // Context menu
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
@@ -179,6 +209,7 @@ extension CategoriesViewController: UITableViewDelegate {
         return action
     }
     
+    // Selection
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let categoryID = categoryService.categories[indexPath.row].uid else { return }
         selectedCategories.append(categoryID)

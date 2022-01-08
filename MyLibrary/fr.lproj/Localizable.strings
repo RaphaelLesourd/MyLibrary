@@ -175,3 +175,6 @@
 "EditCategoryTitle" = "Editer catégorie";
 "EditCategorySubtitle" = "Changer cette catégorie en lui donnant un nom et une couleur.";
 "NoText" = "Il n'y a rien à sauver.";
+
+"CategoryListSectionHeader" = "Toutes vos catégories";
+"CategoryListSectionFooter" = "Glisser vers la gauche pour éditer\nou effacer une catégorie.";
