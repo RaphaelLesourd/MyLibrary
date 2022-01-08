@@ -13,75 +13,81 @@ class BookDescriptionViewController: UIViewController {
     // MARK: - Properties
     var textViewText: String?
     weak var newBookDelegate: NewBookDelegate?
-   
-    private let textView = UITextView()
-  
+    private let mainView = DescriptionMainView()
+    
     // MARK: - Lifecycle
+    
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.description
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        textView.becomeFirstResponder()
+        mainView.textView.becomeFirstResponder()
         IQKeyboardManager.shared.enableAutoToolbar = false
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .viewControllerBackgroundColor
-        title = Text.ControllerTitle.description
-        configureTextView()
-        setTextViewConsraints()
+        keyboardObserver()
         displayData()
+        mainView.delegate = self
     }
-   
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         IQKeyboardManager.shared.enableAutoToolbar = true
-        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         updateData()
     }
     // MARK: - Setup
-    private func configureTextView() {
-        textView.backgroundColor = .clear
-        textView.autocorrectionType = .yes
-        textView.isEditable = true
-        textView.isSelectable = true
-        textView.alwaysBounceVertical = true
-        textView.showsVerticalScrollIndicator = true
-        textView.isScrollEnabled = true
-        textView.textAlignment = .justified
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        textView.textColor = .label
-        textView.sizeToFit()
+    private func keyboardObserver() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(adjustForKeyboard),
+                                       name: UIResponder.keyboardWillHideNotification,
+                                       object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(adjustForKeyboard),
+                                       name: UIResponder.keyboardWillChangeFrameNotification,
+                                       object: nil)
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            animateConstraintChange(with: 0)
+        } else {
+            let height = keyboardViewEndFrame.height - view.safeAreaInsets.bottom
+            animateConstraintChange(with: height)
+        }
+    }
+    
+    private func animateConstraintChange(with height: CGFloat) {
+        mainView.bottomConstraint.constant = -(height + 10)
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     // MARK: - Data
     private func displayData() {
         guard let text = textViewText, !text.isEmpty else { return }
-        textView.text = text
+        mainView.textView.text = text
     }
     
     private func updateData() {
-        if textView.text != textViewText {
-            AlertManager.presentAlert(withTitle: Text.Alert.descriptionChangedTitle,
-                                      message: Text.Alert.descriptionChangedMessage,
-                                      withCancel: true,
-                                      on: self,
-                                      cancelHandler: nil) { [weak self] _ in
-                self?.newBookDelegate?.bookDescription = self?.textView.text
-            }
-        }
+        newBookDelegate?.bookDescription = mainView.textView.text
     }
 }
-// MARK: - Constraints
-extension BookDescriptionViewController {
-    private func setTextViewConsraints() {
-        view.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -350),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
-        ])
+// MARK: - DescriptionViewDelegate
+extension BookDescriptionViewController: DescriptionViewDelegate {
+    func saveDescription() {
+        updateData()
+        dismissController()
     }
 }

@@ -228,10 +228,15 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     }
     
     private func presentTextInputController() {
-        let textInputViewController = BookDescriptionViewController()
-        textInputViewController.newBookDelegate = self
-        textInputViewController.textViewText = bookDescription
-        navigationController?.show(textInputViewController, sender: nil)
+        let descriptionViewController = BookDescriptionViewController()
+        descriptionViewController.newBookDelegate = self
+        descriptionViewController.textViewText = bookDescription
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            navigationController?.show(descriptionViewController, sender: nil)
+            return
+        }
+        let descriptionVC = UINavigationController(rootViewController: descriptionViewController)
+        present(descriptionVC, animated: true, completion: nil)
     }
 }
 

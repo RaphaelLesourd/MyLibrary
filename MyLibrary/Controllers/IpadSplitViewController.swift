@@ -21,16 +21,16 @@ class IpadSplitViewController: UISplitViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        configure()
         setViewControllers()
+        configure()
     }
     
     // MARK: - Setup
     private func configure() {
-        primaryEdge = .leading
-        primaryBackgroundStyle = .none
-        showsSecondaryOnlyButton = true
-    //    preferredDisplayMode = UISplitViewController.DisplayMode.secondaryOnly
+        self.primaryEdge = .leading
+        self.primaryBackgroundStyle = .none
+        self.showsSecondaryOnlyButton = true
+        self.preferredPrimaryColumnWidthFraction = 0.5
     }
     
     private func setViewControllers() {

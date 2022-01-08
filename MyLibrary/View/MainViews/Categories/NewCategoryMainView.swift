@@ -72,7 +72,6 @@ class NewCategoryMainView: UIView {
                                           weight: .regular)
     private let colorSectionTitleLabel = TextLabel(fontSize: 18,
                                                    weight: .semibold)
-    private let logoView = AppLogoView()
     private let saveButton = Button(title: Text.ButtonTitle.save,
                                     imagePlacement: .leading,
                                     tintColor: .appTintColor,
@@ -125,15 +124,13 @@ extension NewCategoryMainView {
                                            categoryTextField,
                                            colorSectionTitleLabel,
                                            collectionView,
-                                           saveButton,
-                                           logoView]
+                                           saveButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
         mainStackView.setCustomSpacing(80, after: categoryTextField)
         mainStackView.setCustomSpacing(10, after: colorSectionTitleLabel)
         mainStackView.setCustomSpacing(60, after: collectionView)
-        mainStackView.setCustomSpacing(100, after: saveButton)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
