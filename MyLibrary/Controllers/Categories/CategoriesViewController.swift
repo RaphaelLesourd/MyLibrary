@@ -74,8 +74,9 @@ class CategoriesViewController: UIViewController {
     
     private func highlightBookCategories() {
         selectedCategories.forEach({ categories in
-            if let index = categoryService.categories.firstIndex(where: { $0.uid == categories }) {
-                let indexPath = IndexPath(row: index, section: 0)
+            if let index = categoryService.categories.firstIndex(where: { $0.uid == categories }),
+               let section = dataSource.snapshot().indexOfSection(.main) {
+                let indexPath = IndexPath(row: index, section: section)
                 mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
             }
         })
@@ -89,7 +90,9 @@ class CategoriesViewController: UIViewController {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            if let index = self.categoryService.categories.firstIndex(where: { $0.name?.lowercased() == category.name?.lowercased() }) {
+            if let index = self.categoryService.categories.firstIndex(where: {
+                $0.name?.lowercased() == category.name?.lowercased()
+            }) {
                 self.categoryService.categories.remove(at: index)
             }
             self.applySnapshot()
@@ -155,12 +158,13 @@ extension CategoriesViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         mainView.emptyStateView.isHidden = !categoryService.categories.isEmpty
+       
         if !categoryService.categories.isEmpty {
             snapshot.appendSections([.main])
             snapshot.appendItems(categoryService.categories, toSection: .main)
+            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
             highlightBookCategories()
         }
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - TableView Delegate
