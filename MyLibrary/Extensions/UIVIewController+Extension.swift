@@ -21,16 +21,17 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
+    // MARK: - Presentation
     @available(iOS 15.0, *)
     func presentSheetController(_ controller: UIViewController, detents: [UISheetPresentationController.Detent]) {
         if let sheet = controller.sheetPresentationController {
             sheet.detents = detents
-            sheet.largestUndimmedDetentIdentifier = .large
+            sheet.largestUndimmedDetentIdentifier = .medium
             sheet.preferredCornerRadius = 23
             sheet.prefersGrabberVisible = true
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersEdgeAttachedInCompactHeight = true
-            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            sheet.prefersEdgeAttachedInCompactHeight = false
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = false
         }
         present(controller, animated: true, completion: nil)
     }

@@ -21,26 +21,25 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTargets()
-    }
-    // MARK: - Setup
-    private func configureTargets() {
         mainView.loginButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentAccountViewController(for: .login)
-        }), for: .valueChanged)
+        }), for: .touchUpInside)
         mainView.signupButton.addAction(UIAction(handler: { [weak self] _ in
             self?.presentAccountViewController(for: .signup)
-        }), for: .valueChanged)
+        }), for: .touchUpInside)
     }
     
-    // MARK: - Targets
     private func presentAccountViewController(for type: AccountInterfaceType) {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
         let accountSetupController = AccountSetupViewController(accountService: accountService,
-                                                           validator: Validator(),
-                                                           interfaceType: type)
-        present(accountSetupController, animated: true, completion: nil)
+                                                                validator: Validator(),
+                                                                interfaceType: type)
+        if #available(iOS 15.0, *) {
+            presentSheetController(accountSetupController, detents: [.large()])
+        } else {
+            present(accountSetupController, animated: true, completion: nil)
+        }
     }
 }

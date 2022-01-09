@@ -650,8 +650,8 @@
 		8157F51F2780904F005F182A /* WelcomeFlow */ = {
 			isa = PBXGroup;
 			children = (
-				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
 				810C446A2726EAC4007541C0 /* WelcomeViewController.swift */,
+				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
 			);
 			path = WelcomeFlow;
 			sourceTree = "<group>";
