@@ -91,11 +91,9 @@ class NewCategoryMainView: UIView {
        
         let buttonTitle = editing ? Text.ButtonTitle.update : Text.ButtonTitle.save
         saveButton.configureButton(with: buttonTitle, systemImage: Images.ButtonIcon.done)
-        saveButton.addTarget(self, action: #selector(saveCategory), for: .touchUpInside)
-    }
-    
-    @objc private func saveCategory() {
-        delegate?.saveCategory()
+        saveButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.saveCategory()
+        }), for: .touchUpInside)
     }
 }
 

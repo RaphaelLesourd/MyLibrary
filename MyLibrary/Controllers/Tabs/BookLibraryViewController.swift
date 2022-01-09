@@ -69,7 +69,9 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.refreshBookList()
+        }), for: .valueChanged)
     }
     
     private func configureNavigationBarButton() {
@@ -130,7 +132,7 @@ class BookLibraryViewController: CollectionViewController {
         }
     }
     // MARK: - Targets
-    @objc func refreshBookList() {
+    private func refreshBookList() {
         title = setTitle()
         noMoreBooks = false
         bookList.removeAll()

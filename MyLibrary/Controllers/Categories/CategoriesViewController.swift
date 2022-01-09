@@ -58,7 +58,9 @@ class CategoriesViewController: UIViewController {
         listView.tableView.dataSource = dataSource
         listView.tableView.allowsSelection = settingBookCategory
         listView.tableView.refreshControl = listView.refresherControl
-        listView.refresherControl.addTarget(self, action: #selector(getCategoryList), for: .valueChanged)
+        listView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.getCategoryList()
+        }), for: .valueChanged)
     }
     
     private func addNavigationBarButtons() {
@@ -93,7 +95,7 @@ class CategoriesViewController: UIViewController {
         }
     }
     
-    @objc private func getCategoryList() {
+    private func getCategoryList() {
         categoryService.getCategories { [weak self] error in
             self?.listView.refresherControl.endRefreshing()
             if let error = error {
@@ -125,7 +127,7 @@ class CategoriesViewController: UIViewController {
                                                                   category: category,
                                                                   categoryService: CategoryService())
         if #available(iOS 15.0, *) {
-            presentSheetController(newCategoryViewController, detents: [.medium()])
+            presentSheetController(newCategoryViewController, detents: [.medium(), .large()])
         } else {
             present(newCategoryViewController, animated: true, completion: nil)
         }

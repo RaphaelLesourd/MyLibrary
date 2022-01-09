@@ -15,7 +15,7 @@ class BookCardMainView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        setTargets()
+        addButtonActions()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
         setBookCoverConstraints()
@@ -126,33 +126,26 @@ class BookCardMainView: UIView {
         animator.startAnimation()
     }
     
-    private func setTargets() {
-        recommandButton.addTarget(self, action: #selector(recommandBook), for: .touchUpInside)
-        deleteBookButton.addTarget(self, action: #selector(deleteBook), for: .touchUpInside)
-        favoriteButton.addTarget(self, action: #selector(favoriteBook), for: .touchUpInside)
-        commentView.goToCommentButton.addTarget(self, action: #selector(showBookComments), for: .touchUpInside)
+    private func addButtonActions() {
+        recommandButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.recommandButtonAction()
+        }), for: .touchUpInside)
+        deleteBookButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.deleteBookAction()
+        }), for: .touchUpInside)
+        favoriteButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.favoriteButtonAction()
+        }), for: .touchUpInside)
+        commentView.goToCommentButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.showCommentsViewController()
+        }), for: .touchUpInside)
       
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         bookCover.addGestureRecognizer(tap)
     }
     
     // MARK: - Targets
-    @objc private func recommandBook() {
-        delegate?.recommandButtonAction()
-    }
-    
-    @objc private func deleteBook() {
-        delegate?.deleteBookAction()
-    }
-    
-    @objc private func favoriteBook() {
-        delegate?.favoriteButtonAction()
-    }
-    
-    @objc private func showBookComments() {
-        delegate?.showCommentsViewController()
-    }
-    
+
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         delegate?.showBookCover()
     }

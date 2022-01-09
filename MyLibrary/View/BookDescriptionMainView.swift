@@ -16,7 +16,7 @@ class DescriptionMainView: UIView {
     // MARK: - Intializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        addTarget()
+        addButtonAction()
         setStackViewConsraints()
     }
     
@@ -45,12 +45,10 @@ class DescriptionMainView: UIView {
                                       spacing: 20)
     
     // MARK: - Target
-    private func addTarget() {
-        doneButton.addTarget(self, action: #selector(saveDescription), for: .touchUpInside)
-    }
-    
-    @objc private func saveDescription() {
-        delegate?.saveDescription()
+    private func addButtonAction() {
+        doneButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.saveDescription()
+        }), for: .touchUpInside)
     }
 }
 // MARK: - Constraints

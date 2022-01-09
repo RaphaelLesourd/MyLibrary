@@ -69,7 +69,9 @@ class SearchViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.refreshBookList()
+        }), for: .valueChanged)
     }
     
     // MARK: - API call
@@ -119,7 +121,7 @@ class SearchViewController: CollectionViewController {
         }
     }
     
-    @objc private func refreshBookList() {
+    private func refreshBookList() {
         searchedBooks.removeAll()
         noMoreBooks = false
         getBooks()

@@ -23,20 +23,24 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         configureTargets()
     }
-    
     // MARK: - Setup
     private func configureTargets() {
-        mainView.loginButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
-        mainView.signupButton.addTarget(self, action: #selector(presentLoginViewController(_:)), for: .touchUpInside)
+        mainView.loginButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.presentAccountViewController(for: .login)
+        }), for: .valueChanged)
+        mainView.signupButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.presentAccountViewController(for: .signup)
+        }), for: .valueChanged)
     }
     
     // MARK: - Targets
-    @objc private func presentLoginViewController(_ sender: UIButton) {
-        let type: AccountInterfaceType = sender == mainView.loginButton ? .login : .signup
+    private func presentAccountViewController(for type: AccountInterfaceType) {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let signingController = AccountSetupViewController(accountService: accountService, validator: Validator(), interfaceType: type)
-        present(signingController, animated: true, completion: nil)
+        let accountSetupController = AccountSetupViewController(accountService: accountService,
+                                                           validator: Validator(),
+                                                           interfaceType: type)
+        present(accountSetupController, animated: true, completion: nil)
     }
 }

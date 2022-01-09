@@ -60,12 +60,16 @@ class AccountSetupViewController: UIViewController {
     }
 
     private func setButtonTargets() {
-        mainView.actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
-        mainView.forgotPasswordButton.addTarget(self, action: #selector(resetPassWordRequest), for: .touchUpInside)
+        mainView.finishButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.finishedButtonTapped()
+        }), for: .touchUpInside)
+        mainView.forgotPasswordButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.resetPassWordRequest()
+        }), for: .touchUpInside)
     }
     
     // MARK: - Targets
-    @objc private func actionButtonTapped() {
+    private func finishedButtonTapped() {
         switch interfaceType {
         case .login:
             loginToAccount()
@@ -79,11 +83,11 @@ class AccountSetupViewController: UIViewController {
     // MARK: - Account
     private func loginToAccount() {
         let user = setUser()
-        mainView.actionButton.displayActivityIndicator(true)
+        mainView.finishButton.displayActivityIndicator(true)
         accountService.login(with: user) { [weak self] error in
             guard let self = self else { return }
             
-            self.mainView.actionButton.displayActivityIndicator(false)
+            self.mainView.finishButton.displayActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -95,11 +99,11 @@ class AccountSetupViewController: UIViewController {
     
     private func createAccount() {
         let user = setUser()
-        mainView.actionButton.displayActivityIndicator(true)
+        mainView.finishButton.displayActivityIndicator(true)
         accountService.createAccount(for: user) { [weak self] error in
             guard let self = self else { return }
 
-            self.mainView.actionButton.displayActivityIndicator(false)
+            self.mainView.finishButton.displayActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -108,7 +112,7 @@ class AccountSetupViewController: UIViewController {
         }
     }
     
-    @objc private func resetPassWordRequest() {
+    private func resetPassWordRequest() {
         AlertManager.presentAlert(withTitle: Text.Alert.forgotPasswordTitle,
                                   message: Text.Alert.forgotPasswordMessage,
                                   withCancel: true,
@@ -140,11 +144,11 @@ class AccountSetupViewController: UIViewController {
     
     private func deleteAccount() {
         let user = setUser()
-        mainView.actionButton.displayActivityIndicator(true)
+        mainView.finishButton.displayActivityIndicator(true)
         self.accountService.deleteAccount(with: user) { [weak self] error in
             guard let self = self else { return }
             
-            self.mainView.actionButton.displayActivityIndicator(false)
+            self.mainView.finishButton.displayActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

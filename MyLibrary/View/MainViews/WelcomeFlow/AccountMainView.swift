@@ -64,7 +64,7 @@ class AccountMainView: UIView {
                                              returnKey: .next,
                                              correction: .no,
                                              capitalization: .none)
-    let actionButton = Button(title: "",
+    let finishButton = Button(title: "",
                               systemImage: Images.ButtonIcon.done,
                               tintColor: .appTintColor)
     
@@ -121,7 +121,7 @@ class AccountMainView: UIView {
     private func updateUiTexts(title: String, subtitle: String, buttonTitle: String) {
         titleLabel.text = title
         subtitleLabel.text = subtitle
-        actionButton.setTitle(buttonTitle, for: .normal)
+        finishButton.setTitle(buttonTitle, for: .normal)
     }
     
 }
@@ -154,7 +154,7 @@ extension AccountMainView {
                                            passwordTextField,
                                            confirmPasswordTextField,
                                            forgotPasswordButton,
-                                           actionButton]
+                                           finishButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         
         mainStackView.setCustomSpacing(5, after: titleLabel)

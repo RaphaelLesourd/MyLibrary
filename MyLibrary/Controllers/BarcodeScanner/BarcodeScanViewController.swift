@@ -39,7 +39,9 @@ class BarcodeScanViewController: UIViewController {
         barcodeCapture = BarcodeReader(presentationController: self,
                                        delegate: self,
                                        permissions: PermissionManager())
-        mainView.flashLightButton.addTarget(self, action: #selector(toggleFlashLight), for: .touchUpInside)
+        mainView.flashLightButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.flashLightIsOn.toggle()
+        }), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,10 +61,6 @@ class BarcodeScanViewController: UIViewController {
     }
     
     // MARK: - Flashlight
-    @objc private func toggleFlashLight() {
-        flashLightIsOn.toggle()
-    }
-    
     private func toggleFlashlight(onState: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }

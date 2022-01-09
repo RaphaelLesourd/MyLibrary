@@ -12,7 +12,7 @@ class NewBookControllerView {
     weak var delegate: NewBookViewDelegate?
    
     init() {
-        setButtonTargets()
+        setButtonActions()
     }
     
     // MARK: - Subviews
@@ -68,9 +68,13 @@ class NewBookControllerView {
         ]
     }
     
-    func setButtonTargets() {
-        saveButtonCell.actionButton.addTarget(self, action: #selector(saveBook), for: .touchUpInside)
-        eraseButtonCell.actionButton.addTarget(self, action: #selector(eraseBook), for: .touchUpInside)
+    private func setButtonActions() {
+        saveButtonCell.actionButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.saveBook()
+        }), for: .touchUpInside)
+        eraseButtonCell.actionButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.clearData()
+        }), for: .touchUpInside)
     }
     
     // MARK: - Display data
@@ -78,14 +82,5 @@ class NewBookControllerView {
         bookImageCell.pictureView.image = Images.emptyStateBookImage
         textFields.forEach { $0.text = nil }
         ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
-    }
-    
-    // MARK: - Targets
-    @objc private func saveBook() {
-        delegate?.saveBook()
-    }
-    
-    @objc private func eraseBook() {
-        delegate?.clearData()
     }
 }

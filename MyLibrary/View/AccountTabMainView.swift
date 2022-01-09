@@ -20,7 +20,7 @@ class AccountTabMainView: UIView {
         stackView.setCustomSpacing(40, after: contactView)
         setScrollViewConstraints()
         setStackViewConstraints()
-        setTargets()
+        addButtonActions()
         displayAppInfos()
         configureUI()
     }
@@ -67,27 +67,19 @@ class AccountTabMainView: UIView {
      }
    
     // MARK: - Targets
-    private func setTargets() {
-        accountView.profileImageButton.addTarget(self, action: #selector(updateProfileImage), for: .touchUpInside)
-        accountView.signoutButton.addTarget(self, action: #selector(signOut), for: .touchUpInside)
-        accountView.deleteButton.addTarget(self, action: #selector(deleteAccount), for: .touchUpInside)
-        contactView.contactButton.addTarget(self, action: #selector(sendFeedback), for: .touchUpInside)
-    }
-    
-    @objc private func updateProfileImage() {
-        delegate?.presentImagePicker()
-    }
-    
-    @objc private func signOut() {
-        delegate?.signoutRequest()
-    }
-    
-    @objc private func deleteAccount() {
-        delegate?.deleteAccount()
-    }
-    
-    @objc private func sendFeedback() {
-        delegate?.presentMailComposer()
+    private func addButtonActions() {
+        accountView.profileImageButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.presentImagePicker()
+        }), for: .touchUpInside)
+        accountView.signoutButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.signoutRequest()
+        }), for: .touchUpInside)
+        accountView.deleteButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.deleteAccount()
+        }), for: .touchUpInside)
+        contactView.contactButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.presentMailComposer()
+        }), for: .touchUpInside)
     }
 }
 // MARK: - Constraints

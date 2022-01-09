@@ -68,7 +68,9 @@ class HomeViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
+        refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.fetchBookLists()
+        }), for: .valueChanged)
     }
     
     private func addNavigationBarButtons() {
@@ -82,7 +84,7 @@ class HomeViewController: CollectionViewController {
     
     // MARK: - Api call
     
-    @objc private func fetchBookLists() {
+    private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)

@@ -22,7 +22,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-  
+       
     // MARK: - Subviews
     let moreButton: UIButton = {
         let button = UIButton()

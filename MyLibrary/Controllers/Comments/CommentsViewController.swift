@@ -81,7 +81,9 @@ class CommentsViewController: UIViewController {
     }
     
     private func setTargets() {
-        mainView.refresherControl.addTarget(self, action: #selector(getComments), for: .valueChanged)
+        mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.getComments()
+        }), for: .valueChanged)
     }
     
     private func setDelegates() {
@@ -96,7 +98,7 @@ class CommentsViewController: UIViewController {
     }
     
     // MARK: - Api call
-    @objc private func getComments() {
+    private func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         showIndicator(mainView.activityIndicator)
