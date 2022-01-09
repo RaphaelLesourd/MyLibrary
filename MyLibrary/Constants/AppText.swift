@@ -72,6 +72,11 @@ enum Text {
                                                                  comment: "categoryList Sectionv Header")
         static let categoryListSectionFooter = NSLocalizedString("CategoryListSectionFooter",
                                                                  comment: "category List Section footer")
+        static let newBookCategoriesHeader = NSLocalizedString("NewBookCategoriesHeader", comment: "new Book Categories Header")
+        static let newBookPublishingHeader = NSLocalizedString("NewBookPublishingHeader", comment: "new Book Publishing Header")
+        static let newBookDetailsHeader = NSLocalizedString("NewBookDetailsHeader", comment: "new Book Details Header")
+        static let newBookRatingHeader = NSLocalizedString("NewBookRatingHeader", comment: "new Book Rating Header")
+        static let newBookPriceHeader = NSLocalizedString("NewBookPriceHeader", comment: "new Book Price Header")
     }
     
     enum ButtonTitle {
@@ -96,6 +101,7 @@ enum Text {
         static let cameraRoll = NSLocalizedString("CameraRoll", comment: "camera roll title")
         static let photoLibrary = NSLocalizedString("PhotoLibrary", comment: "photo library title")
         static let done = NSLocalizedString("Done", comment: "done titletoday")
+        static let letsGo = NSLocalizedString("Letsgo", comment: "go to a controller")
     }
     
     enum Placeholder {

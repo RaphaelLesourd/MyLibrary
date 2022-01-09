@@ -14,6 +14,7 @@
 		810A68B82788702100406342 /* NewCategoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A68B72788702100406342 /* NewCategoryViewDelegate.swift */; };
 		810A68BB27898CF000406342 /* BookDescriptioViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A68BA27898CEF00406342 /* BookDescriptioViewDelegate.swift */; };
 		810A68BD27898D0300406342 /* BookDescriptionMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A68BC27898D0300406342 /* BookDescriptionMainView.swift */; };
+		810A68C0278B0E0D00406342 /* EmptyStateViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A68BF278B0E0D00406342 /* EmptyStateViewDelegate.swift */; };
 		810C44672726E561007541C0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44662726E561007541C0 /* UserModel.swift */; };
 		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
 		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
@@ -258,6 +259,7 @@
 		810A68B72788702100406342 /* NewCategoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewDelegate.swift; sourceTree = "<group>"; };
 		810A68BA27898CEF00406342 /* BookDescriptioViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDescriptioViewDelegate.swift; sourceTree = "<group>"; };
 		810A68BC27898D0300406342 /* BookDescriptionMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDescriptionMainView.swift; sourceTree = "<group>"; };
+		810A68BF278B0E0D00406342 /* EmptyStateViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewDelegate.swift; sourceTree = "<group>"; };
 		810C44662726E561007541C0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		810C446A2726EAC4007541C0 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeControllerMainView.swift; sourceTree = "<group>"; };
@@ -518,6 +520,23 @@
 			);
 			name = BookDescription;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		810A68BE278B0DE000406342 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				810A68C1278B0E1700406342 /* EmptyStateView */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		810A68C1278B0E1700406342 /* EmptyStateView */ = {
+			isa = PBXGroup;
+			children = (
+				810D7FA72757AB320043280E /* EmptyStateView.swift */,
+				810A68BF278B0E0D00406342 /* EmptyStateViewDelegate.swift */,
+			);
+			path = EmptyStateView;
 			sourceTree = "<group>";
 		};
 		811713F3274D6B5D0051059C /* Layout */ = {
@@ -1025,6 +1044,7 @@
 				81C6CCC127247A4300DE9219 /* Cells */,
 				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
+				810A68BE278B0DE000406342 /* Onboarding */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				812047FE272ACE9B00E0A45B /* TableViewStaticCells */,
 			);
@@ -1037,7 +1057,6 @@
 				8157F514277F5140005F182A /* AppLogoView.swift */,
 				81C6CCB627247A2B00DE9219 /* BookCover.swift */,
 				81C6CCB527247A2B00DE9219 /* Button.swift */,
-				810D7FA72757AB320043280E /* EmptyStateView.swift */,
 				81792F602732756D005F863B /* StackView.swift */,
 				810C447A2727189B007541C0 /* TextField.swift */,
 				81C6CCB927247A2B00DE9219 /* TextLabel.swift */,
@@ -1672,6 +1691,7 @@
 				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				8121F0C127400541006EAA8D /* CollectionViewController.swift in Sources */,
+				810A68C0278B0E0D00406342 /* EmptyStateViewDelegate.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
 				81FA727C2774848800040BEF /* FeedbackManager.swift in Sources */,

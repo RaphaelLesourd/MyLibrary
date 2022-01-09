@@ -50,7 +50,8 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState + setTitle()
+        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState
+        emptyStateView.delegate = self
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         
@@ -202,5 +203,15 @@ extension BookLibraryViewController: BookListMenuDelegate {
     
     func setLayoutFromMenu(for size: GridSize) {
         gridItemSize = size
+    }
+}
+// MARK: - Extension EmptystateViewDelegate
+extension BookLibraryViewController: EmptyStateViewDelegate {
+    func didTapButton() {
+        guard currentQuery.listType != .categories else {
+            tabBarController?.selectedIndex = 2
+            return
+        }
+        tabBarController?.selectedIndex = 2
     }
 }

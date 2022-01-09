@@ -184,3 +184,10 @@
 "InternalServerError" = "Internal server error";
 "ServiceUnavailable" = "Service unavailable";
 "UnknowError" = "Network error unknown";
+"Letsgo" = "Let's go!";
+ 
+"NewBookCategoriesHeader" = "Add categories";
+"NewBookPublishingHeader" = "Set pushlishing details";
+"NewBookDetailsHeader" = "Book details";
+"NewBookRatingHeader" = "Give a rating";
+"NewBookPriceHeader" = "Purchased price";

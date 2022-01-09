@@ -301,6 +301,23 @@ extension NewBookViewController: NewBookViewDelegate {
 
 // MARK: - TableView DataSource & Delegate
 extension NewBookViewController {
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 2:
+            return Text.SectionTitle.newBookCategoriesHeader
+        case 3:
+            return Text.SectionTitle.newBookPublishingHeader
+        case 4:
+            return Text.SectionTitle.newBookDetailsHeader
+        case 5:
+            return Text.SectionTitle.newBookRatingHeader
+        case 6:
+            return Text.SectionTitle.newBookPriceHeader
+        default:
+            return ""
+        }
+    }
    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count

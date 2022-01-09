@@ -84,7 +84,7 @@
 "AccountDeleted" = "Votre compte à été éffacé";
 
 "HomeControllerEmptyState" = "Pas encore de Livres dans votre bibliothèque...";
-"BookListEmptyState" = "Pas de livre pour ";
+"BookListEmptyState" = "Vous n'avez pas encore répertorié de livre.\nVoulez-vous en ajouter un maintenant?";
 "SearchListEmptyState" = "Recherche de livres, comics, etc...";
 "CommentEmptyState" = "Soyez le premier à écrire un comentaire sur ce livre...";
 
@@ -185,3 +185,10 @@
 "InternalServerError" = "Erreur interne du serveur";
 "ServiceUnavailable" = "Service temporairement indisponible ou en maintenance";
 "UnknowError" = "Erreur inconnue";
+"Letsgo" = "Y aller!";
+
+"NewBookCategoriesHeader" = "Ajoutez des catégories";
+"NewBookPublishingHeader" = "Détails d'édition";
+"NewBookDetailsHeader" = "Détails du livre";
+"NewBookRatingHeader" = "Ajoutez une Note";
+"NewBookPriceHeader" = "Détails du prix";

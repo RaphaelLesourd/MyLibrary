@@ -24,7 +24,6 @@ class SearchViewController: CollectionViewController {
    
     private let layoutComposer: BookListLayoutComposer
     private let apiManager: ApiManagerProtocol
-    
     private lazy var dataSource = createDataSource()
     private var footerView = LoadingFooterSupplementaryView()
     private var cellPresenter: CellPresenter?
@@ -46,14 +45,18 @@ class SearchViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = Text.ControllerTitle.search
-        emptyStateView.titleLabel.text = Text.Placeholder.searchListEmptyState
+        configureUI()
         configureCollectionView()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
     
     // MARK: - Setup
+    private func configureUI() {
+        title = Text.ControllerTitle.search
+        emptyStateView.doneButton.isHidden = true
+        emptyStateView.titleLabel.text = Text.Placeholder.searchListEmptyState
+    }
     /// Set up the collectionView with diffable datasource and compositional layout.
     /// Layouts are contrustructed in the Layoutcomposer class.
     /// Cell and footer resistrations are shortenend by helper extensions created in the
