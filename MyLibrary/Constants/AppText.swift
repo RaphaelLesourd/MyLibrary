@@ -77,6 +77,7 @@ enum Text {
         static let newBookDetailsHeader = NSLocalizedString("NewBookDetailsHeader", comment: "new Book Details Header")
         static let newBookRatingHeader = NSLocalizedString("NewBookRatingHeader", comment: "new Book Rating Header")
         static let newBookPriceHeader = NSLocalizedString("NewBookPriceHeader", comment: "new Book Price Header")
+        static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
     }
     
     enum ButtonTitle {
@@ -102,14 +103,11 @@ enum Text {
         static let photoLibrary = NSLocalizedString("PhotoLibrary", comment: "photo library title")
         static let done = NSLocalizedString("Done", comment: "done titletoday")
         static let letsGo = NSLocalizedString("Letsgo", comment: "go to a controller")
+        static let deleteNewBookInfos = NSLocalizedString("DeleteNewBookInfos", comment: "delete new book info title")
     }
     
     enum Placeholder {
         static let search = NSLocalizedString("Search", comment: "search bar title")
-        static let homeControllerEmptyState = NSLocalizedString("HomeControllerEmptyState",
-                                                                comment: "home controller empty state message")
-        static let bookListEmptyState = NSLocalizedString("BookListEmptyState", comment: "books empty state message")
-        static let searchListEmptyState = NSLocalizedString("SearchListEmptyState", comment: "search empty state message")
         static let categoryName = NSLocalizedString("CategoryName", comment: "category name place holder")
         static let commentEntry = NSLocalizedString("CommentEntry", comment: "comment entry placeholder")
         static let commentEmptyState = NSLocalizedString("CommentEmptyState", comment: "No comments message")
@@ -205,5 +203,16 @@ enum Text {
         static let medium = NSLocalizedString("Medium", comment: "medium size title")
         static let small = NSLocalizedString("Small", comment: "small size title")
         static let xsmall = NSLocalizedString("Xsmall", comment: "xsmall size title")
+    }
+    
+    enum EmptyState {
+        static let noBookTitle = NSLocalizedString("EmptyStateNoBookTitle", comment: "")
+        static let noBookSubtitle = NSLocalizedString("EmptyStateNoBookSubtitle", comment: "")
+        static let searchTitle = NSLocalizedString("EmptyStateSearchTitle", comment: "")
+        static let searchSubtitle = NSLocalizedString("EmptyStateSearchSubtitle", comment: "")
+        static let categoryTitle = NSLocalizedString("EmptyStateCategoryTitle", comment: "")
+        static let categorySubtitle = NSLocalizedString("EmptyStateCategorySubtitle", comment: "")
+        static let commentTitle = NSLocalizedString("EmptyStateCommentTitle", comment: "")
+        static let commentSubtitle = NSLocalizedString("EmptyStateCommentSubtitle", comment: "")
     }
 }

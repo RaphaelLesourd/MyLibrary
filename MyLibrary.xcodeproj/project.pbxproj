@@ -522,14 +522,6 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		810A68BE278B0DE000406342 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				810A68C1278B0E1700406342 /* EmptyStateView */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
 		810A68C1278B0E1700406342 /* EmptyStateView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1042,9 +1034,9 @@
 			children = (
 				81C6CC7E2724769C00DE9219 /* LaunchScreen.storyboard */,
 				81C6CCC127247A4300DE9219 /* Cells */,
+				810A68C1278B0E1700406342 /* EmptyStateView */,
 				81C6CCC227247A5000DE9219 /* Headers&Footers */,
 				81C6CCC027247A3B00DE9219 /* MainViews */,
-				810A68BE278B0DE000406342 /* Onboarding */,
 				81C6CCB327247A1600DE9219 /* ReusableElements */,
 				812047FE272ACE9B00E0A45B /* TableViewStaticCells */,
 			);

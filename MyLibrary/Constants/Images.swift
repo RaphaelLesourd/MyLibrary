@@ -36,7 +36,7 @@ enum Images {
         static let openBookIcon = UIImage(systemName: "book.fill")!
     }
     
-    enum EditIcon {
+    enum ContextMenuIcon {
         static let editCircleIcon = UIImage(systemName: "square.and.pencil")!
         static let trashCircleIcon = UIImage(systemName: "trash.fill")!
     }
@@ -50,5 +50,6 @@ enum Images {
         static let feedBack = UIImage(systemName: "envelope.badge.fill")!
         static let save = UIImage(systemName: "arrow.down.doc.fill")!
         static let done = UIImage(systemName: "hand.tap.fill")!
+        static let chat = UIImage(systemName: "bubble.left.and.bubble.right.fill")!
     }
 }

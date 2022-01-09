@@ -40,7 +40,7 @@ class NewBookControllerView {
                                           systemImage: Images.ButtonIcon.done,
                                           tintColor: .appTintColor,
                                           backgroundColor: .appTintColor)
-    let eraseButtonCell = ButtonStaticCell(title: Text.ButtonTitle.delete,
+    let eraseButtonCell = ButtonStaticCell(title: Text.ButtonTitle.deleteNewBookInfos,
                                        tintColor: .systemRed,
                                        backgroundColor: .clear)
     
@@ -64,7 +64,8 @@ class NewBookControllerView {
                 [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
-                [saveButtonCell, eraseButtonCell]
+                [saveButtonCell],
+                [eraseButtonCell]
         ]
     }
     

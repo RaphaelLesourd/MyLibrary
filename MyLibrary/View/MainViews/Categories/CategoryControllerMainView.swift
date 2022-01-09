@@ -13,6 +13,8 @@ class CategoryControllerMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setTableViewConstraints()
+        setEmptyStateViewConstraints()
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -30,11 +32,19 @@ class CategoryControllerMainView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
+    
     let refresherControl = UIRefreshControl()
+    let emptyStateView = EmptyStateView()
+    
+    // MARK: - Configure
+    private func configure() {
+        emptyStateView.configure(title: Text.EmptyState.categoryTitle,
+                                 subtitle: Text.EmptyState.categorySubtitle,
+                                 icon: Images.ButtonIcon.selectedCategoryBadge)
+    }
 }
 
-    // MARK: - Constraints
+// MARK: - Constraints
 extension CategoryControllerMainView {
     private func setTableViewConstraints() {
         addSubview(tableView)
@@ -43,6 +53,16 @@ extension CategoryControllerMainView {
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    private func setEmptyStateViewConstraints() {
+        addSubview(emptyStateView)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50),
+            emptyStateView.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
 }

@@ -68,8 +68,9 @@ class CommentControllerView: UIView {
     }
     
     private func configureEmptyStateView() {
-        emptyStateView.titleLabel.text = Text.Placeholder.commentEmptyState
-        emptyStateView.isHidden = true
+        emptyStateView.configure(title: Text.EmptyState.commentTitle,
+                                 subtitle: Text.EmptyState.commentSubtitle,
+                                 icon: Images.ButtonIcon.chat)
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
@@ -87,7 +88,7 @@ extension CommentControllerView {
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: 50),
             emptyStateView.widthAnchor.constraint(equalToConstant: 200)
         ])
     }

@@ -87,6 +87,7 @@ class CommentsViewController: UIViewController {
     }
     
     private func setDelegates() {
+        mainView.emptyStateView.delegate = self
         mainView.inputBar.delegate = self
         mainView.tableView.delegate = self
     }
@@ -112,7 +113,6 @@ class CommentsViewController: UIViewController {
                 case .success(let comments):
                     self.commentList = comments
                     self.applySnapshot()
-                    self.mainView.emptyStateView.isHidden = !comments.isEmpty
                 case .failure(let error):
                     AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
@@ -317,7 +317,7 @@ extension CommentsViewController {
         var snapshot = Snapshot()
         snapshot.appendSections(CommentsSection.allCases)
         snapshot.appendItems([book], toSection: .book)
-        
+        mainView.emptyStateView.isHidden = !commentList.isEmpty
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         snapshot.appendItems(todayComments, toSection: .today)
         
@@ -331,7 +331,13 @@ extension CommentsViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         addComment(with: text, commentID: editedCommentID)
-        self.mainView.inputBar.inputTextView.text = ""
-        self.mainView.inputBar.inputTextView.resignFirstResponder()
+        mainView.inputBar.inputTextView.text = ""
+        mainView.inputBar.inputTextView.resignFirstResponder()
+    }
+}
+// MARK: - EmptystateViewDelegate
+extension CommentsViewController: EmptyStateViewDelegate {
+    func didTapButton() {
+       mainView.inputBar.inputTextView.becomeFirstResponder()
     }
 }

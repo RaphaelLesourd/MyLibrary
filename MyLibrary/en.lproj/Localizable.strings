@@ -85,7 +85,7 @@
 
 "HomeControllerEmptyState" = "No books in your library yet";
 "BookListEmptyState" = "No books in ";
-"SearchListEmptyState" = "Search here for book, comics, etc..";
+"SearchListEmptyState" = "You can search by entering a title, author, book reference, etc...";
 "CommentEmptyState" = "Be the first one to leave a comment about this book...";
 
 "StopRecommending" = "Stop recommending";
@@ -116,7 +116,7 @@
 "ReaderComments" = "Reader's comments";
 "ReAuthentificationMessage" = "Please enter your email and password to re-authentify";
 "DeleteThisBook" = "Delete this book";
-"CommentEntry" = "Enter your thoughts...";
+"CommentEntry" = "Your thoughts...";
  
 "Version" = "Version ";
 "Build" = "Build";
@@ -191,3 +191,15 @@
 "NewBookDetailsHeader" = "Book details";
 "NewBookRatingHeader" = "Give a rating";
 "NewBookPriceHeader" = "Purchased price";
+"NewBookSaveFooter" = "To save a book you must include at least a title.";
+
+"DeleteNewBookInfos" = "Clear all informations";
+
+"EmptyStateNoBookTitle" = "Let's add your first book!";
+"EmptyStateNoBookSubtitle" = "Would you like to start creating your library?";
+"EmptyStateSearchTitle" = "Let's search for books!";
+"EmptyStateSearchSubtitle" = "You can search by entering a title, author, keywords...";
+"EmptyStateCategoryTitle" = "Let's create your first category!";
+"EmptyStateCategorySubtitle" = "Categories helps finding books faster.";
+"EmptyStateCommentTitle" = "Let's add the first comment for this book!";
+"EmptyStateCommentSubtitle"  = "Start a discussion about this book with others.";

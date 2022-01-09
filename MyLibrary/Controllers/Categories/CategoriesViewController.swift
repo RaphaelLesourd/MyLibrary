@@ -16,7 +16,7 @@ class CategoriesViewController: UIViewController {
     var selectedCategories: [String] = []
     weak var newBookDelegate: NewBookDelegate?
     
-    private let listView = CategoryControllerMainView()
+    private let mainView = CategoryControllerMainView()
     
     private lazy var dataSource = makeDataSource()
     private var categoryService: CategoryServiceProtocol
@@ -33,13 +33,14 @@ class CategoriesViewController: UIViewController {
     }
     // MARK: - Lifecycle
     override func loadView() {
-        view = listView
+        view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.category
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.emptyStateView.delegate = self
         configureTableView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
@@ -54,11 +55,11 @@ class CategoriesViewController: UIViewController {
     
     // MARK: - Setup
     private func configureTableView() {
-        listView.tableView.delegate = self
-        listView.tableView.dataSource = dataSource
-        listView.tableView.allowsSelection = settingBookCategory
-        listView.tableView.refreshControl = listView.refresherControl
-        listView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
+        mainView.tableView.delegate = self
+        mainView.tableView.dataSource = dataSource
+        mainView.tableView.allowsSelection = settingBookCategory
+        mainView.tableView.refreshControl = mainView.refresherControl
+        mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.getCategoryList()
         }), for: .valueChanged)
     }
@@ -75,7 +76,7 @@ class CategoriesViewController: UIViewController {
         selectedCategories.forEach({ categories in
             if let index = categoryService.categories.firstIndex(where: { $0.uid == categories }) {
                 let indexPath = IndexPath(row: index, section: 0)
-                listView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
             }
         })
     }
@@ -97,7 +98,7 @@ class CategoriesViewController: UIViewController {
     
     private func getCategoryList() {
         categoryService.getCategories { [weak self] error in
-            self?.listView.refresherControl.endRefreshing()
+            self?.mainView.refresherControl.endRefreshing()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -137,7 +138,7 @@ class CategoriesViewController: UIViewController {
 extension CategoriesViewController {
     
     private func makeDataSource() -> DataSource {
-        dataSource = DataSource(tableView: listView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
+        dataSource = DataSource(tableView: mainView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
@@ -153,10 +154,13 @@ extension CategoriesViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(categoryService.categories, toSection: .main)
+        mainView.emptyStateView.isHidden = !categoryService.categories.isEmpty
+        if !categoryService.categories.isEmpty {
+            snapshot.appendSections([.main])
+            snapshot.appendItems(categoryService.categories, toSection: .main)
+            highlightBookCategories()
+        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        highlightBookCategories()
     }
 }
 // MARK: - TableView Delegate
@@ -226,5 +230,11 @@ extension CategoriesViewController: UITableViewDelegate {
         if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
             selectedCategories.remove(at: index)
         }
+    }
+}
+// MARK: - EmptystateViewDelegate
+extension CategoriesViewController: EmptyStateViewDelegate {
+    func didTapButton() {
+        addNewCategory()
     }
 }

@@ -85,7 +85,7 @@
 
 "HomeControllerEmptyState" = "Pas encore de Livres dans votre bibliothèque...";
 "BookListEmptyState" = "Vous n'avez pas encore répertorié de livre.\nVoulez-vous en ajouter un maintenant?";
-"SearchListEmptyState" = "Recherche de livres, comics, etc...";
+"SearchListEmptyState" = "Vous pouvez chercher un livre en donnant un titre, nom d'auteur, numéro de code barre (ISBN), etc...";
 "CommentEmptyState" = "Soyez le premier à écrire un comentaire sur ce livre...";
 
 "StopRecommending" = "Ne plus recommander";
@@ -116,7 +116,7 @@
 "ReaderComments" = "Commentaires des lecteurs";
 "ReAuthentificationMessage" = "Veuillez vous re-authentifier avec votre email et mot de passe";
 "DeleteThisBook" = "Effacer ce livre";
-"CommentEntry" = "Ce que vous en pensez...";
+"CommentEntry" = "Vos pensées...";
 
 "Version" = "Version ";
 "Build" = "Build";
@@ -185,10 +185,22 @@
 "InternalServerError" = "Erreur interne du serveur";
 "ServiceUnavailable" = "Service temporairement indisponible ou en maintenance";
 "UnknowError" = "Erreur inconnue";
-"Letsgo" = "Y aller!";
+"Letsgo" = "Allons-y!";
 
 "NewBookCategoriesHeader" = "Ajoutez des catégories";
 "NewBookPublishingHeader" = "Détails d'édition";
 "NewBookDetailsHeader" = "Détails du livre";
 "NewBookRatingHeader" = "Ajoutez une Note";
 "NewBookPriceHeader" = "Détails du prix";
+"NewBookSaveFooter" = "Pour sauver ce livre, entrez au minimum un titre.";
+
+"DeleteNewBookInfos" = "Effacez toutes les infos";
+
+"EmptyStateNoBookTitle" = "Ajoutons ensemble votre premier livre.";
+"EmptyStateNoBookSubtitle" = "Voulez vous commencer?";
+"EmptyStateSearchTitle" = "Allons à la recherche de livres.";
+"EmptyStateSearchSubtitle" = "Vous pouvez chercher avec un titre, un nom d'auteur, ou tout autre mot clé.";
+"EmptyStateCategoryTitle" = "Créons ensemble votre première catégorie.";
+"EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
+"EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
+"EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";

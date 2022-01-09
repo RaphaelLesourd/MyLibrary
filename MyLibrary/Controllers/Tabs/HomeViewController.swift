@@ -48,7 +48,6 @@ class HomeViewController: CollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = device == .pad ? Text.ControllerTitle.myBooks : Text.ControllerTitle.home
-        emptyStateView.titleLabel.text = Text.Placeholder.homeControllerEmptyState
         configureCollectionView()
         configureRefresherControl()
         applySnapshot(animatingDifferences: false)

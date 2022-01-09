@@ -50,7 +50,8 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        emptyStateView.titleLabel.text = Text.Placeholder.bookListEmptyState
+        emptyStateView.configure(title: Text.EmptyState.noBookTitle,
+                                 subtitle: Text.EmptyState.noBookSubtitle)
         emptyStateView.delegate = self
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
@@ -208,10 +209,14 @@ extension BookLibraryViewController: BookListMenuDelegate {
 // MARK: - Extension EmptystateViewDelegate
 extension BookLibraryViewController: EmptyStateViewDelegate {
     func didTapButton() {
-        guard currentQuery.listType != .categories else {
-            tabBarController?.selectedIndex = 2
+        guard device == .pad else {
+            if let controller = tabBarController as? TabBarController {
+                controller.selectedIndex = 2
+            }
             return
         }
-        tabBarController?.selectedIndex = 2
+        if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
+            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
+        }
     }
 }

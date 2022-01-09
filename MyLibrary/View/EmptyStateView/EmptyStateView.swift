@@ -14,8 +14,18 @@ class EmptyStateView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configure()
         setStackViewConstraints()
+        
+        roundView(radius: 12, backgroundColor: .cellBackgroundColor)
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subTitleLabel)
+        stackView.addArrangedSubview(doneButton)
+        stackView.setCustomSpacing(10, after: titleLabel)
+        
+        doneButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.didTapButton()
+        }), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -23,7 +33,12 @@ class EmptyStateView: UIView {
     }
     
     // MARK: - Subview
-    private let image: UIImageView = {
+    let doneButton = Button(title: Text.ButtonTitle.letsGo,
+                            systemImage: Images.ButtonIcon.done,
+                            imagePlacement: .leading,
+                            tintColor: .appTintColor,
+                            backgroundColor: .appTintColor)
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium, scale: .small)
         imageView.image = Images.TabBarIcon.booksIcon
@@ -33,28 +48,30 @@ class EmptyStateView: UIView {
         imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return imageView
     }()
-    let titleLabel = TextLabel(color: .label,
+    private let titleLabel = TextLabel(color: .label,
                                maxLines: 0,
                                alignment: .center,
-                               fontSize: 14,
-                               weight: .medium)
-    let doneButton = Button(title: Text.ButtonTitle.letsGo,
-                            systemImage: Images.ButtonIcon.done,
-                            imagePlacement: .leading, tintColor: .appTintColor,
-                            backgroundColor: .appTintColor)
+                               fontSize: 15,
+                               weight: .semibold)
+    private let subTitleLabel = TextLabel(color: .secondaryLabel,
+                                  maxLines: 0,
+                                  alignment: .center,
+                                  fontSize: 14,
+                                  weight: .regular)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 20)
     
     // MARK: - Configure
-    private func configure() {
-        roundView(radius: 12, backgroundColor: .cellBackgroundColor)
-        stackView.addArrangedSubview(image)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(doneButton)
-        doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.didTapButton()
-        }), for: .touchUpInside)
+    func configure(title: String,
+                   subtitle: String,
+                   icon: UIImage = Images.TabBarIcon.booksIcon,
+                   hideButton: Bool = false) {
+        titleLabel.text = title
+        subTitleLabel.text = subtitle
+        imageView.image = icon
+        doneButton.isHidden = hideButton
     }
+    
 }
 
 // MARK: - Constraints

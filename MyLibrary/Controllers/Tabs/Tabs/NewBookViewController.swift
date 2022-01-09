@@ -11,6 +11,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
+    let newBookView = NewBookControllerView()
     var isEditingBook = false
     var bookCategories: [String] = []
     var bookDescription: String?
@@ -25,7 +26,6 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     
     private let resultController = SearchViewController(apiManager: ApiManager(),
                                                         layoutComposer: BookListLayout())
-    private let newBookView = NewBookControllerView()
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
     private let libraryService: LibraryServiceProtocol
@@ -319,6 +319,14 @@ extension NewBookViewController {
         }
     }
    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 7:
+            return Text.SectionTitle.newBookSaveFooter
+        default:
+            return ""
+        }
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }

@@ -54,8 +54,9 @@ class SearchViewController: CollectionViewController {
     // MARK: - Setup
     private func configureUI() {
         title = Text.ControllerTitle.search
-        emptyStateView.doneButton.isHidden = true
-        emptyStateView.titleLabel.text = Text.Placeholder.searchListEmptyState
+        emptyStateView.configure(title: Text.EmptyState.searchTitle,
+                                 subtitle: Text.EmptyState.searchSubtitle,
+                                 hideButton: true)
     }
     /// Set up the collectionView with diffable datasource and compositional layout.
     /// Layouts are contrustructed in the Layoutcomposer class.
@@ -116,7 +117,6 @@ class SearchViewController: CollectionViewController {
     
     private func addBooks(_ books: [Item]) {
         books.forEach {  book in
-           
             if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
                 self.searchedBooks.append(book)
                 self.applySnapshot()
