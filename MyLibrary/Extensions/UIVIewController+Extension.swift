@@ -21,7 +21,6 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
-    // MARK: - Presentation
     @available(iOS 15.0, *)
     func presentSheetController(_ controller: UIViewController, detents: [UISheetPresentationController.Detent]) {
         if let sheet = controller.sheetPresentationController {
@@ -30,8 +29,8 @@ extension UIViewController {
             sheet.preferredCornerRadius = 23
             sheet.prefersGrabberVisible = true
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersEdgeAttachedInCompactHeight = false
-            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = false
+            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
         present(controller, animated: true, completion: nil)
     }
