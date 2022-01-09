@@ -21,6 +21,7 @@ class NetworkConnectivityTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        sut.status = .requiresConnection
         sut = nil
     }
 

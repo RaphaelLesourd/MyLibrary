@@ -178,3 +178,10 @@
 
 "CategoryListSectionHeader" = "Toutes vos catégories";
 "CategoryListSectionFooter" = "Glisser vers la gauche pour éditer\nou effacer une catégorie.";
+
+"EmptyQuery" = "Recherche vide";
+"Forbidden" = "Accés refusé";
+"TooManyRequests" = "Trop de requêtes";
+"InternalServerError" = "Erreur interne du serveur";
+"ServiceUnavailable" = "Service temporairement indisponible ou en maintenance";
+"UnknowError" = "Erreur inconnue";

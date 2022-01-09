@@ -58,7 +58,7 @@ class FormatterTestCase: XCTestCase {
     func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnCurrentYear() {
         let givenDateString = "123123D/FSDF3423234"
         let yearString = sut?.formatDateToYearString(for: givenDateString)
-        XCTAssertEqual(yearString, "2021")
+        XCTAssertEqual(yearString, "2022")
     }
  
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {

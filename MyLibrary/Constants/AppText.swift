@@ -170,7 +170,12 @@ enum Text {
         static let invalidPassword = NSLocalizedString("InvalidEmail", comment: "Invalid email")
         static let accountDontExist = NSLocalizedString("AccountDontExist", comment: "No account exist with this email.")
         static let noText = NSLocalizedString("NoText", comment: "When textfield is empty")
-        
+        static let emptyQuery = NSLocalizedString("EmptyQuery", comment: "Query is empty")
+        static let forbiden = NSLocalizedString("Forbidden", comment: "Http error 403")
+        static let tooManyRequests = NSLocalizedString("TooManyRequests", comment: "Http error 429")
+        static let internalServerError = NSLocalizedString("InternalServerError", comment: "Http error 500")
+        static let serviceUnavailable = NSLocalizedString("ServiceUnavailable", comment: "Http error 503")
+        static let unknownError = NSLocalizedString("UnknowError", comment: "Http all other error")
     }
     
     enum Misc {

@@ -177,3 +177,10 @@
 
 "CategoryListSectionHeader" = "All your books categories";
 "CategoryListSectionFooter" = "Swipe left to edit or delete a category.";
+
+"EmptyQuery" = "Book seach query empty";
+"Forbidden" = "Access forbidden";
+"TooManyRequests" = "Too many requests";
+"InternalServerError" = "Internal server error";
+"ServiceUnavailable" = "Service unavailable";
+"UnknowError" = "Network error unknown";
