@@ -14,18 +14,8 @@ class EmptyStateView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        setupView()
         setStackViewConstraints()
-        
-        roundView(radius: 12, backgroundColor: .cellBackgroundColor)
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subTitleLabel)
-        stackView.addArrangedSubview(doneButton)
-        stackView.setCustomSpacing(10, after: titleLabel)
-        
-        doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.didTapButton()
-        }), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +62,20 @@ class EmptyStateView: UIView {
         doneButton.isHidden = hideButton
     }
     
+    private func setupView() {
+        isHidden = true
+        roundView(radius: 12, backgroundColor: .cellBackgroundColor)
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subTitleLabel)
+        stackView.addArrangedSubview(doneButton)
+        stackView.setCustomSpacing(10, after: titleLabel)
+        
+        doneButton.buttonHeightAnchor.isActive = false
+        doneButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.didTapButton()
+        }), for: .touchUpInside)
+    }
 }
 
 // MARK: - Constraints
@@ -79,11 +83,12 @@ extension EmptyStateView {
     private func setStackViewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             
+            self.widthAnchor.constraint(equalToConstant: 230),
             doneButton.heightAnchor.constraint(equalToConstant: 35)
         ])
     }

@@ -189,9 +189,11 @@ extension BookLibraryViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
         emptyStateView.isHidden = !bookList.isEmpty
-        snapshot.appendSections([.main])
-        snapshot.appendItems(bookList, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        if !bookList.isEmpty {
+            snapshot.appendSections([.main])
+            snapshot.appendItems(bookList, toSection: .main)
+            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
 }
 // MARK: - Extension BookListLayoutDelegate

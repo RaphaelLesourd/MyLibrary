@@ -15,15 +15,7 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        bookCover.contentMode = .scaleAspectFit
-        
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
-        stackView.addArrangedSubview(bookOwnerNameLabel)
-        
-        stackView.setCustomSpacing(2, after: titleLabel)
+        setupCell()
         
         setBookCoverConstraints()
         setStackViewConstraints()
@@ -32,8 +24,8 @@ class CommentsBookCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-  
-   // MARK: - Subviews
+    
+    // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
     private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
@@ -52,7 +44,8 @@ class CommentsBookCell: UITableViewCell {
                                                weight: .regular)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 10)
-   
+    
+    // MARK: - configure
     func configure(with book: BookCellData) {
         titleLabel.text = book.title
         subtitleLabel.text = book.author
@@ -66,31 +59,42 @@ class CommentsBookCell: UITableViewCell {
         }
         bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
     }
+    
+    private func setupCell() {
+        backgroundColor = .clear
+        contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
+        bookCover.contentMode = .scaleAspectFit
+        
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subtitleLabel)
+        stackView.addArrangedSubview(bookOwnerNameLabel)
+        stackView.setCustomSpacing(2, after: titleLabel)
+    }
 }
 // MARK: - Constraints
 extension CommentsBookCell {
-    
     private func setBookCoverConstraints() {
-        let bookCoverHeight = bookCover.heightAnchor.constraint(equalToConstant: 100)
+        let bookCoverHeight = bookCover.heightAnchor.constraint(equalToConstant: 120)
         bookCoverHeight.priority = UILayoutPriority.defaultLow
         bookCover.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(bookCover)
         NSLayoutConstraint.activate([
-           bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
-           bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-           bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-           bookCover.widthAnchor.constraint(equalToConstant: 80),
-           bookCoverHeight
+            bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            bookCover.widthAnchor.constraint(equalToConstant: 100),
+            bookCoverHeight
         ])
     }
     
     private func setStackViewConstraints() {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             stackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
     

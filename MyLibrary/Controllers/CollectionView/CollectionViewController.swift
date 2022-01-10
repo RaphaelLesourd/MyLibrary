@@ -68,8 +68,7 @@ extension CollectionViewController {
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-            emptyStateView.widthAnchor.constraint(equalToConstant: 200)
+            emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50)
         ])
     }
     

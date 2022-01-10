@@ -192,7 +192,7 @@
 "NewBookDetailsHeader" = "Détails du livre";
 "NewBookRatingHeader" = "Ajoutez une Note";
 "NewBookPriceHeader" = "Détails du prix";
-"NewBookSaveFooter" = "Pour sauver ce livre, entrez au minimum un titre.";
+"NewBookSaveFooter" = "Pour enregistrer ce livre, entrez au minimum un titre.";
 
 "DeleteNewBookInfos" = "Effacez toutes les infos";
 

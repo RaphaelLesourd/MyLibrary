@@ -199,7 +199,7 @@ extension CommentsViewController: UITableViewDelegate {
         let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
         switch section {
         case .book:
-            return 110
+            return 140
         case .today, .past:
             return UITableView.automaticDimension
         }
@@ -315,14 +315,21 @@ extension CommentsViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = Snapshot()
-        snapshot.appendSections(CommentsSection.allCases)
+        snapshot.appendSections([.book])
         snapshot.appendItems([book], toSection: .book)
         mainView.emptyStateView.isHidden = !commentList.isEmpty
+        
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendItems(todayComments, toSection: .today)
+        if !todayComments.isEmpty {
+            snapshot.appendSections([.today])
+            snapshot.appendItems(todayComments, toSection: .today)
+        }
         
         let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendItems(pastComments, toSection: .past)
+        if !pastComments.isEmpty {
+            snapshot.appendSections([.past])
+            snapshot.appendItems(pastComments, toSection: .past)
+        }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

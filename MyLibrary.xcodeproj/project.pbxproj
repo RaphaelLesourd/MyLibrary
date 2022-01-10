@@ -525,8 +525,8 @@
 		810A68C1278B0E1700406342 /* EmptyStateView */ = {
 			isa = PBXGroup;
 			children = (
-				810D7FA72757AB320043280E /* EmptyStateView.swift */,
 				810A68BF278B0E0D00406342 /* EmptyStateViewDelegate.swift */,
+				810D7FA72757AB320043280E /* EmptyStateView.swift */,
 			);
 			path = EmptyStateView;
 			sourceTree = "<group>";

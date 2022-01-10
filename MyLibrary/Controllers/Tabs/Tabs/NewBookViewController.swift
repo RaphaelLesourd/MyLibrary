@@ -23,9 +23,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
             setBookDetail()
         }
     }
-    
-    private let resultController = SearchViewController(apiManager: ApiManager(),
-                                                        layoutComposer: BookListLayout())
+    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: BookListLayout())
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
     private let libraryService: LibraryServiceProtocol

@@ -13,8 +13,8 @@ class CommentControllerView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureEmptyStateView()
         configureTableView()
+        configureEmptyStateView()
         configureInputBar()
         setConstraints()
     }
@@ -88,8 +88,7 @@ extension CommentControllerView {
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: 50),
-            emptyStateView.widthAnchor.constraint(equalToConstant: 200)
+            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: 50)
         ])
     }
 }

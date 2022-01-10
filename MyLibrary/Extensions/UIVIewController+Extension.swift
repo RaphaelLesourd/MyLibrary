@@ -29,7 +29,7 @@ extension UIViewController {
             sheet.preferredCornerRadius = 23
             sheet.prefersGrabberVisible = true
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersEdgeAttachedInCompactHeight = true
+            sheet.prefersEdgeAttachedInCompactHeight = false
             sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
         present(controller, animated: true, completion: nil)

@@ -11,10 +11,10 @@ class Button: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        configureButton()
-        setActivityIndicatorCosntraints()
         self.translatesAutoresizingMaskIntoConstraints = true
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        buttonHeightAnchor = self.heightAnchor.constraint(equalToConstant: 50)
+        setConstraints()
+        configureButton()
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +34,7 @@ class Button: UIButton {
                         backgroundColor: backgroundColor)
     }
     
+    var buttonHeightAnchor = NSLayoutConstraint()
     private let activityIndicator = UIActivityIndicatorView()
     
     func configureButton(with title: String = "",
@@ -74,12 +75,14 @@ class Button: UIButton {
 }
 
 extension Button {
-    private func setActivityIndicatorCosntraints() {
+    private func setConstraints() {
         addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            buttonHeightAnchor
         ])
     }
 }

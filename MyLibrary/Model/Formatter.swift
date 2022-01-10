@@ -29,17 +29,20 @@ class Formatter: FormatterProtocol {
     ///  - Parameters:
     ///     - dateString: Optional String
     ///  - Returns: Four digits Year String
-    ///  - Note: For example 2021-12-12 to 2021. Uses "yyyy-MM-dd" as input formatter as the API provides only this type odf date format.
+    ///  - Note: If date is already forrmatted , simply return the current value.
     func formatDateToYearString(for dateString: String?) -> String {
         guard let dateString = dateString else {
             return ""
         }
+        
         let inputDateFormatter = DateFormatter()
         inputDateFormatter.dateFormat = "yyyy-MM-dd"
-        let date = inputDateFormatter.date(from: dateString) ?? Date()
-        
         let outputDateFormatter = DateFormatter()
         outputDateFormatter.dateFormat = "yyyy"
+        
+        guard let date = inputDateFormatter.date(from: dateString) else {
+            return (outputDateFormatter.date(from: dateString) != nil) ? dateString : ""
+        }
         return outputDateFormatter.string(from: date)
     }
     /// Format a price

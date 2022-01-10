@@ -193,7 +193,7 @@
 "NewBookPriceHeader" = "Purchased price";
 "NewBookSaveFooter" = "To save a book you must include at least a title.";
 
-"DeleteNewBookInfos" = "Clear all informations";
+"DeleteNewBookInfos" = "Clear all information";
 
 "EmptyStateNoBookTitle" = "Let's add your first book!";
 "EmptyStateNoBookSubtitle" = "Would you like to start creating your library?";
