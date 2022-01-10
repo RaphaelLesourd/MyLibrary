@@ -65,7 +65,7 @@ class AccountMainView: UIView {
                                              correction: .no,
                                              capitalization: .none)
     let finishButton = Button(title: "",
-                              systemImage: Images.ButtonIcon.done,
+                              icon: Images.ButtonIcon.done,
                               tintColor: .appTintColor)
     
     let forgotPasswordButton: UIButton = {

@@ -24,16 +24,16 @@ class BookDetailComponent: UIView {
 
     convenience init(title: String) {
         self.init(frame: .zero)
-        titleLabel.text = title.capitalized
+        titleLabel.text = title
     }
     
     // MARK: - Subviews
     let infoLabel = TextLabel(alignment: .center,
-                              fontSize: 14,
+                              fontSize: 16,
                               weight: .light)
     private let titleLabel = TextLabel(color: .secondaryLabel,
                                        alignment: .center,
-                                       fontSize: 12,
+                                       fontSize: 14,
                                        weight: .light)
     private let stackView = StackView(axis: .vertical,
                                       distribution: .fillProportionally,

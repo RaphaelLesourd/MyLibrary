@@ -51,7 +51,7 @@ extension BookCardDataPresenter: BookCardPresenter {
         view.authorLabel.text = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         view.ratingView.rating = book.volumeInfo?.ratingsCount ?? 0
         view.descriptionLabel.text = book.volumeInfo?.volumeInfoDescription
-        view.isbnLabel.text = Text.Book.isbn + (book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "")
+        view.bookDetailView.isbnView.infoLabel.text = book.volumeInfo?.industryIdentifiers?.first?.identifier ?? ""
         
         view.bookDetailView.languageView.infoLabel.text = formatter.formatCodeToName(from: book.volumeInfo?.language,
                                                                                      type: .language).capitalized
@@ -59,10 +59,9 @@ extension BookCardDataPresenter: BookCardPresenter {
         view.bookDetailView.publishedDateView.infoLabel.text = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         view.bookDetailView.numberOfPageView.infoLabel.text = String(book.volumeInfo?.pageCount ?? 0)
         
-        view.purchaseDetailView.titleLabel.text = Text.Book.price
         let currency = book.saleInfo?.retailPrice?.currencyCode
         let value = book.saleInfo?.retailPrice?.amount
-        view.purchaseDetailView.purchasePriceLabel.text = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
+        view.bookDetailView.priceView.infoLabel.text = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
         
         imageRetriever.getImage(for: book.volumeInfo?.imageLinks?.thumbnail, completion: { image in
             view.bookCover.image = image

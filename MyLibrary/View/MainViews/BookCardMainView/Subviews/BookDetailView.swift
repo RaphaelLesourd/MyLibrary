@@ -12,13 +12,8 @@ class BookDetailView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(publishedDateView)
-        stackView.addArrangedSubview(publisherNameView)
-        stackView.addArrangedSubview(numberOfPageView)
-        stackView.addArrangedSubview(languageView)
-        
+        setupView()
         setStackViewConstraints()
-        self.roundView(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
     }
     
     required init?(coder: NSCoder) {
@@ -30,13 +25,44 @@ class BookDetailView: UIView {
     let publishedDateView = BookDetailComponent(title: Text.Book.publishedDate)
     let numberOfPageView = BookDetailComponent(title: Text.Book.numberOfPages)
     let languageView = BookDetailComponent(title: Text.Book.bookLanguage)
-    private let stackView = StackView(axis: .horizontal,
-                                      distribution: .fillProportionally,
-                                      spacing: 10)
+    let isbnView = BookDetailComponent(title: Text.Book.isbn)
+    let priceView = BookDetailComponent(title: Text.Book.price)
+    
+    private let separatorLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .viewControllerBackgroundColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        return view
+    }()
+    
+    private let topStackView = StackView(axis: .horizontal,
+                                         distribution: .equalSpacing,
+                                         spacing: 5)
+    private let bottomStackView = StackView(axis: .horizontal,
+                                            distribution: .fillEqually,
+                                            spacing: 10)
+    private let stackView = StackView(axis: .vertical,
+                                      distribution: .fill,
+                                      spacing: 15)
+    
+    // MARK: - Configure
+    private func setupView() {
+        self.roundView(radius: 10, backgroundColor: .cellBackgroundColor)
+        topStackView.addArrangedSubview(publishedDateView)
+        topStackView.addArrangedSubview(numberOfPageView)
+        topStackView.addArrangedSubview(languageView)
+        topStackView.addArrangedSubview(priceView)
+        bottomStackView.addArrangedSubview(publisherNameView)
+        bottomStackView.addArrangedSubview(isbnView)
+        
+        stackView.addArrangedSubview(topStackView)
+        stackView.addArrangedSubview(separatorLine)
+        stackView.addArrangedSubview(bottomStackView)
+    }
 }
 // MARK: - Constraints
 extension BookDetailView {
-    
     private func setStackViewConstraints() {
         addSubview(stackView)
         NSLayoutConstraint.activate([

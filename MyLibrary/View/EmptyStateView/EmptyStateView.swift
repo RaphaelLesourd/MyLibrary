@@ -24,7 +24,7 @@ class EmptyStateView: UIView {
     
     // MARK: - Subview
     let doneButton = Button(title: Text.ButtonTitle.letsGo,
-                            systemImage: Images.ButtonIcon.done,
+                            icon: Images.ButtonIcon.done,
                             imagePlacement: .leading,
                             tintColor: .appTintColor,
                             backgroundColor: .appTintColor)

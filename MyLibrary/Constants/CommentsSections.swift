@@ -13,10 +13,12 @@ enum CommentsSection: CaseIterable {
     
     var headerTitle: String {
         switch self {
-        case .book, .past:
+        case .book:
             return ""
         case .today:
             return Text.SectionTitle.todayComment
+        case .past:
+            return Text.SectionTitle.pastComment
         }
     }
 }

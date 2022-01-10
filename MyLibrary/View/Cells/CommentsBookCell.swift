@@ -16,7 +16,6 @@ class CommentsBookCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupCell()
-        
         setBookCoverConstraints()
         setStackViewConstraints()
     }
@@ -63,7 +62,7 @@ class CommentsBookCell: UITableViewCell {
     private func setupCell() {
         backgroundColor = .clear
         contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
-        bookCover.contentMode = .scaleAspectFit
+        bookCover.contentMode = .scaleAspectFill
         
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
@@ -74,8 +73,6 @@ class CommentsBookCell: UITableViewCell {
 // MARK: - Constraints
 extension CommentsBookCell {
     private func setBookCoverConstraints() {
-        let bookCoverHeight = bookCover.heightAnchor.constraint(equalToConstant: 120)
-        bookCoverHeight.priority = UILayoutPriority.defaultLow
         bookCover.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(bookCover)
@@ -83,8 +80,7 @@ extension CommentsBookCell {
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             bookCover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            bookCover.widthAnchor.constraint(equalToConstant: 100),
-            bookCoverHeight
+            bookCover.widthAnchor.constraint(equalToConstant: 90)
         ])
     }
     
@@ -92,7 +88,7 @@ extension CommentsBookCell {
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             stackView.leadingAnchor.constraint(equalTo: bookCover.trailingAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])

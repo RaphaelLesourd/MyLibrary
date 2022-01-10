@@ -199,7 +199,7 @@ extension CommentsViewController: UITableViewDelegate {
         let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
         switch section {
         case .book:
-            return 140
+            return 150
         case .today, .past:
             return UITableView.automaticDimension
         }

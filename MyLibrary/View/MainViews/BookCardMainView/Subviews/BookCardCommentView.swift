@@ -13,11 +13,8 @@ class BookCardCommentView: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        roundView(radius: 10, backgroundColor: UIColor.label.withAlphaComponent(0.05))
-        titleLabel.text = Text.SectionTitle.readersComment
-        stackView.addArrangedSubview(goToCommentButton)
-        stackView.addArrangedSubview(titleLabel)
-        
+        setupView()
+        setBackgroundImageConstraints()
         setAnimationViewConstraints()
         setStackViewConstraints()
     }
@@ -25,16 +22,17 @@ class BookCardCommentView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Subviews
     let goToCommentButton: UIButton = {
         let button = UIButton()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium, scale: .medium)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .medium)
         let image = UIImage(systemName: "arrow.right.circle", withConfiguration: configuration)
         button.contentHorizontalAlignment = .right
         button.setImage(image, for: .normal)
         return button
     }()
+    
     let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
@@ -49,20 +47,48 @@ class BookCardCommentView: UIView {
     private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
                                        alignment: .right,
-                                       fontSize: 14,
+                                       fontSize: 16,
                                        weight: .medium)
+    
+    private let backgroundImage: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.layer.masksToBounds = true
+        view.image = UIImage(named: "commentBubbleBG")
+        view.tintColor = UIColor.appTintColor.withAlphaComponent(0.2)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let stackView = StackView(axis: .vertical,
                                       spacing: 0)
+    
+    // MARK: - Setup
+    private func setupView() {
+        titleLabel.text = Text.SectionTitle.readersComment
+        stackView.addArrangedSubview(goToCommentButton)
+        stackView.addArrangedSubview(titleLabel)
+    }
 }
 // MARK: - Constraints
 extension BookCardCommentView {
+    private func setBackgroundImageConstraints() {
+        addSubview(backgroundImage)
+        NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: topAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+    
     private func setAnimationViewConstraints() {
         addSubview(animationView)
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: topAnchor, constant: -20),
             animationView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 20),
             animationView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
-            animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -30)
+            animationView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -10)
         ])
     }
     
@@ -71,12 +97,12 @@ extension BookCardCommentView {
         
         addSubview(stackView)
         NSLayoutConstraint.activate([
-           stackView.topAnchor.constraint(equalTo: topAnchor),
-           stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-           stackView.leadingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: -40),
-           stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-         
-           heightAnchor.constraint(equalToConstant: 90)
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            stackView.leadingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: -40),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            heightAnchor.constraint(equalToConstant: 120)
         ])
     }
 }

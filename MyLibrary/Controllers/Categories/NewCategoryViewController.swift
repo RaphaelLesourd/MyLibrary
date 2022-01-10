@@ -105,7 +105,8 @@ class NewCategoryViewController: UIViewController {
     }
 }
 // MARK: - CollectionView DataSource
-extension NewCategoryViewController: UICollectionViewDataSource {    
+extension NewCategoryViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return defaultColors.count
     }

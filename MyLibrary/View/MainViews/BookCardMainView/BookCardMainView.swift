@@ -35,7 +35,9 @@ class BookCardMainView: UIView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
-    let recommandButton = Button(title: "")
+    let recommandButton = Button(title: "",
+                                 icon: Images.ButtonIcon.done)
+    
     let deleteBookButton: UIButton = {
         let button = UIButton()
         button.setTitle(Text.ButtonTitle.deleteBook, for: .normal)
@@ -53,7 +55,7 @@ class BookCardMainView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+   
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -97,13 +99,12 @@ class BookCardMainView: UIView {
                                      weight: .medium)
     let ratingView = RatingView()
     let descriptionLabel = TextLabel(maxLines: 0,
-                                     fontSize: 16,
+                                     fontSize: 17,
                                      weight: .light)
-    let purchaseDetailView = PriceView()
     let bookDetailView = BookDetailView()
-    let isbnLabel = TextLabel(color: .secondaryLabel)
+    
     private let mainStackView = StackView(axis: .vertical,
-                                          spacing: 30)
+                                          spacing: 40)
     
     // MARK: - Configure
     func setFavoriteButtonAs(_ isFavorite: Bool) {
@@ -130,12 +131,15 @@ class BookCardMainView: UIView {
         recommandButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.recommandButtonAction()
         }), for: .touchUpInside)
+        
         deleteBookButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.deleteBookAction()
         }), for: .touchUpInside)
+        
         favoriteButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.favoriteButtonAction()
         }), for: .touchUpInside)
+        
         commentView.goToCommentButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.showCommentsViewController()
         }), for: .touchUpInside)
@@ -143,9 +147,7 @@ class BookCardMainView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         bookCover.addGestureRecognizer(tap)
     }
-    
-    // MARK: - Targets
-
+  
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         delegate?.showBookCover()
     }
@@ -211,24 +213,21 @@ extension BookCardMainView {
                                            ratingView,
                                            descriptionLabel,
                                            bookDetailView,
-                                           isbnLabel,
-                                           purchaseDetailView,
                                            commentView,
                                            recommandButton,
                                            deleteBookButton]
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(10, after: authorLabel)
+        mainStackView.setCustomSpacing(15, after: authorLabel)
         mainStackView.setCustomSpacing(15, after: categoryiesLabel)
-        mainStackView.setCustomSpacing(50, after: ratingView)
-        mainStackView.setCustomSpacing(20, after: bookDetailView)
-        mainStackView.setCustomSpacing(5, after: deleteBookButton)
+        mainStackView.setCustomSpacing(60, after: ratingView)
+        mainStackView.setCustomSpacing(20, after: recommandButton)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
 }

@@ -17,7 +17,6 @@ class CategoriesViewController: UIViewController {
     weak var newBookDelegate: NewBookDelegate?
     
     private let mainView = CategoryControllerMainView()
-    
     private lazy var dataSource = makeDataSource()
     private var categoryService: CategoryServiceProtocol
     private var settingBookCategory: Bool
@@ -131,7 +130,7 @@ class CategoriesViewController: UIViewController {
                                                                   category: category,
                                                                   categoryService: CategoryService())
         if #available(iOS 15.0, *) {
-            presentSheetController(newCategoryViewController, detents: [.medium(), .large()])
+            presentSheetController(newCategoryViewController, detents: [.large()])
         } else {
             present(newCategoryViewController, animated: true, completion: nil)
         }

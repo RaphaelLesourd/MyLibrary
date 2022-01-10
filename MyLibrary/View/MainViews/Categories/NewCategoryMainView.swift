@@ -32,18 +32,18 @@ class NewCategoryMainView: UIView {
                                       capitalization: .words)
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 27
         layout.itemSize = CGSize(width: 40, height: 40)
         let collection = UICollectionView(frame: .zero,
                                           collectionViewLayout: layout)
         collection.register(ColorCollectionViewCell.self,
                             forCellWithReuseIdentifier: ColorCollectionViewCell.reuseIdentifier)
-        collection.alwaysBounceHorizontal = true
+        collection.alwaysBounceVertical = true
         collection.backgroundColor = .clear
-        collection.showsHorizontalScrollIndicator = false
+        collection.showsVerticalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        collection.heightAnchor.constraint(equalToConstant: 350).isActive = true
         return collection
     }()
     
@@ -127,7 +127,6 @@ extension NewCategoryMainView {
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
         mainStackView.setCustomSpacing(80, after: categoryTextField)
-        mainStackView.setCustomSpacing(10, after: colorSectionTitleLabel)
         mainStackView.setCustomSpacing(60, after: collectionView)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),

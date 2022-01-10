@@ -67,6 +67,7 @@ enum Text {
         static let userRecommandation = NSLocalizedString("Recommendations", comment: "book title")
         static let readersComment = NSLocalizedString("ReaderComments", comment: "reader's comment view title")
         static let todayComment = NSLocalizedString("Today", comment: "today's comments")
+        static let pastComment = NSLocalizedString("PastComments", comment: "past comments")
         static let categoryColor = NSLocalizedString("CategoryColorSectionTitle", comment: "Category Color Title")
         static let categoryListSectionHeader = NSLocalizedString("CategoryListSectionHeader",
                                                                  comment: "categoryList Sectionv Header")

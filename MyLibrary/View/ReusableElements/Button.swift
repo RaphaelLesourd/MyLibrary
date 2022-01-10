@@ -22,13 +22,13 @@ class Button: UIButton {
     }
     
     convenience init(title: String,
-                     systemImage: UIImage = UIImage(),
+                     icon: UIImage = UIImage(),
                      imagePlacement: NSDirectionalRectEdge = .leading,
                      tintColor: UIColor = .appTintColor,
                      backgroundColor: UIColor = .appTintColor) {
         self.init(frame:  .zero)
         configureButton(with: title,
-                        systemImage: systemImage,
+                        systemImage: icon,
                         imagePlacement: imagePlacement,
                         tintColor: tintColor,
                         backgroundColor: backgroundColor)

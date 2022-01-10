@@ -19,13 +19,12 @@ class StackView: UIStackView {
     convenience init(axis:  NSLayoutConstraint.Axis,
                      distribution:  UIStackView.Distribution = .fill,
                      alignment: UIStackView.Alignment = .fill,
-                     spacing: CGFloat,
-                     resizingMask: Bool = false) {
+                     spacing: CGFloat) {
         self.init(frame: .zero)
         self.axis = axis
         self.distribution = distribution
         self.alignment = alignment
         self.spacing = spacing
-        self.translatesAutoresizingMaskIntoConstraints = resizingMask
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
