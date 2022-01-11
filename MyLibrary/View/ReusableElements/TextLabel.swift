@@ -12,6 +12,7 @@ class TextLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         commonInit()
+        
     }
     
     required init?(coder: NSCoder) {

@@ -127,7 +127,6 @@ extension NewCategoryMainView {
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
         mainStackView.setCustomSpacing(80, after: categoryTextField)
-        mainStackView.setCustomSpacing(60, after: collectionView)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

@@ -67,13 +67,11 @@ class HomeViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.fetchBookLists()
-        }), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
     }
 
     private func addNavigationBarButtons() {
-        guard device == .pad else { return }
+        guard let controller = splitViewController, !controller.isCollapsed else { return }
         let addButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
                                         style: .plain,
                                         target: self,
@@ -82,8 +80,7 @@ class HomeViewController: CollectionViewController {
     }
     
     // MARK: - Api call
-    
-    private func fetchBookLists() {
+    @objc private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
