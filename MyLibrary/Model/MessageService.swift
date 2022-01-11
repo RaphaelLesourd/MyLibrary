@@ -25,19 +25,17 @@ class MessageService {
     }
     
     // MARK: - Private functions
-    private func getCommentUserID(from comments: [CommentModel]) -> [[String]] {
-        return comments
-            .compactMap { $0.userID }
-            .chunked(into: 10)
+    private func getUserIds(from comments: [CommentModel]) -> [[String]] {
+        let userIds = comments.compactMap { $0.userID }
+        let uniqueIds = Array(Set(userIds))
+        return uniqueIds.chunked(into: 10)
     }
     
-    private func getAllCommentSenders(for comments: [CommentModel],
-                                      bookOwnerID: String,
-                                      completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
+    private func getUserMessageTokens(from comments: [CommentModel],
+                                      for bookOwnerID: String,
+                                      completion: @escaping (Result<[String], FirebaseError>) -> Void) {
+        let userIds = getUserIds(from: comments)
         
-        var userIds: [[String]] = getCommentUserID(from: comments)
-        userIds.insert([bookOwnerID], at: 0)
-       
         userIds.forEach { ids in
             let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in
@@ -54,31 +52,35 @@ class MessageService {
                     }
                 }
                 if let data = data {
-                    let userList = Array(Set(data))
-                    completion(.success(userList))
+                    let tokens = data.compactMap { $0.token}
+                    completion(.success(tokens))
                 }
             }
         }
     }
     
-    private func postPushNotifications(to users: [UserModel],
-                                       with message: String,
-                                       for book: Item) {
+    private func sendMessage(to tokens: [String], with message: String, about book: Item) {
+        tokens.forEach { token in
+            postNotifications(with: token, and: message, about: book)
+        }
+    }
+    
+    private func postNotifications(with token: String,
+                                   and message: String,
+                                   about book: Item) {
         guard let bookTitle = book.volumeInfo?.title,
               let bookID = book.bookID,
               let ownerID = book.ownerID,
               let imageURL = book.volumeInfo?.imageLinks?.thumbnail else { return }
-        users.forEach {
-            let message = MessageModel(title: bookTitle.capitalized,
-                                       body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
-                                       bookID: bookID,
-                                       ownerID: ownerID,
-                                       imageURL: imageURL,
-                                       token: $0.token)
-            apiManager.postPushNotification(with: message) { error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
+        let message = MessageModel(title: bookTitle.capitalized,
+                                   body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
+                                   bookID: bookID,
+                                   ownerID: ownerID,
+                                   imageURL: imageURL,
+                                   token: token)
+        apiManager.postPushNotification(with: message) { error in
+            if let error = error {
+                print(error.localizedDescription)
             }
         }
     }
@@ -86,14 +88,14 @@ class MessageService {
 // MARK: - MessageService Protocol
 extension MessageService: MessageServiceProtocol {
     
-    func sendCommentNotification(for book: Item,
-                                 message: String,
-                                 for comments: [CommentModel],
-                                 completion: @escaping (FirebaseError?) -> Void) {
-        getAllCommentSenders(for: comments, bookOwnerID: book.ownerID ?? "") { [weak self] result in
+    func sendCommentPushNotification(for book: Item,
+                                     message: String,
+                                     for comments: [CommentModel],
+                                     completion: @escaping (FirebaseError?) -> Void) {
+        getUserMessageTokens(from: comments, for: book.ownerID ?? "") { [weak self] result in
             switch result {
-            case .success(let users):
-                self?.postPushNotifications(to: users, with: message, for: book)
+            case .success(let tokens):
+                self?.sendMessage(to: tokens, with: message, about: book)
                 completion(nil)
             case .failure(let error):
                 completion(.firebaseError(error))

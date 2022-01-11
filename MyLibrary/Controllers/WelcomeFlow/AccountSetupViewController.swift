@@ -113,9 +113,9 @@ class AccountSetupViewController: UIViewController {
     }
     
     private func resetPassWordRequest() {
-        AlertManager.presentAlert(withTitle: Text.Alert.forgotPasswordTitle,
+        AlertManager.presentAlert(title: Text.Alert.forgotPasswordTitle,
                                   message: Text.Alert.forgotPasswordMessage,
-                                  withCancel: true,
+                                  cancel: true,
                                   on: self) { [weak self] _ in
             self?.resetPassword()
         }

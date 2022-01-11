@@ -184,7 +184,7 @@ class CommentsViewController: UIViewController {
     
     private func notifyUser(of newComment: String) {
         guard let book = book else { return }
-        messageService.sendCommentNotification(for: book, message: newComment, for: self.commentList) { error in
+        messageService.sendCommentPushNotification(for: book, message: newComment, for: self.commentList) { error in
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

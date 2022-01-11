@@ -29,6 +29,7 @@ class CategoryControllerMainView: UIView {
         tableView.allowsMultipleSelection = true
         tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

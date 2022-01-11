@@ -159,15 +159,15 @@ extension AccountViewController: AccountViewDelegate {
     }
     
     func signoutRequest() {
-        AlertManager.presentAlert(withTitle: Text.Alert.signout, message: "", withCancel: true, on: self) { _ in
+        AlertManager.presentAlert(title: Text.Alert.signout, message: "", cancel: true, on: self) { _ in
             self.signoutAccount()
         }
     }
     
     func deleteAccount() {
-        AlertManager.presentAlert(withTitle: Text.Alert.deleteAccountTitle,
+        AlertManager.presentAlert(title: Text.Alert.deleteAccountTitle,
                                   message: Text.Alert.deleteAccountMessage,
-                                  withCancel: true,
+                                  cancel: true,
                                   on: self) { _ in
             let accountService = AccountService(userService: UserService(),
                                                 libraryService: LibraryService(),

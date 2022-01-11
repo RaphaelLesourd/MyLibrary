@@ -116,9 +116,9 @@ class CategoriesViewController: UIViewController {
     
     private func displayDeleteCategoryAlert(_ category: CategoryModel) {
         let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
-        AlertManager.presentAlert(withTitle: title,
+        AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
-                                  withCancel: true,
+                                  cancel: true,
                                   on: self) { [weak self] _ in
             self?.deleteCategory(for: category)
         }
@@ -155,11 +155,13 @@ extension CategoriesViewController {
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = Snapshot()
         mainView.emptyStateView.isHidden = !categoryService.categories.isEmpty
-       
+        
+        var snapshot = Snapshot()
         if !categoryService.categories.isEmpty {
             snapshot.appendSections([.main])
+            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            
             snapshot.appendItems(categoryService.categories, toSection: .main)
             dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
             highlightBookCategories()
@@ -205,7 +207,8 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: ActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: ActionType,
+                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             guard let self = self else {return}
             

@@ -18,9 +18,9 @@ class BookCardViewController: UIViewController {
     private let recommendationService: RecommendationServiceProtocol
     private let bookCardPresenter: BookCardPresenter?
     private var book: Item
-    private var recommandedBook = false {
+    private var recommanded = false {
         didSet {
-            mainView.setRecommandedButtonAs(recommandedBook)
+            mainView.setRecommandedButtonAs(recommanded)
         }
     }
     private var favoriteBook = false {
@@ -54,7 +54,6 @@ class BookCardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        makeNavigationBarClear()
         navigationItem.largeTitleDisplayMode = .never
     }
     
@@ -71,7 +70,6 @@ class BookCardViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        restoreNavigationDefaultBar()
         navigationItem.largeTitleDisplayMode = .always
     }
     
@@ -105,7 +103,7 @@ class BookCardViewController: UIViewController {
     
     private func setBookRecommandState() {
         if let recommand = self.book.recommanding {
-            recommandedBook = recommand
+            recommanded = recommand
         }
     }
     
@@ -216,15 +214,15 @@ extension BookCardViewController: BookCardMainViewDelegate {
     }
     
     func recommandButtonAction() {
-        recommandedBook.toggle()
-        recommnandBook(recommandedBook)
-        updateBookStatus(to: recommandedBook, for: .recommanding)
+        recommanded.toggle()
+        recommnandBook(recommanded)
+        updateBookStatus(to: recommanded, for: .recommanding)
     }
     
     func deleteBookAction() {
-        AlertManager.presentAlert(withTitle: Text.Alert.deleteBookTitle,
+        AlertManager.presentAlert(title: Text.Alert.deleteBookTitle,
                                   message: Text.Alert.deleteBookMessage,
-                                  withCancel: true,
+                                  cancel: true,
                                   on: self) { [weak self] _ in
             self?.deleteBook()
         }
