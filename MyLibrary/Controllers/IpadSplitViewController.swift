@@ -31,6 +31,7 @@ class IpadSplitViewController: UISplitViewController {
     
     // MARK: - Setup
     private func setViewControllers() {
+        let tabBarController = TabBarController()
         let homeViewController = HomeViewController(libraryService: LibraryService(),
                                                     layoutComposer: HomeTabLayout(),
                                                     categoryService: CategoryService(),
@@ -41,5 +42,6 @@ class IpadSplitViewController: UISplitViewController {
         newBookViewController.title = Text.ControllerTitle.newBook
         setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
+        setViewController(tabBarController, for: .compact)
     }
 }

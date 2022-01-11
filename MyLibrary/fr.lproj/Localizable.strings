@@ -31,28 +31,28 @@
 "Currency" = "Monnaie";
 "Rating" = "Note\n(0 à 5)";
 "BookSaved" = "Livre enregistré.";
-"CreateProfile" = "Créer un profil";
+"CreateProfile" = "Créez un profil";
 
 "Save" = "Enregistrer";
 "Update" = "Mettre à jour";
 "SignOut" = "Déconnexion";
-"DeleteAccount" = "Effacer le compte";
+"DeleteAccount" = "Effacez votre compte";
 "Delete" = "Effacer";
 "Edit" = "Editer";
 "Search" = "Rechercher";
-"Done" = "Done";
+"Done" = "Terminé";
 
 "LatestBooks" = "Derniers ajouts";
 "FavoriteBooks" = "Livres favoris";
 "Recommendations" = "Recommandations";
 
 "SeeAll" = "Tout voir";
-"Manage" = "Manage";
+"Manage" = "Gérer";
 
 "Add comment" = "Ajouter un commentaire";
 "AlertSignOutMessage" = "Etes-vous sûr de vouloir vous déconnecter?";
 "AlertDeleteAccountTitle" = "Etes-vous sûr de vouloir supprimer votre compte?";
-"AlertDeleteAccountMessage" = "Vous allez devoir vous re-authentifier.";
+"AlertDeleteAccountMessage" = "Vous allez devoir vous authentifier à nouveau.";
 "AlertDescriptionChangedMessage" = "Vous avez modifié la description, voulez-vous grader ces modifications?";
 
 "GoodByeMessage" = "A bientôt";
@@ -61,9 +61,9 @@
 "Error" = "Erreur!";
 "Success" = "Succés";
 
-"LoginSubtitle" = "Veuillez entrer votre email et votre mot de passe pour vous connecter à votre compte.";
+"LoginSubtitle" = "Veuillez entrer votre email et votre mot de passe pour vous connecter.";
 "LoginTitle" = "Se connecter";
-"SignupSubtitle" = "Choisissez un mot de passe avec minimum 1 chiffre, un charactère spécial et minimum 6 lettres.";
+"SignupSubtitle" = "Choisissez un mot de passe avec au minimum 1 chiffre, un charactère spécial et 6 lettres.";
 "SignupTitle" = "S'inscrire";
 "Email" = "Email";
 "Password" = "Mot de passe";
@@ -81,7 +81,7 @@
 
 "ResetPassword" = "Reset du mot de passe";
 "ReauthentifyBannerMessage" = "Veuillez vous authentifier à nouveau.";
-"AccountDeleted" = "Votre compte à été éffacé";
+"AccountDeleted" = "Votre compte à été effacé";
 
 "HomeControllerEmptyState" = "Pas encore de Livres dans votre bibliothèque...";
 "BookListEmptyState" = "Vous n'avez pas encore répertorié de livre.\nVoulez-vous en ajouter un maintenant?";
@@ -90,38 +90,38 @@
 
 "StopRecommending" = "Ne plus recommander";
 "Recommend" = "Recommander";
-"BookDeleted" = "Livre éffacé de votre bibliothèque.";
+"BookDeleted" = "Livre effacé de votre bibliothèque.";
 
 "AlertDeleteBookTitle" = "Effacer un livre";
 "AlertDeleteBookMessage" = "Etes-vous sur de vouloir effacer ce livre?";
 
 "AlertCameraUnavailableTitle" = "Caméra introuvable";
-"AlertCameraUnavailableMessage" = "Il semblerait y avoir un problème avec votre caméra.";
+"AlertCameraUnavailableMessage" = "Il semblerait avoir un problème avec votre caméra.";
 "Permissions" = "Permissions";
-"CameraPermissionsMessage" = "Veuillez modifier les réglages pour autoriser cet app à utiliser la caméra.";
+"CameraPermissionsMessage" = "Veuillez modifier les réglages pour autoriser l'utilisation de la caméra.";
 
 "CategoryAdded" = "Catégorie ajoutée";
 "CategoryModified" = "Catégorie modifiée";
 
 "AlertNewCategoryTitle" = "Nouvelle catégorie";
-"AlertNewCategoryMessage" = "Ajouter une nouvelle catégorie.";
+"AlertNewCategoryMessage" = "Ajoutez une nouvelle catégorie.";
 "Add" = "Ajouter";
-"CategoryName" = "Nom de catégorie";
+"CategoryName" = "Nom de la catégorie";
 
-"AlertDeleteCategoryMessage" = "Etes vous sur de vouloir éffacer cette catégorie?";
+"AlertDeleteCategoryMessage" = "Etes-vous sur de vouloir effacer cette catégorie?";
 "OK" = "OK";
 "Modify" = "Modifier";
 "Cancel" = "Annuler";
 
 "ReaderComments" = "Commentaires des lecteurs";
-"ReAuthentificationMessage" = "Veuillez vous re-authentifier avec votre email et mot de passe";
+"ReAuthentificationMessage" = "Veuillez vous authentifier à nouveau avec votre email et mot de passe";
 "DeleteThisBook" = "Effacer ce livre";
 "CommentEntry" = "Vos pensées...";
 
 "Version" = "Version ";
 "Build" = "Build";
 "AppCreationYear" = "Année création";
-"ContactUs" = "Contactez nous";
+"ContactUs" = "Contactez-nous";
 "Information" = "Information";
 "RecommendedBy" = "Recommandé par ";
 "UnableToOpenMailApp" = "Impossible d'ouvrir Mail.";
@@ -130,9 +130,9 @@
 "TakePhoto" = "Prendre une photo";
 "CameraRoll" = "Pellicule";
 "PhotoLibrary" = "Phototèque";
-"AccessNotAuthorized" = "Acces non autorisé";
+"AccessNotAuthorized" = "Accés non autorisé";
 "Today" = "Aujourd'hui";
-"PastComments" = "Anciens Commentaires";
+"PastComments" = "Anciens commentaires";
 "BookListMenuTitle" = "Liste";
 "Large" = "Large";
 "Medium" = "Moyenne";
@@ -168,17 +168,17 @@
 "EmailExist" = "Email déja utilisé.";
 "InvalidEmail" = "Email non valable.";
 "InvalidPassword" = "Mauvais mot de passe.";
-"AccountDontExist" = "Aucun compte existe avec cet email.";
+"AccountDontExist" = "Aucun compte trouvé avec cet email.";
 
 "NewCategoryTitle" = "Nouvelle catégorie";
 "NewCategorySubtitle" = "Créez une nouvelle catégorie en lui donnant un nom et une couleur.";
 "CategoryColorSectionTitle" = "Couleur de la catégorie";
-"EditCategoryTitle" = "Editer catégorie";
-"EditCategorySubtitle" = "Changer cette catégorie en lui donnant un nom et une couleur.";
+"EditCategoryTitle" = "Editez catégorie";
+"EditCategorySubtitle" = "Changez cette catégorie en lui donnant un nom et une couleur.";
 "NoText" = "Il n'y a rien à sauver.";
 
 "CategoryListSectionHeader" = "Toutes vos catégories";
-"CategoryListSectionFooter" = "Glisser vers la gauche pour éditer\nou effacer une catégorie.";
+"CategoryListSectionFooter" = "Glissez vers la gauche pour éditer\nou effacer une catégorie.";
 
 "EmptyQuery" = "Recherche vide";
 "Forbidden" = "Accés refusé";
@@ -201,7 +201,7 @@
 "EmptyStateNoBookSubtitle" = "Voulez vous commencer?";
 "EmptyStateSearchTitle" = "Allons à la recherche de livres.";
 "EmptyStateSearchSubtitle" = "Vous pouvez chercher avec un titre, un nom d'auteur, ou tout autre mot clé.";
-"EmptyStateCategoryTitle" = "Créons ensemble votre première catégorie.";
+"EmptyStateCategoryTitle" = "Ajoutons ensemble votre première catégorie.";
 "EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
 "EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
 "EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";
