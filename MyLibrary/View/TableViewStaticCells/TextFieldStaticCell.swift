@@ -34,8 +34,7 @@ class TextFieldStaticCell: UITableViewCell {
     let titleLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 2,
                                alignment: .left,
-                               fontSize: 12,
-                               weight: .regular)
+                               font: .extraSmallTitle )
     let textField = TextField()
     private let stackView = StackView(axis: .horizontal,
                                       distribution: .fill,

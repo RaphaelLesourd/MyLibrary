@@ -29,18 +29,15 @@ class CommentsBookCell: UITableViewCell {
     private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
                                        alignment: .left,
-                                       fontSize: 21,
-                                       weight: .bold)
+                                       font: .title)
     private let subtitleLabel = TextLabel(color: .secondaryLabel,
-                                          maxLines: 1,
+                                          maxLines: 2,
                                           alignment: .left,
-                                          fontSize: 16,
-                                          weight: .medium)
+                                          font: .subtitle)
     private let bookOwnerNameLabel = TextLabel(color: .appTintColor,
                                                maxLines: 1,
                                                alignment: .left,
-                                               fontSize: 14,
-                                               weight: .regular)
+                                               font: .mediumSemiBoldTitle)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 10)
     

@@ -47,8 +47,7 @@ class BookCardCommentView: UIView {
     private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
                                        alignment: .right,
-                                       fontSize: 16,
-                                       weight: .medium)
+                                       font: .mediumSemiBoldTitle)
     
     private let backgroundImage: UIImageView = {
         let view = UIImageView()

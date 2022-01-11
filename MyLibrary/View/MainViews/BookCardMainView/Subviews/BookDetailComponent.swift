@@ -29,12 +29,10 @@ class BookDetailComponent: UIView {
     
     // MARK: - Subviews
     let infoLabel = TextLabel(alignment: .center,
-                              fontSize: 16,
-                              weight: .light)
+                              font: .subtitle)
     private let titleLabel = TextLabel(color: .secondaryLabel,
                                        alignment: .center,
-                                       fontSize: 14,
-                                       weight: .light)
+                                       font: .footerLabel)
     private let stackView = StackView(axis: .vertical,
                                       distribution: .fillProportionally,
                                       spacing: 2)

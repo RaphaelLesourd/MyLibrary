@@ -86,21 +86,17 @@ class BookCardMainView: UIView {
     let bookCover = BookCover(frame: .zero)
     let titleLabel = TextLabel(maxLines: 5,
                                alignment: .center,
-                               fontSize: 21,
-                               weight: .semibold)
+                               font: .title)
     let authorLabel = TextLabel(maxLines: 3,
                                 alignment: .center,
-                                fontSize: 16,
-                                weight: .regular)
+                                font: .subtitle)
     let categoryiesLabel = TextLabel(color: .secondaryLabel,
                                      maxLines: 2,
                                      alignment: .center,
-                                     fontSize: 13,
-                                     weight: .medium)
+                                     font: .smallSubtitle)
     let ratingView = RatingView()
     let descriptionLabel = TextLabel(maxLines: 0,
-                                     fontSize: 17,
-                                     weight: .light)
+                                     font: .body)
     let bookDetailView = BookDetailView()
     
     private let mainStackView = StackView(axis: .vertical,

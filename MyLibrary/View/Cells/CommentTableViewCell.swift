@@ -46,18 +46,15 @@ class CommentTableViewCell: UITableViewCell {
     let userNameLabel = TextLabel(color: .appTintColor,
                                   maxLines: 1,
                                   alignment: .left,
-                                  fontSize: 16,
-                                  weight: .medium)
+                                  font: .mediumSemiBoldTitle)
     let commentLabel = TextLabel(color: .label,
                                  maxLines: 0,
                                  alignment: .natural,
-                                 fontSize: 18,
-                                 weight: .light)
+                                 font: .body)
     let dateLabel = TextLabel(color: .secondaryLabel,
                               maxLines: 1,
                               alignment: .left,
-                              fontSize: 13,
-                              weight: .light)
+                              font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
     

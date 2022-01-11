@@ -39,15 +39,13 @@ class EmptyStateView: UIView {
         return imageView
     }()
     private let titleLabel = TextLabel(color: .label,
-                               maxLines: 0,
-                               alignment: .center,
-                               fontSize: 15,
-                               weight: .semibold)
+                                       maxLines: 0,
+                                       alignment: .center,
+                                       font: .mediumSemiBoldTitle)
     private let subTitleLabel = TextLabel(color: .secondaryLabel,
-                                  maxLines: 0,
-                                  alignment: .center,
-                                  fontSize: 14,
-                                  weight: .regular)
+                                          maxLines: 0,
+                                          alignment: .center,
+                                          font: .smallBody)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 20)
     

@@ -211,8 +211,7 @@ extension CommentsViewController: UITableViewDelegate {
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 1,
                                           alignment: .center,
-                                          fontSize: 14,
-                                          weight: .light)
+                                          font: .lightSectionTitle)
         sectionTitleLabel.text = section.headerTitle.uppercased()
         
         return numberOfItemsInsection == 0 ? nil : sectionTitleLabel

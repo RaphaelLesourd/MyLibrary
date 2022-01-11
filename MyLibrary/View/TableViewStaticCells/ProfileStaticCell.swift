@@ -38,8 +38,7 @@ class ProfileStaticCell: UITableViewCell {
     let emailLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 1,
                                alignment: .center,
-                               fontSize: 15,
-                               weight: .regular)
+                               font: .subtitle)
     private let stackView = StackView(axis: .vertical,
                                       distribution: .fill,
                                       alignment: .center,

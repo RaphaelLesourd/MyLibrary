@@ -39,11 +39,10 @@ class AccountMainView: UIView {
         return view
     }()
     
-    private let titleLabel = TextLabel(fontSize: 27, weight: .bold)
+    private let titleLabel = TextLabel(font: .controllerTitle)
     private let subtitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 4,
-                                          fontSize: 16,
-                                          weight: .regular)
+                                          font: .subtitle)
     let userNameTextField = TextField(placeholder: Text.Account.userName,
                                       keyBoardType: .emailAddress,
                                       returnKey: .next,

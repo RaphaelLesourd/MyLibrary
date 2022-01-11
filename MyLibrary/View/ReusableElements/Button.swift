@@ -43,7 +43,6 @@ class Button: UIButton {
                          tintColor: UIColor = .appTintColor,
                          backgroundColor: UIColor = .appTintColor) {
        
-        let font = UIFont.systemFont(ofSize: 16, weight: .medium)
         if #available(iOS 15.0, *) {
             configuration = UIButton.Configuration.tinted()
             configuration?.cornerStyle = .medium
@@ -55,11 +54,12 @@ class Button: UIButton {
             configuration?.imagePadding = 10
             configuration?.imagePlacement = imagePlacement
             var container = AttributeContainer()
-            container.font = font
+            container.font = .button
             configuration?.attributedTitle = AttributedString(title, attributes: container)
         } else {
             self.setTitle(title, for: .normal)
-            self.titleLabel?.font = font
+            self.titleLabel?.font = .button
+            self.titleLabel?.adjustsFontSizeToFitWidth = true
             self.roundView(radius: 10, backgroundColor: backgroundColor.withAlphaComponent(0.2))
             self.setTitleColor(tintColor, for: .normal)
             self.titleEdgeInsets = UIEdgeInsets(top: 30, left: 20, bottom: 30, right: 20)
@@ -67,10 +67,14 @@ class Button: UIButton {
     }
     
     func displayActivityIndicator(_ state: Bool) {
-        state ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
-        activityIndicator.hidesWhenStopped = true
-        self.alpha = state ? 0.3 : 1
-        self.isUserInteractionEnabled = !state
+        if #available(iOS 15.0, *) {
+            self.configuration?.showsActivityIndicator = state
+        } else {
+            state ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+            activityIndicator.hidesWhenStopped = true
+            self.alpha = state ? 0.3 : 1
+            self.isUserInteractionEnabled = !state
+        }
     }
 }
 

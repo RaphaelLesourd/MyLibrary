@@ -321,8 +321,7 @@ extension NewBookViewController {
         let label = TextLabel(color: .secondaryLabel,
                               maxLines: 2,
                               alignment: .center,
-                              fontSize: 14,
-                              weight: .light)
+                              font: .footerLabel)
         label.text = section == 7 ? Text.SectionTitle.newBookSaveFooter : ""
         return label
     }

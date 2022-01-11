@@ -27,13 +27,10 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(fontSize: 13,
-                                       weight: .bold)
-    private let subtitleLabel = TextLabel(fontSize: 12,
-                                          weight: .regular)
+    private let titleLabel = TextLabel(font: .mediumSemiBoldTitle)
+    private let subtitleLabel = TextLabel(font: .smallBoldTitle)
     private let descriptionLabel = TextLabel(maxLines: 4,
-                                             fontSize: 13,
-                                             weight: .regular)
+                                             font: .smallBody)
     private let stackView = StackView(axis: .vertical,
                                       alignment: .top,
                                       spacing: 10)

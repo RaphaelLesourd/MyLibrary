@@ -174,8 +174,7 @@ extension CategoriesViewController: UITableViewDelegate {
         let sectionTitleLabel = TextLabel(color: .label,
                                           maxLines: 2,
                                           alignment: .left,
-                                          fontSize: 16,
-                                          weight: .regular)
+                                          font: .subtitle)
         sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader
         return sectionTitleLabel
     }
@@ -189,8 +188,7 @@ extension CategoriesViewController: UITableViewDelegate {
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 2,
                                           alignment: .center,
-                                          fontSize: 14,
-                                          weight: .light)
+                                          font: .footerLabel)
         sectionTitleLabel.text = Text.SectionTitle.categoryListSectionFooter
         return sectionTitleLabel
     }

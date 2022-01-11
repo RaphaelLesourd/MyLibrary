@@ -26,8 +26,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     // MARK: - Subview
     private var categoryLabel = TextLabel(color: .appTintColor,
                                           alignment: .center,
-                                          fontSize: 14,
-                                          weight: .semibold)
+                                          font: .categoryTitle)
     
     // MARK: - Configure
     func configure(with model: CategoryModel) {

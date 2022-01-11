@@ -31,8 +31,7 @@ class RatingInputStaticCell: UITableViewCell {
     let titleLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 2,
                                alignment: .left,
-                               fontSize: 12,
-                               weight: .regular)
+                               font: .extraSmallTitle)
     let ratingSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["✗","1 ★","2 ★","3 ★","4 ★","5 ★"])
         control.isSpringLoaded = true
