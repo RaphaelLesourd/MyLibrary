@@ -39,7 +39,8 @@ class UserService {
 extension UserService: UserServiceProtocol {
 
     // MARK: Create
-    func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
+    func createUserInDatabase(for currentUser: UserModel?,
+                              completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
         let userRef = usersCollectionRef.document(currentUser.userID)
@@ -65,7 +66,8 @@ extension UserService: UserServiceProtocol {
     }
     
     // MARK: Update
-    func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
+    func updateUserName(with username: String?,
+                        completion: @escaping CompletionHandler) {
         guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return

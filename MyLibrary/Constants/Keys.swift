@@ -22,6 +22,7 @@ enum CollectionDocumentKey: String, CaseIterable {
     case category
     case comments
     case keys
+    case followedUsers
 }
 
 enum DocumentKey: String {
@@ -37,6 +38,7 @@ enum DocumentKey: String {
     case author = "volumeInfo.authors"
     case category
     case name
+    case color
     case fcmToken
     case ownerID
     case userID
@@ -48,6 +50,7 @@ enum StorageKey: String {
     case images
     case profileImage
     case badge
+    case recommendingSwitch
 }
 
 enum UserDefaultKey: String {

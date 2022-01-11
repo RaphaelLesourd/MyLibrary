@@ -32,9 +32,9 @@ enum ActionType {
     var icon: UIImage {
         switch self {
         case .delete:
-            return Images.EditIcon.trashCircleIcon
+            return Images.ContextMenuIcon.trashCircleIcon
         case .edit:
-            return Images.EditIcon.editCircleIcon
+            return Images.ContextMenuIcon.editCircleIcon
         }
     }
 }

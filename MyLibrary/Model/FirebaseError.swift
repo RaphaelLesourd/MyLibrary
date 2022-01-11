@@ -17,6 +17,7 @@ enum FirebaseError: Error {
     case noBookTitle
     case noComment
     case noNetwork
+    case noText
     case nothingFound
     case firebaseError(Error)
     case firebaseAuthError(Error)
@@ -26,7 +27,7 @@ enum FirebaseError: Error {
         case .passwordMismatch:
             return Text.Banner.passwordMissmatch
         case .noUserName:
-            return Text.Banner.titleMissing
+            return Text.Banner.usernameEmpty
         case .noBookTitle:
             return Text.Banner.titleMissing
         case .noCategory:
@@ -35,6 +36,8 @@ enum FirebaseError: Error {
             return Text.Banner.categoryExist
         case .noNetwork:
             return Text.Banner.noNetwork
+        case .noText:
+            return Text.Banner.noText
         case .firebaseError(let error):
             return getFirestoreError(for: error)
         case .firebaseAuthError(let error):

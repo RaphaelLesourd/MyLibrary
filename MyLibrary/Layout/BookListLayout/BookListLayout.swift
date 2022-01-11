@@ -10,10 +10,10 @@ import SwiftUI
 
 class BookListLayout {
  
-    private  func makeVerticalGridLayoutSection(gridItemSize: BookGridSize,
+    private  func makeVerticalGridLayoutSection(gridItemSize: GridSize,
                                                 environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
-        let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.rawValue
+        let desiredWidth: CGFloat = environment.container.effectiveContentSize.width * gridItemSize.size
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
   
@@ -22,11 +22,11 @@ class BookListLayout {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 0,
                                    leading: 2.5,
-                                   bottom: 17,
+                                   bottom: 5,
                                    trailing: 2.5)
       
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .fractionalWidth(fractionWidth * 1.7))
+                                               heightDimension: .fractionalWidth(fractionWidth * 1.5))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
     
@@ -50,7 +50,7 @@ class BookListLayout {
 // MARK: - Layout composer protocol
 extension BookListLayout: BookListLayoutComposer {
     
-    func setCollectionViewLayout(gridItemSize: BookGridSize) -> UICollectionViewLayout {
+    func setCollectionViewLayout(gridItemSize: GridSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, environement in
             return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize,
                                                        environment: environement)

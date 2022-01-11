@@ -34,11 +34,13 @@
 "CreateProfile" = "Créer un profil";
 
 "Save" = "Enregistrer";
+"Update" = "Mettre à jour";
 "SignOut" = "Déconnexion";
 "DeleteAccount" = "Effacer le compte";
 "Delete" = "Effacer";
 "Edit" = "Editer";
 "Search" = "Rechercher";
+"Done" = "Done";
 
 "LatestBooks" = "Derniers ajouts";
 "FavoriteBooks" = "Livres favoris";
@@ -82,8 +84,8 @@
 "AccountDeleted" = "Votre compte à été éffacé";
 
 "HomeControllerEmptyState" = "Pas encore de Livres dans votre bibliothèque...";
-"BookListEmptyState" = "Pas de livre pour ";
-"SearchListEmptyState" = "Recherche de livres, comics, etc...";
+"BookListEmptyState" = "Vous n'avez pas encore répertorié de livre.\nVoulez-vous en ajouter un maintenant?";
+"SearchListEmptyState" = "Vous pouvez chercher un livre en donnant un titre, nom d'auteur, numéro de code barre (ISBN), etc...";
 "CommentEmptyState" = "Soyez le premier à écrire un comentaire sur ce livre...";
 
 "StopRecommending" = "Ne plus recommander";
@@ -114,9 +116,9 @@
 "ReaderComments" = "Commentaires des lecteurs";
 "ReAuthentificationMessage" = "Veuillez vous re-authentifier avec votre email et mot de passe";
 "DeleteThisBook" = "Effacer ce livre";
-"CommentEntry" = "Ce que vous en pensez...";
+"CommentEntry" = "Vos pensées...";
 
-"Version" = "Version";
+"Version" = "Version ";
 "Build" = "Build";
 "AppCreationYear" = "Année création";
 "ContactUs" = "Contactez nous";
@@ -130,6 +132,7 @@
 "PhotoLibrary" = "Phototèque";
 "AccessNotAuthorized" = "Acces non autorisé";
 "Today" = "Aujourd'hui";
+"PastComments" = "Anciens Commentaires";
 "BookListMenuTitle" = "Liste";
 "Large" = "Large";
 "Medium" = "Moyenne";
@@ -166,3 +169,39 @@
 "InvalidEmail" = "Email non valable.";
 "InvalidPassword" = "Mauvais mot de passe.";
 "AccountDontExist" = "Aucun compte existe avec cet email.";
+
+"NewCategoryTitle" = "Nouvelle catégorie";
+"NewCategorySubtitle" = "Créez une nouvelle catégorie en lui donnant un nom et une couleur.";
+"CategoryColorSectionTitle" = "Couleur de la catégorie";
+"EditCategoryTitle" = "Editer catégorie";
+"EditCategorySubtitle" = "Changer cette catégorie en lui donnant un nom et une couleur.";
+"NoText" = "Il n'y a rien à sauver.";
+
+"CategoryListSectionHeader" = "Toutes vos catégories";
+"CategoryListSectionFooter" = "Glisser vers la gauche pour éditer\nou effacer une catégorie.";
+
+"EmptyQuery" = "Recherche vide";
+"Forbidden" = "Accés refusé";
+"TooManyRequests" = "Trop de requêtes";
+"InternalServerError" = "Erreur interne du serveur";
+"ServiceUnavailable" = "Service temporairement indisponible ou en maintenance";
+"UnknowError" = "Erreur inconnue";
+"Letsgo" = "Allons-y!";
+
+"NewBookCategoriesHeader" = "Ajoutez des catégories";
+"NewBookPublishingHeader" = "Détails d'édition";
+"NewBookDetailsHeader" = "Détails du livre";
+"NewBookRatingHeader" = "Ajoutez une Note";
+"NewBookPriceHeader" = "Détails du prix";
+"NewBookSaveFooter" = "Pour enregistrer ce livre, entrez au minimum un titre.";
+
+"DeleteNewBookInfos" = "Effacez toutes les infos";
+
+"EmptyStateNoBookTitle" = "Ajoutons ensemble votre premier livre.";
+"EmptyStateNoBookSubtitle" = "Voulez vous commencer?";
+"EmptyStateSearchTitle" = "Allons à la recherche de livres.";
+"EmptyStateSearchSubtitle" = "Vous pouvez chercher avec un titre, un nom d'auteur, ou tout autre mot clé.";
+"EmptyStateCategoryTitle" = "Créons ensemble votre première catégorie.";
+"EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
+"EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
+"EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";

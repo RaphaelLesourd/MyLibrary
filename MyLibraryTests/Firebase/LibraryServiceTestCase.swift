@@ -106,7 +106,7 @@ class LibraryServiceTestCase: XCTestCase {
     func test_givenStoredBook_whenAddingOrRemovingFavoriteList() {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
     
-            self.sut.setStatusTo(to: true, field: .favorite, for: self.book.bookID, completion:  { error in
+            self.sut.setStatus(to: true, field: .favorite, for: self.book.bookID, completion:  { error in
                 XCTAssertNil(error)
                 self.sut.getBook(for: "11111111", ownerID: "user1", completion: { result in
                     switch result {

@@ -35,10 +35,12 @@
  
 "Save" = "Save";
 "SignOut" = "Sign out";
+"Update" = "Update";
 "DeleteAccount" = "Delete account";
 "Delete" = "Delete";
 "Edit" = "Edit";
 "Search" = "Search";
+"Done" = "Terminé";
  
 "LatestBooks" = "Latest books";
 "FavoriteBooks" = "Favorite books";
@@ -83,7 +85,7 @@
 
 "HomeControllerEmptyState" = "No books in your library yet";
 "BookListEmptyState" = "No books in ";
-"SearchListEmptyState" = "Search here for book, comics, etc..";
+"SearchListEmptyState" = "You can search by entering a title, author, book reference, etc...";
 "CommentEmptyState" = "Be the first one to leave a comment about this book...";
 
 "StopRecommending" = "Stop recommending";
@@ -114,9 +116,9 @@
 "ReaderComments" = "Reader's comments";
 "ReAuthentificationMessage" = "Please enter your email and password to re-authentify";
 "DeleteThisBook" = "Delete this book";
-"CommentEntry" = "Enter your thoughts...";
+"CommentEntry" = "Your thoughts...";
  
-"Version" = "Version";
+"Version" = "Version ";
 "Build" = "Build";
 "AppCreationYear" = "Created in";
 "ContactUs" = "Contact us";
@@ -130,6 +132,7 @@
 "PhotoLibrary" = "Photo library";
 "AccessNotAuthorized" = "Access not authorized";
 "Today" = "Today";
+"PastComments" = "Past comments";
 "BookListMenuTitle" = "List";
 "Large" = "Large";
 "Medium" = "Medium";
@@ -165,3 +168,39 @@
 "InvalidEmail" = "Invalid email";
 "InvalidPassword" = "Invalid password";
 "AccountDontExist" = "No account exist with this email.";
+
+"NewCategoryTitle" = "New category";
+"NewCategorySubtitle" = "Create a new category by giving a name and set a color.";
+"CategoryColorSectionTitle" = "Category color";
+"EditCategoryTitle" = "Edit category";
+"EditCategorySubtitle" = "Modify this category by giving a name and set a color.";
+"NoText" = "There is nothing to save.";
+
+"CategoryListSectionHeader" = "All your books categories";
+"CategoryListSectionFooter" = "Swipe left to edit or delete a category.";
+
+"EmptyQuery" = "Book seach query empty";
+"Forbidden" = "Access forbidden";
+"TooManyRequests" = "Too many requests";
+"InternalServerError" = "Internal server error";
+"ServiceUnavailable" = "Service unavailable";
+"UnknowError" = "Network error unknown";
+"Letsgo" = "Let's go!";
+ 
+"NewBookCategoriesHeader" = "Add categories";
+"NewBookPublishingHeader" = "Set pushlishing details";
+"NewBookDetailsHeader" = "Book details";
+"NewBookRatingHeader" = "Give a rating";
+"NewBookPriceHeader" = "Purchased price";
+"NewBookSaveFooter" = "To save a book you must include at least a title.";
+
+"DeleteNewBookInfos" = "Clear all information";
+
+"EmptyStateNoBookTitle" = "Let's add your first book!";
+"EmptyStateNoBookSubtitle" = "Would you like to start creating your library?";
+"EmptyStateSearchTitle" = "Let's search for books!";
+"EmptyStateSearchSubtitle" = "You can search by entering a title, author, keywords...";
+"EmptyStateCategoryTitle" = "Let's create your first category!";
+"EmptyStateCategorySubtitle" = "Categories helps finding books faster.";
+"EmptyStateCommentTitle" = "Let's add the first comment for this book!";
+"EmptyStateCommentSubtitle"  = "Start a discussion about this book with others.";

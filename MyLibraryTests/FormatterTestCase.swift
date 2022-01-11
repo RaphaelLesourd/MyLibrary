@@ -23,10 +23,27 @@ class FormatterTestCase: XCTestCase {
         sut = nil
     }
 
-    // MARK: - Success tests
-    func givenYearString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
+    // MARK: - tests
+    func test_givenYearString_whenConvertingToYearOnly_thenReturnYearStringWith4digits() {
         let yearString = sut?.formatDateToYearString(for: "1980-12-12")
         XCTAssertEqual(yearString, "1980")
+    }
+    
+    func test_given4digitsString_whenConvertingToYearOnly_thenReturnOriginalInput() {
+        let givenDateString = "2022"
+        let yearString = sut?.formatDateToYearString(for: givenDateString)
+        XCTAssertEqual(yearString, "2022")
+    }
+    
+    func test_givenNilDateString_whenConvertingToYearOnly_thenReturnEmptyString() {
+        let givenDateString = sut?.formatDateToYearString(for: nil)
+        XCTAssertEqual(givenDateString, "")
+    }
+    
+    func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnCurrentYear() {
+        let givenDateString = "123123D/FSDF3423234"
+        let yearString = sut?.formatDateToYearString(for: givenDateString)
+        XCTAssertEqual(yearString, "")
     }
   
     func test_givenPriceAndCurrency_whenFormattingPrice_thenReturnPrice() {
@@ -49,18 +66,7 @@ class FormatterTestCase: XCTestCase {
     func test_givenTimesamp_whenFormattingToDate_thenReturnString() {
         XCTAssertEqual(sut?.formatTimeStampToRelativeDate(for: 123456767), "48 years ago")
     }
-    
-    func test_givenNilDateString_whenConvertingToYearOnly_thenReturnEmptyString() {
-        let givenDateString = sut?.formatDateToYearString(for: nil)
-        XCTAssertEqual(givenDateString, "")
-    }
-    
-    func test_givenNotSupportedDateFormat_whenConvertingToYearOnly_thenReturnCurrentYear() {
-        let givenDateString = "123123D/FSDF3423234"
-        let yearString = sut?.formatDateToYearString(for: givenDateString)
-        XCTAssertEqual(yearString, "2021")
-    }
- 
+
     func test_givenNilPriceAndCurrency_whenFormattingPrice_thenReturnPriceSetAtZero() {
         let currencyCode = "USD"
         let itemPrice = sut?.formatDoubleToPrice(with: nil, currencyCode: currencyCode)

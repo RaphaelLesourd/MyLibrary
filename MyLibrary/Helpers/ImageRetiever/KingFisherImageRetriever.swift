@@ -16,13 +16,15 @@ class KFImageRetriever: ImageRetriever {
             completion(Images.emptyStateBookImage)
             return
         }
-        let options: KingfisherOptionsInfo = [.cacheOriginalImage,.keepCurrentImageWhileLoading]
+        let options: KingfisherOptionsInfo = [.cacheOriginalImage,
+                                              .keepCurrentImageWhileLoading,
+                                              .callbackQueue(.mainAsync)]
         KingfisherManager.shared.retrieveImage(with: imageURL,
                                                options: options,
                                                completionHandler: { (response) in
             switch response {
             case .success(let value):
-                    completion(value.image)
+                completion(value.image)
             case .failure(_):
                 completion(Images.emptyStateBookImage)
             }

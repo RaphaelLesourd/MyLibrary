@@ -16,10 +16,10 @@ class BookCellPresenter {
         self.imageRetriever = imageRetriever
     }
 }
-// MARK: BookCell Adapter protocol
+// MARK: Cell presenter 
 extension BookCellPresenter: CellPresenter {
     
-    func getBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
+    func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""
         let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
         let description = book.volumeInfo?.volumeInfoDescription ?? ""
