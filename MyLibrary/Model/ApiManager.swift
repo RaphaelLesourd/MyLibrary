@@ -55,7 +55,7 @@ extension ApiManager: ApiManagerProtocol {
             .responseDecodable(of: BookModel.self) { response in
                 switch response.result {
                 case .success(let jsonData):
-                    // Error parth, present an error message corresponding to the error code
+                    // Error path, present an error message corresponding to the error code
                     guard let httpErrorCode = response.response?.statusCode else { return }
                     guard httpErrorCode == 200 || httpErrorCode == 204 else {
                         return completion(.failure(.httpError(httpErrorCode)))
@@ -80,7 +80,7 @@ extension ApiManager: ApiManagerProtocol {
             .response { response in
                 switch response.result {
                 case .success(_):
-                    // Error parth, present an error message corresponding to the error code
+                    // Error path, present an error message corresponding to the error code
                     guard let httpErrorCode = response.response?.statusCode else { return }
                     guard httpErrorCode == 200 || httpErrorCode == 204 else {
                         return completion(.httpError(httpErrorCode))

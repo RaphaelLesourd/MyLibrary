@@ -128,7 +128,7 @@ class BookCardViewController: UIViewController {
         guard let bookID = book.bookID else { return }
         showIndicator(mainView.activityIndicator)
         
-        libraryService.setStatusTo(to: state, field: documentKey, for: bookID) { [weak self] error in
+        libraryService.setStatus(to: state, field: documentKey, for: bookID) { [weak self] error in
             guard let self = self else { return }
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {

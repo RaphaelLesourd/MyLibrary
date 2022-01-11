@@ -32,9 +32,12 @@ class MessageService {
     }
     
     private func getAllCommentSenders(for comments: [CommentModel],
+                                      bookOwnerID: String,
                                       completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
         
-        let userIds = getCommentUserID(from: comments)
+        var userIds: [[String]] = getCommentUserID(from: comments)
+        userIds.insert([bookOwnerID], at: 0)
+       
         userIds.forEach { ids in
             let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in
@@ -51,7 +54,8 @@ class MessageService {
                     }
                 }
                 if let data = data {
-                    completion(.success(data))
+                    let userList = Array(Set(data))
+                    completion(.success(userList))
                 }
             }
         }
@@ -86,7 +90,7 @@ extension MessageService: MessageServiceProtocol {
                                  message: String,
                                  for comments: [CommentModel],
                                  completion: @escaping (FirebaseError?) -> Void) {
-        getAllCommentSenders(for: comments) { [weak self] result in
+        getAllCommentSenders(for: comments, bookOwnerID: book.ownerID ?? "") { [weak self] result in
             switch result {
             case .success(let users):
                 self?.postPushNotifications(to: users, with: message, for: book)

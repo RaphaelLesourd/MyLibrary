@@ -12,6 +12,6 @@ protocol LibraryServiceProtocol {
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool,
                      completion: @escaping (Result<[Item], FirebaseError>) -> Void)
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func setStatusTo(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
+    func setStatus(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void)
     func removeBookListener()
 }

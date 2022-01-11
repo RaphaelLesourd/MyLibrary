@@ -76,19 +76,27 @@ class LibraryService {
         }
     }
     // MARK: Update
-    private func updateStatus(with id: String, favoriteState: Bool,
+    private func updateStatus(with id: String,
+                              state: Bool,
                               collection: CollectionDocumentKey,
                               field: DocumentKey,
                               completion: @escaping (FirebaseError?) -> Void) {
         let baseRef = createBaseRef()
         guard let docRef = baseRef?.collection(collection.rawValue).document(id) else { return }
-        docRef.updateData([field.rawValue : favoriteState]) { error in
+        docRef.updateData([field.rawValue : state]) { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
                 return
             }
+            self?.setFavorite(for: id, state: state)
             completion(nil)
         }
+    }
+    
+    private func setFavorite(for id: String, state: Bool) {
+        db.collection(CollectionDocumentKey.recommanded.rawValue)
+            .document(id)
+            .updateData([DocumentKey.favorite.rawValue : state])
     }
     
     private func setRecommendation(for book: Item) {
@@ -116,13 +124,11 @@ class LibraryService {
                 .order(by: query.orderedBy.rawValue, descending: query.descending)
                 .whereField(DocumentKey.favorite.rawValue, isEqualTo: true)
         case .recommanding:
-            docRef = db
-                .collection(CollectionDocumentKey.recommanded.rawValue)
+            docRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
                 .order(by: query.orderedBy.rawValue, descending: query.descending)
         case .users:
             if let ownerID = query.fieldValue {
-                docRef = db
-                    .collection(CollectionDocumentKey.recommanded.rawValue)
+                docRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
                     .whereField(DocumentKey.ownerID.rawValue, isEqualTo: ownerID)
             }
         }
@@ -253,11 +259,14 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: - Field update
-    func setStatusTo(to state: Bool,
-                     field: DocumentKey,
-                     for id: String?,
-                     completion: @escaping CompletionHandler) {
-        updateStatus(with: id ?? "", favoriteState: state, collection: .books, field: field) { error in
+    func setStatus(to state: Bool,
+                   field: DocumentKey,
+                   for id: String?,
+                   completion: @escaping CompletionHandler) {
+        updateStatus(with: id ?? "",
+                     state: state,
+                     collection: .books,
+                     field: field) { error in
             if let error = error {
                 completion(.firebaseError(error))
                 return

@@ -11,8 +11,20 @@ struct BookQuery {
     let fieldValue: String?
     let descending: Bool
     
-    static let latestBookQuery = BookQuery(listType: .newEntry, orderedBy: .timestamp, fieldValue: nil, descending: true)
-    static let favoriteBookQuery = BookQuery(listType: .favorites, orderedBy: .timestamp, fieldValue: nil, descending: true)
-    static let recommendationQuery = BookQuery(listType: .recommanding, orderedBy: .timestamp, fieldValue: nil, descending: true)
-    static let defaultAllBookQuery = BookQuery(listType: nil, orderedBy: .title, fieldValue: nil, descending: false)
+    static let latestBookQuery = BookQuery(listType: .newEntry,
+                                           orderedBy: .timestamp,
+                                           fieldValue: nil,
+                                           descending: true)
+    static let favoriteBookQuery = BookQuery(listType: .favorites,
+                                             orderedBy: .timestamp,
+                                             fieldValue: nil,
+                                             descending: true)
+    static let recommendationQuery = BookQuery(listType: .recommanding,
+                                               orderedBy: .timestamp,
+                                               fieldValue: nil,
+                                               descending: true)
+    static let defaultAllBookQuery = BookQuery(listType: nil,
+                                               orderedBy: .title,
+                                               fieldValue: nil,
+                                               descending: false)
 }

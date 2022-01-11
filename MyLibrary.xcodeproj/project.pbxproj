@@ -791,8 +791,8 @@
 		8188524527748DFA002813A1 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
 				8188524327748DDF002813A1 /* MessageServiceProtocol.swift */,
+				819CD6EA275B7C5C002A9B12 /* MessageService.swift */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -800,8 +800,8 @@
 		8188524827748E20002813A1 /* Recommendation */ = {
 			isa = PBXGroup;
 			children = (
-				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
 				8188524627748E16002813A1 /* RecommendationServiceProtocol.swift */,
+				8121F0BC273E8DE9006EAA8D /* RecommandationService.swift */,
 			);
 			name = Recommendation;
 			sourceTree = "<group>";
