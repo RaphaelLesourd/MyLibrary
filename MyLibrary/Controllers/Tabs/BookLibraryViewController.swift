@@ -50,16 +50,12 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        emptyStateView.configure(title: Text.EmptyState.noBookTitle,
-                                 subtitle: Text.EmptyState.noBookSubtitle)
-        emptyStateView.delegate = self
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         
         configureCollectionView()
         configureNavigationBarButton()
         configureRefresherControl()
-        applySnapshot(animatingDifferences: false)
         refreshBookList()
     }
     
@@ -187,8 +183,10 @@ extension BookLibraryViewController {
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
-        var snapshot = Snapshot()
+        collectionView.isHidden = bookList.isEmpty
         emptyStateView.isHidden = !bookList.isEmpty
+        
+        var snapshot = Snapshot()
         if !bookList.isEmpty {
             snapshot.appendSections([.main])
             snapshot.appendItems(bookList, toSection: .main)
@@ -206,19 +204,5 @@ extension BookLibraryViewController: BookListMenuDelegate {
     
     func setLayoutFromMenu(for size: GridSize) {
         gridItemSize = size
-    }
-}
-// MARK: - Extension EmptystateViewDelegate
-extension BookLibraryViewController: EmptyStateViewDelegate {
-    func didTapButton() {
-        guard device == .pad else {
-            if let controller = tabBarController as? TabBarController {
-                controller.selectedIndex = 2
-            }
-            return
-        }
-        if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
-            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
-        }
     }
 }

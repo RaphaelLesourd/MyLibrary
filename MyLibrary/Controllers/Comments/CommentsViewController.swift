@@ -63,7 +63,6 @@ class CommentsViewController: UIViewController {
         setDelegates()
         setTargets()
         addNavigationBarButtons()
-        applySnapshot(animatingDifferences: false)
         getComments()
     }
     
@@ -314,10 +313,12 @@ extension CommentsViewController {
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
+        mainView.emptyStateView.isHidden = !commentList.isEmpty
+        
         var snapshot = Snapshot()
         snapshot.appendSections([.book])
         snapshot.appendItems([book], toSection: .book)
-        mainView.emptyStateView.isHidden = !commentList.isEmpty
+        dataSource.apply(snapshot, animatingDifferences: false)
         
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         if !todayComments.isEmpty {

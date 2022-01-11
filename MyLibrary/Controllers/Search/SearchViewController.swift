@@ -56,6 +56,7 @@ class SearchViewController: CollectionViewController {
         title = Text.ControllerTitle.search
         emptyStateView.configure(title: Text.EmptyState.searchTitle,
                                  subtitle: Text.EmptyState.searchSubtitle,
+                                 icon: Images.ButtonIcon.search,
                                  hideButton: true)
     }
     /// Set up the collectionView with diffable datasource and compositional layout.

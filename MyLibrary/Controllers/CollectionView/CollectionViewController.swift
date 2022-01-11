@@ -25,7 +25,8 @@ class CollectionViewController: UIViewController {
         setCollectionViewConstraints()
         setEmptyStateViewConstraints()
         addNavigationBarButtons()
-        emptyStateView.isHidden = true
+        configureEmptystateView()
+        
     }
   
     // MARK: - Setup
@@ -38,6 +39,13 @@ class CollectionViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureEmptystateView() {
+        emptyStateView.delegate = self
+        emptyStateView.isHidden = true
+        emptyStateView.configure(title: Text.EmptyState.noBookTitle,
+                                 subtitle: Text.EmptyState.noBookSubtitle)
     }
     
     private func addNavigationBarButtons() {
@@ -80,5 +88,19 @@ extension CollectionViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+}
+// MARK: - Extension EmptystateViewDelegate
+extension CollectionViewController: EmptyStateViewDelegate {
+    func didTapButton() {
+        guard device == .pad else {
+            if let controller = tabBarController as? TabBarController {
+                controller.selectedIndex = 2
+            }
+            return
+        }
+        if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
+            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
+        }
     }
 }

@@ -71,7 +71,7 @@ class HomeViewController: CollectionViewController {
             self?.fetchBookLists()
         }), for: .valueChanged)
     }
-    
+
     private func addNavigationBarButtons() {
         guard device == .pad else { return }
         let addButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
@@ -252,6 +252,9 @@ extension HomeViewController {
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
+        collectionView.isHidden = latestBooks.isEmpty
+        emptyStateView.isHidden = !latestBooks.isEmpty
+        
         var snapshot = Snapshot()
         if !categoryService.categories.isEmpty {
             snapshot.appendSections([.categories])

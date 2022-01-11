@@ -63,7 +63,6 @@ class EmptyStateView: UIView {
     }
     
     private func setupView() {
-        isHidden = true
         roundView(radius: 12, backgroundColor: .cellBackgroundColor)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)

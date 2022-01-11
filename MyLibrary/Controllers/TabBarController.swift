@@ -22,7 +22,6 @@ class TabBarController: UITabBarController {
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
-        
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithDefaultBackground()
         tabBarAppearance.backgroundColor = UIColor.tertiarySystemBackground.withAlphaComponent(0.5)
@@ -36,7 +35,6 @@ class TabBarController: UITabBarController {
         tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.appTintColor
         
         UITabBar.appearance().standardAppearance = tabBarAppearance
-        
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }

@@ -51,5 +51,6 @@ enum Images {
         static let save = UIImage(systemName: "arrow.down.doc.fill")!
         static let done = UIImage(systemName: "hand.tap.fill")!
         static let chat = UIImage(systemName: "bubble.left.and.bubble.right.fill")!
+        static let search = UIImage(systemName: "magnifyingglass")!
     }
 }

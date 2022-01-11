@@ -317,14 +317,20 @@ extension NewBookViewController {
         }
     }
    
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        switch section {
-        case 7:
-            return Text.SectionTitle.newBookSaveFooter
-        default:
-            return ""
-        }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let label = TextLabel(color: .secondaryLabel,
+                              maxLines: 2,
+                              alignment: .center,
+                              fontSize: 14,
+                              weight: .light)
+        label.text = section == 7 ? Text.SectionTitle.newBookSaveFooter : ""
+        return label
     }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
