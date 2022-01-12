@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = scene as? UIWindowScene else { return }
-        let device = UIDevice.current.userInterfaceIdiom
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.tintColor = .label
@@ -34,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.window?.rootViewController = device == .pad ? IpadSplitViewController(style: .doubleColumn) : TabBarController()
+                self?.window?.rootViewController = IpadSplitViewController(style: .doubleColumn)
             } else {
                 self?.window?.rootViewController = WelcomeViewController()
             }
