@@ -14,7 +14,6 @@ class BookDetailComponent: UIView {
         super.init(frame: .zero)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(infoLabel)
-        
         setConstraints()
     }
     
@@ -34,7 +33,7 @@ class BookDetailComponent: UIView {
                                        alignment: .center,
                                        font: .footerLabel)
     private let stackView = StackView(axis: .vertical,
-                                      distribution: .fillProportionally,
+                                      distribution: .equalSpacing,
                                       spacing: 2)
 
 }

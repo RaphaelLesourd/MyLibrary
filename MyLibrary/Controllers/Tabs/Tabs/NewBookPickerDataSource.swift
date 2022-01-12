@@ -27,12 +27,13 @@ class NewBookPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         var pickerLabel: UILabel? = (view as? UILabel)
         if pickerLabel == nil {
             pickerLabel = UILabel()
-            pickerLabel?.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+            pickerLabel?.font = .subtitle
             pickerLabel?.textAlignment = .left
         }
         switch pickerView {
         case newBookView.languageCell.pickerView:
             let language = self.languageList[row]
+            dump(language)
             pickerLabel?.text = "  " + formatter.formatCodeToName(from: language, type: .language).capitalized
         case newBookView.currencyCell.pickerView:
             let currencyCode = self.currencyList[row]

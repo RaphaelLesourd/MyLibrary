@@ -165,7 +165,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
-        let isbn = newBookView.isbnCell.textField.text ?? ""
+        let isbn = newBookView.isbnCell.textField.text ?? "-"
         
         let volumeInfo = VolumeInfo(title: newBookView.bookTileCell.textField.text,
                                     authors: [newBookView.bookAuthorCell.textField.text ?? ""],
