@@ -8,7 +8,7 @@
 import UIKit
 
 class IpadSplitViewController: UISplitViewController {
-    
+
     // MARK: - Initializers
     override init(style: UISplitViewController.Style) {
         super.init(style: style)

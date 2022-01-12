@@ -77,7 +77,7 @@ class HomeTabLayout {
         let itemCount = environment.container.effectiveContentSize.width / desiredWidth
         let fractionWidth: CGFloat = 1 / (itemCount.rounded())
         
-        let height: CGFloat = device == .pad ? 500 : 350
+        let height: CGFloat = device == .pad ? 500 : 400
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fractionWidth - 0.1),
                                           heightDimension: .absolute(height))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: size,

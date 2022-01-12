@@ -10,8 +10,8 @@ import UIKit
 extension UIFont {
     static let extraLargeTitle = UIFont.systemFont(ofSize: 50, weight: .bold)
     static let controllerTitle = UIFont.systemFont(ofSize: 31, weight: .bold)
-    static let title = UIFont.systemFont(ofSize: 21, weight: .bold)
-    static let mediumSemiBoldTitle = UIFont.systemFont(ofSize: 18, weight: .semibold)
+    static let title = UIFont.systemFont(ofSize: 20, weight: .bold)
+    static let mediumSemiBoldTitle = UIFont.systemFont(ofSize: 17, weight: .semibold)
     static let smallBoldTitle = UIFont.systemFont(ofSize: 13, weight: .semibold)
     static let extraSmallTitle = UIFont.systemFont(ofSize: 12, weight: .regular)
     

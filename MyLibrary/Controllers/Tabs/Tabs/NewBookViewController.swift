@@ -125,7 +125,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         case (2, 0):
             showCategoryList()
         case (4, 0):
-            presentTextInputController()
+            presentDescriptionController()
         default:
             break
         }
@@ -216,7 +216,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         navigationController?.show(categoryListVC, sender: nil)
     }
     
-    private func presentTextInputController() {
+    private func presentDescriptionController() {
         let descriptionViewController = BookDescriptionViewController()
         descriptionViewController.newBookDelegate = self
         descriptionViewController.textViewText = bookDescription

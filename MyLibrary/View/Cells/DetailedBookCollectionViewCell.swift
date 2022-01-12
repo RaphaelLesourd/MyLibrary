@@ -12,11 +12,7 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subtitleLabel)
-        stackView.addArrangedSubview(descriptionLabel)
-        stackView.setCustomSpacing(5, after: titleLabel)
-        
+        setupView()
         setBookCoverViewWidth()
         setTitleStackview()
     }
@@ -27,9 +23,11 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    private let titleLabel = TextLabel(font: .mediumSemiBoldTitle)
+    private let titleLabel = TextLabel(maxLines: 2,
+                                       font: .mediumSemiBoldTitle)
     private let subtitleLabel = TextLabel(font: .smallBoldTitle)
-    private let descriptionLabel = TextLabel(maxLines: 4,
+    private let descriptionLabel = TextLabel(color: .secondaryLabel,
+                                             maxLines: 4,
                                              font: .smallBody)
     private let stackView = StackView(axis: .vertical,
                                       alignment: .top,
@@ -40,7 +38,19 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
         titleLabel.text = book.title
         subtitleLabel.text = book.author
         descriptionLabel.text = book.description
+        
         bookCover.image = book.image
+    }
+    
+    private func setupView() {
+        titleLabel.adjustsFontSizeToFitWidth = false
+        subtitleLabel.adjustsFontSizeToFitWidth = false
+        descriptionLabel.adjustsFontSizeToFitWidth = false
+        
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subtitleLabel)
+        stackView.addArrangedSubview(descriptionLabel)
+        stackView.setCustomSpacing(5, after: titleLabel)
     }
     
     override func prepareForReuse() {

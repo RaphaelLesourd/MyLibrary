@@ -115,7 +115,7 @@ class BookCardMainView: UIView {
     }
     
     func animateBookImage() {
-        let transformation = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3).translatedBy(x: 0, y: -20)
+        let transformation = CGAffineTransform.identity.scaledBy(x: 1.4, y: 1.4).translatedBy(x: 0, y: -20)
         let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
         animator.addAnimations {
             self.backgroundImage.transform = transformation

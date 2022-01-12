@@ -58,16 +58,4 @@ extension UIViewController {
             indicator.stopAnimating()
         }
     }
-    
-    // MARK: - Keyboard
-    /// Dismiss keyboard when the UIViewcontroller view is tapped
-    func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self,action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
 }

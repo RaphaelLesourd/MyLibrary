@@ -104,11 +104,11 @@ class ImagePicker: NSObject {
     /// - Parameter sourceView: source calling the method
     func present(from sourceView: UIView) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if let action = self.action(for: .camera, title: Text.ButtonTitle.camera) {
-            alertController.addAction(action)
+        if let cameraAction = self.action(for: .camera, title: Text.ButtonTitle.camera) {
+            alertController.addAction(cameraAction)
         }
-        if let action = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
-            alertController.addAction(action)
+        if let photoAction = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
+            alertController.addAction(photoAction)
         }
         alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: nil))
         

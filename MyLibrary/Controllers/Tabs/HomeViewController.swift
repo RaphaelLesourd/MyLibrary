@@ -78,7 +78,6 @@ class HomeViewController: CollectionViewController {
                                         action: #selector(showAccountController))
         navigationItem.rightBarButtonItem = addButton
     }
-    
     // MARK: - Api call
     @objc private func fetchBookLists() {
         categoryService.getCategories { [weak self] error in
