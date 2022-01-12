@@ -29,9 +29,11 @@ class BookCardMainView: UIView {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layoutIfNeeded()
         backgroundImage.addFadeGradientFromClear()
     }
-    
+
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
