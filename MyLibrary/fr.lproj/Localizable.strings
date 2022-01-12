@@ -113,7 +113,7 @@
 "Modify" = "Modifier";
 "Cancel" = "Annuler";
 
-"ReaderComments" = "Commentaires des lecteurs";
+"ReaderComments" = "Commentaires\ndes lecteurs";
 "ReAuthentificationMessage" = "Veuillez vous authentifier à nouveau avec votre email et mot de passe";
 "DeleteThisBook" = "Effacer ce livre";
 "CommentEntry" = "Vos pensées...";

@@ -10,6 +10,7 @@ import UIKit
 enum Images {
     static let welcomeScreen = UIImage(named: "welcomeScreenImage")
     static let emptyStateBookImage = UIImage(named: "cover")!
+    static let commentViewBackground = UIImage(named: "commentBubbleBG")
     
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)

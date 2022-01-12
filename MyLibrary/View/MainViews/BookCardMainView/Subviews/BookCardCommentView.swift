@@ -16,7 +16,8 @@ class BookCardCommentView: UIView {
         setupView()
         setBackgroundImageConstraints()
         setAnimationViewConstraints()
-        setStackViewConstraints()
+        setTitleLabelConstraints()
+        setCommentButtonConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -24,14 +25,7 @@ class BookCardCommentView: UIView {
     }
     
     // MARK: - Subviews
-    let goToCommentButton: UIButton = {
-        let button = UIButton()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .medium)
-        let image = UIImage(systemName: "arrow.right.circle", withConfiguration: configuration)
-        button.contentHorizontalAlignment = .right
-        button.setImage(image, for: .normal)
-        return button
-    }()
+    let goToCommentButton = UIButton()
     
     let animationView: AnimationView = {
         let animationView = AnimationView()
@@ -44,29 +38,26 @@ class BookCardCommentView: UIView {
         return animationView
     }()
     
-    private let titleLabel = TextLabel(color: .label,
+    private let titleLabel = TextLabel(color: .appTintColor,
                                        maxLines: 2,
                                        alignment: .right,
-                                       font: .mediumSemiBoldTitle)
+                                       font: .sectionTitle)
     
     private let backgroundImage: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.layer.masksToBounds = true
-        view.image = UIImage(named: "commentBubbleBG")
+        view.image = Images.commentViewBackground
         view.tintColor = UIColor.appTintColor.withAlphaComponent(0.2)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let stackView = StackView(axis: .vertical,
-                                      spacing: 0)
-    
     // MARK: - Setup
     private func setupView() {
+        self.heightAnchor.constraint(equalToConstant: 120).isActive = true
         titleLabel.text = Text.SectionTitle.readersComment
-        stackView.addArrangedSubview(goToCommentButton)
-        stackView.addArrangedSubview(titleLabel)
+        titleLabel.addShadow(opacity: 1, color: .appTintColor)
     }
 }
 // MARK: - Constraints
@@ -91,17 +82,24 @@ extension BookCardCommentView {
         ])
     }
     
-    private func setStackViewConstraints() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(stackView)
+    private func setTitleLabelConstraints() {
+        addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            stackView.leadingAnchor.constraint(equalTo: animationView.trailingAnchor, constant: -40),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            heightAnchor.constraint(equalToConstant: 120)
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ])
+    }
+    
+    private func setCommentButtonConstraints() {
+        addSubview(goToCommentButton)
+        goToCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            goToCommentButton.topAnchor.constraint(equalTo: topAnchor),
+            goToCommentButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            goToCommentButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            goToCommentButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }
