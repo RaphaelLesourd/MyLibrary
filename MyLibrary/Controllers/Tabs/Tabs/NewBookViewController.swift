@@ -125,7 +125,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         case (2, 0):
             showCategoryList()
         case (4, 0):
-            presentTextInputController()
+            presentDescriptionController()
         default:
             break
         }
@@ -165,7 +165,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
-        let isbn = newBookView.isbnCell.textField.text ?? ""
+        let isbn = newBookView.isbnCell.textField.text ?? "-"
         
         let volumeInfo = VolumeInfo(title: newBookView.bookTileCell.textField.text,
                                     authors: [newBookView.bookAuthorCell.textField.text ?? ""],
@@ -216,7 +216,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         navigationController?.show(categoryListVC, sender: nil)
     }
     
-    private func presentTextInputController() {
+    private func presentDescriptionController() {
         let descriptionViewController = BookDescriptionViewController()
         descriptionViewController.newBookDelegate = self
         descriptionViewController.textViewText = bookDescription
@@ -321,8 +321,7 @@ extension NewBookViewController {
         let label = TextLabel(color: .secondaryLabel,
                               maxLines: 2,
                               alignment: .center,
-                              fontSize: 14,
-                              weight: .light)
+                              font: .footerLabel)
         label.text = section == 7 ? Text.SectionTitle.newBookSaveFooter : ""
         return label
     }

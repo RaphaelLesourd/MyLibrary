@@ -86,21 +86,17 @@ class BookCardMainView: UIView {
     let bookCover = BookCover(frame: .zero)
     let titleLabel = TextLabel(maxLines: 5,
                                alignment: .center,
-                               fontSize: 21,
-                               weight: .semibold)
+                               font: .title)
     let authorLabel = TextLabel(maxLines: 3,
                                 alignment: .center,
-                                fontSize: 16,
-                                weight: .regular)
+                                font: .subtitle)
     let categoryiesLabel = TextLabel(color: .secondaryLabel,
                                      maxLines: 2,
                                      alignment: .center,
-                                     fontSize: 13,
-                                     weight: .medium)
+                                     font: .smallSubtitle)
     let ratingView = RatingView()
     let descriptionLabel = TextLabel(maxLines: 0,
-                                     fontSize: 17,
-                                     weight: .light)
+                                     font: .body)
     let bookDetailView = BookDetailView()
     
     private let mainStackView = StackView(axis: .vertical,
@@ -119,7 +115,7 @@ class BookCardMainView: UIView {
     }
     
     func animateBookImage() {
-        let transformation = CGAffineTransform.identity.scaledBy(x: 1.3, y: 1.3).translatedBy(x: 0, y: -20)
+        let transformation = CGAffineTransform.identity.scaledBy(x: 1.4, y: 1.4).translatedBy(x: 0, y: -20)
         let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
         animator.addAnimations {
             self.backgroundImage.transform = transformation

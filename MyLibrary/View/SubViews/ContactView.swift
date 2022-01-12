@@ -32,13 +32,11 @@ class ContactView: UIView {
     let versionLabel = TextLabel(color: .label,
                                  maxLines: 1,
                                  alignment: .center,
-                                 fontSize: 14,
-                                 weight: .regular)
+                                 font: .regularFootnote)
     let copyrightLabel = TextLabel(color: .secondaryLabel,
                                    maxLines: 1,
                                    alignment: .center,
-                                   fontSize: 12,
-                                   weight: .light)
+                                   font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 10)
 }

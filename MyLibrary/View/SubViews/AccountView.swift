@@ -42,8 +42,7 @@ class AccountView: UIView {
     let emailLabel = TextLabel(color: .secondaryLabel,
                                  maxLines: 1,
                                  alignment: .center,
-                                 fontSize: 14,
-                                 weight: .light)
+                               font: .footerLabel)
     let userNameTextfield = TextField(placeholder: Text.Account.userName,
                                       keyBoardType: .alphabet,
                                       returnKey: .done,

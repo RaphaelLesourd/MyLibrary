@@ -11,7 +11,6 @@ class TextLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        commonInit()
     }
     
     required init?(coder: NSCoder) {
@@ -22,21 +21,20 @@ class TextLabel: UILabel {
     convenience init(color: UIColor = .label,
                      maxLines: Int = 1,
                      alignment: NSTextAlignment = .left,
-                     fontSize: CGFloat = 14,
-                     weight: UIFont.Weight = .regular) {
+                     font: UIFont) {
         self.init(frame: .zero)
-        commonInit(color: color, maxLines: maxLines, alignment: alignment, fontSize: fontSize, weight: weight)
+        commonInit(color: color, maxLines: maxLines, alignment: alignment, font: font)
     }
     
     private func commonInit(color: UIColor = .label,
                             maxLines: Int = 1,
                             alignment: NSTextAlignment = .left,
-                            fontSize: CGFloat = 14,
-                            weight: UIFont.Weight = .regular) {
+                            font: UIFont) {
         self.textColor = color
         self.numberOfLines = maxLines
         self.textAlignment = alignment
         self.text = "--"
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: weight)
+        self.font = font
+        self.adjustsFontSizeToFitWidth = true
     }
 }

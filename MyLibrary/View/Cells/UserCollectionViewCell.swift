@@ -42,8 +42,7 @@ class UserCollectionViewCell: UICollectionViewCell {
     private let userNameLabel = TextLabel(color: .label,
                                           maxLines: 1,
                                           alignment: .center,
-                                          fontSize: 12,
-                                          weight: .regular)
+                                          font: .extraSmallTitle)
     private let stackView = StackView(axis: .vertical,
                                       alignment: .center,
                                       spacing: 2)

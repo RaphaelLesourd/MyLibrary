@@ -31,8 +31,7 @@ class PickerViewStaticCell: UITableViewCell {
     let titleLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 2,
                                alignment: .left,
-                               fontSize: 12,
-                               weight: .regular)
+                               font: .extraSmallTitle)
     let pickerView: UIPickerView = {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false

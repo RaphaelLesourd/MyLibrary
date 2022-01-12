@@ -93,12 +93,13 @@ extension CollectionViewController {
 // MARK: - Extension EmptystateViewDelegate
 extension CollectionViewController: EmptyStateViewDelegate {
     func didTapButton() {
-        guard device == .pad else {
+        guard let splitController = splitViewController, !splitController.isCollapsed else {
             if let controller = tabBarController as? TabBarController {
                 controller.selectedIndex = 2
             }
             return
         }
+        splitViewController?.show(.primary)
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
             controller.newBookView.bookTileCell.textField.becomeFirstResponder()
         }

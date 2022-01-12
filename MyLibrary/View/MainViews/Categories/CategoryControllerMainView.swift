@@ -59,10 +59,9 @@ extension CategoryControllerMainView {
     
     private func setEmptyStateViewConstraints() {
         addSubview(emptyStateView)
-        let offSetX: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 40 : 0
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offSetX),
+            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
             emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50)
         ])
     }

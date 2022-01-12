@@ -43,8 +43,7 @@ class WelcomeControllerMainView: UIView {
     let appVerionLabel = TextLabel(color: .white,
                                    maxLines: 1,
                                    alignment: .center,
-                                   fontSize: 12,
-                                   weight: .regular)
+                                   font: .footerLabel)
     
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
@@ -56,8 +55,7 @@ class WelcomeControllerMainView: UIView {
     private lazy var titleLabel = TextLabel(color: .white,
                                        maxLines: 3,
                                        alignment: .left,
-                                       fontSize: titleFontSize,
-                                       weight: .bold)
+                                            font: .extraLargeTitle)
     private let loginStackView = StackView(axis: .horizontal,
                                            distribution: .fillEqually,
                                            spacing: 20)
