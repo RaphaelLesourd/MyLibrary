@@ -101,7 +101,6 @@ extension OnboardingViewController: UICollectionViewDelegate {
 }
 // MARK: - OnboardingViewDelegate
 extension OnboardingViewController: OnboardingMainViewDelegate {
-    
     func skip() {
         presentWelcomeViewController()
     }
