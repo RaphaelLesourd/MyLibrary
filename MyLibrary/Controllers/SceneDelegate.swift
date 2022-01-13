@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.tintColor = .label
         
         // Listens to user Auth state and route to proper ViewContoller accordingly
-        handle = Auth.auth().addStateDidChangeListener { [weak self] (auth, user) in
+        handle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
                 self?.window?.rootViewController = IpadSplitViewController(style: .doubleColumn)

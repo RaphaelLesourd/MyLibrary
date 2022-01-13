@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureKeyboard() {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarTintColor = .label
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "Fermer"
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = Text.ButtonTitle.close
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 60
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
     }

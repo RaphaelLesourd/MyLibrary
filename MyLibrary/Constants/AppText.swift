@@ -105,8 +105,9 @@ enum Text {
         static let done = NSLocalizedString("Done", comment: "done titletoday")
         static let letsGo = NSLocalizedString("Letsgo", comment: "go to a controller")
         static let deleteNewBookInfos = NSLocalizedString("DeleteNewBookInfos", comment: "delete new book info title")
-        static let next = NSLocalizedString("Next", comment: "Next titletoday")
-        static let skip = NSLocalizedString("Skip", comment: "Skip titletoday")
+        static let next = NSLocalizedString("Next", comment: "Next title")
+        static let skip = NSLocalizedString("Skip", comment: "Skip title")
+        static let close = NSLocalizedString("Close", comment: "close title")
     }
     
     enum Placeholder {

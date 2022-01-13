@@ -19,7 +19,6 @@
 		810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446A2726EAC4007541C0 /* WelcomeViewController.swift */; };
 		810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */; };
 		810C44772727102D007541C0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C44762727102D007541C0 /* AccountSetupViewController.swift */; };
-		810C447927271351007541C0 /* AccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C447827271351007541C0 /* AccountMainView.swift */; };
 		810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA2275625F40043280E /* CommentsBookCell.swift */; };
 		810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA527577F790043280E /* CommentServiceTestCase.swift */; };
 		810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA72757AB320043280E /* EmptyStateView.swift */; };
@@ -74,7 +73,6 @@
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
 		813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C792733ADFD005BFBDB /* AccountService.swift */; };
 		813CDD482790533F000BF439 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813CDD472790533F000BF439 /* Onboarding.swift */; };
-		813CDD4A27907758000BF439 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813CDD4927907758000BF439 /* AccountMainViewDelegate.swift */; };
 		81451DCE276F345C00F3C0C8 /* BarcodeControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */; };
 		81451DD0276F44B200F3C0C8 /* scanner.json in Resources */ = {isa = PBXBuildFile; fileRef = 81451DCF276F44B200F3C0C8 /* scanner.json */; };
 		81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81451DD62770C12400F3C0C8 /* QueryService.swift */; };
@@ -153,6 +151,8 @@
 		819CD6E7275A54E8002A9B12 /* CommentsLottieAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 819CD6E6275A54E7002A9B12 /* CommentsLottieAnimation.json */; };
 		819CD6E9275B6629002A9B12 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819CD6E8275B6629002A9B12 /* MessageModel.swift */; };
 		819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819CD6EA275B7C5C002A9B12 /* MessageService.swift */; };
+		81A6725A27908C5000298394 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6725827908C5000298394 /* AccountMainViewDelegate.swift */; };
+		81A6725E27908CA100298394 /* AccountMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6725D27908CA000298394 /* AccountMainView.swift */; };
 		81A7509A2790060B00CAC424 /* OnboardingMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750992790060B00CAC424 /* OnboardingMainView.swift */; };
 		81A7509C27900AB000CAC424 /* OnboardingMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A7509B27900AB000CAC424 /* OnboardingMainViewDelegate.swift */; };
 		81A7509E27900AE600CAC424 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A7509D27900AE600CAC424 /* OnboardingCell.swift */; };
@@ -274,7 +274,6 @@
 		810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeControllerMainView.swift; sourceTree = "<group>"; };
 		810C446E2726F81A007541C0 /* MyLibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLibrary.entitlements; sourceTree = "<group>"; };
 		810C44762727102D007541C0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
-		810C447827271351007541C0 /* AccountMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMainView.swift; sourceTree = "<group>"; };
 		810D7FA2275625F40043280E /* CommentsBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsBookCell.swift; sourceTree = "<group>"; };
 		810D7FA527577F790043280E /* CommentServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceTestCase.swift; sourceTree = "<group>"; };
 		810D7FA72757AB320043280E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
@@ -329,7 +328,6 @@
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		813B7C792733ADFD005BFBDB /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		813CDD472790533F000BF439 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Onboarding.swift; path = ../Controllers/Onboarding.swift; sourceTree = "<group>"; };
-		813CDD4927907758000BF439 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMainViewDelegate.swift; sourceTree = "<group>"; };
 		81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeControllerView.swift; sourceTree = "<group>"; };
 		81451DCF276F44B200F3C0C8 /* scanner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scanner.json; sourceTree = "<group>"; };
 		81451DD62770C12400F3C0C8 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
@@ -384,6 +382,8 @@
 		819CD6E6275A54E7002A9B12 /* CommentsLottieAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CommentsLottieAnimation.json; sourceTree = "<group>"; };
 		819CD6E8275B6629002A9B12 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		819CD6EA275B7C5C002A9B12 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		81A6725827908C5000298394 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountMainViewDelegate.swift; path = MyLibrary/View/MainViews/AccountMainViewDelegate.swift; sourceTree = SOURCE_ROOT; };
+		81A6725D27908CA000298394 /* AccountMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountMainView.swift; path = Welcome/AccountMainView.swift; sourceTree = "<group>"; };
 		81A750992790060B00CAC424 /* OnboardingMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainView.swift; sourceTree = "<group>"; };
 		81A7509B27900AB000CAC424 /* OnboardingMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainViewDelegate.swift; sourceTree = "<group>"; };
 		81A7509D27900AE600CAC424 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
@@ -523,9 +523,7 @@
 		810A68B6278862D400406342 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				810A68B72788702100406342 /* NewCategoryViewDelegate.swift */,
 				811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */,
-				8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -561,13 +559,13 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
-		812047F5272A884100E0A45B /* WelcomeMainView */ = {
+		812047F5272A884100E0A45B /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
 				81A750A72790160800CAC424 /* WelcomeMainViewDelegate.swift */,
 				810C446C2726F007007541C0 /* WelcomeControllerMainView.swift */,
 			);
-			path = WelcomeMainView;
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		812047FE272ACE9B00E0A45B /* TableViewStaticCells */ = {
@@ -626,14 +624,13 @@
 			path = BarcodeReader;
 			sourceTree = "<group>";
 		};
-		813CDD4B27907769000BF439 /* AccountCreation */ = {
+		813CDD4C27907DE6000BF439 /* NewCategories */ = {
 			isa = PBXGroup;
 			children = (
-				813CDD4927907758000BF439 /* AccountMainViewDelegate.swift */,
-				810C447827271351007541C0 /* AccountMainView.swift */,
+				810A68B72788702100406342 /* NewCategoryViewDelegate.swift */,
+				8105937C278705CC00ACBA2C /* NewCategoryMainView.swift */,
 			);
-			name = AccountCreation;
-			path = WelcomeMainView;
+			path = NewCategories;
 			sourceTree = "<group>";
 		};
 		8157F4D3277AF478005F182A /* AccountTabPresenter */ = {
@@ -667,14 +664,14 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
-		8157F50D277F4246005F182A /* AccountMainView */ = {
+		8157F50D277F4246005F182A /* Account */ = {
 			isa = PBXGroup;
 			children = (
 				8157F51E27808545005F182A /* SubViews */,
 				818852692778A461002813A1 /* AccountControllerViewDelegate.swift */,
 				8157F512277F4627005F182A /* AccountTabMainView.swift */,
 			);
-			name = AccountMainView;
+			name = Account;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -846,14 +843,14 @@
 			name = UserService;
 			sourceTree = "<group>";
 		};
-		8188524E2774B9E6002813A1 /* BookCardMainView */ = {
+		8188524E2774B9E6002813A1 /* BookCard */ = {
 			isa = PBXGroup;
 			children = (
 				818852512774BE2F002813A1 /* Subviews */,
 				8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */,
 				819C5DC427247FB400F1F8F2 /* BookCardMainView.swift */,
 			);
-			path = BookCardMainView;
+			path = BookCard;
 			sourceTree = "<group>";
 		};
 		818852512774BE2F002813A1 /* Subviews */ = {
@@ -895,13 +892,13 @@
 			name = NewBookPresenter;
 			sourceTree = "<group>";
 		};
-		8188526E2778A495002813A1 /* NewBookTab */ = {
+		8188526E2778A495002813A1 /* NewBook */ = {
 			isa = PBXGroup;
 			children = (
 				814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */,
 				81B91840274A772600486176 /* NewBookControllerView.swift */,
 			);
-			path = NewBookTab;
+			path = NewBook;
 			sourceTree = "<group>";
 		};
 		8194D548276A17010098E484 /* Localization */ = {
@@ -911,6 +908,15 @@
 				8194D546276A154E0098E484 /* InfoPlist.strings */,
 			);
 			name = Localization;
+			sourceTree = "<group>";
+		};
+		81A6725C27908C5D00298394 /* AccountCreation */ = {
+			isa = PBXGroup;
+			children = (
+				81A6725D27908CA000298394 /* AccountMainView.swift */,
+				81A6725827908C5000298394 /* AccountMainViewDelegate.swift */,
+			);
+			name = AccountCreation;
 			sourceTree = "<group>";
 		};
 		81A75098279005F400CAC424 /* Onboarding */ = {
@@ -1027,6 +1033,8 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
+				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
 				81F692DA2784C0720001450D /* Tabs */,
@@ -1047,8 +1055,6 @@
 		81C6CCAC2724799000DE9219 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
-				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				81FA725827747F2500040BEF /* Alert */,
 				812B160D27720CFD00D65C6A /* BarcodeReader */,
 				81FA725427747E9800040BEF /* Feedback */,
@@ -1115,14 +1121,15 @@
 		81C6CCC027247A3B00DE9219 /* MainViews */ = {
 			isa = PBXGroup;
 			children = (
-				813CDD4B27907769000BF439 /* AccountCreation */,
-				8157F50D277F4246005F182A /* AccountMainView */,
-				8188524E2774B9E6002813A1 /* BookCardMainView */,
+				81A6725C27908C5D00298394 /* AccountCreation */,
+				8157F50D277F4246005F182A /* Account */,
+				8188524E2774B9E6002813A1 /* BookCard */,
 				810A68B927898CC700406342 /* BookDescription */,
 				810A68B6278862D400406342 /* Categories */,
-				8188526E2778A495002813A1 /* NewBookTab */,
+				8188526E2778A495002813A1 /* NewBook */,
+				813CDD4C27907DE6000BF439 /* NewCategories */,
 				81A75098279005F400CAC424 /* Onboarding */,
-				812047F5272A884100E0A45B /* WelcomeMainView */,
+				812047F5272A884100E0A45B /* Welcome */,
 				81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */,
 				811F64BD275A02EF00A24704 /* CommentControllerView.swift */,
 				8121F0C72742418F006EAA8D /* ImageScrollView.swift */,
@@ -1602,7 +1609,6 @@
 				811F64BE275A02EF00A24704 /* CommentControllerView.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* CodeTypes.swift in Sources */,
 				81FA71D827734ECA00040BEF /* Converter.swift in Sources */,
-				813CDD4A27907758000BF439 /* AccountMainViewDelegate.swift in Sources */,
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
 				8157F4D5277AF60F005F182A /* CommentCellPresenter.swift in Sources */,
 				812BA741278DCF09009541E4 /* TextField.swift in Sources */,
@@ -1651,7 +1657,6 @@
 				810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */,
 				81FA724E27747E1200040BEF /* PushNotifications.swift in Sources */,
 				811F64BC2758B80D00A24704 /* BookDescriptionViewController.swift in Sources */,
-				810C447927271351007541C0 /* AccountMainView.swift in Sources */,
 				81F692D427849B140001450D /* UserDataCellPresenter.swift in Sources */,
 				811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */,
 				8157F513277F4627005F182A /* AccountTabMainView.swift in Sources */,
@@ -1729,6 +1734,7 @@
 				812BA742278DCF09009541E4 /* TextLabel.swift in Sources */,
 				81DB8DE52752329300698B92 /* BookListLayout.swift in Sources */,
 				8157F511277F448E005F182A /* AccountView.swift in Sources */,
+				81A6725A27908C5000298394 /* AccountMainViewDelegate.swift in Sources */,
 				812047F4272A604800E0A45B /* BookDetailView.swift in Sources */,
 				81FA72632774810F00040BEF /* ConverterProtocol.swift in Sources */,
 				81DB8DE42752329300698B92 /* HomeTabLayout.swift in Sources */,
@@ -1761,6 +1767,7 @@
 				81FA72692774817E00040BEF /* Validation.swift in Sources */,
 				8147657A2782E63700B4ED12 /* NewBookPickerDelegate.swift in Sources */,
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
+				81A6725E27908CA100298394 /* AccountMainView.swift in Sources */,
 				81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */,
 				812B16132772106200D65C6A /* BarcodeReader.swift in Sources */,
 				81C6CCAB2724781100DE9219 /* AccountViewController.swift in Sources */,

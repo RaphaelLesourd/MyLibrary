@@ -111,7 +111,9 @@ extension OnboardingViewController: OnboardingMainViewDelegate {
         if collectionViewcurrentIndex < onboardingData.count - 1 {
             collectionViewcurrentIndex += 1
             let indexPath = IndexPath(item: collectionViewcurrentIndex, section: 0)
-            mainView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            mainView.collectionView.scrollToItem(at: indexPath,
+                                                 at: .centeredHorizontally,
+                                                 animated: true)
         } else {
             presentWelcomeViewController()
         }

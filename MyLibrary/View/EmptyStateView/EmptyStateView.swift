@@ -28,6 +28,7 @@ class EmptyStateView: UIView {
                             imagePlacement: .leading,
                             tintColor: .appTintColor,
                             backgroundColor: .appTintColor)
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         let configuration = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium, scale: .small)

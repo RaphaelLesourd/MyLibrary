@@ -47,12 +47,11 @@ class HomeViewController: CollectionViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = device == .pad ? Text.ControllerTitle.myBooks : Text.ControllerTitle.home
         configureCollectionView()
         configureRefresherControl()
+        addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
-        addNavigationBarButtons()
     }
     
     // MARK: - Setup

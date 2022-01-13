@@ -159,12 +159,10 @@ extension CategoriesViewController {
         var snapshot = Snapshot()
         if !categoryService.categories.isEmpty {
             snapshot.appendSections([.main])
-            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-            
             snapshot.appendItems(categoryService.categories, toSection: .main)
-            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-            highlightBookCategories()
         }
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        highlightBookCategories()
     }
 }
 // MARK: - TableView Delegate
