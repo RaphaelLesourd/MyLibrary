@@ -33,7 +33,6 @@ class NewBookPickerDataSource: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         switch pickerView {
         case newBookView.languageCell.pickerView:
             let language = self.languageList[row]
-            dump(language)
             pickerLabel?.text = "  " + formatter.formatCodeToName(from: language, type: .language).capitalized
         case newBookView.currencyCell.pickerView:
             let currencyCode = self.currencyList[row]

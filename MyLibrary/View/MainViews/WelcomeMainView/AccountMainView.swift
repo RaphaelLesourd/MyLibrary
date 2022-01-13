@@ -8,10 +8,14 @@
 import UIKit
 
 class AccountMainView: UIView {
- 
+    
+    weak var delegate: AccountCreationViewDelegate?
+    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        setupView()
+        addButtonsAction()
         setScrollViewConstraints()
         setMainStackViewConstraints()
     }
@@ -44,7 +48,7 @@ class AccountMainView: UIView {
                                           maxLines: 4,
                                           font: .subtitle)
     let userNameTextField = TextField(placeholder: Text.Account.userName,
-                                      keyBoardType: .emailAddress,
+                                      keyBoardType: .default,
                                       returnKey: .next,
                                       correction: .no,
                                       capitalization: .none)
@@ -59,7 +63,7 @@ class AccountMainView: UIView {
                                       correction: .no,
                                       capitalization: .none)
     let confirmPasswordTextField = TextField(placeholder: Text.Account.confirmPassword,
-                                             keyBoardType: .emailAddress,
+                                             keyBoardType: .default,
                                              returnKey: .next,
                                              correction: .no,
                                              capitalization: .none)
@@ -67,7 +71,7 @@ class AccountMainView: UIView {
                               icon: Images.ButtonIcon.done,
                               tintColor: .appTintColor)
     
-    let forgotPasswordButton: UIButton = {
+    private let forgotPasswordButton: UIButton = {
         let button = UIButton()
         button.setTitle(Text.Account.forgotPassword, for: .normal)
         button.setTitleColor(UIColor.appTintColor, for: .normal)
@@ -79,21 +83,7 @@ class AccountMainView: UIView {
                                           spacing: 10)
     
     // MARK: - Configuration
-    func configureUI(for type: AccountInterfaceType) {
-        
-#if targetEnvironment(simulator)
-        // Do Not enable '.password' or '.newPassword' or 'isSecureTextEntry' text content type on simulator as it ends up with annoying behaviour:
-        // 'Strong Password' yellow glitch preventing from editing field.
-#else
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.textContentType = .password
-        
-        confirmPasswordTextField.isSecureTextEntry = true
-        confirmPasswordTextField.autocapitalizationType = .none
-        confirmPasswordTextField.textContentType = .password
-#endif
-        
+    func configure(for type: AccountInterfaceType) {
         userNameTextField.isHidden = type != .signup
         confirmPasswordTextField.isHidden = type != .signup
         forgotPasswordButton.isHidden = type == .signup
@@ -121,6 +111,31 @@ class AccountMainView: UIView {
         titleLabel.text = title
         subtitleLabel.text = subtitle
         finishButton.setTitle(buttonTitle, for: .normal)
+    }
+    
+    private func setupView() {
+#if targetEnvironment(simulator)
+        // Do Not enable '.password' or '.newPassword' or 'isSecureTextEntry' text content type on simulator as it ends up with annoying behaviour:
+        // 'Strong Password' yellow glitch preventing from editing field.
+#else
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.textContentType = .password
+        
+        confirmPasswordTextField.isSecureTextEntry = true
+        confirmPasswordTextField.autocapitalizationType = .none
+        confirmPasswordTextField.textContentType = .password
+#endif
+    }
+    
+    private func addButtonsAction() {
+        finishButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.finishedButtonTapped()
+        }), for: .touchUpInside)
+        
+        forgotPasswordButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.resetPassWordRequest()
+        }), for: .touchUpInside)
     }
     
 }

@@ -105,6 +105,8 @@ enum Text {
         static let done = NSLocalizedString("Done", comment: "done titletoday")
         static let letsGo = NSLocalizedString("Letsgo", comment: "go to a controller")
         static let deleteNewBookInfos = NSLocalizedString("DeleteNewBookInfos", comment: "delete new book info title")
+        static let next = NSLocalizedString("Next", comment: "Next titletoday")
+        static let skip = NSLocalizedString("Skip", comment: "Skip titletoday")
     }
     
     enum Placeholder {
@@ -215,5 +217,14 @@ enum Text {
         static let categorySubtitle = NSLocalizedString("EmptyStateCategorySubtitle", comment: "")
         static let commentTitle = NSLocalizedString("EmptyStateCommentTitle", comment: "")
         static let commentSubtitle = NSLocalizedString("EmptyStateCommentSubtitle", comment: "")
+    }
+    
+    enum Onboarding {
+        static let referenceBookTitle = NSLocalizedString("referenceBookTitle", comment: "")
+        static let referenceBookSubtitle = NSLocalizedString("referenceBookSubtitle", comment: "")
+        static let searchBookTitle = NSLocalizedString("searchBookTitle", comment: "")
+        static let searchBookSubtitle = NSLocalizedString("searchBookSubtitle", comment: "")
+        static let shareBookTitle = NSLocalizedString("shareBookTitle", comment: "")
+        static let shareBookSubtitle = NSLocalizedString("shareBookSubtitle", comment: "")
     }
 }

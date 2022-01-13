@@ -10,22 +10,18 @@ import AuthenticationServices
 
 class WelcomeControllerMainView: UIView {
     
+    weak var delegate: WelcomeViewDelegate?
+    
     private let device = UIDevice.current.userInterfaceIdiom
     private lazy var titleFontSize: CGFloat = device == .pad ? 60 : 40
     
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        loginStackView.addArrangedSubview(loginButton)
-        loginStackView.addArrangedSubview(signupButton)
-        
-        mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(loginStackView)
-        mainStackView.addArrangedSubview(appVerionLabel)
-        
+        setupView()
+        setButtonsAction()
         setBackGroundImageConstraints()
         setMainStackViewConstraints()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +36,7 @@ class WelcomeControllerMainView: UIView {
                                     imagePlacement: .leading,
                                     tintColor: .white,
                                     backgroundColor: .white)
-    let appVerionLabel = TextLabel(color: .white,
+    private let appVerionLabel = TextLabel(color: .white,
                                    maxLines: 1,
                                    alignment: .center,
                                    font: .footerLabel)
@@ -62,10 +58,27 @@ class WelcomeControllerMainView: UIView {
     private let mainStackView = StackView(axis: .vertical,
                                           spacing: 100)
     
-    private func configureUI() {
+    // MARK: - Configure
+    private func setupView() {
+        loginStackView.addArrangedSubview(loginButton)
+        loginStackView.addArrangedSubview(signupButton)
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(loginStackView)
+        mainStackView.addArrangedSubview(appVerionLabel)
+  
         backgroundImage.image = Images.welcomeScreen
         titleLabel.text = Text.Account.welcomeMessage
         appVerionLabel.text = UIApplication.appName + " - Version " + UIApplication.release + " build " + UIApplication.build
+    }
+    
+    private func setButtonsAction() {
+        loginButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.presentAccountViewController(for: .login)
+        }), for: .touchUpInside)
+        signupButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.presentAccountViewController(for: .signup)
+        }), for: .touchUpInside)
     }
     
     override func layoutSubviews() {
@@ -86,7 +99,6 @@ extension WelcomeControllerMainView {
     }
     
     private func setMainStackViewConstraints() {
-        
         let offSet: CGFloat = device == .pad ? 0.5 : 0.9
         addSubview(mainStackView)
         NSLayoutConstraint.activate([

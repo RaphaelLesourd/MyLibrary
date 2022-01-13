@@ -14,8 +14,7 @@ class NewCategoryMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentView.roundView(radius: 12, backgroundColor: .cellBackgroundColor)
-        
+        setupView()
         setScrollViewConstraints()
         setMainStackViewConstraints()
     }
@@ -92,6 +91,20 @@ class NewCategoryMainView: UIView {
             self?.delegate?.saveCategory()
         }), for: .touchUpInside)
     }
+    
+    private func setupView() {
+        contentView.roundView(radius: 12, backgroundColor: .cellBackgroundColor)
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           subtitleLabel,
+                                           categoryTextField,
+                                           colorSectionTitleLabel,
+                                           collectionView,
+                                           saveButton]
+        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
+        
+        mainStackView.setCustomSpacing(5, after: titleLabel)
+        mainStackView.setCustomSpacing(80, after: categoryTextField)
+    }
 }
 
 // MARK: - Constraints
@@ -114,21 +127,11 @@ extension NewCategoryMainView {
     
     private func setMainStackViewConstraints() {
         contentView.addSubview(mainStackView)
-        let mainStackSubViews: [UIView] = [titleLabel,
-                                           subtitleLabel,
-                                           categoryTextField,
-                                           colorSectionTitleLabel,
-                                           collectionView,
-                                           saveButton]
-        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
-        
-        mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(80, after: categoryTextField)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
 }

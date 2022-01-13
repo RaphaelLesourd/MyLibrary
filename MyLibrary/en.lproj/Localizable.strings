@@ -41,6 +41,8 @@
 "Edit" = "Edit";
 "Search" = "Search";
 "Done" = "Terminé";
+"Next" = "Next";
+"Skip" = "Skip";
  
 "LatestBooks" = "Latest books";
 "FavoriteBooks" = "Favorite books";
@@ -204,3 +206,10 @@
 "EmptyStateCategorySubtitle" = "Categories helps finding books faster.";
 "EmptyStateCommentTitle" = "Let's add the first comment for this book!";
 "EmptyStateCommentSubtitle"  = "Start a discussion about this book with others.";
+
+"referenceBookTitle" = "Reference all your books";
+"referenceBookSubtitle" = "All your books are referenced\nand\norganised in one place.";
+"searchBookTitle" = "Search for books";
+"searchBookSubtitle" = "Search for books online to get information\nor\nscan the barcode.";
+"shareBookTitle" = "Share your opinion";
+"shareBookSubtitle" = "Recommend your books\nand\nopen the discussion with others.";
