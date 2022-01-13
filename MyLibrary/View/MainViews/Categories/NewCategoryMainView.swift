@@ -33,7 +33,7 @@ class NewCategoryMainView: UIView {
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 27
+        layout.minimumLineSpacing = 25
         layout.itemSize = CGSize(width: 40, height: 40)
         let collection = UICollectionView(frame: .zero,
                                           collectionViewLayout: layout)

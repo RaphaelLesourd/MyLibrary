@@ -38,7 +38,7 @@ class BookCardCommentView: UIView {
         return animationView
     }()
     
-    private let titleLabel = TextLabel(color: .appTintColor,
+    private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
                                        alignment: .right,
                                        font: .sectionTitle)
@@ -57,7 +57,7 @@ class BookCardCommentView: UIView {
     private func setupView() {
         self.heightAnchor.constraint(equalToConstant: 120).isActive = true
         titleLabel.text = Text.SectionTitle.readersComment
-        titleLabel.addShadow(opacity: 1, color: .appTintColor)
+        titleLabel.addShadow(opacity: 0.7, color: .appTintColor)
     }
 }
 // MARK: - Constraints
