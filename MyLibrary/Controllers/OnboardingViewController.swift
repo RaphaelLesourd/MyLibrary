@@ -21,9 +21,9 @@ class OnboardingViewController: UIViewController {
                                                 Onboarding(image: Images.Onboarding.sharing,
                                                            title: Text.Onboarding.shareBookTitle,
                                                            subtitle: Text.Onboarding.shareBookSubtitle)]
-    private var collectionViewcurrentIndex = 0 {
+    private var collectionViewCurrentIndex = 0 {
         didSet {
-            updatePageNumber(with: collectionViewcurrentIndex)
+            updatePageNumber(with: collectionViewCurrentIndex)
         }
     }
     // MARK: - Intializer
@@ -96,10 +96,9 @@ extension OnboardingViewController: UICollectionViewDelegate {
         guard let visible = collectionView.visibleCells.first else { return }
         guard let index = collectionView.indexPath(for: visible)?.row else { return }
         mainView.pageControl.currentPage = index
-        collectionViewcurrentIndex = index
+        collectionViewCurrentIndex = index
     }
 }
-
 // MARK: - OnboardingViewDelegate
 extension OnboardingViewController: OnboardingMainViewDelegate {
     
@@ -108,9 +107,9 @@ extension OnboardingViewController: OnboardingMainViewDelegate {
     }
     
     func next() {
-        if collectionViewcurrentIndex < onboardingData.count - 1 {
-            collectionViewcurrentIndex += 1
-            let indexPath = IndexPath(item: collectionViewcurrentIndex, section: 0)
+        if collectionViewCurrentIndex < onboardingData.count - 1 {
+            collectionViewCurrentIndex += 1
+            let indexPath = IndexPath(item: collectionViewCurrentIndex, section: 0)
             mainView.collectionView.scrollToItem(at: indexPath,
                                                  at: .centeredHorizontally,
                                                  animated: true)
