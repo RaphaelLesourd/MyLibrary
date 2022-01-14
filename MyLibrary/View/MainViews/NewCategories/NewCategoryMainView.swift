@@ -10,6 +10,7 @@ import UIKit
 class NewCategoryMainView: UIView {
     
     weak var delegate: NewCategoryViewDelegate?
+    var collectionViewHeight = NSLayoutConstraint()
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -42,7 +43,6 @@ class NewCategoryMainView: UIView {
         collection.backgroundColor = .clear
         collection.showsVerticalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.heightAnchor.constraint(equalToConstant: 350).isActive = true
         return collection
     }()
     
@@ -103,7 +103,14 @@ class NewCategoryMainView: UIView {
         mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(80, after: categoryTextField)
+        mainStackView.setCustomSpacing(40, after: categoryTextField)
+    }
+    
+    func setCollectionViewHeight() {
+        collectionView.layoutIfNeeded()
+        let height = collectionView.contentSize.height
+        collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: height)
+        collectionViewHeight.isActive = true
     }
 }
 

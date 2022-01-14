@@ -67,9 +67,7 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.refreshBookList()
-        }), for: .valueChanged)
+        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
     }
     
     private func configureNavigationBarButton() {
@@ -112,7 +110,9 @@ class BookLibraryViewController: CollectionViewController {
             switch result {
             case .success(let books):
                 guard !books.isEmpty else {
-                    return self.noMoreBooks = true
+                    self.noMoreBooks = true
+                    self.applySnapshot()
+                    return
                 }
                 self.addBookToList(books)
             case .failure(let error):
@@ -130,7 +130,7 @@ class BookLibraryViewController: CollectionViewController {
         }
     }
     // MARK: - Targets
-    private func refreshBookList() {
+    @objc private func refreshBookList() {
         title = setTitle()
         noMoreBooks = false
         bookList.removeAll()
