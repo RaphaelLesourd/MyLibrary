@@ -25,6 +25,7 @@ class SearchViewController: CollectionViewController {
     private let layoutComposer: BookListLayoutComposer
     private let apiManager: ApiManagerProtocol
     private lazy var dataSource = createDataSource()
+    private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private var cellPresenter: CellPresenter?
     private var noMoreBooks: Bool?
@@ -67,8 +68,6 @@ class SearchViewController: CollectionViewController {
         let size: GridSize = device == .pad ? .large : .medium
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
         collectionView.collectionViewLayout = layout
-        collectionView.register(cell: BookCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
     }
@@ -148,13 +147,22 @@ extension SearchViewController {
         configureFooter(dataSource)
         return dataSource
     }
-    
+  
     /// Adds a footer to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self?.footerView
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                self?.headerView = collectionView.dequeue(kind: kind, for: indexPath)
+                self?.headerView.configure(with: "Powered by GoogleBooks", buttonTitle: "")
+                return self?.headerView
+            case UICollectionView.elementKindSectionFooter:
+                self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.footerView
+            default:
+                return nil
+            }
         }
     }
     

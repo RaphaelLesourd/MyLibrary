@@ -7,5 +7,5 @@
 
 protocol BookListMenuDelegate: AnyObject {
     func setLayoutFromMenu(for layout: GridSize)
-    func orderList(by type: DocumentKey)
+    func orderList(by type:QueryType)
 }

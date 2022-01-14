@@ -20,7 +20,7 @@ class HomeTabLayout {
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100),
                                           heightDimension: .absolute(40))
         let item = NSCollectionLayoutItem(layoutSize: size)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: size,
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: size,
                                                        subitems: [item])
         group.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: nil,
                                                           top: nil,
