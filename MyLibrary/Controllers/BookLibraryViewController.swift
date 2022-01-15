@@ -18,7 +18,7 @@ class BookLibraryViewController: UIViewController {
     private let layoutComposer: BookListLayoutComposer
     private let libraryService: LibraryServiceProtocol
     private let queryService: QueryProtocol
-    private let cellPresenter: CellPresenter
+    private let cellPresenter: BookCellConfigure
     
     private var noMoreBooks = false
     private var headerView = HeaderSupplementaryView()
@@ -41,7 +41,7 @@ class BookLibraryViewController: UIViewController {
         self.queryService = queryService
         self.libraryService = libraryService
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

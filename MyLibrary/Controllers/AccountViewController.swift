@@ -18,7 +18,7 @@ class AccountViewController: UIViewController {
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
   
-    private var accountDataPresenter: AccountTabPresenter
+    private var accountDataPresenter: AccountTabConfigure
     private var imagePicker: ImagePicker?
     
     // MARK: - Initializer
@@ -30,7 +30,7 @@ class AccountViewController: UIViewController {
         self.userService = userService
         self.imageService = imageService
         self.feedbackManager = feedbackManager
-        self.accountDataPresenter = AccountTabDataPresenter(imageRetriever: KFImageRetriever())
+        self.accountDataPresenter = AccountTabConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

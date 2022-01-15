@@ -1,11 +1,11 @@
 //
-//  CommentCellDataPresenter.swift
+//  CommentCellConfiguration.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 28/12/2021.
 //
 
-class CommentCellDataPresenter {
+class CommentCellConfiguration {
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
     private let formatter: FormatterProtocol
@@ -18,7 +18,7 @@ class CommentCellDataPresenter {
     }
 }
 // MARK: - CommentCell presenter protocol
-extension CommentCellDataPresenter: CommentCellPresenter {
+extension CommentCellConfiguration: CommentCellConfigure {
       
     func configure(_ cell: CommentTableViewCell, with comment: CommentModel) {
         cell.commentLabel.text = comment.comment

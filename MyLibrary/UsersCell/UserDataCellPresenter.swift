@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class FollowedUserDataCellPresenter {
+class UserCellConfiguration {
     private var imageRetriever: ImageRetriever
     
     // MARK: - Initializer
@@ -16,7 +16,7 @@ class FollowedUserDataCellPresenter {
         self.imageRetriever = imageRetriever
     }
 }
-extension FollowedUserDataCellPresenter: UserCellPresenter {
+extension UserCellConfiguration: UserCellConfigure {
     
     func setData(with user: UserModel, completion: @escaping (UserCellData) -> Void) {
         let userName = user.displayName.capitalized

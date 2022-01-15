@@ -1,10 +1,10 @@
 //
-//  CellPresenter.swift
+//  BookCellConfigure.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
 //
 
-protocol CellPresenter {
+protocol BookCellConfigure {
     func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void)
 }

@@ -1,5 +1,5 @@
 //
-//  AccountDataPresenter.swift
+//  AccountTabConfiguration.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 28/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AccountTabDataPresenter {
+class AccountTabConfiguration {
     
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
@@ -18,7 +18,7 @@ class AccountTabDataPresenter {
     }
 }
 // MARK: - Account presenter protocol
-extension AccountTabDataPresenter: AccountTabPresenter {
+extension AccountTabConfiguration: AccountTabConfigure {
     
     func configure(_ view: AccountTabMainView, with user: UserModel) {
         view.accountView.emailLabel.text = user.email

@@ -29,7 +29,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
-    private let newBookDataPresenter: NewBookPresenter
+    private let newBookDataPresenter: NewBookConfigure
    
     private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
@@ -41,7 +41,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         self.libraryService = libraryService
         self.converter = converter
         self.validator = validator
-        self.newBookDataPresenter = NewBookDataPresenter(imageRetriever: KFImageRetriever(),
+        self.newBookDataPresenter = NewBookConfiguration(imageRetriever: KFImageRetriever(),
                                                          converter: converter,
                                                          formatter: Formatter())
         super.init(nibName: nil, bundle: nil)

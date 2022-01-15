@@ -1,5 +1,5 @@
 //
-//  BookCardData.swift
+//  BookCardConfiguration.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCardDataPresenter {
+class BookCardConfiguration {
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
     private let formatter: FormatterProtocol
@@ -44,7 +44,7 @@ class BookCardDataPresenter {
     }
 }
 // MARK: - BookCard presenter protocol
-extension BookCardDataPresenter: BookCardPresenter {
+extension BookCardConfiguration: BookCardConfigure {
     
     func configure(_ view: BookCardMainView, with book: Item) {
         view.titleLabel.text = book.volumeInfo?.title?.capitalized ?? ""

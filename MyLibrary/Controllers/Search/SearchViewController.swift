@@ -27,7 +27,7 @@ class SearchViewController: UIViewController {
     private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private var cellPresenter: CellPresenter?
+    private var cellPresenter: BookCellConfigure?
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
@@ -35,7 +35,7 @@ class SearchViewController: UIViewController {
          layoutComposer: BookListLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

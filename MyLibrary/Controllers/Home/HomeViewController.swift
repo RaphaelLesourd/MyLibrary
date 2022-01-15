@@ -19,8 +19,8 @@ class HomeViewController: UIViewController {
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private let cellPresenter: CellPresenter
-    private let userCellPresenter: UserCellPresenter
+    private let cellPresenter: BookCellConfigure
+    private let userCellPresenter: UserCellConfigure
     
     private var latestBooks: [Item] = []
     private var favoriteBooks: [Item] = []
@@ -36,8 +36,8 @@ class HomeViewController: UIViewController {
         self.layoutComposer = layoutComposer
         self.categoryService = categoryService
         self.recommendationService = recommendationService
-        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
-        self.userCellPresenter = FollowedUserDataCellPresenter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
+        self.userCellPresenter = UserCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     

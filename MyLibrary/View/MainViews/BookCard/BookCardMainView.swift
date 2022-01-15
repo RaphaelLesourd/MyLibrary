@@ -37,8 +37,7 @@ class BookCardMainView: UIView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
-    let recommandButton = Button(title: "",
-                                 icon: Images.ButtonIcon.done)
+    let recommandButton = Button(title: "", icon: Images.ButtonIcon.done)
     
     let deleteBookButton: UIButton = {
         let button = UIButton()
@@ -77,7 +76,7 @@ class BookCardMainView: UIView {
     
     let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.alpha = 0.55
+        imageView.alpha = 0.4
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
