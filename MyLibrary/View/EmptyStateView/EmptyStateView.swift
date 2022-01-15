@@ -72,9 +72,6 @@ class EmptyStateView: UIView {
         stackView.setCustomSpacing(10, after: titleLabel)
         
         doneButton.buttonHeightAnchor.isActive = false
-        doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.didTapButton()
-        }), for: .touchUpInside)
     }
 }
 

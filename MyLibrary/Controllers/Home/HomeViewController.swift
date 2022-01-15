@@ -7,13 +7,14 @@
 
 import UIKit
 
-class HomeViewController: CollectionViewController {
+class HomeViewController: UIViewController {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
     private lazy var dataSource = createDataSource()
+    private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
@@ -45,81 +46,49 @@ class HomeViewController: CollectionViewController {
     }
     
     // MARK: - Lifecycle
+    
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.emptyStateView.isHidden = true
+        mainView.delegate = self
         configureCollectionView()
-        configureRefresherControl()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        fetchBookLists()
+        refreshData()
     }
     
     // MARK: - Setup
     private func configureCollectionView() {
-        collectionView.dataSource = dataSource
-        collectionView.delegate = self
+        mainView.collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout(dataSource: dataSource)
+        mainView.collectionView.dataSource = dataSource
+        mainView.collectionView.delegate = self
     }
     
-    private func configureRefresherControl() {
-        refresherControl.addTarget(self, action: #selector(fetchBookLists), for: .valueChanged)
-    }
-
     private func addNavigationBarButtons() {
         guard let controller = splitViewController, !controller.isCollapsed else { return }
         let addButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
                                         style: .plain,
                                         target: self,
                                         action: #selector(showAccountController))
-        navigationItem.rightBarButtonItem = addButton
-    }
-    // MARK: - Api call
-    @objc private func fetchBookLists() {
-        categoryService.getCategories { [weak self] error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-            self?.applySnapshot()
-        }
-        getBooks(for: .latestBookQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.latestBooks = books
-                self?.applySnapshot()
-            }
-        }
-        getBooks(for: .favoriteBookQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.favoriteBooks = books
-                self?.applySnapshot()
-            }
-        }
-        getBooks(for: .recommendationQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.recommandedBooks = books
-                self?.applySnapshot()
-            }
-        }
-        recommendationService.retrieveRecommendingUsers { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let users):
-                    self?.followedUser = users
-                    self?.applySnapshot()
-                case .failure(let error):
-                    AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
-                }
-            }
-        }
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactorButton, addButton]
     }
     
+    // MARK: - Api call
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
-        showIndicator(activityIndicator)
+        showIndicator(mainView.activityIndicator)
         
         libraryService.getBookList(for: query,
                                       limit: 15,
                                       forMore: false) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            self.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
             switch result {
             case .success(let books):
                 completion(books)
@@ -157,7 +126,7 @@ class HomeViewController: CollectionViewController {
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
                                                       categoryService: CategoryService())
-        if device == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             let categoryVC = UINavigationController(rootViewController: categoryListVC)
             present(categoryVC, animated: true, completion: nil)
         } else {
@@ -184,7 +153,7 @@ extension HomeViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func createDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView,
+        let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil}
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
@@ -223,7 +192,6 @@ extension HomeViewController {
             return nil
         })
         configureHeader(dataSource)
-        collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout(dataSource: dataSource)
         return dataSource
     }
     
@@ -289,6 +257,77 @@ extension HomeViewController: UICollectionViewDelegate {
                                   fieldValue: followedUser.userID,
                                   descending: true)
             showBookList(for: query, title: followedUser.displayName)
+        }
+    }
+}
+// MARK: - BookListView Delegate
+extension HomeViewController: BookListViewDelegate {
+    
+    func emptyStateButtonTapped() {
+        guard let splitController = splitViewController, !splitController.isCollapsed else {
+            if let controller = tabBarController as? TabBarController {
+                controller.selectedIndex = 2
+            }
+            return
+        }
+        splitViewController?.show(.primary)
+        if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
+            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
+        }
+    }
+    
+    func refreshData() {
+        categoryService.getCategories { [weak self] error in
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+            self?.applySnapshot()
+        }
+        getBooks(for: .latestBookQuery) { [weak self] books in
+            DispatchQueue.main.async {
+                self?.latestBooks = books
+                self?.applySnapshot()
+            }
+        }
+        getBooks(for: .favoriteBookQuery) { [weak self] books in
+            DispatchQueue.main.async {
+                self?.favoriteBooks = books
+                self?.applySnapshot()
+            }
+        }
+        getBooks(for: .recommendationQuery) { [weak self] books in
+            DispatchQueue.main.async {
+                self?.recommandedBooks = books
+                self?.applySnapshot()
+            }
+        }
+        recommendationService.retrieveRecommendingUsers { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let users):
+                    self?.followedUser = users
+                    self?.applySnapshot()
+                case .failure(let error):
+                    AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
+                }
+            }
+        }
+    }
+}
+
+extension UIViewController {
+    func showBookDetails(for book: Item, searchType: SearchType?) {
+        let bookCardVC = BookCardViewController(book: book,
+                                                libraryService: LibraryService(),
+                                                recommendationService: RecommandationService())
+        bookCardVC.hidesBottomBarWhenPushed = true
+        bookCardVC.searchType = searchType
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let viewController = UINavigationController(rootViewController: bookCardVC)
+            present(viewController, animated: true)
+        } else {
+            navigationController?.show(bookCardVC, sender: nil)
         }
     }
 }

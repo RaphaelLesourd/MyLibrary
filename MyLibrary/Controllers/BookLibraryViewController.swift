@@ -7,13 +7,14 @@
 
 import UIKit
 /// Class inherit from a common class CollectionViewController to set up a collectionView.
-class BookLibraryViewController: CollectionViewController {
+class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
     private lazy var dataSource = makeDataSource()
+    private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let libraryService: LibraryServiceProtocol
     private let queryService: QueryProtocol
@@ -49,15 +50,20 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     // MARK: - Lifecycle
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
-        
+        mainView.delegate = self
         configureCollectionView()
         configureNavigationBarButton()
-        configureRefresherControl()
-        refreshBookList()
+        configureEmptyStateView()
+        refreshData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -65,15 +71,8 @@ class BookLibraryViewController: CollectionViewController {
     }
     // MARK: - Setup
     private func configureCollectionView() {
-        collectionView.register(cell: BookCollectionViewCell.self)
-        collectionView.delegate = self
-        collectionView.dataSource = dataSource
-    }
-    
-    private func configureRefresherControl() {
-        refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.refreshBookList()
-        }), for: .valueChanged)
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = dataSource
     }
     
     private func configureNavigationBarButton() {
@@ -85,6 +84,18 @@ class BookLibraryViewController: CollectionViewController {
                                          primaryAction: nil,
                                          menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))
         navigationItem.rightBarButtonItem = menuButton
+    }
+    
+    private func configureNavigationBar() {
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactorButton]
+    }
+    
+    private func configureEmptyStateView() {
+        mainView.emptyStateView.configure(title: Text.EmptyState.noBookTitle,
+                                          subtitle: Text.EmptyState.noBookSubtitle,
+                                          icon: Images.TabBarIcon.booksIcon,
+                                          hideButton: false)
     }
     
     private func setTitle() -> String {
@@ -99,7 +110,7 @@ class BookLibraryViewController: CollectionViewController {
     
     private func updateGridLayout() {
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
-        collectionView.setCollectionViewLayout(layout, animated: true)
+        mainView.collectionView.setCollectionViewLayout(layout, animated: true)
         applySnapshot()
     }
     
@@ -110,13 +121,13 @@ class BookLibraryViewController: CollectionViewController {
     
     // MARK: - Api call
     private func getBooks(nextPage: Bool = false) {
-        showIndicator(activityIndicator)
+        showIndicator(mainView.activityIndicator)
         footerView.displayActivityIndicator(true)
         
         libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            self.hideIndicator(self.activityIndicator)
-            self.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
             
             switch result {
@@ -140,13 +151,6 @@ class BookLibraryViewController: CollectionViewController {
                 applySnapshot()
             }
         }
-    }
-    // MARK: - Targets
-    private func refreshBookList() {
-        title = setTitle()
-        noMoreBooks = false
-        bookList.removeAll()
-        getBooks()
     }
 }
 
@@ -174,7 +178,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 extension BookLibraryViewController {
     
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView,
+        let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
             self?.cellPresenter.setBookData(for: book) { bookData in
@@ -204,8 +208,8 @@ extension BookLibraryViewController {
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
-        collectionView.isHidden = bookList.isEmpty
-        emptyStateView.isHidden = !bookList.isEmpty
+        mainView.collectionView.isHidden = bookList.isEmpty
+        mainView.emptyStateView.isHidden = !bookList.isEmpty
         
         var snapshot = Snapshot()
         if !bookList.isEmpty {
@@ -215,16 +219,39 @@ extension BookLibraryViewController {
         }
     }
 }
-// MARK: - Extension BookListLayoutDelegate
+// MARK: - BookListLayout Delegate
 extension BookLibraryViewController: BookListMenuDelegate {
     
     func orderList(by listType: QueryType) {
         updateHeader(with: listType)
         currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
-        refreshBookList()
+        refreshData()
     }
     
     func setLayoutFromMenu(for size: GridSize) {
         gridItemSize = size
+    }
+}
+// MARK: - BookListView Delegate
+extension BookLibraryViewController: BookListViewDelegate {
+    func emptyStateButtonTapped() {
+        print("tap")
+        guard let splitController = splitViewController, !splitController.isCollapsed else {
+            if let controller = tabBarController as? TabBarController {
+                controller.selectedIndex = 2
+            }
+            return
+        }
+        splitViewController?.show(.primary)
+        if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
+            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
+        }
+    }
+    
+    func refreshData() {
+        title = setTitle()
+        noMoreBooks = false
+        bookList.removeAll()
+        getBooks()
     }
 }
