@@ -34,8 +34,16 @@ class BookListLayout {
                                       leading: 7,
                                       bottom: 0,
                                       trailing: 7)
-        section.boundarySupplementaryItems = [addFooter()]
+        section.boundarySupplementaryItems = [addHeader(), addFooter()]
         return section
+    }
+    
+    private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                    heightDimension: .estimated(30))
+        return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                           elementKind: UICollectionView.elementKindSectionHeader,
+                                                           alignment: .top)
     }
     
     private func addFooter() -> NSCollectionLayoutBoundarySupplementaryItem {

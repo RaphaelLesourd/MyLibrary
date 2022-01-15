@@ -12,7 +12,7 @@ class BookLibraryViewController: CollectionViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-   
+    
     private lazy var dataSource = makeDataSource()
     private let layoutComposer: BookListLayoutComposer
     private let libraryService: LibraryServiceProtocol
@@ -20,6 +20,7 @@ class BookLibraryViewController: CollectionViewController {
     private let cellPresenter: CellPresenter
     
     private var noMoreBooks = false
+    private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
@@ -59,6 +60,9 @@ class BookLibraryViewController: CollectionViewController {
         refreshBookList()
     }
     
+    override func viewDidLayoutSubviews() {
+        updateHeader(with: .timestamp)
+    }
     // MARK: - Setup
     private func configureCollectionView() {
         collectionView.register(cell: BookCollectionViewCell.self)
@@ -67,7 +71,9 @@ class BookLibraryViewController: CollectionViewController {
     }
     
     private func configureRefresherControl() {
-        refresherControl.addTarget(self, action: #selector(refreshBookList), for: .valueChanged)
+        refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.refreshBookList()
+        }), for: .valueChanged)
     }
     
     private func configureNavigationBarButton() {
@@ -75,9 +81,10 @@ class BookLibraryViewController: CollectionViewController {
         if currentQuery.listType == .categories || currentQuery.listType == .users {
             showFilterMenu = false
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
-                                                            primaryAction: nil,
-                                                            menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))
+        let menuButton = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
+                                         primaryAction: nil,
+                                         menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))
+        navigationItem.rightBarButtonItem = menuButton
     }
     
     private func setTitle() -> String {
@@ -96,11 +103,16 @@ class BookLibraryViewController: CollectionViewController {
         applySnapshot()
     }
     
+    private func updateHeader(with listType: QueryType) {
+        let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
+        headerView.configure(with: title, buttonTitle: "")
+    }
+    
     // MARK: - Api call
-   private func getBooks(nextPage: Bool = false) {
+    private func getBooks(nextPage: Bool = false) {
         showIndicator(activityIndicator)
         footerView.displayActivityIndicator(true)
-       
+        
         libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.hideIndicator(self.activityIndicator)
@@ -130,7 +142,7 @@ class BookLibraryViewController: CollectionViewController {
         }
     }
     // MARK: - Targets
-    @objc private func refreshBookList() {
+    private func refreshBookList() {
         title = setTitle()
         noMoreBooks = false
         bookList.removeAll()
@@ -177,8 +189,17 @@ extension BookLibraryViewController {
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self?.footerView
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                self?.headerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.headerView
+            case UICollectionView.elementKindSectionFooter:
+                self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.footerView
+            default:
+                return nil
+            }
+            
         }
     }
     
@@ -196,9 +217,10 @@ extension BookLibraryViewController {
 }
 // MARK: - Extension BookListLayoutDelegate
 extension BookLibraryViewController: BookListMenuDelegate {
-   
-    func orderList(by listType: DocumentKey) {
-        currentQuery = queryService.updateQuery(from: currentQuery, with: listType)
+    
+    func orderList(by listType: QueryType) {
+        updateHeader(with: listType)
+        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
         refreshBookList()
     }
     

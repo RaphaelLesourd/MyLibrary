@@ -12,7 +12,7 @@ class SearchViewController: CollectionViewController {
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-   
+    
     weak var newBookDelegate: NewBookDelegate?
     var searchType: SearchType?
     var searchedBooks: [Item] = []
@@ -21,10 +21,11 @@ class SearchViewController: CollectionViewController {
             refreshBookList()
         }
     }
-   
+    
     private let layoutComposer: BookListLayoutComposer
     private let apiManager: ApiManagerProtocol
     private lazy var dataSource = createDataSource()
+    private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private var cellPresenter: CellPresenter?
     private var noMoreBooks: Bool?
@@ -41,7 +42,7 @@ class SearchViewController: CollectionViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +68,6 @@ class SearchViewController: CollectionViewController {
         let size: GridSize = device == .pad ? .large : .medium
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
         collectionView.collectionViewLayout = layout
-        collectionView.register(cell: BookCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
         collectionView.delegate = self
         collectionView.dataSource = dataSource
     }
@@ -153,8 +152,17 @@ extension SearchViewController {
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self?.footerView
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                self?.headerView = collectionView.dequeue(kind: kind, for: indexPath)
+                self?.headerView.configure(with: Text.SectionTitle.searchHeader, buttonTitle: "")
+                return self?.headerView
+            case UICollectionView.elementKindSectionFooter:
+                self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.footerView
+            default:
+                return nil
+            }
         }
     }
     

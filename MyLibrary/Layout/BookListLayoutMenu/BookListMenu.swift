@@ -57,7 +57,8 @@ class BookListMenu {
             let item = UIAction(title: query.title,
                                 image: nil,
                                 handler: { [weak self] (_) in
-                self?.delegate?.orderList(by: query.documentKey)
+                self?.delegate?.orderList(by: query)
+
             })
             items.append(item)
         })

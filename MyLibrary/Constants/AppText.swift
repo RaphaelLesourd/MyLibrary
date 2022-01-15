@@ -79,6 +79,7 @@ enum Text {
         static let newBookRatingHeader = NSLocalizedString("NewBookRatingHeader", comment: "new Book Rating Header")
         static let newBookPriceHeader = NSLocalizedString("NewBookPriceHeader", comment: "new Book Price Header")
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
+        static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
     }
     
     enum ButtonTitle {
