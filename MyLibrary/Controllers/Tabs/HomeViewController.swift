@@ -53,10 +53,15 @@ class HomeViewController: CollectionViewController {
         applySnapshot(animatingDifferences: false)
         fetchBookLists()
     }
- 
+    
     // MARK: - Setup
     private func configureCollectionView() {
         collectionView.dataSource = dataSource
+        collectionView.register(cell: CategoryCollectionViewCell.self)
+        collectionView.register(cell: UserCollectionViewCell.self)
+        collectionView.register(cell: BookCollectionViewCell.self)
+        collectionView.register(cell: DetailedBookCollectionViewCell.self)
+        collectionView.register(header: HeaderSupplementaryView.self)
         collectionView.delegate = self
     }
     

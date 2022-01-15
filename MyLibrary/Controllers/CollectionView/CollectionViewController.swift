@@ -26,16 +26,12 @@ class CollectionViewController: UIViewController {
         setEmptyStateViewConstraints()
         addNavigationBarButtons()
         configureEmptystateView()
+        
     }
   
     // MARK: - Setup
     private func configureCollectionView() {
-        collectionView.register(cell: CategoryCollectionViewCell.self)
-        collectionView.register(cell: UserCollectionViewCell.self)
-        collectionView.register(cell: DetailedBookCollectionViewCell.self)
-        collectionView.register(cell: BookCollectionViewCell.self)
         collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.register(header: HeaderSupplementaryView.self)
         refresherControl.attributedTitle = NSAttributedString(string: Text.Misc.reloading)
         refresherControl.tintColor = .label
         collectionView.refreshControl = refresherControl
