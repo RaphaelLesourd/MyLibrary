@@ -8,14 +8,13 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
+   
     private let colorAlpha: CGFloat = 0.2
     
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentView.backgroundColor = UIColor.appTintColor.withAlphaComponent(colorAlpha)
-        roundView(radius: 12,
-                  backgroundColor: UIColor.black.withAlphaComponent(0.05))
+        setupView()
         setLabelConstraints()
     }
     
@@ -39,6 +38,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
             contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)
             categoryLabel.textColor = categoryColor
         }
+    }
+    
+    private func setupView() {
+        contentView.backgroundColor = UIColor.appTintColor.withAlphaComponent(colorAlpha)
+        roundView(radius: 12, backgroundColor: UIColor.black.withAlphaComponent(0.05))
     }
     
     override func prepareForReuse() {

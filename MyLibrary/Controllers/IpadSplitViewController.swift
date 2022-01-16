@@ -13,10 +13,6 @@ class IpadSplitViewController: UISplitViewController {
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
         showsSecondaryOnlyButton = true
-        let viewWidth = view.bounds.width
-        maximumPrimaryColumnWidth = viewWidth
-        minimumPrimaryColumnWidth = viewWidth / 3
-        preferredPrimaryColumnWidthFraction = 0.3
     }
     
     required init?(coder: NSCoder) {

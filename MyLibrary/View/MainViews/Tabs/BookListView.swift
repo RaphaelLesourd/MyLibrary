@@ -82,8 +82,8 @@ extension BookListView {
         addSubview(emptyStateView)
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50)
+            emptyStateView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor, constant: -50)
         ])
     }
     
