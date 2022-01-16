@@ -9,8 +9,8 @@ import UIKit
 import Lottie
 
 class AccountView: UIView {
+  
     // MARK: Initializer
-    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -45,13 +45,13 @@ class AccountView: UIView {
         return imageView
     }()
     
-    private let animationView: AnimationView = {
+    let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
+        animationView.animationSpeed = 0.5
         animationView.contentMode = .scaleAspectFit
         animationView.animation = Animation.named("wave")
         animationView.backgroundBehavior = .pauseAndRestore
-        animationView.alpha = 0.8
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
     }()
@@ -59,9 +59,9 @@ class AccountView: UIView {
     let emailLabel = TextLabel(color: .label,
                                maxLines: 1,
                                alignment: .center,
-                               font: .footerLabel)
+                               font: .subtitle)
     let userNameTextfield = TextField(placeholder: Text.Account.userName,
-                                      keyBoardType: .alphabet,
+                                      keyBoardType: .default,
                                       returnKey: .done,
                                       correction: .no,
                                       capitalization: .none)
@@ -89,14 +89,15 @@ class AccountView: UIView {
         stackView.setCustomSpacing(40, after: profileImageContainerView)
         stackView.setCustomSpacing(60, after: userNameTextfield)
     }
-    
-    func play(speed: CGFloat = 0.5) {
-        animationView.animationSpeed = speed
-        animationView.play()
-    }
-    
-    func stop() {
-        animationView.stop()
+  
+    func loadingSpeed(_ loading: Bool) {
+        guard loading else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.animationView.animationSpeed = 0.5
+            }
+            return
+        }
+        self.animationView.animationSpeed =  2
     }
 }
 // MARK: - Constraints
@@ -127,8 +128,8 @@ extension AccountView {
         NSLayoutConstraint.activate([
             addProfileImage.bottomAnchor.constraint(equalTo: profileImageButton.bottomAnchor),
             addProfileImage.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: -25),
-            addProfileImage.heightAnchor.constraint(equalToConstant: 25),
-            addProfileImage.widthAnchor.constraint(equalToConstant: 25)
+            addProfileImage.heightAnchor.constraint(equalToConstant: 30),
+            addProfileImage.widthAnchor.constraint(equalToConstant: 30)
         ])
     }
     

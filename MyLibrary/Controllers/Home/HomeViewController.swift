@@ -71,12 +71,12 @@ class HomeViewController: UIViewController, BookDetail {
     
     private func addNavigationBarButtons() {
         guard let controller = splitViewController, !controller.isCollapsed else { return }
-        let addButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
+        let accountButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
                                         style: .plain,
                                         target: self,
                                         action: #selector(showAccountController))
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [activityIndicactorButton, addButton]
+        navigationItem.rightBarButtonItems = [accountButton, activityIndicactorButton]
     }
     
     // MARK: - Api call

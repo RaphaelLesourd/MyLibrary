@@ -57,12 +57,12 @@ class AccountViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mainView.accountView.play()
+        mainView.accountView.animationView.play()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        mainView.accountView.stop()
+        mainView.accountView.animationView.stop()
     }
     
     // MARK: - Setup
@@ -78,22 +78,22 @@ class AccountViewController: UIViewController {
     
     private func animateLoader() {
         mainView.activityIndicator.startAnimating()
-        mainView.accountView.play(speed: 2)
+        mainView.accountView.loadingSpeed(true)
     }
     
     private func stopAnimatingLoaders() {
         DispatchQueue.main.async {
             self.mainView.activityIndicator.stopAnimating()
-            self.mainView.accountView.play()
+            self.mainView.accountView.loadingSpeed(false)
         }
     }
     
     // MARK: - Api call
     private func getProfileData() {
-        animateLoader()
+        mainView.activityIndicator.startAnimating()
         self.userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
-            self.stopAnimatingLoaders()
+            self.mainView.activityIndicator.stopAnimating()
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
