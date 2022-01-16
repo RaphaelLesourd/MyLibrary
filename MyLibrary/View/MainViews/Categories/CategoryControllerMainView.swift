@@ -62,7 +62,7 @@ extension CategoryControllerMainView {
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50)
+            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

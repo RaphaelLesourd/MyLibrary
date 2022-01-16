@@ -1,5 +1,5 @@
 //
-//  NewBookDataPresenter.swift
+//  NewBookConfiguration.swift
 //  MyLibrary
 //
 //  Created by Birkyboy on 26/12/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewBookDataPresenter {
+class NewBookConfiguration {
     
     // MARK: - Properties
     private let imageRetriever: ImageRetriever
@@ -24,7 +24,7 @@ class NewBookDataPresenter {
     }
 }
 // MARK: - NewBook presenter protocol
-extension NewBookDataPresenter: NewBookPresenter {
+extension NewBookConfiguration: NewBookConfigure {
     
     func configure(_ view: NewBookControllerView, with book: Item) {
         view.bookTileCell.textField.text = book.volumeInfo?.title?.capitalized ?? ""

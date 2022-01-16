@@ -16,7 +16,7 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private let bookCardPresenter: BookCardPresenter?
+    private let bookCardPresenter: BookCardConfigure?
     private var book: Item
     private var recommanded = false {
         didSet {
@@ -36,7 +36,7 @@ class BookCardViewController: UIViewController {
         self.book = book
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.bookCardPresenter = BookCardDataPresenter(imageRetriever: KFImageRetriever(),
+        self.bookCardPresenter = BookCardConfiguration(imageRetriever: KFImageRetriever(),
                                                        formatter: Formatter(),
                                                        categoryService: CategoryService())
         super.init(nibName: nil, bundle: nil)

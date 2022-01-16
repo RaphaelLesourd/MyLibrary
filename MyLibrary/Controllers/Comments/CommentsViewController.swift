@@ -21,8 +21,8 @@ class CommentsViewController: UIViewController {
     private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
     private let messageService: MessageServiceProtocol
-    private let cellPresenter: CellPresenter?
-    private let commentCellPresenter: CommentCellPresenter?
+    private let cellPresenter: BookCellConfigure?
+    private let commentCellPresenter: CommentCellConfigure?
     
     private lazy var dataSource = makeDataSource()
     private var commentList: [CommentModel] = []
@@ -38,8 +38,8 @@ class CommentsViewController: UIViewController {
         self.commentService = commentService
         self.messageService = messageService
         self.validator = validator
-        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
-        self.commentCellPresenter = CommentCellDataPresenter(imageRetriever: KFImageRetriever(),
+        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
+        self.commentCellPresenter = CommentCellConfiguration(imageRetriever: KFImageRetriever(),
                                                              formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
@@ -322,12 +322,14 @@ extension CommentsViewController {
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         if !todayComments.isEmpty {
             snapshot.appendSections([.today])
+            dataSource.apply(snapshot, animatingDifferences: true)
             snapshot.appendItems(todayComments, toSection: .today)
         }
         
         let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
         if !pastComments.isEmpty {
             snapshot.appendSections([.past])
+            dataSource.apply(snapshot, animatingDifferences: true)
             snapshot.appendItems(pastComments, toSection: .past)
         }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

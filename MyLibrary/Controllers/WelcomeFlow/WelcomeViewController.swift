@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class WelcomeViewController: UIViewController {
     
@@ -21,15 +20,21 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.loginButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.presentAccountViewController(for: .login)
-        }), for: .touchUpInside)
-        mainView.signupButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.presentAccountViewController(for: .signup)
-        }), for: .touchUpInside)
+        mainView.delegate = self
     }
     
-    private func presentAccountViewController(for type: AccountInterfaceType) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let onboardingShown = UserDefaults.standard.bool(forKey: UserDefaultKey.onboardingSeen.rawValue)
+        guard onboardingShown == false else { return }
+        let onboardingViewController = OnboardingViewController(layoutComposer: OnboardingLayout())
+        onboardingViewController.modalPresentationStyle = .fullScreen
+        present(onboardingViewController, animated: false, completion: nil)
+    }
+}
+// MARK: - WelcomeMainViewDelegate
+extension WelcomeViewController: WelcomeViewDelegate {
+    func presentAccountViewController(for type: AccountInterfaceType) {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())

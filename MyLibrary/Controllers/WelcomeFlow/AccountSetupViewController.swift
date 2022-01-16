@@ -47,9 +47,8 @@ class AccountSetupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.configureUI(for: interfaceType)
+        mainView.configure(for: interfaceType)
         setDelegates()
-        setButtonTargets()
     }
     
     // MARK: - Setup
@@ -57,29 +56,9 @@ class AccountSetupViewController: UIViewController {
         mainView.emailTextField.delegate = self
         mainView.passwordTextField.delegate = self
         mainView.confirmPasswordTextField.delegate = self
+        mainView.delegate = self
     }
-
-    private func setButtonTargets() {
-        mainView.finishButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.finishedButtonTapped()
-        }), for: .touchUpInside)
-        mainView.forgotPasswordButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.resetPassWordRequest()
-        }), for: .touchUpInside)
-    }
-    
-    // MARK: - Targets
-    private func finishedButtonTapped() {
-        switch interfaceType {
-        case .login:
-            loginToAccount()
-        case .signup:
-            createAccount()
-        case .deleteAccount:
-            deleteAccount()
-        }
-    }
-    
+  
     // MARK: - Account
     private func loginToAccount() {
         let user = setUser()
@@ -112,15 +91,6 @@ class AccountSetupViewController: UIViewController {
         }
     }
     
-    private func resetPassWordRequest() {
-        AlertManager.presentAlert(title: Text.Alert.forgotPasswordTitle,
-                                  message: Text.Alert.forgotPasswordMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
-            self?.resetPassword()
-        }
-    }
-    
     private func resetPassword() {
         guard let email = mainView.emailTextField.text else {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyEmail)
@@ -135,7 +105,7 @@ class AccountSetupViewController: UIViewController {
         }
     }
     
-    func setUser() -> AccountCredentials {
+    private func setUser() -> AccountCredentials {
         return AccountCredentials(userName: mainView.userNameTextField.text ?? "",
                                   email: mainView.emailTextField.text ?? "",
                                   password: mainView.passwordTextField.text ?? "",
@@ -186,5 +156,27 @@ extension AccountSetupViewController: UITextFieldDelegate {
             textField.next?.becomeFirstResponder()
         }
         return true
+    }
+}
+// MARK: - AccountMainViewDelegate
+extension AccountSetupViewController: AccountCreationViewDelegate {
+    func finishedButtonTapped() {
+        switch interfaceType {
+        case .login:
+            loginToAccount()
+        case .signup:
+            createAccount()
+        case .deleteAccount:
+            deleteAccount()
+        }
+    }
+    
+    func resetPassWordRequest() {
+        AlertManager.presentAlert(title: Text.Alert.forgotPasswordTitle,
+                                  message: Text.Alert.forgotPasswordMessage,
+                                  cancel: true,
+                                  on: self) { [weak self] _ in
+            self?.resetPassword()
+        }
     }
 }

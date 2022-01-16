@@ -41,6 +41,9 @@
 "Edit" = "Editer";
 "Search" = "Rechercher";
 "Done" = "Terminé";
+"Next" = "Suivant";
+"Skip" = "Passer";
+"Close" = "Fermer";
 
 "LatestBooks" = "Derniers ajouts";
 "FavoriteBooks" = "Livres favoris";
@@ -205,3 +208,11 @@
 "EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
 "EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
 "EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";
+
+"referenceBookTitle" = "Référencez tous vos livres";
+"referenceBookSubtitle" = "Vos livres sont référencés\net\norganisés en un seul endroit.";
+"searchBookTitle" = "Recherchez des livres";
+"searchBookSubtitle" = "Cherchez en ligne pour obtenir des informations\nou\nscannez le code barre.";
+"shareBookTitle" = "Partagez votre opinion";
+"shareBookSubtitle" = "Recommendez vos livres\net\nouvrez la discussion avec d'autres.";
+"SearchHeaderTitle" = "Données par GoogleBooks";

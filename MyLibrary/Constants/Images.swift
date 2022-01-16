@@ -53,5 +53,12 @@ enum Images {
         static let done = UIImage(systemName: "hand.tap.fill")!
         static let chat = UIImage(systemName: "bubble.left.and.bubble.right.fill")!
         static let search = UIImage(systemName: "magnifyingglass")!
+        static let rightChevron = UIImage(systemName: "chevron.forward")!
+    }
+    
+    enum Onboarding {
+        static let referencing = UIImage(named: "screen1")!
+        static let searching = UIImage(named: "screen2")!
+        static let sharing = UIImage(named: "screen3")!
     }
 }

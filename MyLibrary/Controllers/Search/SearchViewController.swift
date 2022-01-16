@@ -7,26 +7,27 @@
 
 import UIKit
 
-class SearchViewController: CollectionViewController {
+class SearchViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
-   
+    
     weak var newBookDelegate: NewBookDelegate?
     var searchType: SearchType?
     var searchedBooks: [Item] = []
     var currentSearchKeywords = "" {
         didSet {
-            refreshBookList()
+            refreshData()
         }
     }
-   
+    private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let apiManager: ApiManagerProtocol
     private lazy var dataSource = createDataSource()
+    private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private var cellPresenter: CellPresenter?
+    private var cellPresenter: BookCellConfigure?
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
@@ -34,51 +35,55 @@ class SearchViewController: CollectionViewController {
          layoutComposer: BookListLayoutComposer) {
         self.apiManager = apiManager
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellPresenter(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Lifecycle
+    
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+        title = Text.ControllerTitle.search
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        mainView.delegate = self
+        configureEmptyStateView()
+        configureNavigationBar()
         configureCollectionView()
-        configureRefresherControl()
         applySnapshot(animatingDifferences: false)
     }
     
     // MARK: - Setup
-    private func configureUI() {
-        title = Text.ControllerTitle.search
-        emptyStateView.configure(title: Text.EmptyState.searchTitle,
-                                 subtitle: Text.EmptyState.searchSubtitle,
-                                 icon: Images.ButtonIcon.search,
-                                 hideButton: true)
-    }
     /// Set up the collectionView with diffable datasource and compositional layout.
     /// Layouts are contrustructed in the Layoutcomposer class.
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
-        let size: GridSize = device == .pad ? .large : .medium
+        let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .large : .medium
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
-        collectionView.collectionViewLayout = layout
-        collectionView.register(cell: BookCollectionViewCell.self)
-        collectionView.register(footer: LoadingFooterSupplementaryView.self)
-        collectionView.delegate = self
-        collectionView.dataSource = dataSource
+        mainView.collectionView.collectionViewLayout = layout
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = dataSource
+    }
+   
+    private func configureNavigationBar() {
+        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
-    private func configureRefresherControl() {
-        refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.refreshBookList()
-        }), for: .valueChanged)
+    private func configureEmptyStateView() {
+        mainView.emptyStateView.configure(title: Text.EmptyState.searchTitle,
+                                          subtitle: Text.EmptyState.searchSubtitle,
+                                          icon: Images.ButtonIcon.search,
+                                          hideButton: true)
     }
-    
     // MARK: - API call
     /// Api call to get book or list of books.
     /// - Parameters:
@@ -89,7 +94,7 @@ class SearchViewController: CollectionViewController {
         
         apiManager.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
             guard let self = self else { return }
-            self.refresherControl.endRefreshing()
+            self.mainView.refresherControl.endRefreshing()
             self.footerView.displayActivityIndicator(false)
             
             switch result {
@@ -124,12 +129,6 @@ class SearchViewController: CollectionViewController {
             }
         }
     }
-    
-    private func refreshBookList() {
-        searchedBooks.removeAll()
-        noMoreBooks = false
-        getBooks()
-    }
 }
 // MARK: - CollectionView Datasource
 extension SearchViewController {
@@ -137,7 +136,7 @@ extension SearchViewController {
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
     private func createDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: collectionView,
+        let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
             self?.cellPresenter?.setBookData(for: book) { bookData in
@@ -153,13 +152,22 @@ extension SearchViewController {
     /// - Parameter dataSource: datasource to add the footer
     private func configureFooter(_ dataSource: SearchViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
-            self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-            return self?.footerView
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                self?.headerView = collectionView.dequeue(kind: kind, for: indexPath)
+                self?.headerView.configure(with: Text.SectionTitle.searchHeader, buttonTitle: "")
+                return self?.headerView
+            case UICollectionView.elementKindSectionFooter:
+                self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.footerView
+            default:
+                return nil
+            }
         }
     }
     
     private func applySnapshot(animatingDifferences: Bool = true) {
-        emptyStateView.isHidden = !searchedBooks.isEmpty
+        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(searchedBooks, toSection: .main)
@@ -183,5 +191,17 @@ extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
         newBookDelegate?.newBook = searchBook
+    }
+}
+// MARK: - BookListView Delegate
+extension SearchViewController: BookListViewDelegate {
+    func emptyStateButtonTapped() {
+        
+    }
+    
+    func refreshData() {
+        searchedBooks.removeAll()
+        noMoreBooks = false
+        getBooks()
     }
 }

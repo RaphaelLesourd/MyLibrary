@@ -55,4 +55,5 @@ enum StorageKey: String {
 
 enum UserDefaultKey: String {
     case bookListMenuLayout
+    case onboardingSeen
 }

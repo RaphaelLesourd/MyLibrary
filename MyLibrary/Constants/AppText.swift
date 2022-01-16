@@ -79,6 +79,7 @@ enum Text {
         static let newBookRatingHeader = NSLocalizedString("NewBookRatingHeader", comment: "new Book Rating Header")
         static let newBookPriceHeader = NSLocalizedString("NewBookPriceHeader", comment: "new Book Price Header")
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
+        static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
     }
     
     enum ButtonTitle {
@@ -105,6 +106,9 @@ enum Text {
         static let done = NSLocalizedString("Done", comment: "done titletoday")
         static let letsGo = NSLocalizedString("Letsgo", comment: "go to a controller")
         static let deleteNewBookInfos = NSLocalizedString("DeleteNewBookInfos", comment: "delete new book info title")
+        static let next = NSLocalizedString("Next", comment: "Next title")
+        static let skip = NSLocalizedString("Skip", comment: "Skip title")
+        static let close = NSLocalizedString("Close", comment: "close title")
     }
     
     enum Placeholder {
@@ -215,5 +219,14 @@ enum Text {
         static let categorySubtitle = NSLocalizedString("EmptyStateCategorySubtitle", comment: "")
         static let commentTitle = NSLocalizedString("EmptyStateCommentTitle", comment: "")
         static let commentSubtitle = NSLocalizedString("EmptyStateCommentSubtitle", comment: "")
+    }
+    
+    enum Onboarding {
+        static let referenceBookTitle = NSLocalizedString("referenceBookTitle", comment: "")
+        static let referenceBookSubtitle = NSLocalizedString("referenceBookSubtitle", comment: "")
+        static let searchBookTitle = NSLocalizedString("searchBookTitle", comment: "")
+        static let searchBookSubtitle = NSLocalizedString("searchBookSubtitle", comment: "")
+        static let shareBookTitle = NSLocalizedString("shareBookTitle", comment: "")
+        static let shareBookSubtitle = NSLocalizedString("shareBookSubtitle", comment: "")
     }
 }

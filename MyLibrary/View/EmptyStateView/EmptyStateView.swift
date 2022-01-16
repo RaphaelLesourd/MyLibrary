@@ -28,9 +28,12 @@ class EmptyStateView: UIView {
                             imagePlacement: .leading,
                             tintColor: .appTintColor,
                             backgroundColor: .appTintColor)
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        let configuration = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium, scale: .small)
+        let configuration = UIImage.SymbolConfiguration(pointSize: 15,
+                                                        weight: .medium,
+                                                        scale: .small)
         imageView.image = Images.TabBarIcon.booksIcon
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .appTintColor
@@ -69,9 +72,6 @@ class EmptyStateView: UIView {
         stackView.setCustomSpacing(10, after: titleLabel)
         
         doneButton.buttonHeightAnchor.isActive = false
-        doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.didTapButton()
-        }), for: .touchUpInside)
     }
 }
 

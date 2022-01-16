@@ -39,7 +39,6 @@ class IpadSplitViewController: UISplitViewController {
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())
-        newBookViewController.title = Text.ControllerTitle.newBook
         setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
         setViewController(tabBarController, for: .compact)

@@ -29,7 +29,6 @@ class ColorCollectionViewCell: UICollectionViewCell {
     }()
     
     // MARK: - Configure
-    
     func configurePickerCell(with colorHex: String) {
         colorBadge.image = UIImage(systemName: "paintpalette.fill")
         configure(with: colorHex)
