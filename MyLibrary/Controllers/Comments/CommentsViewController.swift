@@ -322,12 +322,14 @@ extension CommentsViewController {
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         if !todayComments.isEmpty {
             snapshot.appendSections([.today])
+            dataSource.apply(snapshot, animatingDifferences: true)
             snapshot.appendItems(todayComments, toSection: .today)
         }
         
         let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
         if !pastComments.isEmpty {
             snapshot.appendSections([.past])
+            dataSource.apply(snapshot, animatingDifferences: true)
             snapshot.appendItems(pastComments, toSection: .past)
         }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
