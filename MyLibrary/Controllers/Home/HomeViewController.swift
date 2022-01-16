@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, BookDetail {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
@@ -249,7 +249,7 @@ extension HomeViewController: UICollectionViewDelegate {
             showBookList(for: categoryQuery, title: category.name)
         }
         if let book = selectedItem as? Item {
-            showBookDetails(for: book, searchType: nil)
+            showBookDetails(for: book, searchType: nil, controller: self)
         }
         if let followedUser = selectedItem as? UserModel {
             let query = BookQuery(listType: .users,
@@ -315,8 +315,12 @@ extension HomeViewController: BookListViewDelegate {
     }
 }
 
-extension UIViewController {
-    func showBookDetails(for book: Item, searchType: SearchType?) {
+protocol BookDetail {
+    func showBookDetails(for book: Item, searchType: SearchType?, controller: UIViewController)
+}
+
+extension BookDetail {
+    func showBookDetails(for book: Item, searchType: SearchType?, controller: UIViewController) {
         let bookCardVC = BookCardViewController(book: book,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService())
@@ -325,9 +329,9 @@ extension UIViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             let viewController = UINavigationController(rootViewController: bookCardVC)
-            present(viewController, animated: true)
+                controller.present(viewController, animated: true)
         } else {
-            navigationController?.show(bookCardVC, sender: nil)
+            controller.navigationController?.show(bookCardVC, sender: nil)
         }
     }
 }

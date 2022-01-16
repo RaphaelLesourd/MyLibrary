@@ -7,7 +7,7 @@
 
 import UIKit
 /// Class inherit from a common class CollectionViewController to set up a collectionView.
-class BookLibraryViewController: UIViewController {
+class BookLibraryViewController: UIViewController, BookDetail {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -170,7 +170,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        showBookDetails(for: selectedBook, searchType: nil)
+        showBookDetails(for: selectedBook, searchType: nil, controller: self)
     }
 }
 
