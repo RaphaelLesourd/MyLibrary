@@ -125,6 +125,7 @@
 		8183145227931D2F00351F88 /* NewBookPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183144E27931D2F00351F88 /* NewBookPickerDelegate.swift */; };
 		8183145327931D2F00351F88 /* NewBookPickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183144F27931D2F00351F88 /* NewBookPickerDataSource.swift */; };
 		8183145627931D5A00351F88 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183145527931D5900351F88 /* HomeViewController.swift */; };
+		818314762794B07800351F88 /* wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 818314752794B07800351F88 /* wave.json */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
@@ -360,6 +361,7 @@
 		8183144E27931D2F00351F88 /* NewBookPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookPickerDelegate.swift; sourceTree = "<group>"; };
 		8183144F27931D2F00351F88 /* NewBookPickerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookPickerDataSource.swift; sourceTree = "<group>"; };
 		8183145527931D5900351F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		818314752794B07800351F88 /* wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wave.json; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
@@ -1101,6 +1103,7 @@
 				81C6CC7C2724769C00DE9219 /* Assets.xcassets */,
 				819CD6E6275A54E7002A9B12 /* CommentsLottieAnimation.json */,
 				81451DCF276F44B200F3C0C8 /* scanner.json */,
+				818314752794B07800351F88 /* wave.json */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -1556,6 +1559,7 @@
 				8194D544276A154E0098E484 /* InfoPlist.strings in Resources */,
 				81C6CC7D2724769C00DE9219 /* Assets.xcassets in Resources */,
 				81451DD0276F44B200F3C0C8 /* scanner.json in Resources */,
+				818314762794B07800351F88 /* wave.json in Resources */,
 				819C5DC027247DA200F1F8F2 /* LaunchScreen.storyboard in Resources */,
 				8147516A2727D80E0080C5BA /* GoogleService-Info.plist in Resources */,
 				819CD6E7275A54E8002A9B12 /* CommentsLottieAnimation.json in Resources */,

@@ -55,6 +55,16 @@ class AccountViewController: UIViewController {
         getProfileData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainView.accountView.play()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        mainView.accountView.stop()
+    }
+    
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -66,17 +76,30 @@ class AccountViewController: UIViewController {
         mainView.delegate = self
     }
     
+    private func animateLoader() {
+        mainView.activityIndicator.startAnimating()
+        mainView.accountView.play(speed: 2)
+    }
+    
+    private func stopAnimatingLoaders() {
+        DispatchQueue.main.async {
+            self.mainView.activityIndicator.stopAnimating()
+            self.mainView.accountView.play()
+        }
+    }
+    
     // MARK: - Api call
     private func getProfileData() {
-        mainView.activityIndicator.startAnimating()
-        
-        userService.retrieveUser { [weak self] result in
+        animateLoader()
+        self.userService.retrieveUser { [weak self] result in
             guard let self = self else { return }
-            self.mainView.activityIndicator.stopAnimating()
+            self.stopAnimatingLoaders()
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                self.accountDataPresenter.configure(self.mainView, with: currentUser)
+                DispatchQueue.main.async {
+                    self.accountDataPresenter.configure(self.mainView, with: currentUser)
+                }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -84,11 +107,11 @@ class AccountViewController: UIViewController {
     }
     
     private func saveUserName() {
+        animateLoader()
         let username = mainView.accountView.userNameTextfield.text
-        mainView.activityIndicator.startAnimating()
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
-            self.mainView.activityIndicator.stopAnimating()
+            self.stopAnimatingLoaders()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -98,11 +121,10 @@ class AccountViewController: UIViewController {
     }
     
     private func saveProfileImage(_ image: UIImage) {
+        animateLoader()
         let profileImageData = image.jpegData(.medium)
-        mainView.activityIndicator.startAnimating()
-        
         imageService.updateUserImage(for: profileImageData) { [weak self] error in
-            self?.mainView.activityIndicator.stopAnimating()
+            self?.stopAnimatingLoaders()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -172,7 +194,9 @@ extension AccountViewController: AccountViewDelegate {
             let accountService = AccountService(userService: UserService(),
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
-            let controller = AccountSetupViewController(accountService: accountService, validator: Validator(), interfaceType: .deleteAccount)
+            let controller = AccountSetupViewController(accountService: accountService,
+                                                        validator: Validator(),
+                                                        interfaceType: .deleteAccount)
             self.present(controller, animated: true, completion: nil)
         }
     }
