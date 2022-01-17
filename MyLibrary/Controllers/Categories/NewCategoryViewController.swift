@@ -57,10 +57,14 @@ class NewCategoryViewController: UIViewController {
         mainView.collectionView.dataSource = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setEditedCategoryName()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mainView.setCollectionViewHeight()
-        setEditedCategoryName()
     }
 
     // MARK: - Setup
@@ -71,7 +75,9 @@ class NewCategoryViewController: UIViewController {
         if let color = category.color,
            let index = defaultColors.firstIndex(of: color) {
             let indexPath = IndexPath(item: index, section: 0)
-            mainView.collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            mainView.collectionView.selectItem(at: indexPath,
+                                               animated: false,
+                                               scrollPosition: .centeredVertically)
             chosenColor = color
         }
     }

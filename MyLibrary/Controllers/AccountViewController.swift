@@ -43,6 +43,7 @@ class AccountViewController: UIViewController {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.account
+        getProfileData()
     }
     
     override func viewDidLoad() {
@@ -53,7 +54,6 @@ class AccountViewController: UIViewController {
                                   permissions: PermissionManager())
         addNavigationBarButtons()
         setDelegates()
-        getProfileData()
     }
 
     // MARK: - Setup

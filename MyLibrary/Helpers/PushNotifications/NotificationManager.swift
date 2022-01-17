@@ -16,7 +16,8 @@ class NotificationManager: NSObject {
     private var libraryService: LibraryServiceProtocol
     
     // MARK: - Initializer
-    init(userService: UserServiceProtocol, libraryService: LibraryServiceProtocol) {
+    init(userService: UserServiceProtocol,
+         libraryService: LibraryServiceProtocol) {
         self.userService = userService
         self.libraryService = libraryService
         super.init()
@@ -50,29 +51,30 @@ class NotificationManager: NSObject {
     }
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     private func presentCommentController(with book: Item) {
-        let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         let commentController = CommentsViewController(book: book,
                                                        commentService: CommentService(),
                                                        messageService: MessageService(),
                                                        validator: Validator())
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
-            rootViewController?.dismiss(animated: true, completion: nil)
-            rootViewController?.present(commentController, animated: true, completion: nil)
-        } else {
-            let rootViewController = scene?.window?.rootViewController as? TabBarController
-            let navController = rootViewController?.selectedViewController as? UINavigationController
+        
+        let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
+        
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            let tabBar = rootViewController?.viewController(for: .compact) as? TabBarController
+            let navController = tabBar?.selectedViewController as? UINavigationController
             if let currentController = navController?.viewControllers.last,
                !currentController.isKind(of: CommentsViewController.self) {
                 navController?.show(commentController, sender: nil)
             }
+            return
         }
+        rootViewController?.dismiss(animated: true, completion: nil)
+        rootViewController?.present(commentController, animated: true, completion: nil)
     }
 }
 
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
-   
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         updateToken()
     }
@@ -80,12 +82,11 @@ extension NotificationManager: MessagingDelegate {
 
 // MARK: - NotificationCenter Delegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
-    
+   
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         didReceive(response.notification)
-
         completionHandler()
     }
     

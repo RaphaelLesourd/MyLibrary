@@ -63,6 +63,7 @@ class CommentsViewController: UIViewController {
         setDelegates()
         setTargets()
         addNavigationBarButtons()
+        applySnapshot(animatingDifferences: false)
         getComments()
     }
     
@@ -267,7 +268,8 @@ extension CommentsViewController {
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
+        let dataSource = DataSource(tableView: mainView.tableView,
+                                    cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
@@ -317,21 +319,14 @@ extension CommentsViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.book])
         snapshot.appendItems([book], toSection: .book)
-        dataSource.apply(snapshot, animatingDifferences: false)
         
         let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
-        if !todayComments.isEmpty {
-            snapshot.appendSections([.today])
-            dataSource.apply(snapshot, animatingDifferences: true)
-            snapshot.appendItems(todayComments, toSection: .today)
-        }
+        snapshot.appendSections([.today])
+        snapshot.appendItems(todayComments, toSection: .today)
         
         let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
-        if !pastComments.isEmpty {
-            snapshot.appendSections([.past])
-            dataSource.apply(snapshot, animatingDifferences: true)
-            snapshot.appendItems(pastComments, toSection: .past)
-        }
+        snapshot.appendSections([.past])
+        snapshot.appendItems(pastComments, toSection: .past)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

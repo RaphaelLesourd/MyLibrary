@@ -63,6 +63,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
         configureCollectionView()
         configureNavigationBarButton()
         configureEmptyStateView()
+        applySnapshot(animatingDifferences: false)
         refreshData()
     }
     
@@ -212,11 +213,9 @@ extension BookLibraryViewController {
         mainView.emptyStateView.isHidden = !bookList.isEmpty
         
         var snapshot = Snapshot()
-        if !bookList.isEmpty {
-            snapshot.appendSections([.main])
-            snapshot.appendItems(bookList, toSection: .main)
-            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        }
+        snapshot.appendSections([.main])
+        snapshot.appendItems(bookList, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - BookListLayout Delegate

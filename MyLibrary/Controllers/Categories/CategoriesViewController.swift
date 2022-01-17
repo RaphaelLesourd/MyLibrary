@@ -42,6 +42,7 @@ class CategoriesViewController: UIViewController {
         mainView.emptyStateView.delegate = self
         configureTableView()
         addNavigationBarButtons()
+        applySnapshot(animatingDifferences: false)
         getCategoryList()
         highlightBookCategories()
     }
@@ -156,13 +157,12 @@ extension CategoriesViewController {
     private func applySnapshot(animatingDifferences: Bool = true) {
         mainView.tableView.isHidden = categoryService.categories.isEmpty
         mainView.emptyStateView.isHidden = !categoryService.categories.isEmpty
+      
         var snapshot = Snapshot()
-        if !categoryService.categories.isEmpty {
-            snapshot.appendSections([.main])
-            dataSource.apply(snapshot, animatingDifferences: false)
-            snapshot.appendItems(categoryService.categories, toSection: .main)
-        }
+        snapshot.appendSections([.main])
+        snapshot.appendItems(categoryService.categories, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+       
         highlightBookCategories()
     }
 }
