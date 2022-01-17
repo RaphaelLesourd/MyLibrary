@@ -35,30 +35,18 @@ class AccountService {
     private func passwordMatch(with userCredentials: AccountCredentials) -> Bool {
         return userCredentials.password == userCredentials.confirmPassword
     }
-    
-    private func saveUser(for newUser: UserModel,
-                          completion: @escaping (FirebaseError?) -> Void) {
-        userService.createUserInDatabase(for: newUser) { error in
-            if let error = error {
-                completion(.firebaseError(error))
-                return
-            }
-            completion(nil)
-        }
-    }
-    
+  
     private func removeFirestoreListeners() {
         libraryService.removeBookListener()
         categoryService.removeListener()
         userService.updateFcmToken(with: "")
     }
 }
-// MARK: - Extension AccountServiceProtocol
+// MARK: - AccountServiceProtocol
 extension AccountService: AccountServiceProtocol {
     
     // MARK: Create
-    func createAccount(for userCredentials: AccountCredentials?,
-                       completion: @escaping CompletionHandler) {
+    func createAccount(for userCredentials: AccountCredentials?, completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return
@@ -80,17 +68,13 @@ extension AccountService: AccountServiceProtocol {
                                     email: user.email ?? "",
                                     photoURL: "",
                                     token: self.fcmToken ?? "")
-            self.saveUser(for: newUser) { error in
-                if let error = error {
-                    completion(.firebaseAuthError(error))
-                    return
-                }
-                completion(nil)
+            self.userService.createUserInDatabase(for: newUser) { error in
+               completion(error)
             }
         }
     }
     
-    // MARK: Delete Account flow
+    // MARK: Delete
     func deleteAccount(with userCredentials: AccountCredentials?,
                        completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
@@ -157,8 +141,7 @@ extension AccountService: AccountServiceProtocol {
     }
     
     // MARK: Forgot password
-    func sendPasswordReset(for email: String,
-                           completion: @escaping CompletionHandler) {
+    func sendPasswordReset(for email: String, completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
             completion(.noNetwork)
             return

@@ -52,9 +52,9 @@ class ImageStorageService {
 // MARK: - Extension ImageStorageProtocol
 extension ImageStorageService: ImageStorageProtocol {
     
-    func storeBookCoverImage(for imageData: Data?,
-                             nameID: String,
-                             completion: @escaping (Result<String, FirebaseError>) -> Void) {
+    func saveImage(for imageData: Data?,
+                   nameID: String,
+                   completion: @escaping (Result<String, FirebaseError>) -> Void) {
         addImageToStorage(for: imageData, id: nameID) { result in
             switch result {
             case .success(let imageStringURL):

@@ -6,8 +6,14 @@
 //
 
 protocol AccountViewDelegate: AnyObject {
-    func presentImagePicker()
     func signoutRequest()
     func deleteAccount()
+}
+
+protocol ProfileViewDelegate: AnyObject {
+    func presentImagePicker()
+}
+
+protocol ContactViewDelegate: AnyObject {
     func presentMailComposer()
 }

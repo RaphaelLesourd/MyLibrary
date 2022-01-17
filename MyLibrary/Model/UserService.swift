@@ -23,15 +23,11 @@ class UserService {
         userID = Auth.auth().currentUser?.uid ?? ""
     }
     
-    private func updateAuthDisplayName(with name: String, completion: @escaping (FirebaseError?) -> Void) {
+    private func updateAuthDisplayName(with name: String, completion: @escaping (Error?) -> Void) {
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
         changeRequest?.displayName = name
         changeRequest?.commitChanges { (error) in
-            if let error = error {
-                completion(.firebaseError(error))
-                return
-            }
-            completion(nil)
+            completion(error)
         }
     }
 }
@@ -39,8 +35,7 @@ class UserService {
 extension UserService: UserServiceProtocol {
 
     // MARK: Create
-    func createUserInDatabase(for currentUser: UserModel?,
-                              completion: @escaping CompletionHandler) {
+    func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
         let userRef = usersCollectionRef.document(currentUser.userID)

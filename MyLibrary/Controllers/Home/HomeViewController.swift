@@ -72,9 +72,9 @@ class HomeViewController: UIViewController, BookDetail {
     private func addNavigationBarButtons() {
         guard let controller = splitViewController, !controller.isCollapsed else { return }
         let accountButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(showAccountController))
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showAccountController))
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactorButton]
     }
@@ -329,7 +329,7 @@ extension BookDetail {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             let viewController = UINavigationController(rootViewController: bookCardVC)
-                controller.present(viewController, animated: true)
+            controller.present(viewController, animated: true)
         } else {
             controller.navigationController?.show(bookCardVC, sender: nil)
         }

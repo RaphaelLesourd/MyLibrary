@@ -21,11 +21,11 @@ class AccountTabConfiguration {
 extension AccountTabConfiguration: AccountTabConfigure {
     
     func configure(_ view: AccountTabMainView, with user: UserModel) {
-        view.accountView.emailLabel.text = user.email
-        view.accountView.userNameTextfield.text = user.displayName
+        view.profileView.emailLabel.text = user.email
+        view.profileView.userNameTextfield.text = user.displayName
       
         imageRetriever.getImage(for: user.photoURL) { image in
-            view.accountView.profileImageButton.setImage(image, for: .normal)
+            view.profileView.profileImageButton.setImage(image, for: .normal)
         }
     }
 }

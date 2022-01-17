@@ -126,6 +126,7 @@
 		8183145327931D2F00351F88 /* NewBookPickerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183144F27931D2F00351F88 /* NewBookPickerDataSource.swift */; };
 		8183145627931D5A00351F88 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183145527931D5900351F88 /* HomeViewController.swift */; };
 		818314762794B07800351F88 /* wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 818314752794B07800351F88 /* wave.json */; };
+		818314812795D09800351F88 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818314802795D09800351F88 /* ProfileView.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
@@ -361,6 +362,7 @@
 		8183144F27931D2F00351F88 /* NewBookPickerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookPickerDataSource.swift; sourceTree = "<group>"; };
 		8183145527931D5900351F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		818314752794B07800351F88 /* wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wave.json; sourceTree = "<group>"; };
+		818314802795D09800351F88 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
@@ -661,6 +663,7 @@
 			isa = PBXGroup;
 			children = (
 				8157F510277F448E005F182A /* AccountView.swift */,
+				818314802795D09800351F88 /* ProfileView.swift */,
 				8157F50E277F4260005F182A /* ContactView.swift */,
 			);
 			path = SubViews;
@@ -930,8 +933,8 @@
 		81A6725C27908C5D00298394 /* AccountCreation */ = {
 			isa = PBXGroup;
 			children = (
-				81A6725D27908CA000298394 /* AccountMainView.swift */,
 				81A6725827908C5000298394 /* AccountMainViewDelegate.swift */,
+				81A6725D27908CA000298394 /* AccountMainView.swift */,
 			);
 			name = AccountCreation;
 			sourceTree = "<group>";
@@ -1770,6 +1773,7 @@
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				8188525527785CD8002813A1 /* BookCellConfiguration.swift in Sources */,
 				81A750A62790124500CAC424 /* OnboardingLayout.swift in Sources */,
+				818314812795D09800351F88 /* ProfileView.swift in Sources */,
 				8121F0B9273E6A9A006EAA8D /* BookCoverViewController.swift in Sources */,
 				818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */,
 				81FA723C27745B2F00040BEF /* PermissionManager.swift in Sources */,

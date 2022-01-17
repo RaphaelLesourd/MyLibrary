@@ -52,7 +52,7 @@ class LibraryService {
     private func saveImage(imageData: Data,
                            bookID: String,
                            completion: @escaping (String?) -> Void) {
-        imageService.storeBookCoverImage(for: imageData, nameID: bookID) { result in
+        imageService.saveImage(for: imageData, nameID: bookID) { result in
             switch result {
             case .success(let imageLink):
                 completion(imageLink)
@@ -64,15 +64,11 @@ class LibraryService {
     // MARK: Delete
     private func deleteDocument(with id: String,
                                 collection: CollectionDocumentKey,
-                                completion: @escaping CompletionHandler) {
+                                completion: @escaping (Error?) -> Void) {
         let baseRef = createBaseRef()
         guard let docRef = baseRef?.collection(collection.rawValue).document(id) else { return }
         docRef.delete { error in
-            if let error = error {
-                completion(.firebaseError(error))
-                return
-            }
-            completion(nil)
+            completion(error)
         }
     }
     // MARK: Update

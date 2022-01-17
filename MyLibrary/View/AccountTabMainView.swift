@@ -9,15 +9,11 @@ import UIKit
 
 class AccountTabMainView: UIView {
    
-    weak var delegate: AccountViewDelegate?
-    
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setScrollViewConstraints()
         setStackViewConstraints()
-        addButtonActions()
-        displayAppInfos()
         setupView()
     }
     
@@ -26,7 +22,7 @@ class AccountTabMainView: UIView {
     }
     
     // MARK: - Subviews
-    let accountView = AccountView()
+    let profileView = ProfileView()
     let contactView = ContactView()
     let newBookView = AppLogoView()
     
@@ -55,31 +51,12 @@ class AccountTabMainView: UIView {
     private func setupView() {
         let device = UIDevice.current.userInterfaceIdiom
         newBookView.isHidden = device != .pad
-        stackView.addArrangedSubview(accountView)
+        stackView.addArrangedSubview(profileView)
         stackView.addArrangedSubview(contactView)
         stackView.addArrangedSubview(newBookView)
         stackView.setCustomSpacing(40, after: contactView)
     }
-    
-    private func displayAppInfos() {
-        contactView.versionLabel.text = Text.Misc.appVersion + UIApplication.version
-        contactView.copyrightLabel.text = "© Birkyboy 2021"
-     }
-   
-    private func addButtonActions() {
-        accountView.profileImageButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.presentImagePicker()
-        }), for: .touchUpInside)
-        accountView.signoutButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.signoutRequest()
-        }), for: .touchUpInside)
-        accountView.deleteButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.deleteAccount()
-        }), for: .touchUpInside)
-        contactView.contactButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.presentMailComposer()
-        }), for: .touchUpInside)
-    }
+  
 }
 // MARK: - Constraints
 extension AccountTabMainView {

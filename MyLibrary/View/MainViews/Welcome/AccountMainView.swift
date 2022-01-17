@@ -51,14 +51,14 @@ class AccountMainView: UIView {
                                       keyBoardType: .default,
                                       returnKey: .next,
                                       correction: .no,
-                                      capitalization: .none)
+                                      capitalization: .sentences)
     let emailTextField = TextField(placeholder: Text.Account.email,
                                    keyBoardType: .emailAddress,
                                    returnKey: .next,
                                    correction: .no,
                                    capitalization: .none)
     let passwordTextField = TextField(placeholder: Text.Account.password,
-                                      keyBoardType: .default,
+                                      keyBoardType: .asciiCapableNumberPad,
                                       returnKey: .done,
                                       correction: .no,
                                       capitalization: .none)

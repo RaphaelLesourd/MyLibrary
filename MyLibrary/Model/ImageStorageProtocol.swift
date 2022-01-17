@@ -7,7 +7,7 @@
 import Foundation
 
 protocol ImageStorageProtocol {
-    func storeBookCoverImage(for imageData: Data?, nameID: String, completion: @escaping (Result<String, FirebaseError>) -> Void)
+    func saveImage(for imageData: Data?, nameID: String, completion: @escaping (Result<String, FirebaseError>) -> Void)
     func updateUserImage(for imageData: Data?, completion: @escaping (FirebaseError?) -> Void)
     func deleteImageFromStorage(for id: String, completion: @escaping (FirebaseError?) -> Void)
 }

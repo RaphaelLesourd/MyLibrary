@@ -39,6 +39,7 @@ extension WelcomeViewController: WelcomeViewDelegate {
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
         let accountSetupController = AccountSetupViewController(accountService: accountService,
+                                                                imageService: ImageStorageService(),
                                                                 validator: Validator(),
                                                                 interfaceType: type)
         if #available(iOS 15.0, *) {

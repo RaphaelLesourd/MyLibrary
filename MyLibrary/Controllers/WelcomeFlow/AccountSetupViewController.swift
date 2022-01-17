@@ -13,14 +13,18 @@ class AccountSetupViewController: UIViewController {
     // MARK: - Properties
     private let mainView = AccountMainView()
     private let accountService: AccountServiceProtocol
+    private let imageService: ImageStorageProtocol
     private let validator: ValidatorProtocol
     private let interfaceType: AccountInterfaceType
+    private var profileImage: UIImage?
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
+         imageService: ImageStorageProtocol,
          validator: ValidatorProtocol,
          interfaceType: AccountInterfaceType) {
         self.accountService = accountService
+        self.imageService = imageService
         self.validator = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)

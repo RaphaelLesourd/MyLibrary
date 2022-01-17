@@ -47,6 +47,7 @@ class AccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.profileView.animationView.play()
         imagePicker = ImagePicker(presentationController: self,
                                   delegate: self,
                                   permissions: PermissionManager())
@@ -54,17 +55,7 @@ class AccountViewController: UIViewController {
         setDelegates()
         getProfileData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        mainView.accountView.animationView.play()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        mainView.accountView.animationView.stop()
-    }
-    
+
     // MARK: - Setup
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
@@ -72,19 +63,21 @@ class AccountViewController: UIViewController {
     }
     
     private func setDelegates() {
-        mainView.accountView.userNameTextfield.delegate = self
-        mainView.delegate = self
+        mainView.profileView.userNameTextfield.delegate = self
+        mainView.profileView.delegate = self
+        mainView.profileView.accountView.delegate = self
+        mainView.contactView.delegate = self
     }
     
     private func animateLoader() {
         mainView.activityIndicator.startAnimating()
-        mainView.accountView.loadingSpeed(true)
+        mainView.profileView.loadingSpeed(true)
     }
     
     private func stopAnimatingLoaders() {
         DispatchQueue.main.async {
             self.mainView.activityIndicator.stopAnimating()
-            self.mainView.accountView.loadingSpeed(false)
+            self.mainView.profileView.loadingSpeed(false)
         }
     }
     
@@ -108,7 +101,7 @@ class AccountViewController: UIViewController {
     
     private func saveUserName() {
         animateLoader()
-        let username = mainView.accountView.userNameTextfield.text
+        let username = mainView.profileView.userNameTextfield.text
         userService.updateUserName(with: username) { [weak self] error in
             guard let self = self else { return }
             self.stopAnimatingLoaders()
@@ -136,11 +129,11 @@ class AccountViewController: UIViewController {
     private func signoutAccount() {
         let userDisplayName = Auth.auth().currentUser?.displayName ?? ""
         showIndicator(mainView.activityIndicator)
-        mainView.accountView.signoutButton.displayActivityIndicator(true)
+        mainView.profileView.accountView.signoutButton.displayActivityIndicator(true)
         
         accountService.signOut { [weak self] error in
             guard let self = self else { return }
-            self.mainView.accountView.signoutButton.displayActivityIndicator(false)
+            self.mainView.profileView.accountView.signoutButton.displayActivityIndicator(false)
             self.hideIndicator(self.mainView.activityIndicator)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
@@ -156,7 +149,7 @@ extension AccountViewController: ImagePickerDelegate {
     /// User the image return from the ImagePicker to set the profile image.
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
-        mainView.accountView.profileImageButton.setImage(image, for: .normal)
+        mainView.profileView.profileImageButton.setImage(image, for: .normal)
         saveProfileImage(image)
     }
 }
@@ -164,22 +157,21 @@ extension AccountViewController: ImagePickerDelegate {
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == mainView.accountView.userNameTextfield {
+        if textField == mainView.profileView.userNameTextfield {
             saveUserName()
         }
         textField.resignFirstResponder()
         return true
     }
 }
-// MARK: - Extension SettingViewProtocol
-
-/// Accessible functions for the view thru delegate protocol
-extension AccountViewController: AccountViewDelegate {
-    
+// MARK: - ProfileView Delegate
+extension AccountViewController: ProfileViewDelegate {
     func presentImagePicker() {
-        self.imagePicker?.present(from: mainView.accountView.profileImageButton)
+        self.imagePicker?.present(from: mainView.profileView.profileImageButton)
     }
-    
+}
+// MARK: - AccountView Delegate
+extension AccountViewController: AccountViewDelegate {
     func signoutRequest() {
         AlertManager.presentAlert(title: Text.Alert.signout, message: "", cancel: true, on: self) { _ in
             self.signoutAccount()
@@ -195,12 +187,15 @@ extension AccountViewController: AccountViewDelegate {
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
             let controller = AccountSetupViewController(accountService: accountService,
+                                                        imageService: ImageStorageService(),
                                                         validator: Validator(),
                                                         interfaceType: .deleteAccount)
             self.present(controller, animated: true, completion: nil)
         }
     }
-    
+}
+// MARK: - ContactView Delegate
+extension AccountViewController: ContactViewDelegate {
     func presentMailComposer() {
         feedbackManager?.presentMail(on: self)
     }
