@@ -50,7 +50,7 @@ class BookListView: UIView {
         return refresherControl
     }()
     
-    // MARK: - Setup
+    // MARK: - Configure
     private func configureCollectionView() {
         collectionView.refreshControl = refresherControl
     }

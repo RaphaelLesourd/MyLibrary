@@ -13,19 +13,9 @@ class BarcodeControllerView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        titleStackView.addArrangedSubview(titleLabel)
-        titleStackView.addArrangedSubview(infoLabel)
-        
-        headerStackView.addArrangedSubview(titleStackView)
-        headerStackView.addArrangedSubview(flashLightButton)
-        
-        stackView.addArrangedSubview(headerStackView)
-        stackView.addArrangedSubview(videoPreviewContainerView)
-        
+        setupView()
         setStackViewConstraints()
         setAnimationViewConstraints()
-        configureView()
-        toggleButton(onState: false)
     }
     
     required init?(coder: NSCoder) {
@@ -76,7 +66,16 @@ class BarcodeControllerView: UIView {
         flashLightButton.tintColor = onState ? .systemOrange : .label
     }
     
-    private func configureView() {
+    private func setupView() {
+        titleStackView.addArrangedSubview(titleLabel)
+        titleStackView.addArrangedSubview(infoLabel)
+        
+        headerStackView.addArrangedSubview(titleStackView)
+        headerStackView.addArrangedSubview(flashLightButton)
+        
+        stackView.addArrangedSubview(headerStackView)
+        stackView.addArrangedSubview(videoPreviewContainerView)
+        toggleButton(onState: false)
         titleLabel.text = Text.ControllerTitle.barcodeController
         infoLabel.text = Text.ControllerTitle.barcodeControllerSubitle
     }

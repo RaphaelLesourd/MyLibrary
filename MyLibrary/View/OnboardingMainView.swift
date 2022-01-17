@@ -15,7 +15,7 @@ class OnboardingMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
-        setButtonsAction()
+        addButtonsAction()
         setBackGroundImageConstraints()
         setConstraints()
     }
@@ -83,7 +83,7 @@ class OnboardingMainView: UIView {
         stackView.addArrangedSubview(nextButton)
     }
     
-    private func setButtonsAction() {
+    private func addButtonsAction() {
         skipButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.skip()
         }), for: .touchUpInside)

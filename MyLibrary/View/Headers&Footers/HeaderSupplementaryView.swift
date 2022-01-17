@@ -12,10 +12,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(moreButton)
-        
+        setupView()
         setStackViewConstrainsts()
     }
     
@@ -40,6 +37,12 @@ class HeaderSupplementaryView: UICollectionReusableView {
     func configure(with title: String, buttonTitle: String) {
         titleLabel.text = title
         moreButton.setTitle(buttonTitle, for: .normal)
+    }
+    
+    private func setupView() {
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(moreButton)
     }
 }
 // MARK: - Constraints

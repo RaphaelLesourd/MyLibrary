@@ -12,7 +12,7 @@ class NewBookControllerView {
     weak var delegate: NewBookViewDelegate?
    
     init() {
-        setButtonActions()
+        addButtonActions()
     }
     
     // MARK: - Subviews
@@ -69,7 +69,7 @@ class NewBookControllerView {
         ]
     }
     
-    private func setButtonActions() {
+    private func addButtonActions() {
         saveButtonCell.actionButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.saveBook()
         }), for: .touchUpInside)

@@ -14,17 +14,7 @@ class CommentTableViewCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .tertiarySystemBackground
-        
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
-        commentLabel.lineBreakMode = .byWordWrapping
-        stackView.addArrangedSubview(userNameLabel)
-        stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(commentLabel)
-        stackView.setCustomSpacing(2, after: userNameLabel)
-        
+        setupView()
         setProfileImageConstraints()
         setMainStackViewConstraints()
     }
@@ -57,6 +47,20 @@ class CommentTableViewCell: UITableViewCell {
                               font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
+    
+    // MARK: - Configuration
+    private func setupView() {
+        self.contentView.backgroundColor = .tertiarySystemBackground
+        
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        commentLabel.lineBreakMode = .byWordWrapping
+        stackView.addArrangedSubview(userNameLabel)
+        stackView.addArrangedSubview(dateLabel)
+        stackView.addArrangedSubview(commentLabel)
+        stackView.setCustomSpacing(2, after: userNameLabel)
+    }
     
     override func prepareForReuse() {
         profileImageView.image = Images.emptyStateBookImage

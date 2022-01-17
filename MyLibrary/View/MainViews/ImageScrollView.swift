@@ -20,7 +20,7 @@ final class ImageScrollView: UIScrollView {
     init() {
         super.init(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        addSubview(imageView)
+        self.addSubview(imageView)
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageViewLeadingConstraint = imageView.leadingAnchor.constraint(equalTo: leadingAnchor)
@@ -33,14 +33,14 @@ final class ImageScrollView: UIScrollView {
                                      imageViewTopConstraint,
                                      imageViewBottomConstraint])
         
-        minimumZoomScale = 0.5
-        maximumZoomScale = 5
-        contentInsetAdjustmentBehavior = .never
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
-        alwaysBounceHorizontal = true
-        alwaysBounceVertical = true
-        delegate = self
+        self.minimumZoomScale = 0.5
+        self.maximumZoomScale = 5
+        self.contentInsetAdjustmentBehavior = .never
+        self.showsVerticalScrollIndicator = false
+        self.showsHorizontalScrollIndicator = false
+        self.alwaysBounceHorizontal = true
+        self.alwaysBounceVertical = true
+        self.delegate = self
         
         addDoubleTap()
     }

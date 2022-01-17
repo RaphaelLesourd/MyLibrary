@@ -44,7 +44,7 @@ class DescriptionMainView: UIView {
     private let stackView = StackView(axis: .vertical,
                                       spacing: 20)
     
-    // MARK: - Target
+    // MARK: - Configure
     private func addButtonAction() {
         doneButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.saveDescription()

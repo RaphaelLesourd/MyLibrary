@@ -58,7 +58,6 @@ class BookListMenu {
                                 image: nil,
                                 handler: { [weak self] (_) in
                 self?.delegate?.orderList(by: query)
-
             })
             items.append(item)
         })

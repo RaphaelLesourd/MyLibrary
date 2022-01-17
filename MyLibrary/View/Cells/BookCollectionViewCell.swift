@@ -34,8 +34,9 @@ class BookCollectionViewCell: UICollectionViewCell {
 // MARK: - Constraints
 extension BookCollectionViewCell {
     private func setConstraints() {
-        bookCover.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bookCover)
+        
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

@@ -14,15 +14,11 @@ class AccountTabMainView: UIView {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(accountView)
-        stackView.addArrangedSubview(contactView)
-        stackView.addArrangedSubview(newBookView)
-        stackView.setCustomSpacing(40, after: contactView)
         setScrollViewConstraints()
         setStackViewConstraints()
         addButtonActions()
         displayAppInfos()
-        configureUI()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -56,9 +52,13 @@ class AccountTabMainView: UIView {
                                       spacing: 20)
     
     // MARK: - configuration
-    private func configureUI() {
+    private func setupView() {
         let device = UIDevice.current.userInterfaceIdiom
         newBookView.isHidden = device != .pad
+        stackView.addArrangedSubview(accountView)
+        stackView.addArrangedSubview(contactView)
+        stackView.addArrangedSubview(newBookView)
+        stackView.setCustomSpacing(40, after: contactView)
     }
     
     private func displayAppInfos() {
@@ -66,7 +66,6 @@ class AccountTabMainView: UIView {
         contactView.copyrightLabel.text = "© Birkyboy 2021"
      }
    
-    // MARK: - Targets
     private func addButtonActions() {
         accountView.profileImageButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.presentImagePicker()

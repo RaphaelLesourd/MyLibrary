@@ -261,7 +261,9 @@ extension NewBookViewController: UISearchBarDelegate {
 extension NewBookViewController: ImagePickerDelegate {
     /// Users the image returned from the ImagePickerViewController and assign it the BookImageCell as the book cover image.
     func didSelect(image: UIImage?) {
-        newBookView.bookImageCell.pictureView.image = image?.resizeImage()
+        DispatchQueue.main.async {
+            self.newBookView.bookImageCell.pictureView.image = image?.resizeImage()
+        }
     }
 }
 

@@ -23,6 +23,7 @@ enum Images {
     }
     
     enum LayoutMenu {
+        static let gridExtraLargeLayout = UIImage(systemName: "square.fill")!
         static let gridLargeLayout = UIImage(systemName: "square.grid.2x2.fill")!
         static let gridMediumLayout = UIImage(systemName: "square.grid.3x2.fill")!
         static let gridSmallLayout = UIImage(systemName: "square.grid.3x3.fill")!

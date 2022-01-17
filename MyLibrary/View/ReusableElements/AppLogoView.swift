@@ -29,6 +29,7 @@ class AppLogoView: UIView {
         view.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return view
     }()
+    
     private let stackView = StackView(axis: .vertical,
                                       spacing: 20)
 }

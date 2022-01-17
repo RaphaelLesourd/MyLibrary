@@ -137,6 +137,7 @@
 "Today" = "Today";
 "PastComments" = "Past comments";
 "BookListMenuTitle" = "List";
+"XLarge" = "Extra large";
 "Large" = "Large";
 "Medium" = "Medium";
 "Small" = "Small";
@@ -215,3 +216,4 @@
 "shareBookTitle" = "Share your opinion";
 "shareBookSubtitle" = "Recommend your books\nand\nopen the discussion with others.";
 "SearchHeaderTitle" = "Powered by GoogleBooks";
+"UpdateUserNameLegend" = "Update your username by pressing Done";

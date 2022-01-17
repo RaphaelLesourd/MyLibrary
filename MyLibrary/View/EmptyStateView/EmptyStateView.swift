@@ -61,10 +61,13 @@ class EmptyStateView: UIView {
         subTitleLabel.text = subtitle
         imageView.image = icon
         doneButton.isHidden = hideButton
+        doneButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.didTapButton()
+        }), for: .touchUpInside)
     }
     
     private func setupView() {
-        roundView(radius: 12, backgroundColor: .cellBackgroundColor)
+        roundView(radius: 12, backgroundColor: .systemGray5)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subTitleLabel)

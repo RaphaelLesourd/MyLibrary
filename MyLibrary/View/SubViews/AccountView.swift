@@ -57,14 +57,18 @@ class AccountView: UIView {
     }()
     
     let emailLabel = TextLabel(color: .label,
-                               maxLines: 1,
+                               maxLines: 2,
                                alignment: .center,
-                               font: .subtitle)
+                               font: .sectionTitle)
     let userNameTextfield = TextField(placeholder: Text.Account.userName,
                                       keyBoardType: .default,
                                       returnKey: .done,
                                       correction: .no,
                                       capitalization: .none)
+    let legendLabel = TextLabel(color: .secondaryLabel,
+                                maxLines: 2,
+                                alignment: .center,
+                                font: .footerLabel)
     let signoutButton = Button(title: Text.ButtonTitle.signOut,
                                imagePlacement: .leading,
                                tintColor: .systemPurple,
@@ -80,19 +84,22 @@ class AccountView: UIView {
     private func setupView() {
         roundView(radius: 15, backgroundColor: .cellBackgroundColor)
         userNameTextfield.clearButtonMode = .always
+        legendLabel.text = Text.SectionTitle.updateUserNameLegend
         
         stackView.addArrangedSubview(profileImageContainerView)
         stackView.addArrangedSubview(emailLabel)
         stackView.addArrangedSubview(userNameTextfield)
+        stackView.addArrangedSubview(legendLabel)
         stackView.addArrangedSubview(signoutButton)
         stackView.addArrangedSubview(deleteButton)
         stackView.setCustomSpacing(40, after: profileImageContainerView)
-        stackView.setCustomSpacing(60, after: userNameTextfield)
+        stackView.setCustomSpacing(5, after: userNameTextfield)
+        stackView.setCustomSpacing(60, after: legendLabel)
     }
   
     func loadingSpeed(_ loading: Bool) {
         guard loading else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.animationView.animationSpeed = 0.5
             }
             return
@@ -105,10 +112,10 @@ extension AccountView {
     private func setProfileAnimationContraints() {
         addSubview(animationView)
         NSLayoutConstraint.activate([
-            animationView.topAnchor.constraint(equalTo: topAnchor, constant: -77),
+            animationView.topAnchor.constraint(equalTo: topAnchor, constant: -102),
             animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            animationView.heightAnchor.constraint(equalToConstant: 300),
-            animationView.widthAnchor.constraint(equalToConstant: 300)
+            animationView.heightAnchor.constraint(equalToConstant: 350),
+            animationView.widthAnchor.constraint(equalToConstant: 350)
         ])
     }
     

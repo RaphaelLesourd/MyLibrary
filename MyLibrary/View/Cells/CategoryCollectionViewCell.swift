@@ -30,7 +30,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     // MARK: - Configure
     func configure(with model: CategoryModel) {
         if let categoryName = model.name {
-            categoryLabel.sizeToFit()
             categoryLabel.text = categoryName.uppercased()
         }
         if let color = model.color {
@@ -55,6 +54,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 extension CategoryCollectionViewCell {
     private func setLabelConstraints() {
         contentView.addSubview(categoryLabel)
+        
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),

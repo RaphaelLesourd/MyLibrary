@@ -12,10 +12,7 @@ class ProfileStaticCell: UITableViewCell {
     // MARK: - Intializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .clear
-        selectionStyle = .none
-        stackView.addArrangedSubview(profileImageButton)
-        stackView.addArrangedSubview(emailLabel)
+        setupView()
         setConstraints()
     }
     
@@ -43,13 +40,21 @@ class ProfileStaticCell: UITableViewCell {
                                       distribution: .fill,
                                       alignment: .center,
                                       spacing: 15)
+    
+    // MARK: - Configuration
+    private func setupView() {
+        self.backgroundColor = .clear
+        self.selectionStyle = .none
+        stackView.addArrangedSubview(profileImageButton)
+        stackView.addArrangedSubview(emailLabel)
+    }
 }
 // MARK: - Constraints
 extension ProfileStaticCell {
     private func setConstraints() {
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(stackView)
+        
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             emailLabel.heightAnchor.constraint(equalToConstant: 18),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),

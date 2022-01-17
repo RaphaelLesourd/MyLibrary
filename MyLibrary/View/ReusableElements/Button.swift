@@ -81,11 +81,11 @@ class Button: UIButton {
 extension Button {
     private func setConstraints() {
         addSubview(activityIndicator)
+        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
             buttonHeightAnchor
         ])
     }

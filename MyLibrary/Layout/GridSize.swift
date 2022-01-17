@@ -9,8 +9,9 @@ import UIKit
 
 enum GridSize: CGFloat, CaseIterable {
     
-    private static let baseSize: CGFloat =  UIDevice.current.userInterfaceIdiom == .pad ? 0.7 : 1
+    private static let baseSize: CGFloat =  UIDevice.current.userInterfaceIdiom == .pad ? 0.4 : 1
     
+    case extraLarge
     case large
     case medium
     case small
@@ -18,6 +19,8 @@ enum GridSize: CGFloat, CaseIterable {
     
     var title: String {
         switch self {
+        case .extraLarge:
+            return Text.ListMenu.extraLarge
         case .large:
             return Text.ListMenu.large
         case .medium:
@@ -31,6 +34,8 @@ enum GridSize: CGFloat, CaseIterable {
     
     var image: UIImage {
         switch self {
+        case .extraLarge:
+            return Images.LayoutMenu.gridExtraLargeLayout
         case .large:
             return Images.LayoutMenu.gridLargeLayout
         case .medium:
@@ -44,14 +49,16 @@ enum GridSize: CGFloat, CaseIterable {
     
     var size: CGFloat {
         switch self {
+        case .extraLarge:
+            return GridSize.baseSize
         case .large:
-            return GridSize.baseSize * 0.5
+            return GridSize.baseSize * 0.4
         case .medium:
-            return GridSize.baseSize * 0.35
+            return GridSize.baseSize * 0.3
         case .small:
             return GridSize.baseSize * 0.25
         case .extraSmall:
-            return GridSize.baseSize * 0.13
+            return GridSize.baseSize * 0.15
         }
     }
 }

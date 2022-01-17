@@ -15,7 +15,7 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        setupCell()
+        setupView()
         setBookCoverConstraints()
         setStackViewConstraints()
     }
@@ -56,9 +56,9 @@ class CommentsBookCell: UITableViewCell {
         bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
     }
     
-    private func setupCell() {
-        backgroundColor = .clear
-        contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
+    private func setupView() {
+        self.backgroundColor = .clear
+        self.contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
         bookCover.contentMode = .scaleAspectFill
         
         stackView.addArrangedSubview(titleLabel)
@@ -70,9 +70,9 @@ class CommentsBookCell: UITableViewCell {
 // MARK: - Constraints
 extension CommentsBookCell {
     private func setBookCoverConstraints() {
-        bookCover.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(bookCover)
+        
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),

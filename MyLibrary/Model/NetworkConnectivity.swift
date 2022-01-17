@@ -16,7 +16,6 @@ class Networkconnectivity {
     
     private let networkMonitor = NWPathMonitor()
     var status: NWPath.Status = .requiresConnection
-    
     var isReachable: Bool {
         status == .satisfied
     }

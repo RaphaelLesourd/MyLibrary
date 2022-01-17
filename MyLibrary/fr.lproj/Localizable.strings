@@ -137,7 +137,8 @@
 "Today" = "Aujourd'hui";
 "PastComments" = "Anciens commentaires";
 "BookListMenuTitle" = "Liste";
-"Large" = "Large";
+"XLarge" = "Trés grande";
+"Large" = "Grande";
 "Medium" = "Moyenne";
 "Small" = "Petite";
 "Xsmall" = "Trés Petite";
@@ -216,3 +217,4 @@
 "shareBookTitle" = "Partagez votre opinion";
 "shareBookSubtitle" = "Recommendez vos livres\net\nouvrez la discussion avec d'autres.";
 "SearchHeaderTitle" = "Données par GoogleBooks";
+"UpdateUserNameLegend" = "Mettez à jour votre nom en cliquant sur terminé";

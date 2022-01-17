@@ -80,6 +80,7 @@ enum Text {
         static let newBookPriceHeader = NSLocalizedString("NewBookPriceHeader", comment: "new Book Price Header")
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
         static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
+        static let updateUserNameLegend = NSLocalizedString("UpdateUserNameLegend", comment: "Update UserName Legend text")
     }
     
     enum ButtonTitle {
@@ -130,7 +131,8 @@ enum Text {
         static let deleteBookTitle = NSLocalizedString("AlertDeleteBookTitle",  comment: "delete book title")
         static let deleteBookMessage = NSLocalizedString("AlertDeleteBookMessage",  comment: "delete book message")
         static let cameraUnavailableTitle = NSLocalizedString("AlertCameraUnavailableTitle", comment: "Camera unavailable title")
-        static let cameraUnavailableMessage = NSLocalizedString("AlertCameraUnavailableMessage", comment: "Camera unavailable message")
+        static let cameraUnavailableMessage = NSLocalizedString("AlertCameraUnavailableMessage",
+                                                                comment: "Camera unavailable message")
         static let newCategoryTitle = NSLocalizedString("AlertNewCategoryTitle", comment: "new category title")
         static let newCategoryMessage = NSLocalizedString("AlertNewCategoryMessage", comment: "new category message")
         static let deleteCategoryMessage = NSLocalizedString("AlertDeleteCategoryMessage", comment: "delete category message")
@@ -204,6 +206,7 @@ enum Text {
         static let byTitle = NSLocalizedString("ByTitleList", comment: "ByTitle menu list")
         static let byAuthor = NSLocalizedString("ByAuthorList", comment: "ByAuthor menu list")
         static let byRating = NSLocalizedString("ByRatingList", comment: "ByRating menu list")
+        static let extraLarge = NSLocalizedString("XLarge", comment: "Xlarge size title")
         static let large = NSLocalizedString("Large", comment: "large size title")
         static let medium = NSLocalizedString("Medium", comment: "medium size title")
         static let small = NSLocalizedString("Small", comment: "small size title")

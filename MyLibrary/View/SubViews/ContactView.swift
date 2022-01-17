@@ -11,11 +11,7 @@ class ContactView: UIView {
     // MARK: Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        roundView(radius: 15, backgroundColor: .cellBackgroundColor)
-        stackView.addArrangedSubview(contactButton)
-        stackView.addArrangedSubview(versionLabel)
-        stackView.addArrangedSubview(copyrightLabel)
-        stackView.setCustomSpacing(40, after: contactButton)
+        setupView()
         setStackViewConstraints()
     }
     
@@ -39,6 +35,15 @@ class ContactView: UIView {
                                    font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 10)
+    
+    // MARK: - Configure
+    private func setupView() {
+        self.roundView(radius: 15, backgroundColor: .cellBackgroundColor)
+        stackView.addArrangedSubview(contactButton)
+        stackView.addArrangedSubview(versionLabel)
+        stackView.addArrangedSubview(copyrightLabel)
+        stackView.setCustomSpacing(40, after: contactButton)
+    }
 }
 // MARK: - Constraints
 extension ContactView {

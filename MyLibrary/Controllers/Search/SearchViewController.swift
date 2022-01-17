@@ -66,7 +66,7 @@ class SearchViewController: UIViewController {
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
-        let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .large : .medium
+        let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .extraLarge : .medium
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.delegate = self
