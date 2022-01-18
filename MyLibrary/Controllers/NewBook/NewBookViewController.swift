@@ -23,7 +23,8 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
             setBookDetail()
         }
     }
-    private let resultController = SearchViewController(apiManager: ApiManager(), layoutComposer: BookListLayout())
+    private let resultController = SearchViewController(searchPresenter: SearchPresenter(apiManager: ApiManager()),
+                                                        layoutComposer: BookListLayout())
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
     private let libraryService: LibraryServiceProtocol
@@ -267,7 +268,7 @@ extension NewBookViewController: ImagePickerDelegate {
     }
 }
 
-// MARK: - Extension NewBookViewDelegate
+// MARK: - NewBookView Delegate
 /// Accessible functions for the view thru delegate protocol
 extension NewBookViewController: NewBookViewDelegate {
     

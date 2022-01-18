@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BookCellConfiguration {
+class BookCellAdapt {
     // MARK: - Properties
     private var imageRetriever: ImageRetriever
     
@@ -17,7 +17,7 @@ class BookCellConfiguration {
     }
 }
 // MARK: Cell presenter 
-extension BookCellConfiguration: BookCellConfigure {
+extension BookCellAdapt: BookCellAdapter {
     
     func setBookData(for book: Item, completion: @escaping (BookCellData) -> Void) {
         let title = book.volumeInfo?.title?.capitalized ?? ""

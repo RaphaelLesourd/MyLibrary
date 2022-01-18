@@ -13,30 +13,24 @@ class HomeViewController: UIViewController, BookDetail {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
+    var latestBooks: [Item] = []
+    var favoriteBooks: [Item] = []
+    var recommandedBooks: [Item] = []
+    var followedUser: [UserModel] = []
+    
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private let libraryService: LibraryServiceProtocol
-    private let categoryService: CategoryServiceProtocol
-    private let recommendationService: RecommendationServiceProtocol
-    private let cellPresenter: BookCellConfigure
+    private let cellPresenter: BookCellAdapter
     private let userCellPresenter: UserCellConfigure
-    
-    private var latestBooks: [Item] = []
-    private var favoriteBooks: [Item] = []
-    private var recommandedBooks: [Item] = []
-    private var followedUser: [UserModel] = []
+    private let homePresenter: HomePresenter
     
     // MARK: - Initializer
-    init(libraryService: LibraryServiceProtocol,
-         layoutComposer: HomeLayoutComposer,
-         categoryService: CategoryServiceProtocol,
-         recommendationService: RecommendationServiceProtocol) {
-        self.libraryService = libraryService
+    init(homePresenter: HomePresenter,
+         layoutComposer: HomeLayoutComposer) {
+        self.homePresenter = homePresenter
         self.layoutComposer = layoutComposer
-        self.categoryService = categoryService
-        self.recommendationService = recommendationService
-        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
+        self.cellPresenter = BookCellAdapt(imageRetriever: KFImageRetriever())
         self.userCellPresenter = UserCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
@@ -56,6 +50,7 @@ class HomeViewController: UIViewController, BookDetail {
         super.viewDidLoad()
         mainView.emptyStateView.isHidden = true
         mainView.delegate = self
+        homePresenter.setDelegate(with: self)
         configureCollectionView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
@@ -79,26 +74,6 @@ class HomeViewController: UIViewController, BookDetail {
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactorButton]
     }
     
-    // MARK: - Api call
-    private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
-        showIndicator(mainView.activityIndicator)
-        
-        libraryService.getBookList(for: query,
-                                      limit: 15,
-                                      forMore: false) { [weak self] result in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
-            switch result {
-            case .success(let books):
-                completion(books)
-            case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error,
-                                                subtitle: error.description)
-            }
-        }
-    }
-    
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         let section = HomeCollectionViewSections(rawValue: sender.tag)
@@ -115,9 +90,10 @@ class HomeViewController: UIViewController, BookDetail {
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
+
         let bookListVC = BookLibraryViewController(currentQuery: query,
                                                    queryService: QueryService(),
-                                                   libraryService: LibraryService(),
+                                                   libraryPresenter: LibraryPresenter(libraryService: LibraryService()),
                                                    layoutComposer: BookListLayout())
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
@@ -136,8 +112,8 @@ class HomeViewController: UIViewController, BookDetail {
     
     @objc private func showAccountController() {
         let accountService = AccountService(userService: UserService(),
-                                            libraryService: libraryService,
-                                            categoryService: categoryService)
+                                            libraryService: LibraryService(),
+                                            categoryService: CategoryService())
         let accountController = AccountViewController(accountService: accountService,
                                                       userService: UserService(),
                                                       imageService: ImageStorageService(),
@@ -209,11 +185,11 @@ extension HomeViewController {
         }
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
+    func applySnapshot(animatingDifferences: Bool) {
         var snapshot = Snapshot()
-        if !categoryService.categories.isEmpty {
+        if !homePresenter.categoryService.categories.isEmpty {
             snapshot.appendSections([.categories])
-            snapshot.appendItems(categoryService.categories, toSection: .categories)
+            snapshot.appendItems(homePresenter.categoryService.categories, toSection: .categories)
         }
         if !latestBooks.isEmpty {
             snapshot.appendSections([.newEntry])
@@ -277,61 +253,21 @@ extension HomeViewController: BookListViewDelegate {
     }
     
     func refreshData() {
-        categoryService.getCategories { [weak self] error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-            self?.applySnapshot()
-        }
-        getBooks(for: .latestBookQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.latestBooks = books
-                self?.applySnapshot()
-            }
-        }
-        getBooks(for: .favoriteBookQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.favoriteBooks = books
-                self?.applySnapshot()
-            }
-        }
-        getBooks(for: .recommendationQuery) { [weak self] books in
-            DispatchQueue.main.async {
-                self?.recommandedBooks = books
-                self?.applySnapshot()
-            }
-        }
-        recommendationService.retrieveRecommendingUsers { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let users):
-                    self?.followedUser = users
-                    self?.applySnapshot()
-                case .failure(let error):
-                    AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
-                }
-            }
-        }
+        homePresenter.getCategories()
+        homePresenter.getLatestBooks()
+        homePresenter.getFavoriteBooks()
+        homePresenter.getRecommendations()
+        homePresenter.getUsers()
     }
 }
-
-protocol BookDetail {
-    func showBookDetails(for book: Item, searchType: SearchType?, controller: UIViewController)
-}
-
-extension BookDetail {
-    func showBookDetails(for book: Item, searchType: SearchType?, controller: UIViewController) {
-        let bookCardVC = BookCardViewController(book: book,
-                                                libraryService: LibraryService(),
-                                                recommendationService: RecommandationService())
-        bookCardVC.hidesBottomBarWhenPushed = true
-        bookCardVC.searchType = searchType
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let viewController = UINavigationController(rootViewController: bookCardVC)
-            controller.present(viewController, animated: true)
-        } else {
-            controller.navigationController?.show(bookCardVC, sender: nil)
-        }
+// MARK: - HomePresenter Delegate
+extension HomeViewController: HomePresenterDelegate {
+    func showActivityIndicator() {
+        showIndicator(mainView.activityIndicator)
+    }
+    
+    func stopActivityIndicator() {
+        hideIndicator(self.mainView.activityIndicator)
+        mainView.refresherControl.endRefreshing()
     }
 }

@@ -44,17 +44,18 @@ class TabBarController: UITabBarController {
     /// - SFSymbols are used for icon images.
     private func setupViewControllers() {
         // Home tab
-        let homeVC = HomeViewController(libraryService: LibraryService(),
-                                        layoutComposer: HomeTabLayout(),
-                                        categoryService: CategoryService(),
-                                        recommendationService: RecommandationService())
+        let homePresenter = HomePresenter(libraryService: LibraryService(),
+                                          categoryService: CategoryService(),
+                                          recommendationService: RecommandationService())
+        let homeVC = HomeViewController(homePresenter: homePresenter,
+                                        layoutComposer: HomeTabLayout())
         let homeViewController = createController(for: homeVC,
                                                      title: Text.ControllerTitle.home,
                                                      image: Images.TabBarIcon.homeIcon)
         // Library tab
         let bookVC = BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                queryService: QueryService(),
-                                               libraryService: LibraryService(),
+                                               libraryPresenter: LibraryPresenter(libraryService: LibraryService()),
                                                layoutComposer: BookListLayout())
         let libraryViewController = createController(for: bookVC,
                                                         title: Text.ControllerTitle.myBooks,

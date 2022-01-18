@@ -28,10 +28,11 @@ class IpadSplitViewController: UISplitViewController {
     // MARK: - Setup
     private func setViewControllers() {
         let tabBarController = TabBarController()
-        let homeViewController = HomeViewController(libraryService: LibraryService(),
-                                                    layoutComposer: HomeTabLayout(),
-                                                    categoryService: CategoryService(),
-                                                    recommendationService: RecommandationService())
+        let homePresenter = HomePresenter(libraryService: LibraryService(),
+                                          categoryService: CategoryService(),
+                                          recommendationService: RecommandationService())
+        let homeViewController = HomeViewController(homePresenter: homePresenter,
+                                                    layoutComposer: HomeTabLayout())
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),
                                                           validator: Validator())

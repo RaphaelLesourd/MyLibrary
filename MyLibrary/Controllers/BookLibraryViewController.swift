@@ -16,11 +16,10 @@ class BookLibraryViewController: UIViewController, BookDetail {
     private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
-    private let libraryService: LibraryServiceProtocol
     private let queryService: QueryProtocol
-    private let cellPresenter: BookCellConfigure
+    private let cellAdapter: BookCellAdapter
+    private let libraryPresenter: LibraryPresenter
     
-    private var noMoreBooks = false
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private var bookListMenu: BookListMenu?
@@ -35,13 +34,13 @@ class BookLibraryViewController: UIViewController, BookDetail {
     // MARK: - Initializer
     init(currentQuery: BookQuery,
          queryService: QueryService,
-         libraryService: LibraryServiceProtocol,
+         libraryPresenter: LibraryPresenter,
          layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
-        self.libraryService = libraryService
+        self.libraryPresenter = libraryPresenter
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
+        self.cellAdapter = BookCellAdapt(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,6 +56,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        libraryPresenter.setDelegate(with: self)
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         mainView.delegate = self
@@ -120,40 +120,6 @@ class BookLibraryViewController: UIViewController, BookDetail {
         let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
         headerView.configure(with: title, buttonTitle: "")
     }
-    
-    // MARK: - Api call
-    private func getBooks(nextPage: Bool = false) {
-        showIndicator(mainView.activityIndicator)
-        footerView.displayActivityIndicator(true)
-        
-        libraryService.getBookList(for: currentQuery, limit: 40, forMore: nextPage) { [weak self] result in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.mainView.refresherControl.endRefreshing()
-            self.footerView.displayActivityIndicator(false)
-            
-            switch result {
-            case .success(let books):
-                guard !books.isEmpty else {
-                    self.noMoreBooks = true
-                    self.applySnapshot()
-                    return
-                }
-                self.addBookToList(books)
-            case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    
-    private func addBookToList(_ books: [Item]) {
-        books.forEach { book in
-            if !bookList.contains(where: { $0.bookID == book.bookID }) {
-                bookList.append(book)
-                applySnapshot()
-            }
-        }
-    }
 }
 
 // MARK: - CollectionView Delegate
@@ -164,8 +130,8 @@ extension BookLibraryViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
-        if indexPath.row == currentRow && noMoreBooks == false {
-            getBooks(nextPage: true)
+        if indexPath.row == currentRow && libraryPresenter.noMoreBooks == false {
+            libraryPresenter.getBooks(with: currentQuery, nextPage: true)
         }
     }
     
@@ -183,7 +149,7 @@ extension BookLibraryViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self?.cellPresenter.setBookData(for: book) { bookData in
+            self?.cellAdapter.setBookData(for: book) { bookData in
                 cell.configure(with: bookData)
             }
             return cell
@@ -208,16 +174,6 @@ extension BookLibraryViewController {
             
         }
     }
-    
-    private func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.collectionView.isHidden = bookList.isEmpty
-        mainView.emptyStateView.isHidden = !bookList.isEmpty
-        
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(bookList, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
 }
 // MARK: - BookListLayout Delegate
 extension BookLibraryViewController: BookListMenuDelegate {
@@ -236,9 +192,9 @@ extension BookLibraryViewController: BookListMenuDelegate {
 extension BookLibraryViewController: BookListViewDelegate {
     func refreshData() {
         title = setTitle()
-        noMoreBooks = false
+        libraryPresenter.noMoreBooks = false
         bookList.removeAll()
-        getBooks()
+        libraryPresenter.getBooks(with: currentQuery)
     }
 }
 // MARK: - EmptyStateView Delegate
@@ -255,4 +211,37 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
             controller.newBookView.bookTileCell.textField.becomeFirstResponder()
         }
     }
+}
+
+extension BookLibraryViewController: LibraryPresenterDelegate {
+    func showActivityIndicator() {
+        showIndicator(mainView.activityIndicator)
+        footerView.displayActivityIndicator(true)
+    }
+    
+    func stopActivityIndicator() {
+        self.hideIndicator(self.mainView.activityIndicator)
+        self.mainView.refresherControl.endRefreshing()
+        self.footerView.displayActivityIndicator(false)
+    }
+    
+    func addBookToList(_ books: [Item]) {
+        books.forEach { book in
+            if !bookList.contains(where: { $0.bookID == book.bookID }) {
+                bookList.append(book)
+                applySnapshot()
+            }
+        }
+    }
+    
+    func applySnapshot(animatingDifferences: Bool = true) {
+        mainView.collectionView.isHidden = bookList.isEmpty
+        mainView.emptyStateView.isHidden = !bookList.isEmpty
+        
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(bookList, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
 }
