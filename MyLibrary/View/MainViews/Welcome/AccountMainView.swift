@@ -58,7 +58,7 @@ class AccountMainView: UIView {
                                    correction: .no,
                                    capitalization: .none)
     let passwordTextField = TextField(placeholder: Text.Account.password,
-                                      keyBoardType: .asciiCapableNumberPad,
+                                      keyBoardType: .default,
                                       returnKey: .done,
                                       correction: .no,
                                       capitalization: .none)

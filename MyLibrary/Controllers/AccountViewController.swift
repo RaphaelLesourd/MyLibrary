@@ -143,7 +143,6 @@ class AccountViewController: UIViewController {
         }
     }
 }
-
 // MARK: - ImagePicker Delegate
 extension AccountViewController: ImagePickerDelegate {
     /// User the image return from the ImagePicker to set the profile image.
@@ -153,7 +152,6 @@ extension AccountViewController: ImagePickerDelegate {
         saveProfileImage(image)
     }
 }
-
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

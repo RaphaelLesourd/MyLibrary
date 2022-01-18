@@ -327,7 +327,7 @@
 		8138DDE32747869C00C355C6 /* FormatterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterTestCase.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		813B7C792733ADFD005BFBDB /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
-		813CDD472790533F000BF439 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Onboarding.swift; path = ../Controllers/Onboarding.swift; sourceTree = "<group>"; };
+		813CDD472790533F000BF439 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		81451DCD276F345C00F3C0C8 /* BarcodeControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeControllerView.swift; sourceTree = "<group>"; };
 		81451DCF276F44B200F3C0C8 /* scanner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = scanner.json; sourceTree = "<group>"; };
 		81451DD62770C12400F3C0C8 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
@@ -561,6 +561,17 @@
 				81A750A22790121200CAC424 /* OnboardingLayout */,
 			);
 			path = Layout;
+			sourceTree = "<group>";
+		};
+		811C5BD927969DCB003D11BA /* Value Objects */ = {
+			isa = PBXGroup;
+			children = (
+				81792F642732F3E4005F863B /* AccountCredentials.swift */,
+				819CD6E8275B6629002A9B12 /* MessageModel.swift */,
+				813CDD472790533F000BF439 /* Onboarding.swift */,
+				8121F0B0273B1515006EAA8D /* BookQuery.swift */,
+			);
+			path = "Value Objects";
 			sourceTree = "<group>";
 		};
 		812047F5272A884100E0A45B /* Welcome */ = {
@@ -1112,6 +1123,7 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				811C5BD927969DCB003D11BA /* Value Objects */,
 				81DE9CAD2736E28E00FF81C2 /* Entities */,
 				81FA726B277481D500040BEF /* Connectivity */,
 				81FA72642774811900040BEF /* Converter */,
@@ -1246,13 +1258,9 @@
 		81DE9CAD2736E28E00FF81C2 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				81792F642732F3E4005F863B /* AccountCredentials.swift */,
 				81A9BD85272BDE2900B7DA81 /* BookModel.swift */,
-				8121F0B0273B1515006EAA8D /* BookQuery.swift */,
 				811D5BBC2744E60C00C935B5 /* CategoryModel.swift */,
 				81DB8DF82752765D00698B92 /* CommentModel.swift */,
-				819CD6E8275B6629002A9B12 /* MessageModel.swift */,
-				813CDD472790533F000BF439 /* Onboarding.swift */,
 				810C44662726E561007541C0 /* UserModel.swift */,
 			);
 			name = Entities;
