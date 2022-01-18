@@ -140,7 +140,8 @@ class CategoriesViewController: UIViewController {
 extension CategoriesViewController {
     
     private func makeDataSource() -> DataSource {
-        dataSource = DataSource(tableView: mainView.tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
+        dataSource = DataSource(tableView: mainView.tableView,
+                                cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
@@ -203,8 +204,7 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: ActionType,
-                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: ActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             guard let self = self else {return}
             

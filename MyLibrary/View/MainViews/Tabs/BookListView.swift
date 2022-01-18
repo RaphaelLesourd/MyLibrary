@@ -70,10 +70,6 @@ class BookListView: UIView {
         refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.refreshData()
         }), for: .valueChanged)
-        
-        emptyStateView.doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.emptyStateButtonTapped()
-        }), for: .touchUpInside)
     }
 }
 // MARK: - Constraints

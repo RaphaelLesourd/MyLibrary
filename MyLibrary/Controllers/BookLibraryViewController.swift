@@ -60,6 +60,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
         bookListMenu = BookListMenu(delegate: self)
         bookListMenu?.loadLayoutChoice()
         mainView.delegate = self
+        mainView.emptyStateView.delegate = self
         configureCollectionView()
         configureNavigationBarButton()
         configureEmptyStateView()
@@ -233,8 +234,16 @@ extension BookLibraryViewController: BookListMenuDelegate {
 }
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
-    func emptyStateButtonTapped() {
-        print("tap")
+    func refreshData() {
+        title = setTitle()
+        noMoreBooks = false
+        bookList.removeAll()
+        getBooks()
+    }
+}
+// MARK: - EmptyStateView Delegate
+extension BookLibraryViewController: EmptyStateViewDelegate {
+    func didTapButton() {
         guard let splitController = splitViewController, !splitController.isCollapsed else {
             if let controller = tabBarController as? TabBarController {
                 controller.selectedIndex = 2
@@ -245,12 +254,5 @@ extension BookLibraryViewController: BookListViewDelegate {
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
             controller.newBookView.bookTileCell.textField.becomeFirstResponder()
         }
-    }
-    
-    func refreshData() {
-        title = setTitle()
-        noMoreBooks = false
-        bookList.removeAll()
-        getBooks()
     }
 }

@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIColor {
-    
     /// Convert HEX string to UIColor
     convenience init(hexString: String) {
         let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

@@ -195,10 +195,6 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
-    func emptyStateButtonTapped() {
-        
-    }
-    
     func refreshData() {
         searchedBooks.removeAll()
         noMoreBooks = false
