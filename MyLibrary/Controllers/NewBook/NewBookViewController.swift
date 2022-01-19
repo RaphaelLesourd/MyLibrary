@@ -30,7 +30,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
-    private let newBookDataPresenter: NewBookConfigure
+    private let newBookDataConfiguration: NewBookConfigure
    
     private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
@@ -42,9 +42,9 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         self.libraryService = libraryService
         self.converter = converter
         self.validator = validator
-        self.newBookDataPresenter = NewBookConfiguration(imageRetriever: KFImageRetriever(),
-                                                         converter: converter,
-                                                         formatter: Formatter())
+        self.newBookDataConfiguration = NewBookConfiguration(imageRetriever: KFImageRetriever(),
+                                                             converter: converter,
+                                                             formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -136,7 +136,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     func setBookDetail() {
         guard let book = newBook else { return }
         clearData()
-        newBookDataPresenter.configure(newBookView, with: book)
+        newBookDataConfiguration.configure(newBookView, with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
        
@@ -238,7 +238,7 @@ extension NewBookViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - Barcode protocol
+// MARK: - BarcodeScanner Delegate
 extension NewBookViewController: BarcodeScannerDelegate {
     /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
     /// and pass it the SearchViewController.
@@ -248,7 +248,7 @@ extension NewBookViewController: BarcodeScannerDelegate {
     }
 }
 
-// MARK: - Searchbar delegate
+// MARK: - SearchBar Delegate
 extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -269,7 +269,6 @@ extension NewBookViewController: ImagePickerDelegate {
 }
 
 // MARK: - NewBookView Delegate
-/// Accessible functions for the view thru delegate protocol
 extension NewBookViewController: NewBookViewDelegate {
     
     func saveBook() {

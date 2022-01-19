@@ -7,5 +7,4 @@
 
 protocol CommentCellConfigure {
     func configure(_ cell: CommentTableViewCell, with comment: CommentModel)
-    func setUserDetails(for cell: CommentTableViewCell, with user: UserModel)
 }

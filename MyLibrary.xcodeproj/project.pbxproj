@@ -29,6 +29,8 @@
 		811C5C2727972E3E003D11BA /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2627972E3E003D11BA /* SearchPresenter.swift */; };
 		811C5C2A2797EAA8003D11BA /* CategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C292797EAA8003D11BA /* CategoryPresenter.swift */; };
 		811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */; };
+		811C5C312798233A003D11BA /* SearchPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */; };
+		811C5C3327983B97003D11BA /* CommentsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C3227983B96003D11BA /* CommentsPresenter.swift */; };
 		811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBC2744E60C00C935B5 /* CategoryModel.swift */; };
 		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
 		811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */; };
@@ -60,6 +62,9 @@
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */; };
+		8125AD26279857D100FB6725 /* CommentBookCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD25279857D100FB6725 /* CommentBookCellData.swift */; };
+		8125AD292798583400FB6725 /* CommentBookCellConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */; };
+		8125AD2B2798587E00FB6725 /* CommentBookCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -292,6 +297,8 @@
 		811C5C2627972E3E003D11BA /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
 		811C5C292797EAA8003D11BA /* CategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenter.swift; sourceTree = "<group>"; };
 		811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryPresenter.swift; sourceTree = "<group>"; };
+		811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenterTestCase.swift; sourceTree = "<group>"; };
+		811C5C3227983B96003D11BA /* CommentsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsPresenter.swift; sourceTree = "<group>"; };
 		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryControllerMainView.swift; sourceTree = "<group>"; };
@@ -323,6 +330,9 @@
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanViewController.swift; sourceTree = "<group>"; };
+		8125AD25279857D100FB6725 /* CommentBookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellData.swift; sourceTree = "<group>"; };
+		8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfigure.swift; sourceTree = "<group>"; };
+		8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfiguration.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -694,6 +704,9 @@
 		8157F4D8277AF9FA005F182A /* CommentCell */ = {
 			isa = PBXGroup;
 			children = (
+				8125AD25279857D100FB6725 /* CommentBookCellData.swift */,
+				8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */,
+				8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */,
 				8157F4D4277AF60F005F182A /* CommentCellConfigure.swift */,
 				8157F4D6277AF654005F182A /* CommentCellConfiguration.swift */,
 			);
@@ -753,6 +766,7 @@
 			isa = PBXGroup;
 			children = (
 				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
+				811C5C3227983B96003D11BA /* CommentsPresenter.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -1101,6 +1115,7 @@
 				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
 				81242D4C272D984F00CB39B1 /* Alamofire */,
+				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
 			);
 			path = MyLibraryTests;
 			sourceTree = "<group>";
@@ -1713,6 +1728,7 @@
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
+				8125AD26279857D100FB6725 /* CommentBookCellData.swift in Sources */,
 				8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */,
 				81A6727427931BFC00298394 /* BookLibraryViewController.swift in Sources */,
 				816AE81C275F68A800747548 /* AlertManager.swift in Sources */,
@@ -1761,6 +1777,7 @@
 				8183145627931D5A00351F88 /* HomeViewController.swift in Sources */,
 				818852622778863B002813A1 /* BookCardConfigure.swift in Sources */,
 				8157F5572781D519005F182A /* BookCardDelegate.swift in Sources */,
+				8125AD2B2798587E00FB6725 /* CommentBookCellConfiguration.swift in Sources */,
 				81FA72792774837100040BEF /* CommentsSections.swift in Sources */,
 				819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */,
 				8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */,
@@ -1775,6 +1792,7 @@
 				8157F4D7277AF654005F182A /* CommentCellConfiguration.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
+				8125AD292798583400FB6725 /* CommentBookCellConfigure.swift in Sources */,
 				812BA73E278DCF09009541E4 /* BookCover.swift in Sources */,
 				81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */,
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
@@ -1831,6 +1849,7 @@
 				8121F0B9273E6A9A006EAA8D /* BookCoverViewController.swift in Sources */,
 				818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */,
 				81FA723C27745B2F00040BEF /* PermissionManager.swift in Sources */,
+				811C5C3327983B97003D11BA /* CommentsPresenter.swift in Sources */,
 				81FA725527747EB100040BEF /* FeedbackManagerProtocol.swift in Sources */,
 				81FA72602774803C00040BEF /* QueryProtocol.swift in Sources */,
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
@@ -1881,6 +1900,7 @@
 				81451DDB2770CB7A00F3C0C8 /* QueryserviceTestCase.swift in Sources */,
 				810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */,
 				812BA744278ED0AB009541E4 /* ConverterTestCase.swift in Sources */,
+				811C5C312798233A003D11BA /* SearchPresenterTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

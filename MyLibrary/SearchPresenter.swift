@@ -5,8 +5,8 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol SearchPresenterDelegate: AnyObject {
-    func handleList(for: [Item])
+protocol SearchPresenterView: AnyObject {
+    func handleList(for books: [Item])
     func showActivityIndicator()
     func stopActivityIndicator()
 }
@@ -14,7 +14,7 @@ protocol SearchPresenterDelegate: AnyObject {
 class SearchPresenter {
     
     // MARK: - Properties
-    weak var delegate: SearchPresenterDelegate?
+    weak var view: SearchPresenterView?
     private let apiManager: ApiManagerProtocol
     
     // MARK: - Initializer
@@ -28,14 +28,12 @@ class SearchPresenter {
     ///   - query: String passing search keywords, could be title, author or isbn
     ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
     func getBooks(with keywords: String, fromIndex: Int) {
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         apiManager.getData(with: keywords, fromIndex: fromIndex) { [weak self] result in
-            guard let self = self else { return }
-            self.delegate?.stopActivityIndicator()
-            
+            self?.view?.stopActivityIndicator()
             switch result {
             case .success(let books):
-                self.delegate?.handleList(for: books)
+                self?.view?.handleList(for: books)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

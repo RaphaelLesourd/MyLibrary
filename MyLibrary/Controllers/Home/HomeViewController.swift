@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, BookDetail {
         super.viewDidLoad()
         mainView.emptyStateView.isHidden = true
         mainView.delegate = self
-        presenter.delegate = self
+        presenter.view = self
         configureCollectionView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
@@ -235,7 +235,7 @@ extension HomeViewController: BookListViewDelegate {
     }
 }
 // MARK: - HomePresenter Delegate
-extension HomeViewController: HomePresenterDelegate {
+extension HomeViewController: HomePresenterView {
     
     func applySnapshot(animatingDifferences: Bool) {
         var snapshot = Snapshot()

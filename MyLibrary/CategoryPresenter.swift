@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 19/01/2022.
 //
 
-protocol CategoryPresenterDelegate: AnyObject {
+protocol CategoryPresenterView: AnyObject {
     func applySnapshot(animatingDifferences: Bool)
     func showActivityIndicator()
     func stopActivityIndicator()
@@ -14,7 +14,7 @@ protocol CategoryPresenterDelegate: AnyObject {
 class CategoryPresenter {
     
     // MARK: - Properties
-    weak var delegate: CategoryPresenterDelegate?
+    weak var view: CategoryPresenterView?
     var categoryService: CategoryServiceProtocol
     
     // MARK: - Initializer
@@ -24,23 +24,23 @@ class CategoryPresenter {
     
     // MARK: - Public functions
     func getCategoryList() {
-        self.delegate?.showActivityIndicator()
+        self.view?.showActivityIndicator()
         categoryService.getCategories { [weak self] error in
-            self?.delegate?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.delegate?.applySnapshot(animatingDifferences: true)
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func deleteCategory(for category: CategoryModel) {
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         
         categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
-            self.delegate?.stopActivityIndicator()
+            self.view?.stopActivityIndicator()
              if let error = error {
                  AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                  return
@@ -50,7 +50,7 @@ class CategoryPresenter {
              }) {
                  self.categoryService.categories.remove(at: index)
              }
-             self.delegate?.applySnapshot(animatingDifferences: true)
+             self.view?.applySnapshot(animatingDifferences: true)
          }
      }
 }

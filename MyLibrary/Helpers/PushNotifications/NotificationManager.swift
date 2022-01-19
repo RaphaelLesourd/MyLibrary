@@ -56,9 +56,17 @@ class NotificationManager: NSObject {
     /// - Note: Handles 2 cases when resenting the Comment viewcontroller for the iPad, presents it modally dismissi
     /// and for the iphone shows it thru the navigationController
     private func presentCommentController(with book: Item) {
+        let commentPresenter = CommentPresenter(commentService: CommentService(),
+                                                messageService: MessageService(apiManager: ApiManager()))
+        let bookCellConfigurator = CommentBookCellConfiguration(imageRetriever: KFImageRetriever(),
+                                                                commentService: CommentService())
+        let commentCellConfigurator = CommentCellConfiguration(imageRetriever: KFImageRetriever(),
+                                                               formatter: Formatter(),
+                                                               commentService: CommentService())
         let commentController = CommentsViewController(book: book,
-                                                       commentService: CommentService(),
-                                                       messageService: MessageService(),
+                                                       presenter: commentPresenter,
+                                                       bookCellConfigurator: bookCellConfigurator,
+                                                       commentCellConfigurator: commentCellConfigurator,
                                                        validator: Validator())
         
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate

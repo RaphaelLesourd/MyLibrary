@@ -54,7 +54,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.delegate = self
-        presenter.delegate = self
+        presenter.view = self
         configureEmptyStateView()
         configureNavigationBar()
         configureCollectionView()
@@ -158,7 +158,7 @@ extension SearchViewController: BookListViewDelegate {
     }
 }
 // MARK: - SearchPresenter Delegate
-extension SearchViewController: SearchPresenterDelegate {
+extension SearchViewController: SearchPresenterView {
     func showActivityIndicator() {
         footerView.displayActivityIndicator(true)
     }

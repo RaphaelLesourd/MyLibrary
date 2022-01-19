@@ -42,7 +42,7 @@ class NewCategoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.delegate = self
+        presenter.view = self
         presenter.isEditing = editingCategory
         mainView.configure(for: editingCategory)
         mainView.delegate = self
@@ -109,7 +109,7 @@ extension NewCategoryViewController: NewCategoryViewDelegate {
     }
 }
 // MARK: - Presenter Delegate
-extension NewCategoryViewController: NewCategoryPresenterDelegate {
+extension NewCategoryViewController: NewCategoryPresenterView {
    func updateCategoryColor(at indexPath: IndexPath, and colorHex: String) {
         mainView.collectionView.selectItem(at: indexPath,
                                            animated: false,

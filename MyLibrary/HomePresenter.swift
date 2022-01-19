@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol HomePresenterDelegate: AnyObject {
+protocol HomePresenterView: AnyObject {
     var latestBooks: [Item] { get set }
     var favoriteBooks: [Item] { get set }
     var recommandedBooks: [Item] { get set }
@@ -18,7 +18,7 @@ protocol HomePresenterDelegate: AnyObject {
 class HomePresenter {
     
     // MARK: - Properties
-    weak var delegate: HomePresenterDelegate?
+    weak var view: HomePresenterView?
     let categoryService: CategoryServiceProtocol
     private let libraryService: LibraryService
     private let recommendationService: RecommendationServiceProtocol
@@ -38,28 +38,28 @@ class HomePresenter {
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            self?.delegate?.applySnapshot(animatingDifferences: true)
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func getLatestBooks() {
         getBooks(for: .latestBookQuery) { [weak self] books in
-            self?.delegate?.latestBooks = books
-            self?.delegate?.applySnapshot(animatingDifferences: true)
+            self?.view?.latestBooks = books
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func getFavoriteBooks() {
         getBooks(for: .favoriteBookQuery) { [weak self] books in
-            self?.delegate?.favoriteBooks = books
-            self?.delegate?.applySnapshot(animatingDifferences: true)
+            self?.view?.favoriteBooks = books
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func getRecommendations() {
         getBooks(for: .recommendationQuery) { [weak self] books in
-            self?.delegate?.recommandedBooks = books
-            self?.delegate?.applySnapshot(animatingDifferences: true)
+            self?.view?.recommandedBooks = books
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
@@ -67,8 +67,8 @@ class HomePresenter {
         recommendationService.retrieveRecommendingUsers { [weak self] result in
             switch result {
             case .success(let users):
-                self?.delegate?.followedUser = users
-                self?.delegate?.applySnapshot(animatingDifferences: true)
+                self?.view?.followedUser = users
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }
@@ -76,11 +76,11 @@ class HomePresenter {
     }
     
     private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 15,
                                       forMore: false) { [weak self] result in
-            self?.delegate?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             switch result {
             case .success(let books):
                 completion(books)

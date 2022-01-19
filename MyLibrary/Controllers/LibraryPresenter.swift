@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol LibraryPresenterDelegate: AnyObject {
+protocol LibraryPresenterView: AnyObject {
     func addBookToList(_ books: [Item])
     func applySnapshot(animatingDifferences: Bool)
     func showActivityIndicator()
@@ -15,7 +15,7 @@ protocol LibraryPresenterDelegate: AnyObject {
 class LibraryPresenter {
     
     // MARK: - Properties
-    weak var delegate: LibraryPresenterDelegate?
+    weak var view: LibraryPresenterView?
     var endOfList: Bool = false
     private let libraryService: LibraryService
     
@@ -26,18 +26,18 @@ class LibraryPresenter {
     
     // MARK: - API Call
     func getBooks(with query: BookQuery, nextPage: Bool = false) {
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         libraryService.getBookList(for: query, limit: 40, forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
-            self.delegate?.stopActivityIndicator()
+            self.view?.stopActivityIndicator()
             switch result {
             case .success(let books):
                 guard !books.isEmpty else {
                     self.endOfList = true
-                    self.delegate?.applySnapshot(animatingDifferences: true)
+                    self.view?.applySnapshot(animatingDifferences: true)
                     return
                 }
-                self.delegate?.addBookToList(books)
+                self.view?.addBookToList(books)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

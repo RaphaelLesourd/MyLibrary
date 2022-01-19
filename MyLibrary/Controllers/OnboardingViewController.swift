@@ -99,7 +99,7 @@ extension OnboardingViewController: UICollectionViewDelegate {
         collectionViewCurrentIndex = index
     }
 }
-// MARK: - OnboardingViewDelegate
+// MARK: - OnboardingView Delegate
 extension OnboardingViewController: OnboardingMainViewDelegate {
     func skip() {
         presentWelcomeViewController()

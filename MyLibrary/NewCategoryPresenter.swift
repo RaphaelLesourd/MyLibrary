@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NewCategoryPresenterDelegate: AnyObject {
+protocol NewCategoryPresenterView: AnyObject {
     func updateCategoryColor(at indexPath: IndexPath, and colorHex: String)
     func showActivityIndicator()
     func stopActivityIndicator()
@@ -17,7 +17,7 @@ protocol NewCategoryPresenterDelegate: AnyObject {
 class NewCategoryPresenter {
     
     // MARK: - Properties
-    weak var delegate: NewCategoryPresenterDelegate?
+    weak var view: NewCategoryPresenterView?
     var isEditing = Bool()
     let defaultColors: [String] = ["238099","16adb7","0abfc2","3482b7","426db3","586ba4","324376",
                                            "579188","4a8259","58a94c","59996d","8fb241","a8c81b","97a948",
@@ -38,7 +38,7 @@ class NewCategoryPresenter {
         if let color = colorHex,
            let index = defaultColors.firstIndex(of: color) {
             let indexPath = IndexPath(item: index, section: 0)
-            delegate?.updateCategoryColor(at: indexPath, and: color)
+            view?.updateCategoryColor(at: indexPath, and: color)
         }
     }
     
@@ -56,15 +56,15 @@ class NewCategoryPresenter {
     private func addCategoryToList(with categoryName: String?,
                                    and colorHex: String) {
         guard let categoryName = categoryName else { return }
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         categoryService.addCategory(for: categoryName, color: colorHex) { [weak self] error in
-            self?.delegate?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryAddedTitle))
-            self?.delegate?.dismissViewController()
+            self?.view?.dismissViewController()
         }
     }
     
@@ -72,15 +72,15 @@ class NewCategoryPresenter {
                                 with name: String?,
                                 and colorHex: String) {
         guard let category = category else { return }
-        delegate?.showActivityIndicator()
+        view?.showActivityIndicator()
         categoryService.updateCategoryName(for: category, with: name, color: colorHex) { [weak self] error in
-            self?.delegate?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.categoryModfiedTitle))
-            self?.delegate?.dismissViewController()
+            self?.view?.dismissViewController()
         }
     }
     

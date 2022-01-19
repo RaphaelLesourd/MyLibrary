@@ -73,7 +73,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
     private func setDelegates() {
         mainView.emptyStateView.delegate = self
         mainView.delegate = self
-        presenter.delegate = self
+        presenter.view = self
         bookListMenu = BookListMenu(delegate: self)
     }
     
@@ -224,7 +224,7 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
 }
 
 // MARK: - LibraryPresenter Delegate
-extension BookLibraryViewController: LibraryPresenterDelegate {
+extension BookLibraryViewController: LibraryPresenterView {
     func showActivityIndicator() {
         showIndicator(mainView.activityIndicator)
         mainView.footerView.displayActivityIndicator(true)

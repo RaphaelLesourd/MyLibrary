@@ -229,9 +229,17 @@ extension BookCardViewController: BookCardMainViewDelegate {
     }
     
     func showCommentsViewController() {
+        let commentPresenter = CommentPresenter(commentService: CommentService(),
+                                                messageService: MessageService(apiManager: ApiManager()))
+        let bookCellConfigurator = CommentBookCellConfiguration(imageRetriever: KFImageRetriever(),
+                                                                commentService: CommentService())
+        let commentCellConfigurator = CommentCellConfiguration(imageRetriever: KFImageRetriever(),
+                                                               formatter: Formatter(),
+                                                               commentService: CommentService())
         let commentsViewController = CommentsViewController(book: book,
-                                                            commentService: CommentService(),
-                                                            messageService: MessageService(),
+                                                            presenter: commentPresenter,
+                                                            bookCellConfigurator: bookCellConfigurator,
+                                                            commentCellConfigurator: commentCellConfigurator,
                                                             validator: Validator())
         navigationController?.show(commentsViewController, sender: nil)
     }

@@ -41,7 +41,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.delegate = self
+        presenter.view = self
         mainView.emptyStateView.delegate = self
         configureTableView()
         addNavigationBarButtons()
@@ -206,7 +206,7 @@ extension CategoriesViewController: EmptyStateViewDelegate {
     }
 }
 // MARK: - CategoryPresenter Delegate
-extension CategoriesViewController: CategoryPresenterDelegate {
+extension CategoriesViewController: CategoryPresenterView {
     
     func applySnapshot(animatingDifferences: Bool) {
         DispatchQueue.main.async {

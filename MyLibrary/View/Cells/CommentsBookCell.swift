@@ -42,18 +42,16 @@ class CommentsBookCell: UITableViewCell {
                                       spacing: 10)
     
     // MARK: - configure
-    func configure(with book: BookCellData) {
+    func configure(with book: CommentBookCellData) {
         titleLabel.text = book.title
-        subtitleLabel.text = book.author
+        subtitleLabel.text = book.authors
         bookCover.image = book.image
-    }
-    
-    func configureOwnerDetails(with owner: UserModel?) {
-        guard let owner = owner else {
+   
+        guard let owner = book.ownerName else {
             bookOwnerNameLabel.isHidden = true
             return
         }
-        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
+        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.capitalized
     }
     
     private func setupView() {
