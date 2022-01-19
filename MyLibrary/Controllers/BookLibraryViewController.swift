@@ -18,10 +18,8 @@ class BookLibraryViewController: UIViewController, BookDetail {
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
     private let cellAdapter: BookCellAdapter
-    private let libraryPresenter: LibraryPresenter
+    private let presenter: LibraryPresenter
     
-    private var headerView = HeaderSupplementaryView()
-    private var footerView = LoadingFooterSupplementaryView()
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
     private var bookList: [Item] = []
@@ -34,11 +32,11 @@ class BookLibraryViewController: UIViewController, BookDetail {
     // MARK: - Initializer
     init(currentQuery: BookQuery,
          queryService: QueryService,
-         libraryPresenter: LibraryPresenter,
+         presenter: LibraryPresenter,
          layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
-        self.libraryPresenter = libraryPresenter
+        self.presenter = presenter
         self.layoutComposer = layoutComposer
         self.cellAdapter = BookCellAdapt(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
@@ -56,22 +54,29 @@ class BookLibraryViewController: UIViewController, BookDetail {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        libraryPresenter.setDelegate(with: self)
-        bookListMenu = BookListMenu(delegate: self)
-        bookListMenu?.loadLayoutChoice()
-        mainView.delegate = self
-        mainView.emptyStateView.delegate = self
+        title = setTitle()
+        setDelegates()
         configureCollectionView()
         configureNavigationBarButton()
         configureEmptyStateView()
+        
+        bookListMenu?.loadLayoutChoice()
         applySnapshot(animatingDifferences: false)
-        refreshData()
+        presenter.getBooks(with: currentQuery)
     }
     
     override func viewDidLayoutSubviews() {
         updateHeader(with: .timestamp)
     }
+    
     // MARK: - Setup
+    private func setDelegates() {
+        mainView.emptyStateView.delegate = self
+        mainView.delegate = self
+        presenter.delegate = self
+        bookListMenu = BookListMenu(delegate: self)
+    }
+    
     private func configureCollectionView() {
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
@@ -85,14 +90,10 @@ class BookLibraryViewController: UIViewController, BookDetail {
         let menuButton = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
                                          primaryAction: nil,
                                          menu: bookListMenu?.configureLayoutMenu(with: showFilterMenu))
-        navigationItem.rightBarButtonItem = menuButton
-    }
-    
-    private func configureNavigationBar() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [activityIndicactorButton]
+        navigationItem.rightBarButtonItems = [menuButton ,activityIndicactorButton]
     }
-    
+ 
     private func configureEmptyStateView() {
         mainView.emptyStateView.configure(title: Text.EmptyState.noBookTitle,
                                           subtitle: Text.EmptyState.noBookSubtitle,
@@ -113,12 +114,12 @@ class BookLibraryViewController: UIViewController, BookDetail {
     private func updateGridLayout() {
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridItemSize)
         mainView.collectionView.setCollectionViewLayout(layout, animated: true)
-        applySnapshot()
+        applySnapshot(animatingDifferences: true)
     }
     
     private func updateHeader(with listType: QueryType) {
         let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
-        headerView.configure(with: title, buttonTitle: "")
+        mainView.headerView.configure(with: title, buttonTitle: "")
     }
 }
 
@@ -130,8 +131,8 @@ extension BookLibraryViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
-        if indexPath.row == currentRow && libraryPresenter.noMoreBooks == false {
-            libraryPresenter.getBooks(with: currentQuery, nextPage: true)
+        if indexPath.row == currentRow && presenter.endOfList == false {
+            presenter.getBooks(with: currentQuery, nextPage: true)
         }
     }
     
@@ -163,16 +164,25 @@ extension BookLibraryViewController {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
-                self?.headerView = collectionView.dequeue(kind: kind, for: indexPath)
-                return self?.headerView
+                self?.mainView.headerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.mainView.headerView
             case UICollectionView.elementKindSectionFooter:
-                self?.footerView = collectionView.dequeue(kind: kind, for: indexPath)
-                return self?.footerView
+                self?.mainView.footerView = collectionView.dequeue(kind: kind, for: indexPath)
+                return self?.mainView.footerView
             default:
                 return nil
             }
             
         }
+    }
+    
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.collectionView.isHidden = bookList.isEmpty
+        mainView.emptyStateView.isHidden = !bookList.isEmpty
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(bookList, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - BookListLayout Delegate
@@ -191,12 +201,12 @@ extension BookLibraryViewController: BookListMenuDelegate {
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
     func refreshData() {
-        title = setTitle()
-        libraryPresenter.noMoreBooks = false
         bookList.removeAll()
-        libraryPresenter.getBooks(with: currentQuery)
+        presenter.endOfList = false
+        presenter.getBooks(with: currentQuery)
     }
 }
+
 // MARK: - EmptyStateView Delegate
 extension BookLibraryViewController: EmptyStateViewDelegate {
     func didTapButton() {
@@ -213,35 +223,21 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
     }
 }
 
+// MARK: - LibraryPresenter Delegate
 extension BookLibraryViewController: LibraryPresenterDelegate {
     func showActivityIndicator() {
         showIndicator(mainView.activityIndicator)
-        footerView.displayActivityIndicator(true)
+        mainView.footerView.displayActivityIndicator(true)
     }
     
     func stopActivityIndicator() {
-        self.hideIndicator(self.mainView.activityIndicator)
-        self.mainView.refresherControl.endRefreshing()
-        self.footerView.displayActivityIndicator(false)
+        hideIndicator(mainView.activityIndicator)
+        mainView.refresherControl.endRefreshing()
+        mainView.footerView.displayActivityIndicator(false)
     }
     
     func addBookToList(_ books: [Item]) {
-        books.forEach { book in
-            if !bookList.contains(where: { $0.bookID == book.bookID }) {
-                bookList.append(book)
-                applySnapshot()
-            }
-        }
+        bookList.append(contentsOf: books)
+        applySnapshot(animatingDifferences: true)
     }
-    
-    func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.collectionView.isHidden = bookList.isEmpty
-        mainView.emptyStateView.isHidden = !bookList.isEmpty
-        
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(bookList, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
-    
 }

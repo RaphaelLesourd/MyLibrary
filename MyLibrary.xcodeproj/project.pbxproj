@@ -27,6 +27,8 @@
 		811C5C2227971BEA003D11BA /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2127971BEA003D11BA /* HomePresenter.swift */; };
 		811C5C24279721E3003D11BA /* BookCardDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C23279721E3003D11BA /* BookCardDetail.swift */; };
 		811C5C2727972E3E003D11BA /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2627972E3E003D11BA /* SearchPresenter.swift */; };
+		811C5C2A2797EAA8003D11BA /* CategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C292797EAA8003D11BA /* CategoryPresenter.swift */; };
+		811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */; };
 		811D5BBD2744E60C00C935B5 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBC2744E60C00C935B5 /* CategoryModel.swift */; };
 		811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BBE2744F6FD00C935B5 /* CategoryService.swift */; };
 		811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */; };
@@ -288,6 +290,8 @@
 		811C5C2127971BEA003D11BA /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		811C5C23279721E3003D11BA /* BookCardDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardDetail.swift; sourceTree = "<group>"; };
 		811C5C2627972E3E003D11BA /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		811C5C292797EAA8003D11BA /* CategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenter.swift; sourceTree = "<group>"; };
+		811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryPresenter.swift; sourceTree = "<group>"; };
 		811D5BBC2744E60C00C935B5 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		811D5BBE2744F6FD00C935B5 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryService.swift; sourceTree = "<group>"; };
 		811D5BC027452DA600C935B5 /* CategoryControllerMainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryControllerMainView.swift; sourceTree = "<group>"; };
@@ -585,11 +589,30 @@
 		811C5C252797226E003D11BA /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				811C5C292797EAA8003D11BA /* CategoryPresenter.swift */,
 				811C5C2127971BEA003D11BA /* HomePresenter.swift */,
 				811C5C1F279711F5003D11BA /* LibraryPresenter.swift */,
+				811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */,
 				811C5C2627972E3E003D11BA /* SearchPresenter.swift */,
 			);
 			name = Presenters;
+			sourceTree = "<group>";
+		};
+		811C5C282797EA6B003D11BA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
+				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		811C5C2F2797FF50003D11BA /* NewCategories */ = {
+			isa = PBXGroup;
+			children = (
+				8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */,
+			);
+			name = NewCategories;
 			sourceTree = "<group>";
 		};
 		812047F5272A884100E0A45B /* Welcome */ = {
@@ -756,7 +779,6 @@
 			isa = PBXGroup;
 			children = (
 				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
-				8105937E27870D2000ACBA2C /* NewCategoryViewController.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1053,6 +1075,7 @@
 				810C446E2726F81A007541C0 /* MyLibrary.entitlements */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
 				814751692727D80E0080C5BA /* GoogleService-Info.plist */,
+				811C5C282797EA6B003D11BA /* App */,
 				81C6CCAD272479A200DE9219 /* Assets */,
 				8121F07A273A9A3E006EAA8D /* Constants */,
 				81F692D52784BE8B0001450D /* Configurators */,
@@ -1094,8 +1117,6 @@
 		81C6CCA32724774800DE9219 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
-				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
 				81C6CCA42724776900DE9219 /* TabBarController.swift */,
 				8157F55C278201D3005F182A /* IpadSplitViewController.swift */,
 				8183145727931D6100351F88 /* Account */,
@@ -1109,6 +1130,7 @@
 				8183145427931D4A00351F88 /* Home */,
 				81A7509F27900D0B00CAC424 /* Onboarding */,
 				8183144B27931D1100351F88 /* NewBook */,
+				811C5C2F2797FF50003D11BA /* NewCategories */,
 				8157F5642782CC2A005F182A /* Search */,
 				8157F51F2780904F005F182A /* WelcomeFlow */,
 			);
@@ -1663,6 +1685,7 @@
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
 				8157F4D5277AF60F005F182A /* CommentCellConfigure.swift in Sources */,
 				812BA741278DCF09009541E4 /* TextField.swift in Sources */,
+				811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */,
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
 				81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */,
 				8157F5762782E1F1005F182A /* NewBookConfigure.swift in Sources */,
@@ -1733,6 +1756,7 @@
 				81A750A127900D2100CAC424 /* OnboardingViewController.swift in Sources */,
 				8157F4DA277AFAFA005F182A /* BookCardMainViewDelegate.swift in Sources */,
 				8138DDE2274784D400C355C6 /* Formatter.swift in Sources */,
+				811C5C2A2797EAA8003D11BA /* CategoryPresenter.swift in Sources */,
 				81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */,
 				8183145627931D5A00351F88 /* HomeViewController.swift in Sources */,
 				818852622778863B002813A1 /* BookCardConfigure.swift in Sources */,

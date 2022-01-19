@@ -31,7 +31,7 @@ class IpadSplitViewController: UISplitViewController {
         let homePresenter = HomePresenter(libraryService: LibraryService(),
                                           categoryService: CategoryService(),
                                           recommendationService: RecommandationService())
-        let homeViewController = HomeViewController(homePresenter: homePresenter,
+        let homeViewController = HomeViewController(presenter: homePresenter,
                                                     layoutComposer: HomeTabLayout())
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),

@@ -23,12 +23,12 @@ class HomeViewController: UIViewController, BookDetail {
     private let layoutComposer: HomeLayoutComposer
     private let cellPresenter: BookCellAdapter
     private let userCellPresenter: UserCellConfigure
-    private let homePresenter: HomePresenter
+    private let presenter: HomePresenter
     
     // MARK: - Initializer
-    init(homePresenter: HomePresenter,
+    init(presenter: HomePresenter,
          layoutComposer: HomeLayoutComposer) {
-        self.homePresenter = homePresenter
+        self.presenter = presenter
         self.layoutComposer = layoutComposer
         self.cellPresenter = BookCellAdapt(imageRetriever: KFImageRetriever())
         self.userCellPresenter = UserCellConfiguration(imageRetriever: KFImageRetriever())
@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, BookDetail {
         super.viewDidLoad()
         mainView.emptyStateView.isHidden = true
         mainView.delegate = self
-        homePresenter.setDelegate(with: self)
+        presenter.delegate = self
         configureCollectionView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
@@ -70,8 +70,8 @@ class HomeViewController: UIViewController, BookDetail {
                                             style: .plain,
                                             target: self,
                                             action: #selector(showAccountController))
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [accountButton, activityIndicactorButton]
+        let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [accountButton, activityIndicactor]
     }
     
     // MARK: - Targets
@@ -93,7 +93,7 @@ class HomeViewController: UIViewController, BookDetail {
 
         let bookListVC = BookLibraryViewController(currentQuery: query,
                                                    queryService: QueryService(),
-                                                   libraryPresenter: LibraryPresenter(libraryService: LibraryService()),
+                                                   presenter: LibraryPresenter(libraryService: LibraryService()),
                                                    layoutComposer: BookListLayout())
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
@@ -101,7 +101,7 @@ class HomeViewController: UIViewController, BookDetail {
     
     private func showCategories() {
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
-                                                      categoryService: CategoryService())
+                                                      categoryPresenter: CategoryPresenter(categoryService: CategoryService()))
         if UIDevice.current.userInterfaceIdiom == .pad {
             let categoryVC = UINavigationController(rootViewController: categoryListVC)
             present(categoryVC, animated: true, completion: nil)
@@ -184,32 +184,6 @@ extension HomeViewController {
             return headerView
         }
     }
-    
-    func applySnapshot(animatingDifferences: Bool) {
-        var snapshot = Snapshot()
-        if !homePresenter.categoryService.categories.isEmpty {
-            snapshot.appendSections([.categories])
-            snapshot.appendItems(homePresenter.categoryService.categories, toSection: .categories)
-        }
-        if !latestBooks.isEmpty {
-            snapshot.appendSections([.newEntry])
-            snapshot.appendItems(latestBooks, toSection: .newEntry)
-        }
-        if !favoriteBooks.isEmpty {
-            snapshot.appendSections([.favorites])
-            snapshot.appendItems(favoriteBooks, toSection: .favorites)
-        }
-        if !followedUser.isEmpty {
-            snapshot.appendSections([.users])
-            snapshot.appendItems(followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
-                                 toSection: .users)
-        }
-        if !recommandedBooks.isEmpty {
-            snapshot.appendSections([.recommanding])
-            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
-        }
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-    }
 }
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
@@ -253,15 +227,44 @@ extension HomeViewController: BookListViewDelegate {
     }
     
     func refreshData() {
-        homePresenter.getCategories()
-        homePresenter.getLatestBooks()
-        homePresenter.getFavoriteBooks()
-        homePresenter.getRecommendations()
-        homePresenter.getUsers()
+        presenter.getCategories()
+        presenter.getLatestBooks()
+        presenter.getFavoriteBooks()
+        presenter.getRecommendations()
+        presenter.getUsers()
     }
 }
 // MARK: - HomePresenter Delegate
 extension HomeViewController: HomePresenterDelegate {
+    
+    func applySnapshot(animatingDifferences: Bool) {
+        var snapshot = Snapshot()
+        DispatchQueue.main.async {
+            if !self.presenter.categoryService.categories.isEmpty {
+                snapshot.appendSections([.categories])
+                snapshot.appendItems(self.presenter.categoryService.categories, toSection: .categories)
+            }
+            if !self.latestBooks.isEmpty {
+                snapshot.appendSections([.newEntry])
+                snapshot.appendItems(self.latestBooks, toSection: .newEntry)
+            }
+            if !self.favoriteBooks.isEmpty {
+                snapshot.appendSections([.favorites])
+                snapshot.appendItems(self.favoriteBooks, toSection: .favorites)
+            }
+            if !self.followedUser.isEmpty {
+                snapshot.appendSections([.users])
+                snapshot.appendItems(self.followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
+                                     toSection: .users)
+            }
+            if !self.recommandedBooks.isEmpty {
+                snapshot.appendSections([.recommanding])
+                snapshot.appendItems(self.recommandedBooks, toSection: .recommanding)
+            }
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
+    }
+    
     func showActivityIndicator() {
         showIndicator(mainView.activityIndicator)
     }

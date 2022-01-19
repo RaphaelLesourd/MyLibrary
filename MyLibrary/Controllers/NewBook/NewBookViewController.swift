@@ -23,7 +23,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
             setBookDetail()
         }
     }
-    private let resultController = SearchViewController(searchPresenter: SearchPresenter(apiManager: ApiManager()),
+    private let resultController = SearchViewController(presenter: SearchPresenter(apiManager: ApiManager()),
                                                         layoutComposer: BookListLayout())
     private let languageList = Locale.isoLanguageCodes
     private let currencyList = Locale.isoCurrencyCodes
@@ -211,7 +211,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     
     private func showCategoryList() {
         let categoryListVC = CategoriesViewController(settingBookCategory: true,
-                                                      categoryService: CategoryService())
+                                                      categoryPresenter: CategoryPresenter(categoryService: CategoryService()))
         categoryListVC.newBookDelegate = self
         categoryListVC.selectedCategories = bookCategories
         navigationController?.show(categoryListVC, sender: nil)

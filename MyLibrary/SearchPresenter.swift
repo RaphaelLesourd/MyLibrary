@@ -5,22 +5,19 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-import UIKit
-
 protocol SearchPresenterDelegate: AnyObject {
     func handleList(for: [Item])
     func showActivityIndicator()
     func stopActivityIndicator()
 }
 
-typealias SearchBookPresenterDelegate = SearchPresenterDelegate & UIViewController
-
 class SearchPresenter {
     
-    weak var delegate: SearchBookPresenterDelegate?
-    
+    // MARK: - Properties
+    weak var delegate: SearchPresenterDelegate?
     private let apiManager: ApiManagerProtocol
     
+    // MARK: - Initializer
     init(apiManager: ApiManagerProtocol) {
         self.apiManager = apiManager
     }
@@ -43,9 +40,5 @@ class SearchPresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
-    }
-    
-    func setDelegate(with delegate: SearchBookPresenterDelegate) {
-        self.delegate = delegate
     }
 }

@@ -5,8 +5,6 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-import UIKit
-
 protocol LibraryPresenterDelegate: AnyObject {
     func addBookToList(_ books: [Item])
     func applySnapshot(animatingDifferences: Bool)
@@ -14,18 +12,19 @@ protocol LibraryPresenterDelegate: AnyObject {
     func stopActivityIndicator()
 }
 
-typealias BookLibraryPresenterDelegate = LibraryPresenterDelegate & UIViewController
-
 class LibraryPresenter {
     
-    weak var delegate: BookLibraryPresenterDelegate?
-    var noMoreBooks = false
+    // MARK: - Properties
+    weak var delegate: LibraryPresenterDelegate?
+    var endOfList: Bool = false
     private let libraryService: LibraryService
     
+    // MARK: - Initializer
     init(libraryService: LibraryService) {
         self.libraryService = libraryService
     }
     
+    // MARK: - API Call
     func getBooks(with query: BookQuery, nextPage: Bool = false) {
         delegate?.showActivityIndicator()
         libraryService.getBookList(for: query, limit: 40, forMore: nextPage) { [weak self] result in
@@ -34,7 +33,7 @@ class LibraryPresenter {
             switch result {
             case .success(let books):
                 guard !books.isEmpty else {
-                    self.noMoreBooks = true
+                    self.endOfList = true
                     self.delegate?.applySnapshot(animatingDifferences: true)
                     return
                 }
@@ -43,9 +42,5 @@ class LibraryPresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
-    }
-    
-    func setDelegate(with delegate: BookLibraryPresenterDelegate) {
-        self.delegate = delegate
     }
 }

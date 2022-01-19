@@ -35,6 +35,7 @@ class CategoryControllerMainView: UIView {
     }()
     
     let refresherControl = UIRefreshControl()
+    let activityIndicator = UIActivityIndicatorView()
     let emptyStateView = EmptyStateView()
     
     // MARK: - Configure

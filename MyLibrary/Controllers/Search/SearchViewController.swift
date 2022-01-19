@@ -27,13 +27,13 @@ class SearchViewController: UIViewController {
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private var cellPresenter: BookCellAdapter?
-    private let searchPresenter: SearchPresenter
+    private let presenter: SearchPresenter
     private var noMoreBooks: Bool?
     
     // MARK: - Initializer
-    init(searchPresenter: SearchPresenter,
+    init(presenter: SearchPresenter,
          layoutComposer: BookListLayoutComposer) {
-        self.searchPresenter = searchPresenter
+        self.presenter = presenter
         self.layoutComposer = layoutComposer
         self.cellPresenter = BookCellAdapt(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
@@ -54,7 +54,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.delegate = self
-        searchPresenter.setDelegate(with: self)
+        presenter.delegate = self
         configureEmptyStateView()
         configureNavigationBar()
         configureCollectionView()
@@ -139,7 +139,7 @@ extension SearchViewController: UICollectionViewDelegate {
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
         if indexPath.row == currentRow && noMoreBooks == false {
-            searchPresenter.getBooks(with: currentSearchKeywords, fromIndex: searchedBooks.count + 1)
+            presenter.getBooks(with: currentSearchKeywords, fromIndex: searchedBooks.count + 1)
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController
@@ -154,7 +154,7 @@ extension SearchViewController: BookListViewDelegate {
     func refreshData() {
         searchedBooks.removeAll()
         noMoreBooks = false
-        searchPresenter.getBooks(with: currentSearchKeywords, fromIndex: 0)
+        presenter.getBooks(with: currentSearchKeywords, fromIndex: 0)
     }
 }
 // MARK: - SearchPresenter Delegate

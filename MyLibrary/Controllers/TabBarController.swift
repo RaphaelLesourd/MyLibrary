@@ -47,7 +47,7 @@ class TabBarController: UITabBarController {
         let homePresenter = HomePresenter(libraryService: LibraryService(),
                                           categoryService: CategoryService(),
                                           recommendationService: RecommandationService())
-        let homeVC = HomeViewController(homePresenter: homePresenter,
+        let homeVC = HomeViewController(presenter: homePresenter,
                                         layoutComposer: HomeTabLayout())
         let homeViewController = createController(for: homeVC,
                                                      title: Text.ControllerTitle.home,
@@ -55,7 +55,7 @@ class TabBarController: UITabBarController {
         // Library tab
         let bookVC = BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                queryService: QueryService(),
-                                               libraryPresenter: LibraryPresenter(libraryService: LibraryService()),
+                                               presenter: LibraryPresenter(libraryService: LibraryService()),
                                                layoutComposer: BookListLayout())
         let libraryViewController = createController(for: bookVC,
                                                         title: Text.ControllerTitle.myBooks,

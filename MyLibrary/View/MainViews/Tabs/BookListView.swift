@@ -27,6 +27,8 @@ class BookListView: UIView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     let emptyStateView = EmptyStateView()
+    var headerView = HeaderSupplementaryView()
+    var footerView = LoadingFooterSupplementaryView()
     
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
