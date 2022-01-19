@@ -39,16 +39,18 @@ class CommentPresenter {
         view?.showActivityIndicator()
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.view?.stopActivityIndicator()
-                switch result {
-                case .success(let comments):
+            
+            self.view?.stopActivityIndicator()
+            switch result {
+            case .success(let comments):
+                DispatchQueue.main.async {
                     self.commentList = comments
                     self.view?.updateCommentList(with: comments)
-                case .failure(let error):
-                    AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 }
+            case .failure(let error):
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+            
         }
     }
     
@@ -86,7 +88,9 @@ class CommentPresenter {
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     

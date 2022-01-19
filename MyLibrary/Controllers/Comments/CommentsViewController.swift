@@ -245,11 +245,15 @@ extension CommentsViewController: CommentsPresenterView {
     }
 
     func showActivityIndicator() {
-        showIndicator(mainView.activityIndicator)
+        DispatchQueue.main.async {
+            self.showIndicator(self.mainView.activityIndicator)
+        }
     }
     
     func stopActivityIndicator() {
-        mainView.refresherControl.endRefreshing()
-        hideIndicator(mainView.activityIndicator)
+        DispatchQueue.main.async {
+            self.mainView.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+        }
     }
 }

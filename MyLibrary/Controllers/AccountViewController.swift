@@ -12,25 +12,20 @@ import FirebaseAuth
 class AccountViewController: UIViewController {
     
     // MARK: - Properties
-    private let accountService: AccountServiceProtocol
-    private let userService: UserServiceProtocol
-    private let imageService: ImageStorageProtocol
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
   
-    private var accountDataPresenter: AccountTabConfigure
+    private let presenter: AccountTabPresenter
+    private var accountDataConfigurator: AccountTabConfigure
     private var imagePicker: ImagePicker?
     
     // MARK: - Initializer
-    init(accountService: AccountServiceProtocol,
-         userService: UserServiceProtocol,
-         imageService: ImageStorageProtocol,
-         feedbackManager: FeedbackManagerProtocol) {
-        self.accountService = accountService
-        self.userService = userService
-        self.imageService = imageService
+    init(presenter: AccountTabPresenter,
+         feedbackManager: FeedbackManagerProtocol,
+         accountDataConfigurator: AccountTabConfigure) {
+        self.presenter = presenter
         self.feedbackManager = feedbackManager
-        self.accountDataPresenter = AccountTabConfiguration(imageRetriever: KFImageRetriever())
+        self.accountDataConfigurator = accountDataConfigurator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,11 +38,12 @@ class AccountViewController: UIViewController {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.account
-        getProfileData()
+        presenter.getProfileData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.view = self
         mainView.profileView.animationView.play()
         imagePicker = ImagePicker(presentationController: self,
                                   delegate: self,
@@ -58,8 +54,8 @@ class AccountViewController: UIViewController {
 
     // MARK: - Setup
     private func addNavigationBarButtons() {
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [activityIndicactorButton]
+        let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
+        navigationItem.rightBarButtonItems = [activityIndicactor]
     }
     
     private func setDelegates() {
@@ -80,68 +76,6 @@ class AccountViewController: UIViewController {
             self.mainView.profileView.loadingSpeed(false)
         }
     }
-    
-    // MARK: - Api call
-    private func getProfileData() {
-        mainView.activityIndicator.startAnimating()
-        self.userService.retrieveUser { [weak self] result in
-            guard let self = self else { return }
-            self.mainView.activityIndicator.stopAnimating()
-            switch result {
-            case .success(let currentUser):
-                guard let currentUser = currentUser else { return }
-                DispatchQueue.main.async {
-                    self.accountDataPresenter.configure(self.mainView, with: currentUser)
-                }
-            case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    
-    private func saveUserName() {
-        animateLoader()
-        let username = mainView.profileView.userNameTextfield.text
-        userService.updateUserName(with: username) { [weak self] error in
-            guard let self = self else { return }
-            self.stopAnimatingLoaders()
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.userNameUpdated)
-        }
-    }
-    
-    private func saveProfileImage(_ image: UIImage) {
-        animateLoader()
-        let profileImageData = image.jpegData(.medium)
-        imageService.updateUserImage(for: profileImageData) { [weak self] error in
-            self?.stopAnimatingLoaders()
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.profilePhotoUpdated)
-        }
-    }
-    
-    private func signoutAccount() {
-        let userDisplayName = Auth.auth().currentUser?.displayName ?? ""
-        showIndicator(mainView.activityIndicator)
-        mainView.profileView.accountView.signoutButton.displayActivityIndicator(true)
-        
-        accountService.signOut { [weak self] error in
-            guard let self = self else { return }
-            self.mainView.profileView.accountView.signoutButton.displayActivityIndicator(false)
-            self.hideIndicator(self.mainView.activityIndicator)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon), subtitle: userDisplayName)
-        }
-    }
 }
 // MARK: - ImagePicker Delegate
 extension AccountViewController: ImagePickerDelegate {
@@ -149,14 +83,15 @@ extension AccountViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         mainView.profileView.profileImageButton.setImage(image, for: .normal)
-        saveProfileImage(image)
+        let imageData = image.jpegData(.medium)
+        presenter.saveProfileImage(imageData)
     }
 }
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == mainView.profileView.userNameTextfield {
-            saveUserName()
+            presenter.saveUserName(with: textField.text)
         }
         textField.resignFirstResponder()
         return true
@@ -172,7 +107,7 @@ extension AccountViewController: ProfileViewDelegate {
 extension AccountViewController: AccountViewDelegate {
     func signoutRequest() {
         AlertManager.presentAlert(title: Text.Alert.signout, message: "", cancel: true, on: self) { _ in
-            self.signoutAccount()
+            self.presenter.signoutAccount()
         }
     }
     
@@ -196,5 +131,31 @@ extension AccountViewController: AccountViewDelegate {
 extension AccountViewController: ContactViewDelegate {
     func presentMailComposer() {
         feedbackManager?.presentMail(on: self)
+    }
+}
+
+extension AccountViewController: AccountTabPresenterView {
+    func configureView(with user: UserModel) {
+        accountDataConfigurator.configure(self.mainView, with: user)
+    }
+    
+    func showActivityIndicator() {
+        DispatchQueue.main.async {
+            self.mainView.activityIndicator.startAnimating()
+            self.animateLoader()
+        }
+    }
+    
+    func stopActivityIndicator() {
+        DispatchQueue.main.async {
+            self.mainView.activityIndicator.stopAnimating()
+            self.stopAnimatingLoaders()
+        }
+    }
+    
+    func animateSavebuttonIndicator(_ animate: Bool) {
+        DispatchQueue.main.async {
+            self.mainView.profileView.accountView.signoutButton.displayActivityIndicator(animate)
+        }
     }
 }

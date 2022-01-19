@@ -12,7 +12,9 @@ protocol BookDetail {
 }
 
 extension BookDetail {
-    func showBookDetails(for book: Item, searchType: SearchType?, controller: UIViewController) {
+    func showBookDetails(for book: Item,
+                         searchType: SearchType?,
+                         controller: UIViewController) {
         let bookCardVC = BookCardViewController(book: book,
                                                 libraryService: LibraryService(),
                                                 recommendationService: RecommandationService())

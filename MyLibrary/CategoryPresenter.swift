@@ -5,6 +5,8 @@
 //  Created by Birkyboy on 19/01/2022.
 //
 
+import Foundation
+
 protocol CategoryPresenterView: AnyObject {
     func applySnapshot(animatingDifferences: Bool)
     func showActivityIndicator()
@@ -31,7 +33,9 @@ class CategoryPresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     
@@ -41,16 +45,18 @@ class CategoryPresenter {
         categoryService.deleteCategory(for: category) { [weak self] error in
             guard let self = self else { return }
             self.view?.stopActivityIndicator()
-             if let error = error {
-                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                 return
-             }
-             if let index = self.categoryService.categories.firstIndex(where: {
-                 $0.name?.lowercased() == category.name?.lowercased()
-             }) {
-                 self.categoryService.categories.remove(at: index)
-             }
-             self.view?.applySnapshot(animatingDifferences: true)
-         }
-     }
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            if let index = self.categoryService.categories.firstIndex(where: {
+                $0.name?.lowercased() == category.name?.lowercased()
+            }) {
+                self.categoryService.categories.remove(at: index)
+            }
+            DispatchQueue.main.async {
+                self.view?.applySnapshot(animatingDifferences: true)
+            }
+        }
+    }
 }

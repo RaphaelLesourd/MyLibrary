@@ -76,6 +76,13 @@ class HomeViewController: UIViewController, BookDetail {
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactor]
     }
     
+    func refreshData() {
+        presenter.getCategories()
+        presenter.getLatestBooks()
+        presenter.getFavoriteBooks()
+        presenter.getRecommendations()
+        presenter.getUsers()
+    }
     // MARK: - Targets
     @objc private func showMoreButtonAction(_ sender: UIButton) {
         let section = HomeCollectionViewSections(rawValue: sender.tag)
@@ -102,8 +109,9 @@ class HomeViewController: UIViewController, BookDetail {
     }
     
     private func showCategories() {
+        let categoryPresenter = CategoryPresenter(categoryService: CategoryService())
         let categoryListVC = CategoriesViewController(settingBookCategory: false,
-                                                      categoryPresenter: CategoryPresenter(categoryService: CategoryService()))
+                                                      categoryPresenter: categoryPresenter)
         if UIDevice.current.userInterfaceIdiom == .pad {
             let categoryVC = UINavigationController(rootViewController: categoryListVC)
             present(categoryVC, animated: true, completion: nil)
@@ -116,10 +124,13 @@ class HomeViewController: UIViewController, BookDetail {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let accountController = AccountViewController(accountService: accountService,
-                                                      userService: UserService(),
+        let accountTabConfigurator = AccountTabConfiguration(imageRetriever: KFImageRetriever())
+        let accountTabPresenter = AccountTabPresenter(userService: UserService(),
                                                       imageService: ImageStorageService(),
-                                                      feedbackManager: FeedbackManager())
+                                                      accountService: accountService)
+        let accountController = AccountViewController(presenter: accountTabPresenter,
+                                                      feedbackManager: FeedbackManager(),
+                                                      accountDataConfigurator: accountTabConfigurator)
         let accountVC = UINavigationController(rootViewController: accountController)
         present(accountVC, animated: true, completion: nil)
     }
@@ -186,6 +197,32 @@ extension HomeViewController {
             return headerView
         }
     }
+    
+    func applySnapshot(animatingDifferences: Bool) {
+        var snapshot = Snapshot()
+        if !presenter.categoryService.categories.isEmpty {
+            snapshot.appendSections([.categories])
+            snapshot.appendItems(presenter.categoryService.categories, toSection: .categories)
+        }
+        if !latestBooks.isEmpty {
+            snapshot.appendSections([.newEntry])
+            snapshot.appendItems(latestBooks, toSection: .newEntry)
+        }
+        if !favoriteBooks.isEmpty {
+            snapshot.appendSections([.favorites])
+            snapshot.appendItems(favoriteBooks, toSection: .favorites)
+        }
+        if !followedUser.isEmpty {
+            snapshot.appendSections([.users])
+            snapshot.appendItems(followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
+                                 toSection: .users)
+        }
+        if !recommandedBooks.isEmpty {
+            snapshot.appendSections([.recommanding])
+            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+        }
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
 }
 // MARK: - CollectionView Delegate
 extension HomeViewController: UICollectionViewDelegate {
@@ -227,52 +264,19 @@ extension HomeViewController: BookListViewDelegate {
             controller.newBookView.bookTileCell.textField.becomeFirstResponder()
         }
     }
-    
-    func refreshData() {
-        presenter.getCategories()
-        presenter.getLatestBooks()
-        presenter.getFavoriteBooks()
-        presenter.getRecommendations()
-        presenter.getUsers()
-    }
 }
 // MARK: - HomePresenter
 extension HomeViewController: HomePresenterView {
-    
-    func applySnapshot(animatingDifferences: Bool) {
-        var snapshot = Snapshot()
+    func showActivityIndicator() {
         DispatchQueue.main.async {
-            if !self.presenter.categoryService.categories.isEmpty {
-                snapshot.appendSections([.categories])
-                snapshot.appendItems(self.presenter.categoryService.categories, toSection: .categories)
-            }
-            if !self.latestBooks.isEmpty {
-                snapshot.appendSections([.newEntry])
-                snapshot.appendItems(self.latestBooks, toSection: .newEntry)
-            }
-            if !self.favoriteBooks.isEmpty {
-                snapshot.appendSections([.favorites])
-                snapshot.appendItems(self.favoriteBooks, toSection: .favorites)
-            }
-            if !self.followedUser.isEmpty {
-                snapshot.appendSections([.users])
-                snapshot.appendItems(self.followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
-                                     toSection: .users)
-            }
-            if !self.recommandedBooks.isEmpty {
-                snapshot.appendSections([.recommanding])
-                snapshot.appendItems(self.recommandedBooks, toSection: .recommanding)
-            }
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            self.showIndicator(self.mainView.activityIndicator)
         }
     }
     
-    func showActivityIndicator() {
-        showIndicator(mainView.activityIndicator)
-    }
-    
     func stopActivityIndicator() {
-        hideIndicator(self.mainView.activityIndicator)
-        mainView.refresherControl.endRefreshing()
+        DispatchQueue.main.async {
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
+        }
     }
 }

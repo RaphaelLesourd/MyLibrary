@@ -13,15 +13,20 @@ class TabBarController: UITabBarController {
     
     // MARK: - Properties
     private let libraryService = LibraryService()
-    private let cellConfigurator = BookCellAdapt(imageRetriever: KFImageRetriever())
-    private let userCellConfigurator = UserCellConfiguration(imageRetriever: KFImageRetriever())
-    private let libraryPresenter = LibraryPresenter(libraryService: LibraryService())
-    private let homePresenter = HomePresenter(libraryService: LibraryService(),
-                                              categoryService: CategoryService(),
-                                              recommendationService: RecommandationService())
     private let accountService = AccountService(userService: UserService(),
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
+    private let cellConfigurator = BookCellAdapt(imageRetriever: KFImageRetriever())
+    private let userCellConfigurator = UserCellConfiguration(imageRetriever: KFImageRetriever())
+    private let accountTabConfigurator = AccountTabConfiguration(imageRetriever: KFImageRetriever())
+    private let libraryPresenter = LibraryPresenter(libraryService: LibraryService())
+    private lazy var accountTabPresenter = AccountTabPresenter(userService: UserService(),
+                                                               imageService: ImageStorageService(),
+                                                               accountService: accountService)
+    private let homePresenter = HomePresenter(libraryService: LibraryService(),
+                                              categoryService: CategoryService(),
+                                              recommendationService: RecommandationService())
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,10 +81,9 @@ class TabBarController: UITabBarController {
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.TabBarIcon.newBookIcon)
         // Account tab
-        let accountVC = AccountViewController(accountService: accountService,
-                                              userService: UserService(),
-                                              imageService: ImageStorageService(),
-                                              feedbackManager: FeedbackManager())
+        let accountVC = AccountViewController(presenter: accountTabPresenter,
+                                              feedbackManager: FeedbackManager(),
+                                              accountDataConfigurator: accountTabConfigurator)
         let accountViewController = createController(for: accountVC,
                                                         title: Text.ControllerTitle.account,
                                                         image: Images.TabBarIcon.accountIcon)

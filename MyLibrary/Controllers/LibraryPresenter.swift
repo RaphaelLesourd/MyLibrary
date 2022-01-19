@@ -25,9 +25,12 @@ class LibraryPresenter {
     }
     
     // MARK: - API Call
-    func getBooks(with query: BookQuery, nextPage: Bool = false) {
+    func getBooks(with query: BookQuery,
+                  nextPage: Bool = false) {
         view?.showActivityIndicator()
-        libraryService.getBookList(for: query, limit: 40, forMore: nextPage) { [weak self] result in
+        libraryService.getBookList(for: query,
+                                      limit: 40,
+                                      forMore: nextPage) { [weak self] result in
             guard let self = self else { return }
             self.view?.stopActivityIndicator()
             switch result {

@@ -65,6 +65,7 @@
 		8125AD26279857D100FB6725 /* CommentBookCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD25279857D100FB6725 /* CommentBookCellData.swift */; };
 		8125AD292798583400FB6725 /* CommentBookCellConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */; };
 		8125AD2B2798587E00FB6725 /* CommentBookCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */; };
+		8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2C27986EB500FB6725 /* AccountPresenter.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -333,6 +334,7 @@
 		8125AD25279857D100FB6725 /* CommentBookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellData.swift; sourceTree = "<group>"; };
 		8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfigure.swift; sourceTree = "<group>"; };
 		8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfiguration.swift; sourceTree = "<group>"; };
+		8125AD2C27986EB500FB6725 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -757,8 +759,8 @@
 		8157F55B2781D58E005F182A /* BarcodeScanner */ = {
 			isa = PBXGroup;
 			children = (
-				8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */,
 				8157F5592781D585005F182A /* BarcodeScannerDelegate.swift */,
+				8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */,
 			);
 			path = BarcodeScanner;
 			sourceTree = "<group>";
@@ -845,6 +847,7 @@
 			isa = PBXGroup;
 			children = (
 				81A6727127931BEE00298394 /* AccountViewController.swift */,
+				8125AD2C27986EB500FB6725 /* AccountPresenter.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -1872,6 +1875,7 @@
 				81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */,
 				812B16132772106200D65C6A /* BarcodeReader.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
+				8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */,
 				812BA740278DCF09009541E4 /* AppLogoView.swift in Sources */,
 				811C5C2727972E3E003D11BA /* SearchPresenter.swift in Sources */,
 				81C6CCCD27247AF100DE9219 /* UIColors+Extension.swift in Sources */,

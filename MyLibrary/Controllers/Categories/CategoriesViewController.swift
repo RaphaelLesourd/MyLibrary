@@ -84,7 +84,7 @@ class CategoriesViewController: UIViewController {
             }
         })
     }
-
+    
     // MARK: - Categories dialog
     @objc private func addNewCategory() {
         presentNewCategoryController(editing: false)
@@ -132,6 +132,17 @@ extension CategoriesViewController {
         return dataSource
     }
     
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.tableView.isHidden = presenter.categoryService.categories.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.categoryService.categories.isEmpty
+        
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(presenter.categoryService.categories, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        highlightBookCategories(with: self.selectedCategories)
+    }
 }
 // MARK: - TableView Delegate
 extension CategoriesViewController: UITableViewDelegate {
@@ -162,7 +173,7 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 50
     }
-    
+
     // Context menu
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
@@ -208,26 +219,16 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func applySnapshot(animatingDifferences: Bool) {
+    func showActivityIndicator() {
         DispatchQueue.main.async {
-            self.mainView.tableView.isHidden = self.presenter.categoryService.categories.isEmpty
-            self.mainView.emptyStateView.isHidden = !self.presenter.categoryService.categories.isEmpty
-          
-            var snapshot = Snapshot()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(self.presenter.categoryService.categories, toSection: .main)
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-           
-            self.highlightBookCategories(with: self.selectedCategories)
+            self.mainView.activityIndicator.startAnimating()
         }
     }
     
-    func showActivityIndicator() {
-        mainView.activityIndicator.startAnimating()
-    }
-    
     func stopActivityIndicator() {
-        mainView.activityIndicator.stopAnimating()
-        mainView.refresherControl.endRefreshing()
+        DispatchQueue.main.async {
+            self.mainView.activityIndicator.stopAnimating()
+            self.mainView.refresherControl.endRefreshing()
+        }
     }
 }

@@ -5,6 +5,8 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
+import Foundation
+
 protocol HomePresenterView: AnyObject {
     var latestBooks: [Item] { get set }
     var favoriteBooks: [Item] { get set }
@@ -38,28 +40,36 @@ class HomePresenter {
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     
     func getLatestBooks() {
         getBooks(for: .latestBookQuery) { [weak self] books in
-            self?.view?.latestBooks = books
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.latestBooks = books
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     
     func getFavoriteBooks() {
         getBooks(for: .favoriteBookQuery) { [weak self] books in
-            self?.view?.favoriteBooks = books
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.favoriteBooks = books
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     
     func getRecommendations() {
         getBooks(for: .recommendationQuery) { [weak self] books in
-            self?.view?.recommandedBooks = books
-            self?.view?.applySnapshot(animatingDifferences: true)
+            DispatchQueue.main.async {
+                self?.view?.recommandedBooks = books
+                self?.view?.applySnapshot(animatingDifferences: true)
+            }
         }
     }
     
@@ -67,15 +77,18 @@ class HomePresenter {
         recommendationService.retrieveRecommendingUsers { [weak self] result in
             switch result {
             case .success(let users):
-                self?.view?.followedUser = users
-                self?.view?.applySnapshot(animatingDifferences: true)
+                DispatchQueue.main.async {
+                    self?.view?.followedUser = users
+                    self?.view?.applySnapshot(animatingDifferences: true)
+                }
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }
         }
     }
     
-    private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
+    private func getBooks(for query: BookQuery,
+                          completion: @escaping ([Item]) -> Void) {
         view?.showActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 15,

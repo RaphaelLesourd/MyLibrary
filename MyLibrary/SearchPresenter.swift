@@ -27,8 +27,10 @@ class SearchPresenter {
     /// - Parameters:
     ///   - query: String passing search keywords, could be title, author or isbn
     ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
-    func getBooks(with keywords: String, fromIndex: Int) {
+    func getBooks(with keywords: String,
+                  fromIndex: Int) {
         view?.showActivityIndicator()
+        
         apiManager.getData(with: keywords, fromIndex: fromIndex) { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
