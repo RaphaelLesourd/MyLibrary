@@ -7,14 +7,12 @@
 
 import Foundation
 
-protocol HomePresenterView: AnyObject {
+protocol HomePresenterView: AcitivityIndicatorProtocol,AnyObject {
     var latestBooks: [Item] { get set }
     var favoriteBooks: [Item] { get set }
     var recommandedBooks: [Item] { get set }
     var followedUser: [UserModel] { get set }
     func applySnapshot(animatingDifferences: Bool)
-    func showActivityIndicator()
-    func stopActivityIndicator()
 }
 
 class HomePresenter {

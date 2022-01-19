@@ -7,10 +7,8 @@
 
 import Foundation
 
-protocol NewCategoryPresenterView: AnyObject {
+protocol NewCategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func updateCategoryColor(at indexPath: IndexPath, and colorHex: String)
-    func showActivityIndicator()
-    func stopActivityIndicator()
     func dismissViewController()
 }
 

@@ -119,8 +119,8 @@ extension AccountViewController: AccountViewDelegate {
             let accountService = AccountService(userService: UserService(),
                                                 libraryService: LibraryService(),
                                                 categoryService: CategoryService())
-            let controller = AccountSetupViewController(accountService: accountService,
-                                                        imageService: ImageStorageService(),
+            let welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
+            let controller = AccountSetupViewController(presenter: welcomeAccountPresenter,
                                                         validator: Validator(),
                                                         interfaceType: .deleteAccount)
             self.present(controller, animated: true, completion: nil)

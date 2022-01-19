@@ -8,20 +8,20 @@
 import FirebaseAuth
 import Foundation
 
-protocol AccountTabPresenterView: AnyObject {
+protocol AccountTabPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func configureView(with user: UserModel)
-    func showActivityIndicator()
-    func stopActivityIndicator()
     func animateSavebuttonIndicator(_ animate: Bool)
 }
 
 class AccountTabPresenter {
     
+    // MARK: - Properties
     weak var view: AccountTabPresenterView?
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private let accountService: AccountServiceProtocol
     
+    // MARK: - Initializer
     init(userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
          accountService: AccountServiceProtocol) {
@@ -30,6 +30,7 @@ class AccountTabPresenter {
         self.accountService = accountService
     }
     
+    // MARK: - API Call
     func getProfileData() {
         view?.showActivityIndicator()
         

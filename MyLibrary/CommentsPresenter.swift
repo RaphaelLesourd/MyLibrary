@@ -7,11 +7,9 @@
 
 import Foundation
 
-protocol CommentsPresenterView: AnyObject {
+protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func updateCommentList(with comments: [CommentModel])
     func applySnapshot(animatingDifferences: Bool)
-    func showActivityIndicator()
-    func stopActivityIndicator()
 }
 
 class CommentPresenter {
@@ -32,7 +30,7 @@ class CommentPresenter {
         self.messageService = messageService
     }
     
-    // MARK: - API Calls
+    // MARK: - API Call
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }

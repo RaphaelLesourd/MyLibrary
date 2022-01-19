@@ -32,14 +32,14 @@ class WelcomeViewController: UIViewController {
         present(onboardingViewController, animated: false, completion: nil)
     }
 }
-// MARK: - WelcomeMainViewDelegate
+// MARK: - WelcomeMainView Delegate
 extension WelcomeViewController: WelcomeViewDelegate {
     func presentAccountViewController(for type: AccountInterfaceType) {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let accountSetupController = AccountSetupViewController(accountService: accountService,
-                                                                imageService: ImageStorageService(),
+        let welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
+        let accountSetupController = AccountSetupViewController(presenter: welcomeAccountPresenter,
                                                                 validator: Validator(),
                                                                 interfaceType: type)
         if #available(iOS 15.0, *) {

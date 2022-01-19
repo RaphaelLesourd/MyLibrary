@@ -12,19 +12,16 @@ class AccountSetupViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = AccountMainView()
-    private let accountService: AccountServiceProtocol
-    private let imageService: ImageStorageProtocol
+    private let presenter: WelcomeAccountPresenter
     private let validator: ValidatorProtocol
     private let interfaceType: AccountInterfaceType
     private var profileImage: UIImage?
     
     // MARK: - Initializer
-    init(accountService: AccountServiceProtocol,
-         imageService: ImageStorageProtocol,
+    init(presenter: WelcomeAccountPresenter,
          validator: ValidatorProtocol,
          interfaceType: AccountInterfaceType) {
-        self.accountService = accountService
-        self.imageService = imageService
+        self.presenter = presenter
         self.validator = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
@@ -39,7 +36,7 @@ class AccountSetupViewController: UIViewController {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if interfaceType == .login {
@@ -62,79 +59,13 @@ class AccountSetupViewController: UIViewController {
         mainView.confirmPasswordTextField.delegate = self
         mainView.delegate = self
     }
-  
-    // MARK: - Account
-    private func loginToAccount() {
-        let user = setUser()
-        mainView.finishButton.displayActivityIndicator(true)
-        accountService.login(with: user) { [weak self] error in
-            guard let self = self else { return }
-            
-            self.mainView.finishButton.displayActivityIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.welcomeTitle),
-                                            subtitle: (Auth.auth().currentUser?.displayName ?? ""))
-        }
-    }
-    
-    private func createAccount() {
-        let user = setUser()
-        mainView.finishButton.displayActivityIndicator(true)
-        accountService.createAccount(for: user) { [weak self] error in
-            guard let self = self else { return }
-
-            self.mainView.finishButton.displayActivityIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.accountOpen))
-        }
-    }
-    
-    private func resetPassword() {
-        guard let email = mainView.emailTextField.text else {
-            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyEmail)
-            return
-        }
-        accountService.sendPasswordReset(for: email) { error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.resetPassordTitle), subtitle: Text.Banner.resetPasswordMessage)
-        }
-    }
-    
-    private func setUser() -> AccountCredentials {
-        return AccountCredentials(userName: mainView.userNameTextField.text ?? "",
-                                  email: mainView.emailTextField.text ?? "",
-                                  password: mainView.passwordTextField.text ?? "",
-                                  confirmPassword: mainView.confirmPasswordTextField.text ?? "")
-    }
-    
-    private func deleteAccount() {
-        let user = setUser()
-        mainView.finishButton.displayActivityIndicator(true)
-        self.accountService.deleteAccount(with: user) { [weak self] error in
-            guard let self = self else { return }
-            
-            self.mainView.finishButton.displayActivityIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.accountDeleted)
-        }
-    }
 }
 // MARK: - TextField Delegate
 extension AccountSetupViewController: UITextFieldDelegate {
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         guard let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return true }
         var valid = false
         switch textField {
@@ -151,7 +82,7 @@ extension AccountSetupViewController: UITextFieldDelegate {
         textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
         return true
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let lastTextField = interfaceType == .login ? mainView.passwordTextField : mainView.confirmPasswordTextField
         if textField == lastTextField {
@@ -162,17 +93,15 @@ extension AccountSetupViewController: UITextFieldDelegate {
         return true
     }
 }
-// MARK: - AccountMainViewDelegate
+// MARK: - AccountMainView Delegate
 extension AccountSetupViewController: AccountCreationViewDelegate {
+    
     func finishedButtonTapped() {
-        switch interfaceType {
-        case .login:
-            loginToAccount()
-        case .signup:
-            createAccount()
-        case .deleteAccount:
-            deleteAccount()
-        }
+        presenter.setAccountCredentials(userName: mainView.userNameTextField.text,
+                                        email: mainView.emailTextField.text,
+                                        password: mainView.passwordTextField.text,
+                                        passwordConfirmation: mainView.confirmPasswordTextField.text)
+        presenter.executeAction(for: interfaceType)
     }
     
     func resetPassWordRequest() {
@@ -180,7 +109,21 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
                                   message: Text.Alert.forgotPasswordMessage,
                                   cancel: true,
                                   on: self) { [weak self] _ in
-            self?.resetPassword()
+            self?.presenter.resetPassword(with: self?.mainView.emailTextField.text)
+        }
+    }
+}
+// MARK: - AccountSetup Presenter
+extension AccountSetupViewController: WelcomeAccountPresenterView {
+    func showActivityIndicator() {
+        DispatchQueue.main.async {
+            self.mainView.finishButton.displayActivityIndicator(true)
+        }
+    }
+    
+    func stopActivityIndicator() {
+        DispatchQueue.main.async {
+            self.mainView.finishButton.displayActivityIndicator(false)
         }
     }
 }

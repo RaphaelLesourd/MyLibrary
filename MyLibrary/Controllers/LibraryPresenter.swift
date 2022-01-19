@@ -5,11 +5,9 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol LibraryPresenterView: AnyObject {
+protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func addBookToList(_ books: [Item])
     func applySnapshot(animatingDifferences: Bool)
-    func showActivityIndicator()
-    func stopActivityIndicator()
 }
 
 class LibraryPresenter {

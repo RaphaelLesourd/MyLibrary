@@ -5,10 +5,8 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol SearchPresenterView: AnyObject {
+protocol SearchPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func handleList(for books: [Item])
-    func showActivityIndicator()
-    func stopActivityIndicator()
 }
 
 class SearchPresenter {

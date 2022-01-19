@@ -7,10 +7,8 @@
 
 import Foundation
 
-protocol CategoryPresenterView: AnyObject {
+protocol CategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
-    func showActivityIndicator()
-    func stopActivityIndicator()
 }
 
 class CategoryPresenter {
@@ -24,7 +22,7 @@ class CategoryPresenter {
         self.categoryService = categoryService
     }
     
-    // MARK: - Public functions
+    // MARK: - API Call
     func getCategoryList() {
         self.view?.showActivityIndicator()
         categoryService.getCategories { [weak self] error in

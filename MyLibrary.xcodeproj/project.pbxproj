@@ -66,6 +66,8 @@
 		8125AD292798583400FB6725 /* CommentBookCellConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */; };
 		8125AD2B2798587E00FB6725 /* CommentBookCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */; };
 		8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2C27986EB500FB6725 /* AccountPresenter.swift */; };
+		8125AD2F279880A400FB6725 /* WelcomeAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */; };
+		8125AD31279881D600FB6725 /* ActivityIndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -334,7 +336,9 @@
 		8125AD25279857D100FB6725 /* CommentBookCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellData.swift; sourceTree = "<group>"; };
 		8125AD282798583400FB6725 /* CommentBookCellConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfigure.swift; sourceTree = "<group>"; };
 		8125AD2A2798587E00FB6725 /* CommentBookCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBookCellConfiguration.swift; sourceTree = "<group>"; };
-		8125AD2C27986EB500FB6725 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
+		8125AD2C27986EB500FB6725 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AccountPresenter.swift; path = Controllers/AccountPresenter.swift; sourceTree = "<group>"; };
+		8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAccountPresenter.swift; sourceTree = "<group>"; };
+		8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorProtocol.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -601,12 +605,15 @@
 		811C5C252797226E003D11BA /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */,
+				8125AD2C27986EB500FB6725 /* AccountPresenter.swift */,
 				811C5C292797EAA8003D11BA /* CategoryPresenter.swift */,
 				811C5C3227983B96003D11BA /* CommentsPresenter.swift */,
 				811C5C2127971BEA003D11BA /* HomePresenter.swift */,
 				811C5C1F279711F5003D11BA /* LibraryPresenter.swift */,
 				811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */,
 				811C5C2627972E3E003D11BA /* SearchPresenter.swift */,
+				8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */,
 			);
 			name = Presenters;
 			sourceTree = "<group>";
@@ -847,7 +854,6 @@
 			isa = PBXGroup;
 			children = (
 				81A6727127931BEE00298394 /* AccountViewController.swift */,
-				8125AD2C27986EB500FB6725 /* AccountPresenter.swift */,
 			);
 			name = Account;
 			sourceTree = "<group>";
@@ -1730,11 +1736,13 @@
 				812BA73F278DCF09009541E4 /* Button.swift in Sources */,
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
+				8125AD2F279880A400FB6725 /* WelcomeAccountPresenter.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
 				8125AD26279857D100FB6725 /* CommentBookCellData.swift in Sources */,
 				8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */,
 				81A6727427931BFC00298394 /* BookLibraryViewController.swift in Sources */,
 				816AE81C275F68A800747548 /* AlertManager.swift in Sources */,
+				8125AD31279881D600FB6725 /* ActivityIndicatorProtocol.swift in Sources */,
 				81BC7ECE273040F1009A1629 /* ImagePicker.swift in Sources */,
 				810C446B2726EAC4007541C0 /* WelcomeViewController.swift in Sources */,
 				81FA725727747F1E00040BEF /* AlertBannerTypes.swift in Sources */,
