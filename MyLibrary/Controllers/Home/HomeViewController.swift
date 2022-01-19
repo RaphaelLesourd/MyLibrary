@@ -21,17 +21,19 @@ class HomeViewController: UIViewController, BookDetail {
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private let cellPresenter: BookCellAdapter
-    private let userCellPresenter: UserCellConfigure
+    private let cellConfigurator: BookCellAdapter
+    private let userCellConfigurator: UserCellConfigure
     private let presenter: HomePresenter
     
     // MARK: - Initializer
     init(presenter: HomePresenter,
+         cellConfigurator: BookCellAdapter,
+         userCellConfigurator: UserCellConfigure,
          layoutComposer: HomeLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellAdapt(imageRetriever: KFImageRetriever())
-        self.userCellPresenter = UserCellConfiguration(imageRetriever: KFImageRetriever())
+        self.cellConfigurator = cellConfigurator
+        self.userCellConfigurator = userCellConfigurator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -90,7 +92,7 @@ class HomeViewController: UIViewController, BookDetail {
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
-
+        
         let bookListVC = BookLibraryViewController(currentQuery: query,
                                                    queryService: QueryService(),
                                                    presenter: LibraryPresenter(libraryService: LibraryService()),
@@ -143,7 +145,7 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter.setBookData(for: book) { bookData in
+                    self.cellConfigurator.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
@@ -151,7 +153,7 @@ extension HomeViewController {
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellPresenter.setBookData(for: book) { bookData in
+                    self.cellConfigurator.setBookData(for: book) { bookData in
                         cell.configure(with: bookData)
                     }
                     return cell
@@ -159,7 +161,7 @@ extension HomeViewController {
             case .users:
                 if let followedUser = item as? UserModel {
                     let cell: UserCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.userCellPresenter.setData(with: followedUser) { data in
+                    self.userCellConfigurator.setData(with: followedUser) { data in
                         cell.configure(with: data)
                     }
                     return cell
@@ -234,7 +236,7 @@ extension HomeViewController: BookListViewDelegate {
         presenter.getUsers()
     }
 }
-// MARK: - HomePresenter Delegate
+// MARK: - HomePresenter
 extension HomeViewController: HomePresenterView {
     
     func applySnapshot(animatingDifferences: Bool) {

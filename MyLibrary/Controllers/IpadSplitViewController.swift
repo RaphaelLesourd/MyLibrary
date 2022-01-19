@@ -9,6 +9,10 @@ import UIKit
 
 class IpadSplitViewController: UISplitViewController {
 
+    // MARK: - Properties
+    private let cellConfigurator = BookCellAdapt(imageRetriever: KFImageRetriever())
+    private let userCellConfigurator = UserCellConfiguration(imageRetriever: KFImageRetriever())
+    
     // MARK: - Initializers
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
@@ -32,6 +36,8 @@ class IpadSplitViewController: UISplitViewController {
                                           categoryService: CategoryService(),
                                           recommendationService: RecommandationService())
         let homeViewController = HomeViewController(presenter: homePresenter,
+                                                    cellConfigurator: cellConfigurator,
+                                                    userCellConfigurator: userCellConfigurator,
                                                     layoutComposer: HomeTabLayout())
         let newBookViewController = NewBookViewController(libraryService: LibraryService(),
                                                           converter: Converter(),

@@ -600,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				811C5C292797EAA8003D11BA /* CategoryPresenter.swift */,
+				811C5C3227983B96003D11BA /* CommentsPresenter.swift */,
 				811C5C2127971BEA003D11BA /* HomePresenter.swift */,
 				811C5C1F279711F5003D11BA /* LibraryPresenter.swift */,
 				811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */,
@@ -766,7 +767,6 @@
 			isa = PBXGroup;
 			children = (
 				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
-				811C5C3227983B96003D11BA /* CommentsPresenter.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";

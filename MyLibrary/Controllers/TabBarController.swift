@@ -11,8 +11,17 @@ import FirebaseAuth
 /// Setup the app Tab Bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
     
+    // MARK: - Properties
     private let libraryService = LibraryService()
-    
+    private let cellConfigurator = BookCellAdapt(imageRetriever: KFImageRetriever())
+    private let userCellConfigurator = UserCellConfiguration(imageRetriever: KFImageRetriever())
+    private let libraryPresenter = LibraryPresenter(libraryService: LibraryService())
+    private let homePresenter = HomePresenter(libraryService: LibraryService(),
+                                              categoryService: CategoryService(),
+                                              recommendationService: RecommandationService())
+    private let accountService = AccountService(userService: UserService(),
+                                                libraryService: LibraryService(),
+                                                categoryService: CategoryService())
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +53,9 @@ class TabBarController: UITabBarController {
     /// - SFSymbols are used for icon images.
     private func setupViewControllers() {
         // Home tab
-        let homePresenter = HomePresenter(libraryService: LibraryService(),
-                                          categoryService: CategoryService(),
-                                          recommendationService: RecommandationService())
         let homeVC = HomeViewController(presenter: homePresenter,
+                                        cellConfigurator: cellConfigurator,
+                                        userCellConfigurator: userCellConfigurator,
                                         layoutComposer: HomeTabLayout())
         let homeViewController = createController(for: homeVC,
                                                      title: Text.ControllerTitle.home,
@@ -55,7 +63,7 @@ class TabBarController: UITabBarController {
         // Library tab
         let bookVC = BookLibraryViewController(currentQuery: .defaultAllBookQuery,
                                                queryService: QueryService(),
-                                               presenter: LibraryPresenter(libraryService: LibraryService()),
+                                               presenter: libraryPresenter,
                                                layoutComposer: BookListLayout())
         let libraryViewController = createController(for: bookVC,
                                                         title: Text.ControllerTitle.myBooks,
@@ -68,10 +76,6 @@ class TabBarController: UITabBarController {
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.TabBarIcon.newBookIcon)
         // Account tab
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        
         let accountVC = AccountViewController(accountService: accountService,
                                               userService: UserService(),
                                               imageService: ImageStorageService(),

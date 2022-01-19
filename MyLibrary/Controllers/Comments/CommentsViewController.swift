@@ -237,7 +237,7 @@ extension CommentsViewController: EmptyStateViewDelegate {
        mainView.inputBar.inputTextView.becomeFirstResponder()
     }
 }
-// MARK: - CommentPresenter View
+// MARK: - CommentPresenter Delegate
 extension CommentsViewController: CommentsPresenterView {
     func updateCommentList(with comments: [CommentModel]) {
         self.commentList = comments
@@ -252,5 +252,4 @@ extension CommentsViewController: CommentsPresenterView {
         mainView.refresherControl.endRefreshing()
         hideIndicator(mainView.activityIndicator)
     }
-
 }
