@@ -140,22 +140,16 @@ extension AccountViewController: AccountTabPresenterView {
     }
     
     func showActivityIndicator() {
-        DispatchQueue.main.async {
-            self.mainView.activityIndicator.startAnimating()
-            self.animateLoader()
-        }
+        mainView.activityIndicator.startAnimating()
+        animateLoader()
     }
     
     func stopActivityIndicator() {
-        DispatchQueue.main.async {
-            self.mainView.activityIndicator.stopAnimating()
-            self.stopAnimatingLoaders()
-        }
+        mainView.activityIndicator.stopAnimating()
+        stopAnimatingLoaders()
     }
     
     func animateSavebuttonIndicator(_ animate: Bool) {
-        DispatchQueue.main.async {
-            self.mainView.profileView.accountView.signoutButton.displayActivityIndicator(animate)
-        }
+        mainView.profileView.accountView.signoutButton.displayActivityIndicator(animate)
     }
 }
