@@ -13,13 +13,7 @@ class CategoryService {
     
     // MARK: - Properties
     var userID: String
-    //    var categories: [CategoryModel] = [] {
-    //        didSet {
-    //            categories = categories.sorted(by: {
-    //                $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
-    //            })
-    //        }
-    //    }
+
     private var categoriesListener: ListenerRegistration?
     private lazy var usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     private let db = Firestore.firestore()
@@ -102,7 +96,6 @@ extension CategoryService: CategoryServiceProtocol {
     }
     // MARK: Get
     func getCategories(completion: @escaping (Result<[CategoryModel], FirebaseError>) -> Void) {
-        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -133,6 +126,7 @@ extension CategoryService: CategoryServiceProtocol {
                            bookOwnerID: String,
                            completion: @escaping ([CategoryModel]) -> Void) {
         var categoryList: [CategoryModel] = []
+        
         categoryIds.forEach {
             getCategory(for: $0, bookOwnerID: bookOwnerID) { category in
                 guard let category = category else { return }

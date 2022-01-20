@@ -71,6 +71,9 @@
 		8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */; };
 		8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */; };
 		8125AD7B2799570200FB6725 /* HomePresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD7A2799570200FB6725 /* HomePresenterTestCase.swift */; };
+		8125AD7F27996F9E00FB6725 /* CategoryServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD7E27996F9E00FB6725 /* CategoryServiceMock.swift */; };
+		8125AD8127996FF400FB6725 /* LibraryServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD8027996FF400FB6725 /* LibraryServiceMock.swift */; };
+		8125AD832799702B00FB6725 /* RecommendationServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD822799702B00FB6725 /* RecommendationServiceMock.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -343,6 +346,9 @@
 		8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountMainViewDelegate.swift; sourceTree = "<group>"; };
 		8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
 		8125AD7A2799570200FB6725 /* HomePresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterTestCase.swift; sourceTree = "<group>"; };
+		8125AD7E27996F9E00FB6725 /* CategoryServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceMock.swift; sourceTree = "<group>"; };
+		8125AD8027996FF400FB6725 /* LibraryServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryServiceMock.swift; sourceTree = "<group>"; };
+		8125AD822799702B00FB6725 /* RecommendationServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationServiceMock.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -1042,6 +1048,26 @@
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
+		8125AD7C27996F0C00FB6725 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8125AD7D27996F2300FB6725 /* Mocks */,
+				8125AD7A2799570200FB6725 /* HomePresenterTestCase.swift */,
+				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8125AD7D27996F2300FB6725 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8125AD7E27996F9E00FB6725 /* CategoryServiceMock.swift */,
+				8125AD8027996FF400FB6725 /* LibraryServiceMock.swift */,
+				8125AD822799702B00FB6725 /* RecommendationServiceMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		812B160D27720CFD00D65C6A /* BarcodeReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1260,8 +1286,7 @@
 				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
 				8125AD79279956CC00FB6725 /* Alamofire */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
-				8125AD7A2799570200FB6725 /* HomePresenterTestCase.swift */,
-				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
+				8125AD7C27996F0C00FB6725 /* Presenter */,
 			);
 			path = MyLibraryTests;
 			sourceTree = "<group>";
@@ -1930,9 +1955,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */,
+				8125AD8127996FF400FB6725 /* LibraryServiceMock.swift in Sources */,
+				8125AD7F27996F9E00FB6725 /* CategoryServiceMock.swift in Sources */,
 				812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */,
 				81DE9CA12733D3E400FF81C2 /* UserServiceTestCase.swift in Sources */,
 				8125AD7B2799570200FB6725 /* HomePresenterTestCase.swift in Sources */,
+				8125AD832799702B00FB6725 /* RecommendationServiceMock.swift in Sources */,
 				81242D52272D986100CB39B1 /* FakeData.swift in Sources */,
 				81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */,
 				810123F227689DB000F86932 /* AccountServiceTestCase.swift in Sources */,
