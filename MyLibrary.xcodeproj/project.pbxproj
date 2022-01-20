@@ -69,7 +69,7 @@
 		8125AD2F279880A400FB6725 /* WelcomeAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */; };
 		8125AD31279881D600FB6725 /* ActivityIndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */; };
 		8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */; };
-		8125AD58279944C700FB6725 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD57279944C700FB6725 /* AccountControllerViewDelegate.swift */; };
+		8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -340,7 +340,7 @@
 		8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAccountPresenter.swift; sourceTree = "<group>"; };
 		8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorProtocol.swift; sourceTree = "<group>"; };
 		8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountMainViewDelegate.swift; sourceTree = "<group>"; };
-		8125AD57279944C700FB6725 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
+		8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -808,7 +808,7 @@
 			isa = PBXGroup;
 			children = (
 				8125AD59279944D300FB6725 /* Subviews */,
-				8125AD57279944C700FB6725 /* AccountControllerViewDelegate.swift */,
+				8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */,
 				8157F512277F4627005F182A /* AccountTabMainView.swift */,
 			);
 			path = AccountTab;
@@ -1738,7 +1738,7 @@
 				8157F4D5277AF60F005F182A /* CommentCellConfigure.swift in Sources */,
 				812BA741278DCF09009541E4 /* TextField.swift in Sources */,
 				811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */,
-				8125AD58279944C700FB6725 /* AccountControllerViewDelegate.swift in Sources */,
+				8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */,
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
 				81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */,
 				8157F5762782E1F1005F182A /* NewBookConfigure.swift in Sources */,
