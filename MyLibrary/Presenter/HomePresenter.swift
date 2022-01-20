@@ -7,11 +7,7 @@
 
 import Foundation
 
-protocol HomePresenterView: AcitivityIndicatorProtocol,AnyObject {
-    var latestBooks: [Item] { get set }
-    var favoriteBooks: [Item] { get set }
-    var recommandedBooks: [Item] { get set }
-    var followedUser: [UserModel] { get set }
+protocol HomePresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
 }
 
@@ -20,13 +16,19 @@ class HomePresenter {
     // MARK: - Properties
     weak var view: HomePresenterView?
     let categoryService: CategoryServiceProtocol
-    private let libraryService: LibraryService
+    var categories: [CategoryModel] = []
+    var latestBooks: [Item] = []
+    var favoriteBooks: [Item] = []
+    var recommandedBooks: [Item] = []
+    var followedUser: [UserModel] = []
+    
+    private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     
     // MARK: - Intializer
-    init(libraryService: LibraryService,
+    init(libraryService: LibraryServiceProtocol,
          categoryService: CategoryServiceProtocol,
-         recommendationService: RecommendationServiceProtocol ) {
+         recommendationService: RecommendationServiceProtocol) {
         self.libraryService = libraryService
         self.categoryService = categoryService
         self.recommendationService = recommendationService
@@ -34,20 +36,23 @@ class HomePresenter {
     
     // MARK: - API Calls
     func getCategories() {
-        categoryService.getCategories { [weak self] error in
-            if let error = error {
+        categoryService.getCategories { [weak self] result in
+            switch result {
+            case .success(let categories):
+                self?.categories = categories
+                DispatchQueue.main.async {
+                    self?.view?.applySnapshot(animatingDifferences: true)
+                }
+            case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
     }
     
     func getLatestBooks() {
         getBooks(for: .latestBookQuery) { [weak self] books in
+            self?.latestBooks = books
             DispatchQueue.main.async {
-                self?.view?.latestBooks = books
                 self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
@@ -55,8 +60,8 @@ class HomePresenter {
     
     func getFavoriteBooks() {
         getBooks(for: .favoriteBookQuery) { [weak self] books in
+            self?.favoriteBooks = books
             DispatchQueue.main.async {
-                self?.view?.favoriteBooks = books
                 self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
@@ -64,8 +69,8 @@ class HomePresenter {
     
     func getRecommendations() {
         getBooks(for: .recommendationQuery) { [weak self] books in
+            self?.recommandedBooks = books
             DispatchQueue.main.async {
-                self?.view?.recommandedBooks = books
                 self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
@@ -75,8 +80,8 @@ class HomePresenter {
         recommendationService.retrieveRecommendingUsers { [weak self] result in
             switch result {
             case .success(let users):
+                self?.followedUser = users
                 DispatchQueue.main.async {
-                    self?.view?.followedUser = users
                     self?.view?.applySnapshot(animatingDifferences: true)
                 }
             case .failure(let error):

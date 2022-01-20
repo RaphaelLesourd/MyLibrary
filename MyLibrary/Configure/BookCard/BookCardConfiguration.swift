@@ -71,7 +71,7 @@ extension BookCardConfiguration: BookCardConfigure {
     }
     
     func setCategoriesLabel(_ view: BookCardMainView, for categoryIds: [String], bookOwnerID: String) {
-        categoryService.getCategoryList(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categories in
+        categoryService.getBookCategories(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categories in
             let categories = categories.sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
             view.categoryiesLabel.attributedText = self?.formattedString(for: categories)
         }

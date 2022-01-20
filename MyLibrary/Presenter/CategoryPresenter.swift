@@ -16,6 +16,7 @@ class CategoryPresenter {
     // MARK: - Properties
     weak var view: CategoryPresenterView?
     var categoryService: CategoryServiceProtocol
+    var categories: [CategoryModel] = []
     
     // MARK: - Initializer
     init(categoryService: CategoryServiceProtocol) {
@@ -25,14 +26,16 @@ class CategoryPresenter {
     // MARK: - API Call
     func getCategoryList() {
         self.view?.showActivityIndicator()
-        categoryService.getCategories { [weak self] error in
+        categoryService.getCategories { [weak self] result in
             self?.view?.stopActivityIndicator()
-            if let error = error {
+            switch result {
+            case .success(let categories):
+                self?.categories = categories
+                DispatchQueue.main.async {
+                    self?.view?.applySnapshot(animatingDifferences: true)
+                }
+            case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
     }
@@ -47,10 +50,10 @@ class CategoryPresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            if let index = self.categoryService.categories.firstIndex(where: {
+            if let index = self.categories.firstIndex(where: {
                 $0.name?.lowercased() == category.name?.lowercased()
             }) {
-                self.categoryService.categories.remove(at: index)
+                self.categories.remove(at: index)
             }
             DispatchQueue.main.async {
                 self.view?.applySnapshot(animatingDifferences: true)

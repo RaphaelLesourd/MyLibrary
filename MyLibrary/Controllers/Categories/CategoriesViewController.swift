@@ -77,7 +77,7 @@ class CategoriesViewController: UIViewController {
     
     func highlightBookCategories(with selectedCategories: [String]) {
         selectedCategories.forEach({ categories in
-            if let index = presenter.categoryService.categories.firstIndex(where: { $0.uid == categories }),
+            if let index = presenter.categories.firstIndex(where: { $0.uid == categories }),
                let section = dataSource.snapshot().indexOfSection(.main) {
                 let indexPath = IndexPath(row: index, section: section)
                 mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
@@ -133,12 +133,12 @@ extension CategoriesViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.tableView.isHidden = presenter.categoryService.categories.isEmpty
-        mainView.emptyStateView.isHidden = !presenter.categoryService.categories.isEmpty
+        mainView.tableView.isHidden = presenter.categories.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.categories.isEmpty
         
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(presenter.categoryService.categories, toSection: .main)
+        snapshot.appendItems(presenter.categories, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
         highlightBookCategories(with: self.selectedCategories)
@@ -185,7 +185,7 @@ extension CategoriesViewController: UITableViewDelegate {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             guard let self = self else {return}
             
-            let category = self.presenter.categoryService.categories[indexPath.row]
+            let category = self.presenter.categories[indexPath.row]
             switch actionType {
             case .delete:
                 self.displayDeleteCategoryAlert(category)
@@ -199,12 +199,12 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let categoryID = presenter.categoryService.categories[indexPath.row].uid else { return }
+        guard let categoryID = presenter.categories[indexPath.row].uid else { return }
         selectedCategories.append(categoryID)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let categoryID = presenter.categoryService.categories[indexPath.row].uid else { return }
+        guard let categoryID = presenter.categories[indexPath.row].uid else { return }
         if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
             selectedCategories.remove(at: index)
         }

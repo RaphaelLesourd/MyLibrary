@@ -13,11 +13,6 @@ class HomeViewController: UIViewController, BookDetail {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
-    var latestBooks: [Item] = []
-    var favoriteBooks: [Item] = []
-    var recommandedBooks: [Item] = []
-    var followedUser: [UserModel] = []
-    
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
@@ -200,26 +195,26 @@ extension HomeViewController {
     
     func applySnapshot(animatingDifferences: Bool) {
         var snapshot = Snapshot()
-        if !presenter.categoryService.categories.isEmpty {
+        if !presenter.categories.isEmpty {
             snapshot.appendSections([.categories])
-            snapshot.appendItems(presenter.categoryService.categories, toSection: .categories)
+            snapshot.appendItems(presenter.categories, toSection: .categories)
         }
-        if !latestBooks.isEmpty {
+        if !presenter.latestBooks.isEmpty {
             snapshot.appendSections([.newEntry])
-            snapshot.appendItems(latestBooks, toSection: .newEntry)
+            snapshot.appendItems(presenter.latestBooks, toSection: .newEntry)
         }
-        if !favoriteBooks.isEmpty {
+        if !presenter.favoriteBooks.isEmpty {
             snapshot.appendSections([.favorites])
-            snapshot.appendItems(favoriteBooks, toSection: .favorites)
+            snapshot.appendItems(presenter.favoriteBooks, toSection: .favorites)
         }
-        if !followedUser.isEmpty {
+        if !presenter.followedUser.isEmpty {
             snapshot.appendSections([.users])
-            snapshot.appendItems(followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
+            snapshot.appendItems(presenter.followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
                                  toSection: .users)
         }
-        if !recommandedBooks.isEmpty {
+        if !presenter.recommandedBooks.isEmpty {
             snapshot.appendSections([.recommanding])
-            snapshot.appendItems(recommandedBooks, toSection: .recommanding)
+            snapshot.appendItems(presenter.recommandedBooks, toSection: .recommanding)
         }
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }

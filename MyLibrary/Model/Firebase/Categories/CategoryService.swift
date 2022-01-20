@@ -13,13 +13,13 @@ class CategoryService {
     
     // MARK: - Properties
     var userID: String
-    var categories: [CategoryModel] = [] {
-        didSet {
-            categories = categories.sorted(by: {
-                $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
-            })
-        }
-    }
+    //    var categories: [CategoryModel] = [] {
+    //        didSet {
+    //            categories = categories.sorted(by: {
+    //                $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
+    //            })
+    //        }
+    //    }
     private var categoriesListener: ListenerRegistration?
     private lazy var usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
     private let db = Firestore.firestore()
@@ -74,8 +74,7 @@ class CategoryService {
 }
 // MARK: - Extension CategoryServicePootocol
 extension CategoryService: CategoryServiceProtocol {
-    
-    // MARK: Add
+   // MARK: Add
     func addCategory(for categoryName: String,
                      color: String,
                      completion: @escaping (FirebaseError?) -> Void) {
@@ -83,12 +82,12 @@ extension CategoryService: CategoryServiceProtocol {
             completion(.noText)
             return
         }
-       
+        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
         
-        checkIfDocumentExist(categoryName: categoryName) { [weak self] documentID in
+        checkIfDocumentExist(categoryName: categoryName) { documentID in
             guard documentID == nil else {
                 completion(.categoryExist)
                 return
@@ -97,41 +96,42 @@ extension CategoryService: CategoryServiceProtocol {
             let category = CategoryModel(uid: id, name: categoryName.lowercased(), color: color)
             do {
                 try docRef.document(id).setData(from: category)
-                self?.categories.append(category)
             } catch { completion(.firebaseError(error)) }
             completion(nil)
         }
     }
     // MARK: Get
-    func getCategories(completion: @escaping (FirebaseError?) -> Void) {
-
+    func getCategories(completion: @escaping (Result<[CategoryModel], FirebaseError>) -> Void) {
+        
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
         
-        categoriesListener = docRef.addSnapshotListener { [weak self] (querySnapshot, error) in
+        categoriesListener = docRef.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
-                completion(.firebaseError(error))
+                completion(.failure(.firebaseError(error)))
                 return
             }
             let data = querySnapshot?.documents.compactMap { documents -> CategoryModel? in
                 do {
                     return try documents.data(as: CategoryModel.self)
                 } catch {
-                    completion(.firebaseError(error))
+                    completion(.failure(.firebaseError(error)))
                     return nil
                 }
             }
             if let data = data {
-                self?.categories = data
+                let sortedData = data.sorted(by: {
+                    $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
+                })
+                completion(.success(sortedData))
             }
-            completion(nil)
         }
     }
     
-    func getCategoryList(for categoryIds: [String],
-                         bookOwnerID: String,
-                         completion: @escaping ([CategoryModel]) -> Void) {
+    func getBookCategories(for categoryIds: [String],
+                           bookOwnerID: String,
+                           completion: @escaping ([CategoryModel]) -> Void) {
         var categoryList: [CategoryModel] = []
         categoryIds.forEach {
             getCategory(for: $0, bookOwnerID: bookOwnerID) { category in

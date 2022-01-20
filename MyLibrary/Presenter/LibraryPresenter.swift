@@ -15,10 +15,10 @@ class LibraryPresenter {
     // MARK: - Properties
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
-    private let libraryService: LibraryService
+    private let libraryService: LibraryServiceProtocol
     
     // MARK: - Initializer
-    init(libraryService: LibraryService) {
+    init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
     }
     
