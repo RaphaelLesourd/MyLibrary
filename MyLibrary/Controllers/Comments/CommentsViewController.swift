@@ -24,7 +24,6 @@ class CommentsViewController: UIViewController {
     private let presenter: CommentPresenter
     
     private lazy var dataSource = makeDataSource()
-    private var commentList: [CommentModel] = []
     private var book: Item?
     
     // MARK: - Initializer
@@ -206,21 +205,24 @@ extension CommentsViewController {
         return dataSource
     }
 
-    func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.emptyStateView.isHidden = !commentList.isEmpty
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.emptyStateView.isHidden = !presenter.commentList.isEmpty
         
         var snapshot = Snapshot()
         snapshot.appendSections([.book])
         snapshot.appendItems([book], toSection: .book)
         
-        let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
+        let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         snapshot.appendSections([.today])
         snapshot.appendItems(todayComments, toSection: .today)
         
-        let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
+        let pastComments = presenter.commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
         snapshot.appendSections([.past])
         snapshot.appendItems(pastComments, toSection: .past)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
 }
 // MARK: - InputBar Delegate
@@ -239,11 +241,6 @@ extension CommentsViewController: EmptyStateViewDelegate {
 }
 // MARK: - CommentPresenter Delegate
 extension CommentsViewController: CommentsPresenterView {
-    func updateCommentList(with comments: [CommentModel]) {
-        self.commentList = comments
-        applySnapshot(animatingDifferences: true)
-    }
-
     func showActivityIndicator() {
         DispatchQueue.main.async {
             self.showIndicator(self.mainView.activityIndicator)

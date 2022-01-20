@@ -139,8 +139,10 @@ extension CategoriesViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(presenter.categories, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
         highlightBookCategories(with: self.selectedCategories)
     }
 }

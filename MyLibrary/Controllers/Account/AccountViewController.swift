@@ -136,7 +136,9 @@ extension AccountViewController: ContactViewDelegate {
 
 extension AccountViewController: AccountTabPresenterView {
     func configureView(with user: UserModel) {
-        accountDataConfigurator.configure(self.mainView, with: user)
+        DispatchQueue.main.async {
+            self.accountDataConfigurator.configure(self.mainView, with: user)
+        }
     }
     
     func showActivityIndicator() {

@@ -26,19 +26,20 @@ class LibraryPresenter {
     func getBooks(with query: BookQuery,
                   nextPage: Bool = false) {
         view?.showActivityIndicator()
+        
         libraryService.getBookList(for: query,
                                       limit: 40,
                                       forMore: nextPage) { [weak self] result in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
+            
             switch result {
             case .success(let books):
                 guard !books.isEmpty else {
-                    self.endOfList = true
-                    self.view?.applySnapshot(animatingDifferences: true)
+                    self?.endOfList = true
+                    self?.view?.applySnapshot(animatingDifferences: true)
                     return
                 }
-                self.view?.addBookToList(books)
+                self?.view?.addBookToList(books)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

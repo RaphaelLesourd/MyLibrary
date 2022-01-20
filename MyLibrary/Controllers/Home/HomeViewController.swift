@@ -18,7 +18,7 @@ class HomeViewController: UIViewController, BookDetail {
     private let layoutComposer: HomeLayoutComposer
     private let cellConfigurator: BookCellAdapter
     private let userCellConfigurator: UserCellConfigure
-    private let presenter: HomePresenter
+    private var presenter: HomePresenter
     
     // MARK: - Initializer
     init(presenter: HomePresenter,
@@ -216,7 +216,9 @@ extension HomeViewController {
             snapshot.appendSections([.recommanding])
             snapshot.appendItems(presenter.recommandedBooks, toSection: .recommanding)
         }
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
 }
 // MARK: - CollectionView Delegate

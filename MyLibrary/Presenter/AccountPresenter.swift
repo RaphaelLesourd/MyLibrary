@@ -35,15 +35,12 @@ class AccountTabPresenter {
         view?.showActivityIndicator()
         
         userService.retrieveUser { [weak self] result in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                DispatchQueue.main.async {
-                    self.view?.configureView(with: currentUser)
-                }
+                self?.view?.configureView(with: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -54,9 +51,7 @@ class AccountTabPresenter {
         view?.showActivityIndicator()
         
         userService.updateUserName(with: userName) { [weak self] error in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
-
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
@@ -79,20 +74,19 @@ class AccountTabPresenter {
     }
     
    func signoutAccount() {
-        let userDisplayName = Auth.auth().currentUser?.displayName ?? ""
         view?.showActivityIndicator()
         view?.animateSavebuttonIndicator(true)
  
         accountService.signOut { [weak self] error in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
-            self.view?.animateSavebuttonIndicator(false)
+            self?.view?.stopActivityIndicator()
+            self?.view?.animateSavebuttonIndicator(false)
 
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon), subtitle: userDisplayName)
+            AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon),
+                                            subtitle: Auth.auth().currentUser?.displayName ?? "")
         }
     }
 }

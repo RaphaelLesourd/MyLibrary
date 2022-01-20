@@ -9,18 +9,18 @@ import XCTest
 @testable import MyLibrary
 
 class RecommendationServiceMock: RecommendationServiceProtocol {
-    let users: [UserModel] = [UserModel(id: "",
-                                  userID: "",
-                                  displayName: "TestUser",
-                                  email: "TestEmail",
-                                  photoURL: "testUrl",
-                                  token: "TestToken")]
     
+    private var successTest: Bool
+    
+    init(_ successTest: Bool) {
+        self.successTest = successTest
+    }
+   
     func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {}
     
     func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {}
     
     func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        completion(.success(users))
+        successTest ? completion(.success(PresenterFakeData.users)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
 }

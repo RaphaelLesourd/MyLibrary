@@ -8,7 +8,6 @@
 import Foundation
 
 protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func updateCommentList(with comments: [CommentModel])
     func applySnapshot(animatingDifferences: Bool)
 }
 
@@ -18,10 +17,10 @@ class CommentPresenter {
     weak var view: CommentsPresenterView?
     var book: Item?
     var editedCommentID: String?
+    var commentList: [CommentModel] = []
     
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
-    private var commentList: [CommentModel] = []
     
     // MARK: - Intializer
     init(commentService: CommentServiceProtocol,
@@ -36,19 +35,14 @@ class CommentPresenter {
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
-            guard let self = self else { return }
-            
-            self.view?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             switch result {
             case .success(let comments):
-                DispatchQueue.main.async {
-                    self.commentList = comments
-                    self.view?.updateCommentList(with: comments)
-                }
+                self?.commentList = comments
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            
         }
     }
     
@@ -57,27 +51,24 @@ class CommentPresenter {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
-       
-        notifyUser(of: newComment, book: book)
-       
         commentService.addComment(for: bookID,
                                      ownerID: ownerID,
                                      commentID: commentID,
                                      comment: newComment) { [weak self] error in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
-            self.editedCommentID = nil
+            self?.view?.stopActivityIndicator()
+            self?.editedCommentID = nil
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
+            self?.notifyUser(of: newComment, book: self?.book)
         }
     }
     
     func deleteComment(for comment: CommentModel) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        self.view?.showActivityIndicator()
+        view?.showActivityIndicator()
         
         commentService.deleteComment(for: bookID,
                                         ownerID: ownerID,
@@ -85,19 +76,20 @@ class CommentPresenter {
             self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
             }
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
-            }
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func notifyUser(of newComment: String,
                     book: Item?) {
         guard let book = book else { return }
+        view?.showActivityIndicator()
         messageService.sendCommentPushNotification(for: book,
                                                       message: newComment,
-                                                      for: self.commentList) { error in
+                                                      for: self.commentList) { [weak self] error in
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

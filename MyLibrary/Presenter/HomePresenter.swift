@@ -40,9 +40,7 @@ class HomePresenter {
             switch result {
             case .success(let categories):
                 self?.categories = categories
-                DispatchQueue.main.async {
-                    self?.view?.applySnapshot(animatingDifferences: true)
-                }
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -52,27 +50,21 @@ class HomePresenter {
     func getLatestBooks() {
         getBooks(for: .latestBookQuery) { [weak self] books in
             self?.latestBooks = books
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
-            }
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func getFavoriteBooks() {
         getBooks(for: .favoriteBookQuery) { [weak self] books in
             self?.favoriteBooks = books
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
-            }
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
     func getRecommendations() {
         getBooks(for: .recommendationQuery) { [weak self] books in
             self?.recommandedBooks = books
-            DispatchQueue.main.async {
-                self?.view?.applySnapshot(animatingDifferences: true)
-            }
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     
@@ -81,9 +73,7 @@ class HomePresenter {
             switch result {
             case .success(let users):
                 self?.followedUser = users
-                DispatchQueue.main.async {
-                    self?.view?.applySnapshot(animatingDifferences: true)
-                }
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }

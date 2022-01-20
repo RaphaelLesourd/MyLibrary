@@ -14,7 +14,7 @@ class SearchPresenter {
     // MARK: - Properties
     weak var view: SearchPresenterView?
     private let apiManager: ApiManagerProtocol
-    
+  
     // MARK: - Initializer
     init(apiManager: ApiManagerProtocol) {
         self.apiManager = apiManager

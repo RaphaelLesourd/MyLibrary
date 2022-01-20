@@ -69,7 +69,7 @@ class Formatter: FormatterProtocol {
     /// - Returns: String
     func formatCodeToName(from code: String?, type: CodeType) -> String {
         guard let code = code else { return "" }
-        let currentIdentifier = Locale.preferredLanguages.first ?? "en_GB"
+        guard let currentIdentifier = Locale.preferredLanguages.first else { return "" }
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
         switch type {
         case .language:

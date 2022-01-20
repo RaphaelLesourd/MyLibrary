@@ -31,9 +31,7 @@ class CategoryPresenter {
             switch result {
             case .success(let categories):
                 self?.categories = categories
-                DispatchQueue.main.async {
-                    self?.view?.applySnapshot(animatingDifferences: true)
-                }
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -44,20 +42,17 @@ class CategoryPresenter {
         view?.showActivityIndicator()
         
         categoryService.deleteCategory(for: category) { [weak self] error in
-            guard let self = self else { return }
-            self.view?.stopActivityIndicator()
+            self?.view?.stopActivityIndicator()
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
-            if let index = self.categories.firstIndex(where: {
+            if let index = self?.categories.firstIndex(where: {
                 $0.name?.lowercased() == category.name?.lowercased()
             }) {
-                self.categories.remove(at: index)
+                self?.categories.remove(at: index)
             }
-            DispatchQueue.main.async {
-                self.view?.applySnapshot(animatingDifferences: true)
-            }
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
 }
