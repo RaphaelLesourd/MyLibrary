@@ -6,8 +6,8 @@
 //
 
 protocol NewBookDelegate: AnyObject {
-    var newBook: Item? { get set }
     var bookDescription: String? { get set }
     var bookComment: String? { get set }
     var bookCategories : [String] { get set }
+    func displayBook(for item: Item?)
 }

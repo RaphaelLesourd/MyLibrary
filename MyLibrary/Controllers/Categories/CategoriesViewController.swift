@@ -14,16 +14,20 @@ class CategoriesViewController: UIViewController {
     typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
     
     weak var newBookDelegate: NewBookDelegate?
-    var selectedCategories: [String] = []
-    
+   
+    private var selectedCategories: [String]
     private let mainView = CategoryControllerMainView()
     private let presenter: CategoryPresenter
     private lazy var dataSource = makeDataSource()
     private var settingBookCategory: Bool
     
     init(settingBookCategory: Bool,
+         selectedCategories: [String],
+         newBookDelegate: NewBookDelegate?,
          categoryPresenter: CategoryPresenter) {
         self.settingBookCategory = settingBookCategory
+        self.selectedCategories = selectedCategories
+        self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -47,7 +51,7 @@ class CategoriesViewController: UIViewController {
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         presenter.getCategoryList()
-        highlightBookCategories(with: selectedCategories)
+        highlightBookCategories()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,12 +79,12 @@ class CategoriesViewController: UIViewController {
         navigationItem.rightBarButtonItems = [addButton, activityIndicactor]
     }
     
-    func highlightBookCategories(with selectedCategories: [String]) {
+    func highlightBookCategories() {
         selectedCategories.forEach({ categories in
             if let index = presenter.categories.firstIndex(where: { $0.uid == categories }),
                let section = dataSource.snapshot().indexOfSection(.main) {
                 let indexPath = IndexPath(row: index, section: section)
-                mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+                mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
             }
         })
     }
@@ -139,11 +143,9 @@ extension CategoriesViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(presenter.categories, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        }
-        highlightBookCategories(with: self.selectedCategories)
+        highlightBookCategories()
     }
 }
 // MARK: - TableView Delegate

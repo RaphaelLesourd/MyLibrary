@@ -7,7 +7,7 @@
 
 import UIKit
 /// Class inherit from a common class CollectionViewController to set up a collectionView.
-class BookLibraryViewController: UIViewController, BookDetail {
+class BookLibraryViewController: UIViewController, BookCellAdapter {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -17,7 +17,6 @@ class BookLibraryViewController: UIViewController, BookDetail {
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
-    private let cellAdapter: BookCellAdapter
     private let presenter: LibraryPresenter
     
     private var bookListMenu: BookListMenu?
@@ -28,6 +27,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
             updateGridLayout()
         }
     }
+    private let factory: Factory
     
     // MARK: - Initializer
     init(currentQuery: BookQuery,
@@ -38,7 +38,7 @@ class BookLibraryViewController: UIViewController, BookDetail {
         self.queryService = queryService
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.cellAdapter = BookCellAdapt(imageRetriever: KFImageRetriever())
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -121,6 +121,18 @@ class BookLibraryViewController: UIViewController, BookDetail {
         let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
         mainView.headerView.configure(with: title, buttonTitle: "")
     }
+    
+    // MARK: - Navigation
+    func showBookDetails(for book: Item) {
+        let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
+        bookCardVC.hidesBottomBarWhenPushed = true
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let viewController = UINavigationController(rootViewController: bookCardVC)
+            present(viewController, animated: true)
+        } else {
+            navigationController?.show(bookCardVC, sender: nil)
+        }
+    }
 }
 
 // MARK: - CollectionView Delegate
@@ -139,7 +151,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         guard let selectedBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        showBookDetails(for: selectedBook, searchType: nil, controller: self)
+        showBookDetails(for: selectedBook)
     }
 }
 
@@ -149,10 +161,10 @@ extension BookLibraryViewController {
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
+            guard let self = self else { return nil }
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self?.cellAdapter.setBookData(for: book) { bookData in
-                cell.configure(with: bookData)
-            }
+            let bookData = self.setBookData(for: book)
+            cell.configure(with: bookData)
             return cell
         })
         configureFooter(dataSource)

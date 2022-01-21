@@ -7,6 +7,13 @@
 
 import UIKit
 
+struct CommentBookCellData {
+    let title: String
+    let authors: String
+    let image: UIImage
+    let ownerName: String?
+}
+
 class CommentBookCellConfiguration {
     // MARK: - Properties
     private var imageRetriever: ImageRetriever

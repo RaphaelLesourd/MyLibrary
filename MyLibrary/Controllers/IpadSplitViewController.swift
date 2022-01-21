@@ -10,9 +10,8 @@ import UIKit
 class IpadSplitViewController: UISplitViewController {
 
     // MARK: - Properties
-    private let cellConfigurator = BookCellAdapt(imageRetriever: KFImageRetriever())
-    private let userCellConfigurator = UserCellConfiguration(imageRetriever: KFImageRetriever())
-    
+   
+    private let factory = ViewControllerFactory()
     // MARK: - Initializers
     override init(style: UISplitViewController.Style) {
         super.init(style: style)
@@ -32,16 +31,8 @@ class IpadSplitViewController: UISplitViewController {
     // MARK: - Setup
     private func setViewControllers() {
         let tabBarController = TabBarController()
-        let homePresenter = HomePresenter(libraryService: LibraryService(),
-                                          categoryService: CategoryService(),
-                                          recommendationService: RecommandationService())
-        let homeViewController = HomeViewController(presenter: homePresenter,
-                                                    cellConfigurator: cellConfigurator,
-                                                    userCellConfigurator: userCellConfigurator,
-                                                    layoutComposer: HomeTabLayout())
-        let newBookViewController = NewBookViewController(libraryService: LibraryService(),
-                                                          converter: Converter(),
-                                                          validator: Validator())
+        let homeViewController = factory.makeHomeTabVC()
+        let newBookViewController = factory.makeNewBookVC(with: nil, isEditing: false, bookCardDelegate: nil)
         setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
         setViewController(tabBarController, for: .compact)

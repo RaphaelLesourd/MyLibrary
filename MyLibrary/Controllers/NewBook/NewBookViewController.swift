@@ -7,44 +7,50 @@
 
 import UIKit
 
-class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPickerDelegate {
+class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
     let newBookView = NewBookControllerView()
-    var isEditingBook = false
+    
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
     var chosenLanguage: String?
     var chosenCurrency: String?
-    var newBook: Item? {
-        didSet {
-            setBookDetail()
-        }
-    }
-    private let resultController = SearchViewController(presenter: SearchPresenter(apiManager: ApiManager()),
-                                                        layoutComposer: BookListLayout())
-    private let languageList = Locale.isoLanguageCodes
-    private let currencyList = Locale.isoCurrencyCodes
+    
+    private var newBook: Item?
+    private let resultController: SearchViewController
     private let libraryService: LibraryServiceProtocol
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
     private let newBookDataConfiguration: NewBookConfigure
-   
+    private let languageList = Locale.isoLanguageCodes
+    private let currencyList = Locale.isoCurrencyCodes
+    
     private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
-    
-    init(libraryService: LibraryServiceProtocol,
+    private var isEditingBook = false
+    private var factory: Factory
+   
+    init(book: Item?,
+         isEditing: Bool,
+         bookCardDelegate: BookCardDelegate?,
+         libraryService: LibraryServiceProtocol,
+         resultViewController: SearchViewController,
          converter: ConverterProtocol,
-         validator: ValidatorProtocol) {
+         validator: ValidatorProtocol,
+         newBookDataConfiguration: NewBookConfiguration) {
+        self.newBook = book
+        self.isEditingBook = isEditing
+        self.bookCardDelegate = bookCardDelegate
         self.libraryService = libraryService
         self.converter = converter
         self.validator = validator
-        self.newBookDataConfiguration = NewBookConfiguration(imageRetriever: KFImageRetriever(),
-                                                             converter: converter,
-                                                             formatter: Formatter())
+        self.newBookDataConfiguration = newBookDataConfiguration
+        self.resultController = resultViewController
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,6 +73,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         addNavigationBarButtons()
         configureSearchController()
         configureUI()
+        setBookDetail()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,6 +81,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         setBookLanguage()
         setBookCurrency()
     }
+    
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -119,19 +127,6 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch (indexPath.section, indexPath.row) {
-        case (0, 0):
-            imagePicker?.present(from: newBookView.bookImageCell.pictureView)
-        case (2, 0):
-            showCategoryList()
-        case (4, 0):
-            presentDescriptionController()
-        default:
-            break
-        }
-    }
-    
     // MARK: - Data Display
     func setBookDetail() {
         guard let book = newBook else { return }
@@ -139,7 +134,7 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
         newBookDataConfiguration.configure(newBookView, with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
-       
+       dump(bookCategories)
         setBookCurrency()
         setBookLanguage()
     }
@@ -210,17 +205,15 @@ class NewBookViewController: UITableViewController, NewBookDelegate, NewBookPick
     }
     
     private func showCategoryList() {
-        let categoryListVC = CategoriesViewController(settingBookCategory: true,
-                                                      categoryPresenter: CategoryPresenter(categoryService: CategoryService()))
-        categoryListVC.newBookDelegate = self
-        categoryListVC.selectedCategories = bookCategories
+        let categoryListVC = factory.makeCategoryVC(settingCategory: true,
+                                                    bookCategories: bookCategories,
+                                                    newBookDelegate: self)
         navigationController?.show(categoryListVC, sender: nil)
     }
     
     private func presentDescriptionController() {
-        let descriptionViewController = BookDescriptionViewController()
-        descriptionViewController.newBookDelegate = self
-        descriptionViewController.textViewText = bookDescription
+        let descriptionViewController = factory.makeBookDescriptionVC(description: bookDescription,
+                                                                      newBookDelegate: self)
         guard UIDevice.current.userInterfaceIdiom == .pad else {
             navigationController?.show(descriptionViewController, sender: nil)
             return
@@ -299,6 +292,13 @@ extension NewBookViewController: NewBookViewDelegate {
     }
 }
 
+extension NewBookViewController: NewBookDelegate {
+    func displayBook(for item: Item?) {
+        newBook = item
+        setBookDetail()
+    }
+}
+
 // MARK: - TableView DataSource & Delegate
 extension NewBookViewController {
     
@@ -342,5 +342,18 @@ extension NewBookViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return sections[indexPath.section][indexPath.row]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            imagePicker?.present(from: newBookView.bookImageCell.pictureView)
+        case (2, 0):
+            showCategoryList()
+        case (4, 0):
+            presentDescriptionController()
+        default:
+            break
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, BookCellAdapter {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -26,7 +26,6 @@ class SearchViewController: UIViewController {
     private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private var cellPresenter: BookCellAdapter?
     private let presenter: SearchPresenter
     private var noMoreBooks: Bool?
     
@@ -35,7 +34,6 @@ class SearchViewController: UIViewController {
          layoutComposer: BookListLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellAdapt(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -95,7 +93,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self?.cellPresenter?.setBookData(for: book) { bookData in
+            if let bookData = self?.setBookData(for: book) {
                 cell.configure(with: bookData)
             }
             return cell
@@ -146,7 +144,7 @@ extension SearchViewController: UICollectionViewDelegate {
     /// via delgate patern protocol.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        newBookDelegate?.newBook = searchBook
+        newBookDelegate?.displayBook(for: searchBook)
     }
 }
 // MARK: - BookListView Delegate
@@ -177,7 +175,7 @@ extension SearchViewController: SearchPresenterView {
         case .keywordSearch:
             books.isEmpty ? noMoreBooks = true : addBooks(books)
         case .barCodeSearch:
-            newBookDelegate?.newBook = books.first
+            newBookDelegate?.displayBook(for: books.first)
         case .none:
             return
         }

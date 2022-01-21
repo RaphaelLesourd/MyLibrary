@@ -157,8 +157,6 @@ class HomePresenterTestCase: XCTestCase {
         
 }
 
-
-
 class HomeViewSpy: HomePresenterView {
     
     var snapshotWasCalled = false

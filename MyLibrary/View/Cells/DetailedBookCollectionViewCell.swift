@@ -39,7 +39,9 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
         subtitleLabel.text = book.author
         descriptionLabel.text = book.description
         
-        bookCover.image = book.image
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
     
     private func setupView() {

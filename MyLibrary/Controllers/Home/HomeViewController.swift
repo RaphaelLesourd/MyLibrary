@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, BookDetail {
+class HomeViewController: UIViewController, BookCellAdapter {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
@@ -16,19 +16,18 @@ class HomeViewController: UIViewController, BookDetail {
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private let cellConfigurator: BookCellAdapter
     private let userCellConfigurator: UserCellConfigure
     private var presenter: HomePresenter
-    
+    private let factory: Factory
+ 
     // MARK: - Initializer
     init(presenter: HomePresenter,
-         cellConfigurator: BookCellAdapter,
          userCellConfigurator: UserCellConfigure,
          layoutComposer: HomeLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.cellConfigurator = cellConfigurator
         self.userCellConfigurator = userCellConfigurator
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,19 +93,15 @@ class HomeViewController: UIViewController, BookDetail {
     // MARK: - Navigation
     private func showBookList(for query: BookQuery?, title: String? = nil) {
         guard let query = query else { return }
-        
-        let bookListVC = BookLibraryViewController(currentQuery: query,
-                                                   queryService: QueryService(),
-                                                   presenter: LibraryPresenter(libraryService: LibraryService()),
-                                                   layoutComposer: BookListLayout())
+        let bookListVC = factory.makeBookListVC(with: query)
         bookListVC.title = title
         navigationController?.show(bookListVC, sender: nil)
     }
     
     private func showCategories() {
-        let categoryPresenter = CategoryPresenter(categoryService: CategoryService())
-        let categoryListVC = CategoriesViewController(settingBookCategory: false,
-                                                      categoryPresenter: categoryPresenter)
+        let categoryListVC = factory.makeCategoryVC(settingCategory: false,
+                                                    bookCategories: [],
+                                                    newBookDelegate: nil)
         if UIDevice.current.userInterfaceIdiom == .pad {
             let categoryVC = UINavigationController(rootViewController: categoryListVC)
             present(categoryVC, animated: true, completion: nil)
@@ -116,18 +111,19 @@ class HomeViewController: UIViewController, BookDetail {
     }
     
     @objc private func showAccountController() {
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        let accountTabConfigurator = AccountTabConfiguration(imageRetriever: KFImageRetriever())
-        let accountTabPresenter = AccountTabPresenter(userService: UserService(),
-                                                      imageService: ImageStorageService(),
-                                                      accountService: accountService)
-        let accountController = AccountViewController(presenter: accountTabPresenter,
-                                                      feedbackManager: FeedbackManager(),
-                                                      accountDataConfigurator: accountTabConfigurator)
-        let accountVC = UINavigationController(rootViewController: accountController)
+        let accountVC = UINavigationController(rootViewController: factory.makeAccountTabViewcontroller())
         present(accountVC, animated: true, completion: nil)
+    }
+    
+   private func showBookDetails(for book: Item) {
+        let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
+        bookCardVC.hidesBottomBarWhenPushed = true
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let viewController = UINavigationController(rootViewController: bookCardVC)
+            present(viewController, animated: true)
+        } else {
+            navigationController?.show(bookCardVC, sender: nil)
+        }
     }
 }
 
@@ -139,7 +135,7 @@ extension HomeViewController {
     private func createDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
-            guard let self = self else { return nil}
+            guard let self = self else { return nil }
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch sections {
             case .categories:
@@ -151,17 +147,15 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellConfigurator.setBookData(for: book) { bookData in
-                        cell.configure(with: bookData)
-                    }
+                    let bookData = self.setBookData(for: book)
+                    cell.configure(with: bookData)
                     return cell
                 }
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.cellConfigurator.setBookData(for: book) { bookData in
-                        cell.configure(with: bookData)
-                    }
+                    let bookData = self.setBookData(for: book)
+                    cell.configure(with: bookData)
                     return cell
                 }
             case .users:
@@ -209,8 +203,9 @@ extension HomeViewController {
         }
         if !presenter.followedUser.isEmpty {
             snapshot.appendSections([.users])
-            snapshot.appendItems(presenter.followedUser.sorted(by: { $0.displayName.lowercased() < $1.displayName.lowercased() }),
-                                 toSection: .users)
+            snapshot.appendItems(presenter.followedUser.sorted(by: {
+                $0.displayName.lowercased() < $1.displayName.lowercased()
+            }),toSection: .users)
         }
         if !presenter.recommandedBooks.isEmpty {
             snapshot.appendSections([.recommanding])
@@ -235,7 +230,7 @@ extension HomeViewController: UICollectionViewDelegate {
             showBookList(for: categoryQuery, title: category.name)
         }
         if let book = selectedItem as? Item {
-            showBookDetails(for: book, searchType: nil, controller: self)
+            showBookDetails(for: book)
         }
         if let followedUser = selectedItem as? UserModel {
             let query = BookQuery(listType: .users,

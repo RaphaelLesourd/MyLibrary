@@ -24,7 +24,9 @@ class BookCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Configure
     func configure(with book: BookCellData) {
-        bookCover.image = book.image
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
     
     override func prepareForReuse() {

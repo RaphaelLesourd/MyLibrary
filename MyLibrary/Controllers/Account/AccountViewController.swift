@@ -16,16 +16,15 @@ class AccountViewController: UIViewController {
     private let mainView = AccountTabMainView()
   
     private let presenter: AccountTabPresenter
-    private var accountDataConfigurator: AccountTabConfigure
     private var imagePicker: ImagePicker?
+    private let factory: Factory
     
     // MARK: - Initializer
     init(presenter: AccountTabPresenter,
-         feedbackManager: FeedbackManagerProtocol,
-         accountDataConfigurator: AccountTabConfigure) {
+         feedbackManager: FeedbackManagerProtocol) {
         self.presenter = presenter
         self.feedbackManager = feedbackManager
-        self.accountDataConfigurator = accountDataConfigurator
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -115,15 +114,10 @@ extension AccountViewController: AccountViewDelegate {
         AlertManager.presentAlert(title: Text.Alert.deleteAccountTitle,
                                   message: Text.Alert.deleteAccountMessage,
                                   cancel: true,
-                                  on: self) { _ in
-            let accountService = AccountService(userService: UserService(),
-                                                libraryService: LibraryService(),
-                                                categoryService: CategoryService())
-            let welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
-            let controller = AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                                        validator: Validator(),
-                                                        interfaceType: .deleteAccount)
-            self.present(controller, animated: true, completion: nil)
+                                  on: self) { [weak self] _ in
+            guard let self = self else { return }
+            self.present(self.factory.makeAccountSetupController(for: .deleteAccount),
+                          animated: true, completion: nil)
         }
     }
 }
@@ -137,7 +131,13 @@ extension AccountViewController: ContactViewDelegate {
 extension AccountViewController: AccountTabPresenterView {
     func configureView(with user: UserModel) {
         DispatchQueue.main.async {
-            self.accountDataConfigurator.configure(self.mainView, with: user)
+            self.mainView.profileView.emailLabel.text = user.email
+            self.mainView.profileView.userNameTextfield.text = user.displayName
+            
+            let imageView = self.mainView.profileView.profileImageButton.imageView
+            imageView?.getImage(for: user.photoURL, completion: { [weak self] image in
+                self?.mainView.profileView.profileImageButton.setImage(image, for: .normal)
+            })
         }
     }
     

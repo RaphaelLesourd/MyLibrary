@@ -15,7 +15,7 @@ class HomePresenter {
     
     // MARK: - Properties
     weak var view: HomePresenterView?
-    let categoryService: CategoryServiceProtocol
+   
     var categories: [CategoryModel] = []
     var latestBooks: [Item] = []
     var favoriteBooks: [Item] = []
@@ -23,6 +23,7 @@ class HomePresenter {
     var followedUser: [UserModel] = []
     
     private let libraryService: LibraryServiceProtocol
+    private let categoryService: CategoryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     
     // MARK: - Intializer
@@ -78,6 +79,17 @@ class HomePresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             }
         }
+    }
+    
+    private func setBookData(with book: Item) -> BookCellData {
+        let title = book.volumeInfo?.title?.capitalized ?? ""
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
+        let description = book.volumeInfo?.volumeInfoDescription ?? ""
+        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
+        return BookCellData(title: title,
+                            author: authors,
+                            description: description,
+                            image: image)
     }
     
     private func getBooks(for query: BookQuery,
