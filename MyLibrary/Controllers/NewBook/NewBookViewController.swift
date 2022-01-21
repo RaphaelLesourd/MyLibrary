@@ -11,17 +11,16 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
-    let newBookView = NewBookControllerView()
-    
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
     var chosenLanguage: String?
     var chosenCurrency: String?
+    let newBookView = NewBookControllerView()
     
     private var newBook: Item?
     private let resultController: SearchViewController
-    private let libraryService: LibraryServiceProtocol
+    private let presenter: NewBookPresenter
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
     private let newBookDataConfiguration: NewBookConfigure
@@ -37,7 +36,7 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     init(book: Item?,
          isEditing: Bool,
          bookCardDelegate: BookCardDelegate?,
-         libraryService: LibraryServiceProtocol,
+         presenter: NewBookPresenter,
          resultViewController: SearchViewController,
          converter: ConverterProtocol,
          validator: ValidatorProtocol,
@@ -45,7 +44,7 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         self.newBook = book
         self.isEditingBook = isEditing
         self.bookCardDelegate = bookCardDelegate
-        self.libraryService = libraryService
+        self.presenter = presenter
         self.converter = converter
         self.validator = validator
         self.newBookDataConfiguration = newBookDataConfiguration
@@ -61,6 +60,8 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.view = self
+        presenter.isEditing = isEditingBook
         pickerDataSource = NewBookPickerDataSource(newBookView: newBookView,
                                                    formatter: Formatter(),
                                                    delegate: self)
@@ -134,9 +135,17 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         newBookDataConfiguration.configure(newBookView, with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
-       dump(bookCategories)
         setBookCurrency()
         setBookLanguage()
+    }
+    
+    func clearData() {
+        newBookView.resetViews()
+        tableView.setContentOffset(.zero, animated: true)
+        newBookView.searchController.isActive = false
+        bookCategories.removeAll()
+        bookComment = nil
+        bookDescription = nil
     }
     
     private func setBookLanguage() {
@@ -188,6 +197,12 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     }
     
     // MARK: - Navigation
+    @objc func returnToPreviousController() {
+        bookCardDelegate?.fetchBookUpdate()
+        clearData()
+        navigationController?.popViewController(animated: true)
+    }
+    
     @objc private func showScannerController() {
         let barcodeScannerController = BarcodeScanViewController()
         barcodeScannerController.barcodeDelegate = self
@@ -196,12 +211,6 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         } else {
             navigationController?.pushViewController(barcodeScannerController, animated: true)
         }
-    }
-    
-    @objc func returnToPreviousController() {
-        bookCardDelegate?.fetchBookUpdate()
-        clearData()
-        navigationController?.popViewController(animated: true)
     }
     
     private func showCategoryList() {
@@ -236,8 +245,8 @@ extension NewBookViewController: BarcodeScannerDelegate {
     /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
     /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
-        resultController.searchType = .barCodeSearch
-        resultController.currentSearchKeywords = code
+        resultController.presenter.searchType = .barCodeSearch
+        resultController.presenter.currentSearchKeywords = code
     }
 }
 
@@ -245,9 +254,9 @@ extension NewBookViewController: BarcodeScannerDelegate {
 extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        resultController.searchedBooks.removeAll()
-        resultController.searchType = .keywordSearch
-        resultController.currentSearchKeywords = newBookView.searchController.searchBar.text ?? ""
+        resultController.presenter.searchedBooks.removeAll()
+        resultController.presenter.searchType = .keywordSearch
+        resultController.presenter.currentSearchKeywords = newBookView.searchController.searchBar.text ?? ""
     }
 }
 
@@ -265,37 +274,24 @@ extension NewBookViewController: ImagePickerDelegate {
 extension NewBookViewController: NewBookViewDelegate {
     
     func saveBook() {
-        newBookView.saveButtonCell.actionButton.displayActivityIndicator(true)
         guard let book = createBookDocument(),
               let imageData = newBookView.bookImageCell.pictureView.image?.jpegData(.high) else { return }
-        
-        libraryService.createBook(with: book, and: imageData) { [weak self] error in
-            guard let self = self else { return }
-            self.newBookView.saveButtonCell.actionButton.displayActivityIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
-            self.isEditingBook ? self.returnToPreviousController() : self.clearData()
-        }
-    }
-    
-    func clearData() {
-        newBookView.resetViews()
-        tableView.setContentOffset(.zero, animated: true)
-        newBookView.searchController.isActive = false
-        resultController.searchedBooks.removeAll()
-        bookCategories.removeAll()
-        bookComment = nil
-        bookDescription = nil
+        presenter.saveBook(with: book, and: imageData)
     }
 }
 
-extension NewBookViewController: NewBookDelegate {
+// MARK: - NewBook Delegate
+extension NewBookViewController: NewBookViewControllerDelegate {
     func displayBook(for item: Item?) {
         newBook = item
         setBookDetail()
+    }
+}
+
+// MARK: - NewBook Presenter
+extension NewBookViewController: NewBookPresenterView {
+    func showSaveButtonActicityIndicator(_ show: Bool) {
+        newBookView.saveButtonCell.actionButton.displayActivityIndicator(show)
     }
 }
 

@@ -12,7 +12,7 @@ class LibraryPresenterTestCase: XCTestCase {
 
     private var sut: LibraryPresenter!
     private var libraryViewSpy: LibraryPresenterViewSpy!
- 
+
     override func setUp() {
     libraryViewSpy = LibraryPresenterViewSpy()
     }
@@ -26,8 +26,7 @@ class LibraryPresenterTestCase: XCTestCase {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
         sut.view = libraryViewSpy
         sut.getBooks(with: PresenterFakeData.bookQuery)
-        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
-        XCTAssertTrue(libraryViewSpy.addToBookListCalled)
+        XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
     }
@@ -37,7 +36,6 @@ class LibraryPresenterTestCase: XCTestCase {
         sut.view = libraryViewSpy
         sut.getBooks(with: PresenterFakeData.bookQuery)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
-        XCTAssertFalse(libraryViewSpy.addToBookListCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
     }
@@ -45,7 +43,6 @@ class LibraryPresenterTestCase: XCTestCase {
 
 class LibraryPresenterViewSpy: LibraryPresenterView {
     
-    var addToBookListCalled = false
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
@@ -61,9 +58,4 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
     func stopActivityIndicator() {
         stopActivityWasCalled = true
     }
-    
-    func addBookToList(_ books: [Item]) {
-        addToBookListCalled = true
-    }
-    
 }

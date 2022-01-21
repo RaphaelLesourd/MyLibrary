@@ -138,7 +138,7 @@ extension CommentsViewController: UITableViewDelegate {
     }
     
     /// Handles swipe gesture actions
-    private func contextMenuAction(for actionType: ActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
         }

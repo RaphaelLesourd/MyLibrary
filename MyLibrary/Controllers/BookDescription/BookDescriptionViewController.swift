@@ -11,13 +11,13 @@ import IQKeyboardManagerSwift
 class BookDescriptionViewController: UIViewController {
     
     // MARK: - Properties
-    weak var newBookDelegate: NewBookDelegate?
+    weak var newBookDelegate: NewBookViewControllerDelegate?
     private var textViewText: String?
     private let mainView = DescriptionMainView()
     
     // MARK: - Initializer
     init(bookDescription: String?,
-         newBookDelegate: NewBookDelegate) {
+         newBookDelegate: NewBookViewControllerDelegate) {
         self.textViewText = bookDescription
         self.newBookDelegate = newBookDelegate
         super.init(nibName: nil, bundle: nil)

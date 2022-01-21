@@ -10,7 +10,7 @@ import FirebaseAuth
 
 class BookCardViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     private var searchType: SearchType?
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
@@ -29,7 +29,7 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    // MARK: - Intializers
+    // MARK: Intializers
     init(book: Item,
          searchType: SearchType?,
          dataAdapter: BookCardAdapter,
@@ -49,7 +49,7 @@ class BookCardViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -81,7 +81,7 @@ class BookCardViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
     }
     
-    // MARK: - Setup
+    // MARK: Setup
     private func addNavigationBarButtons() {
         let editButton = UIBarButtonItem(image: Images.NavIcon.editBookIcon,
                                          style: .plain,
@@ -103,7 +103,7 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    // MARK: - Data display
+    // MARK: Data display
     private func setBookFavoriteState() {
         if let favorite = self.presenter.book?.favorite {
             favoriteBook = favorite
@@ -116,7 +116,7 @@ class BookCardViewController: UIViewController {
         }
     }
     
-    // MARK: - Navigation
+    // MARK: Navigation
     @objc private func editBook() {
         let newBookController = factory.makeNewBookVC(with: presenter.book, isEditing: true, bookCardDelegate: self)
         navigationController?.show(newBookController, sender: nil)
@@ -131,13 +131,14 @@ class BookCardViewController: UIViewController {
         navigationController?.show(factory.makeBookCoverDisplayVC(with: coverImage), sender: nil)
     }
 }
+
 // MARK: - BookCard Delegate
 extension BookCardViewController: BookCardDelegate {
-    
     func fetchBookUpdate() {
         presenter.fetchBookUpdate()
     }
 }
+
 // MARK: - BookCardMainView Delegate
 /// Accessible functions for the view thru delegate protocol
 extension BookCardViewController: BookCardMainViewDelegate {
@@ -149,7 +150,7 @@ extension BookCardViewController: BookCardMainViewDelegate {
     
     func recommandButtonAction() {
         recommended.toggle()
-        presenter.recommnand(recommended)
+        presenter.recommendBook(recommended)
         presenter.updateStatus(state: recommended, documentKey: .recommanding)
     }
     
@@ -158,13 +159,15 @@ extension BookCardViewController: BookCardMainViewDelegate {
                                   message: Text.Alert.deleteBookMessage,
                                   cancel: true,
                                   on: self) { [weak self] _ in
-            self?.presenter.delete()
+            self?.presenter.deleteBook()
         }
     }
 }
+
 // MARK: - BoorkCard PresenterView
 extension BookCardViewController: BookCardPresenterView {
     func displayCategories(with list: [CategoryModel]) {
+        dump(list)
         let bookCategories = dataAdapter.setCategoriesLabel(with: list)
         mainView.categoryiesLabel.attributedText = bookCategories
     }
@@ -176,7 +179,7 @@ extension BookCardViewController: BookCardPresenterView {
         setBookFavoriteState()
     }
     
-    func playRecommendButtonIndicaor(_ play: Bool) {
+    func playRecommendButtonIndicator(_ play: Bool) {
         mainView.recommandButton.displayActivityIndicator(play)
     }
     

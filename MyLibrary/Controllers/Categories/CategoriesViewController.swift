@@ -9,26 +9,27 @@ import UIKit
 
 class CategoriesViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
     typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
     
-    weak var newBookDelegate: NewBookDelegate?
-   
-    private var selectedCategories: [String]
+    weak var newBookDelegate: NewBookViewControllerDelegate?
+    
+    private lazy var dataSource = makeDataSource()
     private let mainView = CategoryControllerMainView()
     private let presenter: CategoryPresenter
-    private lazy var dataSource = makeDataSource()
+    private let factory: Factory
     private var settingBookCategory: Bool
     
     init(settingBookCategory: Bool,
          selectedCategories: [String],
-         newBookDelegate: NewBookDelegate?,
+         newBookDelegate: NewBookViewControllerDelegate?,
          categoryPresenter: CategoryPresenter) {
         self.settingBookCategory = settingBookCategory
-        self.selectedCategories = selectedCategories
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
+        self.presenter.selectedCategories = selectedCategories
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,7 +37,7 @@ class CategoriesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -47,19 +48,19 @@ class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         presenter.view = self
         mainView.emptyStateView.delegate = self
-        configureTableView()
         addNavigationBarButtons()
+        addSearchController()
+        configureTableView()
         applySnapshot(animatingDifferences: false)
         presenter.getCategoryList()
-        highlightBookCategories()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        newBookDelegate?.bookCategories = selectedCategories
+        newBookDelegate?.bookCategories = presenter.selectedCategories
     }
     
-    // MARK: - Setup
+    // MARK: Setup
     private func configureTableView() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = dataSource
@@ -76,47 +77,22 @@ class CategoriesViewController: UIViewController {
                                         target: self,
                                         action: #selector(addNewCategory))
         let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
-        navigationItem.rightBarButtonItems = [addButton, activityIndicactor]
+        self.navigationItem.rightBarButtonItems = [addButton, activityIndicactor]
     }
     
-    func highlightBookCategories() {
-        selectedCategories.forEach({ categories in
-            if let index = presenter.categories.firstIndex(where: { $0.uid == categories }),
-               let section = dataSource.snapshot().indexOfSection(.main) {
-                let indexPath = IndexPath(row: index, section: section)
-                mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-            }
-        })
+    private func addSearchController() {
+        mainView.searchController.searchResultsUpdater = self
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = mainView.searchController
+        self.definesPresentationContext = true
     }
     
-    // MARK: - Categories dialog
+    // MARK: Categories dialog
     @objc private func addNewCategory() {
-        presentNewCategoryController(editing: false)
-    }
-    
-    private func displayDeleteCategoryAlert(_ category: CategoryModel) {
-        let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
-        AlertManager.presentAlert(title: title,
-                                  message: Text.Alert.deleteCategoryMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
-            self?.presenter.deleteCategory(for: category)
-        }
-    }
-    
-    // MARK: - Navigation
-    private func presentNewCategoryController(editing: Bool, category: CategoryModel? = nil) {
-        let presenter = NewCategoryPresenter(categoryService: CategoryService())
-        let newCategoryViewController = NewCategoryViewController(editingCategory: editing,
-                                                                  category: category,
-                                                                  presenter: presenter)
-        if #available(iOS 15.0, *) {
-            presentSheetController(newCategoryViewController, detents: [.large()])
-        } else {
-            present(newCategoryViewController, animated: true, completion: nil)
-        }
+        presentNewCategoryController(editing: false, for: nil)
     }
 }
+
 // MARK: - TableView Datasource
 extension CategoriesViewController {
     
@@ -145,9 +121,12 @@ extension CategoriesViewController {
         snapshot.appendItems(presenter.categories, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         
-        highlightBookCategories()
+        if let section = dataSource.snapshot().indexOfSection(.main) {
+            presenter.highlightBookCategories(for: section)
+        }
     }
 }
+
 // MARK: - TableView Delegate
 extension CategoriesViewController: UITableViewDelegate {
     // Header
@@ -177,7 +156,6 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 50
     }
-
     // Context menu
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
@@ -185,17 +163,9 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: ActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
-            guard let self = self else {return}
-            
-            let category = self.presenter.categories[indexPath.row]
-            switch actionType {
-            case .delete:
-                self.displayDeleteCategoryAlert(category)
-            case .edit:
-                self.presentNewCategoryController(editing: true, category: category)
-            }
+            self?.presenter.presentSwipeAction(for: actionType, at: indexPath.row)
             completion(true)
         }
         action.backgroundColor = actionType.color
@@ -203,30 +173,49 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let categoryID = presenter.categories[indexPath.row].uid else { return }
-        selectedCategories.append(categoryID)
+        presenter.removeSelectedCategory(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let categoryID = presenter.categories[indexPath.row].uid else { return }
-        if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
-            selectedCategories.remove(at: index)
-        }
+        presenter.addSelectedCategory(from: indexPath.row)
     }
 }
+
 // MARK: - EmptystateView Delegate
 extension CategoriesViewController: EmptyStateViewDelegate {
     func didTapButton() {
         addNewCategory()
     }
 }
+
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func showActivityIndicator() {
-        DispatchQueue.main.async {
-            self.mainView.activityIndicator.startAnimating()
+    func displayDeleteCategoryAlert(for category: CategoryModel) {
+        let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
+        AlertManager.presentAlert(title: title,
+                                  message: Text.Alert.deleteCategoryMessage,
+                                  cancel: true,
+                                  on: self) { [weak self] _ in
+            self?.presenter.deleteCategory(for: category)
         }
+    }
+    
+    func presentNewCategoryController(editing: Bool, for category: CategoryModel?) {
+        let newCategoryViewController = factory.makeNewCategoryVC(editing: editing, category: category)
+        if #available(iOS 15.0, *) {
+            presentSheetController(newCategoryViewController, detents: [.large()])
+        } else {
+            present(newCategoryViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func highlightCellForCategoryList(at indexPath: IndexPath) {
+        mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+    }
+    
+    func showActivityIndicator() {
+        self.mainView.activityIndicator.startAnimating()
     }
     
     func stopActivityIndicator() {
@@ -234,5 +223,12 @@ extension CategoriesViewController: CategoryPresenterView {
             self.mainView.activityIndicator.stopAnimating()
             self.mainView.refresherControl.endRefreshing()
         }
+    }
+}
+// MARK: - Search Result updating
+extension CategoriesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {return}
+        presenter.filterSearchedCategories(for: searchText)
     }
 }

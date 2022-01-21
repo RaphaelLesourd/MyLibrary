@@ -19,7 +19,11 @@ class PresenterFakeData {
     
     static let categories: [CategoryModel] = [CategoryModel(id: "",
                                                             uid: "",
-                                                            name: "Test",
+                                                            name: "First",
+                                                            color: "TestColor"),
+                                              CategoryModel(id: "",
+                                                            uid: "",
+                                                            name: "Second",
                                                             color: "TestColor")]
     
     static let books: [Item] = [Item(id: "testID",
@@ -39,7 +43,7 @@ class PresenterFakeData {
                                                photoURL: "testUrl",
                                                token: "TestToken")]
     
-    static let category = CategoryModel(id: "", uid: "", name: "test", color: "")
+    static let category = CategoryModel(id: "1", uid: "1", name: "test", color: "AAAAA")
     
     static let book: Item = Item(id: "testID",
                                  bookID: "",
@@ -49,7 +53,7 @@ class PresenterFakeData {
                                  volumeInfo: nil,
                                  saleInfo: nil,
                                  timestamp: 0,
-                                 category: nil)
+                                 category: [])
     
     static let comment = CommentModel(id: "",
                                       uid: "",

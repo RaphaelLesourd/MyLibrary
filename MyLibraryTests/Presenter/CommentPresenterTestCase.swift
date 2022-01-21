@@ -12,7 +12,11 @@ class CommentPresenterTestCase: XCTestCase {
 
     private var sut: CommentPresenter!
     private var commentViewSpy: CommentPresenterViewSpy!
-   
+    private let successTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: true),
+                                                        messageService: MessageServiceMock(successTest: true))
+    private let failedTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: false),
+                                                       messageService: MessageServiceMock(successTest: false))
+    
     override func setUp() {
         commentViewSpy = CommentPresenterViewSpy()
     }
@@ -24,8 +28,7 @@ class CommentPresenterTestCase: XCTestCase {
     
     // MARK: - Success
     func test_getComments_successfully() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                               messageService: MessageServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.getComments()
@@ -35,8 +38,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_addComment_successfully() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                               messageService: MessageServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.addComment(with: "", commentID: "")
@@ -45,8 +47,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_deleteComment_successfully() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                               messageService: MessageServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.deleteComment(for: PresenterFakeData.comment)
@@ -56,8 +57,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_notifyingUser_successfully() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                               messageService: MessageServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.notifyUser(of: "", book: PresenterFakeData.book)
@@ -68,8 +68,7 @@ class CommentPresenterTestCase: XCTestCase {
     
     // MARK: - Fail
     func test_getComments_fail() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: false),
-                               messageService: MessageServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.getComments()
@@ -79,8 +78,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_addComment_failed() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: false),
-                               messageService: MessageServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.addComment(with: "", commentID: "")
@@ -89,8 +87,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_deleteComment_failed() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: false),
-                               messageService: MessageServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.deleteComment(for: PresenterFakeData.comment)
@@ -100,8 +97,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_notifyingUser_fail() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: false),
-                               messageService: MessageServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.notifyUser(of: "", book: PresenterFakeData.book)
@@ -110,8 +106,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     func test_notifyingUser_NoBookDataAvailable_successfully() {
-        sut = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                               messageService: MessageServiceMock(successTest: true))
+        sut = failedTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
         sut.notifyUser(of: "", book: nil)

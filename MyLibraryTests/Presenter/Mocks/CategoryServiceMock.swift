@@ -26,7 +26,11 @@ class CategoryServiceMock: CategoryServiceProtocol {
     
     func getBookCategories(for categoryIds: [String], bookOwnerID: String,
                            completion: @escaping ([CategoryModel]) -> Void) {
-        successTest ? completion([]) : completion(PresenterFakeData.categories)
+        if successTest {
+            completion(PresenterFakeData.categories)
+        } else {
+            completion([])
+        }
     }
     
     func updateCategoryName(for category: CategoryModel, with name: String?, color: String,

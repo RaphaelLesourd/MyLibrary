@@ -37,12 +37,17 @@ class CategoryControllerMainView: UIView {
     let refresherControl = UIRefreshControl()
     let activityIndicator = UIActivityIndicatorView()
     let emptyStateView = EmptyStateView()
+    var searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Configure
     private func configure() {
         emptyStateView.configure(title: Text.EmptyState.categoryTitle,
                                  subtitle: Text.EmptyState.categorySubtitle,
                                  icon: Images.ButtonIcon.selectedCategoryBadge)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = Text.Placeholder.search
+        searchController.automaticallyShowsSearchResultsController = false
+        searchController.hidesNavigationBarDuringPresentation = false
     }
 }
 

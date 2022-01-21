@@ -9,7 +9,7 @@ import UIKit
 
 class NewCategoryViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     private let mainView = NewCategoryMainView()
     private let editingCategory: Bool
     private let category: CategoryModel?
@@ -20,7 +20,7 @@ class NewCategoryViewController: UIViewController {
         }
     }
     
-    // MARK: - Initializer
+    // MARK: Initializer
     init(editingCategory: Bool,
          category: CategoryModel?,
          presenter: NewCategoryPresenter) {
@@ -34,7 +34,7 @@ class NewCategoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -62,7 +62,7 @@ class NewCategoryViewController: UIViewController {
         mainView.setCollectionViewHeight()
     }
 
-    // MARK: - Setup
+    // MARK: Setup
     private func setEditedCategoryName() {
         guard let category = category,
               let name = category.name else { return }
@@ -70,6 +70,7 @@ class NewCategoryViewController: UIViewController {
         
     }
 }
+
 // MARK: - CollectionView DataSource
 extension NewCategoryViewController: UICollectionViewDataSource {
     
@@ -86,6 +87,7 @@ extension NewCategoryViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
 // MARK: - CollectinView Delegate
 extension NewCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -100,6 +102,7 @@ extension NewCategoryViewController: UITextFieldDelegate {
         return true
     }
 }
+
 // MARK: - NewCategoryView Delegate
 extension NewCategoryViewController: NewCategoryViewDelegate {
     func saveCategory() {
@@ -108,6 +111,7 @@ extension NewCategoryViewController: NewCategoryViewDelegate {
                                for: category)
     }
 }
+
 // MARK: - Presenter Delegate
 extension NewCategoryViewController: NewCategoryPresenterView {
    func updateCategoryColor(at indexPath: IndexPath, and colorHex: String) {
@@ -122,7 +126,9 @@ extension NewCategoryViewController: NewCategoryPresenterView {
     }
     
     func stopActivityIndicator() {
-        mainView.saveButton.displayActivityIndicator(false)
+        DispatchQueue.main.async {
+            self.mainView.saveButton.displayActivityIndicator(false)
+        }
     }
     
     func dismissViewController() {

@@ -80,18 +80,7 @@ class HomePresenter {
             }
         }
     }
-    
-    private func setBookData(with book: Item) -> BookCellData {
-        let title = book.volumeInfo?.title?.capitalized ?? ""
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
-        let description = book.volumeInfo?.volumeInfoDescription ?? ""
-        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
-        return BookCellData(title: title,
-                            author: authors,
-                            description: description,
-                            image: image)
-    }
-    
+  
     private func getBooks(for query: BookQuery,
                           completion: @escaping ([Item]) -> Void) {
         view?.showActivityIndicator()

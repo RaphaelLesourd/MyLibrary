@@ -6,20 +6,17 @@
 //
 
 import UIKit
-import FirebaseAuth
 
-/// Class inherits from a base class seting a common static tableView
 class AccountViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
-  
     private let presenter: AccountTabPresenter
-    private var imagePicker: ImagePicker?
     private let factory: Factory
+    private var imagePicker: ImagePicker?
     
-    // MARK: - Initializer
+    // MARK: Initializer
     init(presenter: AccountTabPresenter,
          feedbackManager: FeedbackManagerProtocol) {
         self.presenter = presenter
@@ -32,7 +29,7 @@ class AccountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -51,7 +48,7 @@ class AccountViewController: UIViewController {
         setDelegates()
     }
 
-    // MARK: - Setup
+    // MARK: Setup
     private func addNavigationBarButtons() {
         let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactor]
@@ -63,22 +60,10 @@ class AccountViewController: UIViewController {
         mainView.profileView.accountView.delegate = self
         mainView.contactView.delegate = self
     }
-    
-    private func animateLoader() {
-        mainView.activityIndicator.startAnimating()
-        mainView.profileView.loadingSpeed(true)
-    }
-    
-    private func stopAnimatingLoaders() {
-        DispatchQueue.main.async {
-            self.mainView.activityIndicator.stopAnimating()
-            self.mainView.profileView.loadingSpeed(false)
-        }
-    }
 }
+
 // MARK: - ImagePicker Delegate
 extension AccountViewController: ImagePickerDelegate {
-    /// User the image return from the ImagePicker to set the profile image.
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
         mainView.profileView.profileImageButton.setImage(image, for: .normal)
@@ -86,6 +71,7 @@ extension AccountViewController: ImagePickerDelegate {
         presenter.saveProfileImage(imageData)
     }
 }
+
 // MARK: - TextField Delegate
 extension AccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -96,16 +82,21 @@ extension AccountViewController: UITextFieldDelegate {
         return true
     }
 }
+
 // MARK: - ProfileView Delegate
 extension AccountViewController: ProfileViewDelegate {
     func presentImagePicker() {
         self.imagePicker?.present(from: mainView.profileView.profileImageButton)
     }
 }
+
 // MARK: - AccountView Delegate
 extension AccountViewController: AccountViewDelegate {
     func signoutRequest() {
-        AlertManager.presentAlert(title: Text.Alert.signout, message: "", cancel: true, on: self) { _ in
+        AlertManager.presentAlert(title: Text.Alert.signout,
+                                  message: "",
+                                  cancel: true,
+                                  on: self) { _ in
             self.presenter.signoutAccount()
         }
     }
@@ -130,25 +121,19 @@ extension AccountViewController: ContactViewDelegate {
 
 extension AccountViewController: AccountTabPresenterView {
     func configureView(with user: UserModel) {
-        DispatchQueue.main.async {
-            self.mainView.profileView.emailLabel.text = user.email
-            self.mainView.profileView.userNameTextfield.text = user.displayName
-            
-            let imageView = self.mainView.profileView.profileImageButton.imageView
-            imageView?.getImage(for: user.photoURL, completion: { [weak self] image in
-                self?.mainView.profileView.profileImageButton.setImage(image, for: .normal)
-            })
-        }
+        mainView.configure(with: user)
     }
     
     func showActivityIndicator() {
         mainView.activityIndicator.startAnimating()
-        animateLoader()
+        mainView.profileView.loadingSpeed(true)
     }
     
     func stopActivityIndicator() {
-        mainView.activityIndicator.stopAnimating()
-        stopAnimatingLoaders()
+        DispatchQueue.main.async {
+            self.mainView.activityIndicator.stopAnimating()
+            self.mainView.profileView.loadingSpeed(false)
+        }
     }
     
     func animateSavebuttonIndicator(_ animate: Bool) {

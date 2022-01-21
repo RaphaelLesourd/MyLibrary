@@ -12,7 +12,13 @@ class HomePresenterTestCase: XCTestCase {
 
     private var sut: HomePresenter!
     private var homeViewSpy: HomeViewSpy!
- 
+    private let successTestPresenter = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
+                                                     categoryService: CategoryServiceMock(true),
+                                                     recommendationService: RecommendationServiceMock(true))
+    private let failedTestPresenter = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
+                                                    categoryService: CategoryServiceMock(false),
+                                                    recommendationService: RecommendationServiceMock(false))
+    
     override func setUp() {
         homeViewSpy = HomeViewSpy()
     }
@@ -25,9 +31,7 @@ class HomePresenterTestCase: XCTestCase {
     // MARK: - Success
     func test_retreiveLatestBooks_thenReturnData() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
-                            categoryService: CategoryServiceMock(true),
-                            recommendationService: RecommendationServiceMock(true))
+        sut = successTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getLatestBooks()
@@ -39,9 +43,7 @@ class HomePresenterTestCase: XCTestCase {
 
     func test_retreiveFavoriteBooks_thenReturnData() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
-                            categoryService: CategoryServiceMock(true),
-                            recommendationService: RecommendationServiceMock(true))
+        sut = successTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getFavoriteBooks()
@@ -53,9 +55,7 @@ class HomePresenterTestCase: XCTestCase {
 
     func test_retreiveRecommendedBooks_thenReturnData() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
-                            categoryService: CategoryServiceMock(true),
-                            recommendationService: RecommendationServiceMock(true))
+        sut = successTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getRecommendations()
@@ -67,9 +67,7 @@ class HomePresenterTestCase: XCTestCase {
 
     func test_retreiveCategories_thenReturnData() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
-                            categoryService: CategoryServiceMock(true),
-                            recommendationService: RecommendationServiceMock(true))
+        sut = successTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getCategories()
@@ -79,9 +77,7 @@ class HomePresenterTestCase: XCTestCase {
     
     func test_retreiveUsers_thenReturnData() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
-                            categoryService: CategoryServiceMock(true),
-                            recommendationService: RecommendationServiceMock(true))
+        sut = successTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getUsers()
@@ -92,9 +88,7 @@ class HomePresenterTestCase: XCTestCase {
     // MARK: - Fail
     func test_whenRetreivecategoriesAndErrorOccurs_thenReturnNoUser() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
-                            categoryService: CategoryServiceMock(false),
-                            recommendationService: RecommendationServiceMock(false))
+        sut = failedTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getCategories()
@@ -104,9 +98,7 @@ class HomePresenterTestCase: XCTestCase {
     
     func test_whenRetreiveLatestBooksAndErrorOccurs_thenNoBooks() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
-                            categoryService: CategoryServiceMock(false),
-                            recommendationService: RecommendationServiceMock(false))
+        sut = failedTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getLatestBooks()
@@ -117,9 +109,7 @@ class HomePresenterTestCase: XCTestCase {
     
     func test_whenRetreiveFavoriteBooksAndErrorOccurs_thenReturnNoBooks() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
-                            categoryService: CategoryServiceMock(false),
-                            recommendationService: RecommendationServiceMock(false))
+        sut = failedTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getFavoriteBooks()
@@ -131,9 +121,7 @@ class HomePresenterTestCase: XCTestCase {
     
     func test_whenRetreiveRecommendedBooksAndErrorOccurs_thenReturnNoBooks() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
-                            categoryService: CategoryServiceMock(false),
-                            recommendationService: RecommendationServiceMock(false))
+        sut = failedTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getRecommendations()
@@ -145,9 +133,7 @@ class HomePresenterTestCase: XCTestCase {
     
     func test_whenRetreiveUsersAndErrorOccurs_thenReturnNoUser() {
         // Given
-        sut = HomePresenter(libraryService: LibraryServiceMock(successTest: false),
-                            categoryService: CategoryServiceMock(false),
-                            recommendationService: RecommendationServiceMock(false))
+        sut = failedTestPresenter
         sut.view = homeViewSpy
         // When
         sut.getUsers()

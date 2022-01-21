@@ -6,7 +6,6 @@
 //
 
 protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func addBookToList(_ books: [Item])
     func applySnapshot(animatingDifferences: Bool)
 }
 
@@ -15,6 +14,7 @@ class LibraryPresenter {
     // MARK: - Properties
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
+    var bookList: [Item] = []
     private let libraryService: LibraryServiceProtocol
     
     // MARK: - Initializer
@@ -39,7 +39,8 @@ class LibraryPresenter {
                     self?.view?.applySnapshot(animatingDifferences: true)
                     return
                 }
-                self?.view?.addBookToList(books)
+                self?.bookList.append(contentsOf: books)
+                self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

@@ -13,22 +13,14 @@ class SearchViewController: UIViewController, BookCellAdapter {
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
-    weak var newBookDelegate: NewBookDelegate?
-    var searchType: SearchType?
-    var searchedBooks: [Item] = []
-    var currentSearchKeywords = "" {
-        didSet {
-            refreshData()
-        }
-    }
+    weak var newBookDelegate: NewBookViewControllerDelegate?
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private let presenter: SearchPresenter
-    private var noMoreBooks: Bool?
-    
+    let presenter: SearchPresenter
+ 
     // MARK: - Initializer
     init(presenter: SearchPresenter,
          layoutComposer: BookListLayoutComposer) {
@@ -120,11 +112,11 @@ extension SearchViewController {
         }
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.emptyStateView.isHidden = !presenter.searchedBooks.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(searchedBooks, toSection: .main)
+        snapshot.appendItems(presenter.searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -136,8 +128,9 @@ extension SearchViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
-        if indexPath.row == currentRow && noMoreBooks == false {
-            presenter.getBooks(with: currentSearchKeywords, fromIndex: searchedBooks.count + 1)
+        if indexPath.row == currentRow && presenter.noMoreBooks == false {
+            presenter.getBooks(with: presenter.currentSearchKeywords,
+                               fromIndex: presenter.searchedBooks.count + 1)
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController
@@ -149,14 +142,17 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
+    
     func refreshData() {
-        searchedBooks.removeAll()
-        noMoreBooks = false
-        presenter.getBooks(with: currentSearchKeywords, fromIndex: 0)
+        presenter.refreshData()
     }
 }
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
+    func displayBookFromBarCodeSearch(with book: Item?) {
+        newBookDelegate?.displayBook(for: book)
+    }
+    
     func showActivityIndicator() {
         footerView.displayActivityIndicator(true)
     }
@@ -164,29 +160,5 @@ extension SearchViewController: SearchPresenterView {
     func stopActivityIndicator() {
         mainView.refresherControl.endRefreshing()
         footerView.displayActivityIndicator(false)
-    }
-    /// Verifies the type of search and redirects the result.
-    ///  - searchType:
-    ///  - .apiCall: Display the list in the collectionView
-    ///  - .barCodeSearch: send the first result back to newBookController
-    /// - Parameter books: List of books fetch from API
-    func handleList(for books: [Item]) {
-        switch searchType {
-        case .keywordSearch:
-            books.isEmpty ? noMoreBooks = true : addBooks(books)
-        case .barCodeSearch:
-            newBookDelegate?.displayBook(for: books.first)
-        case .none:
-            return
-        }
-    }
-    
-    private func addBooks(_ books: [Item]) {
-        books.forEach {  book in
-            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
-                self.searchedBooks.append(book)
-                self.applySnapshot()
-            }
-        }
     }
 }

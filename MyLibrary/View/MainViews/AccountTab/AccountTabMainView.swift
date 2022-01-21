@@ -48,6 +48,16 @@ class AccountTabMainView: UIView {
                                       spacing: 20)
     
     // MARK: - configuration
+    func configure(with user: UserModel) {
+        profileView.emailLabel.text = user.email
+        profileView.userNameTextfield.text = user.displayName
+        
+        let imageView = profileView.profileImageButton.imageView
+        imageView?.getImage(for: user.photoURL, completion: { [weak self] image in
+            self?.profileView.profileImageButton.setImage(image, for: .normal)
+        })
+    }
+    
     private func setupView() {
         let device = UIDevice.current.userInterfaceIdiom
         newBookView.isHidden = device != .pad

@@ -10,14 +10,15 @@ protocol Factory {
     func makeAccountTabViewcontroller() -> UIViewController
     func makeCategoryVC(settingCategory: Bool,
                         bookCategories: [String],
-                        newBookDelegate: NewBookDelegate?) -> UIViewController
+                        newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     func makeBookListVC(with query: BookQuery) -> UIViewController
     func makeAccountSetupController(for type: AccountInterfaceType) -> UIViewController
     func makeNewBookVC(with book: Item?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController
     func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookDelegate) -> UIViewController
+    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController
     func makeCommentVC(with book: Item?) -> UIViewController
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController
+    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController
 }
 
 class ViewControllerFactory {
@@ -25,15 +26,16 @@ class ViewControllerFactory {
     private let libraryService = LibraryService()
     private let userService = UserService()
     private let categoryService = CategoryService()
-    private let imageRetriever = KFImageRetriever()
     private let imageStorageService = ImageStorageService()
     private let recommendationService = RecommandationService()
-    private let feedbackManager = FeedbackManager()
     private let queryService = QueryService()
     private let commentService = CommentService()
+    private let feedbackManager = FeedbackManager()
     private let validation = Validator()
     private let formatter = Formatter()
     private let converter = Converter()
+    
+    private let imageRetriever = KFImageRetriever()
     
     private lazy var apiManager = ApiManager(session: .default, validator: validation)
     private lazy var accountService = AccountService(userService: userService,
@@ -41,12 +43,12 @@ class ViewControllerFactory {
                                                      categoryService: categoryService)
     private lazy var messageService = MessageService(apiManager: apiManager)
     
-    // MARK: Configurators
+    // MARK: Adapters
     private lazy var userCellConfigurator = UserCellConfiguration(imageRetriever: imageRetriever)
     private lazy var newBookConfiguration = NewBookConfiguration(imageRetriever: imageRetriever,
                                                                  converter: converter,
                                                                  formatter: formatter)
-    private lazy var bookcardConfiguration = BookCardDataAdapter(formatter: formatter)
+    private lazy var bookcardAdapter = BookCardDataAdapter(formatter: formatter)
     private lazy var commentCellConfiguration = CommentCellConfiguration(imageRetriever: imageRetriever,
                                                                          formatter: formatter,
                                                                          commentService: commentService)
@@ -68,6 +70,8 @@ class ViewControllerFactory {
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
                                                            categoryService: categoryService)
+    private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
+    private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService)
     
     // MARK: Layout
     private let bookListLayout = BookListLayout()
@@ -95,11 +99,17 @@ extension ViewControllerFactory: Factory {
     
     func makeCategoryVC(settingCategory: Bool,
                         bookCategories: [String],
-                        newBookDelegate: NewBookDelegate?) -> UIViewController {
+                        newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         return CategoriesViewController(settingBookCategory: settingCategory,
                                         selectedCategories: bookCategories,
                                         newBookDelegate: newBookDelegate,
                                         categoryPresenter: categoryPresenter)
+    }
+    
+    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController {
+        return NewCategoryViewController(editingCategory: editing,
+                                         category: category,
+                                         presenter: newCategoryPresenter)
     }
     
     func makeBookListVC(with query: BookQuery) -> UIViewController {
@@ -119,7 +129,7 @@ extension ViewControllerFactory: Factory {
         return NewBookViewController(book: book,
                                      isEditing: isEditing,
                                      bookCardDelegate: bookCardDelegate,
-                                     libraryService: libraryService,
+                                     presenter: newBookPresenter,
                                      resultViewController: makeResultViewController(),
                                      converter: converter,
                                      validator: validation,
@@ -129,13 +139,13 @@ extension ViewControllerFactory: Factory {
     func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
         return BookCardViewController(book: book,
                                       searchType: type,
-                                      dataAdapter: bookcardConfiguration,
+                                      dataAdapter: bookcardAdapter,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,
                                       presenter: bookCardPresenter)
     }
     
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookDelegate) -> UIViewController {
+    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController {
         return BookDescriptionViewController(bookDescription: description,
                                              newBookDelegate: newBookDelegate)
     }

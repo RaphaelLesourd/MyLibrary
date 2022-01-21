@@ -12,7 +12,9 @@ class CategoryPresenterTestCase: XCTestCase {
   
     private var sut: CategoryPresenter!
     private var categoryViewSpy: CategoryPresenterViewSpy!
- 
+    private let successTestPresenter = CategoryPresenter(categoryService: CategoryServiceMock(true))
+    private let failedTestPresenter = CategoryPresenter(categoryService: CategoryServiceMock(false))
+    
     override func setUp() {
         categoryViewSpy = CategoryPresenterViewSpy()
     }
@@ -24,7 +26,7 @@ class CategoryPresenterTestCase: XCTestCase {
     
     // MARK: - Success
     func test_getCategoryList_successFully() {
-        sut = CategoryPresenter(categoryService: CategoryServiceMock(true))
+        sut = successTestPresenter
         sut.view = categoryViewSpy
         
         sut.getCategoryList()
@@ -34,10 +36,10 @@ class CategoryPresenterTestCase: XCTestCase {
     }
     
     func test_deleteCategory_successfully() {
-        sut = CategoryPresenter(categoryService: CategoryServiceMock(true))
+        sut = successTestPresenter
         sut.view = categoryViewSpy
         
-        sut.categories.append(PresenterFakeData.category)
+        sut.categoriesOriginalList.append(PresenterFakeData.category)
         sut.deleteCategory(for: PresenterFakeData.category)
         XCTAssertTrue(categoryViewSpy.snapshotWasCalled)
         XCTAssertTrue(categoryViewSpy.showActivityWasCalled)
@@ -46,7 +48,7 @@ class CategoryPresenterTestCase: XCTestCase {
     
     // MARK: - Failure
     func test_getCategoryList_failed() {
-        sut = CategoryPresenter(categoryService: CategoryServiceMock(false))
+        sut = failedTestPresenter
         sut.view = categoryViewSpy
         
         sut.getCategoryList()
@@ -56,7 +58,7 @@ class CategoryPresenterTestCase: XCTestCase {
     }
     
     func test_deleteCategory_failed() {
-        sut = CategoryPresenter(categoryService: CategoryServiceMock(false))
+        sut = failedTestPresenter
         sut.view = categoryViewSpy
         
         sut.deleteCategory(for: PresenterFakeData.category)

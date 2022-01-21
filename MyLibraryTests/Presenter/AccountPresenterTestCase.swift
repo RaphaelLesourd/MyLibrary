@@ -12,6 +12,12 @@ class AccountPresenterTestCase: XCTestCase {
 
     private var sut: AccountTabPresenter!
     private var accountPresenterViewSpy: AccountPresenterViewSpy!
+    private let successTestPresenter = AccountTabPresenter(userService: UserServiceMock(successTest: true),
+                                                           imageService: ImageServiceMock(successTest: true),
+                                                           accountService: AccountServiceMock(successTest: true))
+    private let failedTestPresenter = AccountTabPresenter(userService: UserServiceMock(successTest: false),
+                                                          imageService: ImageServiceMock(successTest: false),
+                                                          accountService: AccountServiceMock(successTest: false))
     
     override func setUp() {
         accountPresenterViewSpy = AccountPresenterViewSpy()
@@ -23,9 +29,7 @@ class AccountPresenterTestCase: XCTestCase {
 
     // MARK: - Success
     func test_whenGettingUserProfile_thenNoError() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: true),
-                                  imageService: ImageServiceMock(successTest: true),
-                                  accountService: AccountServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = accountPresenterViewSpy
         sut.getProfileData()
         XCTAssertTrue(accountPresenterViewSpy.configureViewCalled)
@@ -34,9 +38,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_savingUserName_succesfull() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: true),
-                                  imageService: ImageServiceMock(successTest: true),
-                                  accountService: AccountServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = accountPresenterViewSpy
         sut.saveUserName(with: "testName")
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)
@@ -44,9 +46,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_savingProfileImage_succesfull() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: true),
-                                  imageService: ImageServiceMock(successTest: true),
-                                  accountService: AccountServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = accountPresenterViewSpy
         sut.saveProfileImage(Data())
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)
@@ -54,9 +54,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_signingOutOfAccount_successFull() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: true),
-                                  imageService: ImageServiceMock(successTest: true),
-                                  accountService: AccountServiceMock(successTest: true))
+        sut = successTestPresenter
         sut.view = accountPresenterViewSpy
         sut.signoutAccount()
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)
@@ -66,9 +64,7 @@ class AccountPresenterTestCase: XCTestCase {
     
     // MARK: - Fail
     func test_whenGettingUserProfileWhenErrorOccur_thenNoUser() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: false),
-                                  imageService: ImageServiceMock(successTest: false),
-                                  accountService: AccountServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = accountPresenterViewSpy
         sut.getProfileData()
         XCTAssertFalse(accountPresenterViewSpy.configureViewCalled)
@@ -77,9 +73,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_savingUserName_failed() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: false),
-                                  imageService: ImageServiceMock(successTest: false),
-                                  accountService: AccountServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = accountPresenterViewSpy
         sut.saveUserName(with: "testName")
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)
@@ -87,9 +81,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_savingProfileImage_failed() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: false),
-                                  imageService: ImageServiceMock(successTest: false),
-                                  accountService: AccountServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = accountPresenterViewSpy
         sut.saveProfileImage(Data())
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)
@@ -97,9 +89,7 @@ class AccountPresenterTestCase: XCTestCase {
     }
     
     func test_signingOutOfAccount_failed() {
-        sut = AccountTabPresenter(userService: UserServiceMock(successTest: false),
-                                  imageService: ImageServiceMock(successTest: false),
-                                  accountService: AccountServiceMock(successTest: false))
+        sut = failedTestPresenter
         sut.view = accountPresenterViewSpy
         sut.signoutAccount()
         XCTAssertTrue(accountPresenterViewSpy.showActivityWasCalled)

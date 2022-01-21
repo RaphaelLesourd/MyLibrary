@@ -17,11 +17,11 @@ class LibraryServiceMock: LibraryServiceProtocol {
     }
     
     func createBook(with book: Item, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
-        
+        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
     func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
-        
+        successTest ? completion(.success(PresenterFakeData.book)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
     
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool,
@@ -35,11 +35,11 @@ class LibraryServiceMock: LibraryServiceProtocol {
     }
     
     func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void) {
-        
+        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
     func setStatus(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
-        
+        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
     func removeBookListener() {}

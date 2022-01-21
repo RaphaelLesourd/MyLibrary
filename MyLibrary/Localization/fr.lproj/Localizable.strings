@@ -205,7 +205,7 @@
 "EmptyStateNoBookSubtitle" = "Voulez vous commencer?";
 "EmptyStateSearchTitle" = "Allons à la recherche de livres.";
 "EmptyStateSearchSubtitle" = "Vous pouvez chercher avec un titre, un nom d'auteur, ou tout autre mot clé.";
-"EmptyStateCategoryTitle" = "Ajoutons ensemble votre première catégorie.";
+"EmptyStateCategoryTitle" = "Ajoutons ensemble une catégorie.";
 "EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
 "EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
 "EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";
@@ -218,3 +218,4 @@
 "shareBookSubtitle" = "Recommendez vos livres\net\nouvrez la discussion avec d'autres.";
 "SearchHeaderTitle" = "Données par GoogleBooks";
 "UpdateUserNameLegend" = "Mettez à jour votre nom en cliquant sur terminé";
+"Modifybook" = "Editer";

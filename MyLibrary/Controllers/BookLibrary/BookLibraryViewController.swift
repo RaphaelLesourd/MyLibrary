@@ -21,7 +21,6 @@ class BookLibraryViewController: UIViewController, BookCellAdapter {
     
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
-    private var bookList: [Item] = []
     private var gridItemSize: GridSize = .medium {
         didSet {
             updateGridLayout()
@@ -189,11 +188,11 @@ extension BookLibraryViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.collectionView.isHidden = bookList.isEmpty
-        mainView.emptyStateView.isHidden = !bookList.isEmpty
+        mainView.collectionView.isHidden = presenter.bookList.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(bookList, toSection: .main)
+        snapshot.appendItems(presenter.bookList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -213,7 +212,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
     func refreshData() {
-        bookList.removeAll()
+        presenter.bookList.removeAll()
         presenter.endOfList = false
         presenter.getBooks(with: currentQuery)
     }
@@ -246,10 +245,5 @@ extension BookLibraryViewController: LibraryPresenterView {
         hideIndicator(mainView.activityIndicator)
         mainView.refresherControl.endRefreshing()
         mainView.footerView.displayActivityIndicator(false)
-    }
-    
-    func addBookToList(_ books: [Item]) {
-        bookList.append(contentsOf: books)
-        applySnapshot(animatingDifferences: true)
     }
 }

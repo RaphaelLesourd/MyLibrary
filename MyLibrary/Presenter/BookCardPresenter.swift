@@ -9,13 +9,14 @@ import Foundation
 
 protocol BookCardPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func dismissController()
-    func playRecommendButtonIndicaor(_ play: Bool)
+    func playRecommendButtonIndicator(_ play: Bool)
     func displayData(for book: Item)
     func displayCategories(with list: [CategoryModel])
 }
 
 class BookCardPresenter {
     
+    // MARK: - Properties
     weak var view: BookCardPresenterView?
     var book: Item?
     
@@ -23,6 +24,7 @@ class BookCardPresenter {
     private let recommendationService: RecommendationServiceProtocol
     private let categoryService: CategoryServiceProtocol
     
+    // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          categoryService: CategoryServiceProtocol) {
@@ -31,7 +33,8 @@ class BookCardPresenter {
         self.categoryService = categoryService
     }
     
-    func delete() {
+    // MARK: - Public Functions
+    func deleteBook() {
         guard let book = book else { return }
         view?.showActivityIndicator()
         libraryService.deleteBook(book: book) { [weak self] error in
@@ -53,12 +56,10 @@ class BookCardPresenter {
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            
         }
     }
   
-    func recommnand(_ recommend: Bool) {
-        view?.playRecommendButtonIndicaor(true)
+    func recommendBook(_ recommend: Bool) {
         guard recommend == false else {
             addToRecommendedBooks()
             return
@@ -75,7 +76,9 @@ class BookCardPresenter {
             self?.view?.stopActivityIndicator()
             switch result {
             case .success(let book):
+                self?.book = book
                 self?.view?.displayData(for: book)
+                self?.fetchCategoryNames()
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -94,8 +97,9 @@ class BookCardPresenter {
     // MARK: - Private functions
     private func addToRecommendedBooks() {
         guard let book = book else { return }
+        view?.playRecommendButtonIndicator(true)
         recommendationService.addToRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicaor(false)
+            self?.view?.playRecommendButtonIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -105,7 +109,7 @@ class BookCardPresenter {
     private func removeFromRecommendedBooks() {
         guard let book = book else { return }
         recommendationService.removeFromRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicaor(false)
+            self?.view?.playRecommendButtonIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
