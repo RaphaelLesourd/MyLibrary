@@ -23,7 +23,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     private let bookCover = BookCover(frame: .zero)
     
     // MARK: - Configure
-    func configure(with book: BookCellData) {
+    func configure(with book: BookCellRepresentable) {
         bookCover.getImage(for: book.image) { [weak self] image in
             self?.bookCover.image = image
         }

@@ -104,7 +104,7 @@ class BookCardMainView: UIView {
                                           spacing: 40)
     
     // MARK: - Configure
-    func configure(with data: BookCardData) {
+    func configure(with data: BookCardRepresentable) {
         titleLabel.text = data.title
         authorLabel.text = data.authors
         ratingView.rating = data.rating

@@ -9,7 +9,7 @@ protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
 }
 
-class LibraryPresenter {
+class LibraryPresenter: BookCellAdapter {
     
     // MARK: - Properties
     weak var view: LibraryPresenterView?

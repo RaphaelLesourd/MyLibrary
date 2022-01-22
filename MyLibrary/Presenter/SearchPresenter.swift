@@ -10,7 +10,7 @@ protocol SearchPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func displayBookFromBarCodeSearch(with book: Item?)
 }
 
-class SearchPresenter {
+class SearchPresenter: BookCellAdapter {
     
     // MARK: - Properties
     weak var view: SearchPresenterView?

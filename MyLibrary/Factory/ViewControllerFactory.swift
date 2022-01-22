@@ -34,6 +34,7 @@ class ViewControllerFactory {
     private let validation = Validator()
     private let formatter = Formatter()
     private let converter = Converter()
+    private let categoryFormatter = CategoriesFormatter()
     
     private let imageRetriever = KFImageRetriever()
     
@@ -42,10 +43,6 @@ class ViewControllerFactory {
                                                      libraryService: libraryService,
                                                      categoryService: categoryService)
     private lazy var messageService = MessageService(apiManager: apiManager)
-    
-    // MARK: Adapters
-    private lazy var userCellConfigurator = UserCellConfiguration(imageRetriever: imageRetriever)
-    private lazy var bookcardAdapter = BookCardDataAdapter(formatter: formatter)
     
     // MARK: Presenters
     private lazy var welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
@@ -62,7 +59,9 @@ class ViewControllerFactory {
                                                          formatter: formatter)
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
-                                                           categoryService: categoryService)
+                                                           categoryService: categoryService,
+                                                           formatter: formatter,
+                                                           categoryFormatter: categoryFormatter)
     private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
     private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService,
                                                          formatter: formatter)
@@ -82,7 +81,6 @@ extension ViewControllerFactory: Factory {
    
     func makeHomeTabVC() -> UIViewController {
         return  HomeViewController(presenter: homePresenter,
-                                   userCellConfigurator: userCellConfigurator,
                                    layoutComposer: homeTabLayout)
     }
     
@@ -132,7 +130,6 @@ extension ViewControllerFactory: Factory {
     func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
         return BookCardViewController(book: book,
                                       searchType: type,
-                                      dataAdapter: bookcardAdapter,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,
                                       presenter: bookCardPresenter)

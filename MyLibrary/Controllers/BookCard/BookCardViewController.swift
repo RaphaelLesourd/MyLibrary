@@ -15,7 +15,6 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private let dataAdapter: BookCardAdapter
     private var presenter: BookCardPresenter
     private var factory: Factory
     private var recommended = false {
@@ -32,18 +31,16 @@ class BookCardViewController: UIViewController {
     // MARK: Intializers
     init(book: Item,
          searchType: SearchType?,
-         dataAdapter: BookCardAdapter,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          presenter: BookCardPresenter) {
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.dataAdapter = dataAdapter
         self.factory = ViewControllerFactory()
         self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
         self.presenter.book = book
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -67,13 +64,7 @@ class BookCardViewController: UIViewController {
         presenter.view = self
         addNavigationBarButtons()
         configureUI()
-        
-        if let book = presenter.book {
-            displayData(for: book)
-            presenter.fetchCategoryNames()
-            setBookRecommandState()
-            setBookFavoriteState()
-        }
+        displayBookDetails()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,6 +95,16 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: Data display
+    private func displayBookDetails() {
+        if let book = presenter.book {
+            presenter.setBookData(from: book)
+            presenter.fetchCategoryNames()
+            presenter.fetchCategoryNames()
+            setBookRecommandState()
+            setBookFavoriteState()
+        }
+    }
+    
     private func setBookFavoriteState() {
         if let favorite = self.presenter.book?.favorite {
             favoriteBook = favorite
@@ -117,11 +118,6 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: Navigation
-    @objc private func editBook() {
-        let newBookController = factory.makeNewBookVC(with: presenter.book, isEditing: true, bookCardDelegate: self)
-        navigationController?.show(newBookController, sender: nil)
-    }
-    
     func showCommentsViewController() {
         navigationController?.show(factory.makeCommentVC(with: presenter.book), sender: nil)
     }
@@ -129,6 +125,11 @@ class BookCardViewController: UIViewController {
     func showBookCover() {
         guard let coverImage = mainView.bookCover.image else { return  }
         navigationController?.show(factory.makeBookCoverDisplayVC(with: coverImage), sender: nil)
+    }
+    
+    @objc private func editBook() {
+        let newBookController = factory.makeNewBookVC(with: presenter.book, isEditing: true, bookCardDelegate: self)
+        navigationController?.show(newBookController, sender: nil)
     }
 }
 
@@ -166,17 +167,15 @@ extension BookCardViewController: BookCardMainViewDelegate {
 
 // MARK: - BoorkCard PresenterView
 extension BookCardViewController: BookCardPresenterView {
-    func displayCategories(with list: [CategoryModel]) {
-        dump(list)
-        let bookCategories = dataAdapter.setCategoriesLabel(with: list)
-        mainView.categoryiesLabel.attributedText = bookCategories
-    }
-    
-    func displayData(for book: Item) {
-        let data = dataAdapter.adaptData(from: book)
+   
+    func displayBook(with data: BookCardRepresentable) {
         mainView.configure(with: data)
         setBookRecommandState()
         setBookFavoriteState()
+    }
+    
+    func displayCategories(with list: NSAttributedString) {
+        mainView.categoryiesLabel.attributedText = list
     }
     
     func playRecommendButtonIndicator(_ play: Bool) {

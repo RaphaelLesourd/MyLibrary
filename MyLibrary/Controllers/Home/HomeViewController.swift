@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, BookCellAdapter {
+class HomeViewController: UIViewController {
     
     // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
@@ -16,17 +16,14 @@ class HomeViewController: UIViewController, BookCellAdapter {
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private let userCellConfigurator: UserCellConfigure
     private var presenter: HomePresenter
     private let factory: Factory
  
     // MARK: - Initializer
     init(presenter: HomePresenter,
-         userCellConfigurator: UserCellConfigure,
          layoutComposer: HomeLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.userCellConfigurator = userCellConfigurator
         self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
@@ -147,23 +144,21 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.setBookData(for: book)
+                    let bookData = self.presenter.setBookData(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.setBookData(for: book)
+                    let bookData = self.presenter.setBookData(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }
             case .users:
                 if let followedUser = item as? UserModel {
                     let cell: UserCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    self.userCellConfigurator.setData(with: followedUser) { data in
-                        cell.configure(with: data)
-                    }
+                    cell.configure(with: self.presenter.setUserData(with: followedUser))
                     return cell
                 }
             }

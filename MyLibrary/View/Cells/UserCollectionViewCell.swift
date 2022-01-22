@@ -47,10 +47,12 @@ class UserCollectionViewCell: UICollectionViewCell {
                                       alignment: .center,
                                       spacing: 2)
     // MARK: - configure
-    func configure(with user: UserCellData) {
-        imageView.image = user.image
+    func configure(with user: UserCellRepresentable) {
         userNameLabel.text = user.userName
         currentUserIcon.isHidden = !user.currentUser
+        imageView.getImage(for: user.profileImage) { [weak self] image in
+            self?.imageView.image = image
+        }
     }
     
     private func setupView() {

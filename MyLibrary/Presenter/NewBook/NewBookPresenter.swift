@@ -4,21 +4,7 @@
 //
 //  Created by Birkyboy on 21/01/2022.
 //
-
 import Foundation
-import UIKit
-
-struct NewBookRepresentable {
-    let title: String
-    let authors: String
-    let rating: Int
-    let publisher: String
-    let publishedDate: String
-    let price: String
-    let isbn: String
-    let pages: String
-    let coverImage:String
-}
 
 protocol NewBookPresenterView: AnyObject {
     func showSaveButtonActicityIndicator(_ show: Bool)

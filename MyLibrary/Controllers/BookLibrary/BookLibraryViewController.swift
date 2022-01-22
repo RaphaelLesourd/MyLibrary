@@ -7,7 +7,7 @@
 
 import UIKit
 /// Class inherit from a common class CollectionViewController to set up a collectionView.
-class BookLibraryViewController: UIViewController, BookCellAdapter {
+class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -162,7 +162,7 @@ extension BookLibraryViewController {
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             guard let self = self else { return nil }
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookData = self.setBookData(for: book)
+            let bookData = self.presenter.setBookData(for: book)
             cell.configure(with: bookData)
             return cell
         })

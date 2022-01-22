@@ -5,13 +5,11 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-import Foundation
-
 protocol HomePresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
 }
 
-class HomePresenter {
+class HomePresenter: BookCellAdapter, UserCellAdapter {
     
     // MARK: - Properties
     weak var view: HomePresenterView?
@@ -97,5 +95,4 @@ class HomePresenter {
             }
         }
     }
-    
 }

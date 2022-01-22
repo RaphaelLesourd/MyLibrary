@@ -34,7 +34,7 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
                                       spacing: 10)
     
     // MARK: - Configure
-    func configure(with book: BookCellData) {
+    func configure(with book: BookCellRepresentable) {
         titleLabel.text = book.title
         subtitleLabel.text = book.author
         descriptionLabel.text = book.description

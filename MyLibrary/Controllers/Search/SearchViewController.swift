@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController, BookCellAdapter {
+class SearchViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
@@ -85,7 +85,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            if let bookData = self?.setBookData(for: book) {
+            if let bookData = self?.presenter.setBookData(for: book) {
                 cell.configure(with: bookData)
             }
             return cell
