@@ -49,7 +49,7 @@ class CommentTableViewCell: UITableViewCell {
                                       spacing: 15)
     
     // MARK: - Configuration
-    func configure(with model: CommentCellData) {
+    func configure(with model: CommentCellRepresentable) {
         userNameLabel.text = model.userName
         dateLabel.text = model.date
         commentLabel.text = model.message

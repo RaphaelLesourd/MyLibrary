@@ -42,7 +42,7 @@ class CommentsBookCell: UITableViewCell {
                                       spacing: 10)
     
     // MARK: - configure
-    func configure(with book: CommentBookCellData) {
+    func configure(with book: CommentBookCellRepresentable) {
         titleLabel.text = book.title
         subtitleLabel.text = book.authors
         bookCover.getImage(for: book.image) { [weak self] image in

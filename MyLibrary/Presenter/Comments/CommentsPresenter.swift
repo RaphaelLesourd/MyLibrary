@@ -5,22 +5,6 @@
 //  Created by Birkyboy on 19/01/2022.
 //
 
-import Foundation
-
-struct CommentCellData {
-    let message: String
-    let date: String
-    let userName: String
-    let profileImage: String
-}
-
-struct CommentBookCellData {
-    let title: String
-    let authors: String
-    let image: String
-    let ownerName: String?
-}
-
 protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
     func addCommentToInputBar(for comment: CommentModel)
@@ -99,7 +83,7 @@ class CommentPresenter {
             self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
-
+    
     // MARK: - Notification
     func notifyUser(of newComment: String,
                     book: Item?) {
@@ -118,7 +102,7 @@ class CommentPresenter {
     
     // MARK: - Cell
     func getCommentDetails(for comment: CommentModel,
-                           completion: @escaping(CommentCellData) -> Void) {
+                           completion: @escaping(CommentCellRepresentable) -> Void) {
         guard let userID = comment.userID else { return }
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp ?? 0)
         
@@ -126,16 +110,16 @@ class CommentPresenter {
         self.commentService.getUserDetail(for: userID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             if case .success(let user) = result {
-                let data = CommentCellData(message: comment.comment ?? "",
-                                           date: date,
-                                           userName: user?.displayName ?? "",
-                                           profileImage: user?.photoURL ?? "")
+                let data = CommentCellRepresentable(message: comment.comment ?? "",
+                                                    date: date,
+                                                    userName: user?.displayName ?? "",
+                                                    profileImage: user?.photoURL ?? "")
                 completion(data)
             }
         }
     }
     
-    func setBookDetails(for book: Item, completion: @escaping (CommentBookCellData) -> Void) {
+    func setBookDetails(for book: Item, completion: @escaping (CommentBookCellRepresentable) -> Void) {
         guard let ownerID = book.ownerID else { return }
         let title = book.volumeInfo?.title?.capitalized ?? ""
         let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
@@ -148,11 +132,11 @@ class CommentPresenter {
             if case .success(let owner) = result {
                 name = owner?.displayName
             }
-            let data = CommentBookCellData(title: title,
-                                            authors: authors,
-                                            image: image,
-                                            ownerName: name)
-             completion(data)
+            let data = CommentBookCellRepresentable(title: title,
+                                                    authors: authors,
+                                                    image: image,
+                                                    ownerName: name)
+            completion(data)
         }
     }
     
