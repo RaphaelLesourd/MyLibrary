@@ -7,15 +7,13 @@
 
 import UIKit
 
-class NewBookViewController: UITableViewController, NewBookPickerDelegate {
+class NewBookViewController: UITableViewController {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
     var bookCategories: [String] = []
     var bookDescription: String?
     var bookComment: String?
-    var chosenLanguage: String?
-    var chosenCurrency: String?
     let mainView = NewBookControllerView()
     
     private var newBook: Item?
@@ -23,10 +21,7 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     private let presenter: NewBookPresenter
     private let converter: ConverterProtocol
     private let validator: ValidatorProtocol
-    private let languageList = Locale.isoLanguageCodes
-    private let currencyList = Locale.isoCurrencyCodes
     
-    private var pickerDataSource: NewBookPickerDataSource?
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
     private var isEditingBook = false
@@ -59,9 +54,6 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         super.viewDidLoad()
         presenter.view = self
         presenter.isEditing = isEditingBook
-        pickerDataSource = NewBookPickerDataSource(newBookView: mainView,
-                                                   formatter: Formatter(),
-                                                   delegate: self)
         imagePicker = ImagePicker(presentationController: self,
                                   delegate: self,
                                   permissions: PermissionManager())
@@ -73,13 +65,7 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         configureUI()
         setBookDetail()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setBookLanguage()
-        setBookCurrency()
-    }
-    
+
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -109,10 +95,6 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
     private func setDelegates() {
         mainView.delegate = self
         mainView.textFields.forEach { $0.delegate = self }
-        mainView.languageCell.pickerView.delegate = pickerDataSource
-        mainView.languageCell.pickerView.dataSource = pickerDataSource
-        mainView.currencyCell.pickerView.delegate = pickerDataSource
-        mainView.currencyCell.pickerView.dataSource = pickerDataSource
     }
     
     private func configureSearchController() {
@@ -132,38 +114,16 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         presenter.configure(with: book)
         bookDescription = book.volumeInfo?.volumeInfoDescription
         bookCategories = book.category ?? []
-        setBookCurrency()
-        setBookLanguage()
     }
     
     func clearData() {
-        mainView.resetViews()
         tableView.setContentOffset(.zero, animated: true)
-        mainView.searchController.isActive = false
         bookCategories.removeAll()
         bookComment = nil
         bookDescription = nil
+        mainView.reset()
     }
-    
-    private func setBookLanguage() {
-        if let bookLanguage = newBook?.volumeInfo?.language {
-            setPickerValue(for: mainView.languageCell.pickerView, list: languageList, with: bookLanguage)
-        }
-    }
-    
-    private func setBookCurrency() {
-        if let bookCurrency = newBook?.saleInfo?.retailPrice?.currencyCode {
-            setPickerValue(for: mainView.currencyCell.pickerView, list: currencyList, with: bookCurrency)
-        }
-    }
-    
-    private func setPickerValue(for picker: UIPickerView, list: [String], with code: String) {
-        if let index = list.firstIndex(where: { $0.lowercased() == code.lowercased() }) {
-            picker.selectRow(index, inComponent: 0, animated: false)
-            self.pickerDataSource?.pickerView(picker, didSelectRow: index, inComponent: 0)
-        }
-    }
-    
+  
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
     private func createBookDocument() -> Item? {
@@ -178,10 +138,11 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
                                     pageCount: converter.convertStringToInt(mainView.numberOfPagesCell.textField.text),
                                     ratingsCount: mainView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
                                     imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
-                                    language: chosenLanguage ?? "")
+                                    language: presenter.language ?? "")
         
         let price = converter.convertStringToDouble(mainView.purchasePriceCell.textField.text)
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price, currencyCode: chosenCurrency ?? ""))
+        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
+                                                               currencyCode: presenter.currency ?? ""))
         
         return Item(bookID: newBook?.bookID ?? "",
                     favorite: newBook?.favorite ?? false,
@@ -226,6 +187,13 @@ class NewBookViewController: UITableViewController, NewBookPickerDelegate {
         }
         let descriptionVC = UINavigationController(rootViewController: descriptionViewController)
         present(descriptionVC, animated: true, completion: nil)
+    }
+    
+    private func presentListViewController(for listType: ListDataType, with selectedData: String?) {
+        let controller = factory.makeListViewController(for: listType,
+                                                           selectedData: selectedData,
+                                                           newBookDelegate: self)
+        navigationController?.show(controller, sender: nil)
     }
 }
 
@@ -279,6 +247,14 @@ extension NewBookViewController: NewBookViewDelegate {
 
 // MARK: - NewBook Delegate
 extension NewBookViewController: NewBookViewControllerDelegate {
+    func setLanguage(with code: String?) {
+        presenter.language = code
+    }
+    
+    func setCurrency(with code: String?) {
+        presenter.currency = code
+    }
+    
     func displayBook(for item: Item?) {
         newBook = item
         setBookDetail()
@@ -287,6 +263,14 @@ extension NewBookViewController: NewBookViewControllerDelegate {
 
 // MARK: - NewBook Presenter
 extension NewBookViewController: NewBookPresenterView {
+    func updateLanguageView(with language: String) {
+        mainView.languageCell.textLabel?.text = language
+    }
+    
+    func updateCurrencyView(with currency: String) {
+        mainView.currencyCell.textLabel?.text = currency
+    }
+    
     func displayBook(with model: NewBookRepresentable) {
         mainView.configure(with: model)
     }
@@ -308,8 +292,10 @@ extension NewBookViewController {
         case 4:
             return Text.SectionTitle.newBookDetailsHeader
         case 5:
-            return Text.SectionTitle.newBookRatingHeader
+            return Text.Book.bookLanguage
         case 6:
+            return Text.SectionTitle.newBookRatingHeader
+        case 7:
             return Text.SectionTitle.newBookPriceHeader
         default:
             return ""
@@ -321,7 +307,7 @@ extension NewBookViewController {
                               maxLines: 2,
                               alignment: .center,
                               font: .footerLabel)
-        label.text = section == 7 ? Text.SectionTitle.newBookSaveFooter : ""
+        label.text = section == 8 ? Text.SectionTitle.newBookSaveFooter : ""
         return label
     }
     
@@ -349,6 +335,10 @@ extension NewBookViewController {
             showCategoryList()
         case (4, 0):
             presentDescriptionController()
+        case (5,0):
+            presentListViewController(for: .languages, with: presenter.language)
+        case (7,1):
+            presentListViewController(for: .currency, with: presenter.currency)
         default:
             break
         }

@@ -13,12 +13,20 @@ protocol Factory {
                         newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     func makeBookListVC(with query: BookQuery) -> UIViewController
     func makeAccountSetupController(for type: AccountInterfaceType) -> UIViewController
-    func makeNewBookVC(with book: Item?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController
-    func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController
+    func makeNewBookVC(with book: Item?,
+                       isEditing: Bool,
+                       bookCardDelegate: BookCardDelegate?) -> UIViewController
+    func makeBookCardVC(book: Item, type: SearchType?,
+                        factory: Factory) -> UIViewController
+    func makeBookDescriptionVC(description: String?,
+                               newBookDelegate: NewBookViewControllerDelegate) -> UIViewController
     func makeCommentVC(with book: Item?) -> UIViewController
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController
-    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController
+    func makeNewCategoryVC(editing: Bool,
+                           category: CategoryModel?) -> UIViewController
+    func makeListViewController(for dataType: ListDataType,
+                                selectedData: String?,
+                                newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController 
 }
 
 class ViewControllerFactory {
@@ -35,9 +43,7 @@ class ViewControllerFactory {
     private let formatter = Formatter()
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
-    
-    private let imageRetriever = KFImageRetriever()
-    
+  
     private lazy var apiManager = ApiManager(session: .default, validator: validation)
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
@@ -148,5 +154,15 @@ extension ViewControllerFactory: Factory {
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController {
         return BookCoverViewController(image: image)
+    }
+    
+    func makeListViewController(for dataType: ListDataType,
+                                selectedData: String?,
+                                newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
+        let presenter = ListPresenter(listDataType: dataType,
+                                      formatter: formatter)
+        return ListTableViewController(selectedData: selectedData,
+                                       newBookDelegate: newBookDelegate,
+                                       presenter: presenter)
     }
 }

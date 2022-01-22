@@ -105,7 +105,7 @@ extension CategoriesViewController {
             cell.imageView?.tintColor = UIColor(hexString: item.color ?? "E38801")
             cell.imageView?.image = Images.ButtonIcon.selectedCategoryBadge
             cell.backgroundColor = .tertiarySystemBackground
-            cell.selectedBackgroundView = backgroundView
+          
             cell.textLabel?.text = item.name?.capitalized
             return cell
         })

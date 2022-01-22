@@ -9,14 +9,28 @@ import Foundation
 protocol NewBookPresenterView: AnyObject {
     func showSaveButtonActicityIndicator(_ show: Bool)
     func returnToPreviousController()
-    func clearData()
     func displayBook(with model: NewBookRepresentable)
+    func updateLanguageView(with language: String)
+    func updateCurrencyView(with currency: String)
+    func clearData()
 }
 
 class NewBookPresenter {
     
     weak var view: NewBookPresenterView?
     var isEditing = false
+    var language: String? {
+        didSet {
+            let data = formatter.formatCodeToName(from: language, type: .languages)
+            view?.updateLanguageView(with: data.capitalized)
+        }
+    }
+    var currency: String? {
+        didSet {
+            let data = formatter.formatCodeToName(from: currency, type: .currency)
+            view?.updateCurrencyView(with: data.uppercased())
+        }
+    }
     private let libraryService: LibraryServiceProtocol
     private let formatter: Formatter
     
@@ -43,6 +57,8 @@ class NewBookPresenter {
     }
    
     func configure(with book: Item) {
+        language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages)
+        currency = formatter.formatCodeToName(from: book.saleInfo?.retailPrice?.currencyCode, type: .currency)
         let data = NewBookRepresentable(title: book.volumeInfo?.title?.capitalized ?? "",
                                         authors: book.volumeInfo?.authors?.joined(separator: ", ") ?? "",
                                         rating: book.volumeInfo?.ratingsCount ?? 0,
@@ -51,7 +67,9 @@ class NewBookPresenter {
                                         price: String(book.saleInfo?.retailPrice?.amount ?? 0),
                                         isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
                                         pages: String(book.volumeInfo?.pageCount ?? 0),
-                                        coverImage: book.volumeInfo?.imageLinks?.thumbnail ?? "")
+                                        coverImage: book.volumeInfo?.imageLinks?.thumbnail ?? "",
+                                        language: language ?? "",
+                                        currency: currency ?? "")
         view?.displayBook(with: data)
     }
 }

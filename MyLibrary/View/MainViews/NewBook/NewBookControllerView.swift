@@ -27,13 +27,13 @@ class NewBookControllerView {
     let publishDateCell = TextFieldStaticCell(placeholder: Text.Book.publishedDate)
     let numberOfPagesCell = TextFieldStaticCell(placeholder: Text.Book.numberOfPages,
                                                 keyboardType: .numberPad)
-    let languageCell = PickerViewStaticCell(placeholder: Text.Book.bookLanguage)
+    let languageCell = DisclosureTableViewCell(title: Text.Book.bookLanguage)
     
     let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn,
                                        keyboardType: .numberPad)
     let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price,
                                                 keyboardType: .decimalPad)
-    let currencyCell = PickerViewStaticCell(placeholder: Text.Book.currency)
+    let currencyCell = DisclosureTableViewCell(title: Text.Book.currency)
     
     let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,
@@ -61,12 +61,39 @@ class NewBookControllerView {
                 [bookTileCell, bookAuthorCell],
                 [bookCategoryCell],
                 [publisherCell, publishDateCell],
-                [descriptionCell, numberOfPagesCell, languageCell, isbnCell],
+                [descriptionCell, numberOfPagesCell, isbnCell],
+                [languageCell],
                 [ratingCell],
                 [purchasePriceCell, currencyCell],
                 [saveButtonCell],
                 [eraseButtonCell]
         ]
+    }
+    
+    func configure(with model: NewBookRepresentable) {
+        bookTileCell.textField.text = model.title
+        bookAuthorCell.textField.text = model.authors
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating
+        publisherCell.textField.text = model.publisher
+        publishDateCell.textField.text = model.publishedDate
+        purchasePriceCell.textField.text = model.price
+        isbnCell.textField.text = model.isbn
+        numberOfPagesCell.textField.text = model.pages
+        languageCell.textLabel?.text = model.language.capitalized
+        currencyCell.textLabel?.text = model.currency.uppercased()
+       
+        bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
+            self?.bookImageCell.pictureView.image = image
+        }
+    }
+    
+    func reset() {
+        bookImageCell.pictureView.image = Images.emptyStateBookImage
+        textFields.forEach { $0.text = nil }
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
+        searchController.isActive = false
+        languageCell.textLabel?.text = Text.Book.bookLanguage
+        currencyCell.textLabel?.text = Text.Book.currency
     }
     
     private func addButtonActions() {
@@ -78,25 +105,4 @@ class NewBookControllerView {
         }), for: .touchUpInside)
     }
     
-    // MARK: - Display data
-    func configure(with model: NewBookRepresentable) {
-        bookTileCell.textField.text = model.title
-        bookAuthorCell.textField.text = model.authors
-        ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating
-        publisherCell.textField.text = model.publisher
-        publishDateCell.textField.text = model.publishedDate
-        purchasePriceCell.textField.text = model.price
-        isbnCell.textField.text = model.isbn
-        numberOfPagesCell.textField.text = model.pages
-       
-        bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
-            self?.bookImageCell.pictureView.image = image
-        }
-    }
-    
-    func resetViews() {
-        bookImageCell.pictureView.image = Images.emptyStateBookImage
-        textFields.forEach { $0.text = nil }
-        ratingCell.ratingSegmentedControl.selectedSegmentIndex = 0
-    }
 }

@@ -10,4 +10,6 @@ protocol NewBookViewControllerDelegate: AnyObject {
     var bookComment: String? { get set }
     var bookCategories : [String] { get set }
     func displayBook(for item: Item?)
+    func setLanguage(with code: String?)
+    func setCurrency(with code: String?)
 }

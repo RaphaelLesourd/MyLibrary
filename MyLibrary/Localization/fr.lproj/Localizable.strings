@@ -28,7 +28,7 @@
 "Description" = "Description";
 "UserComments" = "Commentaires, avis...";
 "Price" = "Prix d'achat";
-"Currency" = "Monnaie";
+"Currency" = "Devise";
 "Rating" = "Note\n(0 à 5)";
 "BookSaved" = "Livre enregistré.";
 "CreateProfile" = "Créez un profil";
@@ -219,3 +219,6 @@
 "SearchHeaderTitle" = "Données par GoogleBooks";
 "UpdateUserNameLegend" = "Mettez à jour votre nom en cliquant sur terminé";
 "Modifybook" = "Editer";
+
+"LanguageListHeader" = "Sélectionnez une langue";
+"CurrencyListHeader" = "Sélectionnez une devise";

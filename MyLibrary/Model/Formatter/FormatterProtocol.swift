@@ -8,6 +8,6 @@
 protocol FormatterProtocol {
     func formatDateToYearString(for dateString: String?) -> String
     func formatDoubleToPrice(with value: Double?, currencyCode: String?) -> String
-    func formatCodeToName(from code: String?, type: CodeType) -> String
+    func formatCodeToName(from code: String?, type: ListDataType) -> String
     func formatTimeStampToRelativeDate(for timestamp: Double?) -> String
 }

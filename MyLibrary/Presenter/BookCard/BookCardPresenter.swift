@@ -106,7 +106,7 @@ class BookCardPresenter {
     }
    
     func setBookData(from book: Item) {
-        let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .language).capitalized
+        let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
         let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         let currency = book.saleInfo?.retailPrice?.currencyCode
         let value = book.saleInfo?.retailPrice?.amount
