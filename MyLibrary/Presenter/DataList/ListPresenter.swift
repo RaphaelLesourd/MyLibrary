@@ -32,7 +32,7 @@ class ListPresenter {
         self.formatter = formatter
     }
    
-    // MARK: Public functions
+    // MARK: - Public functions
     func getControllerTitle() {
         view?.setTitle(as: listDataType.title)
     }
@@ -53,8 +53,9 @@ class ListPresenter {
             data = orginalData
         } else {
             data = orginalData.filter({
-                let code = $0.title.lowercased()
-                return code.contains(text.lowercased())
+                let title = $0.title.lowercased()
+                let subtitle = $0.subtitle.lowercased()
+                return title.contains(text.lowercased()) || subtitle.contains(text.lowercased())
             })
         }
         view?.reloadTableView()
@@ -78,8 +79,7 @@ class ListPresenter {
     
     // MARK: - Private functions
     private func createReferenceData(for listType: ListDataType) -> [ListRepresentable] {
-        let data = listDataType.code.compactMap {
-            documents -> ListRepresentable in
+        let data = listDataType.code.compactMap { documents -> ListRepresentable in
             let title = formatter.formatCodeToName(from: documents, type: listType)
             return ListRepresentable(title: title,
                                      subtitle: documents)

@@ -89,7 +89,9 @@ class ListTableViewController: UITableViewController {
         cell.backgroundColor = .cellBackgroundColor
         let data = presenter.data[indexPath.row]
         cell.textLabel?.text = data.title.capitalized
+        
         cell.detailTextLabel?.text = data.subtitle.uppercased()
+        cell.detailTextLabel?.textColor = .appTintColor
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
