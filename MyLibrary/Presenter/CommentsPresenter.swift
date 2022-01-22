@@ -7,8 +7,23 @@
 
 import Foundation
 
+struct CommentCellData {
+    let message: String
+    let date: String
+    let userName: String
+    let profileImage: String
+}
+
+struct CommentBookCellData {
+    let title: String
+    let authors: String
+    let image: String
+    let ownerName: String?
+}
+
 protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
+    func addCommentToInputBar(for comment: CommentModel)
 }
 
 class CommentPresenter {
@@ -21,12 +36,15 @@ class CommentPresenter {
     
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
+    private let formatter: Formatter
     
     // MARK: - Intializer
     init(commentService: CommentServiceProtocol,
-         messageService: MessageServiceProtocol) {
+         messageService: MessageServiceProtocol,
+         formatter: Formatter) {
         self.commentService = commentService
         self.messageService = messageService
+        self.formatter = formatter
     }
     
     // MARK: - API Call
@@ -81,7 +99,8 @@ class CommentPresenter {
             self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
-    
+
+    // MARK: - Notification
     func notifyUser(of newComment: String,
                     book: Item?) {
         guard let book = book else { return }
@@ -94,6 +113,56 @@ class CommentPresenter {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
+        }
+    }
+    
+    // MARK: - Cell
+    func getCommentDetails(for comment: CommentModel,
+                           completion: @escaping(CommentCellData) -> Void) {
+        guard let userID = comment.userID else { return }
+        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp ?? 0)
+        
+        view?.showActivityIndicator()
+        self.commentService.getUserDetail(for: userID) { [weak self] result in
+            self?.view?.stopActivityIndicator()
+            if case .success(let user) = result {
+                let data = CommentCellData(message: comment.comment ?? "",
+                                           date: date,
+                                           userName: user?.displayName ?? "",
+                                           profileImage: user?.photoURL ?? "")
+                completion(data)
+            }
+        }
+    }
+    
+    func setBookDetails(for book: Item, completion: @escaping (CommentBookCellData) -> Void) {
+        guard let ownerID = book.ownerID else { return }
+        let title = book.volumeInfo?.title?.capitalized ?? ""
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
+        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
+        var name: String?
+        
+        view?.showActivityIndicator()
+        self.commentService.getUserDetail(for: ownerID) { [weak self] result in
+            self?.view?.stopActivityIndicator()
+            if case .success(let owner) = result {
+                name = owner?.displayName
+            }
+            let data = CommentBookCellData(title: title,
+                                            authors: authors,
+                                            image: image,
+                                            ownerName: name)
+             completion(data)
+        }
+    }
+    
+    func presentSwipeAction(for comment: CommentModel, actionType: CellSwipeActionType) {
+        switch actionType {
+        case .delete:
+            deleteComment(for: comment)
+        case .edit:
+            editedCommentID = comment.uid
+            view?.addCommentToInputBar(for: comment)
         }
     }
 }

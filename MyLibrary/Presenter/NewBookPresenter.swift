@@ -6,21 +6,38 @@
 //
 
 import Foundation
+import UIKit
+
+struct NewBookRepresentable {
+    let title: String
+    let authors: String
+    let rating: Int
+    let publisher: String
+    let publishedDate: String
+    let price: String
+    let isbn: String
+    let pages: String
+    let coverImage:String
+}
 
 protocol NewBookPresenterView: AnyObject {
     func showSaveButtonActicityIndicator(_ show: Bool)
     func returnToPreviousController()
     func clearData()
+    func displayBook(with model: NewBookRepresentable)
 }
 
 class NewBookPresenter {
     
     weak var view: NewBookPresenterView?
     var isEditing = false
-    private var libraryService: LibraryServiceProtocol
+    private let libraryService: LibraryServiceProtocol
+    private let formatter: Formatter
     
-    init(libraryService: LibraryServiceProtocol) {
+    init(libraryService: LibraryServiceProtocol,
+         formatter: Formatter) {
         self.libraryService = libraryService
+        self.formatter = formatter
     }
     
     func saveBook(with book: Item, and imageData: Data) {
@@ -37,5 +54,18 @@ class NewBookPresenter {
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditing ? self.view?.returnToPreviousController() : self.view?.clearData()
         }
+    }
+   
+    func configure(with book: Item) {
+        let data = NewBookRepresentable(title: book.volumeInfo?.title?.capitalized ?? "",
+                                        authors: book.volumeInfo?.authors?.joined(separator: ", ") ?? "",
+                                        rating: book.volumeInfo?.ratingsCount ?? 0,
+                                        publisher: book.volumeInfo?.publisher?.capitalized ?? "",
+                                        publishedDate: formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate),
+                                        price: String(book.saleInfo?.retailPrice?.amount ?? 0),
+                                        isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
+                                        pages: String(book.volumeInfo?.pageCount ?? 0),
+                                        coverImage: book.volumeInfo?.imageLinks?.thumbnail ?? "")
+        view?.displayBook(with: data)
     }
 }

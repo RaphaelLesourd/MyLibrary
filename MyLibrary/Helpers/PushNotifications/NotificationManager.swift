@@ -14,12 +14,13 @@ class NotificationManager: NSObject {
     // MARK: - Properties
     private var userService: UserServiceProtocol
     private var libraryService: LibraryServiceProtocol
-    
+    private let factory: Factory
     // MARK: - Initializer
     init(userService: UserServiceProtocol,
          libraryService: LibraryServiceProtocol) {
         self.userService = userService
         self.libraryService = libraryService
+        self.factory = ViewControllerFactory()
         super.init()
     }
     
@@ -56,19 +57,7 @@ class NotificationManager: NSObject {
     /// - Note: Handles 2 cases when resenting the Comment viewcontroller for the iPad, presents it modally dismissi
     /// and for the iphone shows it thru the navigationController
     private func presentCommentController(with book: Item) {
-        let commentPresenter = CommentPresenter(commentService: CommentService(),
-                                                messageService: MessageService(apiManager: ApiManager()))
-        let bookCellConfigurator = CommentBookCellConfiguration(imageRetriever: KFImageRetriever(),
-                                                                commentService: CommentService())
-        let commentCellConfigurator = CommentCellConfiguration(imageRetriever: KFImageRetriever(),
-                                                               formatter: Formatter(),
-                                                               commentService: CommentService())
-        let commentController = CommentsViewController(book: book,
-                                                       presenter: commentPresenter,
-                                                       bookCellConfigurator: bookCellConfigurator,
-                                                       commentCellConfigurator: commentCellConfigurator,
-                                                       validator: Validator())
-        
+        let commentController = factory.makeCommentVC(with: book)
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
         

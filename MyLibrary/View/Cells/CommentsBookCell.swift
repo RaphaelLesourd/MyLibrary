@@ -45,7 +45,9 @@ class CommentsBookCell: UITableViewCell {
     func configure(with book: CommentBookCellData) {
         titleLabel.text = book.title
         subtitleLabel.text = book.authors
-        bookCover.image = book.image
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
    
         guard let owner = book.ownerName else {
             bookOwnerNameLabel.isHidden = true

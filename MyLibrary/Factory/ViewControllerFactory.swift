@@ -45,15 +45,7 @@ class ViewControllerFactory {
     
     // MARK: Adapters
     private lazy var userCellConfigurator = UserCellConfiguration(imageRetriever: imageRetriever)
-    private lazy var newBookConfiguration = NewBookConfiguration(imageRetriever: imageRetriever,
-                                                                 converter: converter,
-                                                                 formatter: formatter)
     private lazy var bookcardAdapter = BookCardDataAdapter(formatter: formatter)
-    private lazy var commentCellConfiguration = CommentCellConfiguration(imageRetriever: imageRetriever,
-                                                                         formatter: formatter,
-                                                                         commentService: commentService)
-    private lazy var commentBookCellConfiguration = CommentBookCellConfiguration(imageRetriever: imageRetriever,
-                                                                                 commentService: commentService)
     
     // MARK: Presenters
     private lazy var welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
@@ -66,12 +58,14 @@ class ViewControllerFactory {
                                                    categoryService: categoryService,
                                                    recommendationService: recommendationService)
     private lazy var commentPresenter = CommentPresenter(commentService: commentService,
-                                                         messageService: messageService)
+                                                         messageService: messageService,
+                                                         formatter: formatter)
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
                                                            categoryService: categoryService)
     private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
-    private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService)
+    private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService,
+                                                         formatter: formatter)
     
     // MARK: Layout
     private let bookListLayout = BookListLayout()
@@ -132,8 +126,7 @@ extension ViewControllerFactory: Factory {
                                      presenter: newBookPresenter,
                                      resultViewController: makeResultViewController(),
                                      converter: converter,
-                                     validator: validation,
-                                     newBookDataConfiguration: newBookConfiguration)
+                                     validator: validation)
     }
     
     func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
@@ -153,8 +146,6 @@ extension ViewControllerFactory: Factory {
     func makeCommentVC(with book: Item?) -> UIViewController {
         return CommentsViewController(book: book,
                                       presenter: commentPresenter,
-                                      bookCellConfigurator: commentBookCellConfiguration,
-                                      commentCellConfigurator: commentCellConfiguration,
                                       validator: validation)
     }
     

@@ -79,6 +79,21 @@ class NewBookControllerView {
     }
     
     // MARK: - Display data
+    func configure(with model: NewBookRepresentable) {
+        bookTileCell.textField.text = model.title
+        bookAuthorCell.textField.text = model.authors
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating
+        publisherCell.textField.text = model.publisher
+        publishDateCell.textField.text = model.publishedDate
+        purchasePriceCell.textField.text = model.price
+        isbnCell.textField.text = model.isbn
+        numberOfPagesCell.textField.text = model.pages
+       
+        bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
+            self?.bookImageCell.pictureView.image = image
+        }
+    }
+    
     func resetViews() {
         bookImageCell.pictureView.image = Images.emptyStateBookImage
         textFields.forEach { $0.text = nil }

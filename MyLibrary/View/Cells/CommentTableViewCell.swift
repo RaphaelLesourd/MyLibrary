@@ -24,7 +24,7 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     // MARK: - Subviews
-    let profileImageView: UIImageView = {
+    private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = Images.emptyStateBookImage
@@ -33,22 +33,31 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let userNameLabel = TextLabel(color: .appTintColor,
-                                  maxLines: 1,
-                                  alignment: .left,
-                                  font: .mediumSemiBoldTitle)
-    let commentLabel = TextLabel(color: .label,
-                                 maxLines: 0,
-                                 alignment: .natural,
-                                 font: .body)
-    let dateLabel = TextLabel(color: .secondaryLabel,
-                              maxLines: 1,
-                              alignment: .left,
-                              font: .lightFootnote)
+    private let userNameLabel = TextLabel(color: .appTintColor,
+                                          maxLines: 1,
+                                          alignment: .left,
+                                          font: .mediumSemiBoldTitle)
+    private let commentLabel = TextLabel(color: .label,
+                                         maxLines: 0,
+                                         alignment: .natural,
+                                         font: .body)
+    private let dateLabel = TextLabel(color: .secondaryLabel,
+                                      maxLines: 1,
+                                      alignment: .left,
+                                      font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
     
     // MARK: - Configuration
+    func configure(with model: CommentCellData) {
+        userNameLabel.text = model.userName
+        dateLabel.text = model.date
+        commentLabel.text = model.message
+        profileImageView.getImage(for: model.profileImage) { [weak self] image in
+            self?.profileImageView.image = image
+        }
+    }
+    
     private func setupView() {
         self.contentView.backgroundColor = .tertiarySystemBackground
         

@@ -253,7 +253,7 @@ extension HomeViewController: BookListViewDelegate {
         }
         splitViewController?.show(.primary)
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
-            controller.newBookView.bookTileCell.textField.becomeFirstResponder()
+            controller.mainView.bookTileCell.textField.becomeFirstResponder()
         }
     }
 }

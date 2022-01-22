@@ -19,8 +19,6 @@ class CommentsViewController: UIViewController {
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let validator: ValidatorProtocol
-    private let bookCellConfigurator: CommentBookCellViewConfigure
-    private let commentCellConfigurator: CommentCellConfigure?
     private let presenter: CommentPresenter
     
     private lazy var dataSource = makeDataSource()
@@ -29,14 +27,10 @@ class CommentsViewController: UIViewController {
     // MARK: - Initializer
     init(book: Item?,
          presenter: CommentPresenter,
-         bookCellConfigurator: CommentBookCellViewConfigure,
-         commentCellConfigurator: CommentCellConfigure,
          validator: ValidatorProtocol) {
         self.book = book
         self.presenter = presenter
         self.validator = validator
-        self.bookCellConfigurator = bookCellConfigurator
-        self.commentCellConfigurator = commentCellConfigurator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -117,7 +111,6 @@ extension CommentsViewController: UITableViewDelegate {
                                           alignment: .center,
                                           font: .lightSectionTitle)
         sectionTitleLabel.text = section.headerTitle.uppercased()
-        
         return numberOfItemsInsection == 0 ? nil : sectionTitleLabel
     }
     
@@ -143,25 +136,12 @@ extension CommentsViewController: UITableViewDelegate {
             return UIContextualAction()
         }
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
-            guard let self = self else {return}
-            switch actionType {
-            case .delete:
-                self.presenter.deleteComment(for: comment)
-            case .edit:
-                self.editComment(for: comment)
-            }
+            self?.presenter.presentSwipeAction(for: comment, actionType: actionType)
             completion(true)
         }
         action.backgroundColor = actionType.color
         action.image = actionType.icon
         return action
-    }
-    
-    /// Add comment text to the input bar to edit and save the comment.
-    private func editComment(for comment: CommentModel) {
-        presenter.editedCommentID = comment.uid
-        mainView.inputBar.inputTextView.text = comment.comment
-        mainView.inputBar.inputTextView.becomeFirstResponder()
     }
 }
 
@@ -182,9 +162,9 @@ extension CommentsViewController {
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
                         return UITableViewCell() }
-                    self?.bookCellConfigurator.setBookData(for: item) { data in
+                    self?.presenter.setBookDetails(for: item, completion: { data in
                         cell.configure(with: data)
-                    }
+                    })
                     return cell
                 }
             case .today, .past:
@@ -194,7 +174,9 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.commentCellConfigurator?.configure(cell, with: item)
+                    self?.presenter.getCommentDetails(for: item, completion: { data in
+                        cell.configure(with: data)
+                    })
                     return cell
                 }
             case .none:
@@ -241,6 +223,13 @@ extension CommentsViewController: EmptyStateViewDelegate {
 }
 // MARK: - CommentPresenter Delegate
 extension CommentsViewController: CommentsPresenterView {
+    
+    /// Add comment text to the input bar to edit and save the comment.
+   func addCommentToInputBar(for comment: CommentModel) {
+        mainView.inputBar.inputTextView.text = comment.comment
+        mainView.inputBar.inputTextView.becomeFirstResponder()
+    }
+    
     func showActivityIndicator() {
         DispatchQueue.main.async {
             self.showIndicator(self.mainView.activityIndicator)
