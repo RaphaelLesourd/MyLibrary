@@ -15,15 +15,14 @@ class ListTableViewController: UITableViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     private let presenter: ListPresenter
     private var sectionTitle = String()
-    private var selectedData: String?
     
     // MARK: - Initializer
     init(selectedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
          presenter: ListPresenter) {
-        self.selectedData = selectedData
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
+        self.presenter.selectedData = selectedData
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -41,17 +40,13 @@ class ListTableViewController: UITableViewController {
         presenter.getSectionTitle()
         presenter.getData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.highlightCell(for: selectedData)
-    }
+   
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         tableView.allowsSelection = true
-        tableView.showsVerticalScrollIndicator = false
+        tableView.showsVerticalScrollIndicator = true
         tableView.backgroundColor = .viewControllerBackgroundColor
     }
     
@@ -66,11 +61,6 @@ class ListTableViewController: UITableViewController {
         self.definesPresentationContext = true
     }
     
-    func reloadTableView() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitle
@@ -85,31 +75,30 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
-        cell.backgroundColor = .cellBackgroundColor
         let data = presenter.data[indexPath.row]
-        cell.textLabel?.text = data.title.capitalized
-        
-        cell.detailTextLabel?.text = data.subtitle.uppercased()
-        cell.detailTextLabel?.textColor = .appTintColor
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+        
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
         cell.selectedBackgroundView = backgroundView
+        cell.backgroundColor = .tertiarySystemBackground
+        cell.textLabel?.text = data.title.capitalized
+        cell.detailTextLabel?.text = data.subtitle.uppercased()
+        cell.detailTextLabel?.textColor = .appTintColor
         return cell
     }
     
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.getCurrentData(at: indexPath.row)
-        navigationController?.popViewController(animated: true)
+        presenter.getSelectedData(at: indexPath.row)
     }
 }
 // MARK: - UISearch result
 extension ListTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {return}
-        presenter.filterData(with: searchText)
+        presenter.filterList(with: searchText)
     }
 }
 
@@ -123,7 +112,7 @@ extension ListTableViewController: ListPresenterView {
         newBookDelegate?.setCurrency(with: code)
     }
     
-    func highlightCellForCode(at indexPath: IndexPath) {
+    func highlightCell(at indexPath: IndexPath) {
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
     }
     
@@ -133,5 +122,12 @@ extension ListTableViewController: ListPresenterView {
     
     func setTitle(as title: String) {
         self.title = title
+    }
+    
+    func reloadTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.presenter.highlightCell()
+        }
     }
 }

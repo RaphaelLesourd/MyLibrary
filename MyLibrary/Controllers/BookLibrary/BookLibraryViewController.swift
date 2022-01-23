@@ -17,7 +17,7 @@ class BookLibraryViewController: UIViewController {
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
-    private let presenter: LibraryPresenter
+    private var presenter: LibraryPresenter
     
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
@@ -60,6 +60,7 @@ class BookLibraryViewController: UIViewController {
         configureEmptyStateView()
         
         bookListMenu?.loadLayoutChoice()
+        presenter.bookList.removeAll()
         applySnapshot(animatingDifferences: false)
         presenter.getBooks(with: currentQuery)
     }
@@ -201,8 +202,9 @@ extension BookLibraryViewController: BookListMenuDelegate {
     
     func orderList(by listType: QueryType) {
         updateHeader(with: listType)
-        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
-        refreshData()
+        currentQuery = queryService.updateQuery(from: currentQuery,
+                                                with: listType.documentKey)
+        reloadData()
     }
     
     func setLayoutFromMenu(for size: GridSize) {
@@ -211,7 +213,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
 }
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
-    func refreshData() {
+    func reloadData() {
         presenter.bookList.removeAll()
         presenter.endOfList = false
         presenter.getBooks(with: currentQuery)
@@ -229,7 +231,7 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
         }
         splitViewController?.show(.primary)
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
-            controller.mainView.bookTileCell.textField.becomeFirstResponder()
+            controller.subViews.bookTileCell.textField.becomeFirstResponder()
         }
     }
 }

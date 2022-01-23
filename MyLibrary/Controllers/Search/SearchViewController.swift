@@ -143,7 +143,7 @@ extension SearchViewController: UICollectionViewDelegate {
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
     
-    func refreshData() {
+    func reloadData() {
         presenter.refreshData()
     }
 }

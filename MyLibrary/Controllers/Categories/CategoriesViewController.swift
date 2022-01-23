@@ -57,7 +57,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        newBookDelegate?.bookCategories = presenter.selectedCategories
+        newBookDelegate?.setCategories(with: presenter.selectedCategories)
     }
     
     // MARK: Setup
@@ -87,7 +87,6 @@ class CategoriesViewController: UIViewController {
         self.definesPresentationContext = true
     }
     
-    // MARK: Categories dialog
     @objc private func addNewCategory() {
         presentNewCategoryController(editing: false, for: nil)
     }
@@ -99,13 +98,14 @@ extension CategoriesViewController {
     private func makeDataSource() -> DataSource {
         dataSource = DataSource(tableView: mainView.tableView,
                                 cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.selectedBackgroundView = backgroundView
             cell.imageView?.tintColor = UIColor(hexString: item.color ?? "E38801")
             cell.imageView?.image = Images.ButtonIcon.selectedCategoryBadge
             cell.backgroundColor = .tertiarySystemBackground
-          
             cell.textLabel?.text = item.name?.capitalized
             return cell
         })
@@ -163,7 +163,8 @@ extension CategoriesViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: CellSwipeActionType,
+                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             self?.presenter.presentSwipeAction(for: actionType, at: indexPath.row)
             completion(true)
@@ -191,7 +192,7 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func displayDeleteCategoryAlert(for category: CategoryModel) {
+    func displayDeleteAlert(for category: CategoryModel) {
         let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
@@ -210,7 +211,7 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
     
-    func highlightCellForCategoryList(at indexPath: IndexPath) {
+    func highlightCell(at indexPath: IndexPath) {
         mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
     }
     
@@ -225,6 +226,7 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
 }
+
 // MARK: - Search Result updating
 extension CategoriesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {

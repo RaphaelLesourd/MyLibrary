@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewBookControllerView {
+class NewBookControllerSubViews {
     
     weak var delegate: NewBookViewDelegate?
    
@@ -79,8 +79,6 @@ class NewBookControllerView {
         purchasePriceCell.textField.text = model.price
         isbnCell.textField.text = model.isbn
         numberOfPagesCell.textField.text = model.pages
-        languageCell.textLabel?.text = model.language.capitalized
-        currencyCell.textLabel?.text = model.currency.uppercased()
        
         bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
             self?.bookImageCell.pictureView.image = image

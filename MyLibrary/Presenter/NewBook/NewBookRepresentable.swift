@@ -15,6 +15,4 @@ struct NewBookRepresentable {
     let isbn: String
     let pages: String
     let coverImage:String
-    let language: String
-    let currency: String
 }

@@ -92,7 +92,7 @@ class BookDescriptionViewController: UIViewController {
     }
     
     private func updateData() {
-        newBookDelegate?.bookDescription = mainView.textView.text
+        newBookDelegate?.setDescription(with: mainView.textView.text)
     }
 }
 // MARK: - DescriptionViewDelegate

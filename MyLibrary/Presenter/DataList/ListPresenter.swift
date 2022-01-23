@@ -9,7 +9,7 @@ import Foundation
 protocol ListPresenterView: AnyObject {
     func setTitle(as title: String)
     func setSectionTitle(as title: String)
-    func highlightCellForCode(at indexPath: IndexPath)
+    func highlightCell(at indexPath: IndexPath)
     func reloadTableView()
     func setLanguage(with code: String)
     func setCurrency(with code: String)
@@ -19,9 +19,10 @@ class ListPresenter {
     
     // MARK: - Properties
     weak var view: ListPresenterView?
-    
     var data: [ListRepresentable] = []
     var orginalData: [ListRepresentable] = []
+    var selectedData: String?
+    
     private let listDataType: ListDataType
     private let formatter: Formatter
     
@@ -33,6 +34,13 @@ class ListPresenter {
     }
    
     // MARK: - Public functions
+    func getData() {
+        let list = createList(for: listDataType)
+        orginalData = list.sorted(by: { $0.title.lowercased() < $1.title.lowercased() })
+        self.data = orginalData
+        view?.reloadTableView()
+    }
+    
     func getControllerTitle() {
         view?.setTitle(as: listDataType.title)
     }
@@ -41,14 +49,7 @@ class ListPresenter {
         view?.setSectionTitle(as: listDataType.sectionTitle)
     }
     
-    func getData() {
-        let data = createReferenceData(for: listDataType)
-        orginalData = data.sorted(by: { $0.title.lowercased() < $1.title.lowercased() })
-        self.data = orginalData
-        view?.reloadTableView()
-    }
-    
-    func filterData(with text: String) {
+    func filterList(with text: String) {
         if text.isEmpty {
             data = orginalData
         } else {
@@ -61,14 +62,14 @@ class ListPresenter {
         view?.reloadTableView()
     }
     
-    func highlightCell(for code: String?) {
-        if let index = data.firstIndex(where: { $0.title.lowercased() == code?.lowercased() }) {
+    func highlightCell() {
+        if let index = data.firstIndex(where: { $0.title.lowercased() == selectedData?.lowercased() }) {
             let indexPath = IndexPath(row: index, section: 0)
-            view?.highlightCellForCode(at: indexPath)
+            view?.highlightCell(at: indexPath)
         }
     }
     
-    func getCurrentData(at index: Int) {
+    func getSelectedData(at index: Int) {
         switch listDataType {
         case .languages:
             view?.setLanguage(with: data[index].subtitle)
@@ -78,11 +79,10 @@ class ListPresenter {
     }
     
     // MARK: - Private functions
-    private func createReferenceData(for listType: ListDataType) -> [ListRepresentable] {
+    private func createList(for listType: ListDataType) -> [ListRepresentable] {
         let data = listDataType.code.compactMap { documents -> ListRepresentable in
             let title = formatter.formatCodeToName(from: documents, type: listType)
-            return ListRepresentable(title: title,
-                                     subtitle: documents)
+            return ListRepresentable(title: title, subtitle: documents)
         }.filter({
             !$0.title.isEmpty
         })

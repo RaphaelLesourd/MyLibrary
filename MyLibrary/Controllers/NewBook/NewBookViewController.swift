@@ -11,16 +11,10 @@ class NewBookViewController: UITableViewController {
     
     // MARK: - Properties
     weak var bookCardDelegate: BookCardDelegate?
-    var bookCategories: [String] = []
-    var bookDescription: String?
-    var bookComment: String?
-    let mainView = NewBookControllerView()
+    let subViews = NewBookControllerSubViews()
     
-    private var newBook: Item?
     private let resultController: SearchViewController
     private let presenter: NewBookPresenter
-    private let converter: ConverterProtocol
-    private let validator: ValidatorProtocol
     
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
@@ -31,15 +25,11 @@ class NewBookViewController: UITableViewController {
          isEditing: Bool,
          bookCardDelegate: BookCardDelegate?,
          presenter: NewBookPresenter,
-         resultViewController: SearchViewController,
-         converter: ConverterProtocol,
-         validator: ValidatorProtocol) {
-        self.newBook = book
+         resultViewController: SearchViewController) {
+        self.presenter = presenter
+        self.presenter.book = book
         self.isEditingBook = isEditing
         self.bookCardDelegate = bookCardDelegate
-        self.presenter = presenter
-        self.converter = converter
-        self.validator = validator
         self.resultController = resultViewController
         self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
@@ -53,17 +43,19 @@ class NewBookViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.view = self
+        presenter.mainView = subViews
         presenter.isEditing = isEditingBook
         imagePicker = ImagePicker(presentationController: self,
                                   delegate: self,
                                   permissions: PermissionManager())
-        sections = mainView.composeTableView()
+        sections = subViews.composeTableView()
         configureTableView()
         setDelegates()
         addNavigationBarButtons()
         configureSearchController()
         configureUI()
-        setBookDetail()
+        clearData()
+        presenter.setBookData()
     }
 
     // MARK: - Setup
@@ -82,76 +74,36 @@ class NewBookViewController: UITableViewController {
                                             style: .plain,
                                             target: self,
                                             action: #selector(showScannerController))
-        let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
+        let activityIndicactorButton = UIBarButtonItem(customView: subViews.activityIndicator)
         navigationItem.rightBarButtonItems = isEditingBook ? [activityIndicactorButton] : [scannerButton, activityIndicactorButton]
     }
     
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
-        self.navigationItem.searchController = isEditingBook ? nil : mainView.searchController
+        self.navigationItem.searchController = isEditingBook ? nil : subViews.searchController
     }
     
     private func setDelegates() {
-        mainView.delegate = self
-        mainView.textFields.forEach { $0.delegate = self }
+        subViews.delegate = self
+        subViews.textFields.forEach { $0.delegate = self }
     }
     
     private func configureSearchController() {
-        mainView.searchController = UISearchController(searchResultsController: resultController)
-        mainView.searchController.searchBar.delegate = self
-        mainView.searchController.obscuresBackgroundDuringPresentation = false
-        mainView.searchController.searchBar.placeholder = Text.Placeholder.search
-        mainView.searchController.definesPresentationContext = false
+        subViews.searchController = UISearchController(searchResultsController: resultController)
+        subViews.searchController.searchBar.delegate = self
+        subViews.searchController.obscuresBackgroundDuringPresentation = false
+        subViews.searchController.searchBar.placeholder = Text.Placeholder.search
+        subViews.searchController.definesPresentationContext = false
         resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-    // MARK: - Data Display
-    func setBookDetail() {
-        guard let book = newBook else { return }
-        clearData()
-        presenter.configure(with: book)
-        bookDescription = book.volumeInfo?.volumeInfoDescription
-        bookCategories = book.category ?? []
-    }
-    
     func clearData() {
         tableView.setContentOffset(.zero, animated: true)
-        bookCategories.removeAll()
-        bookComment = nil
-        bookDescription = nil
-        mainView.reset()
-    }
-  
-    /// Uses data enterred to create a book.
-    ///  - Returns: Book object of type Item
-    private func createBookDocument() -> Item? {
-        let isbn = mainView.isbnCell.textField.text ?? "-"
-        
-        let volumeInfo = VolumeInfo(title: mainView.bookTileCell.textField.text,
-                                    authors: [mainView.bookAuthorCell.textField.text ?? ""],
-                                    publisher: mainView.publisherCell.textField.text ?? "",
-                                    publishedDate: mainView.publishDateCell.textField.text ?? "",
-                                    volumeInfoDescription: bookDescription,
-                                    industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: converter.convertStringToInt(mainView.numberOfPagesCell.textField.text),
-                                    ratingsCount: mainView.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
-                                    imageLinks: ImageLinks(thumbnail: newBook?.volumeInfo?.imageLinks?.thumbnail),
-                                    language: presenter.language ?? "")
-        
-        let price = converter.convertStringToDouble(mainView.purchasePriceCell.textField.text)
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
-                                                               currencyCode: presenter.currency ?? ""))
-        
-        return Item(bookID: newBook?.bookID ?? "",
-                    favorite: newBook?.favorite ?? false,
-                    ownerID: newBook?.ownerID ?? "",
-                    recommanding: newBook?.recommanding ?? false,
-                    volumeInfo: volumeInfo,
-                    saleInfo: saleInfo,
-                    timestamp: validator.validateTimestamp(for: newBook?.timestamp),
-                    category: bookCategories)
+        presenter.bookCategories.removeAll()
+        presenter.bookDescription = nil
+        subViews.reset()
     }
     
     // MARK: - Navigation
@@ -173,13 +125,13 @@ class NewBookViewController: UITableViewController {
     
     private func showCategoryList() {
         let categoryListVC = factory.makeCategoryVC(settingCategory: true,
-                                                    bookCategories: bookCategories,
+                                                    bookCategories: presenter.bookCategories,
                                                     newBookDelegate: self)
         navigationController?.show(categoryListVC, sender: nil)
     }
     
     private func presentDescriptionController() {
-        let descriptionViewController = factory.makeBookDescriptionVC(description: bookDescription,
+        let descriptionViewController = factory.makeBookDescriptionVC(description: presenter.bookDescription,
                                                                       newBookDelegate: self)
         guard UIDevice.current.userInterfaceIdiom == .pad else {
             navigationController?.show(descriptionViewController, sender: nil)
@@ -221,7 +173,7 @@ extension NewBookViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         resultController.presenter.searchedBooks.removeAll()
         resultController.presenter.searchType = .keywordSearch
-        resultController.presenter.currentSearchKeywords = mainView.searchController.searchBar.text ?? ""
+        resultController.presenter.currentSearchKeywords = subViews.searchController.searchBar.text ?? ""
     }
 }
 
@@ -230,7 +182,7 @@ extension NewBookViewController: ImagePickerDelegate {
     /// Users the image returned from the ImagePickerViewController and assign it the BookImageCell as the book cover image.
     func didSelect(image: UIImage?) {
         DispatchQueue.main.async {
-            self.mainView.bookImageCell.pictureView.image = image?.resizeImage()
+            self.subViews.bookImageCell.pictureView.image = image?.resizeImage()
         }
     }
 }
@@ -239,44 +191,52 @@ extension NewBookViewController: ImagePickerDelegate {
 extension NewBookViewController: NewBookViewDelegate {
     
     func saveBook() {
-        guard let book = createBookDocument(),
-              let imageData = mainView.bookImageCell.pictureView.image?.jpegData(.high) else { return }
-        presenter.saveBook(with: book, and: imageData)
+        guard let imageData = subViews.bookImageCell.pictureView.image?.jpegData(.high) else { return }
+        presenter.saveBook(with: imageData)
     }
 }
 
-// MARK: - NewBook Delegate
+// MARK: - NewBookController Delegate
 extension NewBookViewController: NewBookViewControllerDelegate {
+    func setDescription(with text: String) {
+        presenter.bookDescription = text
+    }
+    
+    func setCategories(with list: [String]) {
+        presenter.bookCategories = list
+    }
+    
     func setLanguage(with code: String?) {
-        presenter.language = code
+        presenter.setBookLanguage(with: code)
     }
     
     func setCurrency(with code: String?) {
-        presenter.currency = code
+        presenter.setBookCurrency(with: code)
     }
     
     func displayBook(for item: Item?) {
-        newBook = item
-        setBookDetail()
+        clearData()
+        presenter.book = item
+        presenter.setBookData()
     }
 }
 
 // MARK: - NewBook Presenter
 extension NewBookViewController: NewBookPresenterView {
     func updateLanguageView(with language: String) {
-        mainView.languageCell.textLabel?.text = language
+        subViews.languageCell.textLabel?.text = language
     }
     
     func updateCurrencyView(with currency: String) {
-        mainView.currencyCell.textLabel?.text = currency
+        subViews.currencyCell.textLabel?.text = currency
     }
     
     func displayBook(with model: NewBookRepresentable) {
-        mainView.configure(with: model)
+        subViews.configure(with: model)
     }
     
     func showSaveButtonActicityIndicator(_ show: Bool) {
-        mainView.saveButtonCell.actionButton.displayActivityIndicator(show)
+        subViews.saveButtonCell.actionButton.displayActivityIndicator(show)
     }
 }
 
@@ -330,7 +290,7 @@ extension NewBookViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            imagePicker?.present(from: mainView.bookImageCell.pictureView)
+            imagePicker?.present(from: subViews.bookImageCell.pictureView)
         case (2, 0):
             showCategoryList()
         case (4, 0):
@@ -340,7 +300,7 @@ extension NewBookViewController {
         case (7,1):
             presentListViewController(for: .currency, with: presenter.currency)
         default:
-            break
+            return
         }
     }
 }

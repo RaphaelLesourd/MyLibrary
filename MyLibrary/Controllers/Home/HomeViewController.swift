@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        refreshData()
+        reloadData()
     }
     
     // MARK: - Setup
@@ -67,7 +67,7 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactor]
     }
     
-    func refreshData() {
+    func reloadData() {
         presenter.getCategories()
         presenter.getLatestBooks()
         presenter.getFavoriteBooks()
@@ -248,7 +248,7 @@ extension HomeViewController: BookListViewDelegate {
         }
         splitViewController?.show(.primary)
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
-            controller.mainView.bookTileCell.textField.becomeFirstResponder()
+            controller.subViews.bookTileCell.textField.becomeFirstResponder()
         }
     }
 }

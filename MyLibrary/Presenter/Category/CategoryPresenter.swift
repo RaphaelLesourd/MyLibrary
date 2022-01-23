@@ -9,8 +9,8 @@ import Foundation
 
 protocol CategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
-    func highlightCellForCategoryList(at indexPath: IndexPath)
-    func displayDeleteCategoryAlert(for category: CategoryModel)
+    func highlightCell(at indexPath: IndexPath)
+    func displayDeleteAlert(for category: CategoryModel)
     func presentNewCategoryController(editing: Bool, for category: CategoryModel?)
 }
 
@@ -81,7 +81,7 @@ class CategoryPresenter {
         selectedCategories.forEach({ category in
             if let index = categories.firstIndex(where: { $0.uid == category }) {
                 let indexPath = IndexPath(row: index, section: section)
-                view?.highlightCellForCategoryList(at: indexPath)
+                view?.highlightCell(at: indexPath)
             }
         })
     }
@@ -102,7 +102,7 @@ class CategoryPresenter {
         let category = categories[index]
         switch action {
         case .delete:
-            self.view?.displayDeleteCategoryAlert(for: category)
+            self.view?.displayDeleteAlert(for: category)
         case .edit:
             self.view?.presentNewCategoryController(editing: true, for: category)
         }

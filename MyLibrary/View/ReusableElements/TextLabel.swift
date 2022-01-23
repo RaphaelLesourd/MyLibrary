@@ -33,7 +33,7 @@ class TextLabel: UILabel {
         self.textColor = color
         self.numberOfLines = maxLines
         self.textAlignment = alignment
-        self.text = "--"
+        self.text = " "
         self.font = font
         self.adjustsFontSizeToFitWidth = true
     }

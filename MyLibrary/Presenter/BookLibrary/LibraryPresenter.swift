@@ -26,7 +26,6 @@ class LibraryPresenter: BookCellAdapter {
     func getBooks(with query: BookQuery,
                   nextPage: Bool = false) {
         view?.showActivityIndicator()
-        
         libraryService.getBookList(for: query,
                                       limit: 40,
                                       forMore: nextPage) { [weak self] result in
