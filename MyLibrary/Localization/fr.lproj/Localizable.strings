@@ -222,3 +222,6 @@
 
 "LanguageListHeader" = "Sélectionnez une langue";
 "CurrencyListHeader" = "Sélectionnez une devise";
+
+"ListFooter" = "Glisser vers la gauche pour ajouter ou retirer des favoris.";
+

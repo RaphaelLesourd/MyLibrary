@@ -22,7 +22,7 @@ class ListTableViewController: UITableViewController {
          presenter: ListPresenter) {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
-        self.presenter.selectedData = selectedData
+        self.presenter.receivedData = selectedData
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,9 +38,10 @@ class ListTableViewController: UITableViewController {
         presenter.view = self
         presenter.getControllerTitle()
         presenter.getSectionTitle()
+        presenter.getFavoriteList()
         presenter.getData()
     }
-   
+    
     // MARK: - Setup
     private func configureTableView() {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -66,6 +67,9 @@ class ListTableViewController: UITableViewController {
         return sectionTitle
     }
     
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return Text.SectionTitle.listFooter
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -78,18 +82,40 @@ class ListTableViewController: UITableViewController {
         let data = presenter.data[indexPath.row]
         
         let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+        backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
         cell.selectedBackgroundView = backgroundView
         cell.backgroundColor = .tertiarySystemBackground
         cell.textLabel?.text = data.title.capitalized
+        
         cell.detailTextLabel?.text = data.subtitle.uppercased()
         cell.detailTextLabel?.textColor = .appTintColor
+        
+        cell.imageView?.image = Images.ButtonIcon.favorite
+        cell.imageView?.tintColor = data.favorite ? .favoriteColor : UIColor.favoriteColor.withAlphaComponent(0.1)
         return cell
     }
     
     // MARK: - Table view delegate
+    // Context menu
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let favorite = self.contextMenuAction(forRowAtIndexPath: indexPath)
+        return UISwipeActionsConfiguration(actions: [favorite])
+    }
+    
+    private func contextMenuAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+        let data = presenter.data[indexPath.row]
+        let action = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
+            data.favorite ? self?.presenter.removeFavorite(at: indexPath.row) : self?.presenter.addToFavorite(for: indexPath.row)
+            completion(true)
+        }
+        action.backgroundColor = .favoriteColor
+        action.image = data.favorite ? Images.ButtonIcon.favoriteNot : Images.ButtonIcon.favorite
+        return action
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.getSelectedData(at: indexPath.row)
     }
@@ -104,16 +130,13 @@ extension ListTableViewController: UISearchResultsUpdating {
 
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
+    
     func setLanguage(with code: String) {
         newBookDelegate?.setLanguage(with: code)
     }
     
     func setCurrency(with code: String) {
         newBookDelegate?.setCurrency(with: code)
-    }
-    
-    func highlightCell(at indexPath: IndexPath) {
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
     }
     
     func setSectionTitle(as title: String) {
@@ -129,5 +152,16 @@ extension ListTableViewController: ListPresenterView {
             self.tableView.reloadData()
             self.presenter.highlightCell()
         }
+    }
+    
+    func reloadTableViewRow(at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [indexPath], with: .left)
+            self.presenter.highlightCell()
+        }
+    }
+    
+    func highlightCell(at indexPath: IndexPath) {
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
     }
 }

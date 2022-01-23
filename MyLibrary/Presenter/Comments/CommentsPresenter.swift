@@ -36,6 +36,7 @@ class CommentPresenter {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
+        
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
@@ -103,17 +104,18 @@ class CommentPresenter {
     // MARK: - Cell
     func getCommentDetails(for comment: CommentModel,
                            completion: @escaping(CommentCellRepresentable) -> Void) {
-        guard let userID = comment.userID else { return }
-        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp ?? 0)
+        let userID = comment.userID
+        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
         
         view?.showActivityIndicator()
         self.commentService.getUserDetail(for: userID) { [weak self] result in
+           
             self?.view?.stopActivityIndicator()
             if case .success(let user) = result {
-                let data = CommentCellRepresentable(message: comment.comment ?? "",
+                let data = CommentCellRepresentable(message: comment.message,
                                                     date: date,
-                                                    userName: user?.displayName ?? "",
-                                                    profileImage: user?.photoURL ?? "")
+                                                    userName: user.displayName,
+                                                    profileImage: user.photoURL)
                 completion(data)
             }
         }
@@ -130,7 +132,7 @@ class CommentPresenter {
         self.commentService.getUserDetail(for: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             if case .success(let owner) = result {
-                name = owner?.displayName
+                name = owner.displayName
             }
             let data = CommentBookCellRepresentable(title: title,
                                                     authors: authors,

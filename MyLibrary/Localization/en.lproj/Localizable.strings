@@ -221,3 +221,5 @@
 
 "LanguageListHeader" = "Select a language";
 "CurrencyListHeader" = "Select a currency";
+
+"ListFooter" = "Swipe left to add to or remove from your favorites.";

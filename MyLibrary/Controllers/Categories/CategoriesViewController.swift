@@ -99,7 +99,7 @@ extension CategoriesViewController {
         dataSource = DataSource(tableView: mainView.tableView,
                                 cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let backgroundView = UIView()
-            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
+            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             cell.selectedBackgroundView = backgroundView

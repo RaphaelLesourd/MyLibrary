@@ -7,7 +7,7 @@
 import Foundation
 
 /// Type of Code type , used mainly by Pickers in the NewBookViewController
-enum ListDataType {
+enum ListDataType: String {
     case languages
     case currency
     

@@ -8,4 +8,5 @@
 struct ListRepresentable {
     let title: String
     let subtitle: String
+    var favorite: Bool
 }

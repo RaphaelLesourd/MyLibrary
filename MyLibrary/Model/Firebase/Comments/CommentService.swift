@@ -46,7 +46,10 @@ extension CommentService: CommentServiceProtocol {
             .document(documentID)
         
         let timestamp = Date().timeIntervalSince1970
-        let comment = CommentModel(uid: documentID, userID: self.userID, comment: comment, timestamp: timestamp)
+        let comment = CommentModel(uid: documentID,
+                                   userID: self.userID,
+                                   message: comment,
+                                   timestamp: timestamp)
        
         do {
             try docRef.setData(from: comment)
@@ -63,7 +66,6 @@ extension CommentService: CommentServiceProtocol {
             .document(bookID)
             .collection(CollectionDocumentKey.comments.rawValue)
             .order(by: DocumentKey.timestamp.rawValue, descending: true)
-        
        commentListener = docRef.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
@@ -87,7 +89,7 @@ extension CommentService: CommentServiceProtocol {
                        ownerID: String,
                        comment: CommentModel,
                        completion: @escaping (FirebaseError?) -> Void) {
-        guard let commentID = comment.uid else {
+        guard !comment.uid.isEmpty else {
             completion(.nothingFound)
             return
         }
@@ -96,7 +98,7 @@ extension CommentService: CommentServiceProtocol {
             .collection(CollectionDocumentKey.books.rawValue)
             .document(bookID)
             .collection(CollectionDocumentKey.comments.rawValue)
-            .document(commentID)
+            .document(comment.uid)
         
         docRef.delete { error in
             if let error = error {
@@ -108,17 +110,18 @@ extension CommentService: CommentServiceProtocol {
     }
     
     func getUserDetail(for userID: String,
-                       completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
+                       completion: @escaping (Result<UserModel, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
-        
         docRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
             do {
-                let document = try querySnapshot?.data(as: UserModel.self)
-                completion(.success(document))
+                if let document = try querySnapshot?.data(as: UserModel.self) {
+                    completion(.success(document))
+                }
+                completion(.failure(.nothingFound))
             } catch {
                 completion(.failure(.firebaseError(error)))
             }

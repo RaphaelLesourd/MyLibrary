@@ -226,7 +226,7 @@ extension CommentsViewController: CommentsPresenterView {
     
     /// Add comment text to the input bar to edit and save the comment.
    func addCommentToInputBar(for comment: CommentModel) {
-        mainView.inputBar.inputTextView.text = comment.comment
+        mainView.inputBar.inputTextView.text = comment.message
         mainView.inputBar.inputTextView.becomeFirstResponder()
     }
     

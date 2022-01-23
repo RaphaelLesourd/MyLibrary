@@ -59,32 +59,26 @@ class NewBookPresenter {
     }
     
     func setBookData() {
-        let data = NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized ?? "",
-                                        authors: book?.volumeInfo?.authors?.joined(separator: ", ") ?? "",
-                                        rating: book?.volumeInfo?.ratingsCount ?? 0,
-                                        publisher: book?.volumeInfo?.publisher?.capitalized ?? "",
-                                        publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
-                                        price: String(book?.saleInfo?.retailPrice?.amount ?? 0),
-                                        isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
-                                        pages: String(book?.volumeInfo?.pageCount ?? 0),
-                                        coverImage: book?.volumeInfo?.imageLinks?.thumbnail ?? "")
-        view?.displayBook(with: data)
-        
         bookDescription = book?.volumeInfo?.volumeInfoDescription
         bookCategories = book?.category ?? []
         setBookLanguage(with: book?.volumeInfo?.language)
         setBookCurrency(with: book?.saleInfo?.retailPrice?.currencyCode)
+        
+        let bookRepresentable = createBookRepresentable()
+        view?.displayBook(with: bookRepresentable)
     }
     
     func setBookLanguage(with code: String?) {
+        guard let code = code else { return }
         language = code
         let data = formatter.formatCodeToName(from: code, type: .languages)
         view?.updateLanguageView(with: data.capitalized)
     }
     
     func setBookCurrency(with code: String?) {
+        guard let code = code else { return }
         currency = code
-        let data = formatter.formatCodeToName(from: currency, type: .currency)
+        let data = formatter.formatCodeToName(from: code, type: .currency)
         view?.updateCurrencyView(with: data.uppercased())
     }
     
@@ -115,5 +109,17 @@ class NewBookPresenter {
                     saleInfo: saleInfo,
                     timestamp: validator.validateTimestamp(for: book?.timestamp),
                     category: bookCategories)
+    }
+    
+    private func createBookRepresentable() -> NewBookRepresentable {
+        return NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized ?? "",
+                                        authors: book?.volumeInfo?.authors?.joined(separator: ", ") ?? "",
+                                        rating: book?.volumeInfo?.ratingsCount ?? 0,
+                                        publisher: book?.volumeInfo?.publisher?.capitalized ?? "",
+                                        publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
+                                        price: String(book?.saleInfo?.retailPrice?.amount ?? 0),
+                                        isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
+                                        pages: String(book?.volumeInfo?.pageCount ?? 0),
+                                        coverImage: book?.volumeInfo?.imageLinks?.thumbnail ?? "")
     }
 }

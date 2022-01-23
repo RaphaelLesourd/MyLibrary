@@ -99,6 +99,7 @@
 		8125ADCA279C61C900FB6725 /* ListRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADC9279C61C900FB6725 /* ListRepresentable.swift */; };
 		8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADCB279C61EA00FB6725 /* ListPresenter.swift */; };
 		8125ADD6279C6DC100FB6725 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADD5279C6DC100FB6725 /* Factory.swift */; };
+		8125ADD8279DB4FC00FB6725 /* ListPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -381,6 +382,7 @@
 		8125ADC9279C61C900FB6725 /* ListRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRepresentable.swift; sourceTree = "<group>"; };
 		8125ADCB279C61EA00FB6725 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
 		8125ADD5279C6DC100FB6725 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTestCase.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -1008,6 +1010,7 @@
 				8125AD9A2799BDC600FB6725 /* LibraryPresenterTestCase.swift */,
 				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
 				8125ADAE279B0C4900FB6725 /* NewBookPresenterTestCase.swift */,
+				8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -2057,6 +2060,7 @@
 				81B9184B274CE12200486176 /* XCTestCase+Extension.swift in Sources */,
 				81B91847274BD2F200486176 /* ValidatorTestCase.swift in Sources */,
 				81242D54272D986100CB39B1 /* ApiManagerTestCase.swift in Sources */,
+				8125ADD8279DB4FC00FB6725 /* ListPresenterTestCase.swift in Sources */,
 				81451DDB2770CB7A00F3C0C8 /* QueryserviceTestCase.swift in Sources */,
 				810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */,
 				812BA744278ED0AB009541E4 /* ConverterTestCase.swift in Sources */,
@@ -2125,7 +2129,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2153,7 +2157,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2305,7 +2309,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -2346,7 +2350,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";

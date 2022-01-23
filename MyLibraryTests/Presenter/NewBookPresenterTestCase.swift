@@ -50,6 +50,16 @@ class NewBookPresenterTestCase: XCTestCase {
         XCTAssertTrue(newBookPresenterViewSpy.returnToPreviousControllerWasCalled)
     }
     
+    func test_whenSettingBookData_forDisplay() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.book = PresenterFakeData.book
+        sut.setBookData()
+        XCTAssertTrue(newBookPresenterViewSpy.displayBookWasCalled)
+        XCTAssertTrue(newBookPresenterViewSpy.updateLanguageViewWasCalled)
+        XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
+    }
+    
     // MARK: - Fail
     func test_savingNewBook_failed() {
         sut = failedTestPresenter
