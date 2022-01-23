@@ -17,12 +17,12 @@ class PresenterFakeData {
                                             photoURL: "PhotoURL",
                                             token: "")
     
-    static let categories: [CategoryModel] = [CategoryModel(id: "",
-                                                            uid: "",
+    static let categories: [CategoryModel] = [CategoryModel(id: "1",
+                                                            uid: "1",
                                                             name: "First",
                                                             color: "TestColor"),
-                                              CategoryModel(id: "",
-                                                            uid: "",
+                                              CategoryModel(id: "2",
+                                                            uid: "2",
                                                             name: "Second",
                                                             color: "TestColor")]
     

@@ -68,14 +68,14 @@ class Formatter: FormatterProtocol {
     ///  - code: Optional String
     /// - Returns: String
     func formatCodeToName(from code: String?, type: ListDataType) -> String {
-        guard let code = code else { return "-" }
-        guard let currentIdentifier = Locale.preferredLanguages.first else { return "--" }
+        guard let code = code else { return "" }
+        guard let currentIdentifier = Locale.preferredLanguages.first else { return "" }
         let localeFromCurrentIdentifier = Locale(identifier: currentIdentifier)
         switch type {
         case .languages:
-            return localeFromCurrentIdentifier.localizedString(forLanguageCode: code) ?? "L"
+            return localeFromCurrentIdentifier.localizedString(forLanguageCode: code) ?? ""
         case .currency:
-            return localeFromCurrentIdentifier.localizedString(forCurrencyCode: code) ?? "C"
+            return localeFromCurrentIdentifier.localizedString(forCurrencyCode: code) ?? ""
         }
     }
 }

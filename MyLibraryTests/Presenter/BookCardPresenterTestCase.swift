@@ -14,10 +14,14 @@ class BookCardPresenterTestCase: XCTestCase {
     private var bookCardPresenterViewSpy: BookCardPresenterViewSpy!
     private let successTestPresenter = BookCardPresenter(libraryService: LibraryServiceMock(successTest: true),
                                                          recommendationService: RecommendationServiceMock(true),
-                                                         categoryService: CategoryServiceMock(true))
+                                                         categoryService: CategoryServiceMock(true),
+                                                         formatter: Formatter(),
+                                                         categoryFormatter: CategoriesFormatter())
     private let failedTestPresenter = BookCardPresenter(libraryService: LibraryServiceMock(successTest: false),
                                                         recommendationService: RecommendationServiceMock(false),
-                                                        categoryService: CategoryServiceMock(false))
+                                                        categoryService: CategoryServiceMock(false),
+                                                        formatter: Formatter(),
+                                                        categoryFormatter: CategoriesFormatter())
     
     override func setUp() {
         bookCardPresenterViewSpy = BookCardPresenterViewSpy()
@@ -69,7 +73,7 @@ class BookCardPresenterTestCase: XCTestCase {
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
         sut.fetchBookUpdate()
-        XCTAssertTrue(bookCardPresenterViewSpy.displayDataWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
@@ -154,7 +158,7 @@ class BookCardPresenterTestCase: XCTestCase {
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
         sut.fetchBookUpdate()
-        XCTAssertFalse(bookCardPresenterViewSpy.displayDataWasCalled)
+        XCTAssertFalse(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
@@ -163,7 +167,7 @@ class BookCardPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.fetchBookUpdate()
-        XCTAssertFalse(bookCardPresenterViewSpy.displayDataWasCalled)
+        XCTAssertFalse(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertFalse(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertFalse(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
@@ -177,13 +181,22 @@ class BookCardPresenterTestCase: XCTestCase {
 }
 
 class BookCardPresenterViewSpy: BookCardPresenterView {
-    
+   
+ 
     var dismissControllerWasCalled = false
     var playRecommendButtonIndicatorWasCalled = false
-    var displayDataWasCalled = false
+    var displayBookWasCalled = false
     var displayCategoriesWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
+    
+    func displayBook(with data: BookCardRepresentable) {
+        displayBookWasCalled = true
+    }
+    
+    func displayCategories(with list: NSAttributedString) {
+       displayCategoriesWasCalled = true
+    }
     
     func dismissController() {
         dismissControllerWasCalled = true
@@ -191,14 +204,6 @@ class BookCardPresenterViewSpy: BookCardPresenterView {
     
     func playRecommendButtonIndicator(_ play: Bool) {
         playRecommendButtonIndicatorWasCalled = true
-    }
-    
-    func displayData(for book: Item) {
-        displayDataWasCalled = true
-    }
-    
-    func displayCategories(with list: [CategoryModel]) {
-        displayCategoriesWasCalled = true
     }
     
     func showActivityIndicator() {

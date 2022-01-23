@@ -95,7 +95,7 @@ class BookCardPresenter {
         guard let categoryIds = book?.category,
               let bookOwnerID = book?.ownerID else { return }
         categoryService.getBookCategories(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categories in
-            let categories = categories.sorted { $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? "" }
+            let categories = categories.sorted { $0.name.lowercased() < $1.name.lowercased() }
             self?.setCategoriesLabel(with: categories)
         }
     }

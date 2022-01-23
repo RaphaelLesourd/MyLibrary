@@ -38,7 +38,6 @@ class SearchPresenterTestCase: XCTestCase {
         
         sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
       
-        XCTAssertTrue(searchViewSpy.isHandlingList)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
        
@@ -50,7 +49,6 @@ class SearchPresenterTestCase: XCTestCase {
         
         sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
        
-        XCTAssertTrue(searchViewSpy.isHandlingList)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
     }
@@ -60,19 +58,24 @@ class SearchPresenterTestCase: XCTestCase {
 
 class SearchViewSpy: SearchPresenterView {
     
-    var isHandlingList = false
+    var displayBookFromCodeWasCalled = false
+    var applySnapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
  
+    func applySnapshot(animatingDifferences: Bool) {
+        applySnapshotWasCalled = true
+    }
+    
+    func displayBookFromBarCodeSearch(with book: Item?) {
+        displayBookFromCodeWasCalled = true
+    }
+    
     func showActivityIndicator() {
         showActivityWasCalled = true
     }
     
     func stopActivityIndicator() {
         stopActivityWasCalled = true
-    }
-    
-    func handleList(for books: [Item]) {
-        isHandlingList = true
     }
 }

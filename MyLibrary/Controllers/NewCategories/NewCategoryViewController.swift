@@ -64,8 +64,8 @@ class NewCategoryViewController: UIViewController {
 
     // MARK: Setup
     private func setEditedCategoryName() {
-        guard let category = category,
-              let name = category.name else { return }
+        guard let category = category else { return }
+        let name = category.name
         mainView.categoryTextField.text = name.capitalized
         
     }

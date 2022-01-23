@@ -115,7 +115,7 @@ extension CategoryService: CategoryServiceProtocol {
             }
             if let data = data {
                 let sortedData = data.sorted(by: {
-                    $0.name?.lowercased() ?? "" < $1.name?.lowercased() ?? ""
+                    $0.name.lowercased() < $1.name.lowercased()
                 })
                 completion(.success(sortedData))
             }
@@ -148,7 +148,7 @@ extension CategoryService: CategoryServiceProtocol {
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
-            .document(category.uid ?? "")
+            .document(category.uid)
         
         docRef.updateData([DocumentKey.name.rawValue : name,
                            DocumentKey.color.rawValue: color]) { error in
@@ -163,14 +163,14 @@ extension CategoryService: CategoryServiceProtocol {
     // MARK: Delete
     func deleteCategory(for category: CategoryModel,
                         completion: @escaping (FirebaseError?) -> Void) {
-        guard let categoryID = category.uid else {
+        guard !category.uid.isEmpty else {
             completion(.noCategory)
             return
         }
         let docRef = self.usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
-            .document(categoryID)
+            .document(category.uid)
         
         docRef.delete { error in
             if let error = error {

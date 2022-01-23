@@ -19,10 +19,10 @@ class CategoryPresenter {
     // MARK: - Properties
     weak var view: CategoryPresenterView?
     var categories: [CategoryModel] = []
+    var categoriesOriginalList: [CategoryModel] = []
     var selectedCategories: [String] = []
     
     private var categoryService: CategoryServiceProtocol
-    private var categoriesOriginalList: [CategoryModel] = []
     
     // MARK: - Initializer
     init(categoryService: CategoryServiceProtocol) {
@@ -55,7 +55,7 @@ class CategoryPresenter {
                 return
             }
             if let index = self?.categories.firstIndex(where: {
-                $0.name?.lowercased() == category.name?.lowercased()
+                $0.name.lowercased() == category.name.lowercased()
             }) {
                 self?.categories.remove(at: index)
             }
@@ -70,7 +70,7 @@ class CategoryPresenter {
             categories = categoriesOriginalList
         } else {
             categories = categoriesOriginalList.filter({
-                guard let categoryName = $0.name?.lowercased() else { return false }
+                let categoryName = $0.name.lowercased()
                 return categoryName.contains(searchText.lowercased())
             })
         }
@@ -86,16 +86,16 @@ class CategoryPresenter {
         })
     }
     
-    func addSelectedCategory(from index: Int) {
-        guard let categoryID = categories[index].uid else { return }
+    func addSelectedCategory(at index: Int) {
+        let categoryID = categories[index].uid
+        selectedCategories.append(categoryID)
+    }
+    
+    func removeSelectedCategory(from index: Int) {
+        let categoryID = categories[index].uid
         if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
             selectedCategories.remove(at: index)
         }
-    }
-    
-    func removeSelectedCategory(at index: Int) {
-        guard let categoryID = categories[index].uid else { return }
-        selectedCategories.append(categoryID)
     }
     
     func presentSwipeAction(for action: CellSwipeActionType, at index: Int) {

@@ -12,8 +12,14 @@ class NewBookPresenterTestCase: XCTestCase {
     
     private var sut: NewBookPresenter!
     private var newBookPresenterViewSpy: NewBookPresenterViewSpy!
-    private let successTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: true))
-    private let failedTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: false))
+    private let successTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: true),
+                                                        formatter: Formatter(),
+                                                        converter: Converter(),
+                                                        validator: Validator())
+    private let failedTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: false),
+                                                       formatter: Formatter(),
+                                                       converter: Converter(),
+                                                       validator: Validator())
     
     override func setUp() {
         newBookPresenterViewSpy = NewBookPresenterViewSpy()
@@ -28,7 +34,8 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = false
-        sut.saveBook(with: PresenterFakeData.book, and: Data())
+        sut.book = PresenterFakeData.book
+        sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.clearDataWasCalled)
     }
@@ -37,7 +44,8 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = true
-        sut.saveBook(with: PresenterFakeData.book, and: Data())
+        sut.book = PresenterFakeData.book
+        sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.returnToPreviousControllerWasCalled)
     }
@@ -47,7 +55,8 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = false
-        sut.saveBook(with: PresenterFakeData.book, and: Data())
+        sut.book = PresenterFakeData.book
+        sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
     }
@@ -56,13 +65,18 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = true
-        sut.saveBook(with: PresenterFakeData.book, and: Data())
+        sut.book = PresenterFakeData.book
+        sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
     }
 }
 
 class NewBookPresenterViewSpy: NewBookPresenterView {
+    
+    var displayBookWasCalled = false
+    var updateLanguageViewWasCalled = false
+    var updateCurrencyViewWasCalled = false
     var clearDataWasCalled = false
     var returnToPreviousControllerWasCalled = false
     var showSaveButtonIndicatorWasCalled = false
@@ -77,5 +91,17 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
     
     func clearData() {
         clearDataWasCalled = true
+    }
+    
+    func displayBook(with model: NewBookRepresentable) {
+        displayBookWasCalled = true
+    }
+    
+    func updateLanguageView(with language: String) {
+        updateLanguageViewWasCalled = true
+    }
+    
+    func updateCurrencyView(with currency: String) {
+        updateCurrencyViewWasCalled = true
     }
 }

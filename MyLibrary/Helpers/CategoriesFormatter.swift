@@ -14,7 +14,7 @@ class CategoriesFormatter {
         categories.forEach {
             let attachment = imageStringAttachment(for: $0, size: 11)
             let imgString = NSAttributedString(attachment: attachment)
-            let name = $0.name?.uppercased() ?? ""
+            let name = $0.name.uppercased()
             text.append(imgString)
             text.append(NSAttributedString(string: "\u{00a0}\(name)    "))
         }

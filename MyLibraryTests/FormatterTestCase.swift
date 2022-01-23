@@ -54,7 +54,7 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenLanguageCode_whenConvertingToLanguageName_thenLanguageName() {
-        let languageName = sut?.formatCodeToName(from: "fr", type: .language)
+        let languageName = sut?.formatCodeToName(from: "fr", type: .languages)
         XCTAssertEqual(languageName, "French")
     }
     
@@ -84,11 +84,11 @@ class FormatterTestCase: XCTestCase {
     }
     
     func test_givenNilLanguageCode_whenGettingLanguageName_returnEmptyString() {
-        XCTAssertEqual(sut?.formatCodeToName(from: nil, type: .language), "")
+        XCTAssertEqual(sut?.formatCodeToName(from: nil, type: .languages), "")
     }
     
     func test_givenNonExistantLanguageCode_whenGettingLanguageName_returnEmptyString() {
-        XCTAssertEqual(sut?.formatCodeToName(from: "eeeeeeeee", type: .language), "")
+        XCTAssertEqual(sut?.formatCodeToName(from: "eeeeeeeee", type: .languages), "")
     }
     
     func test_givenNilCurrencyCode_whenGettingLanguageName_thenReturnEmptyString() {

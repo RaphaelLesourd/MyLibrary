@@ -29,9 +29,9 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Configure
     func configure(with model: CategoryModel) {
-        if let categoryName = model.name {
-            categoryLabel.text = categoryName.uppercased()
-        }
+        let categoryName = model.name
+        categoryLabel.text = categoryName.uppercased()
+        
         if let color = model.color {
             let categoryColor = UIColor(hexString: color)
             contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)

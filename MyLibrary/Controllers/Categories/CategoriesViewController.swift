@@ -106,7 +106,7 @@ extension CategoriesViewController {
             cell.imageView?.tintColor = UIColor(hexString: item.color ?? "E38801")
             cell.imageView?.image = Images.ButtonIcon.selectedCategoryBadge
             cell.backgroundColor = .tertiarySystemBackground
-            cell.textLabel?.text = item.name?.capitalized
+            cell.textLabel?.text = item.name.capitalized
             return cell
         })
         return dataSource
@@ -174,11 +174,11 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.removeSelectedCategory(at: indexPath.row)
+        presenter.addSelectedCategory(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        presenter.addSelectedCategory(from: indexPath.row)
+        presenter.removeSelectedCategory(from: indexPath.row)
     }
 }
 
@@ -193,7 +193,7 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 extension CategoriesViewController: CategoryPresenterView {
     
     func displayDeleteAlert(for category: CategoryModel) {
-        let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
+        let title = Text.ButtonTitle.delete + " " + category.name.capitalized
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
                                   cancel: true,

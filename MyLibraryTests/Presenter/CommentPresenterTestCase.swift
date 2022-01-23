@@ -13,9 +13,11 @@ class CommentPresenterTestCase: XCTestCase {
     private var sut: CommentPresenter!
     private var commentViewSpy: CommentPresenterViewSpy!
     private let successTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: true),
-                                                        messageService: MessageServiceMock(successTest: true))
+                                                        messageService: MessageServiceMock(successTest: true),
+                                                        formatter: Formatter())
     private let failedTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: false),
-                                                       messageService: MessageServiceMock(successTest: false))
+                                                       messageService: MessageServiceMock(successTest: false),
+                                                       formatter: Formatter())
     
     override func setUp() {
         commentViewSpy = CommentPresenterViewSpy()
@@ -116,11 +118,16 @@ class CommentPresenterTestCase: XCTestCase {
 }
 
 class CommentPresenterViewSpy: CommentsPresenterView {
-    
+   
+    var addCommentToInputBarWasCalled = false
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
   
+    func addCommentToInputBar(for comment: CommentModel) {
+        addCommentToInputBarWasCalled =  true
+    }
+    
     func applySnapshot(animatingDifferences: Bool) {
         snapshotWasCalled = true
     }
