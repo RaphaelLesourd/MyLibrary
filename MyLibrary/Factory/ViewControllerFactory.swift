@@ -20,7 +20,7 @@ class ViewControllerFactory {
     private let formatter = Formatter()
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
-  
+    
     private lazy var apiManager = ApiManager(session: .default, validator: validation)
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
@@ -28,7 +28,8 @@ class ViewControllerFactory {
     private lazy var messageService = MessageService(apiManager: apiManager)
     
     // MARK: Presenters
-    private lazy var welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
+    private lazy var welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
+                                                                     validation: validation)
     private lazy var categoryPresenter = CategoryPresenter(categoryService: categoryService)
     private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService)
     private lazy var accountTabPresenter = AccountTabPresenter(userService: userService,
@@ -63,13 +64,13 @@ class ViewControllerFactory {
 
 // MARK: - Factory
 extension ViewControllerFactory: Factory {
-   
+    
     func makeHomeTabVC() -> UIViewController {
         return  HomeViewController(presenter: homePresenter,
                                    layoutComposer: homeTabLayout)
     }
     
-    func makeAccountTabViewcontroller() -> UIViewController {
+    func makeAccountTabVC() -> UIViewController {
         return AccountViewController(presenter: accountTabPresenter,
                                      feedbackManager: feedbackManager)
     }
@@ -96,9 +97,8 @@ extension ViewControllerFactory: Factory {
                                          layoutComposer: bookListLayout)
     }
     
-    func makeAccountSetupController(for type: AccountInterfaceType) -> UIViewController {
+    func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController {
         return AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                          validator: validation,
                                           interfaceType: type)
     }
     
@@ -118,7 +118,7 @@ extension ViewControllerFactory: Factory {
                                       presenter: bookCardPresenter)
     }
     
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController {
+    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         return BookDescriptionViewController(bookDescription: description,
                                              newBookDelegate: newBookDelegate)
     }
@@ -133,9 +133,9 @@ extension ViewControllerFactory: Factory {
         return BookCoverViewController(image: image)
     }
     
-    func makeListViewController(for dataType: ListDataType,
-                                selectedData: String?,
-                                newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
+    func makeListVC(for dataType: ListDataType,
+                    selectedData: String?,
+                    newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         let presenter = ListPresenter(listDataType: dataType,
                                       formatter: formatter)
         return ListTableViewController(selectedData: selectedData,

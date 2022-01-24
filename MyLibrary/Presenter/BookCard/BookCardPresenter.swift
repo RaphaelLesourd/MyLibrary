@@ -112,17 +112,17 @@ class BookCardPresenter {
         let value = book.saleInfo?.retailPrice?.amount
         let price = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
         
-        let data = BookCardRepresentable(title: book.volumeInfo?.title?.capitalized ?? "",
-                            authors: book.volumeInfo?.authors?.joined(separator: ", ") ?? "",
-                            rating: book.volumeInfo?.ratingsCount ?? 0,
-                            description: book.volumeInfo?.volumeInfoDescription ?? "",
-                            isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
+        let data = BookCardRepresentable(title: book.volumeInfo?.title?.capitalized,
+                            authors: book.volumeInfo?.authors?.joined(separator: ", "),
+                            rating: book.volumeInfo?.ratingsCount,
+                            description: book.volumeInfo?.volumeInfoDescription,
+                            isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier,
                             language: language,
-                            publisher: book.volumeInfo?.publisher?.capitalized ?? "",
+                            publisher: book.volumeInfo?.publisher?.capitalized,
                             publishedDate: publishedDate,
-                            pages: String(book.volumeInfo?.pageCount ?? 0),
+                            pages: book.volumeInfo?.pageCount,
                             price: price,
-                            image: book.volumeInfo?.imageLinks?.thumbnail ?? "")
+                            image: book.volumeInfo?.imageLinks?.thumbnail)
         view?.displayBook(with: data)
     }
     

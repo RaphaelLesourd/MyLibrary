@@ -12,17 +12,14 @@ class AccountSetupViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = AccountMainView()
-    private let presenter: WelcomeAccountPresenter
-    private let validator: ValidatorProtocol
+    private let presenter: SetupAccountPresenter
     private let interfaceType: AccountInterfaceType
     private var profileImage: UIImage?
     
     // MARK: - Initializer
-    init(presenter: WelcomeAccountPresenter,
-         validator: ValidatorProtocol,
+    init(presenter: SetupAccountPresenter,
          interfaceType: AccountInterfaceType) {
         self.presenter = presenter
-        self.validator = validator
         self.interfaceType = interfaceType
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,25 +36,21 @@ class AccountSetupViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if interfaceType == .login {
-            mainView.emailTextField.becomeFirstResponder()
-        } else {
-            mainView.userNameTextField.becomeFirstResponder()
-        }
+        mainView.configure(for: interfaceType)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.configure(for: interfaceType)
-        setDelegates()
-    }
-    
-    // MARK: - Setup
-    private func setDelegates() {
+        presenter.view = self
+        presenter.mainView = mainView
         mainView.emailTextField.delegate = self
         mainView.passwordTextField.delegate = self
         mainView.confirmPasswordTextField.delegate = self
         mainView.delegate = self
+    }
+    
+    private func updateTextFieldState(for textField: UITextField, valid: Bool) {
+        textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
     }
 }
 // MARK: - TextField Delegate
@@ -67,19 +60,17 @@ extension AccountSetupViewController: UITextFieldDelegate {
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard let updatedString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return true }
-        var valid = false
         switch textField {
         case mainView.emailTextField:
-            valid = validator.validateEmail(updatedString)
+            presenter.validateEmail(for: updatedString)
         case mainView.passwordTextField:
-            valid = validator.validatePassword(updatedString)
+            presenter.validatePassword(for: updatedString)
         case mainView.confirmPasswordTextField:
-            valid = validator.validatePassword(updatedString)
+            presenter.validatePasswordConfirmation(for: updatedString)
         default:
             return true
         }
         textField.layer.borderWidth = updatedString.isEmpty ? 0 : 1
-        textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
         return true
     }
     
@@ -97,11 +88,7 @@ extension AccountSetupViewController: UITextFieldDelegate {
 extension AccountSetupViewController: AccountCreationViewDelegate {
     
     func finishedButtonTapped() {
-        presenter.setAccountCredentials(userName: mainView.userNameTextField.text,
-                                        email: mainView.emailTextField.text,
-                                        password: mainView.passwordTextField.text,
-                                        passwordConfirmation: mainView.confirmPasswordTextField.text)
-        presenter.executeAction(for: interfaceType)
+        presenter.showInterface(for: interfaceType)
     }
     
     func resetPassWordRequest() {
@@ -114,11 +101,25 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
     }
 }
 // MARK: - AccountSetup Presenter
-extension AccountSetupViewController: WelcomeAccountPresenterView {
+extension AccountSetupViewController: SetupAccountPresenterView {
+    
+    func updateEmailTextField(valid: Bool) {
+        updateTextFieldState(for: mainView.emailTextField, valid: valid)
+    }
+    
+    func updatePasswordTextField(valid: Bool) {
+        updateTextFieldState(for: mainView.passwordTextField, valid: valid)
+    }
+    
+    func updatePasswordConfirmationTextField(valid: Bool) {
+        updateTextFieldState(for: mainView.confirmPasswordTextField, valid: valid)
+    }
+    func dismissViewController() {
+        self.dismiss(animated: true)
+    }
+    
     func showActivityIndicator() {
-        DispatchQueue.main.async {
-            self.mainView.finishButton.displayActivityIndicator(true)
-        }
+        mainView.finishButton.displayActivityIndicator(true)
     }
     
     func stopActivityIndicator() {

@@ -1,8 +1,8 @@
 //
-//  NewBookDelegate.swift
+//  NewBookViewControllerDelegate.swift
 //  MyLibrary
 //
-//  Created by Birkyboy on 03/01/2022.
+//  Created by Birkyboy on 24/01/2022.
 //
 
 protocol NewBookViewControllerDelegate: AnyObject {

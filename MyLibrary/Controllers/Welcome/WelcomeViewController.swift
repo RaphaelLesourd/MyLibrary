@@ -38,9 +38,9 @@ extension WelcomeViewController: WelcomeViewDelegate {
         let accountService = AccountService(userService: UserService(),
                                             libraryService: LibraryService(),
                                             categoryService: CategoryService())
-        let welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
+        let welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
+                                                              validation: Validator())
         let accountSetupController = AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                                                validator: Validator(),
                                                                 interfaceType: type)
         if #available(iOS 15.0, *) {
             presentSheetController(accountSetupController, detents: [.large()])

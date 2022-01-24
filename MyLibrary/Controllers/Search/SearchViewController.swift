@@ -14,12 +14,13 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
+    let presenter: SearchPresenter
+    
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
-    private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    let presenter: SearchPresenter
+    private lazy var dataSource = createDataSource()
  
     // MARK: - Initializer
     init(presenter: SearchPresenter,

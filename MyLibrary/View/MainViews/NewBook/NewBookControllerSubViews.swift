@@ -73,12 +73,12 @@ class NewBookControllerSubViews {
     func configure(with model: NewBookRepresentable) {
         bookTileCell.textField.text = model.title
         bookAuthorCell.textField.text = model.authors
-        ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating
+        ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating ?? 0
         publisherCell.textField.text = model.publisher
         publishDateCell.textField.text = model.publishedDate
-        purchasePriceCell.textField.text = model.price
+        purchasePriceCell.textField.text = String(model.price ?? 0)
         isbnCell.textField.text = model.isbn
-        numberOfPagesCell.textField.text = model.pages
+        numberOfPagesCell.textField.text = String(model.pages ?? 0)
        
         bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
             self?.bookImageCell.pictureView.image = image
