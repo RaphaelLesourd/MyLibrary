@@ -41,7 +41,6 @@ class ListTableViewController: UITableViewController {
         applySnapshot(animatingDifferences: false)
         presenter.view = self
         presenter.getControllerTitle()
-        presenter.getSectionTitle()
         presenter.getFavorites()
         presenter.getData()
     }
@@ -123,7 +122,8 @@ class ListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.getSelectedData(at: indexPath.row)
+        let data = dataSource.itemIdentifier(for: indexPath)
+        presenter.getSelectedData(from: data)
     }
 }
 // MARK: - TableView Datasource
@@ -152,15 +152,10 @@ extension ListTableViewController {
     
     func applySnapshot(animatingDifferences: Bool) {
         var snapshot = Snapshot()
-        
         snapshot.appendSections([.favorite, .others])
         snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
         snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        
-        // if let section = dataSource.snapshot().indexOfSection(.main) {
-        //    presenter.highlightCell()
-        // }
     }
 }
 
@@ -188,10 +183,6 @@ extension ListTableViewController: ListPresenterView {
     
     func setCurrency(with code: String) {
         newBookDelegate?.setCurrency(with: code)
-    }
-    
-    func setSectionTitle(as title: String) {
-        sectionTitle = title
     }
     
     func setTitle(as title: String) {

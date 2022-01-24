@@ -8,7 +8,6 @@ import Foundation
 
 protocol ListPresenterView: AnyObject {
     func setTitle(as title: String)
-    func setSectionTitle(as title: String)
     func highlightCell(at indexPath: IndexPath)
     func setLanguage(with code: String)
     func setCurrency(with code: String)
@@ -46,11 +45,7 @@ class ListPresenter {
     func getControllerTitle() {
         view?.setTitle(as: listDataType.title)
     }
-    
-    func getSectionTitle() {
-        view?.setSectionTitle(as: listDataType.sectionTitle)
-    }
-    
+   
     // MARK: Hightlight book data
     func highlightCell() {
         if let index = data.firstIndex(where: { $0.subtitle.lowercased() == receivedData?.lowercased() }) {
@@ -60,12 +55,13 @@ class ListPresenter {
     }
     
     // MARK: Send selected data
-    func getSelectedData(at index: Int) {
+    func getSelectedData(from data: ListRepresentable?) {
+        guard let data = data else { return }
         switch listDataType {
         case .languages:
-            view?.setLanguage(with: data[index].subtitle)
+            view?.setLanguage(with: data.subtitle)
         case .currency:
-            view?.setCurrency(with: data[index].subtitle)
+            view?.setCurrency(with: data.subtitle)
         }
     }
     
