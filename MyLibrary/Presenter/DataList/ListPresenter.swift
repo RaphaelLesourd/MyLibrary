@@ -8,7 +8,7 @@ import Foundation
 
 protocol ListPresenterView: AnyObject {
     func setTitle(as title: String)
-    func highlightCell(at indexPath: IndexPath)
+    func highlightCell(for item: ListRepresentable)
     func setLanguage(with code: String)
     func setCurrency(with code: String)
     func applySnapshot(animatingDifferences: Bool)
@@ -49,13 +49,13 @@ class ListPresenter {
     // MARK: Hightlight book data
     func highlightCell() {
         if let index = data.firstIndex(where: { $0.subtitle.lowercased() == receivedData?.lowercased() }) {
-            let indexPath = IndexPath(row: index, section: 0)
-            view?.highlightCell(at: indexPath)
+            view?.highlightCell(for: data[index])
         }
     }
     
     // MARK: Send selected data
     func getSelectedData(from data: ListRepresentable?) {
+        receivedData = data?.subtitle
         guard let data = data else { return }
         switch listDataType {
         case .languages:
@@ -83,7 +83,6 @@ class ListPresenter {
     func getFavorites() {
         if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
             favorites = data
-            view?.applySnapshot(animatingDifferences: true)
         }
     }
     
@@ -92,8 +91,6 @@ class ListPresenter {
         saveFavorites()
         updateData(favorite: true, for: data.subtitle)
         view?.reloadRow(for: data)
-        print(data.subtitle)
-        print(favorites)
     }
     
     func removeFavorite(with data: ListRepresentable) {
@@ -102,8 +99,6 @@ class ListPresenter {
             saveFavorites()
             updateData(favorite: false, for: data.subtitle)
             view?.reloadRow(for: data)
-            print(data.subtitle)
-            print(favorites)
         }
     }
     

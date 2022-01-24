@@ -113,18 +113,17 @@ extension CategoriesViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
+        mainView.tableView.isHidden = presenter.categories.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.categories.isEmpty
+        
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(presenter.categories, toSection: .main)
         DispatchQueue.main.async {
-            self.mainView.tableView.isHidden = self.presenter.categories.isEmpty
-            self.mainView.emptyStateView.isHidden = !self.presenter.categories.isEmpty
-            
-            var snapshot = Snapshot()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(self.presenter.categories, toSection: .main)
             self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-            
-            if let section = self.dataSource.snapshot().indexOfSection(.main) {
-                self.presenter.highlightBookCategories(for: section)
-            }
+        }
+        if let section = dataSource.snapshot().indexOfSection(.main) {
+            presenter.highlightBookCategories(for: section)
         }
     }
 }
@@ -215,8 +214,9 @@ extension CategoriesViewController: CategoryPresenterView {
     }
     
     func highlightCell(at indexPath: IndexPath) {
-
-        mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        DispatchQueue.main.async {
+            self.mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        }
     }
     
     func showActivityIndicator() {

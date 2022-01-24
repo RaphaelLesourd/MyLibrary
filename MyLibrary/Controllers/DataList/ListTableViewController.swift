@@ -20,12 +20,12 @@ class ListTableViewController: UITableViewController {
     private var sectionTitle = String()
     
     // MARK: - Initializer
-    init(selectedData: String?,
+    init(receivedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
          presenter: ListPresenter) {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
-        self.presenter.receivedData = selectedData
+        self.presenter.receivedData = receivedData
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -152,6 +152,7 @@ extension ListTableViewController {
             snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
             snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
             dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            presenter.highlightCell()
     }
 }
 
@@ -184,7 +185,13 @@ extension ListTableViewController: ListPresenterView {
         self.title = title
     }
     
-    func highlightCell(at indexPath: IndexPath) {
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+    func highlightCell(for item: ListRepresentable) {
+        guard let section = dataSource.snapshot().sectionIdentifier(containingItem: item),
+              let index = dataSource.snapshot().indexOfItem(item) else { return }
+        let indexPath = IndexPath(row: index, section: section.rawValue)
+        DispatchQueue.main.async {
+            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+        }
     }
+    
 }

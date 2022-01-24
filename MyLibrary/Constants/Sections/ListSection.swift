@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 24/01/2022.
 //
 
-enum ListSection: CaseIterable {
+enum ListSection: Int, CaseIterable {
     case favorite
     case others
     
