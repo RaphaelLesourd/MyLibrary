@@ -10,8 +10,11 @@ import UIKit
 class ListTableViewController: UITableViewController {
     
     // MARK: - Properties
+    typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, ListRepresentable>
+    typealias DataSource = UITableViewDiffableDataSource<ListSection, ListRepresentable>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
+    private lazy var dataSource = makeDataSource()
     private let searchController = UISearchController(searchResultsController: nil)
     private let presenter: ListPresenter
     private var sectionTitle = String()
@@ -35,10 +38,11 @@ class ListTableViewController: UITableViewController {
         super.viewDidLoad()
         configureTableView()
         addSearchController()
+        applySnapshot(animatingDifferences: false)
         presenter.view = self
         presenter.getControllerTitle()
         presenter.getSectionTitle()
-        presenter.getFavoriteList()
+        presenter.getFavorites()
         presenter.getData()
     }
     
@@ -49,6 +53,7 @@ class ListTableViewController: UITableViewController {
         tableView.allowsSelection = true
         tableView.showsVerticalScrollIndicator = true
         tableView.backgroundColor = .viewControllerBackgroundColor
+        tableView.dataSource = dataSource
     }
     
     private func addSearchController() {
@@ -63,38 +68,36 @@ class ListTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitle
+    // Header
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let section = dataSource.snapshot().sectionIdentifiers[section]
+        let sectionTitleLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 1,
+                                          alignment: .center,
+                                          font: .footerLabel)
+        sectionTitleLabel.text = section.headerTitle
+        return sectionTitleLabel
     }
     
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return Text.SectionTitle.listFooter
-    }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.data.count
+    // Footer
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let section = dataSource.snapshot().sectionIdentifiers[section]
+        let sectionFooterLabel = TextLabel(color: .secondaryLabel,
+                                          maxLines: 2,
+                                          alignment: .center,
+                                          font: .footerLabel)
+        if section == .others {
+            sectionFooterLabel.text = Text.SectionTitle.listFooter
+        }
+        return sectionFooterLabel
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = presenter.data[indexPath.row]
-        
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
-        
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
-        cell.selectedBackgroundView = backgroundView
-        cell.backgroundColor = .tertiarySystemBackground
-        cell.textLabel?.text = data.title.capitalized
-        
-        cell.detailTextLabel?.text = data.subtitle.uppercased()
-        cell.detailTextLabel?.textColor = .appTintColor
-        
-        cell.imageView?.image = Images.ButtonIcon.favorite
-        cell.imageView?.tintColor = data.favorite ? .favoriteColor : UIColor.favoriteColor.withAlphaComponent(0.1)
-        return cell
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50
     }
     
     // MARK: - Table view delegate
@@ -106,9 +109,12 @@ class ListTableViewController: UITableViewController {
     }
     
     private func contextMenuAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-        let data = presenter.data[indexPath.row]
+        guard let data = dataSource.itemIdentifier(for: indexPath) else {
+            return UIContextualAction()
+        }
+        
         let action = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
-            data.favorite ? self?.presenter.removeFavorite(at: indexPath.row) : self?.presenter.addToFavorite(for: indexPath.row)
+            data.favorite ? self?.presenter.removeFavorite(with: data) : self?.presenter.addToFavorite(with: data)
             completion(true)
         }
         action.backgroundColor = .favoriteColor
@@ -120,6 +126,44 @@ class ListTableViewController: UITableViewController {
         presenter.getSelectedData(at: indexPath.row)
     }
 }
+// MARK: - TableView Datasource
+extension ListTableViewController {
+    
+    private func makeDataSource() -> DataSource {
+        dataSource = DataSource(tableView: tableView,
+                                cellProvider: { (_, _, item) -> UITableViewCell? in
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
+            
+            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "reuseIdentifier")
+            cell.selectedBackgroundView = backgroundView
+            cell.backgroundColor = .tertiarySystemBackground
+            cell.textLabel?.text = item.title.capitalized
+            
+            cell.detailTextLabel?.text = item.subtitle.uppercased()
+            cell.detailTextLabel?.textColor = .appTintColor
+            
+            cell.imageView?.image = Images.ButtonIcon.favorite
+            cell.imageView?.tintColor = item.favorite ? .favoriteColor : UIColor.favoriteColor.withAlphaComponent(0.1)
+            return cell
+        })
+        return dataSource
+    }
+    
+    func applySnapshot(animatingDifferences: Bool) {
+        var snapshot = Snapshot()
+        
+        snapshot.appendSections([.favorite, .others])
+        snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
+        snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        
+        // if let section = dataSource.snapshot().indexOfSection(.main) {
+        //    presenter.highlightCell()
+        // }
+    }
+}
+
 // MARK: - UISearch result
 extension ListTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -130,6 +174,13 @@ extension ListTableViewController: UISearchResultsUpdating {
 
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
+    func reloadRow(for item: ListRepresentable) {
+        dump(item)
+        var snapshot = dataSource.snapshot()
+        snapshot.reloadItems([item])
+        dataSource.apply(snapshot)
+        applySnapshot(animatingDifferences: true)
+    }
     
     func setLanguage(with code: String) {
         newBookDelegate?.setLanguage(with: code)
@@ -145,20 +196,6 @@ extension ListTableViewController: ListPresenterView {
     
     func setTitle(as title: String) {
         self.title = title
-    }
-    
-    func reloadTableView() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-            self.presenter.highlightCell()
-        }
-    }
-    
-    func reloadTableViewRow(at indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [indexPath], with: .left)
-            self.presenter.highlightCell()
-        }
     }
     
     func highlightCell(at indexPath: IndexPath) {

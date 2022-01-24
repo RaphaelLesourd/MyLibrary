@@ -10,10 +10,10 @@ protocol ListPresenterView: AnyObject {
     func setTitle(as title: String)
     func setSectionTitle(as title: String)
     func highlightCell(at indexPath: IndexPath)
-    func reloadTableView()
     func setLanguage(with code: String)
     func setCurrency(with code: String)
-    func reloadTableViewRow(at indexPath: IndexPath)
+    func applySnapshot(animatingDifferences: Bool)
+    func reloadRow(for item: ListRepresentable)
 }
 
 class ListPresenter {
@@ -34,13 +34,13 @@ class ListPresenter {
         self.listDataType = listDataType
         self.formatter = formatter
     }
-   
+    
     // MARK: - Public functions
     func getData() {
         let list = createList(for: listDataType)
         originalData = list.sorted(by: { $0.title.lowercased() < $1.title.lowercased() })
         data = originalData
-        view?.reloadTableView()
+        view?.applySnapshot(animatingDifferences: true)
     }
     
     func getControllerTitle() {
@@ -50,7 +50,7 @@ class ListPresenter {
     func getSectionTitle() {
         view?.setSectionTitle(as: listDataType.sectionTitle)
     }
-
+    
     // MARK: Hightlight book data
     func highlightCell() {
         if let index = data.firstIndex(where: { $0.subtitle.lowercased() == receivedData?.lowercased() }) {
@@ -80,35 +80,37 @@ class ListPresenter {
                 return title.contains(text.lowercased()) || subtitle.contains(text.lowercased())
             })
         }
-        view?.reloadTableView()
+        view?.applySnapshot(animatingDifferences: true)
     }
     
     // MARK: Favorite
-    func getFavoriteList() {
+    func getFavorites() {
         if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
             favorites = data
+            view?.applySnapshot(animatingDifferences: true)
         }
-        view?.reloadTableView()
     }
     
-    func addToFavorite(for index: Int) {
-        let dataToAdd = data[index].subtitle
-        favorites.append(dataToAdd)
-        updateData(favorite: true, for: dataToAdd)
+    func addToFavorite(with data: ListRepresentable) {
+        favorites.append(data.subtitle)
         saveFavorites()
-        reloadTableViewRow(at: index)
+        updateData(favorite: true, for: data.subtitle)
+        view?.reloadRow(for: data)
+        print(data.subtitle)
+        print(favorites)
     }
     
-    func removeFavorite(at index: Int) {
-        let dataToRemove = data[index].subtitle
-        if let index = favorites.firstIndex(where: { $0.lowercased() == dataToRemove.lowercased() }) {
+    func removeFavorite(with data: ListRepresentable) {
+        if let index = favorites.firstIndex(where: { $0.lowercased() == data.subtitle.lowercased() }) {
             favorites.remove(at: index)
-            updateData(favorite: false, for: dataToRemove)
             saveFavorites()
+            updateData(favorite: false, for: data.subtitle)
+            view?.reloadRow(for: data)
+            print(data.subtitle)
+            print(favorites)
         }
-        reloadTableViewRow(at: index)
     }
-   
+    
     // MARK: - Private functions
     private func createList(for listType: ListDataType) -> [ListRepresentable] {
         let data = listDataType.code.compactMap { documents -> ListRepresentable in
@@ -132,10 +134,5 @@ class ListPresenter {
         if let index = originalData.firstIndex(where: { $0.subtitle.lowercased() == code.lowercased() }) {
             originalData[index].favorite = favorite
         }
-    }
-    
-    private func reloadTableViewRow(at index: Int) {
-        let indexPath = IndexPath(row: index, section: 0)
-        view?.reloadTableViewRow(at: indexPath)
     }
 }

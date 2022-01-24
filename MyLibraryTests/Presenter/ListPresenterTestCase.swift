@@ -98,7 +98,7 @@ class ListPresenterTestCase: XCTestCase {
     func test_getFavoritesList() {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
-        sut.getFavoriteList()
+        sut.getFavorites()
         XCTAssertTrue(listPresenterViewSpy.reloadTableViewWasCalled)
     }
     
