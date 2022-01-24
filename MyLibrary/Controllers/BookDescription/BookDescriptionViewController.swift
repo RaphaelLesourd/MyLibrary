@@ -17,7 +17,7 @@ class BookDescriptionViewController: UIViewController {
     
     // MARK: - Initializer
     init(bookDescription: String?,
-         newBookDelegate: NewBookViewControllerDelegate) {
+         newBookDelegate: NewBookViewControllerDelegate?) {
         self.textViewText = bookDescription
         self.newBookDelegate = newBookDelegate
         super.init(nibName: nil, bundle: nil)

@@ -112,14 +112,14 @@ class NewBookPresenter {
     }
     
     private func createBookRepresentable() -> NewBookRepresentable {
-        return NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized ?? "",
-                                        authors: book?.volumeInfo?.authors?.joined(separator: ", ") ?? "",
-                                        rating: book?.volumeInfo?.ratingsCount ?? 0,
-                                        publisher: book?.volumeInfo?.publisher?.capitalized ?? "",
-                                        publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
-                                        price: String(book?.saleInfo?.retailPrice?.amount ?? 0),
-                                        isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier ?? "",
-                                        pages: String(book?.volumeInfo?.pageCount ?? 0),
-                                        coverImage: book?.volumeInfo?.imageLinks?.thumbnail ?? "")
+        return NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized,
+                                    authors: book?.volumeInfo?.authors?.joined(separator: ", "),
+                                    rating: book?.volumeInfo?.ratingsCount,
+                                    publisher: book?.volumeInfo?.publisher?.capitalized,
+                                    publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
+                                    price: book?.saleInfo?.retailPrice?.amount,
+                                    isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                    pages: book?.volumeInfo?.pageCount,
+                                    coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
     }
 }

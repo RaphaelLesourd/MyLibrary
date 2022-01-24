@@ -131,16 +131,16 @@ extension CategoriesViewController {
 extension CategoriesViewController: UITableViewDelegate {
     // Header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sectionTitleLabel = TextLabel(color: .label,
+        let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 2,
                                           alignment: .left,
-                                          font: .subtitle)
-        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader
+                                          font: .footerLabel)
+        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader.uppercased()
         return sectionTitleLabel
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 30
     }
     
     // Footer
@@ -156,6 +156,7 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 50
     }
+    
     // Context menu
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)

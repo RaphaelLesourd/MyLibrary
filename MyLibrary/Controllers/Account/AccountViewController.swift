@@ -107,7 +107,7 @@ extension AccountViewController: AccountViewDelegate {
                                   cancel: true,
                                   on: self) { [weak self] _ in
             guard let self = self else { return }
-            self.present(self.factory.makeAccountSetupController(for: .deleteAccount),
+            self.present(self.factory.makeAccountSetupVC(for: .deleteAccount),
                           animated: true, completion: nil)
         }
     }

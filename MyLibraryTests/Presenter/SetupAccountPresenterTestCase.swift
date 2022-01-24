@@ -6,30 +6,161 @@
 //
 
 import XCTest
+@testable import MyLibrary
 
 class SetupAccountPresenterTestCase: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    private var sut: SetupAccountPresenter!
+    private var setupAccountPresenterViewSpy: SetupAccountPresenterViewSpy!
+    private let successTestPresenter = SetupAccountPresenter(accountService: AccountServiceMock(successTest: true),
+                                                             validation: Validator())
+    private let failedTestPresenter = SetupAccountPresenter(accountService: AccountServiceMock(successTest: false),
+                                                            validation: Validator())
+    
+    override func setUp() {
+        setupAccountPresenterViewSpy = SetupAccountPresenterViewSpy()
+    }
+    
+    override func tearDown() {
+        sut = nil
+        setupAccountPresenterViewSpy = nil
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    // MARK: - Success
+    func test_showInterface_whenLoginToAccount() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .login)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test_showInterface_whenCreatingAccount() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .signup)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+  
+    func test_showInterface_whenDeletingAccount() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .deleteAccount)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
     }
+    
+    func test_resetPassword() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.resetPassword(with: "testEmail")
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+    
+    func test_validateEmail() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.validateEmail(for: "test@test.com")
+        XCTAssertTrue(setupAccountPresenterViewSpy.updateEmailTextFieldWasCalled)
+    }
+    
+    func test_validatePassword() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.validatePassword(for: "")
+        XCTAssertTrue(setupAccountPresenterViewSpy.updatePasswordTextFieldWasCalled)
+    }
+    
+    func test_validatePasswordConfirmation() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.validatePasswordConfirmation(for: "")
+        XCTAssertTrue(setupAccountPresenterViewSpy.updatePasswordConfirmationTextFieldWasCalled)
+    }
+    
+    // MARK: - Fail
+    func test_showInterface_whenLoginToAccount_withError() {
+        sut = failedTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .login)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+    
+    func test_showInterface_whenCreatingAccount_withError() {
+        sut = failedTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .signup)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+  
+    func test_showInterface_whenDeletingAccount_withError() {
+        sut = failedTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.showInterface(for: .deleteAccount)
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+    
+    func test_resetPassword_withError() {
+        sut = failedTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.resetPassword(with: "testEmail")
+        XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+    
+    func test_resetPassword_NoEmailProvided() {
+        sut = successTestPresenter
+        sut.view = setupAccountPresenterViewSpy
+        sut.resetPassword(with: nil)
+        XCTAssertFalse(setupAccountPresenterViewSpy.showActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
+    }
+}
 
+class SetupAccountPresenterViewSpy: SetupAccountPresenterView {
+    
+    var showActivityWasCalled = false
+    var stopActivityWasCalled = false
+    var dismissControllerWasCalled = false
+    var updateEmailTextFieldWasCalled = false
+    var updatePasswordTextFieldWasCalled = false
+    var updatePasswordConfirmationTextFieldWasCalled = false
+    
+    func dismissViewController() {
+        dismissControllerWasCalled = true
+    }
+    
+    func updateEmailTextField(valid: Bool) {
+        updateEmailTextFieldWasCalled = true
+    }
+    
+    func updatePasswordTextField(valid: Bool) {
+        updatePasswordTextFieldWasCalled = true
+    }
+    
+    func updatePasswordConfirmationTextField(valid: Bool) {
+        updatePasswordConfirmationTextFieldWasCalled = true
+    }
+    
+    func showActivityIndicator() {
+        showActivityWasCalled = true
+    }
+    
+    func stopActivityIndicator() {
+        stopActivityWasCalled = true
+    }
 }

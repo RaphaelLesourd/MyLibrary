@@ -6,30 +6,129 @@
 //
 
 import XCTest
+@testable import MyLibrary
 
 class NewCategoryTestCase: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    private var sut: NewCategoryPresenter!
+    private var newCategoryPresenterViewSpy: NewCategoryPresenterViewSpy!
+    private let successTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(true))
+    private let failTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(false))
+    
+    override func setUp() {
+        newCategoryPresenterViewSpy = NewCategoryPresenterViewSpy()
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        sut = nil
+        newCategoryPresenterViewSpy = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    // MARK: - Succes
+    func test_setCategoryColor_withHexColorString() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.setCategoryColor(with: "426db3")
+        XCTAssertTrue(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test_savingCategory_successfully() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = false
+        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
     }
+    
+    func test_updatingCategory_successfully() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = true
+        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
+    }
+    
+    // MARK: - Failed
+    func test_setCategoryColor_withHexColorString_NoTPartOfDefaultColor() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.setCategoryColor(with: "AAAAAA")
+        XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
+    }
+    
+    func test_setCategoryColor_withNilHexColorString() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.setCategoryColor(with: nil)
+        XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
+    }
+    
+    func test_savingCategory_withNoCategoryName() {
+        sut = successTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = false
+        sut.saveCategory(with: nil, and: "AAAAA", for: PresenterFakeData.category)
+        XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
+    }
+    
+    func test_savingCategory_failed() {
+        sut = failTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = false
+        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
+    }
+    
+    func test_updatingCategory_withNoCategoryName() {
+        sut = failTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = true
+        sut.saveCategory(with: nil, and: "AAAA", for: PresenterFakeData.category)
+        XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
+    }
+    
+    func test_updatingCategory_withNilCategory() {
+        sut = failTestPresenter
+        sut.view = newCategoryPresenterViewSpy
+        sut.isEditing = true
+        sut.saveCategory(with: nil, and: "AAAA", for: nil)
+        XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
+    }
+}
 
+class NewCategoryPresenterViewSpy: NewCategoryPresenterView {
+    
+    var updateCategoryColorWasCalled = false
+    var dismissViewcontrollerWasCalled = false
+    var showActivityWasCalled = false
+    var stopActivityWasCalled = false
+    
+    func updateCategoryColor(at indexPath: IndexPath, and colorHex: String) {
+        updateCategoryColorWasCalled = true
+    }
+    
+    func dismissViewController() {
+        dismissViewcontrollerWasCalled = true
+    }
+    
+    func showActivityIndicator() {
+        showActivityWasCalled = true
+    }
+    
+    func stopActivityIndicator() {
+        stopActivityWasCalled = true
+    }
+    
+    
 }

@@ -108,7 +108,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func showAccountController() {
-        let accountVC = UINavigationController(rootViewController: factory.makeAccountTabViewcontroller())
+        let accountVC = UINavigationController(rootViewController: factory.makeAccountTabVC())
         present(accountVC, animated: true, completion: nil)
     }
     

@@ -59,7 +59,7 @@ class TabBarController: UITabBarController {
                                                     title: Text.ControllerTitle.newBook,
                                                     image: Images.TabBarIcon.newBookIcon)
         // Account tab
-        let accountViewController = createController(for: factory.makeAccountTabViewcontroller(),
+        let accountViewController = createController(for: factory.makeAccountTabVC(),
                                                         title: Text.ControllerTitle.account,
                                                         image: Images.TabBarIcon.accountIcon)
         setViewControllers([homeViewController,

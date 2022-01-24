@@ -61,7 +61,7 @@
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */; };
 		8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2C27986EB500FB6725 /* AccountPresenter.swift */; };
-		8125AD2F279880A400FB6725 /* WelcomeAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */; };
+		8125AD2F279880A400FB6725 /* SetupAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */; };
 		8125AD31279881D600FB6725 /* ActivityIndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */; };
 		8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */; };
 		8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */; };
@@ -87,7 +87,6 @@
 		8125ADA9279AE53700FB6725 /* BookCardPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADA8279AE53700FB6725 /* BookCardPresenterTestCase.swift */; };
 		8125ADAB279B00A500FB6725 /* NewBookPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADAA279B00A500FB6725 /* NewBookPresenter.swift */; };
 		8125ADAF279B0C4900FB6725 /* NewBookPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADAE279B0C4900FB6725 /* NewBookPresenterTestCase.swift */; };
-		8125ADB0279B58D200FB6725 /* NewBookViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183144D27931D2F00351F88 /* NewBookViewControllerDelegate.swift */; };
 		8125ADB3279C00EF00FB6725 /* CommentCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADB2279C00EF00FB6725 /* CommentCellRepresentable.swift */; };
 		8125ADB5279C010900FB6725 /* CommentBookCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADB4279C010900FB6725 /* CommentBookCellRepresentable.swift */; };
 		8125ADB8279C019C00FB6725 /* NewBookRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADB7279C019C00FB6725 /* NewBookRepresentable.swift */; };
@@ -100,6 +99,11 @@
 		8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADCB279C61EA00FB6725 /* ListPresenter.swift */; };
 		8125ADD6279C6DC100FB6725 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADD5279C6DC100FB6725 /* Factory.swift */; };
 		8125ADD8279DB4FC00FB6725 /* ListPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */; };
+		8125ADDA279E817200FB6725 /* NewCategoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADD9279E817200FB6725 /* NewCategoryTestCase.swift */; };
+		8125ADDC279E8CD300FB6725 /* ApiManagerMockEmptyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADDB279E8CD300FB6725 /* ApiManagerMockEmptyData.swift */; };
+		8125ADDF279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADDE279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift */; };
+		8125ADE1279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADE0279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift */; };
+		8125ADE9279ECC7000FB6725 /* NewBookViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADE8279ECC7000FB6725 /* NewBookViewControllerDelegate.swift */; };
 		812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */; };
 		812B160F27720D6200D65C6A /* BarcodeReaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */; };
 		812B161127720F5400D65C6A /* BarcodeReaderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B161027720F5400D65C6A /* BarcodeReaderError.swift */; };
@@ -345,7 +349,7 @@
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanViewController.swift; sourceTree = "<group>"; };
 		8125AD2C27986EB500FB6725 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
-		8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAccountPresenter.swift; sourceTree = "<group>"; };
+		8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountPresenter.swift; sourceTree = "<group>"; };
 		8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorProtocol.swift; sourceTree = "<group>"; };
 		8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountMainViewDelegate.swift; sourceTree = "<group>"; };
 		8125AD7727994B5400FB6725 /* AccountControllerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountControllerViewDelegate.swift; sourceTree = "<group>"; };
@@ -383,6 +387,11 @@
 		8125ADCB279C61EA00FB6725 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
 		8125ADD5279C6DC100FB6725 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTestCase.swift; sourceTree = "<group>"; };
+		8125ADD9279E817200FB6725 /* NewCategoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryTestCase.swift; sourceTree = "<group>"; };
+		8125ADDB279E8CD300FB6725 /* ApiManagerMockEmptyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManagerMockEmptyData.swift; sourceTree = "<group>"; };
+		8125ADDE279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountPresenterTestCase.swift; sourceTree = "<group>"; };
+		8125ADE0279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactoryTestCase.swift; sourceTree = "<group>"; };
+		8125ADE8279ECC7000FB6725 /* NewBookViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookViewControllerDelegate.swift; sourceTree = "<group>"; };
 		812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivityTestCase.swift; sourceTree = "<group>"; };
 		812B160B27720CDF00D65C6A /* BarcodeReaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderDelegate.swift; sourceTree = "<group>"; };
 		812B161027720F5400D65C6A /* BarcodeReaderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeReaderError.swift; sourceTree = "<group>"; };
@@ -424,7 +433,6 @@
 		81792F642732F3E4005F863B /* AccountCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCredentials.swift; sourceTree = "<group>"; };
 		81792F662732F93F005F863B /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		8183144C27931D2F00351F88 /* NewBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookViewController.swift; sourceTree = "<group>"; };
-		8183144D27931D2F00351F88 /* NewBookViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookViewControllerDelegate.swift; sourceTree = "<group>"; };
 		8183145527931D5900351F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		818314752794B07800351F88 /* wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wave.json; sourceTree = "<group>"; };
 		818314802795D09800351F88 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -675,7 +683,7 @@
 				8125ADB6279C018F00FB6725 /* NewBook */,
 				8125ADD2279C6B5C00FB6725 /* NewCategory */,
 				8125ADD3279C6B6B00FB6725 /* Search */,
-				8125ADD4279C6B7700FB6725 /* Welcome */,
+				8125ADD4279C6B7700FB6725 /* SetupAccount */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -1008,9 +1016,11 @@
 				8125AD902799B0BF00FB6725 /* CategoryPresenterTestCase.swift */,
 				8125AD7A2799570200FB6725 /* HomePresenterTestCase.swift */,
 				8125AD9A2799BDC600FB6725 /* LibraryPresenterTestCase.swift */,
-				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
-				8125ADAE279B0C4900FB6725 /* NewBookPresenterTestCase.swift */,
 				8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */,
+				8125ADAE279B0C4900FB6725 /* NewBookPresenterTestCase.swift */,
+				8125ADD9279E817200FB6725 /* NewCategoryTestCase.swift */,
+				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
+				8125ADDE279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -1028,6 +1038,7 @@
 				8125AD942799B4E900FB6725 /* MessageServiceMock.swift */,
 				8125AD9E2799C33400FB6725 /* ApiManagerMockWithError.swift */,
 				8125ADA12799C36E00FB6725 /* ApiManagerMock.swift */,
+				8125ADDB279E8CD300FB6725 /* ApiManagerMockEmptyData.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1161,12 +1172,60 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		8125ADD4279C6B7700FB6725 /* Welcome */ = {
+		8125ADD4279C6B7700FB6725 /* SetupAccount */ = {
 			isa = PBXGroup;
 			children = (
-				8125AD2E279880A400FB6725 /* WelcomeAccountPresenter.swift */,
+				8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */,
 			);
-			path = Welcome;
+			path = SetupAccount;
+			sourceTree = "<group>";
+		};
+		8125ADDD279E9E5500FB6725 /* SetupAccount */ = {
+			isa = PBXGroup;
+			children = (
+				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
+			);
+			path = SetupAccount;
+			sourceTree = "<group>";
+		};
+		8125ADE2279ECA4100FB6725 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				8125ADE0279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		8125ADE3279ECA5D00FB6725 /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */,
+			);
+			path = Connectivity;
+			sourceTree = "<group>";
+		};
+		8125ADE4279ECA7700FB6725 /* Converter */ = {
+			isa = PBXGroup;
+			children = (
+				812BA743278ED0AB009541E4 /* ConverterTestCase.swift */,
+			);
+			path = Converter;
+			sourceTree = "<group>";
+		};
+		8125ADE5279ECA8A00FB6725 /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				8138DDE32747869C00C355C6 /* FormatterTestCase.swift */,
+			);
+			path = Formatter;
+			sourceTree = "<group>";
+		};
+		8125ADE6279ECAA500FB6725 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
+			);
+			path = Validation;
 			sourceTree = "<group>";
 		};
 		812B160D27720CFD00D65C6A /* BarcodeReader */ = {
@@ -1188,13 +1247,12 @@
 			path = NewCategories;
 			sourceTree = "<group>";
 		};
-		8157F51F2780904F005F182A /* WelcomeFlow */ = {
+		8157F51F2780904F005F182A /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
 				810C446A2726EAC4007541C0 /* WelcomeViewController.swift */,
-				810C44762727102D007541C0 /* AccountSetupViewController.swift */,
 			);
-			path = WelcomeFlow;
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		8157F5582781D52D005F182A /* BookCard */ = {
@@ -1267,8 +1325,8 @@
 		8183144B27931D1100351F88 /* NewBook */ = {
 			isa = PBXGroup;
 			children = (
-				8183144D27931D2F00351F88 /* NewBookViewControllerDelegate.swift */,
 				8183144C27931D2F00351F88 /* NewBookViewController.swift */,
+				8125ADE8279ECC7000FB6725 /* NewBookViewControllerDelegate.swift */,
 			);
 			path = NewBook;
 			sourceTree = "<group>";
@@ -1378,12 +1436,13 @@
 		81C6CC892724769D00DE9219 /* MyLibraryTests */ = {
 			isa = PBXGroup;
 			children = (
-				812BA743278ED0AB009541E4 /* ConverterTestCase.swift */,
-				8138DDE32747869C00C355C6 /* FormatterTestCase.swift */,
-				812B16072771CC7600D65C6A /* NetworkConnectivityTestCase.swift */,
 				81451DDA2770CB7A00F3C0C8 /* QueryserviceTestCase.swift */,
-				81B91846274BD2F200486176 /* ValidatorTestCase.swift */,
+				8125ADE6279ECAA500FB6725 /* Validation */,
 				8125AD79279956CC00FB6725 /* Alamofire */,
+				8125ADE3279ECA5D00FB6725 /* Connectivity */,
+				8125ADE4279ECA7700FB6725 /* Converter */,
+				8125ADE2279ECA4100FB6725 /* Factory */,
+				8125ADE5279ECA8A00FB6725 /* Formatter */,
 				81DE9C9F2733D3AC00FF81C2 /* Firebase */,
 				8125AD7C27996F0C00FB6725 /* Presenter */,
 			);
@@ -1418,7 +1477,8 @@
 				8183144B27931D1100351F88 /* NewBook */,
 				8125AD5C279945DF00FB6725 /* Onboarding */,
 				8157F5642782CC2A005F182A /* Search */,
-				8157F51F2780904F005F182A /* WelcomeFlow */,
+				8125ADDD279E9E5500FB6725 /* SetupAccount */,
+				8157F51F2780904F005F182A /* Welcome */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1882,7 +1942,7 @@
 				8121F0B1273B1515006EAA8D /* BookQuery.swift in Sources */,
 				81451DD72770C12400F3C0C8 /* QueryService.swift in Sources */,
 				8125ADCA279C61C900FB6725 /* ListRepresentable.swift in Sources */,
-				8125AD2F279880A400FB6725 /* WelcomeAccountPresenter.swift in Sources */,
+				8125AD2F279880A400FB6725 /* SetupAccountPresenter.swift in Sources */,
 				81DB8DF52752709600698B92 /* BookCardCommentView.swift in Sources */,
 				8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */,
 				81A6727427931BFC00298394 /* BookLibraryViewController.swift in Sources */,
@@ -1925,7 +1985,6 @@
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81A750A127900D2100CAC424 /* OnboardingViewController.swift in Sources */,
 				8157F4DA277AFAFA005F182A /* BookCardMainViewDelegate.swift in Sources */,
-				8125ADB0279B58D200FB6725 /* NewBookViewControllerDelegate.swift in Sources */,
 				8138DDE2274784D400C355C6 /* Formatter.swift in Sources */,
 				811C5C2A2797EAA8003D11BA /* CategoryPresenter.swift in Sources */,
 				81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */,
@@ -2010,6 +2069,7 @@
 				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				810A68C0278B0E0D00406342 /* EmptyStateViewDelegate.swift in Sources */,
+				8125ADE9279ECC7000FB6725 /* NewBookViewControllerDelegate.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
 				81A750A42790123400CAC424 /* OnboardingLayoutComposer.swift in Sources */,
@@ -2040,16 +2100,19 @@
 			files = (
 				8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */,
 				8125AD8127996FF400FB6725 /* LibraryServiceMock.swift in Sources */,
+				8125ADDF279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift in Sources */,
 				8125AD972799B58000FB6725 /* CommentPresenterTestCase.swift in Sources */,
 				8125AD7F27996F9E00FB6725 /* CategoryServiceMock.swift in Sources */,
 				8125AD8D279986C700FB6725 /* AccountServiceMock.swift in Sources */,
 				812B16082771CC7600D65C6A /* NetworkConnectivityTestCase.swift in Sources */,
+				8125ADDC279E8CD300FB6725 /* ApiManagerMockEmptyData.swift in Sources */,
 				81DE9CA12733D3E400FF81C2 /* UserServiceTestCase.swift in Sources */,
 				8125AD9F2799C33400FB6725 /* ApiManagerMockWithError.swift in Sources */,
 				8125AD7B2799570200FB6725 /* HomePresenterTestCase.swift in Sources */,
 				8125AD832799702B00FB6725 /* RecommendationServiceMock.swift in Sources */,
 				8125AD992799B66700FB6725 /* CommentServiceMock.swift in Sources */,
 				81242D52272D986100CB39B1 /* FakeData.swift in Sources */,
+				8125ADDA279E817200FB6725 /* NewCategoryTestCase.swift in Sources */,
 				81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */,
 				810123F227689DB000F86932 /* AccountServiceTestCase.swift in Sources */,
 				8125ADAF279B0C4900FB6725 /* NewBookPresenterTestCase.swift in Sources */,
@@ -2068,6 +2131,7 @@
 				8125AD8B2799862C00FB6725 /* ImageStorageServiceMock.swift in Sources */,
 				8125ADA9279AE53700FB6725 /* BookCardPresenterTestCase.swift in Sources */,
 				8125AD9D2799C12700FB6725 /* PresenterFakeData.swift in Sources */,
+				8125ADE1279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift in Sources */,
 				8125AD8527997C2F00FB6725 /* UserServiceMock.swift in Sources */,
 				8125AD9B2799BDC600FB6725 /* LibraryPresenterTestCase.swift in Sources */,
 				8125AD87279981DF00FB6725 /* Error.swift in Sources */,

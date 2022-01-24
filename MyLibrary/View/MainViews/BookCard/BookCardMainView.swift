@@ -107,14 +107,14 @@ class BookCardMainView: UIView {
     func configure(with data: BookCardRepresentable) {
         titleLabel.text = data.title
         authorLabel.text = data.authors
-        ratingView.rating = data.rating
+        ratingView.rating = data.rating ?? 0
         descriptionLabel.text = data.description
         bookDetailView.isbnView.infoLabel.text = data.isbn
         
         bookDetailView.languageView.infoLabel.text = data.language
         bookDetailView.publisherNameView.infoLabel.text = data.publisher
         bookDetailView.publishedDateView.infoLabel.text = data.publishedDate
-        bookDetailView.numberOfPageView.infoLabel.text = data.pages
+        bookDetailView.numberOfPageView.infoLabel.text = String(data.pages ?? 0)
         bookDetailView.priceView.infoLabel.text = data.price
         
         bookCover.getImage(for: data.image) { [weak self] image in

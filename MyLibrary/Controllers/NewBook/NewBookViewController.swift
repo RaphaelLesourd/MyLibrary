@@ -142,7 +142,7 @@ class NewBookViewController: UITableViewController {
     }
     
     private func presentListViewController(for listType: ListDataType, with selectedData: String?) {
-        let controller = factory.makeListViewController(for: listType,
+        let controller = factory.makeListVC(for: listType,
                                                            selectedData: selectedData,
                                                            newBookDelegate: self)
         navigationController?.show(controller, sender: nil)

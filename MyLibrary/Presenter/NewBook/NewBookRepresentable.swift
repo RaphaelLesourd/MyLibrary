@@ -6,13 +6,13 @@
 //
 
 struct NewBookRepresentable {
-    let title: String
-    let authors: String
-    let rating: Int
-    let publisher: String
-    let publishedDate: String
-    let price: String
-    let isbn: String
-    let pages: String
-    let coverImage:String
+    let title: String?
+    let authors: String?
+    let rating: Int?
+    let publisher: String?
+    let publishedDate: String?
+    let price: Double?
+    let isbn: String?
+    let pages: Int?
+    let coverImage:String?
 }
