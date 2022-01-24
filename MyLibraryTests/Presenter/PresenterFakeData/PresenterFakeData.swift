@@ -77,4 +77,8 @@ class PresenterFakeData {
                                      orderedBy: .category,
                                      fieldValue: "",
                                      descending: true)
+    
+    static let listData = ListRepresentable(title: "test",
+                                            subtitle: "XUA",
+                                            favorite: true)
 }

@@ -28,7 +28,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = languageTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        XCTAssertTrue(listPresenterViewSpy.reloadTableViewWasCalled)
+        XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
     }
     
     func test_getContollerTitle() {
@@ -36,13 +36,6 @@ class ListPresenterTestCase: XCTestCase {
         sut.view = listPresenterViewSpy
         sut.getControllerTitle()
         XCTAssertTrue(listPresenterViewSpy.setTitleWasCalled)
-    }
-    
-    func test_getSectionTitle() {
-        sut = languageTestPresenter
-        sut.view = listPresenterViewSpy
-        sut.getSectionTitle()
-        XCTAssertTrue(listPresenterViewSpy.setSectionTitleWasCalled)
     }
     
     func test_hightLightCell_whenLanguageDataReceived() {
@@ -63,11 +56,11 @@ class ListPresenterTestCase: XCTestCase {
         XCTAssertTrue(listPresenterViewSpy.highlightCellWasCalled)
     }
     
-    func test_sendLangugeData_whenCellSelected() {
+    func test_sendLanguageData_whenCellSelected() {
         sut = languageTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.getSelectedData(at: 0)
+        sut.getSelectedData(from: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setLanguageWasCalled)
     }
     
@@ -75,8 +68,15 @@ class ListPresenterTestCase: XCTestCase {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.getSelectedData(at: 0)
+        sut.getSelectedData(from: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setCurrencyWasCalled)
+    }
+    
+    func test_sendData_whenDataPAssedIsNil() {
+        sut = currencyTestPresenter
+        sut.view = listPresenterViewSpy
+        sut.getSelectedData(from: nil)
+        XCTAssertFalse(listPresenterViewSpy.setCurrencyWasCalled)
     }
     
     func test_filteringData_whenSearchIsEmpty() {
@@ -84,7 +84,7 @@ class ListPresenterTestCase: XCTestCase {
         sut.view = listPresenterViewSpy
         sut.getData()
         sut.filterList(with: "")
-        XCTAssertTrue(listPresenterViewSpy.reloadTableViewWasCalled)
+        XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
     }
     
     func test_filteringData_whenSearchHasKeyword() {
@@ -92,21 +92,21 @@ class ListPresenterTestCase: XCTestCase {
         sut.view = listPresenterViewSpy
         sut.getData()
         sut.filterList(with: "USD")
-        XCTAssertTrue(listPresenterViewSpy.reloadTableViewWasCalled)
+        XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
     }
     
     func test_getFavoritesList() {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getFavorites()
-        XCTAssertTrue(listPresenterViewSpy.reloadTableViewWasCalled)
+        XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
     }
     
     func test_addingDataToFavoriteList() {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.addToFavorite(for: 0)
+        sut.addToFavorite(with: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.reloadTableViewRowWasCalled)
     }
     
@@ -116,36 +116,34 @@ class ListPresenterTestCase: XCTestCase {
         sut.getData()
         print(sut.data[0])
         sut.favorites = ["XUA"]
-        sut.removeFavorite(at: 0)
+        sut.removeFavorite(with: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.reloadTableViewRowWasCalled)
     }
-    
 }
 
 class ListPresenterViewSpy: ListPresenterView {
     
     var setTitleWasCalled = false
-    var setSectionTitleWasCalled = false
     var highlightCellWasCalled = false
-    var reloadTableViewWasCalled = false
     var setLanguageWasCalled = false
     var setCurrencyWasCalled = false
     var reloadTableViewRowWasCalled = false
+    var applySnapshotWasCalled = false
     
     func setTitle(as title: String) {
         setTitleWasCalled = true
     }
-    
-    func setSectionTitle(as title: String) {
-        setSectionTitleWasCalled = true
-    }
-    
+   
     func highlightCell(at indexPath: IndexPath) {
         highlightCellWasCalled = true
     }
     
-    func reloadTableView() {
-        reloadTableViewWasCalled = true
+    func applySnapshot(animatingDifferences: Bool) {
+        applySnapshotWasCalled = true
+    }
+    
+    func reloadRow(for item: ListRepresentable) {
+        reloadTableViewRowWasCalled = true
     }
     
     func setLanguage(with code: String) {

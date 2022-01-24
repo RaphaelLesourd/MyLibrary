@@ -20,7 +20,7 @@ class ListPresenter {
     // MARK: - Properties
     weak var view: ListPresenterView?
     var data: [ListRepresentable] = []
-    var originalData: [ListRepresentable] = []
+    private(set) var originalData: [ListRepresentable] = []
     var receivedData: String?
     
     private let listDataType: ListDataType
