@@ -191,17 +191,15 @@ extension CommentsViewController {
         mainView.emptyStateView.isHidden = !presenter.commentList.isEmpty
         
         var snapshot = Snapshot()
-        snapshot.appendSections([.book])
+        snapshot.appendSections(CommentsSection.allCases)
         snapshot.appendItems([book], toSection: .book)
         
         let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendSections([.today])
         snapshot.appendItems(todayComments, toSection: .today)
         
         let pastComments = presenter.commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendSections([.past])
         snapshot.appendItems(pastComments, toSection: .past)
-        
+       
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -231,9 +229,7 @@ extension CommentsViewController: CommentsPresenterView {
     }
     
     func showActivityIndicator() {
-        DispatchQueue.main.async {
-            self.showIndicator(self.mainView.activityIndicator)
-        }
+        showIndicator(self.mainView.activityIndicator)
     }
     
     func stopActivityIndicator() {

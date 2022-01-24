@@ -78,10 +78,6 @@ class ListTableViewController: UITableViewController {
         return sectionTitleLabel
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
-    
     // Footer
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
@@ -151,11 +147,11 @@ extension ListTableViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.favorite, .others])
-        snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
-        snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            var snapshot = Snapshot()
+            snapshot.appendSections([.favorite, .others])
+            snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
+            snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
+            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 
@@ -170,7 +166,6 @@ extension ListTableViewController: UISearchResultsUpdating {
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
     func reloadRow(for item: ListRepresentable) {
-        dump(item)
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])
         dataSource.apply(snapshot)

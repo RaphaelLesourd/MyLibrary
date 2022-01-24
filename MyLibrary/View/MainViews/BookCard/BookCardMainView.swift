@@ -16,6 +16,7 @@ class BookCardMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addButtonActions()
+        setImageAnimation()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
         setBookCoverConstraints()
@@ -38,6 +39,7 @@ class BookCardMainView: UIView {
     let activityIndicator = UIActivityIndicatorView()
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
     let recommandButton = Button(title: "", icon: Images.ButtonIcon.done)
+    private let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
     
     let deleteBookButton: UIButton = {
         let button = UIButton()
@@ -120,7 +122,7 @@ class BookCardMainView: UIView {
         bookCover.getImage(for: model.image) { [weak self] image in
             self?.bookCover.image = image
             self?.backgroundImage.image = image
-            self?.animateBookImage()
+            self?.animator.startAnimation()
         }
     }
     
@@ -135,13 +137,11 @@ class BookCardMainView: UIView {
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
     
-    func animateBookImage() {
+    private func setImageAnimation() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.4, y: 1.4).translatedBy(x: 0, y: -20)
-        let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
         animator.addAnimations {
             self.backgroundImage.transform = transformation
         }
-        animator.startAnimation()
     }
     
     private func addButtonActions() {
@@ -168,6 +168,7 @@ class BookCardMainView: UIView {
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
         delegate?.showBookCover()
     }
+  
 }
 // MARK: - Constraints
 extension BookCardMainView {
@@ -206,8 +207,8 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
-            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4)
+            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.65),
+            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.45)
         ])
     }
     
@@ -241,7 +242,7 @@ extension BookCardMainView {
         mainStackView.setCustomSpacing(20, after: recommandButton)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
+            mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 40),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)

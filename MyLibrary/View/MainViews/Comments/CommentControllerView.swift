@@ -58,8 +58,9 @@ class CommentControllerView: UIView {
         tableView.register(CommentsBookCell.self, forCellReuseIdentifier: CommentsBookCell.reuseIdentifier)
         tableView.backgroundColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 500
+        tableView.estimatedRowHeight = 600
         tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = false
         tableView.allowsSelection = false

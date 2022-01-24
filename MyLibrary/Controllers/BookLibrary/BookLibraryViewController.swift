@@ -189,12 +189,14 @@ extension BookLibraryViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.collectionView.isHidden = presenter.bookList.isEmpty
-        mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(presenter.bookList, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        DispatchQueue.main.async {
+            self.mainView.collectionView.isHidden = self.presenter.bookList.isEmpty
+            self.mainView.emptyStateView.isHidden = !self.presenter.bookList.isEmpty
+            var snapshot = Snapshot()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(self.presenter.bookList, toSection: .main)
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
 }
 // MARK: - BookListLayout Delegate
@@ -244,8 +246,10 @@ extension BookLibraryViewController: LibraryPresenterView {
     }
     
     func stopActivityIndicator() {
-        hideIndicator(mainView.activityIndicator)
-        mainView.refresherControl.endRefreshing()
-        mainView.footerView.displayActivityIndicator(false)
+        DispatchQueue.main.async {
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
+            self.mainView.footerView.displayActivityIndicator(false)
+        }
     }
 }
