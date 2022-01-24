@@ -76,10 +76,13 @@ class NewBookControllerSubViews {
         ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating ?? 0
         publisherCell.textField.text = model.publisher
         publishDateCell.textField.text = model.publishedDate
-        purchasePriceCell.textField.text = String(model.price ?? 0)
         isbnCell.textField.text = model.isbn
-        numberOfPagesCell.textField.text = String(model.pages ?? 0)
-       
+        if let price = model.price {
+            purchasePriceCell.textField.text = String(price)
+        }
+        if let pages = model.pages {
+            numberOfPagesCell.textField.text = String(pages)
+        }
         bookImageCell.pictureView.getImage(for: model.coverImage) { [weak self] image in
             self?.bookImageCell.pictureView.image = image
         }

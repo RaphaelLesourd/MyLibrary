@@ -104,20 +104,20 @@ class BookCardMainView: UIView {
                                           spacing: 40)
     
     // MARK: - Configure
-    func configure(with data: BookCardRepresentable) {
-        titleLabel.text = data.title
-        authorLabel.text = data.authors
-        ratingView.rating = data.rating ?? 0
-        descriptionLabel.text = data.description
-        bookDetailView.isbnView.infoLabel.text = data.isbn
-        
-        bookDetailView.languageView.infoLabel.text = data.language
-        bookDetailView.publisherNameView.infoLabel.text = data.publisher
-        bookDetailView.publishedDateView.infoLabel.text = data.publishedDate
-        bookDetailView.numberOfPageView.infoLabel.text = String(data.pages ?? 0)
-        bookDetailView.priceView.infoLabel.text = data.price
-        
-        bookCover.getImage(for: data.image) { [weak self] image in
+    func configure(with model: BookCardRepresentable) {
+        titleLabel.text = model.title
+        authorLabel.text = model.authors
+        ratingView.rating = model.rating ?? 0
+        descriptionLabel.text = model.description
+        bookDetailView.isbnView.infoLabel.text = model.isbn
+        bookDetailView.languageView.infoLabel.text = model.language
+        bookDetailView.publisherNameView.infoLabel.text = model.publisher
+        bookDetailView.publishedDateView.infoLabel.text = model.publishedDate
+        bookDetailView.priceView.infoLabel.text = model.price
+        if let pages = model.pages {
+            bookDetailView.numberOfPageView.infoLabel.text = String(pages)
+        }
+        bookCover.getImage(for: model.image) { [weak self] image in
             self?.bookCover.image = image
             self?.backgroundImage.image = image
             self?.animateBookImage()
