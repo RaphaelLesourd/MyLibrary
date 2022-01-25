@@ -126,7 +126,7 @@ class NewBookViewController: UITableViewController {
         let categoryListVC = factory.makeCategoryVC(settingCategory: true,
                                                     bookCategories: presenter.bookCategories,
                                                     newBookDelegate: self)
-        navigationController?.show(categoryListVC, sender: nil)
+        showController(categoryListVC)
     }
     
     private func presentDescriptionVC() {

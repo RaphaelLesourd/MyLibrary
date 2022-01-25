@@ -103,8 +103,8 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func showAccountController() {
-        let accountVC = UINavigationController(rootViewController: factory.makeAccountTabVC())
-        present(accountVC, animated: true, completion: nil)
+        let accountVC = factory.makeAccountTabVC()
+        showController(accountVC)
     }
     
    private func showBookDetails(for book: Item) {

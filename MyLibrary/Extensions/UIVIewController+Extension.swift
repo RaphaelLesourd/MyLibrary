@@ -28,7 +28,7 @@ extension UIViewController {
         }
         let controllerWithNav = UINavigationController(rootViewController: controller)
         if #available(iOS 15.0, *) {
-            presentSheetController(controllerWithNav, detents: [.medium()])
+            presentSheetController(controllerWithNav, detents: [.large()])
         } else {
             present(controllerWithNav, animated: true, completion: nil)
         }
