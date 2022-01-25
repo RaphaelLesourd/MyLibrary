@@ -51,6 +51,13 @@ class ListTableViewController: UITableViewController {
         tableView.allowsSelection = true
         tableView.showsVerticalScrollIndicator = true
         tableView.backgroundColor = .viewControllerBackgroundColor
+        tableView.sectionHeaderHeight = 30
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 30
+            tableView.sectionFooterHeight = 20
+        } else {
+            tableView.sectionFooterHeight = 50
+        }
         tableView.dataSource = dataSource
     }
     
@@ -72,7 +79,7 @@ class ListTableViewController: UITableViewController {
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 1,
                                           alignment: .center,
-                                          font: .footerLabel)
+                                          font: .lightSectionTitle)
         sectionTitleLabel.text = section.headerTitle
         return sectionTitleLabel
     }
@@ -83,15 +90,9 @@ class ListTableViewController: UITableViewController {
         let sectionFooterLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 2,
                                           alignment: .center,
-                                          font: .footerLabel)
-        if section == .others {
-            sectionFooterLabel.text = Text.SectionTitle.listFooter
-        }
+                                          font: .lightFootnote)
+        sectionFooterLabel.text = section.footerTitle
         return sectionFooterLabel
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 50
     }
     
     // MARK: - Table view delegate

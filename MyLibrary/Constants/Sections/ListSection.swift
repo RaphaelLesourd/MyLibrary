@@ -17,4 +17,13 @@ enum ListSection: Int, CaseIterable {
             return "OTHERS".uppercased()
         }
     }
+    
+    var footerTitle: String {
+        switch self {
+        case .favorite:
+            return "Swipe left to remove from favorite"
+        case .others:
+            return Text.SectionTitle.listFooter
+        }
+    }
 }
