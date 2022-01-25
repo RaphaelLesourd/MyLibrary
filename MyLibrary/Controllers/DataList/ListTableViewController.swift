@@ -17,7 +17,6 @@ class ListTableViewController: UITableViewController {
     private lazy var dataSource = makeDataSource()
     private let searchController = UISearchController(searchResultsController: nil)
     private let presenter: ListPresenter
-    private var sectionTitle = String()
     
     // MARK: - Initializer
     init(receivedData: String?,
@@ -98,18 +97,20 @@ class ListTableViewController: UITableViewController {
     // Swipe menu
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let data = dataSource.itemIdentifier(for: indexPath) else { return nil }
-        
+        UISwipeActionsConfiguration(actions: [makeFavoriteContextualAction(forRowAt: indexPath)])
+    }
+    
+    private func makeFavoriteContextualAction(forRowAt indexPath: IndexPath) -> UIContextualAction {
+        guard let data = dataSource.itemIdentifier(for: indexPath) else {
+            return UIContextualAction()
+        }
         let action = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
             data.favorite ? self?.presenter.removeFavorite(with: data) : self?.presenter.addToFavorite(with: data)
             completion(true)
         }
         action.backgroundColor = .favoriteColor
         action.image = data.favorite ? Images.ButtonIcon.favoriteNot : Images.ButtonIcon.favorite
-       
-        let configuration = UISwipeActionsConfiguration(actions: [action])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
+        return action
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

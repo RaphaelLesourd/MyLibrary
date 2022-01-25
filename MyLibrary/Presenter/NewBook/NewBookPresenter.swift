@@ -7,8 +7,8 @@
 import Foundation
 
 protocol NewBookPresenterView: AnyObject {
-    func showSaveButtonActicityIndicator(_ show: Bool)
-    func returnToPreviousController()
+    func showSaveButtonActivityIndicator(_ show: Bool)
+    func returnToPreviousVC()
     func displayBook(with model: NewBookRepresentable)
     func updateLanguageView(with language: String)
     func updateCurrencyView(with currency: String)
@@ -43,18 +43,18 @@ class NewBookPresenter {
     
     func saveBook(with imageData: Data) {
         guard let book = createBookDocument(from: mainView) else { return }
-        view?.showSaveButtonActicityIndicator(true)
+        view?.showSaveButtonActivityIndicator(true)
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
             
-            self.view?.showSaveButtonActicityIndicator(false)
+            self.view?.showSaveButtonActivityIndicator(false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
-            self.isEditing ? self.view?.returnToPreviousController() : self.view?.clearData()
+            self.isEditing ? self.view?.returnToPreviousVC() : self.view?.clearData()
         }
     }
     

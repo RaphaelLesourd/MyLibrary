@@ -22,6 +22,7 @@
 		810D7FA3275625F40043280E /* CommentsBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA2275625F40043280E /* CommentsBookCell.swift */; };
 		810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA527577F790043280E /* CommentServiceTestCase.swift */; };
 		810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA72757AB320043280E /* EmptyStateView.swift */; };
+		811405D127A0381E00A18059 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811405D027A0381E00A18059 /* OnboardingPresenter.swift */; };
 		811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F4274E1F670051059C /* NetworkConnectivity.swift */; };
 		811C5C20279711F5003D11BA /* LibraryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C1F279711F5003D11BA /* LibraryPresenter.swift */; };
 		811C5C2227971BEA003D11BA /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2127971BEA003D11BA /* HomePresenter.swift */; };
@@ -311,6 +312,7 @@
 		810D7FA2275625F40043280E /* CommentsBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsBookCell.swift; sourceTree = "<group>"; };
 		810D7FA527577F790043280E /* CommentServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceTestCase.swift; sourceTree = "<group>"; };
 		810D7FA72757AB320043280E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		811405D027A0381E00A18059 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
 		811C5C1F279711F5003D11BA /* LibraryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenter.swift; sourceTree = "<group>"; };
 		811C5C2127971BEA003D11BA /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -605,6 +607,14 @@
 			path = EmptyStateView;
 			sourceTree = "<group>";
 		};
+		811405CF27A0380700A18059 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				811405D027A0381E00A18059 /* OnboardingPresenter.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		811713F3274D6B5D0051059C /* Layout */ = {
 			isa = PBXGroup;
 			children = (
@@ -684,6 +694,7 @@
 				8125ADD0279C6B1100FB6725 /* Home */,
 				8125ADB6279C018F00FB6725 /* NewBook */,
 				8125ADD2279C6B5C00FB6725 /* NewCategory */,
+				811405CF27A0380700A18059 /* Onboarding */,
 				8125ADD3279C6B6B00FB6725 /* Search */,
 				8125ADD4279C6B7700FB6725 /* SetupAccount */,
 			);
@@ -1985,6 +1996,7 @@
 				81DB8DFD275399C400698B92 /* CommentService.swift in Sources */,
 				8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */,
 				8125ADA7279AA37800FB6725 /* BookCardPresenter.swift in Sources */,
+				811405D127A0381E00A18059 /* OnboardingPresenter.swift in Sources */,
 				8183145027931D2F00351F88 /* NewBookViewController.swift in Sources */,
 				81C6CCC827247A7000DE9219 /* HeaderSupplementaryView.swift in Sources */,
 				81A750A127900D2100CAC424 /* OnboardingViewController.swift in Sources */,

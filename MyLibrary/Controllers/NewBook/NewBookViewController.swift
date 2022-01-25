@@ -73,7 +73,7 @@ class NewBookViewController: UITableViewController {
         let scannerButton = UIBarButtonItem(image: Images.NavIcon.scanBarcode,
                                             style: .plain,
                                             target: self,
-                                            action: #selector(showScannerController))
+                                            action: #selector(presentBarcodeScannerVC))
         let activityIndicactorButton = UIBarButtonItem(customView: subViews.activityIndicator)
         navigationItem.rightBarButtonItems = isEditingBook ? [activityIndicactorButton] : [scannerButton, activityIndicactorButton]
     }
@@ -107,13 +107,13 @@ class NewBookViewController: UITableViewController {
     }
     
     // MARK: - Navigation
-    @objc func returnToPreviousController() {
+    @objc func returnToPreviousVC() {
         bookCardDelegate?.fetchBookUpdate()
         clearData()
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func showScannerController() {
+    @objc private func presentBarcodeScannerVC() {
         let barcodeScannerVC = factory.makeBarcodeScannerVC(delegate: self)
         if #available(iOS 15.0, *) {
             presentSheetController(barcodeScannerVC, detents: [.medium()])
@@ -122,20 +122,20 @@ class NewBookViewController: UITableViewController {
         }
     }
     
-    private func showCategoryList() {
+    private func presentCategoryListVC() {
         let categoryListVC = factory.makeCategoryVC(settingCategory: true,
                                                     bookCategories: presenter.bookCategories,
                                                     newBookDelegate: self)
         navigationController?.show(categoryListVC, sender: nil)
     }
     
-    private func presentDescriptionController() {
+    private func presentDescriptionVC() {
         let descriptionVC = factory.makeBookDescriptionVC(description: presenter.bookDescription,
                                                                       newBookDelegate: self)
         showController(descriptionVC)
     }
     
-    private func presentListViewController(for listType: ListDataType, with selectedData: String?) {
+    private func presentListViewVC(for listType: ListDataType, with selectedData: String?) {
         let listViewController = factory.makeListVC(for: listType,
                                                            selectedData: selectedData,
                                                            newBookDelegate: self)
@@ -208,7 +208,7 @@ extension NewBookViewController: NewBookViewControllerDelegate {
         presenter.setBookCurrency(with: code)
     }
     
-    func displayBook(for item: Item?) {
+    func setBookData(with item: Item?) {
         clearData()
         presenter.book = item
         presenter.setBookData()
@@ -229,7 +229,7 @@ extension NewBookViewController: NewBookPresenterView {
         subViews.configure(with: model)
     }
     
-    func showSaveButtonActicityIndicator(_ show: Bool) {
+    func showSaveButtonActivityIndicator(_ show: Bool) {
         subViews.saveButtonCell.actionButton.displayActivityIndicator(show)
     }
 }
@@ -286,13 +286,13 @@ extension NewBookViewController {
         case (0, 0):
             imagePicker?.present(from: subViews.bookImageCell.pictureView)
         case (2, 0):
-            showCategoryList()
+            presentCategoryListVC()
         case (4, 0):
-            presentDescriptionController()
+            presentDescriptionVC()
         case (5,0):
-            presentListViewController(for: .languages, with: presenter.language)
+            presentListViewVC(for: .languages, with: presenter.language)
         case (7,1):
-            presentListViewController(for: .currency, with: presenter.currency)
+            presentListViewVC(for: .currency, with: presenter.currency)
         default:
             return
         }

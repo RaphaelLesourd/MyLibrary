@@ -8,7 +8,7 @@
 protocol NewBookViewControllerDelegate: AnyObject {
     func setDescription(with text: String)
     func setCategories(with list: [String])
-    func displayBook(for item: Item?)
+    func setBookData(with item: Item?)
     func setLanguage(with code: String?)
     func setCurrency(with code: String?)
 }

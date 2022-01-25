@@ -159,14 +159,15 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     // Context menu
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
-        let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = makeContextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
+        let editAction = makeContextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: CellSwipeActionType,
-                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func makeContextMenuAction(for actionType: CellSwipeActionType,
+                                       forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             self?.presenter.presentSwipeAction(for: actionType, at: indexPath.row)
             completion(true)

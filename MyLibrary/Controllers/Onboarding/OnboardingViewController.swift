@@ -12,23 +12,13 @@ class OnboardingViewController: UIViewController {
     // MARK: - Properties
     private let layoutComposer: OnboardingLayoutComposer
     private let mainView = OnboardingMainView()
-    private let onboardingData: [Onboarding] = [Onboarding(image: Images.Onboarding.referencing,
-                                                           title: Text.Onboarding.referenceBookTitle,
-                                                           subtitle: Text.Onboarding.referenceBookSubtitle),
-                                                Onboarding(image: Images.Onboarding.searching,
-                                                           title: Text.Onboarding.searchBookTitle,
-                                                           subtitle: Text.Onboarding.searchBookSubtitle),
-                                                Onboarding(image: Images.Onboarding.sharing,
-                                                           title: Text.Onboarding.shareBookTitle,
-                                                           subtitle: Text.Onboarding.shareBookSubtitle)]
-    private var collectionViewCurrentIndex = 0 {
-        didSet {
-            updatePageNumber(with: collectionViewCurrentIndex)
-        }
-    }
+    private let presenter: OnboardingPresenter
+    
     // MARK: - Intializer
-    init(layoutComposer: OnboardingLayoutComposer) {
+    init(layoutComposer: OnboardingLayoutComposer,
+         presenter: OnboardingPresenter) {
         self.layoutComposer = layoutComposer
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,6 +33,7 @@ class OnboardingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.view = self
         mainView.delegate = self
         configurePageControl()
         configureCollectionView()
@@ -50,7 +41,6 @@ class OnboardingViewController: UIViewController {
     
     // MARK: - Setup
     private func configureCollectionView() {
-        mainView.collectionView.register(cell: OnboardingCollectionViewCell.self)
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         
@@ -60,34 +50,24 @@ class OnboardingViewController: UIViewController {
     }
     
     private func configurePageControl() {
-        mainView.pageControl.numberOfPages = onboardingData.count
-    }
-    
-    // MARK: - Update
-    private func updatePageNumber(with index: Int) {
-        let lastPageReached = index == onboardingData.count - 1
-        mainView.onboardingCompleted(lastPageReached)
-    }
-    
-    private func presentWelcomeViewController() {
-        UserDefaults.standard.set(true, forKey: UserDefaultKey.onboardingSeen.rawValue)
-        self.modalTransitionStyle = .crossDissolve
-        dismiss(animated: true)
+        mainView.pageControl.numberOfPages = presenter.onboardingData.count
     }
 }
+
 // MARK: - CollectionView Datasource
 extension OnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return onboardingData.count
+        return presenter.onboardingData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: OnboardingCollectionViewCell = collectionView.dequeue(for: indexPath)
-        let model = onboardingData[indexPath.item]
+        let model = presenter.onboardingData[indexPath.item]
         cell.configure(with: model)
         return cell
     }
 }
+
 // MARK: - CollectionView Delegate
 extension OnboardingViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
@@ -96,24 +76,34 @@ extension OnboardingViewController: UICollectionViewDelegate {
         guard let visible = collectionView.visibleCells.first else { return }
         guard let index = collectionView.indexPath(for: visible)?.row else { return }
         mainView.pageControl.currentPage = index
-        collectionViewCurrentIndex = index
+        presenter.collectionViewCurrentIndex = index
     }
 }
+
 // MARK: - OnboardingView Delegate
 extension OnboardingViewController: OnboardingMainViewDelegate {
     func skip() {
-        presentWelcomeViewController()
+        presentWelcomeVC()
     }
     
     func next() {
-        if collectionViewCurrentIndex < onboardingData.count - 1 {
-            collectionViewCurrentIndex += 1
-            let indexPath = IndexPath(item: collectionViewCurrentIndex, section: 0)
-            mainView.collectionView.scrollToItem(at: indexPath,
-                                                 at: .centeredHorizontally,
-                                                 animated: true)
-        } else {
-            presentWelcomeViewController()
-        }
+        presenter.nextButtonTapped()
+    }
+}
+
+extension OnboardingViewController: OnboardingPresenterView {
+    func setLastPageReached(_ lastPage: Bool) {
+        mainView.onboardingCompleted(lastPage)
+    }
+    
+    func scrollCollectionView(to indexPath: IndexPath) {
+        mainView.collectionView.scrollToItem(at: indexPath,
+                                             at: .centeredHorizontally,
+                                             animated: true)
+    }
+    
+    func presentWelcomeVC() {
+        self.modalTransitionStyle = .crossDissolve
+        dismiss(animated: true)
     }
 }

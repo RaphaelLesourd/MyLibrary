@@ -51,10 +51,12 @@ class ViewControllerFactory {
                                                          formatter: formatter,
                                                          converter: converter,
                                                          validator: validation)
+    private let onboardingPresenter = OnboardingPresenter()
     
     // MARK: Layout
     private let bookListLayout = BookListLayout()
     private let homeTabLayout = HomeTabLayout()
+    private let onboardingLayout = OnboardingLayout()
     
     private func makeResultViewController() -> SearchViewController {
         SearchViewController(presenter: SearchPresenter(apiManager: apiManager),
@@ -145,5 +147,9 @@ extension ViewControllerFactory: Factory {
     
     func makeBarcodeScannerVC(delegate: BarcodeScannerDelegate?) -> UIViewController {
         return BarcodeScanViewController(barcodeDelegate: delegate)
+    }
+    
+    func makeOnboardingVC() -> UIViewController {
+        return OnboardingViewController(layoutComposer: onboardingLayout, presenter: onboardingPresenter)
     }
 }

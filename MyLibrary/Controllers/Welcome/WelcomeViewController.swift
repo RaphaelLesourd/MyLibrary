@@ -37,7 +37,7 @@ class WelcomeViewController: UIViewController {
         super.viewDidAppear(animated)
         let onboardingShown = UserDefaults.standard.bool(forKey: UserDefaultKey.onboardingSeen.rawValue)
         guard onboardingShown == false else { return }
-        let onboardingViewController = OnboardingViewController(layoutComposer: OnboardingLayout())
+        let onboardingViewController = factory.makeOnboardingVC()
         onboardingViewController.modalPresentationStyle = .fullScreen
         present(onboardingViewController, animated: false, completion: nil)
     }

@@ -138,7 +138,7 @@ extension SearchViewController: UICollectionViewDelegate {
     /// via delgate patern protocol.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        newBookDelegate?.displayBook(for: searchBook)
+        newBookDelegate?.setBookData(with: searchBook)
     }
 }
 // MARK: - BookListView Delegate
@@ -151,7 +151,7 @@ extension SearchViewController: BookListViewDelegate {
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
     func displayBookFromBarCodeSearch(with book: Item?) {
-        newBookDelegate?.displayBook(for: book)
+        newBookDelegate?.setBookData(with: book)
     }
     
     func showActivityIndicator() {

@@ -38,4 +38,5 @@ protocol Factory {
                     newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     
     func makeBarcodeScannerVC(delegate: BarcodeScannerDelegate?) -> UIViewController
+    func makeOnboardingVC() -> UIViewController 
 }

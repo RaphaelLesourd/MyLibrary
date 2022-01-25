@@ -27,6 +27,7 @@ class OnboardingMainView: UIView {
     // MARK: - Subviews
     let collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        collection.register(cell: OnboardingCollectionViewCell.self)
         collection.alwaysBounceHorizontal = true
         collection.backgroundColor = .clear
         collection.showsHorizontalScrollIndicator = false
