@@ -23,6 +23,7 @@
 		810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA527577F790043280E /* CommentServiceTestCase.swift */; };
 		810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA72757AB320043280E /* EmptyStateView.swift */; };
 		811405D127A0381E00A18059 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811405D027A0381E00A18059 /* OnboardingPresenter.swift */; };
+		811405D427A03AE100A18059 /* OnboardingPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811405D327A03AE100A18059 /* OnboardingPresenterTestCase.swift */; };
 		811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F4274E1F670051059C /* NetworkConnectivity.swift */; };
 		811C5C20279711F5003D11BA /* LibraryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C1F279711F5003D11BA /* LibraryPresenter.swift */; };
 		811C5C2227971BEA003D11BA /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2127971BEA003D11BA /* HomePresenter.swift */; };
@@ -313,6 +314,7 @@
 		810D7FA527577F790043280E /* CommentServiceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentServiceTestCase.swift; sourceTree = "<group>"; };
 		810D7FA72757AB320043280E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		811405D027A0381E00A18059 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
+		811405D327A03AE100A18059 /* OnboardingPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenterTestCase.swift; sourceTree = "<group>"; };
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
 		811C5C1F279711F5003D11BA /* LibraryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenter.swift; sourceTree = "<group>"; };
 		811C5C2127971BEA003D11BA /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 				8125ADD7279DB4FC00FB6725 /* ListPresenterTestCase.swift */,
 				8125ADAE279B0C4900FB6725 /* NewBookPresenterTestCase.swift */,
 				8125ADD9279E817200FB6725 /* NewCategoryTestCase.swift */,
+				811405D327A03AE100A18059 /* OnboardingPresenterTestCase.swift */,
 				811C5C3027982339003D11BA /* SearchPresenterTestCase.swift */,
 				8125ADDE279E9E9600FB6725 /* SetupAccountPresenterTestCase.swift */,
 			);
@@ -2147,6 +2150,7 @@
 				8125AD8B2799862C00FB6725 /* ImageStorageServiceMock.swift in Sources */,
 				8125ADA9279AE53700FB6725 /* BookCardPresenterTestCase.swift in Sources */,
 				8125AD9D2799C12700FB6725 /* PresenterFakeData.swift in Sources */,
+				811405D427A03AE100A18059 /* OnboardingPresenterTestCase.swift in Sources */,
 				8125ADE1279EC3C900FB6725 /* ViewControllerFactoryTestCase.swift in Sources */,
 				8125AD8527997C2F00FB6725 /* UserServiceMock.swift in Sources */,
 				8125AD9B2799BDC600FB6725 /* LibraryPresenterTestCase.swift in Sources */,
