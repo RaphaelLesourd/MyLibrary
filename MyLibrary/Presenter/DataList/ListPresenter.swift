@@ -56,8 +56,8 @@ class ListPresenter {
     
     // MARK: Send selected data
     func getSelectedData(from data: ListRepresentable?) {
-        receivedData = data?.subtitle
         guard let data = data else { return }
+        receivedData = nil
         switch listDataType {
         case .languages:
             view?.setLanguage(with: data.subtitle)

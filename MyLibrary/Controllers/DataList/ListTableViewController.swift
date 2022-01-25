@@ -49,15 +49,14 @@ class ListTableViewController: UITableViewController {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         tableView.allowsSelection = true
+        tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = true
         tableView.backgroundColor = .viewControllerBackgroundColor
         tableView.sectionHeaderHeight = 30
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 30
-            tableView.sectionFooterHeight = 20
-        } else {
-            tableView.sectionFooterHeight = 50
         }
+        tableView.sectionFooterHeight = 30
         tableView.dataSource = dataSource
     }
     
@@ -96,17 +95,10 @@ class ListTableViewController: UITableViewController {
     }
     
     // MARK: - Table view delegate
-    // Context menu
+    // Swipe menu
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let favorite = self.contextMenuAction(forRowAtIndexPath: indexPath)
-        return UISwipeActionsConfiguration(actions: [favorite])
-    }
-    
-    private func contextMenuAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-        guard let data = dataSource.itemIdentifier(for: indexPath) else {
-            return UIContextualAction()
-        }
+        guard let data = dataSource.itemIdentifier(for: indexPath) else { return nil }
         
         let action = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
             data.favorite ? self?.presenter.removeFavorite(with: data) : self?.presenter.addToFavorite(with: data)
@@ -114,7 +106,10 @@ class ListTableViewController: UITableViewController {
         }
         action.backgroundColor = .favoriteColor
         action.image = data.favorite ? Images.ButtonIcon.favoriteNot : Images.ButtonIcon.favorite
-        return action
+       
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -147,12 +142,13 @@ extension ListTableViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-            var snapshot = Snapshot()
-            snapshot.appendSections([.favorite, .others])
-            snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
-            snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
-            dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-            presenter.highlightCell()
+        var snapshot = Snapshot()
+        snapshot.appendSections([.favorite, .others])
+        snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
+        snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
+        
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        presenter.highlightCell()
     }
 }
 
@@ -188,7 +184,7 @@ extension ListTableViewController: ListPresenterView {
     func highlightCell(for item: ListRepresentable) {
         guard let section = dataSource.snapshot().sectionIdentifier(containingItem: item),
               let index = dataSource.snapshot().indexOfItem(item) else { return }
-        let indexPath = IndexPath(row: index, section: section.rawValue)
+        let indexPath = IndexPath(row: index, section: section.tag)
         DispatchQueue.main.async {
             self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
         }

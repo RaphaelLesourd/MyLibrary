@@ -21,9 +21,18 @@ enum ListSection: Int, CaseIterable {
     var footerTitle: String {
         switch self {
         case .favorite:
-            return "Swipe left to remove from favorite"
+            return ""
         case .others:
             return Text.SectionTitle.listFooter
+        }
+    }
+    
+    var tag: Int {
+        switch self {
+        case .favorite:
+            return 0
+        case .others:
+            return 1
         }
     }
 }
