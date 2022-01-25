@@ -11,7 +11,17 @@ class WelcomeViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = WelcomeControllerMainView()
+    private let factory: Factory
     
+    // MARK: - Initializer
+    init(factory: Factory) {
+        self.factory = factory
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Lifecycle
     override func loadView() {
         view = mainView
@@ -35,13 +45,7 @@ class WelcomeViewController: UIViewController {
 // MARK: - WelcomeMainView Delegate
 extension WelcomeViewController: WelcomeViewDelegate {
     func presentAccountViewController(for type: AccountInterfaceType) {
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        let welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
-                                                              validation: Validator())
-        let accountSetupController = AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                                                interfaceType: type)
+        let accountSetupController = factory.makeAccountSetupVC(for: type)
         if #available(iOS 15.0, *) {
             presentSheetController(accountSetupController, detents: [.large()])
         } else {

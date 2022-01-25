@@ -11,9 +11,12 @@ class IpadSplitViewController: UISplitViewController {
 
     // MARK: - Properties
    
-    private let factory = ViewControllerFactory()
-    // MARK: - Initializers
-    override init(style: UISplitViewController.Style) {
+    private let factory: Factory
+    
+    // MARK: - Initializer
+    init(style: UISplitViewController.Style,
+         factory: Factory) {
+        self.factory = factory
         super.init(style: style)
         showsSecondaryOnlyButton = true
     }
@@ -30,7 +33,7 @@ class IpadSplitViewController: UISplitViewController {
     
     // MARK: - Setup
     private func setViewControllers() {
-        let tabBarController = TabBarController()
+        let tabBarController = TabBarController(factory: factory)
         let homeViewController = factory.makeHomeTabVC()
         let newBookViewController = factory.makeNewBookVC(with: nil, isEditing: false, bookCardDelegate: nil)
         newBookViewController.title = Text.ControllerTitle.newBook
