@@ -32,6 +32,7 @@ class ListPresenter {
          formatter: Formatter) {
         self.listDataType = listDataType
         self.formatter = formatter
+        getFavorites()
     }
     
     // MARK: - Public functions
@@ -45,7 +46,7 @@ class ListPresenter {
     func getControllerTitle() {
         view?.setTitle(as: listDataType.title)
     }
-   
+    
     // MARK: Hightlight book data
     func highlightCell() {
         if let index = data.firstIndex(where: { $0.subtitle.lowercased() == receivedData?.lowercased() }) {
@@ -80,12 +81,6 @@ class ListPresenter {
     }
     
     // MARK: Favorite
-    func getFavorites() {
-        if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
-            favorites = data
-        }
-    }
-    
     func addToFavorite(with data: ListRepresentable) {
         favorites.append(data.subtitle)
         saveFavorites()
@@ -112,6 +107,12 @@ class ListPresenter {
             !$0.title.isEmpty
         })
         return data
+    }
+    
+    private func getFavorites() {
+        if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
+            favorites = data
+        }
     }
     
     private func saveFavorites() {

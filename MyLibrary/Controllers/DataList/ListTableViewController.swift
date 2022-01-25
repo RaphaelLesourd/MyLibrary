@@ -41,7 +41,6 @@ class ListTableViewController: UITableViewController {
         applySnapshot(animatingDifferences: false)
         presenter.view = self
         presenter.getControllerTitle()
-        presenter.getFavorites()
         presenter.getData()
     }
     

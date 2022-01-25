@@ -81,4 +81,9 @@ class ViewControllerFactoryTestCase: XCTestCase {
         let controller = sut.makeListVC(for: .currency, selectedData: nil, newBookDelegate: nil)
         XCTAssertTrue(controller is ListTableViewController)
     }
+    
+    func test_makeBarcodeScannVc() {
+        let controller = sut.makeBarcodeScannerVC(delegate: nil)
+        XCTAssertTrue(controller is BarcodeScanViewController)
+    }
 }

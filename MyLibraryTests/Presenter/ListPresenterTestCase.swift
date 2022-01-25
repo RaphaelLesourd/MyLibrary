@@ -94,14 +94,7 @@ class ListPresenterTestCase: XCTestCase {
         sut.filterList(with: "USD")
         XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
     }
-    
-    func test_getFavoritesList() {
-        sut = currencyTestPresenter
-        sut.view = listPresenterViewSpy
-        sut.getFavorites()
-        XCTAssertTrue(listPresenterViewSpy.applySnapshotWasCalled)
-    }
-    
+
     func test_addingDataToFavoriteList() {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
@@ -122,7 +115,7 @@ class ListPresenterTestCase: XCTestCase {
 }
 
 class ListPresenterViewSpy: ListPresenterView {
-    
+   
     var setTitleWasCalled = false
     var highlightCellWasCalled = false
     var setLanguageWasCalled = false
@@ -134,10 +127,6 @@ class ListPresenterViewSpy: ListPresenterView {
         setTitleWasCalled = true
     }
    
-    func highlightCell(at indexPath: IndexPath) {
-        highlightCellWasCalled = true
-    }
-    
     func applySnapshot(animatingDifferences: Bool) {
         applySnapshotWasCalled = true
     }
@@ -156,5 +145,9 @@ class ListPresenterViewSpy: ListPresenterView {
     
     func reloadTableViewRow(at indexPath: IndexPath) {
         reloadTableViewRowWasCalled = true
+    }
+    
+    func highlightCell(for item: ListRepresentable) {
+        highlightCellWasCalled = true
     }
 }

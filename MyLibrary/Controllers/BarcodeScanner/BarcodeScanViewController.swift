@@ -46,12 +46,10 @@ class BarcodeScanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.delegate = self
         barcodeCapture = BarcodeReader(presentationController: self,
                                        delegate: self,
                                        permissions: PermissionManager())
-        mainView.flashLightButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.flashLightIsOn.toggle()
-        }), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,7 +87,7 @@ class BarcodeScanViewController: UIViewController {
     
 }
 
-// MARK: - Extension barcode capture delegate
+// MARK: - Barcode capture delegate
 extension BarcodeScanViewController: BarcodeReaderDelegate {
  
     func presentError(with error: BarcodeReaderError) {
@@ -102,5 +100,11 @@ extension BarcodeScanViewController: BarcodeReaderDelegate {
         guard let data = data else { return }
         barcodeDelegate?.processBarcode(with: data)
         dismissViewController()
+    }
+}
+// MARK: - Barcodescanner view delegate
+extension BarcodeScanViewController: BarcodeControllerViewDelegate {
+    func toggleFlashlight() {
+        flashLightIsOn.toggle()
     }
 }
