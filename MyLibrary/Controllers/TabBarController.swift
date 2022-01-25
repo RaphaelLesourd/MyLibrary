@@ -15,8 +15,8 @@ class TabBarController: UITabBarController {
     private let factory: Factory
     
     // MARK: - Initializer
-    init(factory: Factory) {
-        self.factory = factory
+    init() {
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     

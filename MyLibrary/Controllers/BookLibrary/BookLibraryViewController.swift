@@ -126,12 +126,7 @@ class BookLibraryViewController: UIViewController {
     func showBookDetails(for book: Item) {
         let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let viewController = UINavigationController(rootViewController: bookCardVC)
-            present(viewController, animated: true)
-        } else {
-            navigationController?.show(bookCardVC, sender: nil)
-        }
+        showController(bookCardVC)
     }
 }
 

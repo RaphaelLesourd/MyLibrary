@@ -36,4 +36,6 @@ protocol Factory {
     func makeListVC(for dataType: ListDataType,
                     selectedData: String?,
                     newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
+    
+    func makeBarcodeScannerVC(delegate: BarcodeScannerDelegate?) -> UIViewController
 }

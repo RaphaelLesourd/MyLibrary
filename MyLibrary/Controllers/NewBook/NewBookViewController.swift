@@ -114,12 +114,11 @@ class NewBookViewController: UITableViewController {
     }
     
     @objc private func showScannerController() {
-        let barcodeScannerController = BarcodeScanViewController()
-        barcodeScannerController.barcodeDelegate = self
+        let barcodeScannerVC = factory.makeBarcodeScannerVC(delegate: self)
         if #available(iOS 15.0, *) {
-            presentSheetController(barcodeScannerController, detents: [.medium()])
+            presentSheetController(barcodeScannerVC, detents: [.medium()])
         } else {
-            navigationController?.pushViewController(barcodeScannerController, animated: true)
+            navigationController?.pushViewController(barcodeScannerVC, animated: true)
         }
     }
     
@@ -131,21 +130,16 @@ class NewBookViewController: UITableViewController {
     }
     
     private func presentDescriptionController() {
-        let descriptionViewController = factory.makeBookDescriptionVC(description: presenter.bookDescription,
+        let descriptionVC = factory.makeBookDescriptionVC(description: presenter.bookDescription,
                                                                       newBookDelegate: self)
-        guard UIDevice.current.userInterfaceIdiom == .pad else {
-            navigationController?.show(descriptionViewController, sender: nil)
-            return
-        }
-        let descriptionVC = UINavigationController(rootViewController: descriptionViewController)
-        present(descriptionVC, animated: true, completion: nil)
+        showController(descriptionVC)
     }
     
     private func presentListViewController(for listType: ListDataType, with selectedData: String?) {
-        let controller = factory.makeListVC(for: listType,
+        let listViewController = factory.makeListVC(for: listType,
                                                            selectedData: selectedData,
                                                            newBookDelegate: self)
-        navigationController?.show(controller, sender: nil)
+        showController(listViewController)
     }
 }
 

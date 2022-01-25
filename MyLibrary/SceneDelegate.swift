@@ -29,15 +29,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.tintColor = .label
         
-        let factory = ViewControllerFactory()
         // Listens to user Auth state and route to proper ViewContoller accordingly
         handle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             if user != nil {
                 self?.notificationManager.registerNotifications()
-                self?.window?.rootViewController = IpadSplitViewController(style: .doubleColumn,
-                                                                           factory: factory)
+                self?.window?.rootViewController = IpadSplitViewController(style: .doubleColumn)
             } else {
-                self?.window?.rootViewController = WelcomeViewController(factory: factory)
+                self?.window?.rootViewController = WelcomeViewController()
             }
         }
         window?.makeKeyAndVisible()

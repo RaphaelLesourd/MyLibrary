@@ -23,6 +23,16 @@ class BarcodeScanViewController: UIViewController {
     }
     private var barcodeCapture: BarcodeReader?
     
+    // MARK: - Initializer
+    init(barcodeDelegate: BarcodeScannerDelegate?) {
+        self.barcodeDelegate = barcodeDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecyle
     override func loadView() {
         view = mainView

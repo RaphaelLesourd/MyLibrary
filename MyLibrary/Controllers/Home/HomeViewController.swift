@@ -99,12 +99,7 @@ class HomeViewController: UIViewController {
         let categoryListVC = factory.makeCategoryVC(settingCategory: false,
                                                     bookCategories: [],
                                                     newBookDelegate: nil)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let categoryVC = UINavigationController(rootViewController: categoryListVC)
-            present(categoryVC, animated: true, completion: nil)
-        } else {
-            navigationController?.show(categoryListVC, sender: nil)
-        }
+        showController(categoryListVC)
     }
     
     @objc private func showAccountController() {
@@ -115,12 +110,7 @@ class HomeViewController: UIViewController {
    private func showBookDetails(for book: Item) {
         let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let viewController = UINavigationController(rootViewController: bookCardVC)
-            present(viewController, animated: true)
-        } else {
-            navigationController?.show(bookCardVC, sender: nil)
-        }
+        showController(bookCardVC)
     }
 }
 

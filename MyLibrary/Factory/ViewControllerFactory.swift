@@ -142,4 +142,8 @@ extension ViewControllerFactory: Factory {
                                        newBookDelegate: newBookDelegate,
                                        presenter: presenter)
     }
+    
+    func makeBarcodeScannerVC(delegate: BarcodeScannerDelegate?) -> UIViewController {
+        return BarcodeScanViewController(barcodeDelegate: delegate)
+    }
 }
