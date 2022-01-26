@@ -180,8 +180,8 @@ enum Text {
         static let emailExist = NSLocalizedString("EmailExist", comment: "Email already in use.")
         
         static let invalidRequest = NSLocalizedString("InvalidRequest", comment: "Invalid request")
-        static let invalidEmail = NSLocalizedString("InvalidPassword", comment: "Invalid password")
-        static let invalidPassword = NSLocalizedString("InvalidEmail", comment: "Invalid email")
+        static let invalidEmail = NSLocalizedString("InvalidEmail", comment: "Invalid password")
+        static let invalidPassword = NSLocalizedString("InvalidPassword", comment: "Invalid email")
         static let accountDontExist = NSLocalizedString("AccountDontExist", comment: "No account exist with this email.")
         static let noText = NSLocalizedString("NoText", comment: "When textfield is empty")
         static let emptyQuery = NSLocalizedString("EmptyQuery", comment: "Query is empty")
