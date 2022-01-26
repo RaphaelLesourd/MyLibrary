@@ -97,7 +97,7 @@ class BookCardViewController: UIViewController {
     // MARK: Data display
     private func displayBookDetails() {
         if let book = presenter.book {
-            presenter.setBookData(from: book)
+            presenter.convertToBookRepresentable(from: book)
             presenter.fetchCategoryNames()
             presenter.fetchCategoryNames()
             setBookRecommandState()
@@ -136,7 +136,7 @@ class BookCardViewController: UIViewController {
 // MARK: - BookCard Delegate
 extension BookCardViewController: BookCardDelegate {
     func fetchBookUpdate() {
-        presenter.fetchBookUpdate()
+        presenter.updateBook()
     }
 }
 

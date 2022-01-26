@@ -175,6 +175,8 @@
 		8183145627931D5A00351F88 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8183145527931D5900351F88 /* HomeViewController.swift */; };
 		818314762794B07800351F88 /* wave.json in Resources */ = {isa = PBXBuildFile; fileRef = 818314752794B07800351F88 /* wave.json */; };
 		818314812795D09800351F88 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818314802795D09800351F88 /* ProfileView.swift */; };
+		81857BDA27A1BF5C000D5E9E /* BookCardPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */; };
+		81857BDC27A1BF84000D5E9E /* AccountTabPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
@@ -448,6 +450,8 @@
 		8183145527931D5900351F88 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		818314752794B07800351F88 /* wave.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wave.json; sourceTree = "<group>"; };
 		818314802795D09800351F88 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardPresenterView.swift; sourceTree = "<group>"; };
+		81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabPresenterView.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
@@ -1107,6 +1111,7 @@
 			isa = PBXGroup;
 			children = (
 				8125ADA6279AA37800FB6725 /* BookCardPresenter.swift */,
+				81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */,
 				8125ADBA279C072C00FB6725 /* BookCardRepresentable.swift */,
 			);
 			path = BookCard;
@@ -1152,6 +1157,7 @@
 			isa = PBXGroup;
 			children = (
 				8125AD2C27986EB500FB6725 /* AccountPresenter.swift */,
+				81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */,
 			);
 			path = AccountTab;
 			sourceTree = "<group>";
@@ -2039,6 +2045,7 @@
 				812BA73E278DCF09009541E4 /* BookCover.swift in Sources */,
 				81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */,
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
+				81857BDA27A1BF5C000D5E9E /* BookCardPresenterView.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
 				8114061227A159CC00A18059 /* ListDataSource.swift in Sources */,
 				81A7509A2790060B00CAC424 /* OnboardingMainView.swift in Sources */,
@@ -2082,6 +2089,7 @@
 				81DB8DE42752329300698B92 /* HomeTabLayout.swift in Sources */,
 				81FA726E277482B700040BEF /* ActionTypes.swift in Sources */,
 				81451DCE276F345C00F3C0C8 /* BarcodeControllerView.swift in Sources */,
+				81857BDC27A1BF84000D5E9E /* AccountTabPresenterView.swift in Sources */,
 				81FA72752774831E00040BEF /* AccountInterfaceTypes.swift in Sources */,
 				81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */,
 				81A750A62790124500CAC424 /* OnboardingLayout.swift in Sources */,

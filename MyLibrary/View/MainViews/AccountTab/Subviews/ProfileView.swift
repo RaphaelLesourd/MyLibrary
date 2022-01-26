@@ -34,7 +34,7 @@ class ProfileView: UIView {
         button.imageView?.contentMode = .scaleAspectFill
         button.roundView(radius: 50, backgroundColor: .systemGray5)
         button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = UIColor.appTintColor.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

@@ -8,11 +8,6 @@
 import FirebaseAuth
 import Foundation
 
-protocol AccountTabPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func configureView(with user: UserModel)
-    func animateSavebuttonIndicator(_ animate: Bool)
-}
-
 class AccountTabPresenter {
     
     // MARK: - Properties
@@ -31,6 +26,7 @@ class AccountTabPresenter {
     }
     
     // MARK: - API Call
+    /// fetch the user profile data from the Database.
     func getProfileData() {
         view?.showActivityIndicator()
         
@@ -47,6 +43,8 @@ class AccountTabPresenter {
         }
     }
     
+    /// Saves uer name changes in the database.
+    /// - Parameters: Username  optional string
     func saveUserName(with userName: String?) {
         view?.showActivityIndicator()
         
@@ -60,6 +58,8 @@ class AccountTabPresenter {
         }
     }
     
+    /// Save user profile image in the database.
+    /// - Parameters: Optional Data type for the image.
     func saveProfileImage(_ profileImageData: Data?) {
         self.view?.showActivityIndicator()
         
@@ -73,14 +73,15 @@ class AccountTabPresenter {
         }
     }
     
-   func signoutAccount() {
+    /// Sign out of the account.
+    func signoutAccount() {
         view?.showActivityIndicator()
         view?.animateSavebuttonIndicator(true)
- 
+        
         accountService.signOut { [weak self] error in
             self?.view?.stopActivityIndicator()
             self?.view?.animateSavebuttonIndicator(false)
-
+            
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

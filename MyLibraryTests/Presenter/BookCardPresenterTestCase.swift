@@ -72,7 +72,7 @@ class BookCardPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.fetchBookUpdate()
+        sut.updateBook()
         XCTAssertTrue(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
@@ -157,7 +157,7 @@ class BookCardPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.fetchBookUpdate()
+        sut.updateBook()
         XCTAssertFalse(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
@@ -166,7 +166,7 @@ class BookCardPresenterTestCase: XCTestCase {
     func test_fetchBookUpdate_whenNoBookPassed_failed() {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
-        sut.fetchBookUpdate()
+        sut.updateBook()
         XCTAssertFalse(bookCardPresenterViewSpy.displayBookWasCalled)
         XCTAssertFalse(bookCardPresenterViewSpy.showActivityWasCalled)
         XCTAssertFalse(bookCardPresenterViewSpy.stopActivityWasCalled)
