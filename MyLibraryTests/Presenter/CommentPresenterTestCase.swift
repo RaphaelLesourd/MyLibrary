@@ -29,7 +29,7 @@ class CommentPresenterTestCase: XCTestCase {
     }
     
     // MARK: - Success
-    func test_getComments_successfully() {
+    func test_getComments_whenBookNotNil() {
         sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
@@ -39,7 +39,7 @@ class CommentPresenterTestCase: XCTestCase {
         XCTAssertTrue(commentViewSpy.stopActivityWasCalled)
     }
     
-    func test_addComment_successfully() {
+    func test_addComment_whenBookNotNil() {
         sut = successTestPresenter
         sut.view = commentViewSpy
         sut.book = PresenterFakeData.book
@@ -78,13 +78,14 @@ class CommentPresenterTestCase: XCTestCase {
         }
     }
     
-    func test_settingBookDetails() {
+    func test_settingBookDetails_whenBookIsNotNil() {
         sut = successTestPresenter
         sut.view = commentViewSpy
-        sut.getBookDetails(for: PresenterFakeData.book) { _ in
-            XCTAssertTrue(self.commentViewSpy.showActivityWasCalled)
-            XCTAssertTrue(self.commentViewSpy.stopActivityWasCalled)
-        }
+        sut.book = PresenterFakeData.book
+        sut.getBookDetails()
+        XCTAssertTrue(self.commentViewSpy.showActivityWasCalled)
+        XCTAssertTrue(self.commentViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(self.commentViewSpy.snapshotWasCalled)
     }
     
     func test_cellSwipeAction_whenDeleting() {
@@ -111,6 +112,15 @@ class CommentPresenterTestCase: XCTestCase {
         XCTAssertTrue(commentViewSpy.stopActivityWasCalled)
     }
     
+    func test_getComments_whenBookNil() {
+        sut = successTestPresenter
+        sut.view = commentViewSpy
+        sut.getComments()
+        XCTAssertFalse(commentViewSpy.snapshotWasCalled)
+        XCTAssertFalse(commentViewSpy.showActivityWasCalled)
+        XCTAssertFalse(commentViewSpy.stopActivityWasCalled)
+    }
+    
     func test_addComment_failed() {
         sut = failedTestPresenter
         sut.view = commentViewSpy
@@ -118,6 +128,14 @@ class CommentPresenterTestCase: XCTestCase {
         sut.addComment(with: "", commentID: "")
         XCTAssertTrue(commentViewSpy.showActivityWasCalled)
         XCTAssertTrue(commentViewSpy.stopActivityWasCalled)
+    }
+    
+    func test_addComment_whenBookNil() {
+        sut = successTestPresenter
+        sut.view = commentViewSpy
+        sut.addComment(with: "", commentID: "")
+        XCTAssertFalse(commentViewSpy.showActivityWasCalled)
+        XCTAssertFalse(commentViewSpy.stopActivityWasCalled)
     }
     
     func test_deleteComment_failed() {
@@ -146,6 +164,15 @@ class CommentPresenterTestCase: XCTestCase {
         sut.notifyUser(of: "", book: nil)
         XCTAssertFalse(commentViewSpy.showActivityWasCalled)
         XCTAssertFalse(commentViewSpy.stopActivityWasCalled)
+    }
+    
+    func test_settingBookDetails_whenBookIsNil() {
+        sut = successTestPresenter
+        sut.view = commentViewSpy
+        sut.getBookDetails()
+        XCTAssertFalse(self.commentViewSpy.showActivityWasCalled)
+        XCTAssertFalse(self.commentViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(self.commentViewSpy.snapshotWasCalled)
     }
 }
 

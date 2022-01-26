@@ -17,7 +17,8 @@ class CommentPresenter {
     var book: Item?
     var editedCommentID: String?
     var commentList: [CommentModel] = []
-    
+    var bookCellRepresentable: [CommentBookCellRepresentable] = []
+ 
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
     private let formatter: Formatter
@@ -112,7 +113,6 @@ class CommentPresenter {
         
         commentService.getUserDetail(for: userID) { [weak self] result in
             self?.view?.stopActivityIndicator()
-            print("commment delaitls")
             if case .success(let user) = result {
                 if let data = self?.makeCommentCellRepresentable(with: comment, and: user) {
                     completion(data)
@@ -121,8 +121,9 @@ class CommentPresenter {
         }
     }
     
-    func getBookDetails(for book: Item, completion: @escaping (CommentBookCellRepresentable) -> Void) {
-        guard let ownerID = book.ownerID else { return }
+    func getBookDetails() {
+        guard let book = book,
+              let ownerID = book.ownerID else { return }
         var name = String()
         view?.showActivityIndicator()
         
@@ -133,7 +134,8 @@ class CommentPresenter {
                 name = owner.displayName
             }
             if let data = self?.makeCommentBookCellRepresentable(with: book, and: name) {
-                completion(data)
+                self?.bookCellRepresentable = [data]
+                self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
     }
@@ -150,9 +152,9 @@ class CommentPresenter {
     
     // MARK: - Private functions
     private func makeCommentBookCellRepresentable(with book: Item, and ownerName: String) -> CommentBookCellRepresentable {
-        let title = book.volumeInfo?.title?.capitalized ?? ""
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
-        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
+        let title = book.volumeInfo?.title?.capitalized
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ")
+        let image = book.volumeInfo?.imageLinks?.thumbnail
         return CommentBookCellRepresentable(title: title,
                                             authors: authors,
                                             image: image,

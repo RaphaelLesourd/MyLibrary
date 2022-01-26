@@ -56,6 +56,7 @@ class CommentsViewController: UIViewController {
         setTargets()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
+        presenter.getBookDetails()
         presenter.getComments()
     }
     
@@ -157,14 +158,13 @@ extension CommentsViewController {
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
             case .book:
-                if let item = item as? Item {
+                if let item = item as? CommentBookCellRepresentable {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
-                        return UITableViewCell() }
-                    self?.presenter.getBookDetails(for: item, completion: { data in
-                        cell.configure(with: data)
-                    })
+                        return UITableViewCell()
+                    }
+                    cell.configure(with: item)
                     return cell
                 }
             case .today, .past:
@@ -186,13 +186,13 @@ extension CommentsViewController {
         })
         return dataSource
     }
-
+    
     func applySnapshot(animatingDifferences: Bool) {
         mainView.emptyStateView.isHidden = !presenter.commentList.isEmpty
         
         var snapshot = Snapshot()
         snapshot.appendSections(CommentsSection.allCases)
-        snapshot.appendItems([book], toSection: .book)
+        snapshot.appendItems(presenter.bookCellRepresentable, toSection: .book)
         
         let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
         snapshot.appendItems(todayComments, toSection: .today)
