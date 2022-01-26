@@ -23,8 +23,10 @@ class BookCollectionViewCell: UICollectionViewCell {
     private let bookCover = BookCover(frame: .zero)
     
     // MARK: - Configure
-    func configure(with book: BookCellData) {
-        bookCover.image = book.image
+    func configure(with book: BookCellRepresentable) {
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
     
     override func prepareForReuse() {
@@ -34,8 +36,9 @@ class BookCollectionViewCell: UICollectionViewCell {
 // MARK: - Constraints
 extension BookCollectionViewCell {
     private func setConstraints() {
-        bookCover.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bookCover)
+        
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

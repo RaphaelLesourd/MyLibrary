@@ -13,29 +13,20 @@ class SearchViewController: UIViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
-    weak var newBookDelegate: NewBookDelegate?
-    var searchType: SearchType?
-    var searchedBooks: [Item] = []
-    var currentSearchKeywords = "" {
-        didSet {
-            refreshData()
-        }
-    }
+    weak var newBookDelegate: NewBookViewControllerDelegate?
+    let presenter: SearchPresenter
+    
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
-    private let apiManager: ApiManagerProtocol
-    private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private var cellPresenter: BookCellConfigure?
-    private var noMoreBooks: Bool?
-    
+    private lazy var dataSource = createDataSource()
+ 
     // MARK: - Initializer
-    init(apiManager: ApiManagerProtocol,
+    init(presenter: SearchPresenter,
          layoutComposer: BookListLayoutComposer) {
-        self.apiManager = apiManager
+        self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,6 +45,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.delegate = self
+        presenter.view = self
         configureEmptyStateView()
         configureNavigationBar()
         configureCollectionView()
@@ -66,13 +58,13 @@ class SearchViewController: UIViewController {
     /// Cell and footer resistrations are shortenend by helper extensions created in the
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
-        let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .large : .medium
+        let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .extraLarge : .medium
         let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
     }
-   
+    
     private func configureNavigationBar() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
@@ -84,51 +76,6 @@ class SearchViewController: UIViewController {
                                           icon: Images.ButtonIcon.search,
                                           hideButton: true)
     }
-    // MARK: - API call
-    /// Api call to get book or list of books.
-    /// - Parameters:
-    ///   - query: String passing search keywords, could be title, author or isbn
-    ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
-    private func getBooks(fromIndex: Int = 0) {
-        footerView.displayActivityIndicator(true)
-        
-        apiManager.getData(with: currentSearchKeywords, fromIndex: fromIndex) { [weak self] result in
-            guard let self = self else { return }
-            self.mainView.refresherControl.endRefreshing()
-            self.footerView.displayActivityIndicator(false)
-            
-            switch result {
-            case .success(let books):
-                self.handleList(for: books)
-            case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    /// Verifies the type of search and redirects the result.
-    ///  - searchType:
-    ///  - .apiCall: Display the list in the collectionView
-    ///  - .barCodeSearch: send the first result back to newBookController
-    /// - Parameter books: List of books fetch from API
-    private func handleList(for books: [Item]) {
-        switch searchType {
-        case .keywordSearch:
-            books.isEmpty ? noMoreBooks = true : addBooks(books)
-        case .barCodeSearch:
-            newBookDelegate?.newBook = books.first
-        case .none:
-            return
-        }
-    }
-    
-    private func addBooks(_ books: [Item]) {
-        books.forEach {  book in
-            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
-                self.searchedBooks.append(book)
-                self.applySnapshot()
-            }
-        }
-    }
 }
 // MARK: - CollectionView Datasource
 extension SearchViewController {
@@ -139,7 +86,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            self?.cellPresenter?.setBookData(for: book) { bookData in
+            if let bookData = self?.presenter.setBookData(for: book) {
                 cell.configure(with: bookData)
             }
             return cell
@@ -166,11 +113,11 @@ extension SearchViewController {
         }
     }
     
-    private func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.emptyStateView.isHidden = !searchedBooks.isEmpty
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.emptyStateView.isHidden = !presenter.searchedBooks.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(searchedBooks, toSection: .main)
+        snapshot.appendItems(presenter.searchedBooks, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -182,26 +129,37 @@ extension SearchViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
-        if indexPath.row == currentRow && noMoreBooks == false {
-            getBooks(fromIndex: searchedBooks.count + 1)
+        if indexPath.row == currentRow && presenter.noMoreBooks == false {
+            presenter.getBooks(with: presenter.currentSearchKeywords,
+                               fromIndex: presenter.searchedBooks.count + 1)
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController
     /// via delgate patern protocol.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        newBookDelegate?.newBook = searchBook
+        newBookDelegate?.setBookData(with: searchBook)
     }
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
-    func emptyStateButtonTapped() {
-        
+    
+    func reloadData() {
+        presenter.refreshData()
+    }
+}
+// MARK: - SearchPresenter Delegate
+extension SearchViewController: SearchPresenterView {
+    func displayBookFromBarCodeSearch(with book: Item?) {
+        newBookDelegate?.setBookData(with: book)
     }
     
-    func refreshData() {
-        searchedBooks.removeAll()
-        noMoreBooks = false
-        getBooks()
+    func showActivityIndicator() {
+        footerView.displayActivityIndicator(true)
+    }
+    
+    func stopActivityIndicator() {
+        mainView.refresherControl.endRefreshing()
+        footerView.displayActivityIndicator(false)
     }
 }

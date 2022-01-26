@@ -14,33 +14,22 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
-    typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
-    
+  
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
-    private let commentService: CommentServiceProtocol
     private let validator: ValidatorProtocol
-    private let messageService: MessageServiceProtocol
-    private let cellPresenter: BookCellConfigure?
-    private let commentCellPresenter: CommentCellConfigure?
+    private let presenter: CommentPresenter
     
     private lazy var dataSource = makeDataSource()
-    private var commentList: [CommentModel] = []
-    private var editedCommentID: String?
     private var book: Item?
     
     // MARK: - Initializer
     init(book: Item?,
-         commentService: CommentServiceProtocol,
-         messageService: MessageServiceProtocol,
+         presenter: CommentPresenter,
          validator: ValidatorProtocol) {
         self.book = book
-        self.commentService = commentService
-        self.messageService = messageService
+        self.presenter = presenter
         self.validator = validator
-        self.cellPresenter = BookCellConfiguration(imageRetriever: KFImageRetriever())
-        self.commentCellPresenter = CommentCellConfiguration(imageRetriever: KFImageRetriever(),
-                                                             formatter: Formatter())
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,18 +46,21 @@ class CommentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.view = self
+        presenter.book = book
         IQKeyboardManager.shared.enableAutoToolbar = false
         mainView.tableView.dataSource = dataSource
         configureKeyboard()
         setDelegates()
         setTargets()
         addNavigationBarButtons()
-        getComments()
+        applySnapshot(animatingDifferences: false)
+        presenter.getBookDetails()
+        presenter.getComments()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        commentService.removeListener()
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
     }
@@ -81,7 +73,7 @@ class CommentsViewController: UIViewController {
     
     private func setTargets() {
         mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.getComments()
+            self?.presenter.getComments()
         }), for: .valueChanged)
     }
     
@@ -95,100 +87,6 @@ class CommentsViewController: UIViewController {
         IQKeyboardManager.shared.enable = false
         keyboardManager.bind(inputAccessoryView: mainView.inputBar)
         keyboardManager.bind(to: mainView.tableView)
-    }
-    
-    // MARK: - Api call
-    private func getComments() {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
-        showIndicator(mainView.activityIndicator)
-        
-        commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.mainView.refresherControl.endRefreshing()
-                self.hideIndicator(self.mainView.activityIndicator)
-                switch result {
-                case .success(let comments):
-                    self.commentList = comments
-                    self.applySnapshot()
-                case .failure(let error):
-                    AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                }
-            }
-        }
-    }
-    
-    private func addComment(with newComment: String, commentID: String?) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
-        showIndicator(mainView.activityIndicator)
-        
-        notifyUser(of: newComment)
-        commentService.addComment(for: bookID, ownerID: ownerID, commentID: commentID, comment: newComment) { [weak self] error in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            self.editedCommentID = nil
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-        }
-    }
-    
-    private func deleteComment(for comment: CommentModel) {
-        guard let bookID = book?.bookID,
-              let ownerID = book?.ownerID else { return }
-        showIndicator(mainView.activityIndicator)
-        
-        commentService.deleteComment(for: bookID, ownerID: ownerID, comment: comment) { [weak self] error in
-            guard let self = self else { return }
-            self.hideIndicator(self.mainView.activityIndicator)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    
-    private func getCommentOwnerDetails(for comment: CommentModel, completion: @escaping (UserModel?) -> Void) {
-        guard let userID = comment.userID else { return }
-        
-        self.commentService.getUserDetail(for: userID) { [weak self] result in
-            switch result {
-            case .success(let user):
-                guard let user = user else {
-                    self?.deleteComment(for: comment)
-                    completion(nil)
-                    return
-                }
-                DispatchQueue.main.async {
-                    completion(user)
-                }
-            case .failure(_):
-                completion(nil)
-            }
-        }
-    }
-    
-    private func getBookOwnerDetails(completion: @escaping (UserModel?) -> Void) {
-        guard let ownerID = book?.ownerID else { return }
-        self.commentService.getUserDetail(for: ownerID) { result in
-            if case .success(let owner) = result {
-                DispatchQueue.main.async {
-                    completion(owner)
-                }
-            }
-        }
-    }
-    
-    private func notifyUser(of newComment: String) {
-        guard let book = book else { return }
-        messageService.sendCommentPushNotification(for: book, message: newComment, for: self.commentList) { error in
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-        }
     }
 }
 // MARK: - TableView Delegate
@@ -213,7 +111,6 @@ extension CommentsViewController: UITableViewDelegate {
                                           alignment: .center,
                                           font: .lightSectionTitle)
         sectionTitleLabel.text = section.headerTitle.uppercased()
-        
         return numberOfItemsInsection == 0 ? nil : sectionTitleLabel
     }
     
@@ -234,30 +131,17 @@ extension CommentsViewController: UITableViewDelegate {
     }
     
     /// Handles swipe gesture actions
-    private func contextMenuAction(for actionType: ActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
             return UIContextualAction()
         }
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
-            guard let self = self else {return}
-            switch actionType {
-            case .delete:
-                self.deleteComment(for: comment)
-            case .edit:
-                self.editComment(for: comment)
-            }
+            self?.presenter.presentSwipeAction(for: comment, actionType: actionType)
             completion(true)
         }
         action.backgroundColor = actionType.color
         action.image = actionType.icon
         return action
-    }
-    
-    /// Add comment text to the input bar to edit and save the comment.
-    private func editComment(for comment: CommentModel) {
-        editedCommentID = comment.uid
-        mainView.inputBar.inputTextView.text = comment.comment
-        mainView.inputBar.inputTextView.becomeFirstResponder()
     }
 }
 
@@ -266,23 +150,20 @@ extension CommentsViewController {
     
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
-    private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(tableView: mainView.tableView, cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
+    private func makeDataSource() -> CommentDataSource {
+        let dataSource = CommentDataSource(tableView: mainView.tableView,
+                                    cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
             case .book:
-                if let item = item as? Item {
+                if let item = item as? CommentBookCellRepresentable {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
-                        return UITableViewCell() }
-                    self?.cellPresenter?.setBookData(for: item) { bookData in
-                        cell.configure(with: bookData)
+                        return UITableViewCell()
                     }
-                    self?.getBookOwnerDetails(completion: { owner in
-                        cell.configureOwnerDetails(with: owner)
-                    })
+                    cell.configure(with: item)
                     return cell
                 }
             case .today, .past:
@@ -292,8 +173,9 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.commentCellPresenter?.configure(cell, with: item)
-                    self?.setUserDetails(with: item, for: cell)
+                    self?.presenter.getCommentDetails(for: item, completion: { data in
+                        cell.configure(with: data)
+                    })
                     return cell
                 }
             case .none:
@@ -304,49 +186,55 @@ extension CommentsViewController {
         return dataSource
     }
     
-    private func setUserDetails(with item: CommentModel, for cell: CommentTableViewCell) {
-        getCommentOwnerDetails(for: item) { [weak self] user in
-            guard let user = user else { return }
-            self?.commentCellPresenter?.setUserDetails(for: cell, with: user)
-        }
-    }
-    
-    private func applySnapshot(animatingDifferences: Bool = true) {
-        mainView.emptyStateView.isHidden = !commentList.isEmpty
+    func applySnapshot(animatingDifferences: Bool) {
+        mainView.emptyStateView.isHidden = !presenter.commentList.isEmpty
         
         var snapshot = Snapshot()
-        snapshot.appendSections([.book])
-        snapshot.appendItems([book], toSection: .book)
-        dataSource.apply(snapshot, animatingDifferences: false)
+        snapshot.appendSections(CommentsSection.allCases)
+        snapshot.appendItems(presenter.bookCellRepresentable, toSection: .book)
         
-        let todayComments = commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
-        if !todayComments.isEmpty {
-            snapshot.appendSections([.today])
-            dataSource.apply(snapshot, animatingDifferences: true)
-            snapshot.appendItems(todayComments, toSection: .today)
-        }
+        let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
+        snapshot.appendItems(todayComments, toSection: .today)
         
-        let pastComments = commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
-        if !pastComments.isEmpty {
-            snapshot.appendSections([.past])
-            dataSource.apply(snapshot, animatingDifferences: true)
-            snapshot.appendItems(pastComments, toSection: .past)
+        let pastComments = presenter.commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
+        snapshot.appendItems(pastComments, toSection: .past)
+       
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         }
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
-// MARK: - InputBar delegate
+// MARK: - InputBar Delegate
 extension CommentsViewController: InputBarAccessoryViewDelegate {
-    
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        addComment(with: text, commentID: editedCommentID)
+        presenter.addComment(with: text, commentID: presenter.editedCommentID)
         mainView.inputBar.inputTextView.text = ""
         mainView.inputBar.inputTextView.resignFirstResponder()
     }
 }
-// MARK: - EmptystateViewDelegate
+// MARK: - EmptystateView Delegate
 extension CommentsViewController: EmptyStateViewDelegate {
     func didTapButton() {
        mainView.inputBar.inputTextView.becomeFirstResponder()
+    }
+}
+// MARK: - CommentPresenter Delegate
+extension CommentsViewController: CommentsPresenterView {
+    
+    /// Add comment text to the input bar to edit and save the comment.
+   func addCommentToInputBar(for comment: CommentModel) {
+        mainView.inputBar.inputTextView.text = comment.message
+        mainView.inputBar.inputTextView.becomeFirstResponder()
+    }
+    
+    func showActivityIndicator() {
+        showIndicator(self.mainView.activityIndicator)
+    }
+    
+    func stopActivityIndicator() {
+        DispatchQueue.main.async {
+            self.mainView.refresherControl.endRefreshing()
+            self.hideIndicator(self.mainView.activityIndicator)
+        }
     }
 }

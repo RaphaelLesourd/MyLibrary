@@ -6,6 +6,5 @@
 //
 
 protocol BookListViewDelegate: AnyObject {
-    func refreshData()
-    func emptyStateButtonTapped()
+    func reloadData()
 }

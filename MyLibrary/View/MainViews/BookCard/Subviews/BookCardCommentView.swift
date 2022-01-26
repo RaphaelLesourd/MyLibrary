@@ -57,7 +57,6 @@ class BookCardCommentView: UIView {
     private func setupView() {
         self.heightAnchor.constraint(equalToConstant: 120).isActive = true
         titleLabel.text = Text.SectionTitle.readersComment
-        titleLabel.addShadow(opacity: 0.7, color: .appTintColor)
     }
 }
 // MARK: - Constraints

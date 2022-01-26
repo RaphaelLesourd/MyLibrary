@@ -11,12 +11,23 @@ import IQKeyboardManagerSwift
 class BookDescriptionViewController: UIViewController {
     
     // MARK: - Properties
-    var textViewText: String?
-    weak var newBookDelegate: NewBookDelegate?
+    weak var newBookDelegate: NewBookViewControllerDelegate?
+    private var textViewText: String?
     private let mainView = DescriptionMainView()
     
-    // MARK: - Lifecycle
+    // MARK: - Initializer
+    init(bookDescription: String?,
+         newBookDelegate: NewBookViewControllerDelegate?) {
+        self.textViewText = bookDescription
+        self.newBookDelegate = newBookDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -81,7 +92,7 @@ class BookDescriptionViewController: UIViewController {
     }
     
     private func updateData() {
-        newBookDelegate?.bookDescription = mainView.textView.text
+        newBookDelegate?.setDescription(with: mainView.textView.text)
     }
 }
 // MARK: - DescriptionViewDelegate

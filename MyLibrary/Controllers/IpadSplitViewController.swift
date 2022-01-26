@@ -9,14 +9,15 @@ import UIKit
 
 class IpadSplitViewController: UISplitViewController {
 
-    // MARK: - Initializers
+    // MARK: - Properties
+   
+    private let factory: Factory
+    
+    // MARK: - Initializer
     override init(style: UISplitViewController.Style) {
+        self.factory = ViewControllerFactory()
         super.init(style: style)
         showsSecondaryOnlyButton = true
-        let viewWidth = view.bounds.width
-        maximumPrimaryColumnWidth = viewWidth
-        minimumPrimaryColumnWidth = viewWidth / 3
-        preferredPrimaryColumnWidthFraction = 0.3
     }
     
     required init?(coder: NSCoder) {
@@ -32,13 +33,9 @@ class IpadSplitViewController: UISplitViewController {
     // MARK: - Setup
     private func setViewControllers() {
         let tabBarController = TabBarController()
-        let homeViewController = HomeViewController(libraryService: LibraryService(),
-                                                    layoutComposer: HomeTabLayout(),
-                                                    categoryService: CategoryService(),
-                                                    recommendationService: RecommandationService())
-        let newBookViewController = NewBookViewController(libraryService: LibraryService(),
-                                                          converter: Converter(),
-                                                          validator: Validator())
+        let homeViewController = factory.makeHomeTabVC()
+        let newBookViewController = factory.makeNewBookVC(with: nil, isEditing: false, bookCardDelegate: nil)
+        newBookViewController.title = Text.ControllerTitle.newBook
         setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
         setViewController(tabBarController, for: .compact)

@@ -12,8 +12,7 @@ class UserCollectionViewCell: UICollectionViewCell {
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(userNameLabel)
+        setupView()
         setStackViewConstraints()
         setCurrentUserIconConstraints()
     }
@@ -35,6 +34,7 @@ class UserCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.image = Images.ButtonIcon.categoryBadge
         imageView.tintColor = .appTintColor
+        imageView.addShadow()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -47,10 +47,17 @@ class UserCollectionViewCell: UICollectionViewCell {
                                       alignment: .center,
                                       spacing: 2)
     // MARK: - configure
-    func configure(with user: UserCellData) {
-        imageView.image = user.image
+    func configure(with user: UserCellRepresentable) {
         userNameLabel.text = user.userName
         currentUserIcon.isHidden = !user.currentUser
+        imageView.getImage(for: user.profileImage) { [weak self] image in
+            self?.imageView.image = image
+        }
+    }
+    
+    private func setupView() {
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(userNameLabel)
     }
     
     override func prepareForReuse() {
@@ -76,7 +83,7 @@ extension UserCollectionViewCell {
         NSLayoutConstraint.activate([
             currentUserIcon.topAnchor.constraint(equalTo: contentView.topAnchor),
             currentUserIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            currentUserIcon.heightAnchor.constraint(equalToConstant: 15)
+            currentUserIcon.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }

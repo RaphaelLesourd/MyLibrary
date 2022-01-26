@@ -15,7 +15,7 @@ class CommentsBookCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        setupCell()
+        setupView()
         setBookCoverConstraints()
         setStackViewConstraints()
     }
@@ -42,23 +42,23 @@ class CommentsBookCell: UITableViewCell {
                                       spacing: 10)
     
     // MARK: - configure
-    func configure(with book: BookCellData) {
+    func configure(with book: CommentBookCellRepresentable) {
         titleLabel.text = book.title
-        subtitleLabel.text = book.author
-        bookCover.image = book.image
-    }
-    
-    func configureOwnerDetails(with owner: UserModel?) {
-        guard let owner = owner else {
+        subtitleLabel.text = book.authors
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
+   
+        guard let owner = book.ownerName else {
             bookOwnerNameLabel.isHidden = true
             return
         }
-        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
+        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.capitalized
     }
     
-    private func setupCell() {
-        backgroundColor = .clear
-        contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
+    private func setupView() {
+        self.backgroundColor = .clear
+        self.contentView.roundView(radius: 17, backgroundColor: .cellBackgroundColor)
         bookCover.contentMode = .scaleAspectFill
         
         stackView.addArrangedSubview(titleLabel)
@@ -70,9 +70,9 @@ class CommentsBookCell: UITableViewCell {
 // MARK: - Constraints
 extension CommentsBookCell {
     private func setBookCoverConstraints() {
-        bookCover.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(bookCover)
+        
+        bookCover.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             bookCover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),

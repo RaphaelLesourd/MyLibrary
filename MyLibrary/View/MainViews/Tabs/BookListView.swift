@@ -27,6 +27,8 @@ class BookListView: UIView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     let emptyStateView = EmptyStateView()
+    var headerView = HeaderSupplementaryView()
+    var footerView = LoadingFooterSupplementaryView()
     
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -50,7 +52,7 @@ class BookListView: UIView {
         return refresherControl
     }()
     
-    // MARK: - Setup
+    // MARK: - Configure
     private func configureCollectionView() {
         collectionView.refreshControl = refresherControl
     }
@@ -68,12 +70,8 @@ class BookListView: UIView {
     
     private func addButtonsAction() {
         refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.refreshData()
+            self?.delegate?.reloadData()
         }), for: .valueChanged)
-        
-        emptyStateView.doneButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.emptyStateButtonTapped()
-        }), for: .touchUpInside)
     }
 }
 // MARK: - Constraints
@@ -82,8 +80,8 @@ extension BookListView {
         addSubview(emptyStateView)
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -50)
+            emptyStateView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor, constant: -50)
         ])
     }
     

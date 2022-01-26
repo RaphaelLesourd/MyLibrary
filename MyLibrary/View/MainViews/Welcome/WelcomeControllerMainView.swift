@@ -11,15 +11,13 @@ import AuthenticationServices
 class WelcomeControllerMainView: UIView {
     
     weak var delegate: WelcomeViewDelegate?
-    
     private let device = UIDevice.current.userInterfaceIdiom
-    private lazy var titleFontSize: CGFloat = device == .pad ? 60 : 40
     
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
-        setButtonsAction()
+        addButtonsAction()
         setBackGroundImageConstraints()
         setMainStackViewConstraints()
     }
@@ -72,7 +70,7 @@ class WelcomeControllerMainView: UIView {
         appVerionLabel.text = UIApplication.appName + " - Version " + UIApplication.release + " build " + UIApplication.build
     }
     
-    private func setButtonsAction() {
+    private func addButtonsAction() {
         loginButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.presentAccountViewController(for: .login)
         }), for: .touchUpInside)
@@ -99,8 +97,8 @@ extension WelcomeControllerMainView {
     }
     
     private func setMainStackViewConstraints() {
-        let offSet: CGFloat = device == .pad ? 0.5 : 0.9
         addSubview(mainStackView)
+        let offSet: CGFloat = device == .pad ? 0.5 : 0.9
         NSLayoutConstraint.activate([
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),

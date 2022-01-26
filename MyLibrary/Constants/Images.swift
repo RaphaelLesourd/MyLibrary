@@ -23,6 +23,7 @@ enum Images {
     }
     
     enum LayoutMenu {
+        static let gridExtraLargeLayout = UIImage(systemName: "square.fill")!
         static let gridLargeLayout = UIImage(systemName: "square.grid.2x2.fill")!
         static let gridMediumLayout = UIImage(systemName: "square.grid.3x2.fill")!
         static let gridSmallLayout = UIImage(systemName: "square.grid.3x3.fill")!
@@ -44,6 +45,7 @@ enum Images {
     
     enum ButtonIcon {
         static let favorite = UIImage(systemName: "heart.fill")
+        static let favoriteNot = UIImage(systemName: "heart.slash.fill")
         static let lightBulbOn = UIImage(systemName: "lightbulb.slash.fill")
         static let lightBulbOff = UIImage(systemName: "lightbulb.fill")
         static let selectedCategoryBadge = UIImage(systemName: "circle.inset.filled") ?? UIImage(systemName: "checkmark.circle.fill")!

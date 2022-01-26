@@ -8,14 +8,13 @@
 import UIKit
 
 class CategoryCollectionViewCell: UICollectionViewCell {
+   
     private let colorAlpha: CGFloat = 0.2
     
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        contentView.backgroundColor = UIColor.appTintColor.withAlphaComponent(colorAlpha)
-        roundView(radius: 12,
-                  backgroundColor: UIColor.black.withAlphaComponent(0.05))
+        setupView()
         setLabelConstraints()
     }
     
@@ -30,15 +29,15 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Configure
     func configure(with model: CategoryModel) {
-        if let categoryName = model.name {
-            categoryLabel.sizeToFit()
-            categoryLabel.text = categoryName.uppercased()
-        }
-        if let color = model.color {
-            let categoryColor = UIColor(hexString: color)
-            contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)
-            categoryLabel.textColor = categoryColor
-        }
+        categoryLabel.text = model.name.uppercased()
+        let categoryColor = UIColor(hexString: model.color)
+        contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)
+        categoryLabel.textColor = categoryColor
+    }
+    
+    private func setupView() {
+        contentView.backgroundColor = UIColor.appTintColor.withAlphaComponent(colorAlpha)
+        roundView(radius: 12, backgroundColor: UIColor.black.withAlphaComponent(0.05))
     }
     
     override func prepareForReuse() {
@@ -51,6 +50,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
 extension CategoryCollectionViewCell {
     private func setLabelConstraints() {
         contentView.addSubview(categoryLabel)
+        
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: contentView.topAnchor),

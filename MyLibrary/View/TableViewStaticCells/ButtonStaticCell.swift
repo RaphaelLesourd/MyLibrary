@@ -11,7 +11,7 @@ class ButtonStaticCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .viewControllerBackgroundColor
+        self.backgroundColor = .viewControllerBackgroundColor
         setButtonConstraints()
     }
     
@@ -33,6 +33,7 @@ class ButtonStaticCell: UITableViewCell {
 extension ButtonStaticCell {
     private func setButtonConstraints() {
         contentView.addSubview(actionButton)
+        
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             actionButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -3),

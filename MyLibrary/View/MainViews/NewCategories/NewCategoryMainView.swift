@@ -10,7 +10,7 @@ import UIKit
 class NewCategoryMainView: UIView {
     
     weak var delegate: NewCategoryViewDelegate?
-    var collectionViewHeight = NSLayoutConstraint()
+    private var collectionViewHeight = NSLayoutConstraint()
     
     // MARK: - Initializer
     override init(frame: CGRect) {
@@ -46,6 +46,11 @@ class NewCategoryMainView: UIView {
         return collection
     }()
     
+    let saveButton = Button(title: Text.ButtonTitle.save,
+                                    imagePlacement: .leading,
+                                    tintColor: .appTintColor,
+                                    backgroundColor: .appTintColor)
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -68,10 +73,6 @@ class NewCategoryMainView: UIView {
                                           maxLines: 4,
                                           font: .subtitle)
     private let colorSectionTitleLabel = TextLabel(font: .mediumSemiBoldTitle)
-    private let saveButton = Button(title: Text.ButtonTitle.save,
-                                    imagePlacement: .leading,
-                                    tintColor: .appTintColor,
-                                    backgroundColor: .appTintColor)
     private let mainStackView = StackView(axis: .vertical,
                                           spacing: 20)
    
@@ -92,6 +93,13 @@ class NewCategoryMainView: UIView {
         }), for: .touchUpInside)
     }
     
+    func setCollectionViewHeight() {
+        collectionView.layoutIfNeeded()
+        let height = collectionView.contentSize.height
+        collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: height)
+        collectionViewHeight.isActive = true
+    }
+    
     private func setupView() {
         contentView.roundView(radius: 12, backgroundColor: .cellBackgroundColor)
         let mainStackSubViews: [UIView] = [titleLabel,
@@ -104,13 +112,6 @@ class NewCategoryMainView: UIView {
         
         mainStackView.setCustomSpacing(5, after: titleLabel)
         mainStackView.setCustomSpacing(40, after: categoryTextField)
-    }
-    
-    func setCollectionViewHeight() {
-        collectionView.layoutIfNeeded()
-        let height = collectionView.contentSize.height
-        collectionViewHeight = collectionView.heightAnchor.constraint(equalToConstant: height)
-        collectionViewHeight.isActive = true
     }
 }
 

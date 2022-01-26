@@ -12,10 +12,7 @@ class RatingInputStaticCell: UITableViewCell {
     // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tertiarySystemBackground
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(ratingSegmentedControl)
-        
+        setupView()
         setConstraints()
     }
     
@@ -32,6 +29,7 @@ class RatingInputStaticCell: UITableViewCell {
                                maxLines: 2,
                                alignment: .left,
                                font: .extraSmallTitle)
+    
     let ratingSegmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["✗","1 ★","2 ★","3 ★","4 ★","5 ★"])
         control.isSpringLoaded = true
@@ -50,16 +48,24 @@ class RatingInputStaticCell: UITableViewCell {
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
+    
     private let stackView = StackView(axis: .horizontal,
                                       distribution: .fill,
                                       spacing: 0)
+    
+    // MARK: - Configuration
+    private func setupView() {
+        self.backgroundColor = .tertiarySystemBackground
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(ratingSegmentedControl)
+    }
 }
 // MARK: - Constraints
 extension RatingInputStaticCell {
     private func setConstraints() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(stackView)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(equalToConstant: 70),
             stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

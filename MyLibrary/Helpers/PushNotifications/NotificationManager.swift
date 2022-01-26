@@ -14,14 +14,16 @@ class NotificationManager: NSObject {
     // MARK: - Properties
     private var userService: UserServiceProtocol
     private var libraryService: LibraryServiceProtocol
-    
+    private let factory: Factory
     // MARK: - Initializer
-    init(userService: UserServiceProtocol, libraryService: LibraryServiceProtocol) {
+    init(userService: UserServiceProtocol,
+         libraryService: LibraryServiceProtocol) {
         self.userService = userService
         self.libraryService = libraryService
+        self.factory = ViewControllerFactory()
         super.init()
     }
-
+    
     // MARK: - Private functions
     /// Update the database userInfo messaging token
     private func updateToken() {
@@ -29,9 +31,10 @@ class NotificationManager: NSObject {
             userService.updateFcmToken(with: token)
         }
     }
-
+    
     /// Handles a received push notification.
-    /// - Note: Retrieve the bookID and bookOwnerID from the notification Data and fetch the book then present the commentViewController.
+    /// - Note: Retrieve the bookID and bookOwnerID from the notification Data
+    /// and fetch the book then present the commentViewController.
     func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
@@ -49,30 +52,32 @@ class NotificationManager: NSObject {
         }
     }
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
+    /// - Parameters:
+    /// - book: Book the comment belongs to.
+    /// - Note: Handles 2 cases when presenting the Comment viewcontroller for the iPad, presents it modally dismissi
+    /// and for the iphone shows it thru the navigationController
     private func presentCommentController(with book: Item) {
+        let commentController = factory.makeCommentVC(with: book)
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        let commentController = CommentsViewController(book: book,
-                                                       commentService: CommentService(),
-                                                       messageService: MessageService(),
-                                                       validator: Validator())
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
-            rootViewController?.dismiss(animated: true, completion: nil)
-            rootViewController?.present(commentController, animated: true, completion: nil)
-        } else {
-            let rootViewController = scene?.window?.rootViewController as? TabBarController
-            let navController = rootViewController?.selectedViewController as? UINavigationController
-            if let currentController = navController?.viewControllers.last,
+        let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
+        
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            let tabBar = rootViewController?.viewController(for: .compact) as? TabBarController
+            let navigationController = tabBar?.selectedViewController as? UINavigationController
+            if let currentController = navigationController?.viewControllers.last,
                !currentController.isKind(of: CommentsViewController.self) {
-                navController?.show(commentController, sender: nil)
+                navigationController?.show(commentController, sender: nil)
             }
+            return
         }
+        rootViewController?.dismiss(animated: true)
+        let commentControllerWithNavigation = UINavigationController(rootViewController: commentController)
+        rootViewController?.present(commentControllerWithNavigation, animated: true)
     }
 }
 
 // MARK: - Messaging delegate
 extension NotificationManager: MessagingDelegate {
-   
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         updateToken()
     }
@@ -85,7 +90,6 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         didReceive(response.notification)
-
         completionHandler()
     }
     

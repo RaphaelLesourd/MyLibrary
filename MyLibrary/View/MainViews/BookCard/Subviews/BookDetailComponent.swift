@@ -12,8 +12,7 @@ class BookDetailComponent: UIView {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(infoLabel)
+        setupView()
         setConstraints()
     }
     
@@ -35,7 +34,12 @@ class BookDetailComponent: UIView {
     private let stackView = StackView(axis: .vertical,
                                       distribution: .equalSpacing,
                                       spacing: 2)
-
+    
+    // MARK: - Configuration
+    private func setupView() {
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(infoLabel)
+    }
 }
 // MARK: - Constraints
 extension BookDetailComponent {
