@@ -66,7 +66,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        updateHeader(with: .title)
+        updateHeader(with: Text.ListMenu.byTitle)
     }
     
     // MARK: - Setup
@@ -117,9 +117,10 @@ class BookLibraryViewController: UIViewController {
         applySnapshot(animatingDifferences: true)
     }
     
-    private func updateHeader(with listType: QueryType) {
-        let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
-        mainView.headerView.configure(with: title, buttonTitle: "")
+    func updateHeader(with title: String?) {
+        guard let title = title else { return }
+        let text = Text.ListMenu.bookListMenuTitle + " " + title.lowercased()
+        mainView.headerView.configure(with: text, buttonTitle: "")
     }
     
     // MARK: - Navigation
@@ -198,7 +199,7 @@ extension BookLibraryViewController {
 extension BookLibraryViewController: BookListMenuDelegate {
     
     func orderList(by listType: QueryType) {
-        updateHeader(with: listType)
+        updateHeader(with: listType.title)
         currentQuery = queryService.updateQuery(from: currentQuery,
                                                 with: listType.documentKey)
         reloadData()

@@ -7,6 +7,7 @@
 
 protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
+    func updateHeader(with title: String?)
 }
 
 class LibraryPresenter: BookCellAdapter {
@@ -25,6 +26,7 @@ class LibraryPresenter: BookCellAdapter {
     // MARK: - API Call
     func getBooks(with query: BookQuery,
                   nextPage: Bool = false) {
+        view?.updateHeader(with: query.listType?.title)
         view?.showActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 40,
