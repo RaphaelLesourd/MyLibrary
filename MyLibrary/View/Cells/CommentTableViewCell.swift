@@ -17,7 +17,6 @@ class CommentTableViewCell: UITableViewCell {
         setupView()
         setProfileImageConstraints()
         setMainStackViewConstraints()
-        self.layoutIfNeeded()
     }
     
     required init?(coder: NSCoder) {

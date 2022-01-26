@@ -81,7 +81,7 @@ class CommentPresenterTestCase: XCTestCase {
     func test_settingBookDetails() {
         sut = successTestPresenter
         sut.view = commentViewSpy
-        sut.setBookDetails(for: PresenterFakeData.book) { _ in
+        sut.getBookDetails(for: PresenterFakeData.book) { _ in
             XCTAssertTrue(self.commentViewSpy.showActivityWasCalled)
             XCTAssertTrue(self.commentViewSpy.stopActivityWasCalled)
         }

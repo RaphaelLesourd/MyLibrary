@@ -39,6 +39,7 @@ class CommentPresenter {
         
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
+          
             switch result {
             case .success(let comments):
                 self?.commentList = comments
@@ -54,6 +55,7 @@ class CommentPresenter {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
+       
         commentService.addComment(for: bookID,
                                      ownerID: ownerID,
                                      commentID: commentID,
@@ -90,6 +92,7 @@ class CommentPresenter {
                     book: Item?) {
         guard let book = book else { return }
         view?.showActivityIndicator()
+       
         messageService.sendCommentPushNotification(for: book,
                                                       message: newComment,
                                                       for: self.commentList) { [weak self] error in
@@ -105,40 +108,33 @@ class CommentPresenter {
     func getCommentDetails(for comment: CommentModel,
                            completion: @escaping(CommentCellRepresentable) -> Void) {
         let userID = comment.userID
-        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
-        
         view?.showActivityIndicator()
-        self.commentService.getUserDetail(for: userID) { [weak self] result in
-           
+        
+        commentService.getUserDetail(for: userID) { [weak self] result in
             self?.view?.stopActivityIndicator()
+            print("commment delaitls")
             if case .success(let user) = result {
-                let data = CommentCellRepresentable(message: comment.message,
-                                                    date: date,
-                                                    userName: user.displayName,
-                                                    profileImage: user.photoURL)
-                completion(data)
+                if let data = self?.makeCommentCellRepresentable(with: comment, and: user) {
+                    completion(data)
+                }
             }
         }
     }
     
-    func setBookDetails(for book: Item, completion: @escaping (CommentBookCellRepresentable) -> Void) {
+    func getBookDetails(for book: Item, completion: @escaping (CommentBookCellRepresentable) -> Void) {
         guard let ownerID = book.ownerID else { return }
-        let title = book.volumeInfo?.title?.capitalized ?? ""
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
-        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
-        var name: String?
-        
+        var name = String()
         view?.showActivityIndicator()
-        self.commentService.getUserDetail(for: ownerID) { [weak self] result in
+        
+        commentService.getUserDetail(for: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
+            
             if case .success(let owner) = result {
                 name = owner.displayName
             }
-            let data = CommentBookCellRepresentable(title: title,
-                                                    authors: authors,
-                                                    image: image,
-                                                    ownerName: name)
-            completion(data)
+            if let data = self?.makeCommentBookCellRepresentable(with: book, and: name) {
+                completion(data)
+            }
         }
     }
     
@@ -150,5 +146,24 @@ class CommentPresenter {
             editedCommentID = comment.uid
             view?.addCommentToInputBar(for: comment)
         }
+    }
+    
+    // MARK: - Private functions
+    private func makeCommentBookCellRepresentable(with book: Item, and ownerName: String) -> CommentBookCellRepresentable {
+        let title = book.volumeInfo?.title?.capitalized ?? ""
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ") ?? ""
+        let image = book.volumeInfo?.imageLinks?.thumbnail ?? ""
+        return CommentBookCellRepresentable(title: title,
+                                            authors: authors,
+                                            image: image,
+                                            ownerName: ownerName)
+    }
+    
+    private func makeCommentCellRepresentable(with comment: CommentModel, and user: UserModel) -> CommentCellRepresentable {
+        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
+        return CommentCellRepresentable(message: comment.message,
+                                        date: date,
+                                        userName: user.displayName,
+                                        profileImage: user.photoURL)
     }
 }
