@@ -70,6 +70,8 @@ class PresenterFakeData {
     static let comment = CommentModel(id: "1",
                                       uid: "1",
                                       userID: "1",
+                                      userName: "name",
+                                      userPhotoURL: "",
                                       message: "test",
                                       timestamp: 10000)
     

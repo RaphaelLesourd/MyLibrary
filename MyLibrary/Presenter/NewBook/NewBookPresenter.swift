@@ -55,7 +55,6 @@ class NewBookPresenter {
             }
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditing ? self.view?.returnToPreviousVC() : self.view?.clearData()
-            dump(book)
         }
     }
     

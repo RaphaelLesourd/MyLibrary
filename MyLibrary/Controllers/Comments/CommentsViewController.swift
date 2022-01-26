@@ -123,11 +123,7 @@ extension CommentsViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
-        
-        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else { return nil }
-        let commentOwnerID = comment.userID
-        let currentUserID = Auth.auth().currentUser?.uid
-        return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
     /// Handles swipe gesture actions
@@ -173,9 +169,9 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.presenter.getCommentDetails(for: item, completion: { data in
+                    if let data = self?.presenter.makeCommentCellRepresentable(with: item) {
                         cell.configure(with: data)
-                    })
+                    }
                     return cell
                 }
             case .none:

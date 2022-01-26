@@ -11,11 +11,13 @@ struct CommentModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String
     let userID: String
+    let userName: String
+    let userPhotoURL: String
     let message: String
     let timestamp: Double
     
     private enum CodingKeys : String, CodingKey {
-        case uid, userID, timestamp
+        case uid, userID, userName, userPhotoURL, timestamp
         case message = "comment"
     }
 }

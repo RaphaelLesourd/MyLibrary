@@ -18,7 +18,7 @@ class CommentPresenter {
     var editedCommentID: String?
     var commentList: [CommentModel] = []
     var bookCellRepresentable: [CommentBookCellRepresentable] = []
- 
+    
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
     private let formatter: Formatter
@@ -40,7 +40,7 @@ class CommentPresenter {
         
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
-          
+            
             switch result {
             case .success(let comments):
                 self?.commentList = comments
@@ -56,17 +56,17 @@ class CommentPresenter {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
-       
+        
         commentService.addComment(for: bookID,
                                      ownerID: ownerID,
                                      commentID: commentID,
                                      comment: newComment) { [weak self] error in
             self?.view?.stopActivityIndicator()
-            self?.editedCommentID = nil
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
+            self?.editedCommentID = nil
             self?.notifyUser(of: newComment, book: self?.book)
         }
     }
@@ -93,7 +93,7 @@ class CommentPresenter {
                     book: Item?) {
         guard let book = book else { return }
         view?.showActivityIndicator()
-       
+        
         messageService.sendCommentPushNotification(for: book,
                                                       message: newComment,
                                                       for: self.commentList) { [weak self] error in
@@ -106,19 +106,12 @@ class CommentPresenter {
     }
     
     // MARK: - Cell
-    func getCommentDetails(for comment: CommentModel,
-                           completion: @escaping(CommentCellRepresentable) -> Void) {
-        let userID = comment.userID
-        view?.showActivityIndicator()
-        
-        commentService.getUserDetail(for: userID) { [weak self] result in
-            self?.view?.stopActivityIndicator()
-            if case .success(let user) = result {
-                if let data = self?.makeCommentCellRepresentable(with: comment, and: user) {
-                    completion(data)
-                }
-            }
-        }
+    func makeCommentCellRepresentable(with comment: CommentModel) -> CommentCellRepresentable {
+        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
+        return CommentCellRepresentable(message: comment.message,
+                                        date: date,
+                                        userName: comment.userName.capitalized,
+                                        profileImage: comment.userPhotoURL)
     }
     
     func getBookDetails() {
@@ -159,13 +152,5 @@ class CommentPresenter {
                                             authors: authors,
                                             image: image,
                                             ownerName: ownerName)
-    }
-    
-    private func makeCommentCellRepresentable(with comment: CommentModel, and user: UserModel) -> CommentCellRepresentable {
-        let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
-        return CommentCellRepresentable(message: comment.message,
-                                        date: date,
-                                        userName: user.displayName,
-                                        profileImage: user.photoURL)
     }
 }
