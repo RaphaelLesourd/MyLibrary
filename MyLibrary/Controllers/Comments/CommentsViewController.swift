@@ -173,9 +173,9 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.presenter.getCommentDetails(for: item, completion: { data in
+                    if let data = self?.presenter.makeCommentCellRepresentable(with: item) {
                         cell.configure(with: data)
-                    })
+                    }
                     return cell
                 }
             case .none:
