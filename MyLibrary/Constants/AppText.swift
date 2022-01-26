@@ -81,8 +81,11 @@ enum Text {
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
         static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
         static let updateUserNameLegend = NSLocalizedString("UpdateUserNameLegend", comment: "Update UserName Legend text")
+        static let languageListHeader = NSLocalizedString("LanguageListHeader", comment: "language List Header title")
+        static let currencyListHeader = NSLocalizedString("CurrencyListHeader", comment: "currency List Header title")
+        static let listFooter = NSLocalizedString("ListFooter", comment: "Invite user to swipe left to add or remove to favorites")
     }
-    
+
     enum ButtonTitle {
         static let createProfileButtonTitle = NSLocalizedString("CreateProfile", comment: "create profile title")
         static let save = NSLocalizedString("Save", comment: "save title")

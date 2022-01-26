@@ -175,11 +175,15 @@ extension BookCardViewController: BookCardPresenterView {
     }
     
     func displayCategories(with list: NSAttributedString) {
-        mainView.categoryiesLabel.attributedText = list
+        DispatchQueue.main.async {
+            self.mainView.categoryiesLabel.attributedText = list
+        }
     }
     
     func playRecommendButtonIndicator(_ play: Bool) {
-        mainView.recommandButton.displayActivityIndicator(play)
+        DispatchQueue.main.async {
+            self.mainView.recommandButton.displayActivityIndicator(play)
+        }
     }
     
     func showActivityIndicator() {
@@ -187,6 +191,8 @@ extension BookCardViewController: BookCardPresenterView {
     }
     
     func stopActivityIndicator() {
-        hideIndicator(mainView.activityIndicator)
+        DispatchQueue.main.async {
+            self.hideIndicator(self.mainView.activityIndicator)
+        }
     }
 }

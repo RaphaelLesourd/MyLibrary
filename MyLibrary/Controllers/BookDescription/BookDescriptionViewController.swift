@@ -17,7 +17,7 @@ class BookDescriptionViewController: UIViewController {
     
     // MARK: - Initializer
     init(bookDescription: String?,
-         newBookDelegate: NewBookViewControllerDelegate) {
+         newBookDelegate: NewBookViewControllerDelegate?) {
         self.textViewText = bookDescription
         self.newBookDelegate = newBookDelegate
         super.init(nibName: nil, bundle: nil)
@@ -92,7 +92,7 @@ class BookDescriptionViewController: UIViewController {
     }
     
     private func updateData() {
-        newBookDelegate?.bookDescription = mainView.textView.text
+        newBookDelegate?.setDescription(with: mainView.textView.text)
     }
 }
 // MARK: - DescriptionViewDelegate

@@ -11,8 +11,6 @@ class CategoriesViewController: UIViewController {
     
     // MARK: Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
-    typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
-    
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
@@ -57,7 +55,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        newBookDelegate?.bookCategories = presenter.selectedCategories
+        newBookDelegate?.setCategories(with: presenter.selectedCategories)
     }
     
     // MARK: Setup
@@ -87,7 +85,6 @@ class CategoriesViewController: UIViewController {
         self.definesPresentationContext = true
     }
     
-    // MARK: Categories dialog
     @objc private func addNewCategory() {
         presentNewCategoryController(editing: false, for: nil)
     }
@@ -96,17 +93,18 @@ class CategoriesViewController: UIViewController {
 // MARK: - TableView Datasource
 extension CategoriesViewController {
     
-    private func makeDataSource() -> DataSource {
-        dataSource = DataSource(tableView: mainView.tableView,
+    private func makeDataSource() -> CategoryDataSource {
+        dataSource = CategoryDataSource(tableView: mainView.tableView,
                                 cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             let backgroundView = UIView()
-            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.5)
-            cell.imageView?.tintColor = UIColor(hexString: item.color ?? "E38801")
+            backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            cell.selectedBackgroundView = backgroundView
+            cell.imageView?.tintColor = UIColor(hexString: item.color)
             cell.imageView?.image = Images.ButtonIcon.selectedCategoryBadge
             cell.backgroundColor = .tertiarySystemBackground
-            cell.selectedBackgroundView = backgroundView
-            cell.textLabel?.text = item.name?.capitalized
+            cell.textLabel?.text = item.name.capitalized
             return cell
         })
         return dataSource
@@ -119,8 +117,9 @@ extension CategoriesViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(presenter.categories, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
         if let section = dataSource.snapshot().indexOfSection(.main) {
             presenter.highlightBookCategories(for: section)
         }
@@ -131,16 +130,16 @@ extension CategoriesViewController {
 extension CategoriesViewController: UITableViewDelegate {
     // Header
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sectionTitleLabel = TextLabel(color: .label,
+        let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 2,
                                           alignment: .left,
-                                          font: .subtitle)
-        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader
+                                          font: .footerLabel)
+        sectionTitleLabel.text = Text.SectionTitle.categoryListSectionHeader.uppercased()
         return sectionTitleLabel
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 30
     }
     
     // Footer
@@ -156,14 +155,17 @@ extension CategoriesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 50
     }
+    
     // Context menu
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
-        let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = makeContextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
+        let editAction = makeContextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
-    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func makeContextMenuAction(for actionType: CellSwipeActionType,
+                                       forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
             self?.presenter.presentSwipeAction(for: actionType, at: indexPath.row)
             completion(true)
@@ -173,11 +175,11 @@ extension CategoriesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.removeSelectedCategory(at: indexPath.row)
+        presenter.addSelectedCategory(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        presenter.addSelectedCategory(from: indexPath.row)
+        presenter.removeSelectedCategory(from: indexPath.row)
     }
 }
 
@@ -191,8 +193,8 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func displayDeleteCategoryAlert(for category: CategoryModel) {
-        let title = Text.ButtonTitle.delete + " " + (category.name?.capitalized ?? "")
+    func displayDeleteAlert(for category: CategoryModel) {
+        let title = Text.ButtonTitle.delete + " " + category.name.capitalized
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
                                   cancel: true,
@@ -210,8 +212,10 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
     
-    func highlightCellForCategoryList(at indexPath: IndexPath) {
-        mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+    func highlightCell(at indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            self.mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        }
     }
     
     func showActivityIndicator() {
@@ -225,6 +229,7 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
 }
+
 // MARK: - Search Result updating
 extension CategoriesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {

@@ -17,27 +17,39 @@ class PresenterFakeData {
                                             photoURL: "PhotoURL",
                                             token: "")
     
-    static let categories: [CategoryModel] = [CategoryModel(id: "",
-                                                            uid: "",
+    static let categories: [CategoryModel] = [CategoryModel(id: "1",
+                                                            uid: "1",
                                                             name: "First",
                                                             color: "TestColor"),
-                                              CategoryModel(id: "",
-                                                            uid: "",
+                                              CategoryModel(id: "2",
+                                                            uid: "2",
                                                             name: "Second",
                                                             color: "TestColor")]
     
+    private static let volumeInfo = VolumeInfo(title: "title",
+                                authors: [""],
+                                publisher: "",
+                                publishedDate: "",
+                                volumeInfoDescription: "",
+                                industryIdentifiers: [IndustryIdentifier(identifier: "")],
+                                pageCount: 0,
+                                ratingsCount: 0,
+                                imageLinks: ImageLinks(thumbnail: ""),
+                                language: "")
+    private static let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0,
+                                                           currencyCode: ""))
     static let books: [Item] = [Item(id: "testID",
                                      bookID: "",
                                      favorite: true,
                                      ownerID: "",
                                      recommanding: true,
-                                     volumeInfo: nil,
-                                     saleInfo: nil,
+                                     volumeInfo: PresenterFakeData.volumeInfo,
+                                     saleInfo: PresenterFakeData.saleInfo,
                                      timestamp: 0,
-                                     category: nil)]
+                                     category: [])]
     
-    static let users: [UserModel] = [UserModel(id: "",
-                                               userID: "",
+    static let users: [UserModel] = [UserModel(id: "1",
+                                               userID: "1",
                                                displayName: "TestUser",
                                                email: "TestEmail",
                                                photoURL: "testUrl",
@@ -46,23 +58,29 @@ class PresenterFakeData {
     static let category = CategoryModel(id: "1", uid: "1", name: "test", color: "AAAAA")
     
     static let book: Item = Item(id: "testID",
-                                 bookID: "",
+                                 bookID: "1",
                                  favorite: true,
-                                 ownerID: "",
+                                 ownerID: "1",
                                  recommanding: true,
-                                 volumeInfo: nil,
-                                 saleInfo: nil,
+                                 volumeInfo: PresenterFakeData.volumeInfo,
+                                 saleInfo: PresenterFakeData.saleInfo,
                                  timestamp: 0,
                                  category: [])
     
-    static let comment = CommentModel(id: "",
-                                      uid: "",
-                                      userID: "",
-                                      comment: "",
-                                      timestamp: 0)
+    static let comment = CommentModel(id: "1",
+                                      uid: "1",
+                                      userID: "1",
+                                      userName: "name",
+                                      userPhotoURL: "",
+                                      message: "test",
+                                      timestamp: 10000)
     
     static let bookQuery = BookQuery(listType: HomeCollectionViewSections.favorites,
                                      orderedBy: .category,
                                      fieldValue: "",
                                      descending: true)
+    
+    static let listData = ListRepresentable(title: "test",
+                                            subtitle: "XUA",
+                                            favorite: true)
 }

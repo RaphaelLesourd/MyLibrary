@@ -11,7 +11,17 @@ class WelcomeViewController: UIViewController {
     
     // MARK: - Properties
     private let mainView = WelcomeControllerMainView()
+    private let factory: Factory
     
+    // MARK: - Initializer
+    init() {
+        self.factory = ViewControllerFactory()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Lifecycle
     override func loadView() {
         view = mainView
@@ -27,7 +37,7 @@ class WelcomeViewController: UIViewController {
         super.viewDidAppear(animated)
         let onboardingShown = UserDefaults.standard.bool(forKey: UserDefaultKey.onboardingSeen.rawValue)
         guard onboardingShown == false else { return }
-        let onboardingViewController = OnboardingViewController(layoutComposer: OnboardingLayout())
+        let onboardingViewController = factory.makeOnboardingVC()
         onboardingViewController.modalPresentationStyle = .fullScreen
         present(onboardingViewController, animated: false, completion: nil)
     }
@@ -35,13 +45,7 @@ class WelcomeViewController: UIViewController {
 // MARK: - WelcomeMainView Delegate
 extension WelcomeViewController: WelcomeViewDelegate {
     func presentAccountViewController(for type: AccountInterfaceType) {
-        let accountService = AccountService(userService: UserService(),
-                                            libraryService: LibraryService(),
-                                            categoryService: CategoryService())
-        let welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
-        let accountSetupController = AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                                                validator: Validator(),
-                                                                interfaceType: type)
+        let accountSetupController = factory.makeAccountSetupVC(for: type)
         if #available(iOS 15.0, *) {
             presentSheetController(accountSetupController, detents: [.large()])
         } else {

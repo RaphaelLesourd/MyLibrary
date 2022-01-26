@@ -16,7 +16,12 @@ class CommentServiceTestCase: XCTestCase {
     private var userService: UserService!
     private var book: Item!
     private let imageData  = Data()
-    private let comment = CommentModel(uid: "commentID", userID: "user1", comment: "comment text", timestamp: 0)
+    private let comment = CommentModel(uid: "commentID",
+                                       userID: "user1",
+                                       userName: "name",
+                                       userPhotoURL: "",
+                                       message: "comment text",
+                                       timestamp: 0)
     
     // MARK: - Lifecycle
     override func setUp() {
@@ -62,7 +67,11 @@ class CommentServiceTestCase: XCTestCase {
         guard let bookID = book.bookID,
               let ownerID = book.ownerID else { return }
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        self.sut.addComment(for: bookID, ownerID: ownerID, commentID: self.comment.uid, comment: self.comment.comment!, completion: { error in
+        self.sut.addComment(for: bookID,
+                               ownerID: ownerID,
+                               commentID: self.comment.uid,
+                               comment: self.comment.message,
+                               completion: { error in
             XCTAssertNil(error)
             expectation.fulfill()
         })
@@ -73,7 +82,11 @@ class CommentServiceTestCase: XCTestCase {
         guard let bookID = book.bookID,
               let ownerID = book.ownerID else { return }
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        self.sut.addComment(for: bookID, ownerID: ownerID, commentID: self.comment.uid, comment: self.comment.comment!, completion: { error in
+        self.sut.addComment(for: bookID,
+                               ownerID: ownerID,
+                               commentID: self.comment.uid,
+                               comment: self.comment.message,
+                               completion: { error in
             XCTAssertNil(error)
             self.sut.getComments(for: bookID, ownerID: ownerID) {result in
                 switch result {
@@ -92,7 +105,11 @@ class CommentServiceTestCase: XCTestCase {
         guard let bookID = book.bookID,
               let ownerID = book.ownerID else { return }
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        sut.addComment(for: bookID, ownerID: ownerID, commentID: self.comment.uid, comment: self.comment.comment!, completion: { error in
+        sut.addComment(for: bookID,
+                          ownerID: ownerID,
+                          commentID: self.comment.uid,
+                          comment: self.comment.message,
+                          completion: { error in
             XCTAssertNil(error)
             self.sut.deleteComment(for: bookID, ownerID: ownerID, comment: self.comment) { error in
                 XCTAssertNil(error)

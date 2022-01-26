@@ -14,12 +14,13 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
+    let presenter: SearchPresenter
+    
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
-    private lazy var dataSource = createDataSource()
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    let presenter: SearchPresenter
+    private lazy var dataSource = createDataSource()
  
     // MARK: - Initializer
     init(presenter: SearchPresenter,
@@ -137,20 +138,20 @@ extension SearchViewController: UICollectionViewDelegate {
     /// via delgate patern protocol.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
-        newBookDelegate?.displayBook(for: searchBook)
+        newBookDelegate?.setBookData(with: searchBook)
     }
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
     
-    func refreshData() {
+    func reloadData() {
         presenter.refreshData()
     }
 }
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
     func displayBookFromBarCodeSearch(with book: Item?) {
-        newBookDelegate?.displayBook(for: book)
+        newBookDelegate?.setBookData(with: book)
     }
     
     func showActivityIndicator() {

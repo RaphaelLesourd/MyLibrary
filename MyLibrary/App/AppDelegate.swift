@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cache.diskStorage.config.sizeLimit = 1000 * 1024 * 1024
         KingfisherManager.shared.downloader.downloadTimeout = 3000.0
     }
+    
     ///  Fetch User defined data from the bundle
     private func getUserDefinedData() {
         if let fcmKEY = Bundle.main.object(forInfoDictionaryKey: "fcmKey") as? String {

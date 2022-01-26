@@ -8,12 +8,19 @@
 import UIKit
 import Lottie
 
+protocol BarcodeControllerViewDelegate: AnyObject {
+    func toggleFlashlight()
+}
+
 class BarcodeControllerView: UIView {
+    
+    weak var delegate: BarcodeControllerViewDelegate?
     
     // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
+        addButtonAction()
         setStackViewConstraints()
         setAnimationViewConstraints()
     }
@@ -37,7 +44,7 @@ class BarcodeControllerView: UIView {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
     }()
-    let flashLightButton = UIButton()
+    private let flashLightButton = UIButton()
     
     private let titleLabel = TextLabel(color: .label,
                                        maxLines: 2,
@@ -78,6 +85,12 @@ class BarcodeControllerView: UIView {
         toggleButton(onState: false)
         titleLabel.text = Text.ControllerTitle.barcodeController
         infoLabel.text = Text.ControllerTitle.barcodeControllerSubitle
+    }
+    
+    private func addButtonAction() {
+        flashLightButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.toggleFlashlight()
+        }), for: .touchUpInside)
     }
 }
 // MARK: - Constraints

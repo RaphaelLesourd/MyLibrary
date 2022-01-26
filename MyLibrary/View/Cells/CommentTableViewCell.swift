@@ -50,20 +50,16 @@ class CommentTableViewCell: UITableViewCell {
     
     // MARK: - Configuration
     func configure(with model: CommentCellRepresentable) {
-        userNameLabel.text = model.userName
-        dateLabel.text = model.date
-        commentLabel.text = model.message
         profileImageView.getImage(for: model.profileImage) { [weak self] image in
             self?.profileImageView.image = image
         }
+        userNameLabel.text = model.userName
+        dateLabel.text = model.date
+        commentLabel.text = model.message
     }
     
     private func setupView() {
         self.contentView.backgroundColor = .tertiarySystemBackground
-        
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
         commentLabel.lineBreakMode = .byWordWrapping
         stackView.addArrangedSubview(userNameLabel)
         stackView.addArrangedSubview(dateLabel)

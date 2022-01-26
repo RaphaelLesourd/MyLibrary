@@ -32,11 +32,10 @@ class CommentServiceMock: CommentServiceProtocol {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
+    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel, FirebaseError>) -> Void) {
         if successTest {
             completion(.success(PresenterFakeData.user))
         } else {
-            completion(.success(nil))
             completion(.failure(.firebaseError(PresenterError.fail)))
         }
     }

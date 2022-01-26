@@ -218,3 +218,8 @@
 "SearchHeaderTitle" = "Powered by GoogleBooks";
 "UpdateUserNameLegend" = "Update your username by pressing Done";
 "Modifybook" = "Modify book";
+
+"LanguageListHeader" = "Select a language";
+"CurrencyListHeader" = "Select a currency";
+
+"ListFooter" = "Swipe left to add to or remove from your favorites.";

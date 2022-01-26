@@ -70,7 +70,7 @@ class BookListView: UIView {
     
     private func addButtonsAction() {
         refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.refreshData()
+            self?.delegate?.reloadData()
         }), for: .valueChanged)
     }
 }

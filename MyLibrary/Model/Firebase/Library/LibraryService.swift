@@ -159,10 +159,11 @@ extension LibraryService: LibraryServiceProtocol {
         }
         var book = book
         let bookID = setBookId(for: book)
+        book.ownerID = userID
+        book.bookID = bookID
         saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
             book.volumeInfo?.imageLinks?.thumbnail = storageLink
-            book.ownerID = self?.userID
-            book.bookID = bookID
+            
             self?.setRecommendation(for: book)
             self?.saveDocument(for: book, with: bookID, collection: .books) { error in
                 if let error = error {
@@ -259,6 +260,7 @@ extension LibraryService: LibraryServiceProtocol {
                    field: DocumentKey,
                    for id: String?,
                    completion: @escaping CompletionHandler) {
+        
         updateStatus(with: id ?? "",
                      state: state,
                      collection: .books,

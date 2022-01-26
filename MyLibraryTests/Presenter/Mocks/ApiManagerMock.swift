@@ -10,7 +10,7 @@ import Foundation
 
 class ApiManagerMock: ApiManagerProtocol {
     func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void) {
-        completion(.success([]))
+        completion(.success(PresenterFakeData.books))
     }
     
     func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {

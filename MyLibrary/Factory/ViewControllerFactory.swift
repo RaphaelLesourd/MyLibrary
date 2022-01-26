@@ -6,21 +6,6 @@
 //
 import UIKit
 
-protocol Factory {
-    func makeAccountTabViewcontroller() -> UIViewController
-    func makeCategoryVC(settingCategory: Bool,
-                        bookCategories: [String],
-                        newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
-    func makeBookListVC(with query: BookQuery) -> UIViewController
-    func makeAccountSetupController(for type: AccountInterfaceType) -> UIViewController
-    func makeNewBookVC(with book: Item?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController
-    func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController
-    func makeCommentVC(with book: Item?) -> UIViewController
-    func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController
-    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController
-}
-
 class ViewControllerFactory {
     // MARK: Services
     private let libraryService = LibraryService()
@@ -36,8 +21,6 @@ class ViewControllerFactory {
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
     
-    private let imageRetriever = KFImageRetriever()
-    
     private lazy var apiManager = ApiManager(session: .default, validator: validation)
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
@@ -45,7 +28,8 @@ class ViewControllerFactory {
     private lazy var messageService = MessageService(apiManager: apiManager)
     
     // MARK: Presenters
-    private lazy var welcomeAccountPresenter = WelcomeAccountPresenter(accountService: accountService)
+    private lazy var welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
+                                                                     validation: validation)
     private lazy var categoryPresenter = CategoryPresenter(categoryService: categoryService)
     private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService)
     private lazy var accountTabPresenter = AccountTabPresenter(userService: userService,
@@ -64,11 +48,15 @@ class ViewControllerFactory {
                                                            categoryFormatter: categoryFormatter)
     private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
     private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService,
-                                                         formatter: formatter)
+                                                         formatter: formatter,
+                                                         converter: converter,
+                                                         validator: validation)
+    private let onboardingPresenter = OnboardingPresenter()
     
     // MARK: Layout
     private let bookListLayout = BookListLayout()
     private let homeTabLayout = HomeTabLayout()
+    private let onboardingLayout = OnboardingLayout()
     
     private func makeResultViewController() -> SearchViewController {
         SearchViewController(presenter: SearchPresenter(apiManager: apiManager),
@@ -78,13 +66,13 @@ class ViewControllerFactory {
 
 // MARK: - Factory
 extension ViewControllerFactory: Factory {
-   
+    
     func makeHomeTabVC() -> UIViewController {
         return  HomeViewController(presenter: homePresenter,
                                    layoutComposer: homeTabLayout)
     }
     
-    func makeAccountTabViewcontroller() -> UIViewController {
+    func makeAccountTabVC() -> UIViewController {
         return AccountViewController(presenter: accountTabPresenter,
                                      feedbackManager: feedbackManager)
     }
@@ -111,9 +99,8 @@ extension ViewControllerFactory: Factory {
                                          layoutComposer: bookListLayout)
     }
     
-    func makeAccountSetupController(for type: AccountInterfaceType) -> UIViewController {
+    func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController {
         return AccountSetupViewController(presenter: welcomeAccountPresenter,
-                                          validator: validation,
                                           interfaceType: type)
     }
     
@@ -122,9 +109,7 @@ extension ViewControllerFactory: Factory {
                                      isEditing: isEditing,
                                      bookCardDelegate: bookCardDelegate,
                                      presenter: newBookPresenter,
-                                     resultViewController: makeResultViewController(),
-                                     converter: converter,
-                                     validator: validation)
+                                     resultViewController: makeResultViewController())
     }
     
     func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
@@ -135,7 +120,7 @@ extension ViewControllerFactory: Factory {
                                       presenter: bookCardPresenter)
     }
     
-    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate) -> UIViewController {
+    func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         return BookDescriptionViewController(bookDescription: description,
                                              newBookDelegate: newBookDelegate)
     }
@@ -148,5 +133,23 @@ extension ViewControllerFactory: Factory {
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController {
         return BookCoverViewController(image: image)
+    }
+    
+    func makeListVC(for dataType: ListDataType,
+                    selectedData: String?,
+                    newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
+        let presenter = ListPresenter(listDataType: dataType,
+                                      formatter: formatter)
+        return ListTableViewController(receivedData: selectedData,
+                                       newBookDelegate: newBookDelegate,
+                                       presenter: presenter)
+    }
+    
+    func makeBarcodeScannerVC(delegate: BarcodeScannerDelegate?) -> UIViewController {
+        return BarcodeScanViewController(barcodeDelegate: delegate)
+    }
+    
+    func makeOnboardingVC() -> UIViewController {
+        return OnboardingViewController(layoutComposer: onboardingLayout, presenter: onboardingPresenter)
     }
 }

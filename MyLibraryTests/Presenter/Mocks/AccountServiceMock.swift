@@ -35,6 +35,4 @@ class AccountServiceMock: AccountServiceProtocol {
     func sendPasswordReset(for email: String, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
-    
-    
 }

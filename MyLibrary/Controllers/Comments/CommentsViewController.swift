@@ -14,8 +14,7 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
-    typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
-    
+  
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let validator: ValidatorProtocol
@@ -56,6 +55,7 @@ class CommentsViewController: UIViewController {
         setTargets()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
+        presenter.getBookDetails()
         presenter.getComments()
     }
     
@@ -123,11 +123,7 @@ extension CommentsViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = self.contextMenuAction(for: .delete, forRowAtIndexPath: indexPath)
         let editAction = self.contextMenuAction(for: .edit, forRowAtIndexPath: indexPath)
-        
-        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else { return nil }
-        let commentOwnerID = comment.userID
-        let currentUserID = Auth.auth().currentUser?.uid
-        return commentOwnerID == currentUserID ? UISwipeActionsConfiguration(actions: [deleteAction, editAction]) : nil
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
     
     /// Handles swipe gesture actions
@@ -150,21 +146,20 @@ extension CommentsViewController {
     
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
-    private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(tableView: mainView.tableView,
+    private func makeDataSource() -> CommentDataSource {
+        let dataSource = CommentDataSource(tableView: mainView.tableView,
                                     cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
             case .book:
-                if let item = item as? Item {
+                if let item = item as? CommentBookCellRepresentable {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
-                        return UITableViewCell() }
-                    self?.presenter.setBookDetails(for: item, completion: { data in
-                        cell.configure(with: data)
-                    })
+                        return UITableViewCell()
+                    }
+                    cell.configure(with: item)
                     return cell
                 }
             case .today, .past:
@@ -174,9 +169,9 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    self?.presenter.getCommentDetails(for: item, completion: { data in
+                    if let data = self?.presenter.makeCommentCellRepresentable(with: item) {
                         cell.configure(with: data)
-                    })
+                    }
                     return cell
                 }
             case .none:
@@ -186,22 +181,20 @@ extension CommentsViewController {
         })
         return dataSource
     }
-
+    
     func applySnapshot(animatingDifferences: Bool) {
         mainView.emptyStateView.isHidden = !presenter.commentList.isEmpty
         
         var snapshot = Snapshot()
-        snapshot.appendSections([.book])
-        snapshot.appendItems([book], toSection: .book)
+        snapshot.appendSections(CommentsSection.allCases)
+        snapshot.appendItems(presenter.bookCellRepresentable, toSection: .book)
         
         let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendSections([.today])
         snapshot.appendItems(todayComments, toSection: .today)
         
         let pastComments = presenter.commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
-        snapshot.appendSections([.past])
         snapshot.appendItems(pastComments, toSection: .past)
-        
+       
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -226,14 +219,12 @@ extension CommentsViewController: CommentsPresenterView {
     
     /// Add comment text to the input bar to edit and save the comment.
    func addCommentToInputBar(for comment: CommentModel) {
-        mainView.inputBar.inputTextView.text = comment.comment
+        mainView.inputBar.inputTextView.text = comment.message
         mainView.inputBar.inputTextView.becomeFirstResponder()
     }
     
     func showActivityIndicator() {
-        DispatchQueue.main.async {
-            self.showIndicator(self.mainView.activityIndicator)
-        }
+        showIndicator(self.mainView.activityIndicator)
     }
     
     func stopActivityIndicator() {

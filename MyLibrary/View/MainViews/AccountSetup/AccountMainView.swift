@@ -90,20 +90,23 @@ class AccountMainView: UIView {
         if type != .signup {
             mainStackView.setCustomSpacing(50, after: confirmPasswordTextField)
         }
-        
+       
         switch type {
         case .signup:
             updateUiTexts(title: Text.Account.signupTitle,
                           subtitle: Text.Account.signupSubtitle,
                           buttonTitle: Text.ButtonTitle.createProfileButtonTitle)
+            userNameTextField.becomeFirstResponder()
         case .login:
             updateUiTexts(title: Text.Account.loginTitle,
                           subtitle: Text.Account.loginSubtitle,
                           buttonTitle: Text.Account.loginButtonTitle)
+            emailTextField.becomeFirstResponder()
         case .deleteAccount:
             updateUiTexts(title: Text.ButtonTitle.deletaAccount,
                           subtitle: Text.Account.reAuthentificationMessage,
                           buttonTitle: Text.ButtonTitle.delete)
+            emailTextField.becomeFirstResponder()
         }
     }
     

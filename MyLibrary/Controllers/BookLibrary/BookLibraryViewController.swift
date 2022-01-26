@@ -17,8 +17,9 @@ class BookLibraryViewController: UIViewController {
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
-    private let presenter: LibraryPresenter
+    private var presenter: LibraryPresenter
     
+    private let factory: Factory
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
     private var gridItemSize: GridSize = .medium {
@@ -26,7 +27,6 @@ class BookLibraryViewController: UIViewController {
             updateGridLayout()
         }
     }
-    private let factory: Factory
     
     // MARK: - Initializer
     init(currentQuery: BookQuery,
@@ -60,12 +60,13 @@ class BookLibraryViewController: UIViewController {
         configureEmptyStateView()
         
         bookListMenu?.loadLayoutChoice()
+        presenter.bookList.removeAll()
         applySnapshot(animatingDifferences: false)
         presenter.getBooks(with: currentQuery)
     }
     
     override func viewDidLayoutSubviews() {
-        updateHeader(with: .timestamp)
+        updateHeader(with: Text.ListMenu.byTitle)
     }
     
     // MARK: - Setup
@@ -116,21 +117,17 @@ class BookLibraryViewController: UIViewController {
         applySnapshot(animatingDifferences: true)
     }
     
-    private func updateHeader(with listType: QueryType) {
-        let title = Text.ListMenu.bookListMenuTitle + " " + listType.title.lowercased()
-        mainView.headerView.configure(with: title, buttonTitle: "")
+    func updateHeader(with title: String?) {
+        guard let title = title else { return }
+        let text = Text.ListMenu.bookListMenuTitle + " " + title.lowercased()
+        mainView.headerView.configure(with: text, buttonTitle: "")
     }
     
     // MARK: - Navigation
     func showBookDetails(for book: Item) {
         let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let viewController = UINavigationController(rootViewController: bookCardVC)
-            present(viewController, animated: true)
-        } else {
-            navigationController?.show(bookCardVC, sender: nil)
-        }
+        showController(bookCardVC)
     }
 }
 
@@ -157,6 +154,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     
+    /// Creates diffable dataSource for the CollectionView
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
@@ -166,12 +164,12 @@ extension BookLibraryViewController {
             cell.configure(with: bookData)
             return cell
         })
-        configureFooter(dataSource)
+        configureSupplementaryViews(dataSource)
         return dataSource
     }
-    /// Adds a footer to the collectionView.
+    /// Adds a footer and Header to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
-    private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
+    private func configureSupplementaryViews(_ dataSource: BookLibraryViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
@@ -183,26 +181,28 @@ extension BookLibraryViewController {
             default:
                 return nil
             }
-            
         }
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.collectionView.isHidden = presenter.bookList.isEmpty
-        mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
-        var snapshot = Snapshot()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(presenter.bookList, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        DispatchQueue.main.async {
+            self.mainView.collectionView.isHidden = self.presenter.bookList.isEmpty
+            self.mainView.emptyStateView.isHidden = !self.presenter.bookList.isEmpty
+            var snapshot = Snapshot()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(self.presenter.bookList, toSection: .main)
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+        }
     }
 }
 // MARK: - BookListLayout Delegate
 extension BookLibraryViewController: BookListMenuDelegate {
     
     func orderList(by listType: QueryType) {
-        updateHeader(with: listType)
-        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
-        refreshData()
+        updateHeader(with: listType.title)
+        currentQuery = queryService.updateQuery(from: currentQuery,
+                                                with: listType.documentKey)
+        reloadData()
     }
     
     func setLayoutFromMenu(for size: GridSize) {
@@ -211,7 +211,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
 }
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
-    func refreshData() {
+    func reloadData() {
         presenter.bookList.removeAll()
         presenter.endOfList = false
         presenter.getBooks(with: currentQuery)
@@ -229,7 +229,7 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
         }
         splitViewController?.show(.primary)
         if let controller = splitViewController?.viewController(for: .primary) as? NewBookViewController {
-            controller.mainView.bookTileCell.textField.becomeFirstResponder()
+            controller.subViews.bookTileCell.textField.becomeFirstResponder()
         }
     }
 }
@@ -242,8 +242,10 @@ extension BookLibraryViewController: LibraryPresenterView {
     }
     
     func stopActivityIndicator() {
-        hideIndicator(mainView.activityIndicator)
-        mainView.refresherControl.endRefreshing()
-        mainView.footerView.displayActivityIndicator(false)
+        DispatchQueue.main.async {
+            self.hideIndicator(self.mainView.activityIndicator)
+            self.mainView.refresherControl.endRefreshing()
+            self.mainView.footerView.displayActivityIndicator(false)
+        }
     }
 }
