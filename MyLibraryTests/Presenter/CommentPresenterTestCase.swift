@@ -67,17 +67,7 @@ class CommentPresenterTestCase: XCTestCase {
         XCTAssertTrue(commentViewSpy.showActivityWasCalled)
         XCTAssertTrue(commentViewSpy.stopActivityWasCalled)
     }
-    
-    func test_getCommentDetails_successFully() {
-        sut = successTestPresenter
-        sut.view = commentViewSpy
-        sut.book = PresenterFakeData.book
-        sut.getCommentDetails(for: PresenterFakeData.comment) { _ in
-            XCTAssertTrue(self.commentViewSpy.showActivityWasCalled)
-            XCTAssertTrue(self.commentViewSpy.stopActivityWasCalled)
-        }
-    }
-    
+   
     func test_settingBookDetails_whenBookIsNotNil() {
         sut = successTestPresenter
         sut.view = commentViewSpy
@@ -100,6 +90,13 @@ class CommentPresenterTestCase: XCTestCase {
         sut.view = commentViewSpy
         sut.presentSwipeAction(for: PresenterFakeData.comment, actionType: .edit)
         XCTAssertTrue(commentViewSpy.addCommentToInputBarWasCalled)
+    }
+    
+    func test_makeCommentCellRepresentable() {
+        sut = successTestPresenter
+        let representable = sut.makeCommentCellRepresentable(with: PresenterFakeData.comment)
+        XCTAssertEqual(representable.userName, PresenterFakeData.comment.userName.capitalized)
+        XCTAssertEqual(representable.message, PresenterFakeData.comment.message)
     }
     // MARK: - Fail
     func test_getComments_fail() {

@@ -43,9 +43,11 @@ class LibraryPresenterTestCase: XCTestCase {
 
 class LibraryPresenterViewSpy: LibraryPresenterView {
     
+    
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
+    var updateHeaderWasCalled = false
   
     func applySnapshot(animatingDifferences: Bool) {
         snapshotWasCalled = true
@@ -57,5 +59,9 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
     
     func stopActivityIndicator() {
         stopActivityWasCalled = true
+    }
+    
+    func updateHeader(with title: String?) {
+        updateHeaderWasCalled = true
     }
 }

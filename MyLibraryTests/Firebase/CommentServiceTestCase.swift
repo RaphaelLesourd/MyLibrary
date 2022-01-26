@@ -18,6 +18,8 @@ class CommentServiceTestCase: XCTestCase {
     private let imageData  = Data()
     private let comment = CommentModel(uid: "commentID",
                                        userID: "user1",
+                                       userName: "name",
+                                       userPhotoURL: "",
                                        message: "comment text",
                                        timestamp: 0)
     
