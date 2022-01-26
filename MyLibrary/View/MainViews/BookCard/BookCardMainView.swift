@@ -22,7 +22,7 @@ class BookCardMainView: UIView {
         setBookCoverConstraints()
         setupMainstackView()
         setFavoriteButtonConstraints()
-        bookCover.addShadow()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -137,6 +137,27 @@ class BookCardMainView: UIView {
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
     
+    private func setupView() {
+        bookCover.addShadow()
+        setRecommandedButtonAs(false)
+        setFavoriteButtonAs(false)
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           authorLabel,
+                                           categoryiesLabel,
+                                           ratingView,
+                                           descriptionLabel,
+                                           bookDetailView,
+                                           commentView,
+                                           recommandButton,
+                                           deleteBookButton]
+        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
+        mainStackView.setCustomSpacing(5, after: titleLabel)
+        mainStackView.setCustomSpacing(15, after: authorLabel)
+        mainStackView.setCustomSpacing(15, after: categoryiesLabel)
+        mainStackView.setCustomSpacing(60, after: ratingView)
+        mainStackView.setCustomSpacing(20, after: recommandButton)
+    }
+    
     private func setImageAnimation() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.4, y: 1.4).translatedBy(x: 0, y: -20)
         animator.addAnimations {
@@ -225,22 +246,6 @@ extension BookCardMainView {
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
-        let mainStackSubViews: [UIView] = [titleLabel,
-                                           authorLabel,
-                                           categoryiesLabel,
-                                           ratingView,
-                                           descriptionLabel,
-                                           bookDetailView,
-                                           commentView,
-                                           recommandButton,
-                                           deleteBookButton]
-        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
-        mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(15, after: authorLabel)
-        mainStackView.setCustomSpacing(15, after: categoryiesLabel)
-        mainStackView.setCustomSpacing(60, after: ratingView)
-        mainStackView.setCustomSpacing(20, after: recommandButton)
-        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 40),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

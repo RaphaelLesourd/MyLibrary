@@ -11,7 +11,7 @@ struct CategoryModel: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String
     var name: String
-    var color: String?
+    var color: String
    
     private enum CodingKeys : String, CodingKey {
         case uid, name, color

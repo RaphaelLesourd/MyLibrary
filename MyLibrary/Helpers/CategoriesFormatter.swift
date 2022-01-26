@@ -12,7 +12,7 @@ class CategoriesFormatter {
     func formattedString(for categories: [CategoryModel]) -> NSAttributedString {
         let text = NSMutableAttributedString()
         categories.forEach {
-            let attachment = imageStringAttachment(for: $0, size: 11)
+            let attachment = imageStringAttachment(for: $0.color, size: 11)
             let imgString = NSAttributedString(attachment: attachment)
             let name = $0.name.uppercased()
             text.append(imgString)
@@ -21,8 +21,8 @@ class CategoriesFormatter {
         return text
     }
     
-    private func imageStringAttachment(for category: CategoryModel, size: CGFloat) -> NSTextAttachment {
-        let color = UIColor(hexString: category.color ?? "FFFFFF")
+    private func imageStringAttachment(for color: String, size: CGFloat) -> NSTextAttachment {
+        let color = UIColor(hexString: color)
         let image = Images.ButtonIcon.selectedCategoryBadge.withTintColor(color)
         let attachment = NSTextAttachment()
         attachment.bounds = CGRect(x: 0, y: 0, width: size, height: size)

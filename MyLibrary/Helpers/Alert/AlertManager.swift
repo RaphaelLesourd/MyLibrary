@@ -45,7 +45,7 @@ class AlertManager {
     /// - Parameters:
     /// - type: Type of banner (.error, .success, or .customMessage type)
     /// - subtitle:  Optional subtitle string, empty by default.
-    static func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
+    static func presentAlertBanner(as type: AlertBannerType, subtitle: String? = "") {
         DispatchQueue.main.async {
             Bauly.shared.forcePresent(configurationHandler: { bauly in
                 bauly.title = type.message

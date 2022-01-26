@@ -42,7 +42,7 @@ class NewBookPresenter {
     }
     
     func saveBook(with imageData: Data) {
-        guard let book = createBookDocument(from: mainView) else { return }
+        let book = createBookDocument(from: mainView)
         view?.showSaveButtonActivityIndicator(true)
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
@@ -55,6 +55,7 @@ class NewBookPresenter {
             }
             AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
             self.isEditing ? self.view?.returnToPreviousVC() : self.view?.clearData()
+            dump(book)
         }
     }
     
@@ -84,7 +85,7 @@ class NewBookPresenter {
     
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
-    private func createBookDocument(from mainView: NewBookControllerSubViews?) -> Item? {
+    private func createBookDocument(from mainView: NewBookControllerSubViews?) -> Item {
         let isbn = mainView?.isbnCell.textField.text ?? "-"
         
         let volumeInfo = VolumeInfo(title: mainView?.bookTileCell.textField.text,
@@ -101,10 +102,10 @@ class NewBookPresenter {
         let price = converter.convertStringToDouble(mainView?.purchasePriceCell.textField.text)
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
                                                                currencyCode: currency ?? ""))
-        return Item(bookID: book?.bookID ?? "",
-                    favorite: book?.favorite ?? false,
-                    ownerID: book?.ownerID ?? "",
-                    recommanding: book?.recommanding ?? false,
+        return Item(bookID: book?.bookID,
+                    favorite: book?.favorite,
+                    ownerID: book?.ownerID,
+                    recommanding: book?.recommanding,
                     volumeInfo: volumeInfo,
                     saleInfo: saleInfo,
                     timestamp: validator.validateTimestamp(for: book?.timestamp),

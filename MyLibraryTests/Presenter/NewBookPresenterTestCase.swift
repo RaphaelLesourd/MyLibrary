@@ -60,6 +60,20 @@ class NewBookPresenterTestCase: XCTestCase {
         XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
     }
     
+    func test_whenSettingBookLanguage_withCode() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.setBookLanguage(with: "fr")
+        XCTAssertTrue(newBookPresenterViewSpy.updateLanguageViewWasCalled)
+    }
+    
+    func test_whenSettingBookCurrency_withCode() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.setBookCurrency(with: "USD")
+        XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
+    }
+    
     // MARK: - Fail
     func test_savingNewBook_failed() {
         sut = failedTestPresenter
@@ -79,6 +93,20 @@ class NewBookPresenterTestCase: XCTestCase {
         sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
+    }
+    
+    func test_whenSettingBookLanguage_withCodeNil() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.setBookLanguage(with: nil)
+        XCTAssertFalse(newBookPresenterViewSpy.updateLanguageViewWasCalled)
+    }
+    
+    func test_whenSettingBookCurrency_withCodeNil() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.setBookCurrency(with: nil)
+        XCTAssertFalse(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
     }
 }
 

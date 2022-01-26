@@ -90,7 +90,7 @@ class SetupAccountPresenter {
                 return
             }
             AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.welcomeTitle),
-                                            subtitle: (Auth.auth().currentUser?.displayName ?? ""))
+                                            subtitle: (Auth.auth().currentUser?.displayName))
             self?.view?.dismissViewController()
         }
     }

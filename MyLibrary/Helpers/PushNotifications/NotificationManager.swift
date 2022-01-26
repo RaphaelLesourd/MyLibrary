@@ -54,7 +54,7 @@ class NotificationManager: NSObject {
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     /// - Parameters:
     /// - book: Book the comment belongs to.
-    /// - Note: Handles 2 cases when resenting the Comment viewcontroller for the iPad, presents it modally dismissi
+    /// - Note: Handles 2 cases when presenting the Comment viewcontroller for the iPad, presents it modally dismissi
     /// and for the iphone shows it thru the navigationController
     private func presentCommentController(with book: Item) {
         let commentController = factory.makeCommentVC(with: book)

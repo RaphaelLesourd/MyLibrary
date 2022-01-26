@@ -86,7 +86,7 @@ class AccountTabPresenter {
                 return
             }
             AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.seeYouSoon),
-                                            subtitle: Auth.auth().currentUser?.displayName ?? "")
+                                            subtitle: Auth.auth().currentUser?.displayName)
         }
     }
 }

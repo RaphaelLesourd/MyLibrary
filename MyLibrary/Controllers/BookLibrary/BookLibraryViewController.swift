@@ -66,7 +66,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        updateHeader(with: .timestamp)
+        updateHeader(with: .title)
     }
     
     // MARK: - Setup
@@ -162,12 +162,12 @@ extension BookLibraryViewController {
             cell.configure(with: bookData)
             return cell
         })
-        configureFooter(dataSource)
+        configureSupplementaryViews(dataSource)
         return dataSource
     }
-    /// Adds a footer to the collectionView.
+    /// Adds a footer and Header to the collectionView.
     /// - Parameter dataSource: datasource to add the footer
-    private func configureFooter(_ dataSource: BookLibraryViewController.DataSource) {
+    private func configureSupplementaryViews(_ dataSource: BookLibraryViewController.DataSource) {
         dataSource.supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
