@@ -19,6 +19,7 @@ class BookLibraryViewController: UIViewController {
     private let queryService: QueryProtocol
     private var presenter: LibraryPresenter
     
+    private let factory: Factory
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
     private var gridItemSize: GridSize = .medium {
@@ -26,7 +27,6 @@ class BookLibraryViewController: UIViewController {
             updateGridLayout()
         }
     }
-    private let factory: Factory
     
     // MARK: - Initializer
     init(currentQuery: BookQuery,
@@ -153,6 +153,7 @@ extension BookLibraryViewController: UICollectionViewDelegate {
 // MARK: - CollectionView Datasource
 extension BookLibraryViewController {
     
+    /// Creates diffable dataSource for the CollectionView
     private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
@@ -179,7 +180,6 @@ extension BookLibraryViewController {
             default:
                 return nil
             }
-            
         }
     }
     

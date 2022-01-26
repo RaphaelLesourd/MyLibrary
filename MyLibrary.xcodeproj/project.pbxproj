@@ -24,6 +24,9 @@
 		810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810D7FA72757AB320043280E /* EmptyStateView.swift */; };
 		811405D127A0381E00A18059 /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811405D027A0381E00A18059 /* OnboardingPresenter.swift */; };
 		811405D427A03AE100A18059 /* OnboardingPresenterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811405D327A03AE100A18059 /* OnboardingPresenterTestCase.swift */; };
+		8114061227A159CC00A18059 /* ListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8114061127A159CC00A18059 /* ListDataSource.swift */; };
+		8114061427A15A2100A18059 /* CommentDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8114061327A15A2100A18059 /* CommentDataSource.swift */; };
+		8114061627A15A7100A18059 /* CategoriesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8114061527A15A7100A18059 /* CategoriesDataSource.swift */; };
 		811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811713F4274E1F670051059C /* NetworkConnectivity.swift */; };
 		811C5C20279711F5003D11BA /* LibraryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C1F279711F5003D11BA /* LibraryPresenter.swift */; };
 		811C5C2227971BEA003D11BA /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811C5C2127971BEA003D11BA /* HomePresenter.swift */; };
@@ -315,6 +318,9 @@
 		810D7FA72757AB320043280E /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		811405D027A0381E00A18059 /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		811405D327A03AE100A18059 /* OnboardingPresenterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenterTestCase.swift; sourceTree = "<group>"; };
+		8114061127A159CC00A18059 /* ListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataSource.swift; sourceTree = "<group>"; };
+		8114061327A15A2100A18059 /* CommentDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDataSource.swift; sourceTree = "<group>"; };
+		8114061527A15A7100A18059 /* CategoriesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesDataSource.swift; sourceTree = "<group>"; };
 		811713F4274E1F670051059C /* NetworkConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectivity.swift; sourceTree = "<group>"; };
 		811C5C1F279711F5003D11BA /* LibraryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenter.swift; sourceTree = "<group>"; };
 		811C5C2127971BEA003D11BA /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -617,6 +623,15 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		8114061727A162AE00A18059 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
+				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		811713F3274D6B5D0051059C /* Layout */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,15 +653,6 @@
 				8121F0B0273B1515006EAA8D /* BookQuery.swift */,
 			);
 			path = "Value Objects";
-			sourceTree = "<group>";
-		};
-		811C5C282797EA6B003D11BA /* App */ = {
-			isa = PBXGroup;
-			children = (
-				81C6CC702724769B00DE9219 /* AppDelegate.swift */,
-				81C6CC722724769B00DE9219 /* SceneDelegate.swift */,
-			);
-			name = App;
 			sourceTree = "<group>";
 		};
 		812047F5272A884100E0A45B /* Welcome */ = {
@@ -1137,6 +1143,7 @@
 			isa = PBXGroup;
 			children = (
 				8125ADC6279C2C1400FB6725 /* ListTableViewController.swift */,
+				8114061127A159CC00A18059 /* ListDataSource.swift */,
 			);
 			path = DataList;
 			sourceTree = "<group>";
@@ -1294,6 +1301,7 @@
 			isa = PBXGroup;
 			children = (
 				81DB8DFE2753AA6D00698B92 /* CommentsViewController.swift */,
+				8114061327A15A2100A18059 /* CommentDataSource.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -1310,6 +1318,7 @@
 			isa = PBXGroup;
 			children = (
 				811D5BC227452ED800C935B5 /* CategoriesViewController.swift */,
+				8114061527A15A7100A18059 /* CategoriesDataSource.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1433,10 +1442,10 @@
 				810C446E2726F81A007541C0 /* MyLibrary.entitlements */,
 				81C6CC812724769C00DE9219 /* Info.plist */,
 				814751692727D80E0080C5BA /* GoogleService-Info.plist */,
-				811C5C282797EA6B003D11BA /* App */,
 				81C6CCAD272479A200DE9219 /* Assets */,
 				8121F07A273A9A3E006EAA8D /* Constants */,
 				8125AD462799420000FB6725 /* Adapters */,
+				8114061727A162AE00A18059 /* App */,
 				81C6CCA32724774800DE9219 /* Controllers */,
 				81C6CCC927247AB100DE9219 /* Extensions */,
 				8125ADA32799DA2600FB6725 /* Factory */,
@@ -1935,6 +1944,7 @@
 				812BA741278DCF09009541E4 /* TextField.swift in Sources */,
 				811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */,
 				8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */,
+				8114061427A15A2100A18059 /* CommentDataSource.swift in Sources */,
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
 				81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */,
 				8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */,
@@ -2014,6 +2024,7 @@
 				8125ADAB279B00A500FB6725 /* NewBookPresenter.swift in Sources */,
 				8125ADBD279C0FD700FB6725 /* BookCellRepresentable.swift in Sources */,
 				8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */,
+				8114061627A15A7100A18059 /* CategoriesDataSource.swift in Sources */,
 				81792F652732F3E4005F863B /* AccountCredentials.swift in Sources */,
 				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				8147516E2727E9490080C5BA /* Images.swift in Sources */,
@@ -2029,6 +2040,7 @@
 				81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */,
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
+				8114061227A159CC00A18059 /* ListDataSource.swift in Sources */,
 				81A7509A2790060B00CAC424 /* OnboardingMainView.swift in Sources */,
 				8157F55A2781D585005F182A /* BarcodeScannerDelegate.swift in Sources */,
 				813CDD482790533F000BF439 /* Onboarding.swift in Sources */,
@@ -2213,7 +2225,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2241,7 +2253,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2393,7 +2405,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -2434,7 +2446,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";

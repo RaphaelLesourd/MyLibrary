@@ -11,7 +11,6 @@ class ListTableViewController: UITableViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, ListRepresentable>
-    typealias DataSource = UITableViewDiffableDataSource<ListSection, ListRepresentable>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
@@ -25,7 +24,7 @@ class ListTableViewController: UITableViewController {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
         self.presenter.receivedData = receivedData
-        super.init(nibName: nil, bundle: nil)
+        super.init(style: .insetGrouped)
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +44,6 @@ class ListTableViewController: UITableViewController {
     
     // MARK: - Setup
     private func configureTableView() {
-        tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         tableView.allowsSelection = true
         tableView.alwaysBounceVertical = true
@@ -86,9 +84,9 @@ class ListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let sectionFooterLabel = TextLabel(color: .secondaryLabel,
-                                          maxLines: 2,
-                                          alignment: .center,
-                                          font: .lightFootnote)
+                                           maxLines: 2,
+                                           alignment: .center,
+                                           font: .lightFootnote)
         sectionFooterLabel.text = section.footerTitle
         return sectionFooterLabel
     }
@@ -121,9 +119,9 @@ class ListTableViewController: UITableViewController {
 // MARK: - TableView Datasource
 extension ListTableViewController {
     
-    private func makeDataSource() -> DataSource {
-        dataSource = DataSource(tableView: tableView,
-                                cellProvider: { (_, _, item) -> UITableViewCell? in
+    private func makeDataSource() -> ListDataSource {
+        dataSource = ListDataSource(tableView: tableView,
+                                    cellProvider: { (_, _, item) -> UITableViewCell? in
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
             

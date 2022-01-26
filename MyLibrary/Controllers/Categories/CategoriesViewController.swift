@@ -11,8 +11,6 @@ class CategoriesViewController: UIViewController {
     
     // MARK: Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
-    typealias DataSource = UITableViewDiffableDataSource<SingleSection, CategoryModel>
-    
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
@@ -95,8 +93,8 @@ class CategoriesViewController: UIViewController {
 // MARK: - TableView Datasource
 extension CategoriesViewController {
     
-    private func makeDataSource() -> DataSource {
-        dataSource = DataSource(tableView: mainView.tableView,
+    private func makeDataSource() -> CategoryDataSource {
+        dataSource = CategoryDataSource(tableView: mainView.tableView,
                                 cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)

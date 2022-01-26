@@ -14,8 +14,7 @@ class CommentsViewController: UIViewController {
     
     // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
-    typealias DataSource = UITableViewDiffableDataSource<CommentsSection, AnyHashable>
-    
+  
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let validator: ValidatorProtocol
@@ -151,8 +150,8 @@ extension CommentsViewController {
     
     /// Create a data source with 3 sections
     ///  - Note: Section 1: The current book, Section 2: Today's comment, Section 3: Past comments.
-    private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(tableView: mainView.tableView,
+    private func makeDataSource() -> CommentDataSource {
+        let dataSource = CommentDataSource(tableView: mainView.tableView,
                                     cellProvider: { [weak self] (tableView, indexPath, item) -> UITableViewCell? in
             
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
