@@ -56,6 +56,8 @@ class CommentTableViewCell: UITableViewCell {
         userNameLabel.text = model.userName
         dateLabel.text = model.date
         commentLabel.text = model.message
+        profileImageView.layer.borderWidth = model.currentUser ? 2 : 0
+        profileImageView.layer.borderColor = UIColor.appTintColor.cgColor
     }
     
     private func setupView() {

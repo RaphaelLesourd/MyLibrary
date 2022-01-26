@@ -10,4 +10,5 @@ struct CommentCellRepresentable {
     let date: String
     let userName: String
     let profileImage: String
+    let currentUser: Bool
 }

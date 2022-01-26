@@ -4,6 +4,7 @@
 //
 //  Created by Birkyboy on 19/01/2022.
 //
+import FirebaseAuth
 
 protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
@@ -107,11 +108,13 @@ class CommentPresenter {
     
     // MARK: - Cell
     func makeCommentCellRepresentable(with comment: CommentModel) -> CommentCellRepresentable {
+        let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
         return CommentCellRepresentable(message: comment.message,
                                         date: date,
                                         userName: comment.userName.capitalized,
-                                        profileImage: comment.userPhotoURL)
+                                        profileImage: comment.userPhotoURL,
+                                        currentUser: isCurrentUser)
     }
     
     func getBookDetails() {
