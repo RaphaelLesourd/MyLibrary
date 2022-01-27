@@ -13,7 +13,7 @@ class NewCategoryViewController: UIViewController {
     private let mainView = NewCategoryMainView()
     private let editingCategory: Bool
     private let category: CategoryModel?
-    private let presenter: NewCategoryPresenter
+    private var presenter: NewCategoryPresenting
     var chosenColor: String = "e38801" {
         didSet {
             mainView.updateBackgroundColor(with: chosenColor)
@@ -23,7 +23,7 @@ class NewCategoryViewController: UIViewController {
     // MARK: Initializer
     init(editingCategory: Bool,
          category: CategoryModel?,
-         presenter: NewCategoryPresenter) {
+         presenter: NewCategoryPresenting) {
         self.editingCategory = editingCategory
         self.category = category
         self.presenter = presenter
@@ -54,7 +54,7 @@ class NewCategoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setEditedCategoryName()
-        presenter.setCategoryColor(with: category?.color)
+        presenter.displayCategoryColor(with: category?.color)
     }
     
     override func viewDidLayoutSubviews() {

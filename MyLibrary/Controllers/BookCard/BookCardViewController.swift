@@ -15,7 +15,7 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private var presenter: BookCardPresenter
+    private var presenter: BookCardPresenting
     private var factory: Factory
     private var recommended = false {
         didSet {
@@ -33,7 +33,7 @@ class BookCardViewController: UIViewController {
          searchType: SearchType?,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
-         presenter: BookCardPresenter) {
+         presenter: BookCardPresenting) {
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService

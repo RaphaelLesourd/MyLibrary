@@ -5,15 +5,10 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol HomePresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-}
-
 class HomePresenter: BookCellAdapter, UserCellAdapter {
     
     // MARK: - Properties
     weak var view: HomePresenterView?
-   
     var categories: [CategoryModel] = []
     var latestBooks: [Item] = []
     var favoriteBooks: [Item] = []
@@ -33,6 +28,28 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
         self.recommendationService = recommendationService
     }
     
+    /// Fetch books for the current query
+    /// - Parameters:
+    /// - query: BookQuery object to fetch a list of Item
+    /// - returns: Array of Item
+    private func getBooks(for query: BookQuery, completion: @escaping ([Item]) -> Void) {
+        view?.showActivityIndicator()
+        libraryService.getBookList(for: query,
+                                      limit: 15,
+                                      forMore: false) { [weak self] result in
+            self?.view?.stopActivityIndicator()
+            switch result {
+            case .success(let books):
+                completion(books)
+            case .failure(let error):
+                AlertManager.presentAlertBanner(as: .error,
+                                                subtitle: error.description)
+            }
+        }
+    }
+}
+
+extension HomePresenter: HomePresenting {
     // MARK: - API Calls
     func getCategories() {
         categoryService.getCategories { [weak self] result in
@@ -75,23 +92,6 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
                 self?.view?.applySnapshot(animatingDifferences: true)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
-            }
-        }
-    }
-  
-    private func getBooks(for query: BookQuery,
-                          completion: @escaping ([Item]) -> Void) {
-        view?.showActivityIndicator()
-        libraryService.getBookList(for: query,
-                                      limit: 15,
-                                      forMore: false) { [weak self] result in
-            self?.view?.stopActivityIndicator()
-            switch result {
-            case .success(let books):
-                completion(books)
-            case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error,
-                                                subtitle: error.description)
             }
         }
     }

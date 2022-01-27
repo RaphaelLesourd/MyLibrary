@@ -18,14 +18,13 @@ class CommentsViewController: UIViewController {
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let validator: ValidatorProtocol
-    private let presenter: CommentPresenter
-    
+    private var presenter: CommentPresenting
     private lazy var dataSource = makeDataSource()
     private var book: Item?
     
     // MARK: - Initializer
     init(book: Item?,
-         presenter: CommentPresenter,
+         presenter: CommentPresenting,
          validator: ValidatorProtocol) {
         self.book = book
         self.presenter = presenter

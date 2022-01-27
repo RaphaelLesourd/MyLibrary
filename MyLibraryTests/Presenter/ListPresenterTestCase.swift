@@ -10,7 +10,7 @@ import XCTest
 
 class ListPresenterTestCase: XCTestCase {
     
-    private var sut: ListPresenter!
+    private var sut: ListPresenting!
     private var listPresenterViewSpy: ListPresenterViewSpy!
     private let languageTestPresenter = ListPresenter(listDataType: .languages, formatter: Formatter())
     private let currencyTestPresenter = ListPresenter(listDataType: .currency, formatter: Formatter())
@@ -42,7 +42,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = languageTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.receivedData = "FR"
+        sut.selection = "FR"
         sut.highlightCell()
         XCTAssertTrue(listPresenterViewSpy.highlightCellWasCalled)
     }
@@ -51,7 +51,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.receivedData = "USD"
+        sut.selection = "USD"
         sut.highlightCell()
         XCTAssertTrue(listPresenterViewSpy.highlightCellWasCalled)
     }

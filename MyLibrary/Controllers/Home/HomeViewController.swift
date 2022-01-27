@@ -16,11 +16,11 @@ class HomeViewController: UIViewController {
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private var presenter: HomePresenter
+    private var presenter: HomePresenting
     private let factory: Factory
  
     // MARK: - Initializer
-    init(presenter: HomePresenter,
+    init(presenter: HomePresenting,
          layoutComposer: HomeLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
@@ -134,14 +134,14 @@ extension HomeViewController {
             case .newEntry, .favorites:
                 if let book = item as? Item {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.presenter.setBookData(for: book)
+                    let bookData = self.presenter.makeBookCellRepresentable(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }
             case .recommanding:
                 if let book = item as? Item {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.presenter.setBookData(for: book)
+                    let bookData = self.presenter.makeBookCellRepresentable(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }

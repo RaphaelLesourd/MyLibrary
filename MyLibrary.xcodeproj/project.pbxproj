@@ -65,7 +65,7 @@
 		8124B9922725CB4D004E9AE0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9912725CB4D004E9AE0 /* SearchViewController.swift */; };
 		8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */; };
 		8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */; };
-		8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2C27986EB500FB6725 /* AccountPresenter.swift */; };
+		8125AD2D27986EB500FB6725 /* AccountTabPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2C27986EB500FB6725 /* AccountTabPresenter.swift */; };
 		8125AD2F279880A400FB6725 /* SetupAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */; };
 		8125AD31279881D600FB6725 /* ActivityIndicatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */; };
 		8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */; };
@@ -154,9 +154,6 @@
 		8157F53A2780B2DB005F182A /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5392780B2DB005F182A /* FirebaseStorageCombine-Community */; };
 		8157F53C2780B2DB005F182A /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F53B2780B2DB005F182A /* FirebaseStorageSwift-Beta */; };
 		8157F53F2780B2F3005F182A /* Bauly in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F53E2780B2F3005F182A /* Bauly */; };
-		8157F5452780B34D005F182A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5442780B34D005F182A /* Lottie */; };
-		8157F5472780B34D005F182A /* _LottieCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5462780B34D005F182A /* _LottieCore */; };
-		8157F54A2780B369005F182A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5492780B369005F182A /* Kingfisher */; };
 		8157F54D2780B386005F182A /* InputBarAccessoryView in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F54C2780B386005F182A /* InputBarAccessoryView */; };
 		8157F5502780B3A5005F182A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F54F2780B3A5005F182A /* Alamofire */; };
 		8157F5532780B3C6005F182A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8157F5522780B3C6005F182A /* IQKeyboardManagerSwift */; };
@@ -177,6 +174,30 @@
 		818314812795D09800351F88 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818314802795D09800351F88 /* ProfileView.swift */; };
 		81857BDA27A1BF5C000D5E9E /* BookCardPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */; };
 		81857BDC27A1BF84000D5E9E /* AccountTabPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */; };
+		81857BDF27A2817F000D5E9E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81857BDE27A2817F000D5E9E /* Kingfisher */; };
+		81857BE227A28195000D5E9E /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81857BE127A28195000D5E9E /* Lottie */; };
+		81857BE427A28195000D5E9E /* _LottieCore in Frameworks */ = {isa = PBXBuildFile; productRef = 81857BE327A28195000D5E9E /* _LottieCore */; };
+		81857BE627A288D3000D5E9E /* AccountTabPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BE527A288D3000D5E9E /* AccountTabPresenting.swift */; };
+		81857BE827A28B99000D5E9E /* BookCardPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BE727A28B99000D5E9E /* BookCardPresenting.swift */; };
+		81857BEA27A28BE3000D5E9E /* LibraryPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BE927A28BE3000D5E9E /* LibraryPresenterView.swift */; };
+		81857BEC27A29183000D5E9E /* LibraryPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BEB27A29183000D5E9E /* LibraryPresenting.swift */; };
+		81857BEE27A291B9000D5E9E /* CategoryPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BED27A291B9000D5E9E /* CategoryPresenterView.swift */; };
+		81857BF027A29605000D5E9E /* CategoryPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BEF27A29605000D5E9E /* CategoryPresenting.swift */; };
+		81857BF227A29692000D5E9E /* CommentPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BF127A29692000D5E9E /* CommentPresenterView.swift */; };
+		81857BF427A297E4000D5E9E /* CommentPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BF327A297E4000D5E9E /* CommentPresenting.swift */; };
+		81857BF627A29DEA000D5E9E /* ListPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BF527A29DEA000D5E9E /* ListPresenterView.swift */; };
+		81857BF827A2A3AF000D5E9E /* ListPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BF727A2A3AF000D5E9E /* ListPresenting.swift */; };
+		81857BFA27A2B1E0000D5E9E /* HomePresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BF927A2B1E0000D5E9E /* HomePresenterView.swift */; };
+		81857BFC27A2B2FD000D5E9E /* HomePresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BFB27A2B2FD000D5E9E /* HomePresenting.swift */; };
+		81857BFE27A2B8E9000D5E9E /* NewBookPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BFD27A2B8E9000D5E9E /* NewBookPresenterView.swift */; };
+		81857C0027A2B9E7000D5E9E /* NewBookPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857BFF27A2B9E7000D5E9E /* NewBookPresenting.swift */; };
+		81857C0227A2C12D000D5E9E /* NewPresenterCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0127A2C12D000D5E9E /* NewPresenterCategoryView.swift */; };
+		81857C0427A2C338000D5E9E /* NewCategoryPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0327A2C338000D5E9E /* NewCategoryPresenting.swift */; };
+		81857C0627A2C9A3000D5E9E /* OnboardingPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0527A2C9A3000D5E9E /* OnboardingPresenterView.swift */; };
+		81857C0827A2CBA7000D5E9E /* SearchPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0727A2CBA7000D5E9E /* SearchPresenterView.swift */; };
+		81857C0A27A2CD6E000D5E9E /* SearchPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0927A2CD6E000D5E9E /* SearchPresenting.swift */; };
+		81857C0C27A2CD9F000D5E9E /* SetupAccountPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0B27A2CD9F000D5E9E /* SetupAccountPresenterView.swift */; };
+		81857C0E27A2CE24000D5E9E /* SetupAccountPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81857C0D27A2CE24000D5E9E /* SetupAccountPresenting.swift */; };
 		818657A92764B16100B25116 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818657A82764B16100B25116 /* UIApplication+Extension.swift */; };
 		81885230277486E7002813A1 /* GridSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724127747C0D00040BEF /* GridSize.swift */; };
 		8188523527748BAB002813A1 /* AccountServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8188523427748BAB002813A1 /* AccountServiceProtocol.swift */; };
@@ -361,7 +382,7 @@
 		8124B9912725CB4D004E9AE0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		8124B9932725CEA7004E9AE0 /* UIVIewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extension.swift"; sourceTree = "<group>"; };
 		8124B9952725DD67004E9AE0 /* BarcodeScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScanViewController.swift; sourceTree = "<group>"; };
-		8125AD2C27986EB500FB6725 /* AccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPresenter.swift; sourceTree = "<group>"; };
+		8125AD2C27986EB500FB6725 /* AccountTabPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabPresenter.swift; sourceTree = "<group>"; };
 		8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountPresenter.swift; sourceTree = "<group>"; };
 		8125AD30279881D600FB6725 /* ActivityIndicatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorProtocol.swift; sourceTree = "<group>"; };
 		8125AD522799442400FB6725 /* AccountMainViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountMainViewDelegate.swift; sourceTree = "<group>"; };
@@ -452,6 +473,27 @@
 		818314802795D09800351F88 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardPresenterView.swift; sourceTree = "<group>"; };
 		81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabPresenterView.swift; sourceTree = "<group>"; };
+		81857BE527A288D3000D5E9E /* AccountTabPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTabPresenting.swift; sourceTree = "<group>"; };
+		81857BE727A28B99000D5E9E /* BookCardPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardPresenting.swift; sourceTree = "<group>"; };
+		81857BE927A28BE3000D5E9E /* LibraryPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenterView.swift; sourceTree = "<group>"; };
+		81857BEB27A29183000D5E9E /* LibraryPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPresenting.swift; sourceTree = "<group>"; };
+		81857BED27A291B9000D5E9E /* CategoryPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenterView.swift; sourceTree = "<group>"; };
+		81857BEF27A29605000D5E9E /* CategoryPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPresenting.swift; sourceTree = "<group>"; };
+		81857BF127A29692000D5E9E /* CommentPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPresenterView.swift; sourceTree = "<group>"; };
+		81857BF327A297E4000D5E9E /* CommentPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPresenting.swift; sourceTree = "<group>"; };
+		81857BF527A29DEA000D5E9E /* ListPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterView.swift; sourceTree = "<group>"; };
+		81857BF727A2A3AF000D5E9E /* ListPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenting.swift; sourceTree = "<group>"; };
+		81857BF927A2B1E0000D5E9E /* HomePresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterView.swift; sourceTree = "<group>"; };
+		81857BFB27A2B2FD000D5E9E /* HomePresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenting.swift; sourceTree = "<group>"; };
+		81857BFD27A2B8E9000D5E9E /* NewBookPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPresenterView.swift; sourceTree = "<group>"; };
+		81857BFF27A2B9E7000D5E9E /* NewBookPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookPresenting.swift; sourceTree = "<group>"; };
+		81857C0127A2C12D000D5E9E /* NewPresenterCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPresenterCategoryView.swift; sourceTree = "<group>"; };
+		81857C0327A2C338000D5E9E /* NewCategoryPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryPresenting.swift; sourceTree = "<group>"; };
+		81857C0527A2C9A3000D5E9E /* OnboardingPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenterView.swift; sourceTree = "<group>"; };
+		81857C0727A2CBA7000D5E9E /* SearchPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenterView.swift; sourceTree = "<group>"; };
+		81857C0927A2CD6E000D5E9E /* SearchPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenting.swift; sourceTree = "<group>"; };
+		81857C0B27A2CD9F000D5E9E /* SetupAccountPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountPresenterView.swift; sourceTree = "<group>"; };
+		81857C0D27A2CE24000D5E9E /* SetupAccountPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountPresenting.swift; sourceTree = "<group>"; };
 		818657A82764B16100B25116 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		8188523427748BAB002813A1 /* AccountServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountServiceProtocol.swift; sourceTree = "<group>"; };
 		8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryServiceProtocol.swift; sourceTree = "<group>"; };
@@ -569,6 +611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8157F52C2780B2DB005F182A /* FirebaseDatabase in Frameworks */,
+				81857BE427A28195000D5E9E /* _LottieCore in Frameworks */,
 				8157F5242780B2DB005F182A /* FirebaseAnalyticsSwift-Beta in Frameworks */,
 				8157F5262780B2DB005F182A /* FirebaseAuth in Frameworks */,
 				8157F53A2780B2DB005F182A /* FirebaseStorageCombine-Community in Frameworks */,
@@ -577,17 +620,16 @@
 				8157F53C2780B2DB005F182A /* FirebaseStorageSwift-Beta in Frameworks */,
 				8157F54D2780B386005F182A /* InputBarAccessoryView in Frameworks */,
 				8157F53F2780B2F3005F182A /* Bauly in Frameworks */,
-				8157F5452780B34D005F182A /* Lottie in Frameworks */,
 				8157F52A2780B2DB005F182A /* FirebaseCrashlytics in Frameworks */,
 				8157F5382780B2DB005F182A /* FirebaseStorage in Frameworks */,
 				8157F5222780B2DB005F182A /* FirebaseAnalytics in Frameworks */,
-				8157F5472780B34D005F182A /* _LottieCore in Frameworks */,
 				8157F5532780B3C6005F182A /* IQKeyboardManagerSwift in Frameworks */,
-				8157F54A2780B369005F182A /* Kingfisher in Frameworks */,
 				8157F5302780B2DB005F182A /* FirebaseFirestore in Frameworks */,
 				8157F5342780B2DB005F182A /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				81857BE227A28195000D5E9E /* Lottie in Frameworks */,
 				8157F52E2780B2DB005F182A /* FirebaseDatabaseSwift-Beta in Frameworks */,
 				8157F5362780B2DB005F182A /* FirebaseMessaging in Frameworks */,
+				81857BDF27A2817F000D5E9E /* Kingfisher in Frameworks */,
 				8157F5282780B2DB005F182A /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,6 +665,7 @@
 			isa = PBXGroup;
 			children = (
 				811405D027A0381E00A18059 /* OnboardingPresenter.swift */,
+				81857C0527A2C9A3000D5E9E /* OnboardingPresenterView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1092,6 +1135,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C3227983B96003D11BA /* CommentsPresenter.swift */,
+				81857BF327A297E4000D5E9E /* CommentPresenting.swift */,
+				81857BF127A29692000D5E9E /* CommentPresenterView.swift */,
 				8125ADB2279C00EF00FB6725 /* CommentCellRepresentable.swift */,
 				8125ADB4279C010900FB6725 /* CommentBookCellRepresentable.swift */,
 			);
@@ -1102,6 +1147,8 @@
 			isa = PBXGroup;
 			children = (
 				8125ADAA279B00A500FB6725 /* NewBookPresenter.swift */,
+				81857BFF27A2B9E7000D5E9E /* NewBookPresenting.swift */,
+				81857BFD27A2B8E9000D5E9E /* NewBookPresenterView.swift */,
 				8125ADB7279C019C00FB6725 /* NewBookRepresentable.swift */,
 			);
 			path = NewBook;
@@ -1111,6 +1158,7 @@
 			isa = PBXGroup;
 			children = (
 				8125ADA6279AA37800FB6725 /* BookCardPresenter.swift */,
+				81857BE727A28B99000D5E9E /* BookCardPresenting.swift */,
 				81857BD927A1BF5C000D5E9E /* BookCardPresenterView.swift */,
 				8125ADBA279C072C00FB6725 /* BookCardRepresentable.swift */,
 			);
@@ -1139,6 +1187,8 @@
 			isa = PBXGroup;
 			children = (
 				8125ADCB279C61EA00FB6725 /* ListPresenter.swift */,
+				81857BF727A2A3AF000D5E9E /* ListPresenting.swift */,
+				81857BF527A29DEA000D5E9E /* ListPresenterView.swift */,
 				8125ADC9279C61C900FB6725 /* ListRepresentable.swift */,
 			);
 			path = DataList;
@@ -1156,8 +1206,9 @@
 		8125ADCE279C6AE400FB6725 /* AccountTab */ = {
 			isa = PBXGroup;
 			children = (
-				8125AD2C27986EB500FB6725 /* AccountPresenter.swift */,
+				8125AD2C27986EB500FB6725 /* AccountTabPresenter.swift */,
 				81857BDB27A1BF84000D5E9E /* AccountTabPresenterView.swift */,
+				81857BE527A288D3000D5E9E /* AccountTabPresenting.swift */,
 			);
 			path = AccountTab;
 			sourceTree = "<group>";
@@ -1166,6 +1217,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C292797EAA8003D11BA /* CategoryPresenter.swift */,
+				81857BED27A291B9000D5E9E /* CategoryPresenterView.swift */,
+				81857BEF27A29605000D5E9E /* CategoryPresenting.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1174,6 +1227,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C2127971BEA003D11BA /* HomePresenter.swift */,
+				81857BFB27A2B2FD000D5E9E /* HomePresenting.swift */,
+				81857BF927A2B1E0000D5E9E /* HomePresenterView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1182,6 +1237,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C1F279711F5003D11BA /* LibraryPresenter.swift */,
+				81857BE927A28BE3000D5E9E /* LibraryPresenterView.swift */,
+				81857BEB27A29183000D5E9E /* LibraryPresenting.swift */,
 			);
 			path = BookLibrary;
 			sourceTree = "<group>";
@@ -1190,6 +1247,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C2D2797F029003D11BA /* NewCategoryPresenter.swift */,
+				81857C0127A2C12D000D5E9E /* NewPresenterCategoryView.swift */,
+				81857C0327A2C338000D5E9E /* NewCategoryPresenting.swift */,
 			);
 			path = NewCategory;
 			sourceTree = "<group>";
@@ -1198,6 +1257,8 @@
 			isa = PBXGroup;
 			children = (
 				811C5C2627972E3E003D11BA /* SearchPresenter.swift */,
+				81857C0727A2CBA7000D5E9E /* SearchPresenterView.swift */,
+				81857C0927A2CD6E000D5E9E /* SearchPresenting.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1206,6 +1267,8 @@
 			isa = PBXGroup;
 			children = (
 				8125AD2E279880A400FB6725 /* SetupAccountPresenter.swift */,
+				81857C0B27A2CD9F000D5E9E /* SetupAccountPresenterView.swift */,
+				81857C0D27A2CE24000D5E9E /* SetupAccountPresenting.swift */,
 			);
 			path = SetupAccount;
 			sourceTree = "<group>";
@@ -1288,8 +1351,8 @@
 		8157F5582781D52D005F182A /* BookCard */ = {
 			isa = PBXGroup;
 			children = (
-				8157F5562781D519005F182A /* BookCardDelegate.swift */,
 				819C5DC227247F9D00F1F8F2 /* BookCardViewController.swift */,
+				8157F5562781D519005F182A /* BookCardDelegate.swift */,
 			);
 			path = BookCard;
 			sourceTree = "<group>";
@@ -1774,12 +1837,12 @@
 				8157F5392780B2DB005F182A /* FirebaseStorageCombine-Community */,
 				8157F53B2780B2DB005F182A /* FirebaseStorageSwift-Beta */,
 				8157F53E2780B2F3005F182A /* Bauly */,
-				8157F5442780B34D005F182A /* Lottie */,
-				8157F5462780B34D005F182A /* _LottieCore */,
-				8157F5492780B369005F182A /* Kingfisher */,
 				8157F54C2780B386005F182A /* InputBarAccessoryView */,
 				8157F54F2780B3A5005F182A /* Alamofire */,
 				8157F5522780B3C6005F182A /* IQKeyboardManagerSwift */,
+				81857BDE27A2817F000D5E9E /* Kingfisher */,
+				81857BE127A28195000D5E9E /* Lottie */,
+				81857BE327A28195000D5E9E /* _LottieCore */,
 			);
 			productName = MyLibrary;
 			productReference = 81C6CC6D2724769B00DE9219 /* MyLibrary.app */;
@@ -1839,11 +1902,11 @@
 			packageReferences = (
 				8157F5202780B2DB005F182A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8157F53D2780B2F3005F182A /* XCRemoteSwiftPackageReference "Bauly" */,
-				8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
 				8157F54E2780B3A5005F182A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				81857BDD27A2817F000D5E9E /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				81857BE027A28195000D5E9E /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 81C6CC6E2724769B00DE9219 /* Products */;
 			projectDirPath = "";
@@ -1944,9 +2007,11 @@
 			files = (
 				811F64BE275A02EF00A24704 /* CommentControllerView.swift in Sources */,
 				819C5DC92724811300F1F8F2 /* CodeTypes.swift in Sources */,
+				81857BEA27A28BE3000D5E9E /* LibraryPresenterView.swift in Sources */,
 				81FA71D827734ECA00040BEF /* Converter.swift in Sources */,
 				8125ADB5279C010900FB6725 /* CommentBookCellRepresentable.swift in Sources */,
 				810D7FA82757AB330043280E /* EmptyStateView.swift in Sources */,
+				81857C0A27A2CD6E000D5E9E /* SearchPresenting.swift in Sources */,
 				812BA741278DCF09009541E4 /* TextField.swift in Sources */,
 				811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */,
 				8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */,
@@ -1954,6 +2019,7 @@
 				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
 				81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */,
 				8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */,
+				81857C0227A2C12D000D5E9E /* NewPresenterCategoryView.swift in Sources */,
 				8121F0BD273E8DE9006EAA8D /* RecommandationService.swift in Sources */,
 				81DE9CA627354C9800FF81C2 /* LibraryService.swift in Sources */,
 				81A7509C27900AB000CAC424 /* OnboardingMainViewDelegate.swift in Sources */,
@@ -1961,11 +2027,13 @@
 				8157F50F277F4260005F182A /* ContactView.swift in Sources */,
 				81C6CCC527247A6200DE9219 /* DetailedBookCollectionViewCell.swift in Sources */,
 				811713F5274E1F680051059C /* NetworkConnectivity.swift in Sources */,
+				81857BF627A29DEA000D5E9E /* ListPresenterView.swift in Sources */,
 				81A9BD86272BDE2900B7DA81 /* BookModel.swift in Sources */,
 				81C4CC3A275C821600E25628 /* Array+Extension.swift in Sources */,
 				8124B9962725DD67004E9AE0 /* BarcodeScanViewController.swift in Sources */,
 				81A6727227931BEE00298394 /* AccountViewController.swift in Sources */,
 				8188525727785FA0002813A1 /* CategoriesFormatter.swift in Sources */,
+				81857BF227A29692000D5E9E /* CommentPresenterView.swift in Sources */,
 				8121F0B7273D53A5006EAA8D /* UIImage+Extension.swift in Sources */,
 				8121F0BF273FEC22006EAA8D /* RatingView.swift in Sources */,
 				811D5BC327452ED800C935B5 /* CategoriesViewController.swift in Sources */,
@@ -1995,6 +2063,7 @@
 				818852522774BE87002813A1 /* BookDetailComponent.swift in Sources */,
 				8125ADC7279C2C1400FB6725 /* ListTableViewController.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
+				81857BE827A28B99000D5E9E /* BookCardPresenting.swift in Sources */,
 				81A6728227931CB900298394 /* BookListView.swift in Sources */,
 				8125ADBB279C072C00FB6725 /* BookCardRepresentable.swift in Sources */,
 				8188523827748C1F002813A1 /* CategoryServiceProtocol.swift in Sources */,
@@ -2004,6 +2073,7 @@
 				8125ADB3279C00EF00FB6725 /* CommentCellRepresentable.swift in Sources */,
 				811D5BC127452DA600C935B5 /* CategoryControllerMainView.swift in Sources */,
 				8157F513277F4627005F182A /* AccountTabMainView.swift in Sources */,
+				81857C0827A2CBA7000D5E9E /* SearchPresenterView.swift in Sources */,
 				81C6CCC627247A6200DE9219 /* BookCollectionViewCell.swift in Sources */,
 				8121F0C82742418F006EAA8D /* ImageScrollView.swift in Sources */,
 				81DB8DF92752765D00698B92 /* CommentModel.swift in Sources */,
@@ -2024,26 +2094,36 @@
 				811C5C2A2797EAA8003D11BA /* CategoryPresenter.swift in Sources */,
 				81DB8E012753B02800698B92 /* CommentTableViewCell.swift in Sources */,
 				8183145627931D5A00351F88 /* HomeViewController.swift in Sources */,
+				81857C0627A2C9A3000D5E9E /* OnboardingPresenterView.swift in Sources */,
 				8157F5572781D519005F182A /* BookCardDelegate.swift in Sources */,
 				81FA72792774837100040BEF /* CommentsSections.swift in Sources */,
 				819C5DC327247F9D00F1F8F2 /* BookCardViewController.swift in Sources */,
 				8125ADAB279B00A500FB6725 /* NewBookPresenter.swift in Sources */,
 				8125ADBD279C0FD700FB6725 /* BookCellRepresentable.swift in Sources */,
 				8121F0C4274153F4006EAA8D /* RatingInputStaticCell.swift in Sources */,
+				81857C0427A2C338000D5E9E /* NewCategoryPresenting.swift in Sources */,
+				81857BE627A288D3000D5E9E /* AccountTabPresenting.swift in Sources */,
 				8114061627A15A7100A18059 /* CategoriesDataSource.swift in Sources */,
 				81792F652732F3E4005F863B /* AccountCredentials.swift in Sources */,
 				81C6CCCB27247ABF00DE9219 /* UIView+Extension.swift in Sources */,
 				8147516E2727E9490080C5BA /* Images.swift in Sources */,
+				81857BEE27A291B9000D5E9E /* CategoryPresenterView.swift in Sources */,
+				81857C0027A2B9E7000D5E9E /* NewBookPresenting.swift in Sources */,
 				81FA725027747E3800040BEF /* Permissions.swift in Sources */,
 				812BA736278DC822009541E4 /* UIFont+Extension.swift in Sources */,
+				81857BF027A29605000D5E9E /* CategoryPresenting.swift in Sources */,
+				81857C0C27A2CD9F000D5E9E /* SetupAccountPresenterView.swift in Sources */,
 				8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */,
 				81B91841274A772600486176 /* NewBookControllerSubViews.swift in Sources */,
 				8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */,
 				8125ADC1279C104F00FB6725 /* UserCellAdapter.swift in Sources */,
+				81857BF427A297E4000D5E9E /* CommentPresenting.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
+				81857BEC27A29183000D5E9E /* LibraryPresenting.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				812BA73E278DCF09009541E4 /* BookCover.swift in Sources */,
 				81C4CC3C275CDC0200E25628 /* NotificationManager.swift in Sources */,
+				81857BFC27A2B2FD000D5E9E /* HomePresenting.swift in Sources */,
 				81DB8E072753BCD700698B92 /* UIImageView+Extension.swift in Sources */,
 				81857BDA27A1BF5C000D5E9E /* BookCardPresenterView.swift in Sources */,
 				813B7C7A2733ADFD005BFBDB /* AccountService.swift in Sources */,
@@ -2059,8 +2139,10 @@
 				810A68BB27898CF000406342 /* BookDescriptioViewDelegate.swift in Sources */,
 				8125ADD6279C6DC100FB6725 /* Factory.swift in Sources */,
 				81BC7ED1273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift in Sources */,
+				81857C0E27A2CE24000D5E9E /* SetupAccountPresenting.swift in Sources */,
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
 				81FA72662774813500040BEF /* FormatterProtocol.swift in Sources */,
+				81857BF827A2A3AF000D5E9E /* ListPresenting.swift in Sources */,
 				813B7C712733A44F005BFBDB /* UserService.swift in Sources */,
 				8105937F27870D2000ACBA2C /* NewCategoryViewController.swift in Sources */,
 				8171AF9627258623002F96B9 /* CategoryCollectionViewCell.swift in Sources */,
@@ -2106,6 +2188,7 @@
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */,
 				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
+				81857BFE27A2B8E9000D5E9E /* NewBookPresenterView.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				810A68C0278B0E0D00406342 /* EmptyStateViewDelegate.swift in Sources */,
 				8125ADE9279ECC7000FB6725 /* NewBookViewControllerDelegate.swift in Sources */,
@@ -2119,9 +2202,10 @@
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
 				81A6725E27908CA100298394 /* AccountMainView.swift in Sources */,
 				81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */,
+				81857BFA27A2B1E0000D5E9E /* HomePresenterView.swift in Sources */,
 				812B16132772106200D65C6A /* BarcodeReader.swift in Sources */,
 				810C44672726E561007541C0 /* UserModel.swift in Sources */,
-				8125AD2D27986EB500FB6725 /* AccountPresenter.swift in Sources */,
+				8125AD2D27986EB500FB6725 /* AccountTabPresenter.swift in Sources */,
 				812BA740278DCF09009541E4 /* AppLogoView.swift in Sources */,
 				811C5C2727972E3E003D11BA /* SearchPresenter.swift in Sources */,
 				8125ADA52799DA4000FB6725 /* ViewControllerFactory.swift in Sources */,
@@ -2597,22 +2681,6 @@
 				kind = branch;
 			};
 		};
-		8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nathantannar4/InputBarAccessoryView.git";
@@ -2632,6 +2700,22 @@
 		8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		81857BDD27A2817F000D5E9E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		81857BE027A28195000D5E9E /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -2715,21 +2799,6 @@
 			package = 8157F53D2780B2F3005F182A /* XCRemoteSwiftPackageReference "Bauly" */;
 			productName = Bauly;
 		};
-		8157F5442780B34D005F182A /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
-		};
-		8157F5462780B34D005F182A /* _LottieCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8157F5432780B34D005F182A /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = _LottieCore;
-		};
-		8157F5492780B369005F182A /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8157F5482780B369005F182A /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		8157F54C2780B386005F182A /* InputBarAccessoryView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8157F54B2780B386005F182A /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */;
@@ -2744,6 +2813,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8157F5512780B3C5005F182A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		81857BDE27A2817F000D5E9E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81857BDD27A2817F000D5E9E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		81857BE127A28195000D5E9E /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81857BE027A28195000D5E9E /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		81857BE327A28195000D5E9E /* _LottieCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81857BE027A28195000D5E9E /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = _LottieCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

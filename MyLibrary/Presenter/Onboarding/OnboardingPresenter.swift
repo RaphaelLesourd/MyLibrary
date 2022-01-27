@@ -7,10 +7,11 @@
 
 import Foundation
 
-protocol OnboardingPresenterView: AnyObject {
-    func setLastPageReached(_ lastPage: Bool)
-    func scrollCollectionView(to indexPath: IndexPath)
-    func presentWelcomeVC()
+protocol OnboardingPresenting {
+    var view: OnboardingPresenterView? { get set }
+    var onboardingData: [Onboarding] { get }
+    var collectionViewCurrentIndex: Int { get set }
+    func nextButtonTapped()
 }
 
 class OnboardingPresenter {
@@ -32,7 +33,24 @@ class OnboardingPresenter {
         }
     }
     
-    // MARK: - Public functions
+    /// Save in Userdefault if the onboarding has been seen or skipped
+    private func saveOnboardingSeen() {
+        collectionViewCurrentIndex = 0
+        UserDefaults.standard.set(true, forKey: UserDefaultKey.onboardingSeen.rawValue)
+    }
+    
+    /// Update the current onboarding page number
+    /// - Parameters:
+    /// - index: Int of the current collectionView position
+    private func updatePageNumber(with index: Int) {
+        let lastPage = index == onboardingData.count - 1
+        view?.setLastPageReached(lastPage)
+    }
+}
+extension OnboardingPresenter: OnboardingPresenting {
+    
+    /// Receive the next button tapped gesture and calculate if the current index is the last index of the data to display.
+    /// Presents the the Welcome screen if last page reached or the next page
     func nextButtonTapped() {
         if collectionViewCurrentIndex < onboardingData.count - 1 {
             collectionViewCurrentIndex += 1
@@ -42,16 +60,5 @@ class OnboardingPresenter {
             saveOnboardingSeen()
             view?.presentWelcomeVC()
         }
-    }
-    
-    // MARK: - Private functions
-    private func saveOnboardingSeen() {
-        collectionViewCurrentIndex = 0
-        UserDefaults.standard.set(true, forKey: UserDefaultKey.onboardingSeen.rawValue)
-    }
-    
-    private func updatePageNumber(with index: Int) {
-        let lastPage = index == onboardingData.count - 1
-        view?.setLastPageReached(lastPage)
     }
 }

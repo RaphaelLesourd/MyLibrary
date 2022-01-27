@@ -6,11 +6,6 @@
 //
 import FirebaseAuth
 
-protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func addCommentToInputBar(for comment: CommentModel)
-}
-
 class CommentPresenter {
     
     // MARK: - Properties
@@ -33,7 +28,26 @@ class CommentPresenter {
         self.formatter = formatter
     }
     
-    // MARK: - API Call
+    /// Convert Item object to object to be used by the view to display data it needs
+    /// - Parameters:
+    ///   - book: Item object
+    ///   - ownerName: String representing the name of the book owner
+    private func makeCommentBookCellRepresentable(with book: Item,
+                                                  and ownerName: String) -> CommentBookCellRepresentable {
+        let title = book.volumeInfo?.title?.capitalized
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ")
+        let image = book.volumeInfo?.imageLinks?.thumbnail
+        return CommentBookCellRepresentable(title: title,
+                                            authors: authors,
+                                            image: image,
+                                            ownerName: ownerName)
+    }
+}
+
+extension CommentPresenter: CommentPresenting {
+   
+    // MARK: API call
+    /// Fetch all the comments for the current book
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
@@ -52,8 +66,12 @@ class CommentPresenter {
         }
     }
     
-    func addComment(with newComment: String,
-                    commentID: String?) {
+    /// Add comment to the database.
+    /// - Parameters:
+    ///  - newComment: String of the comment message to add
+    ///  - commentID: Optional String of the comment.
+    /// The optional allows to either use the ID to update the current comment or if nil a new ID is created for a new comment
+    func addComment(with newComment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
@@ -72,6 +90,9 @@ class CommentPresenter {
         }
     }
     
+    /// Delete comment from the database
+    /// - Parameters:
+    /// - comment: CommentModel object of the comment to delete.
     func deleteComment(for comment: CommentModel) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
@@ -89,9 +110,13 @@ class CommentPresenter {
         }
     }
     
-    // MARK: - Notification
-    func notifyUser(of newComment: String,
-                    book: Item?) {
+    // MARK: Notification
+    
+    /// Notify the user of a new comment
+    /// - Parameters:
+    ///  - newComment: String of the comment message to send.
+    ///  - book: Optional Item object of the book the comment belongs to.
+    func notifyUser(of newComment: String, book: Item?) {
         guard let book = book else { return }
         view?.showActivityIndicator()
         
@@ -107,6 +132,10 @@ class CommentPresenter {
     }
     
     // MARK: - Cell
+    
+    /// Convert a CommentModel object tp CommentCellRepresentable used to by the cell to display data.
+    /// - Parameters:
+    /// - comment: CommentModel object of the comment to convert
     func makeCommentCellRepresentable(with comment: CommentModel) -> CommentCellRepresentable {
         let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
@@ -117,6 +146,8 @@ class CommentPresenter {
                                         currentUser: isCurrentUser)
     }
     
+    /// Get book details including user name from the data base and convert book Item object and
+    /// user UserModel object to CommentBookCellRepresentable used by the cell to display data.
     func getBookDetails() {
         guard let book = book,
               let ownerID = book.ownerID else { return }
@@ -136,6 +167,10 @@ class CommentPresenter {
         }
     }
     
+    /// Handle the cell trailing swipe actions and call the methods for the action
+    /// - Parameters:
+    ///   - actionType: CellSwipeActionType Enum case
+    ///   - comment: CommentModel object of the current comment
     func presentSwipeAction(for comment: CommentModel, actionType: CellSwipeActionType) {
         switch actionType {
         case .delete:
@@ -144,16 +179,5 @@ class CommentPresenter {
             editedCommentID = comment.uid
             view?.addCommentToInputBar(for: comment)
         }
-    }
-    
-    // MARK: - Private functions
-    private func makeCommentBookCellRepresentable(with book: Item, and ownerName: String) -> CommentBookCellRepresentable {
-        let title = book.volumeInfo?.title?.capitalized
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ")
-        let image = book.volumeInfo?.imageLinks?.thumbnail
-        return CommentBookCellRepresentable(title: title,
-                                            authors: authors,
-                                            image: image,
-                                            ownerName: ownerName)
     }
 }

@@ -10,7 +10,7 @@ import XCTest
 
 class HomePresenterTestCase: XCTestCase {
 
-    private var sut: HomePresenter!
+    private var sut: HomePresenting!
     private var homeViewSpy: HomeViewSpy!
     private let successTestPresenter = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
                                                      categoryService: CategoryServiceMock(true),
@@ -144,7 +144,6 @@ class HomePresenterTestCase: XCTestCase {
 }
 
 class HomeViewSpy: HomePresenterView {
-    
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false

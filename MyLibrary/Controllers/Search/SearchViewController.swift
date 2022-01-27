@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
-    let presenter: SearchPresenter
+    var presenter: SearchPresenting
     
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     private lazy var dataSource = createDataSource()
  
     // MARK: - Initializer
-    init(presenter: SearchPresenter,
+    init(presenter: SearchPresenting,
          layoutComposer: BookListLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
@@ -86,7 +86,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            if let bookData = self?.presenter.setBookData(for: book) {
+            if let bookData = self?.presenter.makeBookCellRepresentable(for: book) {
                 cell.configure(with: bookData)
             }
             return cell

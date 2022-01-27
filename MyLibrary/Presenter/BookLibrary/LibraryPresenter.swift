@@ -5,11 +5,6 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func updateHeader(with title: String?)
-}
-
 class LibraryPresenter: BookCellAdapter {
     
     // MARK: - Properties
@@ -17,15 +12,15 @@ class LibraryPresenter: BookCellAdapter {
     var endOfList: Bool = false
     var bookList: [Item] = []
     private let libraryService: LibraryServiceProtocol
-    
+   
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
     }
+}
+extension LibraryPresenter: LibraryPresenting {
     
-    // MARK: - API Call
-    func getBooks(with query: BookQuery,
-                  nextPage: Bool = false) {
+    func getBooks(with query: BookQuery, nextPage: Bool = false) {
         view?.updateHeader(with: query.listType?.title)
         view?.showActivityIndicator()
         libraryService.getBookList(for: query,

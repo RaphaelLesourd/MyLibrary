@@ -14,7 +14,7 @@ class NewBookViewController: UITableViewController {
     let subViews = NewBookControllerSubViews()
     
     private let resultController: SearchViewController
-    private let presenter: NewBookPresenter
+    private var presenter: NewBookPresenting
     
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
@@ -24,7 +24,7 @@ class NewBookViewController: UITableViewController {
     init(book: Item?,
          isEditing: Bool,
          bookCardDelegate: BookCardDelegate?,
-         presenter: NewBookPresenter,
+         presenter: NewBookPresenting,
          resultViewController: SearchViewController) {
         self.presenter = presenter
         self.presenter.book = book
@@ -55,7 +55,7 @@ class NewBookViewController: UITableViewController {
         configureSearchController()
         configureUI()
         clearData()
-        presenter.setBookData()
+        presenter.displayBook()
     }
 
     // MARK: - Setup
@@ -211,7 +211,7 @@ extension NewBookViewController: NewBookViewControllerDelegate {
     func setBookData(with item: Item?) {
         clearData()
         presenter.book = item
-        presenter.setBookData()
+        presenter.displayBook()
     }
 }
 

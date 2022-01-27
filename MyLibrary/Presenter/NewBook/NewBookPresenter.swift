@@ -6,15 +6,6 @@
 //
 import Foundation
 
-protocol NewBookPresenterView: AnyObject {
-    func showSaveButtonActivityIndicator(_ show: Bool)
-    func returnToPreviousVC()
-    func displayBook(with model: NewBookRepresentable)
-    func updateLanguageView(with language: String)
-    func updateCurrencyView(with currency: String)
-    func clearData()
-}
-
 class NewBookPresenter {
     
     weak var view: NewBookPresenterView?
@@ -39,47 +30,6 @@ class NewBookPresenter {
         self.formatter = formatter
         self.converter = converter
         self.validator = validator
-    }
-    
-    func saveBook(with imageData: Data) {
-        let book = createBookDocument(from: mainView)
-        view?.showSaveButtonActivityIndicator(true)
-        
-        libraryService.createBook(with: book, and: imageData) { [weak self] error in
-            guard let self = self else { return }
-            
-            self.view?.showSaveButtonActivityIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-                return
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
-            self.isEditing ? self.view?.returnToPreviousVC() : self.view?.clearData()
-        }
-    }
-    
-    func setBookData() {
-        bookDescription = book?.volumeInfo?.volumeInfoDescription
-        bookCategories = book?.category ?? []
-        setBookLanguage(with: book?.volumeInfo?.language)
-        setBookCurrency(with: book?.saleInfo?.retailPrice?.currencyCode)
-        
-        let bookRepresentable = createBookRepresentable()
-        view?.displayBook(with: bookRepresentable)
-    }
-    
-    func setBookLanguage(with code: String?) {
-        guard let code = code else { return }
-        language = code
-        let data = formatter.formatCodeToName(from: code, type: .languages)
-        view?.updateLanguageView(with: data.capitalized)
-    }
-    
-    func setBookCurrency(with code: String?) {
-        guard let code = code else { return }
-        currency = code
-        let data = formatter.formatCodeToName(from: code, type: .currency)
-        view?.updateCurrencyView(with: data.uppercased())
     }
     
     /// Uses data enterred to create a book.
@@ -111,6 +61,7 @@ class NewBookPresenter {
                     category: bookCategories)
     }
     
+    /// Convert the current Book Item object to NewBookRepresentable to be displayed by the view
     private func createBookRepresentable() -> NewBookRepresentable {
         return NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized,
                                     authors: book?.volumeInfo?.authors?.joined(separator: ", "),
@@ -121,5 +72,58 @@ class NewBookPresenter {
                                     isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
                                     pages: book?.volumeInfo?.pageCount,
                                     coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
+    }
+}
+
+extension NewBookPresenter: NewBookPresenting {
+    
+    /// Save book to the database
+    /// - Parameters:
+    /// - imageData: Data type for the image to be saved
+    func saveBook(with imageData: Data) {
+        let book = createBookDocument(from: mainView)
+        view?.showSaveButtonActivityIndicator(true)
+        
+        libraryService.createBook(with: book, and: imageData) { [weak self] error in
+            guard let self = self else { return }
+            
+            self.view?.showSaveButtonActivityIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+                return
+            }
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Book.bookSaved)
+            self.isEditing ? self.view?.returnToPreviousVC() : self.view?.clearData()
+        }
+    }
+    
+    func displayBook() {
+        bookDescription = book?.volumeInfo?.volumeInfoDescription
+        bookCategories = book?.category ?? []
+        setBookLanguage(with: book?.volumeInfo?.language)
+        setBookCurrency(with: book?.saleInfo?.retailPrice?.currencyCode)
+        
+        let bookRepresentable = createBookRepresentable()
+        view?.displayBook(with: bookRepresentable)
+    }
+    
+    /// Convert and set book language name from code .
+    /// - Parameters:
+    /// - code: Optional String for code to convert
+    func setBookLanguage(with code: String?) {
+        guard let code = code else { return }
+        language = code
+        let data = formatter.formatCodeToName(from: code, type: .languages)
+        view?.updateLanguageView(with: data.capitalized)
+    }
+    
+    /// Convert and set book language name from code .
+    /// - Parameters:
+    /// - code: Optional String for code to convert
+    func setBookCurrency(with code: String?) {
+        guard let code = code else { return }
+        currency = code
+        let data = formatter.formatCodeToName(from: code, type: .currency)
+        view?.updateCurrencyView(with: data.uppercased())
     }
 }

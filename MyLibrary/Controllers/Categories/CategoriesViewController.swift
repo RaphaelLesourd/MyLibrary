@@ -15,14 +15,14 @@ class CategoriesViewController: UIViewController {
     
     private lazy var dataSource = makeDataSource()
     private let mainView = CategoryControllerMainView()
-    private let presenter: CategoryPresenter
+    private var presenter: CategoryPresenting
     private let factory: Factory
     private var settingBookCategory: Bool
     
     init(settingBookCategory: Bool,
          selectedCategories: [String],
          newBookDelegate: NewBookViewControllerDelegate?,
-         categoryPresenter: CategoryPresenter) {
+         categoryPresenter: CategoryPresenting) {
         self.settingBookCategory = settingBookCategory
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter

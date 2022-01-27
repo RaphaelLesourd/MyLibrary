@@ -54,7 +54,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.setBookData()
+        sut.displayBook()
         XCTAssertTrue(newBookPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.updateLanguageViewWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)

@@ -10,7 +10,7 @@ import XCTest
 
 class NewCategoryTestCase: XCTestCase {
     
-    private var sut: NewCategoryPresenter!
+    private var sut: NewCategoryPresenting!
     private var newCategoryPresenterViewSpy: NewCategoryPresenterViewSpy!
     private let successTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(true))
     private let failTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(false))
@@ -27,7 +27,7 @@ class NewCategoryTestCase: XCTestCase {
     func test_setCategoryColor_withHexColorString() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.setCategoryColor(with: "426db3")
+        sut.displayCategoryColor(with: "426db3")
         XCTAssertTrue(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
     }
     
@@ -55,14 +55,14 @@ class NewCategoryTestCase: XCTestCase {
     func test_setCategoryColor_withHexColorString_NoTPartOfDefaultColor() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.setCategoryColor(with: "AAAAAA")
+        sut.displayCategoryColor(with: "AAAAAA")
         XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
     }
     
     func test_setCategoryColor_withNilHexColorString() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.setCategoryColor(with: nil)
+        sut.displayCategoryColor(with: nil)
         XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
     }
     
@@ -91,8 +91,8 @@ class NewCategoryTestCase: XCTestCase {
         sut.view = newCategoryPresenterViewSpy
         sut.isEditing = true
         sut.saveCategory(with: nil, and: "AAAA", for: PresenterFakeData.category)
-        XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
-        XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
     }
     

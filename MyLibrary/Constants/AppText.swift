@@ -190,6 +190,7 @@ enum Text {
         static let internalServerError = NSLocalizedString("InternalServerError", comment: "Http error 500")
         static let serviceUnavailable = NSLocalizedString("ServiceUnavailable", comment: "Http error 503")
         static let unknownError = NSLocalizedString("UnknowError", comment: "Http all other error")
+        static let emptyCategoryName = NSLocalizedString("EmptyCategoryName", comment: "Error message when name is present")
     }
     
     enum Misc {

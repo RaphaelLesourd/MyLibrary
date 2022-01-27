@@ -7,29 +7,24 @@
 
 import Foundation
 
-protocol CategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func highlightCell(at indexPath: IndexPath)
-    func displayDeleteAlert(for category: CategoryModel)
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?)
-}
-
 class CategoryPresenter {
     
     // MARK: - Properties
     weak var view: CategoryPresenterView?
     var categories: [CategoryModel] = []
-    var categoriesOriginalList: [CategoryModel] = []
     var selectedCategories: [String] = []
     
+    private var categoriesOriginalList: [CategoryModel] = []
     private var categoryService: CategoryServiceProtocol
     
     // MARK: - Initializer
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
-    
-    // MARK: - API Call
+}
+extension CategoryPresenter: CategoryPresenting {
+  
+    /// Fetch the user categories
     func getCategoryList() {
         self.view?.showActivityIndicator()
         categoryService.getCategories { [weak self] result in
@@ -45,6 +40,9 @@ class CategoryPresenter {
         }
     }
     
+    /// Delete category from the database
+    /// - Parameters:
+    /// - category:CategoryModel object
     func deleteCategory(for category: CategoryModel) {
         view?.showActivityIndicator()
         
@@ -64,7 +62,8 @@ class CategoryPresenter {
     }
     
     /// Filter the recipe searched
-    /// - Parameter searchText: Pass in the text used to filter recipes.
+    /// - Parameters:
+    /// - searchText: Pass in the text used to filter recipes.
     func filterSearchedCategories(for searchText: String) {
         if searchText.isEmpty {
             categories = categoriesOriginalList
@@ -77,6 +76,9 @@ class CategoryPresenter {
         self.view?.applySnapshot(animatingDifferences: true)
     }
     
+    /// Highlight tableView cell for the category received
+    /// - Parameters:
+    /// - section: Int for the section the category is in
     func highlightBookCategories(for section: Int) {
         selectedCategories.forEach({ category in
             if let index = categories.firstIndex(where: { $0.uid == category }) {
@@ -86,11 +88,17 @@ class CategoryPresenter {
         })
     }
     
+    /// Add a selected category to the array of categories
+    /// - Parameters:
+    /// - index: Int of the category index
     func addSelectedCategory(at index: Int) {
         let categoryID = categories[index].uid
         selectedCategories.append(categoryID)
     }
     
+    /// Remove a selected category from the array of categories
+    /// - Parameters:
+    /// - index: Int of the category index
     func removeSelectedCategory(from index: Int) {
         let categoryID = categories[index].uid
         if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
@@ -98,6 +106,10 @@ class CategoryPresenter {
         }
     }
     
+    /// Handle the cell trailing swipe actions and call the methods for the action
+    /// - Parameters:
+    ///   - action: CellSwipeActionType Enum case
+    ///   - index: Int of the category index
     func presentSwipeAction(for action: CellSwipeActionType, at index: Int) {
         let category = categories[index]
         switch action {

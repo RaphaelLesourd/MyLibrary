@@ -10,7 +10,7 @@ import XCTest
 
 class OnboardingPresenterTestCase: XCTestCase {
 
-    private var sut: OnboardingPresenter!
+    private var sut: OnboardingPresenting!
     private var onboardingViewSpy: OnboardingPresenterViewSpy!
     
     // MARK: - Lifecycle

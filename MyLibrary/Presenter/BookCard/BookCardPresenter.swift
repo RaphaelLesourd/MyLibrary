@@ -32,7 +32,30 @@ class BookCardPresenter {
         self.categoryFormatter = categoryFormatter
     }
     
-    // MARK: - Public Functions
+    /// Add current book to the recommended collection in the database
+    private func addToRecommendedBooks() {
+        guard let book = book else { return }
+        view?.playRecommendButtonIndicator(true)
+        recommendationService.addToRecommandation(for: book) { [weak self] error in
+            self?.view?.playRecommendButtonIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    /// Remove current book to the recommended collection in the database
+    private func removeFromRecommendedBooks() {
+        guard let book = book else { return }
+        recommendationService.removeFromRecommandation(for: book) { [weak self] error in
+            self?.view?.playRecommendButtonIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+}
+extension BookCardPresenter: BookCardPresenting {
+   
     func deleteBook() {
         guard let book = book else { return }
         view?.showActivityIndicator()
@@ -46,7 +69,7 @@ class BookCardPresenter {
         }
     }
     
-    /// Fetches the current book from the database.
+    /// Fetch the current book from the database.
     /// Typically used to update the current book changes.
     func updateBook() {
         guard let bookID = book?.bookID,
@@ -66,7 +89,7 @@ class BookCardPresenter {
         }
     }
     
-    /// Fetches the category names for the current book.
+    /// Fetch the category names for the current book.
     func fetchCategoryNames() {
         guard let categoryIds = book?.category,
               let bookOwnerID = book?.ownerID else { return }
@@ -107,10 +130,10 @@ class BookCardPresenter {
         view?.displayBook(with: data)
     }
     
-    /// Update statuses for either Favorite or Recommended book.
+    /// Update status for either Favorite or Recommended book.
     /// - Parameters
-    ///- state: Boolean value to represent state of the status
-    ///- documentKey: DocumentKey type for the status to update, tpyically .favorite or .recommended
+    /// - state: Boolean value to represent state of the status
+    /// - documentKey: DocumentKey type for the status to update, tpyically .favorite or .recommended
      func updateStatus(state: Bool, documentKey: DocumentKey) {
          guard let bookID = book?.bookID else { return }
         view?.showActivityIndicator()
@@ -124,35 +147,12 @@ class BookCardPresenter {
     }
   
     /// Call for the proper methods when the reommenBook button it tapped.
-    ///- Parameters: Boolean value
+    /// - Parameters: Boolean value
     func recommendBook(_ recommend: Bool) {
         guard recommend == false else {
             addToRecommendedBooks()
             return
         }
         removeFromRecommendedBooks()
-    }
-    
-    // MARK: - Private functions
-    /// Add current book to the recommended collection in the database
-    private func addToRecommendedBooks() {
-        guard let book = book else { return }
-        view?.playRecommendButtonIndicator(true)
-        recommendationService.addToRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    /// Remove current book to the recommended collection in the database
-    private func removeFromRecommendedBooks() {
-        guard let book = book else { return }
-        recommendationService.removeFromRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
     }
 }

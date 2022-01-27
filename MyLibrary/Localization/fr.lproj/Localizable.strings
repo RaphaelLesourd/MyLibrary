@@ -224,4 +224,4 @@
 "CurrencyListHeader" = "Sélectionnez une devise";
 
 "ListFooter" = "Glisser vers la gauche pour ajouter ou retirer des favoris.";
-
+"EmptyCategoryName" = "Vous avez oublié de donner un nom";

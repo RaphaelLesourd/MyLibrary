@@ -10,7 +10,7 @@ import XCTest
 
 class BookCardPresenterTestCase: XCTestCase {
     
-    private var sut: BookCardPresenter!
+    private var sut: BookCardPresenting!
     private var bookCardPresenterViewSpy: BookCardPresenterViewSpy!
     private let successTestPresenter = BookCardPresenter(libraryService: LibraryServiceMock(successTest: true),
                                                          recommendationService: RecommendationServiceMock(true),

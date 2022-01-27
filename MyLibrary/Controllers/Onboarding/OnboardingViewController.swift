@@ -12,11 +12,11 @@ class OnboardingViewController: UIViewController {
     // MARK: - Properties
     private let layoutComposer: OnboardingLayoutComposer
     private let mainView = OnboardingMainView()
-    private let presenter: OnboardingPresenter
+    private var presenter: OnboardingPresenting
     
     // MARK: - Intializer
     init(layoutComposer: OnboardingLayoutComposer,
-         presenter: OnboardingPresenter) {
+         presenter: OnboardingPresenting) {
         self.layoutComposer = layoutComposer
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)

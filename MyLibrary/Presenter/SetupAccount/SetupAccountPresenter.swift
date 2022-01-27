@@ -7,13 +7,6 @@
 
 import FirebaseAuth
 
-protocol SetupAccountPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func dismissViewController()
-    func updateEmailTextField(valid: Bool)
-    func updatePasswordTextField(valid: Bool)
-    func updatePasswordConfirmationTextField(valid: Bool)
-}
-
 class SetupAccountPresenter {
     
     // MARK: - Properties
@@ -30,8 +23,7 @@ class SetupAccountPresenter {
         self.validation = validation
     }
     
-    // MARK: - Public functions
-    func showInterface(for interfaceType: AccountInterfaceType) {
+    func handlesAccountCredentials(for interfaceType: AccountInterfaceType) {
         switch interfaceType {
         case .login:
             loginToAccount()
@@ -42,6 +34,9 @@ class SetupAccountPresenter {
         }
     }
     
+    /// Reset password for user email
+    /// - Parameters:
+    /// - email : Optional String of the user email
     func resetPassword(with email: String?) {
         guard let email = email else {
             AlertManager.presentAlertBanner(as: .error,
@@ -62,23 +57,33 @@ class SetupAccountPresenter {
         }
     }
     
-    // MARK: Account validation
+    /// Validate user email according to requirement.
+    /// - Parameters:
+    /// - text: String value of the user email
     func validateEmail(for text: String) {
         let validity = validation.validateEmail(text)
         view?.updateEmailTextField(valid: validity)
     }
     
+    /// Validate user password according to requirement.
+    /// - Parameters:
+    /// - text: String value of the user password
     func validatePassword(for text: String) {
         let validity = validation.validatePassword(text)
         view?.updatePasswordTextField(valid: validity)
     }
     
+    /// Validate user confirmation password according to requirement.
+    /// - Parameters:
+    /// - text: String value of the user confirmation password
     func validatePasswordConfirmation(for text: String) {
         let validity = validation.validatePassword(text)
         view?.updatePasswordConfirmationTextField(valid: validity)
     }
+}
+
+extension SetupAccountPresenter: SetupAccountPresenting {
     
-    // MARK: - Private functions
     private func loginToAccount() {
         view?.showActivityIndicator()
         

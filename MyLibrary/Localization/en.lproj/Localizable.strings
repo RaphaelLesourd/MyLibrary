@@ -223,3 +223,4 @@
 "CurrencyListHeader" = "Select a currency";
 
 "ListFooter" = "Swipe left to add to or remove from your favorites.";
+"EmptyCategoryName" = "You forgot to provide a name";

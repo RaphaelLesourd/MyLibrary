@@ -88,7 +88,7 @@ extension AccountSetupViewController: UITextFieldDelegate {
 extension AccountSetupViewController: AccountCreationViewDelegate {
     
     func finishedButtonTapped() {
-        presenter.showInterface(for: interfaceType)
+        presenter.handlesAccountCredentials(for: interfaceType)
     }
     
     func resetPassWordRequest() {

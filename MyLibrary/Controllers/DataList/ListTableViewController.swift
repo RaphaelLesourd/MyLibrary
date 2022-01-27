@@ -15,15 +15,15 @@ class ListTableViewController: UITableViewController {
     
     private lazy var dataSource = makeDataSource()
     private let searchController = UISearchController(searchResultsController: nil)
-    private let presenter: ListPresenter
+    private var presenter: ListPresenting
     
     // MARK: - Initializer
     init(receivedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
-         presenter: ListPresenter) {
+         presenter: ListPresenting) {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
-        self.presenter.receivedData = receivedData
+        self.presenter.selection = receivedData
         super.init(style: .insetGrouped)
     }
     

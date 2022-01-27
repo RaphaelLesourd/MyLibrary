@@ -12,12 +12,12 @@ class AccountViewController: UIViewController {
     // MARK: Properties
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
-    private let presenter: AccountTabPresenter
+    private var presenter: AccountTabPresenting
     private let factory: Factory
     private var imagePicker: ImagePicker?
     
     // MARK: Initializer
-    init(presenter: AccountTabPresenter,
+    init(presenter: AccountTabPresenting,
          feedbackManager: FeedbackManagerProtocol) {
         self.presenter = presenter
         self.feedbackManager = feedbackManager

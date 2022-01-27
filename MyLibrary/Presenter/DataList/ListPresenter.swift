@@ -6,26 +6,17 @@
 //
 import Foundation
 
-protocol ListPresenterView: AnyObject {
-    func setTitle(as title: String)
-    func highlightCell(for item: ListRepresentable)
-    func setLanguage(with code: String)
-    func setCurrency(with code: String)
-    func applySnapshot(animatingDifferences: Bool)
-    func reloadRow(for item: ListRepresentable)
-}
-
 class ListPresenter {
     
     // MARK: - Properties
     weak var view: ListPresenterView?
     var data: [ListRepresentable] = []
-    private(set) var originalData: [ListRepresentable] = []
-    var receivedData: String?
+    var selection: String?
+    var favorites: [String] = []
     
+    private var originalData: [ListRepresentable] = []
     private let listDataType: ListDataType
     private let formatter: Formatter
-    var favorites: [String] = []
     
     // MARK: - Initializer
     init(listDataType: ListDataType,
@@ -35,7 +26,49 @@ class ListPresenter {
         getFavorites()
     }
     
-    // MARK: - Public functions
+    /// Create an array of ListRepresentable for list type.
+    /// - Parameters:
+    /// - listType: ListDataType Enum case
+    /// - returns: Array of ListRepresentable objects to be displayed by the cell
+    private func createList(for listType: ListDataType) -> [ListRepresentable] {
+        let data = listDataType.code.compactMap { documents -> ListRepresentable in
+            let title = formatter.formatCodeToName(from: documents, type: listType)
+            let isFavorite = favorites.contains(documents)
+            return ListRepresentable(title: title, subtitle: documents, favorite: isFavorite)
+        }.filter({
+            !$0.title.isEmpty
+        })
+        return data
+    }
+    
+    /// Fetch favorites  from UserDefault
+    private func getFavorites() {
+        if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
+            favorites = data
+        }
+    }
+    
+    /// Save favortites to UserDefault
+    private func saveFavorites() {
+        UserDefaults.standard.set(favorites, forKey: "favorite" + listDataType.rawValue)
+    }
+    
+    /// Update favorite property of the data and originalData arrays
+    /// - Parameters:
+    ///  - favorite: Bool value
+    ///  - code: String value user to find the object to update in the array/
+    private func updateData(favorite: Bool, for code: String) {
+        if let index = data.firstIndex(where: { $0.subtitle.lowercased() == code.lowercased() }) {
+            data[index].favorite = favorite
+        }
+        if let index = originalData.firstIndex(where: { $0.subtitle.lowercased() == code.lowercased() }) {
+            originalData[index].favorite = favorite
+        }
+    }
+}
+extension ListPresenter: ListPresenting {
+   
+    /// Get the data for the chosen list type
     func getData() {
         let list = createList(for: listDataType)
         originalData = list.sorted(by: { $0.title.lowercased() < $1.title.lowercased() })
@@ -43,21 +76,22 @@ class ListPresenter {
         view?.applySnapshot(animatingDifferences: true)
     }
     
+    /// Get the controller title for thechosen  list type
     func getControllerTitle() {
         view?.setTitle(as: listDataType.title)
     }
-    
-    // MARK: Hightlight book data
+   
+    /// Highlight the cell for the selected data received by the viewController
     func highlightCell() {
-        if let index = data.firstIndex(where: { $0.subtitle.lowercased() == receivedData?.lowercased() }) {
+        if let index = data.firstIndex(where: { $0.subtitle.lowercased() == selection?.lowercased() }) {
             view?.highlightCell(for: data[index])
         }
     }
     
-    // MARK: Send selected data
+    /// Get the selected cell data and pass it back to the relevant method according the list type
     func getSelectedData(from data: ListRepresentable?) {
         guard let data = data else { return }
-        receivedData = nil
+        selection = nil
         switch listDataType {
         case .languages:
             view?.setLanguage(with: data.subtitle)
@@ -66,7 +100,9 @@ class ListPresenter {
         }
     }
     
-    // MARK: Filtering
+    /// Filters the orginalData type
+    /// - Parameters:
+    /// - text: String of the value to find
     func filterList(with text: String) {
         if text.isEmpty {
             data = originalData
@@ -80,7 +116,9 @@ class ListPresenter {
         view?.applySnapshot(animatingDifferences: true)
     }
     
-    // MARK: Favorite
+    /// Add a ListRepresentable object to the Favorite array
+    /// - Parameters:
+    /// - data: ListRepresentable object
     func addToFavorite(with data: ListRepresentable) {
         favorites.append(data.subtitle)
         saveFavorites()
@@ -88,43 +126,15 @@ class ListPresenter {
         view?.reloadRow(for: data)
     }
     
+    /// Remove a ListRepresentable object from the Favorite array
+    /// - Parameters:
+    /// - data: ListRepresentable object
     func removeFavorite(with data: ListRepresentable) {
         if let index = favorites.firstIndex(where: { $0.lowercased() == data.subtitle.lowercased() }) {
             favorites.remove(at: index)
             saveFavorites()
             updateData(favorite: false, for: data.subtitle)
             view?.reloadRow(for: data)
-        }
-    }
-    
-    // MARK: - Private functions
-    private func createList(for listType: ListDataType) -> [ListRepresentable] {
-        let data = listDataType.code.compactMap { documents -> ListRepresentable in
-            let title = formatter.formatCodeToName(from: documents, type: listType)
-            let isFavorite = favorites.contains(documents)
-            return ListRepresentable(title: title, subtitle: documents, favorite: isFavorite)
-        }.filter({
-            !$0.title.isEmpty
-        })
-        return data
-    }
-    
-    private func getFavorites() {
-        if let data = UserDefaults.standard.object(forKey: "favorite" + listDataType.rawValue) as? [String] {
-            favorites = data
-        }
-    }
-    
-    private func saveFavorites() {
-        UserDefaults.standard.set(favorites, forKey: "favorite" + listDataType.rawValue)
-    }
-    
-    private func updateData(favorite: Bool, for code: String) {
-        if let index = data.firstIndex(where: { $0.subtitle.lowercased() == code.lowercased() }) {
-            data[index].favorite = favorite
-        }
-        if let index = originalData.firstIndex(where: { $0.subtitle.lowercased() == code.lowercased() }) {
-            originalData[index].favorite = favorite
         }
     }
 }

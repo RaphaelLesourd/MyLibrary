@@ -10,7 +10,7 @@ import XCTest
 
 class LibraryPresenterTestCase: XCTestCase {
 
-    private var sut: LibraryPresenter!
+    private var sut: LibraryPresenting!
     private var libraryViewSpy: LibraryPresenterViewSpy!
 
     override func setUp() {
@@ -25,7 +25,7 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookList_withBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery)
+        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -34,10 +34,17 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookList_noBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: false))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery)
+        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
+    }
+    
+    func test_makingBookCellRepresentable() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        let representable = sut.makeBookCellRepresentable(for: PresenterFakeData.book)
+        XCTAssertEqual(representable.title, PresenterFakeData.book.volumeInfo?.title?.capitalized)
+        XCTAssertEqual(representable.image, PresenterFakeData.book.volumeInfo?.imageLinks?.thumbnail)
     }
 }
 

@@ -17,8 +17,7 @@ class BookLibraryViewController: UIViewController {
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
-    private var presenter: LibraryPresenter
-    
+    private var presenter: LibraryPresenting
     private let factory: Factory
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
@@ -31,7 +30,7 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Initializer
     init(currentQuery: BookQuery,
          queryService: QueryService,
-         presenter: LibraryPresenter,
+         presenter: LibraryPresenting,
          layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
@@ -62,7 +61,7 @@ class BookLibraryViewController: UIViewController {
         bookListMenu?.loadLayoutChoice()
         presenter.bookList.removeAll()
         applySnapshot(animatingDifferences: false)
-        presenter.getBooks(with: currentQuery)
+        presenter.getBooks(with: currentQuery, nextPage: false)
     }
     
     override func viewDidLayoutSubviews() {
@@ -160,7 +159,7 @@ extension BookLibraryViewController {
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             guard let self = self else { return nil }
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookData = self.presenter.setBookData(for: book)
+            let bookData = self.presenter.makeBookCellRepresentable(for: book)
             cell.configure(with: bookData)
             return cell
         })
@@ -214,7 +213,7 @@ extension BookLibraryViewController: BookListViewDelegate {
     func reloadData() {
         presenter.bookList.removeAll()
         presenter.endOfList = false
-        presenter.getBooks(with: currentQuery)
+        presenter.getBooks(with: currentQuery, nextPage: false)
     }
 }
 

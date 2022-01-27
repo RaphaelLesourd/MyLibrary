@@ -5,11 +5,6 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol SearchPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func displayBookFromBarCodeSearch(with book: Item?)
-}
-
 class SearchPresenter: BookCellAdapter {
     
     // MARK: - Properties
@@ -29,13 +24,42 @@ class SearchPresenter: BookCellAdapter {
         self.apiManager = apiManager
     }
     
+    /// Verifies the type of search and redirects the result.
+    ///  - Parameters:
+    ///   - searchType: - .apiCall: Display the list in the collectionView
+    ///    - .barCodeSearch: send the first result back to newBookController
+    ///   - books: List of books fetch from API
+   private func handleList(for books: [Item]) {
+        switch searchType {
+        case .keywordSearch:
+            books.isEmpty ? noMoreBooks = true : addBooks(books)
+        case .barCodeSearch:
+            view?.displayBookFromBarCodeSearch(with: books.first)
+        case .none:
+            return
+        }
+    }
+    
+    /// Add an array of Item object to the search book, after check if it already exists or not.
+    /// - Parameters:
+    /// - books: Array of Item objects
+    private func addBooks(_ books: [Item]) {
+        books.forEach {  book in
+            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
+                self.searchedBooks.append(book)
+                self.view?.applySnapshot(animatingDifferences: true)
+            }
+        }
+    }
+}
+
+extension SearchPresenter: SearchPresenting {
     // MARK: - Public functions
     /// Api call to get book or list of books.
     /// - Parameters:
     ///   - query: String passing search keywords, could be title, author or isbn
     ///   - fromIndex: Define the starting point of the book to fetxh, used for pagination.
-    func getBooks(with keywords: String,
-                  fromIndex: Int) {
+    func getBooks(with keywords: String, fromIndex: Int) {
         view?.showActivityIndicator()
         
         apiManager.getData(with: keywords, fromIndex: fromIndex) { [weak self] result in
@@ -48,35 +72,10 @@ class SearchPresenter: BookCellAdapter {
             }
         }
     }
+    
     func refreshData() {
         searchedBooks.removeAll()
         noMoreBooks = false
         getBooks(with: currentSearchKeywords, fromIndex: 0)
-    }
-    
-    // MARK: - Private functions
-    /// Verifies the type of search and redirects the result.
-    ///  - searchType:
-    ///  - .apiCall: Display the list in the collectionView
-    ///  - .barCodeSearch: send the first result back to newBookController
-    /// - Parameter books: List of books fetch from API
-   private func handleList(for books: [Item]) {
-        switch searchType {
-        case .keywordSearch:
-            books.isEmpty ? noMoreBooks = true : addBooks(books)
-        case .barCodeSearch:
-            view?.displayBookFromBarCodeSearch(with: books.first)
-        case .none:
-            return
-        }
-    }
-    
-    private func addBooks(_ books: [Item]) {
-        books.forEach {  book in
-            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
-                self.searchedBooks.append(book)
-                self.view?.applySnapshot(animatingDifferences: true)
-            }
-        }
     }
 }
