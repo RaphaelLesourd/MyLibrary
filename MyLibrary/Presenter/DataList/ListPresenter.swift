@@ -66,6 +66,7 @@ class ListPresenter {
         }
     }
 }
+
 extension ListPresenter: ListPresenting {
    
     /// Get the data for the chosen list type
