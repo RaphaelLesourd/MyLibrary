@@ -11,7 +11,7 @@ class NewCategoryPresenter {
     
     // MARK: - Properties
     weak var view: NewCategoryPresenterView?
-    var isEditing = Bool()
+ //   var isEditing: Bool?
     let defaultColors: [String] = ["238099","16adb7","0abfc2","3482b7","426db3","586ba4","324376",
                                    "579188","4a8259","58a94c","59996d","8fb241","a8c81b","97a948",
                                    "858974","a4a68c","ad8587","d1a8b4","a480cf","aab03b","ac985b",
@@ -47,13 +47,12 @@ class NewCategoryPresenter {
     
     /// Update the current category in the database
     /// - Parameters:
-    ///   - cateryModel: Category object to update
+    ///   - categoryModel: Category object to update
     ///   - name: String of the category name
     ///   - colorHex: String HEX value of the color
-    private func updateCategory(for category: CategoryModel?,
-                                with name: String,
+    private func updateCategory(for category: CategoryModel,
+                                with name: String?,
                                 and colorHex: String) {
-        guard let category = category else { return }
         view?.showActivityIndicator()
         
         categoryService.updateCategoryName(for: category, with: name, color: colorHex) { [weak self] error in
@@ -92,7 +91,7 @@ extension NewCategoryPresenter: NewCategoryPresenting {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyComment)
             return
         }
-        guard isEditing else {
+        guard let category = category else {
             createCategory(with: name, and: colorHex)
             return
         }

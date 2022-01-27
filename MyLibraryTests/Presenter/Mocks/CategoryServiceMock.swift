@@ -35,6 +35,7 @@ class CategoryServiceMock: CategoryServiceProtocol {
     
     func updateCategoryName(for category: CategoryModel, with name: String?, color: String,
                             completion: @escaping (FirebaseError?) -> Void) {
+        
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     

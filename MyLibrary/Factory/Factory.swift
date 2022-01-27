@@ -31,7 +31,7 @@ protocol Factory {
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController
     
-    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController
+    func makeNewCategoryVC(category: CategoryModel?) -> UIViewController
     
     func makeListVC(for dataType: ListDataType,
                     selectedData: String?,

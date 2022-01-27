@@ -86,7 +86,7 @@ class CategoriesViewController: UIViewController {
     }
     
     @objc private func addNewCategory() {
-        presentNewCategoryController(editing: false, for: nil)
+        presentNewCategoryController(for: nil)
     }
 }
 
@@ -203,8 +203,8 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
     
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?) {
-        let newCategoryViewController = factory.makeNewCategoryVC(editing: editing, category: category)
+    func presentNewCategoryController(for category: CategoryModel?) {
+        let newCategoryViewController = factory.makeNewCategoryVC(category: category)
         if #available(iOS 15.0, *) {
             presentSheetController(newCategoryViewController, detents: [.large()])
         } else {

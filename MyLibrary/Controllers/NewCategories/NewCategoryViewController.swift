@@ -11,7 +11,6 @@ class NewCategoryViewController: UIViewController {
     
     // MARK: Properties
     private let mainView = NewCategoryMainView()
-    private let editingCategory: Bool
     private let category: CategoryModel?
     private var presenter: NewCategoryPresenting
     var chosenColor: String = "e38801" {
@@ -21,10 +20,8 @@ class NewCategoryViewController: UIViewController {
     }
     
     // MARK: Initializer
-    init(editingCategory: Bool,
-         category: CategoryModel?,
+    init(category: CategoryModel?,
          presenter: NewCategoryPresenting) {
-        self.editingCategory = editingCategory
         self.category = category
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -43,8 +40,7 @@ class NewCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.view = self
-        presenter.isEditing = editingCategory
-        mainView.configure(for: editingCategory)
+        mainView.configure(for: category != nil)
         mainView.delegate = self
         mainView.categoryTextField.delegate = self
         mainView.collectionView.delegate = self

@@ -37,7 +37,7 @@ class ViewControllerFactoryTestCase: XCTestCase {
     }
     
     func test_makeNewCategoryVC() {
-        let controller = sut.makeNewCategoryVC(editing: true, category: nil)
+        let controller = sut.makeNewCategoryVC(category: nil)
         XCTAssertTrue(controller is NewCategoryViewController)
     }
     

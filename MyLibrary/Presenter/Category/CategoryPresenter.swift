@@ -12,9 +12,9 @@ class CategoryPresenter {
     // MARK: - Properties
     weak var view: CategoryPresenterView?
     var categories: [CategoryModel] = []
+    var categoriesOriginalList: [CategoryModel] = []
     var selectedCategories: [String] = []
     
-    private var categoriesOriginalList: [CategoryModel] = []
     private var categoryService: CategoryServiceProtocol
     
     // MARK: - Initializer
@@ -116,7 +116,7 @@ extension CategoryPresenter: CategoryPresenting {
         case .delete:
             self.view?.displayDeleteAlert(for: category)
         case .edit:
-            self.view?.presentNewCategoryController(editing: true, for: category)
+            self.view?.presentNewCategoryController(for: category)
         }
     }
 }

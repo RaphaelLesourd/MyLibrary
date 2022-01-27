@@ -86,9 +86,8 @@ extension ViewControllerFactory: Factory {
                                         categoryPresenter: categoryPresenter)
     }
     
-    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController {
-        return NewCategoryViewController(editingCategory: editing,
-                                         category: category,
+    func makeNewCategoryVC(category: CategoryModel?) -> UIViewController {
+        return NewCategoryViewController(category: category,
                                          presenter: newCategoryPresenter)
     }
     

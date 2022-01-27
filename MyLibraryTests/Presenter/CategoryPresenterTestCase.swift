@@ -10,7 +10,7 @@ import XCTest
 
 class CategoryPresenterTestCase: XCTestCase {
   
-    private var sut: CategoryPresenting!
+    private var sut: CategoryPresenter!
     private var categoryViewSpy: CategoryPresenterViewSpy!
     private let successTestPresenter = CategoryPresenter(categoryService: CategoryServiceMock(true))
     private let failedTestPresenter = CategoryPresenter(categoryService: CategoryServiceMock(false))
@@ -55,6 +55,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_searchForCategory_searchTextHasContent() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
+        sut.categoriesOriginalList = PresenterFakeData.categories
         sut.filterSearchedCategories(for: "First")
         XCTAssertTrue(categoryViewSpy.snapshotWasCalled)
     }
@@ -148,7 +149,7 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         displayDeleteAlertWasCalled = true
     }
     
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?) {
+    func presentNewCategoryController(for category: CategoryModel?) {
         presentNewCategoryControllerWasCalled = true
     }
     
