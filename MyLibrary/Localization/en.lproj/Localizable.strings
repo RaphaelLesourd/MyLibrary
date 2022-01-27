@@ -45,8 +45,9 @@
 "Skip" = "Skip";
 "Close" = "Close";
  
-"LatestBooks" = "Latest books";
-"FavoriteBooks" = "Favorite books";
+"UserCategories" = "Your categories";
+"LatestBooks" = "Your latest books";
+"FavoriteBooks" = "Your favorite books";
 "Recommendations" = "Recommendations";
  
 "SeeAll" = "See all";

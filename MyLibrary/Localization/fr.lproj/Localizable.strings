@@ -45,8 +45,9 @@
 "Skip" = "Passer";
 "Close" = "Fermer";
 
-"LatestBooks" = "Derniers ajouts";
-"FavoriteBooks" = "Livres favoris";
+"UserCategories" = "Vos catégories";
+"LatestBooks" = "Vos derniers ajouts";
+"FavoriteBooks" = "Vos livres favoris";
 "Recommendations" = "Recommandations";
 
 "SeeAll" = "Tout voir";

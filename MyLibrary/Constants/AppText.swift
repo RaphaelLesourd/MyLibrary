@@ -62,6 +62,7 @@ enum Text {
     }
     
     enum SectionTitle {
+        static let userCategories = NSLocalizedString("UserCategories", comment: "all user categories title")
         static let latestBook = NSLocalizedString("LatestBooks", comment: "latest book title")
         static let favoritetBook = NSLocalizedString("FavoriteBooks", comment: "book title")
         static let userRecommandation = NSLocalizedString("Recommendations", comment: "book title")
