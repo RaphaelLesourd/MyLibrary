@@ -10,7 +10,7 @@ import XCTest
 
 class ListPresenterTestCase: XCTestCase {
     
-    private var sut: ListPresenting!
+    private var sut: ListPresenter!
     private var listPresenterViewSpy: ListPresenterViewSpy!
     private let languageTestPresenter = ListPresenter(listDataType: .languages, formatter: Formatter())
     private let currencyTestPresenter = ListPresenter(listDataType: .currency, formatter: Formatter())

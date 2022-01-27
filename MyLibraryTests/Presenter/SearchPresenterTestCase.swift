@@ -10,7 +10,7 @@ import XCTest
 
 class SearchPresenterTestCase: XCTestCase {
 
-    private var sut: SearchPresenting!
+    private var sut: SearchPresenter!
     private var searchViewSpy: SearchViewSpy!
     private var apiManager: ApiManagerProtocol!
     private var apiManagerEmptyData: ApiManagerProtocol!

@@ -10,7 +10,7 @@ import XCTest
 
 class HomePresenterTestCase: XCTestCase {
 
-    private var sut: HomePresenting!
+    private var sut: HomePresenter!
     private var homeViewSpy: HomeViewSpy!
     private let successTestPresenter = HomePresenter(libraryService: LibraryServiceMock(successTest: true),
                                                      categoryService: CategoryServiceMock(true),

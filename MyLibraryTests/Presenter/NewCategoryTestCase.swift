@@ -10,7 +10,7 @@ import XCTest
 
 class NewCategoryTestCase: XCTestCase {
     
-    private var sut: NewCategoryPresenting!
+    private var sut: NewCategoryPresenter!
     private var newCategoryPresenterViewSpy: NewCategoryPresenterViewSpy!
     private let successTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(true))
     private let failTestPresenter = NewCategoryPresenter(categoryService: CategoryServiceMock(false))

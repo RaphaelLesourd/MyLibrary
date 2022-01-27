@@ -10,7 +10,7 @@ import XCTest
 
 class SetupAccountPresenterTestCase: XCTestCase {
     
-    private var sut: SetupAccountPresenting!
+    private var sut: SetupAccountPresenter!
     private var setupAccountPresenterViewSpy: SetupAccountPresenterViewSpy!
     private let successTestPresenter = SetupAccountPresenter(accountService: AccountServiceMock(successTest: true),
                                                              validation: Validator())

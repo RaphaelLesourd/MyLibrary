@@ -10,7 +10,7 @@ import XCTest
 
 class LibraryPresenterTestCase: XCTestCase {
 
-    private var sut: LibraryPresenting!
+    private var sut: LibraryPresenter!
     private var libraryViewSpy: LibraryPresenterViewSpy!
 
     override func setUp() {
@@ -42,7 +42,7 @@ class LibraryPresenterTestCase: XCTestCase {
     
     func test_makingBookCellRepresentable() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
-        let representable = sut.makeBookCellRepresentable(for: PresenterFakeData.book)
+        let representable = sut.makeBookCellUI(for: PresenterFakeData.book)
         XCTAssertEqual(representable.title, PresenterFakeData.book.volumeInfo?.title?.capitalized)
         XCTAssertEqual(representable.image, PresenterFakeData.book.volumeInfo?.imageLinks?.thumbnail)
     }
