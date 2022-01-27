@@ -8,7 +8,7 @@
 import Alamofire
 
 protocol ApiManagerProtocol {
-    func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void)
+    func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void)
     func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void)
 }
 
@@ -43,7 +43,7 @@ extension ApiManager: ApiManagerProtocol {
     ///   - completion: Return an array of Item of an errorogf type ApiError in case of failure
     func getData(with query: String?,
                  fromIndex: Int,
-                 completion: @escaping (Result<[Item], ApiError>) -> Void) {
+                 completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
         guard let query = query, !query.isEmpty else {
             completion(.failure(.emptyQuery))
             return

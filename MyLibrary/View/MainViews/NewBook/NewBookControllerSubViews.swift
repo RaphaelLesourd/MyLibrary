@@ -70,7 +70,7 @@ class NewBookControllerSubViews {
         ]
     }
     
-    func configure(with model: NewBookRepresentable) {
+    func configure(with model: NewBookUI) {
         bookTileCell.textField.text = model.title
         bookAuthorCell.textField.text = model.authors
         ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating ?? 0

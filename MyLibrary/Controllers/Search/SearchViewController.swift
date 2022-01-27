@@ -10,11 +10,11 @@ import UIKit
 class SearchViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, ItemDTO>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
-    var presenter: SearchPresenting
+    var presenter: SearchPresenter
     
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     private lazy var dataSource = createDataSource()
  
     // MARK: - Initializer
-    init(presenter: SearchPresenting,
+    init(presenter: SearchPresenter,
          layoutComposer: BookListLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
@@ -86,7 +86,7 @@ extension SearchViewController {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            if let bookData = self?.presenter.makeBookCellRepresentable(for: book) {
+            if let bookData = self?.presenter.makeBookCellUI(for: book) {
                 cell.configure(with: bookData)
             }
             return cell
@@ -150,7 +150,7 @@ extension SearchViewController: BookListViewDelegate {
 }
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
-    func displayBookFromBarCodeSearch(with book: Item?) {
+    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
         newBookDelegate?.setBookData(with: book)
     }
     

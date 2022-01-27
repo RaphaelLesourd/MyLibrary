@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreSwift
 
-struct CategoryModel: Codable, Identifiable {
+struct CategoryDTO: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String
     var name: String
@@ -18,11 +18,11 @@ struct CategoryModel: Codable, Identifiable {
     }
 }
 
-extension CategoryModel: Hashable {
+extension CategoryDTO: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(uid)
     }
-    static func == (lhs: CategoryModel, rhs: CategoryModel) -> Bool {
+    static func == (lhs: CategoryDTO, rhs: CategoryDTO) -> Bool {
         return lhs.uid == rhs.uid
         && lhs.name == rhs.name
         && lhs.color == rhs.color

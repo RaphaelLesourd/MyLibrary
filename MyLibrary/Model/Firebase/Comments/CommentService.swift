@@ -25,12 +25,12 @@ class CommentService {
     }
     
     private func saveCommentDocument(docRef: DocumentReference,
-                                     user: UserModel,
+                                     user: UserModelDTO,
                                      documentID: String,
                                      message: String,
                                      completion: @escaping (FirebaseError?) -> Void) {
         let timestamp = Date().timeIntervalSince1970
-        let comment = CommentModel(uid: documentID,
+        let comment = CommentDTO(uid: documentID,
                                    userID: self.userID,
                                    userName: user.displayName,
                                    userPhotoURL: user.photoURL,
@@ -82,7 +82,7 @@ extension CommentService: CommentServiceProtocol {
   
     func getComments(for bookID: String,
                      ownerID: String,
-                     completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void) {
+                     completion: @escaping (Result<[CommentDTO], FirebaseError>) -> Void) {
         let docRef = userRef
             .document(ownerID)
             .collection(CollectionDocumentKey.books.rawValue)
@@ -95,9 +95,9 @@ extension CommentService: CommentServiceProtocol {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> CommentModel? in
+            let data = querySnapshot?.documents.compactMap { documents -> CommentDTO? in
                 do {
-                    return try documents.data(as: CommentModel.self)
+                    return try documents.data(as: CommentDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -111,7 +111,7 @@ extension CommentService: CommentServiceProtocol {
     
     func deleteComment(for bookID: String,
                        ownerID: String,
-                       comment: CommentModel,
+                       comment: CommentDTO,
                        completion: @escaping (FirebaseError?) -> Void) {
         guard !comment.uid.isEmpty else {
             completion(.nothingFound)
@@ -133,7 +133,7 @@ extension CommentService: CommentServiceProtocol {
         }
     }
     
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel, FirebaseError>) -> Void) {
+    func getUserDetail(for userID: String, completion: @escaping (Result<UserModelDTO, FirebaseError>) -> Void) {
         let docRef = userRef.document(userID)
         docRef.getDocument { querySnapshot, error in
             if let error = error {
@@ -141,7 +141,7 @@ extension CommentService: CommentServiceProtocol {
                 return
             }
             do {
-                guard let document = try querySnapshot?.data(as: UserModel.self)  else {
+                guard let document = try querySnapshot?.data(as: UserModelDTO.self)  else {
                     completion(.failure(.nothingFound))
                     return
                 }

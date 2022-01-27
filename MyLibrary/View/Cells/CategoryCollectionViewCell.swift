@@ -28,7 +28,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                                           font: .categoryTitle)
     
     // MARK: - Configure
-    func configure(with model: CategoryModel) {
+    func configure(with model: CategoryDTO) {
         categoryLabel.text = model.name.uppercased()
         let categoryColor = UIColor(hexString: model.color)
         contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)

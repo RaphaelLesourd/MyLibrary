@@ -7,5 +7,5 @@
 
 protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
-    func addCommentToInputBar(for comment: CommentModel)
+    func addCommentToInputBar(for comment: CommentDTO)
 }

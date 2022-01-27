@@ -8,7 +8,7 @@
 protocol NewBookPresenterView: AnyObject {
     func showSaveButtonActivityIndicator(_ show: Bool)
     func returnToPreviousVC()
-    func displayBook(with model: NewBookRepresentable)
+    func displayBook(with model: NewBookUI)
     func updateLanguageView(with language: String)
     func updateCurrencyView(with currency: String)
     func clearData()

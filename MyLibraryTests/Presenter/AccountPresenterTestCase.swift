@@ -105,7 +105,7 @@ class AccountPresenterViewSpy: AccountTabPresenterView {
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
     
-    func configureView(with user: UserModel) {
+    func configureView(with user: UserModelDTO) {
         configureViewCalled = true
     }
     

@@ -11,8 +11,8 @@ class CategoryPresenter {
     
     // MARK: - Properties
     weak var view: CategoryPresenterView?
-    var categories: [CategoryModel] = []
-    var categoriesOriginalList: [CategoryModel] = []
+    var categories: [CategoryDTO] = []
+    var categoriesOriginalList: [CategoryDTO] = []
     var selectedCategories: [String] = []
     
     private var categoryService: CategoryServiceProtocol
@@ -21,9 +21,7 @@ class CategoryPresenter {
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
-}
-extension CategoryPresenter: CategoryPresenting {
-  
+    
     /// Fetch the user categories
     func getCategoryList() {
         self.view?.showActivityIndicator()
@@ -43,7 +41,7 @@ extension CategoryPresenter: CategoryPresenting {
     /// Delete category from the database
     /// - Parameters:
     /// - category:CategoryModel object
-    func deleteCategory(for category: CategoryModel) {
+    func deleteCategory(for category: CategoryDTO) {
         view?.showActivityIndicator()
         
         categoryService.deleteCategory(for: category) { [weak self] error in

@@ -10,7 +10,7 @@ class NewBookPresenter {
     
     weak var view: NewBookPresenterView?
     var mainView: NewBookControllerSubViews?
-    var book: Item?
+    var book: ItemDTO?
     var bookCategories: [String] = []
     var bookDescription: String?
     var isEditing = false
@@ -31,51 +31,6 @@ class NewBookPresenter {
         self.converter = converter
         self.validator = validator
     }
-    
-    /// Uses data enterred to create a book.
-    ///  - Returns: Book object of type Item
-    private func createBookDocument(from mainView: NewBookControllerSubViews?) -> Item {
-        let isbn = mainView?.isbnCell.textField.text ?? "-"
-        
-        let volumeInfo = VolumeInfo(title: mainView?.bookTileCell.textField.text,
-                                    authors: [mainView?.bookAuthorCell.textField.text ?? ""],
-                                    publisher: mainView?.publisherCell.textField.text ?? "",
-                                    publishedDate: mainView?.publishDateCell.textField.text ?? "",
-                                    volumeInfoDescription: bookDescription,
-                                    industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
-                                    pageCount: converter.convertStringToInt(mainView?.numberOfPagesCell.textField.text),
-                                    ratingsCount: mainView?.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
-                                    imageLinks: ImageLinks(thumbnail: book?.volumeInfo?.imageLinks?.thumbnail),
-                                    language: language ?? "")
-        
-        let price = converter.convertStringToDouble(mainView?.purchasePriceCell.textField.text)
-        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
-                                                               currencyCode: currency ?? ""))
-        return Item(bookID: book?.bookID,
-                    favorite: book?.favorite,
-                    ownerID: book?.ownerID,
-                    recommanding: book?.recommanding,
-                    volumeInfo: volumeInfo,
-                    saleInfo: saleInfo,
-                    timestamp: validator.validateTimestamp(for: book?.timestamp),
-                    category: bookCategories)
-    }
-    
-    /// Convert the current Book Item object to NewBookRepresentable to be displayed by the view
-    private func createBookRepresentable() -> NewBookRepresentable {
-        return NewBookRepresentable(title: book?.volumeInfo?.title?.capitalized,
-                                    authors: book?.volumeInfo?.authors?.joined(separator: ", "),
-                                    rating: book?.volumeInfo?.ratingsCount,
-                                    publisher: book?.volumeInfo?.publisher?.capitalized,
-                                    publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
-                                    price: book?.saleInfo?.retailPrice?.amount,
-                                    isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                    pages: book?.volumeInfo?.pageCount,
-                                    coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
-    }
-}
-
-extension NewBookPresenter: NewBookPresenting {
     
     /// Save book to the database
     /// - Parameters:
@@ -126,4 +81,48 @@ extension NewBookPresenter: NewBookPresenting {
         let data = formatter.formatCodeToName(from: code, type: .currency)
         view?.updateCurrencyView(with: data.uppercased())
     }
+    
+    // MARK: - Private functions
+    /// Uses data enterred to create a book.
+    ///  - Returns: Book object of type Item
+    private func createBookDocument(from mainView: NewBookControllerSubViews?) -> ItemDTO {
+        let isbn = mainView?.isbnCell.textField.text ?? "-"
+        
+        let volumeInfo = VolumeInfo(title: mainView?.bookTileCell.textField.text,
+                                    authors: [mainView?.bookAuthorCell.textField.text ?? ""],
+                                    publisher: mainView?.publisherCell.textField.text ?? "",
+                                    publishedDate: mainView?.publishDateCell.textField.text ?? "",
+                                    volumeInfoDescription: bookDescription,
+                                    industryIdentifiers: [IndustryIdentifier(identifier: isbn)],
+                                    pageCount: converter.convertStringToInt(mainView?.numberOfPagesCell.textField.text),
+                                    ratingsCount: mainView?.ratingCell.ratingSegmentedControl.selectedSegmentIndex,
+                                    imageLinks: ImageLinks(thumbnail: book?.volumeInfo?.imageLinks?.thumbnail),
+                                    language: language ?? "")
+        
+        let price = converter.convertStringToDouble(mainView?.purchasePriceCell.textField.text)
+        let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
+                                                               currencyCode: currency ?? ""))
+        return ItemDTO(bookID: book?.bookID,
+                    favorite: book?.favorite,
+                    ownerID: book?.ownerID,
+                    recommanding: book?.recommanding,
+                    volumeInfo: volumeInfo,
+                    saleInfo: saleInfo,
+                    timestamp: validator.validateTimestamp(for: book?.timestamp),
+                    category: bookCategories)
+    }
+    
+    /// Convert the current Book Item object to NewBookRepresentable to be displayed by the view
+    private func createBookRepresentable() -> NewBookUI {
+        return NewBookUI(title: book?.volumeInfo?.title?.capitalized,
+                                    authors: book?.volumeInfo?.authors?.joined(separator: ", "),
+                                    rating: book?.volumeInfo?.ratingsCount,
+                                    publisher: book?.volumeInfo?.publisher?.capitalized,
+                                    publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
+                                    price: book?.saleInfo?.retailPrice?.amount,
+                                    isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
+                                    pages: book?.volumeInfo?.pageCount,
+                                    coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
+    }
+   
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategoryDataSource: UITableViewDiffableDataSource<SingleSection, CategoryModel> {
+class CategoryDataSource: UITableViewDiffableDataSource<SingleSection, CategoryDTO> {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

@@ -9,7 +9,7 @@ import UIKit
 
 class CategoriesFormatter {
     
-    func formattedString(for categories: [CategoryModel]) -> NSAttributedString {
+    func formattedString(for categories: [CategoryDTO]) -> NSAttributedString {
         let text = NSMutableAttributedString()
         categories.forEach {
             let attachment = imageStringAttachment(for: $0.color, size: 11)

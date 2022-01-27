@@ -26,6 +26,36 @@ class NewCategoryPresenter {
         self.categoryService = categoryService
     }
     
+    /// Display color for the current Category
+    /// - Parameters:
+    /// - colorHex:Optional String value for the current category color HEX value
+    func displayCategoryColor(with colorHex: String?) {
+        if let color = colorHex,
+           let index = defaultColors.firstIndex(of: color) {
+            let indexPath = IndexPath(item: index, section: 0)
+            view?.updateCategoryColor(at: indexPath, and: color)
+        }
+    }
+    
+    /// Save or update the current Category.
+    /// - Parameters:
+    ///   - cateryModel: Category object to update
+    ///   - name: String of the category name
+    ///   - colorHex: String HEX value of the color
+    func saveCategory(with name: String?,
+                      and colorHex: String,
+                      for category: CategoryDTO? = nil) {
+        guard let name = name else {
+            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyComment)
+            return
+        }
+        guard let category = category else {
+            createCategory(with: name, and: colorHex)
+            return
+        }
+        updateCategory(for: category, with: name, and: colorHex)
+    }
+    
     /// Create a category in the data base
     ///  - Parameters:
     ///   - name: String of the category name
@@ -50,7 +80,7 @@ class NewCategoryPresenter {
     ///   - categoryModel: Category object to update
     ///   - name: String of the category name
     ///   - colorHex: String HEX value of the color
-    private func updateCategory(for category: CategoryModel,
+    private func updateCategory(for category: CategoryDTO,
                                 with name: String?,
                                 and colorHex: String) {
         view?.showActivityIndicator()
@@ -65,36 +95,5 @@ class NewCategoryPresenter {
             self?.view?.dismissViewController()
         }
     }
-}
-extension NewCategoryPresenter: NewCategoryPresenting {
-    
-    /// Display color for the current Category
-    /// - Parameters:
-    /// - colorHex:Optional String value for the current category color HEX value
-    func displayCategoryColor(with colorHex: String?) {
-        if let color = colorHex,
-           let index = defaultColors.firstIndex(of: color) {
-            let indexPath = IndexPath(item: index, section: 0)
-            view?.updateCategoryColor(at: indexPath, and: color)
-        }
-    }
-    
-    /// Save or update the current Category.
-    /// - Parameters:
-    ///   - cateryModel: Category object to update
-    ///   - name: String of the category name
-    ///   - colorHex: String HEX value of the color
-    func saveCategory(with name: String?,
-                      and colorHex: String,
-                      for category: CategoryModel? = nil) {
-        guard let name = name else {
-            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyComment)
-            return
-        }
-        guard let category = category else {
-            createCategory(with: name, and: colorHex)
-            return
-        }
-        updateCategory(for: category, with: name, and: colorHex)
-    }
+  
 }

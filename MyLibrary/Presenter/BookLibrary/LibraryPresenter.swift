@@ -5,21 +5,19 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-class LibraryPresenter: BookCellAdapter {
+class LibraryPresenter: BookCellMapper {
     
     // MARK: - Properties
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
-    var bookList: [Item] = []
+    var bookList: [ItemDTO] = []
     private let libraryService: LibraryServiceProtocol
    
     // MARK: - Initializer
     init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
     }
-}
-extension LibraryPresenter: LibraryPresenting {
-    
+   
     func getBooks(with query: BookQuery, nextPage: Bool = false) {
         view?.updateHeader(with: query.listType?.title)
         view?.showActivityIndicator()

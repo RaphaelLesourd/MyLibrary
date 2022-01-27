@@ -131,7 +131,7 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
         clearDataWasCalled = true
     }
     
-    func displayBook(with model: NewBookRepresentable) {
+    func displayBook(with model: NewBookUI) {
         displayBookWasCalled = true
     }
     

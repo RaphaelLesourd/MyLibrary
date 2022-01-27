@@ -6,7 +6,7 @@
 //
 
 protocol RecommendationServiceProtocol {
-    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void)
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void)
+    func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void)
+    func removeFromRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void)
+    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void)
 }

@@ -63,7 +63,7 @@ extension AccountService: AccountServiceProtocol {
                 return
             }
             guard let user = authUser?.user else { return }
-            let newUser = UserModel(userID: user.uid,
+            let newUser = UserModelDTO(userID: user.uid,
                                     displayName: userCredentials.userName ?? "",
                                     email: user.email ?? "",
                                     photoURL: "",

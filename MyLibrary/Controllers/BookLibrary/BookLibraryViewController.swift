@@ -10,14 +10,14 @@ import UIKit
 class BookLibraryViewController: UIViewController {
     
     // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, ItemDTO>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
     private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutComposer
     private let queryService: QueryProtocol
-    private var presenter: LibraryPresenting
+    private let presenter: LibraryPresenter
     private let factory: Factory
     private var bookListMenu: BookListMenu?
     private var currentQuery: BookQuery
@@ -30,7 +30,7 @@ class BookLibraryViewController: UIViewController {
     // MARK: - Initializer
     init(currentQuery: BookQuery,
          queryService: QueryService,
-         presenter: LibraryPresenting,
+         presenter: LibraryPresenter,
          layoutComposer: BookListLayoutComposer) {
         self.currentQuery = currentQuery
         self.queryService = queryService
@@ -123,7 +123,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    func showBookDetails(for book: Item) {
+    func showBookDetails(for book: ItemDTO) {
         let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
         showController(bookCardVC)
@@ -159,7 +159,7 @@ extension BookLibraryViewController {
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             guard let self = self else { return nil }
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            let bookData = self.presenter.makeBookCellRepresentable(for: book)
+            let bookData = self.presenter.makeBookCellUI(for: book)
             cell.configure(with: bookData)
             return cell
         })

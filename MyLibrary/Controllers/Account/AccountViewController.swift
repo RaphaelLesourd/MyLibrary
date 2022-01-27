@@ -120,7 +120,7 @@ extension AccountViewController: ContactViewDelegate {
 }
 
 extension AccountViewController: AccountTabPresenterView {
-    func configureView(with user: UserModel) {
+    func configureView(with user: UserModelDTO) {
         mainView.configure(with: user)
     }
     

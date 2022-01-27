@@ -56,7 +56,7 @@ class NotificationManager: NSObject {
     /// - book: Book the comment belongs to.
     /// - Note: Handles 2 cases when presenting the Comment viewcontroller for the iPad, presents it modally dismissi
     /// and for the iphone shows it thru the navigationController
-    private func presentCommentController(with book: Item) {
+    private func presentCommentController(with book: ItemDTO) {
         let commentController = factory.makeCommentVC(with: book)
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController

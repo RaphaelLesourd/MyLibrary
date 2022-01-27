@@ -145,11 +145,11 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         highLightCellWasCalled = true
     }
     
-    func displayDeleteAlert(for category: CategoryModel) {
+    func displayDeleteAlert(for category: CategoryDTO) {
         displayDeleteAlertWasCalled = true
     }
     
-    func presentNewCategoryController(for category: CategoryModel?) {
+    func presentNewCategoryController(for category: CategoryDTO?) {
         presentNewCategoryControllerWasCalled = true
     }
     

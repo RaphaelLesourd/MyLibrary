@@ -10,17 +10,17 @@ import UIKit
 class ListTableViewController: UITableViewController {
     
     // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, ListRepresentable>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, DataListUI>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
     private let searchController = UISearchController(searchResultsController: nil)
-    private var presenter: ListPresenting
+    private let presenter: ListPresenter
     
     // MARK: - Initializer
     init(receivedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
-         presenter: ListPresenting) {
+         presenter: ListPresenter) {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
         self.presenter.selection = receivedData
@@ -161,7 +161,7 @@ extension ListTableViewController: UISearchResultsUpdating {
 
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
-    func reloadRow(for item: ListRepresentable) {
+    func reloadRow(for item: DataListUI) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])
         dataSource.apply(snapshot)
@@ -180,7 +180,7 @@ extension ListTableViewController: ListPresenterView {
         self.title = title
     }
     
-    func highlightCell(for item: ListRepresentable) {
+    func highlightCell(for item: DataListUI) {
         guard let section = dataSource.snapshot().sectionIdentifier(containingItem: item),
               let index = dataSource.snapshot().indexOfItem(item) else { return }
         let indexPath = IndexPath(row: index, section: section.tag)

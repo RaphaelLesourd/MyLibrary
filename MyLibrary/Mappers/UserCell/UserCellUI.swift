@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 22/01/2022.
 //
 
-struct UserCellRepresentable {
+struct UserCellUI {
     let userName: String
     let currentUser: Bool
     let profileImage: String

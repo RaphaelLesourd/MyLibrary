@@ -10,19 +10,19 @@ import UIKit
 class CategoriesViewController: UIViewController {
     
     // MARK: Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryDTO>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
     private let mainView = CategoryControllerMainView()
-    private var presenter: CategoryPresenting
+    private let presenter: CategoryPresenter
     private let factory: Factory
     private var settingBookCategory: Bool
     
     init(settingBookCategory: Bool,
          selectedCategories: [String],
          newBookDelegate: NewBookViewControllerDelegate?,
-         categoryPresenter: CategoryPresenting) {
+         categoryPresenter: CategoryPresenter) {
         self.settingBookCategory = settingBookCategory
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
@@ -193,7 +193,7 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func displayDeleteAlert(for category: CategoryModel) {
+    func displayDeleteAlert(for category: CategoryDTO) {
         let title = Text.ButtonTitle.delete + " " + category.name.capitalized
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
@@ -203,7 +203,7 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
     
-    func presentNewCategoryController(for category: CategoryModel?) {
+    func presentNewCategoryController(for category: CategoryDTO?) {
         let newCategoryViewController = factory.makeNewCategoryVC(category: category)
         if #available(iOS 15.0, *) {
             presentSheetController(newCategoryViewController, detents: [.large()])

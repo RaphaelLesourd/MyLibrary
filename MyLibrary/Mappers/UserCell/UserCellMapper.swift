@@ -6,14 +6,14 @@
 //
 import FirebaseAuth
 
-protocol UserCellAdapter {
-    func setUserData(with user: UserModel) -> UserCellRepresentable
+protocol UserCellMapper {
+    func makeUserCellUI(with user: UserModelDTO) -> UserCellUI
 }
 
-extension UserCellAdapter {
-    func setUserData(with user: UserModel) -> UserCellRepresentable {
+extension UserCellMapper {
+    func makeUserCellUI(with user: UserModelDTO) -> UserCellUI {
         let currentUser: Bool = user.userID == Auth.auth().currentUser?.uid
-        return UserCellRepresentable(userName: user.displayName.capitalized,
+        return UserCellUI(userName: user.displayName.capitalized,
                                      currentUser: currentUser,
                                      profileImage: user.photoURL)
         

@@ -95,7 +95,7 @@ class LibraryService {
             .updateData([DocumentKey.favorite.rawValue : state])
     }
     
-    private func setRecommendation(for book: Item) {
+    private func setRecommendation(for book: ItemDTO) {
         if book.recommanding == true {
             recommandationService.addToRecommandation(for: book) { _ in }
         } else {
@@ -135,7 +135,7 @@ class LibraryService {
         return docRef
     }
     
-    private func setBookId(for book: Item) -> String {
+    private func setBookId(for book: ItemDTO) -> String {
         if let bookId = book.bookID, !bookId.isEmpty {
             return bookId
         }
@@ -146,7 +146,7 @@ class LibraryService {
 extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update
-    func createBook(with book: Item,
+    func createBook(with book: ItemDTO,
                     and imageData: Data,
                     completion: @escaping CompletionHandler) {
         guard Networkconnectivity.shared.isReachable == true else {
@@ -178,7 +178,7 @@ extension LibraryService: LibraryServiceProtocol {
     func getBookList(for query: BookQuery,
                      limit: Int,
                      forMore: Bool,
-                     completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
+                     completion: @escaping (Result<[ItemDTO], FirebaseError>) -> Void) {
         guard let docRef = createQuery(query: query, next: forMore) else { return }
         
         bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
@@ -189,9 +189,9 @@ extension LibraryService: LibraryServiceProtocol {
             }
             self.lastBookFetched = querySnapshot?.documents.last
             
-            let data = querySnapshot?.documents.compactMap { documents -> Item? in
+            let data = querySnapshot?.documents.compactMap { documents -> ItemDTO? in
                 do {
-                    return try documents.data(as: Item.self)
+                    return try documents.data(as: ItemDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -205,7 +205,7 @@ extension LibraryService: LibraryServiceProtocol {
   
     func getBook(for bookID: String,
                  ownerID: String,
-                 completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+                 completion: @escaping (Result<ItemDTO, FirebaseError>) -> Void) {
         let docRef = usersCollectionRef
             .document(ownerID)
             .collection(CollectionDocumentKey.books.rawValue)
@@ -217,7 +217,7 @@ extension LibraryService: LibraryServiceProtocol {
                 return
             }
             do {
-                if let document = try querySnapshot?.documents.first?.data(as: Item.self) {
+                if let document = try querySnapshot?.documents.first?.data(as: ItemDTO.self) {
                     completion(.success(document))
                 } else {
                     completion(.failure(.nothingFound))
@@ -229,7 +229,7 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: Delete
-    func deleteBook(book: Item,
+    func deleteBook(book: ItemDTO,
                     completion: @escaping CompletionHandler) {
         guard let bookID = book.bookID else { return }
         

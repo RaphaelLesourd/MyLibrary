@@ -33,9 +33,9 @@ class RecommandationService {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> Item? in
+            let data = querySnapshot?.documents.compactMap { documents -> ItemDTO? in
                 do {
-                    return try documents.data(as: Item.self)
+                    return try documents.data(as: ItemDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -49,8 +49,8 @@ class RecommandationService {
     }
     
     private func getUsersFromIds(with idList: [Any],
-                                 completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        var users: [UserModel] = []
+                                 completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+        var users: [UserModelDTO] = []
         let ids = idList.chunked(into: 10)
         ids.forEach { user in
             let docRef = self.userRef.whereField(DocumentKey.userID.rawValue, in: user)
@@ -61,9 +61,9 @@ class RecommandationService {
                     return
                 }
                
-                let data = querySnapshot?.documents.compactMap { documents -> UserModel? in
+                let data = querySnapshot?.documents.compactMap { documents -> UserModelDTO? in
                     do {
-                        return try documents.data(as: UserModel.self)
+                        return try documents.data(as: UserModelDTO.self)
                     } catch {
                         completion(.failure(.firebaseError(error)))
                         return nil
@@ -79,7 +79,7 @@ class RecommandationService {
 // MARK: - RecommandationServiceProtocol extension
 extension RecommandationService: RecommendationServiceProtocol {
     
-    func addToRecommandation(for book: Item,
+    func addToRecommandation(for book: ItemDTO,
                              completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
@@ -91,7 +91,7 @@ extension RecommandationService: RecommendationServiceProtocol {
         } catch { completion(.firebaseError(error)) }
     }
     
-    func removeFromRecommandation(for book: Item,
+    func removeFromRecommandation(for book: ItemDTO,
                                   completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
@@ -105,7 +105,7 @@ extension RecommandationService: RecommendationServiceProtocol {
         }
     }
     
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
+    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
         getUserIds { [weak self] result in
             switch result {
             case .success(let userIds):

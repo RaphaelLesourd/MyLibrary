@@ -16,11 +16,11 @@ class HomeViewController: UIViewController {
     private lazy var dataSource = createDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
-    private var presenter: HomePresenting
+    private let presenter: HomePresenter
     private let factory: Factory
  
     // MARK: - Initializer
-    init(presenter: HomePresenting,
+    init(presenter: HomePresenter,
          layoutComposer: HomeLayoutComposer) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
@@ -107,7 +107,7 @@ class HomeViewController: UIViewController {
         showController(accountVC)
     }
     
-   private func showBookDetails(for book: Item) {
+   private func showBookDetails(for book: ItemDTO) {
         let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
         showController(bookCardVC)
@@ -126,29 +126,29 @@ extension HomeViewController {
             let sections = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch sections {
             case .categories:
-                if let category = item as? CategoryModel {
+                if let category = item as? CategoryDTO {
                     let cell: CategoryCollectionViewCell = collectionView.dequeue(for: indexPath)
                     cell.configure(with: category)
                     return cell
                 }
             case .newEntry, .favorites:
-                if let book = item as? Item {
+                if let book = item as? ItemDTO {
                     let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.presenter.makeBookCellRepresentable(for: book)
+                    let bookData = self.presenter.makeBookCellUI(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }
             case .recommanding:
-                if let book = item as? Item {
+                if let book = item as? ItemDTO {
                     let cell: DetailedBookCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    let bookData = self.presenter.makeBookCellRepresentable(for: book)
+                    let bookData = self.presenter.makeBookCellUI(for: book)
                     cell.configure(with: bookData)
                     return cell
                 }
             case .users:
-                if let followedUser = item as? UserModel {
+                if let followedUser = item as? UserModelDTO {
                     let cell: UserCollectionViewCell = collectionView.dequeue(for: indexPath)
-                    cell.configure(with: self.presenter.setUserData(with: followedUser))
+                    cell.configure(with: self.presenter.makeUserCellUI(with: followedUser))
                     return cell
                 }
             }
@@ -207,17 +207,17 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else { return }
         
-        if let category = selectedItem as? CategoryModel {
+        if let category = selectedItem as? CategoryDTO {
             let categoryQuery = BookQuery(listType: .categories,
                                           orderedBy: .category,
                                           fieldValue: category.uid,
                                           descending: true)
             showBookList(for: categoryQuery, title: category.name)
         }
-        if let book = selectedItem as? Item {
+        if let book = selectedItem as? ItemDTO {
             showBookDetails(for: book)
         }
-        if let followedUser = selectedItem as? UserModel {
+        if let followedUser = selectedItem as? UserModelDTO {
             let query = BookQuery(listType: .users,
                                   orderedBy: .ownerID,
                                   fieldValue: followedUser.userID,

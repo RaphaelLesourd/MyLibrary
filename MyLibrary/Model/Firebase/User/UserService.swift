@@ -35,7 +35,7 @@ class UserService {
 extension UserService: UserServiceProtocol {
 
     // MARK: Create
-    func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
+    func createUserInDatabase(for currentUser: UserModelDTO?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
         let userRef = usersCollectionRef.document(currentUser.userID)
@@ -46,7 +46,7 @@ extension UserService: UserServiceProtocol {
     }
     
     // MARK: Retrieve
-    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
+    func retrieveUser(completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
         let userRef = usersCollectionRef.document(userID)
         userRef.getDocument { querySnapshot, error in
             if let error = error {
@@ -54,7 +54,7 @@ extension UserService: UserServiceProtocol {
                 return
             }
             do {
-                let document = try querySnapshot?.data(as: UserModel.self)
+                let document = try querySnapshot?.data(as: UserModelDTO.self)
                 completion(.success(document))
             } catch { completion(.failure(.firebaseError(error))) }
         }

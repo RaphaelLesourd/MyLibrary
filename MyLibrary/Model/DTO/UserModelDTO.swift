@@ -8,7 +8,7 @@ import Foundation
 import Combine
 import FirebaseFirestoreSwift
 
-struct UserModel: Codable, Identifiable {
+struct UserModelDTO: Codable, Identifiable {
     @DocumentID var id: String?
     private let diffableId = UUID()
     var userID: String
@@ -23,11 +23,11 @@ struct UserModel: Codable, Identifiable {
     }
 }
 
-extension UserModel: Hashable {
+extension UserModelDTO: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(diffableId)
     }
-    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
+    static func == (lhs: UserModelDTO, rhs: UserModelDTO) -> Bool {
         return lhs.diffableId == rhs.diffableId
     }
 }

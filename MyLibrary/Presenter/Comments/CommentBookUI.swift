@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommentBookCellRepresentable: Hashable {
+struct CommentBookUI: Hashable {
     let title: String?
     let authors: String?
     let image: String?

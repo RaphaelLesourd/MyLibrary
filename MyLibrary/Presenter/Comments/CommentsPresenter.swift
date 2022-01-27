@@ -10,10 +10,10 @@ class CommentPresenter {
     
     // MARK: - Properties
     weak var view: CommentsPresenterView?
-    var book: Item?
+    var book: ItemDTO?
     var editedCommentID: String?
-    var commentList: [CommentModel] = []
-    var bookCellRepresentable: [CommentBookCellRepresentable] = []
+    var commentList: [CommentDTO] = []
+    var bookCellRepresentable: [CommentBookUI] = []
     
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
@@ -28,26 +28,7 @@ class CommentPresenter {
         self.formatter = formatter
     }
     
-    /// Convert Item object to object to be used by the view to display data it needs
-    /// - Parameters:
-    ///   - book: Item object
-    ///   - ownerName: String representing the name of the book owner
-    private func makeCommentBookCellRepresentable(with book: Item,
-                                                  and ownerName: String) -> CommentBookCellRepresentable {
-        let title = book.volumeInfo?.title?.capitalized
-        let authors = book.volumeInfo?.authors?.joined(separator: ", ")
-        let image = book.volumeInfo?.imageLinks?.thumbnail
-        return CommentBookCellRepresentable(title: title,
-                                            authors: authors,
-                                            image: image,
-                                            ownerName: ownerName)
-    }
-}
-
-extension CommentPresenter: CommentPresenting {
-   
     // MARK: API call
-    /// Fetch all the comments for the current book
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
@@ -93,7 +74,7 @@ extension CommentPresenter: CommentPresenting {
     /// Delete comment from the database
     /// - Parameters:
     /// - comment: CommentModel object of the comment to delete.
-    func deleteComment(for comment: CommentModel) {
+    func deleteComment(for comment: CommentDTO) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.showActivityIndicator()
@@ -111,12 +92,11 @@ extension CommentPresenter: CommentPresenting {
     }
     
     // MARK: Notification
-    
     /// Notify the user of a new comment
     /// - Parameters:
     ///  - newComment: String of the comment message to send.
     ///  - book: Optional Item object of the book the comment belongs to.
-    func notifyUser(of newComment: String, book: Item?) {
+    func notifyUser(of newComment: String, book: ItemDTO?) {
         guard let book = book else { return }
         view?.showActivityIndicator()
         
@@ -132,14 +112,15 @@ extension CommentPresenter: CommentPresenting {
     }
     
     // MARK: - Cell
-    
     /// Convert a CommentModel object tp CommentCellRepresentable used to by the cell to display data.
     /// - Parameters:
     /// - comment: CommentModel object of the comment to convert
-    func makeCommentCellRepresentable(with comment: CommentModel) -> CommentCellRepresentable {
+    ///
+    ///  CommentModelDTO  - CommentModelUI
+    func makeCommentCellRepresentable(with comment: CommentDTO) -> CommentUI {
         let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
-        return CommentCellRepresentable(message: comment.message,
+        return CommentUI(message: comment.message,
                                         date: date,
                                         userName: comment.userName.capitalized,
                                         profileImage: comment.userPhotoURL,
@@ -171,7 +152,7 @@ extension CommentPresenter: CommentPresenting {
     /// - Parameters:
     ///   - actionType: CellSwipeActionType Enum case
     ///   - comment: CommentModel object of the current comment
-    func presentSwipeAction(for comment: CommentModel, actionType: CellSwipeActionType) {
+    func presentSwipeAction(for comment: CommentDTO, actionType: CellSwipeActionType) {
         switch actionType {
         case .delete:
             deleteComment(for: comment)
@@ -179,5 +160,20 @@ extension CommentPresenter: CommentPresenting {
             editedCommentID = comment.uid
             view?.addCommentToInputBar(for: comment)
         }
+    }
+    
+    /// Convert Item object to object to be used by the view to display data it needs
+    /// - Parameters:
+    ///   - book: Item object
+    ///   - ownerName: String representing the name of the book owner
+    private func makeCommentBookCellRepresentable(with book: ItemDTO,
+                                                  and ownerName: String) -> CommentBookUI {
+        let title = book.volumeInfo?.title?.capitalized
+        let authors = book.volumeInfo?.authors?.joined(separator: ", ")
+        let image = book.volumeInfo?.imageLinks?.thumbnail
+        return CommentBookUI(title: title,
+                                            authors: authors,
+                                            image: image,
+                                            ownerName: ownerName)
     }
 }

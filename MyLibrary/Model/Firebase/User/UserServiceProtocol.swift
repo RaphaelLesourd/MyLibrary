@@ -6,8 +6,8 @@
 //
 
 protocol UserServiceProtocol {
-    func createUserInDatabase(for user: UserModel?, completion: @escaping (FirebaseError?) -> Void)
-    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void)
+    func createUserInDatabase(for user: UserModelDTO?, completion: @escaping (FirebaseError?) -> Void)
+    func retrieveUser(completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void)
     func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void)
     func deleteUser(completion: @escaping (FirebaseError?) -> Void)
     func updateFcmToken(with token: String)

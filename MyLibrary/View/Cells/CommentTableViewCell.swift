@@ -49,7 +49,7 @@ class CommentTableViewCell: UITableViewCell {
                                       spacing: 15)
     
     // MARK: - Configuration
-    func configure(with model: CommentCellRepresentable) {
+    func configure(with model: CommentUI) {
         profileImageView.getImage(for: model.profileImage) { [weak self] image in
             self?.profileImageView.image = image
         }

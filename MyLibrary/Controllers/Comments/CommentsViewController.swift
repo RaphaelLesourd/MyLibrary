@@ -18,13 +18,13 @@ class CommentsViewController: UIViewController {
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
     private let validator: ValidatorProtocol
-    private var presenter: CommentPresenting
+    private let presenter: CommentPresenter
     private lazy var dataSource = makeDataSource()
-    private var book: Item?
+    private var book: ItemDTO?
     
     // MARK: - Initializer
-    init(book: Item?,
-         presenter: CommentPresenting,
+    init(book: ItemDTO?,
+         presenter: CommentPresenter,
          validator: ValidatorProtocol) {
         self.book = book
         self.presenter = presenter
@@ -127,7 +127,7 @@ extension CommentsViewController: UITableViewDelegate {
     
     /// Handles swipe gesture actions
     private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentModel else {
+        guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentDTO else {
             return UIContextualAction()
         }
         let action = UIContextualAction(style: .destructive, title: actionType.title) { [weak self] (_, _, completion) in
@@ -152,7 +152,7 @@ extension CommentsViewController {
             let section = self?.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             switch section {
             case .book:
-                if let item = item as? CommentBookCellRepresentable {
+                if let item = item as? CommentBookUI {
                     let reuseIdentifier = CommentsBookCell.reuseIdentifier
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentsBookCell else {
@@ -162,7 +162,7 @@ extension CommentsViewController {
                     return cell
                 }
             case .today, .past:
-                if let item = item as? CommentModel {
+                if let item = item as? CommentDTO {
                     let reuseIdentifier = CommentTableViewCell.reuseIdentifier
                     guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier,
                                                                    for: indexPath) as? CommentTableViewCell else {
@@ -217,7 +217,7 @@ extension CommentsViewController: EmptyStateViewDelegate {
 extension CommentsViewController: CommentsPresenterView {
     
     /// Add comment text to the input bar to edit and save the comment.
-   func addCommentToInputBar(for comment: CommentModel) {
+   func addCommentToInputBar(for comment: CommentDTO) {
         mainView.inputBar.inputTextView.text = comment.message
         mainView.inputBar.inputTextView.becomeFirstResponder()
     }

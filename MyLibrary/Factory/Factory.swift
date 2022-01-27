@@ -19,19 +19,19 @@ protocol Factory {
     
     func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController
     
-    func makeNewBookVC(with book: Item?,
+    func makeNewBookVC(with book: ItemDTO?,
                        isEditing: Bool,
                        bookCardDelegate: BookCardDelegate?) -> UIViewController
     
-    func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController
+    func makeBookCardVC(book: ItemDTO, type: SearchType?, factory: Factory) -> UIViewController
     
     func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     
-    func makeCommentVC(with book: Item?) -> UIViewController
+    func makeCommentVC(with book: ItemDTO?) -> UIViewController
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController
     
-    func makeNewCategoryVC(category: CategoryModel?) -> UIViewController
+    func makeNewCategoryVC(category: CategoryDTO?) -> UIViewController
     
     func makeListVC(for dataType: ListDataType,
                     selectedData: String?,

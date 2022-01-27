@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListRepresentable: Hashable {
+struct DataListUI: Hashable {
     let title: String
     let subtitle: String
     var favorite: Bool

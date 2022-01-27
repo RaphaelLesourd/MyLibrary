@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListDataSource: UITableViewDiffableDataSource<ListSection, ListRepresentable> {
+class ListDataSource: UITableViewDiffableDataSource<ListSection, DataListUI> {
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }

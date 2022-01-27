@@ -190,7 +190,7 @@ class BookCardPresenterViewSpy: BookCardPresenterView {
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
     
-    func displayBook(with data: BookCardRepresentable) {
+    func displayBook(with data: BookCardUI) {
         displayBookWasCalled = true
     }
     

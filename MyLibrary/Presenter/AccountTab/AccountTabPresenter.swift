@@ -24,9 +24,6 @@ class AccountTabPresenter {
         self.imageService = imageService
         self.accountService = accountService
     }
-}
-
-extension AccountTabPresenter: AccountTabPresenting {
     // MARK: - API Call
     /// fetch the user profile data from the Database.
     func getProfileData() {

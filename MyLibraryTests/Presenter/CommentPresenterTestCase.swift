@@ -180,7 +180,7 @@ class CommentPresenterViewSpy: CommentsPresenterView {
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
   
-    func addCommentToInputBar(for comment: CommentModel) {
+    func addCommentToInputBar(for comment: CommentDTO) {
         addCommentToInputBarWasCalled =  true
     }
     

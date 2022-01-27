@@ -109,7 +109,7 @@ class SearchViewSpy: SearchPresenterView {
         applySnapshotWasCalled = true
     }
     
-    func displayBookFromBarCodeSearch(with book: Item?) {
+    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
         displayBookFromCodeWasCalled = true
     }
     

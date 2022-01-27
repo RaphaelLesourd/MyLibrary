@@ -15,7 +15,7 @@ class BookCardViewController: UIViewController {
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    private var presenter: BookCardPresenting
+    private var presenter: BookCardPresenter
     private var factory: Factory
     private var recommended = false {
         didSet {
@@ -29,11 +29,11 @@ class BookCardViewController: UIViewController {
     }
     
     // MARK: Intializers
-    init(book: Item,
+    init(book: ItemDTO,
          searchType: SearchType?,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
-         presenter: BookCardPresenting) {
+         presenter: BookCardPresenter) {
         self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
@@ -168,7 +168,7 @@ extension BookCardViewController: BookCardMainViewDelegate {
 // MARK: - BoorkCard PresenterView
 extension BookCardViewController: BookCardPresenterView {
    
-    func displayBook(with data: BookCardRepresentable) {
+    func displayBook(with data: BookCardUI) {
         mainView.configure(with: data)
         setBookRecommandState()
         setBookFavoriteState()

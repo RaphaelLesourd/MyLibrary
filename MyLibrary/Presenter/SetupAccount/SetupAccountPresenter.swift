@@ -80,10 +80,8 @@ class SetupAccountPresenter {
         let validity = validation.validatePassword(text)
         view?.updatePasswordConfirmationTextField(valid: validity)
     }
-}
 
-extension SetupAccountPresenter: SetupAccountPresenting {
-    
+    // MARK: - Private functions
     private func loginToAccount() {
         view?.showActivityIndicator()
         

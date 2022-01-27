@@ -14,17 +14,17 @@ class NewBookViewController: UITableViewController {
     let subViews = NewBookControllerSubViews()
     
     private let resultController: SearchViewController
-    private var presenter: NewBookPresenting
+    private let presenter: NewBookPresenter
     
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
     private var isEditingBook = false
     private var factory: Factory
    
-    init(book: Item?,
+    init(book: ItemDTO?,
          isEditing: Bool,
          bookCardDelegate: BookCardDelegate?,
-         presenter: NewBookPresenting,
+         presenter: NewBookPresenter,
          resultViewController: SearchViewController) {
         self.presenter = presenter
         self.presenter.book = book
@@ -208,7 +208,7 @@ extension NewBookViewController: NewBookViewControllerDelegate {
         presenter.setBookCurrency(with: code)
     }
     
-    func setBookData(with item: Item?) {
+    func setBookData(with item: ItemDTO?) {
         clearData()
         presenter.book = item
         presenter.displayBook()
@@ -225,7 +225,7 @@ extension NewBookViewController: NewBookPresenterView {
         subViews.currencyCell.textLabel?.text = currency
     }
     
-    func displayBook(with model: NewBookRepresentable) {
+    func displayBook(with model: NewBookUI) {
         subViews.configure(with: model)
     }
     

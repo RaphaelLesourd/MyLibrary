@@ -25,13 +25,13 @@ class MessageService {
     }
     
     // MARK: - Private functions
-    private func getUserIds(from comments: [CommentModel]) -> [[String]] {
+    private func getUserIds(from comments: [CommentDTO]) -> [[String]] {
         let userIds = comments.compactMap { $0.userID }
         let uniqueIds = Array(Set(userIds))
         return uniqueIds.chunked(into: 10)
     }
     
-    private func getUserMessageTokens(from comments: [CommentModel],
+    private func getUserMessageTokens(from comments: [CommentDTO],
                                       for bookOwnerID: String,
                                       completion: @escaping (Result<[String], FirebaseError>) -> Void) {
         let userIds = getUserIds(from: comments)
@@ -43,9 +43,9 @@ class MessageService {
                     completion(.failure(.firebaseError(error)))
                     return
                 }
-                let data = querySnapshot?.documents.compactMap { documents -> UserModel? in
+                let data = querySnapshot?.documents.compactMap { documents -> UserModelDTO? in
                     do {
-                        return try documents.data(as: UserModel.self)
+                        return try documents.data(as: UserModelDTO.self)
                     } catch {
                         completion(.failure(.firebaseError(error)))
                         return nil
@@ -59,7 +59,7 @@ class MessageService {
         }
     }
     
-    private func sendMessage(to tokens: [String], with message: String, about book: Item) {
+    private func sendMessage(to tokens: [String], with message: String, about book: ItemDTO) {
         tokens.forEach { token in
             postNotifications(with: token, and: message, about: book)
         }
@@ -67,7 +67,7 @@ class MessageService {
     
     private func postNotifications(with token: String,
                                    and message: String,
-                                   about book: Item) {
+                                   about book: ItemDTO) {
         guard let bookTitle = book.volumeInfo?.title,
               let bookID = book.bookID,
               let ownerID = book.ownerID,
@@ -88,9 +88,9 @@ class MessageService {
 // MARK: - MessageService Protocol
 extension MessageService: MessageServiceProtocol {
     
-    func sendCommentPushNotification(for book: Item,
+    func sendCommentPushNotification(for book: ItemDTO,
                                      message: String,
-                                     for comments: [CommentModel],
+                                     for comments: [CommentDTO],
                                      completion: @escaping (FirebaseError?) -> Void) {
         getUserMessageTokens(from: comments, for: book.ownerID ?? "") { [weak self] result in
             switch result {

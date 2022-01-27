@@ -5,11 +5,11 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-class SearchPresenter: BookCellAdapter {
+class SearchPresenter: BookCellMapper {
     
     // MARK: - Properties
     weak var view: SearchPresenterView?
-    var searchedBooks: [Item] = []
+    var searchedBooks: [ItemDTO] = []
     var noMoreBooks: Bool?
     var searchType: SearchType?
     var currentSearchKeywords = "" {
@@ -24,36 +24,6 @@ class SearchPresenter: BookCellAdapter {
         self.apiManager = apiManager
     }
     
-    /// Verifies the type of search and redirects the result.
-    ///  - Parameters:
-    ///   - searchType: - .apiCall: Display the list in the collectionView
-    ///    - .barCodeSearch: send the first result back to newBookController
-    ///   - books: List of books fetch from API
-   private func handleList(for books: [Item]) {
-        switch searchType {
-        case .keywordSearch:
-            books.isEmpty ? noMoreBooks = true : addBooks(books)
-        case .barCodeSearch:
-            view?.displayBookFromBarCodeSearch(with: books.first)
-        case .none:
-            return
-        }
-    }
-    
-    /// Add an array of Item object to the search book, after check if it already exists or not.
-    /// - Parameters:
-    /// - books: Array of Item objects
-    private func addBooks(_ books: [Item]) {
-        books.forEach {  book in
-            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
-                self.searchedBooks.append(book)
-                self.view?.applySnapshot(animatingDifferences: true)
-            }
-        }
-    }
-}
-
-extension SearchPresenter: SearchPresenting {
     // MARK: - Public functions
     /// Api call to get book or list of books.
     /// - Parameters:
@@ -77,5 +47,34 @@ extension SearchPresenter: SearchPresenting {
         searchedBooks.removeAll()
         noMoreBooks = false
         getBooks(with: currentSearchKeywords, fromIndex: 0)
+    }
+    
+    // MARK: - Private functions
+    /// Verifies the type of search and redirects the result.
+    ///  - Parameters:
+    ///   - searchType: - .apiCall: Display the list in the collectionView
+    ///    - .barCodeSearch: send the first result back to newBookController
+    ///   - books: List of books fetch from API
+   private func handleList(for books: [ItemDTO]) {
+        switch searchType {
+        case .keywordSearch:
+            books.isEmpty ? noMoreBooks = true : addBooks(books)
+        case .barCodeSearch:
+            view?.displayBookFromBarCodeSearch(with: books.first)
+        case .none:
+            return
+        }
+    }
+    
+    /// Add an array of Item object to the search book, after check if it already exists or not.
+    /// - Parameters:
+    /// - books: Array of Item objects
+    private func addBooks(_ books: [ItemDTO]) {
+        books.forEach {  book in
+            if !self.searchedBooks.contains(where: { $0.volumeInfo?.title == book.volumeInfo?.title }) {
+                self.searchedBooks.append(book)
+                self.view?.applySnapshot(animatingDifferences: true)
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
 //  Created by Birkyboy on 22/01/2022.
 //
 
-struct CommentCellRepresentable {
+struct CommentUI {
     let message: String
     let date: String
     let userName: String

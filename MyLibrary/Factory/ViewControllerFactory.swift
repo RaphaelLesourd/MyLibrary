@@ -86,7 +86,7 @@ extension ViewControllerFactory: Factory {
                                         categoryPresenter: categoryPresenter)
     }
     
-    func makeNewCategoryVC(category: CategoryModel?) -> UIViewController {
+    func makeNewCategoryVC(category: CategoryDTO?) -> UIViewController {
         return NewCategoryViewController(category: category,
                                          presenter: newCategoryPresenter)
     }
@@ -103,7 +103,7 @@ extension ViewControllerFactory: Factory {
                                           interfaceType: type)
     }
     
-    func makeNewBookVC(with book: Item?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController {
+    func makeNewBookVC(with book: ItemDTO?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController {
         return NewBookViewController(book: book,
                                      isEditing: isEditing,
                                      bookCardDelegate: bookCardDelegate,
@@ -111,7 +111,7 @@ extension ViewControllerFactory: Factory {
                                      resultViewController: makeResultViewController())
     }
     
-    func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
+    func makeBookCardVC(book: ItemDTO, type: SearchType?, factory: Factory) -> UIViewController {
         return BookCardViewController(book: book,
                                       searchType: type,
                                       libraryService: libraryService,
@@ -124,7 +124,7 @@ extension ViewControllerFactory: Factory {
                                              newBookDelegate: newBookDelegate)
     }
     
-    func makeCommentVC(with book: Item?) -> UIViewController {
+    func makeCommentVC(with book: ItemDTO?) -> UIViewController {
         return CommentsViewController(book: book,
                                       presenter: commentPresenter,
                                       validator: validation)

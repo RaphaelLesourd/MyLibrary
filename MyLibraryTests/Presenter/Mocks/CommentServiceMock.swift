@@ -24,15 +24,15 @@ class CommentServiceMock: CommentServiceProtocol {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void) {
+    func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentDTO], FirebaseError>) -> Void) {
         successTest ? completion(.success([])) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
     
-    func deleteComment(for bookID: String, ownerID: String, comment: CommentModel, completion: @escaping (FirebaseError?) -> Void) {
+    func deleteComment(for bookID: String, ownerID: String, comment: CommentDTO, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel, FirebaseError>) -> Void) {
+    func getUserDetail(for userID: String, completion: @escaping (Result<UserModelDTO, FirebaseError>) -> Void) {
         if successTest {
             completion(.success(PresenterFakeData.user))
         } else {

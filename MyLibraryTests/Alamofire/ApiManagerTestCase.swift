@@ -35,7 +35,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "9791234567891", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "9791234567891", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
@@ -54,7 +54,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "Tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
@@ -73,7 +73,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookEmptyCorrectData)
         }
-        sut.getData(with: "nothing", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "nothing", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNotNil(books)
@@ -106,7 +106,7 @@ class ApiManagerTestCase: XCTestCase {
             return (response, FakeData.bookIncorrectData)
         }
         
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -127,7 +127,7 @@ class ApiManagerTestCase: XCTestCase {
             return (response, FakeData.bookCorrectData)
         }
         
-        sut.getData(with: "", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -146,7 +146,7 @@ class ApiManagerTestCase: XCTestCase {
             return (response, FakeData.bookCorrectData)
         }
         
-        sut.getData(with: nil, fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: nil, fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -164,7 +164,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -182,7 +182,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 401, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -200,7 +200,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 403, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -218,7 +218,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -236,7 +236,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 429, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -254,7 +254,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)
@@ -272,7 +272,7 @@ class ApiManagerTestCase: XCTestCase {
             let response = HTTPURLResponse(url: url, statusCode: 503, httpVersion: nil, headerFields: nil)!
             return (response, FakeData.bookCorrectData)
         }
-        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[Item], ApiError>) in
+        sut.getData(with: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
             switch result {
             case .success(let books):
                 XCTAssertNil(books)

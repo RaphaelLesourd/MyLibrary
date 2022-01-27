@@ -14,9 +14,9 @@ class CommentServiceTestCase: XCTestCase {
     private var sut: CommentService!
     private var libraryservice: LibraryService!
     private var userService: UserService!
-    private var book: Item!
+    private var book: ItemDTO!
     private let imageData  = Data()
-    private let comment = CommentModel(uid: "commentID",
+    private let comment = CommentDTO(uid: "commentID",
                                        userID: "user1",
                                        userName: "name",
                                        userPhotoURL: "",

@@ -7,7 +7,7 @@
 
 import FirebaseFirestoreSwift
 
-struct CommentModel: Codable, Identifiable {
+struct CommentDTO: Codable, Identifiable {
     @DocumentID var id: String?
     let uid: String
     let userID: String
@@ -21,11 +21,11 @@ struct CommentModel: Codable, Identifiable {
         case message = "comment"
     }
 }
-extension CommentModel: Hashable {
+extension CommentDTO: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(uid)
     }
-    static func == (lhs: CommentModel, rhs: CommentModel) -> Bool {
+    static func == (lhs: CommentDTO, rhs: CommentDTO) -> Bool {
         return lhs.uid == rhs.uid && lhs.message == rhs.message
     }
 }

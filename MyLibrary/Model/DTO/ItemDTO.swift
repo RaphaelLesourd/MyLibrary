@@ -8,14 +8,15 @@
 import Foundation
 import Combine
 import FirebaseFirestoreSwift
+import LottieCore
 
 // MARK: - BookModel
 struct BookModel: Codable {
-    let items: [Item]?
+    let items: [ItemDTO]?
 }
 
 // MARK: - Item
-struct Item: Codable, Identifiable {
+struct ItemDTO: Codable, Identifiable {
     @DocumentID var id: String?
     private let diffableId = UUID()
     var bookID: String?
@@ -27,16 +28,16 @@ struct Item: Codable, Identifiable {
     let timestamp: Double?
     let category: [String]?
     
-    private enum CodingKeys : String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case volumeInfo, saleInfo, favorite, recommanding, ownerID, category, bookID, timestamp
     }
 }
 
-extension Item: Hashable {
+extension ItemDTO: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(diffableId)
     }
-    static func == (lhs: Item, rhs: Item) -> Bool {
+    static func == (lhs: ItemDTO, rhs: ItemDTO) -> Bool {
         return lhs.diffableId == rhs.diffableId
     }
 }

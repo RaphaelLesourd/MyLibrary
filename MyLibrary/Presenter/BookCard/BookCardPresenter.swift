@@ -11,7 +11,7 @@ class BookCardPresenter {
     
     // MARK: - Properties
     weak var view: BookCardPresenterView?
-    var book: Item?
+    var book: ItemDTO?
     
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -32,30 +32,6 @@ class BookCardPresenter {
         self.categoryFormatter = categoryFormatter
     }
     
-    /// Add current book to the recommended collection in the database
-    private func addToRecommendedBooks() {
-        guard let book = book else { return }
-        view?.playRecommendButtonIndicator(true)
-        recommendationService.addToRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-    /// Remove current book to the recommended collection in the database
-    private func removeFromRecommendedBooks() {
-        guard let book = book else { return }
-        recommendationService.removeFromRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
-            if let error = error {
-                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-        }
-    }
-}
-extension BookCardPresenter: BookCardPresenting {
-   
     func deleteBook() {
         guard let book = book else { return }
         view?.showActivityIndicator()
@@ -102,21 +78,21 @@ extension BookCardPresenter: BookCardPresenting {
     /// Format and set the category label from an array of CategoryModel to NSAttributtedString.
     /// Inludes the category name and a tinted icon with the category color.
     /// - Parameters: - categories: Array of CategoryModel
-    func formatCategoryList(with categories: [CategoryModel]) {
+    func formatCategoryList(with categories: [CategoryDTO]) {
         let string = categoryFormatter.formattedString(for: categories)
         view?.displayCategories(with: string)
     }
    
     /// Convert a book from Item entity to BookCard representable
     /// - Parameters: Item object of the current book.
-    func convertToBookRepresentable(from book: Item) {
+    func convertToBookRepresentable(from book: ItemDTO) {
         let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
         let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         let currency = book.saleInfo?.retailPrice?.currencyCode
         let value = book.saleInfo?.retailPrice?.amount
         let price = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
         
-        let data = BookCardRepresentable(title: book.volumeInfo?.title?.capitalized,
+        let data = BookCardUI(title: book.volumeInfo?.title?.capitalized,
                             authors: book.volumeInfo?.authors?.joined(separator: ", "),
                             rating: book.volumeInfo?.ratingsCount,
                             description: book.volumeInfo?.volumeInfoDescription,
@@ -155,4 +131,27 @@ extension BookCardPresenter: BookCardPresenting {
         }
         removeFromRecommendedBooks()
     }
+    
+    /// Add current book to the recommended collection in the database
+    private func addToRecommendedBooks() {
+        guard let book = book else { return }
+        view?.playRecommendButtonIndicator(true)
+        recommendationService.addToRecommandation(for: book) { [weak self] error in
+            self?.view?.playRecommendButtonIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+    /// Remove current book to the recommended collection in the database
+    private func removeFromRecommendedBooks() {
+        guard let book = book else { return }
+        recommendationService.removeFromRecommandation(for: book) { [weak self] error in
+            self?.view?.playRecommendButtonIndicator(false)
+            if let error = error {
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+        }
+    }
+
 }

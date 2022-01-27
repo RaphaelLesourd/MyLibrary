@@ -47,7 +47,7 @@ class CategoryService {
     
     private func getCategory(for id: String,
                              bookOwnerID: String,
-                             completion: @escaping (CategoryModel?) -> Void) {
+                             completion: @escaping (CategoryDTO?) -> Void) {
         let docRef = usersCollectionRef
             .document(bookOwnerID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -60,7 +60,7 @@ class CategoryService {
             guard let querySnapshot = querySnapshot else {
                 return
             }
-            if let document = try? querySnapshot.data(as: CategoryModel.self) {
+            if let document = try? querySnapshot.data(as: CategoryDTO.self) {
                 completion(document)
             }
         }
@@ -87,7 +87,7 @@ extension CategoryService: CategoryServiceProtocol {
                 return
             }
             let id = UUID().uuidString
-            let category = CategoryModel(uid: id, name: categoryName.lowercased(), color: color)
+            let category = CategoryDTO(uid: id, name: categoryName.lowercased(), color: color)
             do {
                 try docRef.document(id).setData(from: category)
             } catch { completion(.firebaseError(error)) }
@@ -95,7 +95,7 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
     // MARK: Get
-    func getCategories(completion: @escaping (Result<[CategoryModel], FirebaseError>) -> Void) {
+    func getCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void) {
         let docRef = usersCollectionRef
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
@@ -105,9 +105,9 @@ extension CategoryService: CategoryServiceProtocol {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> CategoryModel? in
+            let data = querySnapshot?.documents.compactMap { documents -> CategoryDTO? in
                 do {
-                    return try documents.data(as: CategoryModel.self)
+                    return try documents.data(as: CategoryDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -124,8 +124,8 @@ extension CategoryService: CategoryServiceProtocol {
     
     func getBookCategories(for categoryIds: [String],
                            bookOwnerID: String,
-                           completion: @escaping ([CategoryModel]) -> Void) {
-        var categoryList: [CategoryModel] = []
+                           completion: @escaping ([CategoryDTO]) -> Void) {
+        var categoryList: [CategoryDTO] = []
         
         categoryIds.forEach {
             getCategory(for: $0, bookOwnerID: bookOwnerID) { category in
@@ -137,7 +137,7 @@ extension CategoryService: CategoryServiceProtocol {
     }
     
     // MARK: Update
-    func updateCategoryName(for category: CategoryModel,
+    func updateCategoryName(for category: CategoryDTO,
                             with name: String?,
                             color: String,
                             completion: @escaping (FirebaseError?) -> Void) {
@@ -161,7 +161,7 @@ extension CategoryService: CategoryServiceProtocol {
     }
     
     // MARK: Delete
-    func deleteCategory(for category: CategoryModel,
+    func deleteCategory(for category: CategoryDTO,
                         completion: @escaping (FirebaseError?) -> Void) {
         guard !category.uid.isEmpty else {
             completion(.noCategory)

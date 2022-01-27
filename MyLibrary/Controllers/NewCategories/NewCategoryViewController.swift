@@ -11,8 +11,8 @@ class NewCategoryViewController: UIViewController {
     
     // MARK: Properties
     private let mainView = NewCategoryMainView()
-    private let category: CategoryModel?
-    private var presenter: NewCategoryPresenting
+    private let category: CategoryDTO?
+    private let presenter: NewCategoryPresenter
     var chosenColor: String = "e38801" {
         didSet {
             mainView.updateBackgroundColor(with: chosenColor)
@@ -20,8 +20,8 @@ class NewCategoryViewController: UIViewController {
     }
     
     // MARK: Initializer
-    init(category: CategoryModel?,
-         presenter: NewCategoryPresenting) {
+    init(category: CategoryDTO?,
+         presenter: NewCategoryPresenter) {
         self.category = category
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
