@@ -27,7 +27,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
-        setupViewControllers()
+        setupTableViewTabs()
     }
     // MARK: - Setup
     /// Set up the tabBar appearance with standard darkmode compatible colors.
@@ -52,41 +52,40 @@ class TabBarController: UITabBarController {
     
     /// Set up each viewControllers in the TabBar
     /// - SFSymbols are used for icon images.
-    private func setupViewControllers() {
-        // Home tab
+    private func setupTableViewTabs() {
+
+        let homeTab = makeTab(for: factory.makeHomeTabVC(),
+                                 title: Text.ControllerTitle.home,
+                                 image: Images.TabBarIcon.homeIcon)
+
+        let libraryTab = makeTab(for: factory.makeBookListVC(with: .defaultAllBookQuery),
+                                    title: Text.ControllerTitle.myBooks,
+                                    image: Images.TabBarIcon.booksIcon)
         
-        let homeViewController = createController(for: factory.makeHomeTabVC(),
-                                                     title: Text.ControllerTitle.home,
-                                                     image: Images.TabBarIcon.homeIcon)
-        // Library tab
-        let libraryViewController = createController(for: factory.makeBookListVC(with: .defaultAllBookQuery),
-                                                        title: Text.ControllerTitle.myBooks,
-                                                        image: Images.TabBarIcon.booksIcon)
-        // Newbook tab
-        let newViewController = createController(for: factory.makeNewBookVC(with: nil,
-                                                                            isEditing: false,
-                                                                            bookCardDelegate: nil),
-                                                    title: Text.ControllerTitle.newBook,
-                                                    image: Images.TabBarIcon.newBookIcon)
-        // Account tab
-        let accountViewController = createController(for: factory.makeAccountTabVC(),
-                                                        title: Text.ControllerTitle.account,
-                                                        image: Images.TabBarIcon.accountIcon)
-        setViewControllers([homeViewController,
-                            libraryViewController,
-                            newViewController,
-                            accountViewController],
+        let newBookTab = makeTab(for: factory.makeNewBookVC(with: nil,
+                                                            isEditing: false,
+                                                            bookCardDelegate: nil),
+                                    title: Text.ControllerTitle.newBook,
+                                    image: Images.TabBarIcon.newBookIcon)
+
+        let accountTab = makeTab(for: factory.makeAccountTabVC(),
+                                    title: Text.ControllerTitle.account,
+                                    image: Images.TabBarIcon.accountIcon)
+        setViewControllers([homeTab,
+                            libraryTab,
+                            newBookTab,
+                            accountTab],
                            animated: true)
     }
-    /// Adds tab with an icon image and a title.
+    /// Make tab with an icon image and a title.
     /// - Parameters:
     ///   - rootViewController: Name of the ViewController assiciated to the tab
     ///   - title: Title name of the tab
     ///   - image: Name of the image
     /// - Returns: A modified ViewController
-    private func createController(for rootViewController: UIViewController,
-                                  title: String,
-                                  image: UIImage) -> UIViewController {
+    private func makeTab(for rootViewController: UIViewController,
+                         title: String,
+                         image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
