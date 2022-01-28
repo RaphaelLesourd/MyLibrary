@@ -43,7 +43,7 @@ class SetupAccountPresenter {
                                             subtitle: Text.Banner.emptyEmail)
             return
         }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         accountService.sendPasswordReset(for: email) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
@@ -62,7 +62,7 @@ class SetupAccountPresenter {
     /// - text: String value of the user email
     func validateEmail(for text: String) {
         let validity = validation.validateEmail(text)
-        view?.updateEmailTextField(valid: validity)
+        view?.validateEmailTextField(with: validity)
     }
     
     /// Validate user password according to requirement.
@@ -70,7 +70,7 @@ class SetupAccountPresenter {
     /// - text: String value of the user password
     func validatePassword(for text: String) {
         let validity = validation.validatePassword(text)
-        view?.updatePasswordTextField(valid: validity)
+        view?.validatePasswordTextField(with: validity)
     }
     
     /// Validate user confirmation password according to requirement.
@@ -78,12 +78,12 @@ class SetupAccountPresenter {
     /// - text: String value of the user confirmation password
     func validatePasswordConfirmation(for text: String) {
         let validity = validation.validatePassword(text)
-        view?.updatePasswordConfirmationTextField(valid: validity)
+        view?.validatePasswordConfirmationTextField(with: validity)
     }
 
     // MARK: - Private functions
     private func loginToAccount() {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         let userCredentials = setAccountCredentials()
         accountService.login(with: userCredentials) { [weak self] error in
@@ -99,7 +99,7 @@ class SetupAccountPresenter {
     }
     
     private func createAccount() {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         let userCredentials = setAccountCredentials()
         accountService.createAccount(for: userCredentials) { [weak self] error in
@@ -114,7 +114,7 @@ class SetupAccountPresenter {
     }
     
     private func deleteAccount() {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         let userCredentials = setAccountCredentials()
         self.accountService.deleteAccount(with: userCredentials) { [weak self] error in

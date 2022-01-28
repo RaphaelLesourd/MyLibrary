@@ -188,7 +188,7 @@ class CommentPresenterViewSpy: CommentsPresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

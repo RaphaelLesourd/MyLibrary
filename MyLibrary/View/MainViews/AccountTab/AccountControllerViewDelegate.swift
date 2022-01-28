@@ -6,7 +6,7 @@
 //
 
 protocol AccountViewDelegate: AnyObject {
-    func signoutRequest()
+    func presentSignOutAlert()
     func deleteAccount()
 }
 

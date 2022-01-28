@@ -20,7 +20,7 @@ class SearchViewController: UIViewController {
     private let layoutComposer: BookListLayoutComposer
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private lazy var dataSource = createDataSource()
+    private lazy var dataSource = makeDataSource()
  
     // MARK: - Initializer
     init(presenter: SearchPresenter,
@@ -82,7 +82,7 @@ extension SearchViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() -> DataSource {
+    private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
@@ -144,7 +144,7 @@ extension SearchViewController: UICollectionViewDelegate {
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
     
-    func reloadData() {
+    func refreshBookList() {
         presenter.refreshData()
     }
 }
@@ -154,7 +154,7 @@ extension SearchViewController: SearchPresenterView {
         newBookDelegate?.setBookData(with: book)
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         footerView.displayActivityIndicator(true)
     }
     

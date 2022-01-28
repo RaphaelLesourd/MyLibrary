@@ -149,7 +149,7 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         displayDeleteAlertWasCalled = true
     }
     
-    func presentNewCategoryController(for category: CategoryDTO?) {
+    func presentNewCategoryController(with category: CategoryDTO?) {
         presentNewCategoryControllerWasCalled = true
     }
     
@@ -157,7 +157,7 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

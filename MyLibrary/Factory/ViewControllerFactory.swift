@@ -77,10 +77,10 @@ extension ViewControllerFactory: Factory {
                                      feedbackManager: feedbackManager)
     }
     
-    func makeCategoryVC(settingCategory: Bool,
+    func makeCategoryVC(isSelecting: Bool,
                         bookCategories: [String],
                         newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
-        return CategoriesViewController(settingBookCategory: settingCategory,
+        return CategoriesViewController(isSelecting: isSelecting,
                                         selectedCategories: bookCategories,
                                         newBookDelegate: newBookDelegate,
                                         categoryPresenter: categoryPresenter)
@@ -91,8 +91,9 @@ extension ViewControllerFactory: Factory {
                                          presenter: newCategoryPresenter)
     }
     
-    func makeBookListVC(with query: BookQuery) -> UIViewController {
+    func makeBookLibraryVC(with query: BookQuery?, title: String?) -> UIViewController {
         return BookLibraryViewController(currentQuery: query,
+                                         title: title,
                                          queryService: queryService,
                                          presenter: libraryPresenter,
                                          layoutComposer: bookListLayout)
@@ -111,9 +112,8 @@ extension ViewControllerFactory: Factory {
                                      resultViewController: makeResultViewController())
     }
     
-    func makeBookCardVC(book: ItemDTO, type: SearchType?, factory: Factory) -> UIViewController {
+    func makeBookCardVC(book: ItemDTO, factory: Factory) -> UIViewController {
         return BookCardViewController(book: book,
-                                      searchType: type,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,
                                       presenter: bookCardPresenter)

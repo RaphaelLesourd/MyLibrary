@@ -7,6 +7,6 @@
 
 // Common Protocol to control activity indicator
 protocol AcitivityIndicatorProtocol {
-    func showActivityIndicator()
+    func startActivityIndicator()
     func stopActivityIndicator()
 }

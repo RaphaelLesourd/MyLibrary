@@ -13,12 +13,12 @@ class HomeViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
-    private lazy var dataSource = createDataSource()
+    private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
     private let layoutComposer: HomeLayoutComposer
     private let presenter: HomePresenter
     private let factory: Factory
- 
+
     // MARK: - Initializer
     init(presenter: HomePresenter,
          layoutComposer: HomeLayoutComposer) {
@@ -47,7 +47,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        reloadData()
+        refreshBookList()
     }
     
     // MARK: - Setup
@@ -62,53 +62,51 @@ class HomeViewController: UIViewController {
         let accountButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
                                             style: .plain,
                                             target: self,
-                                            action: #selector(showAccountController))
+                                            action: #selector(presentAccountController))
         let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactor]
     }
     
-    func reloadData() {
+    func refreshBookList() {
         presenter.getCategories()
         presenter.getLatestBooks()
         presenter.getFavoriteBooks()
         presenter.getRecommendations()
         presenter.getUsers()
     }
-    // MARK: - Targets
-    @objc private func showMoreButtonAction(_ sender: UIButton) {
+
+    @objc private func showMore(_ sender: UIButton) {
         let section = HomeCollectionViewSections(rawValue: sender.tag)
         switch section {
         case .categories:
-            showCategories()
+            presentCategoryController()
         case .users:
-            showBookList(for: section?.sectionDataQuery, title: Text.SectionTitle.userRecommandation)
+            presentBookLibraryController(for: section?.sectionDataQuery, title: Text.SectionTitle.userRecommandation)
         default:
-            showBookList(for: section?.sectionDataQuery)
+            presentBookLibraryController(for: section?.sectionDataQuery)
         }
     }
     
     // MARK: - Navigation
-    private func showBookList(for query: BookQuery?, title: String? = nil) {
-        guard let query = query else { return }
-        let bookListVC = factory.makeBookListVC(with: query)
-        bookListVC.title = title
+    private func presentBookLibraryController(for query: BookQuery?, title: String? = nil) {
+        let bookListVC = factory.makeBookLibraryVC(with: query, title: title)
         navigationController?.show(bookListVC, sender: nil)
     }
     
-    private func showCategories() {
-        let categoryListVC = factory.makeCategoryVC(settingCategory: false,
+    private func presentCategoryController() {
+        let categoryListVC = factory.makeCategoryVC(isSelecting: false,
                                                     bookCategories: [],
                                                     newBookDelegate: nil)
         showController(categoryListVC)
     }
     
-    @objc private func showAccountController() {
+    @objc private func presentAccountController() {
         let accountVC = factory.makeAccountTabVC()
         showController(accountVC)
     }
     
-   private func showBookDetails(for book: ItemDTO) {
-        let bookCardVC = factory.makeBookCardVC(book: book, type: nil, factory: factory)
+    private func presentBookCardController(with book: ItemDTO) {
+        let bookCardVC = factory.makeBookCardVC(book: book, factory: factory)
         bookCardVC.hidesBottomBarWhenPushed = true
         showController(bookCardVC)
     }
@@ -119,7 +117,7 @@ extension HomeViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() -> DataSource {
+    private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             guard let self = self else { return nil }
@@ -167,7 +165,7 @@ extension HomeViewController {
             let headerView = collectionView.dequeue(kind: kind, for: indexPath) as HeaderSupplementaryView
             headerView.configure(with: section.title, buttonTitle: section.buttonTitle)
             headerView.moreButton.tag = section.buttonTag
-            headerView.moreButton.addTarget(self, action: #selector(self?.showMoreButtonAction(_:)), for: .touchUpInside)
+            headerView.moreButton.addTarget(self, action: #selector(self?.showMore(_:)), for: .touchUpInside)
             return headerView
         }
     }
@@ -212,28 +210,37 @@ extension HomeViewController: UICollectionViewDelegate {
                                           orderedBy: .category,
                                           fieldValue: category.uid,
                                           descending: true)
-            showBookList(for: categoryQuery, title: category.name)
+            presentBookLibraryController(for: categoryQuery, title: category.name)
         }
         if let book = selectedItem as? ItemDTO {
-            showBookDetails(for: book)
+            presentBookCardController(with: book)
         }
         if let followedUser = selectedItem as? UserModelDTO {
             let query = BookQuery(listType: .users,
                                   orderedBy: .ownerID,
                                   fieldValue: followedUser.userID,
                                   descending: true)
-            showBookList(for: query, title: followedUser.displayName)
+            presentBookLibraryController(for: query, title: followedUser.displayName)
         }
     }
 }
 // MARK: - BookListView Delegate
 extension HomeViewController: BookListViewDelegate {
-    
+    /// Handles empty state button action to create a new book.
+    /// - Note:
+    /// - Checks if size is compact or not by checking if the splitController is collapased.
+    /// - If collapsed, grab the tabBar controller and verify the index of the NewBookViewControlers
+    /// in the ViewControllers array. Then select the propper tab.
+    /// - If not collapsed, we show the primary controller in case it is hidden, get the controller
+    /// to access its properties and make the bookTitleCell.textfield the forst responder to show the keyboard.
     func emptyStateButtonTapped() {
         guard let splitController = splitViewController, !splitController.isCollapsed else {
-            if let controller = tabBarController as? TabBarController {
-                controller.selectedIndex = 2
-            }
+            if let tabBar = tabBarController as? TabBarController,
+               let index = tabBar.viewControllers?.firstIndex(where: {
+                    $0 is NewBookViewController
+                }) {
+                    tabBar.selectedIndex = index
+                }
             return
         }
         splitViewController?.show(.primary)
@@ -242,9 +249,10 @@ extension HomeViewController: BookListViewDelegate {
         }
     }
 }
-// MARK: - HomePresenter
+// MARK: - HomePresenter View
 extension HomeViewController: HomePresenterView {
-    func showActivityIndicator() {
+
+    func startActivityIndicator() {
         DispatchQueue.main.async {
             self.showIndicator(self.mainView.activityIndicator)
         }

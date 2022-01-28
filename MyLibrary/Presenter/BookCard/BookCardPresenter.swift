@@ -6,12 +6,18 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class BookCardPresenter {
     
     // MARK: - Properties
     weak var view: BookCardPresenterView?
     var book: ItemDTO?
+    var isBookEditable: Bool {
+        let isConnected = Networkconnectivity.shared.isReachable == false
+        let isBookOwner = book?.ownerID != Auth.auth().currentUser?.uid
+        return isConnected || isBookOwner
+    }
     
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -34,7 +40,7 @@ class BookCardPresenter {
     
     func deleteBook() {
         guard let book = book else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         libraryService.deleteBook(book: book) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
@@ -50,14 +56,14 @@ class BookCardPresenter {
     func updateBook() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
             case .success(let book):
                 self?.book = book
-                self?.convertToBookRepresentable(from: book)
+                self?.mapToBookUI(from: book)
                 self?.fetchCategoryNames()
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
@@ -85,7 +91,7 @@ class BookCardPresenter {
    
     /// Convert a book from Item entity to BookCard representable
     /// - Parameters: Item object of the current book.
-    func convertToBookRepresentable(from book: ItemDTO) {
+    func mapToBookUI(from book: ItemDTO) {
         let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
         let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         let currency = book.saleInfo?.retailPrice?.currencyCode
@@ -112,7 +118,7 @@ class BookCardPresenter {
     /// - documentKey: DocumentKey type for the status to update, tpyically .favorite or .recommended
      func updateStatus(state: Bool, documentKey: DocumentKey) {
          guard let bookID = book?.bookID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         libraryService.setStatus(to: state, field: documentKey, for: bookID) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -131,13 +137,13 @@ class BookCardPresenter {
         }
         removeFromRecommendedBooks()
     }
-    
+
     /// Add current book to the recommended collection in the database
     private func addToRecommendedBooks() {
         guard let book = book else { return }
-        view?.playRecommendButtonIndicator(true)
+        view?.toggleRecommendButtonIndicator(on: true)
         recommendationService.addToRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
+            self?.view?.toggleRecommendButtonIndicator(on: false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -147,7 +153,7 @@ class BookCardPresenter {
     private func removeFromRecommendedBooks() {
         guard let book = book else { return }
         recommendationService.removeFromRecommandation(for: book) { [weak self] error in
-            self?.view?.playRecommendButtonIndicator(false)
+            self?.view?.toggleRecommendButtonIndicator(on: false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }

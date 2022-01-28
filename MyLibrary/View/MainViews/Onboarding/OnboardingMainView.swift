@@ -72,7 +72,7 @@ class OnboardingMainView: UIView {
                                       spacing: 20)
     
     // MARK: - Configure
-    func onboardingCompleted(_ finished: Bool) {
+    func setOnboardingSeen(when finished: Bool) {
         let title = finished ? Text.ButtonTitle.done : Text.ButtonTitle.next
         nextButton.setTitle(title, for: .normal)
     }

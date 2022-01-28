@@ -11,7 +11,6 @@ import FirebaseAuth
 class BookCardViewController: UIViewController {
     
     // MARK: Properties
-    private var searchType: SearchType?
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -19,27 +18,25 @@ class BookCardViewController: UIViewController {
     private var factory: Factory
     private var recommended = false {
         didSet {
-            mainView.setRecommandedButtonAs(recommended)
+            mainView.toggleRecommendButton(to: recommended)
         }
     }
     private var favoriteBook = false {
         didSet {
-            mainView.setFavoriteButtonAs(favoriteBook)
+            mainView.toggleFavoriteButton(to: favoriteBook)
         }
     }
     
     // MARK: Intializers
     init(book: ItemDTO,
-         searchType: SearchType?,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          presenter: BookCardPresenter) {
-        self.searchType = searchType
         self.libraryService = libraryService
         self.recommendationService = recommendationService
-        self.factory = ViewControllerFactory()
         self.presenter = presenter
         self.presenter.book = book
+        self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,24 +49,26 @@ class BookCardViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         title = nil
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationItem.largeTitleDisplayMode = .never
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.delegate = self
+        mainView.showControlButtons(presenter.isBookEditable)
         presenter.view = self
         addNavigationBarButtons()
-        configureUI()
-        displayBookDetails()
+        gatherBookInformation()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+        makeNavigationBarClear()
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationItem.largeTitleDisplayMode = .always
+        restoreNavigationDefaultBar()
     }
     
     // MARK: Setup
@@ -78,51 +77,39 @@ class BookCardViewController: UIViewController {
                                          style: .plain,
                                          target: self,
                                          action: #selector(editBook))
-        navigationItem.rightBarButtonItems = [editButton, mainView.activityIndicatorButton]
+        let itemsWithEditButton = [editButton, mainView.activityIndicatorButton]
+        let indicatorOnly = [mainView.activityIndicatorButton]
+        navigationItem.rightBarButtonItems = presenter.isBookEditable ? indicatorOnly : itemsWithEditButton
     }
-    
-    private func configureUI() {
-        if searchType == .keywordSearch {
-            mainView.recommandButton.setTitle(Text.ButtonTitle.save, for: .normal)
-            mainView.deleteBookButton.isHidden = true
-        }
-        if presenter.book?.ownerID != Auth.auth().currentUser?.uid || Networkconnectivity.shared.isReachable == false {
-            mainView.deleteBookButton.isHidden = true
-            mainView.recommandButton.isHidden = true
-            mainView.favoriteButton.isHidden = true
-            navigationItem.rightBarButtonItems = [mainView.activityIndicatorButton]
-        }
-    }
-    
+
     // MARK: Data display
-    private func displayBookDetails() {
+    private func gatherBookInformation() {
         if let book = presenter.book {
-            presenter.convertToBookRepresentable(from: book)
+            presenter.mapToBookUI(from: book)
             presenter.fetchCategoryNames()
-            presenter.fetchCategoryNames()
-            setBookRecommandState()
-            setBookFavoriteState()
+            setBookRecommandStatus()
+            setBookFavoriteStatus()
         }
     }
     
-    private func setBookFavoriteState() {
+    private func setBookFavoriteStatus() {
         if let favorite = self.presenter.book?.favorite {
             favoriteBook = favorite
         }
     }
 
-    private func setBookRecommandState() {
+    private func setBookRecommandStatus() {
         if let recommand = self.presenter.book?.recommanding {
             recommended = recommand
         }
     }
     
     // MARK: Navigation
-    func showCommentsViewController() {
+    func presentCommentsViewController() {
         navigationController?.show(factory.makeCommentVC(with: presenter.book), sender: nil)
     }
     
-    func showBookCover() {
+    func displayBookCover() {
         guard let coverImage = mainView.bookCover.image else { return  }
         navigationController?.show(factory.makeBookCoverDisplayVC(with: coverImage), sender: nil)
     }
@@ -135,7 +122,7 @@ class BookCardViewController: UIViewController {
 
 // MARK: - BookCard Delegate
 extension BookCardViewController: BookCardDelegate {
-    func fetchBookUpdate() {
+    func updateBook() {
         presenter.updateBook()
     }
 }
@@ -144,18 +131,18 @@ extension BookCardViewController: BookCardDelegate {
 /// Accessible functions for the view thru delegate protocol
 extension BookCardViewController: BookCardMainViewDelegate {
     
-    func favoriteButtonAction() {
+    func toggleFavoriteBook() {
         favoriteBook.toggle()
         presenter.updateStatus(state: favoriteBook, documentKey: .favorite)
     }
     
-    func recommandButtonAction() {
+    func toggleBookRecommendation() {
         recommended.toggle()
         presenter.recommendBook(recommended)
         presenter.updateStatus(state: recommended, documentKey: .recommanding)
     }
     
-    func deleteBookAction() {
+    func presentDeleteBookAlert() {
         AlertManager.presentAlert(title: Text.Alert.deleteBookTitle,
                                   message: Text.Alert.deleteBookMessage,
                                   cancel: true,
@@ -170,8 +157,8 @@ extension BookCardViewController: BookCardPresenterView {
    
     func displayBook(with data: BookCardUI) {
         mainView.configure(with: data)
-        setBookRecommandState()
-        setBookFavoriteState()
+        setBookRecommandStatus()
+        setBookFavoriteStatus()
     }
     
     func displayCategories(with list: NSAttributedString) {
@@ -180,13 +167,13 @@ extension BookCardViewController: BookCardPresenterView {
         }
     }
     
-    func playRecommendButtonIndicator(_ play: Bool) {
+    func toggleRecommendButtonIndicator(on: Bool) {
         DispatchQueue.main.async {
-            self.mainView.recommandButton.displayActivityIndicator(play)
+            self.mainView.recommandButton.toggleActivityIndicator(to: on)
         }
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showIndicator(mainView.activityIndicator)
     }
     

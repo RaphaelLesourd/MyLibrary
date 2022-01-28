@@ -113,7 +113,7 @@ class SearchViewSpy: SearchPresenterView {
         displayBookFromCodeWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

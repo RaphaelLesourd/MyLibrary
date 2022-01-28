@@ -24,7 +24,7 @@ class CategoryPresenter {
     
     /// Fetch the user categories
     func getCategoryList() {
-        self.view?.showActivityIndicator()
+        self.view?.startActivityIndicator()
         categoryService.getCategories { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
@@ -42,7 +42,7 @@ class CategoryPresenter {
     /// - Parameters:
     /// - category:CategoryModel object
     func deleteCategory(for category: CategoryDTO) {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         categoryService.deleteCategory(for: category) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -114,7 +114,7 @@ class CategoryPresenter {
         case .delete:
             self.view?.displayDeleteAlert(for: category)
         case .edit:
-            self.view?.presentNewCategoryController(for: category)
+            self.view?.presentNewCategoryController(with: category)
         }
     }
 }

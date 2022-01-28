@@ -36,6 +36,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let onboardingShown = UserDefaults.standard.bool(forKey: UserDefaultKey.onboardingSeen.rawValue)
+
         guard onboardingShown == false else { return }
         let onboardingViewController = factory.makeOnboardingVC()
         onboardingViewController.modalPresentationStyle = .fullScreen

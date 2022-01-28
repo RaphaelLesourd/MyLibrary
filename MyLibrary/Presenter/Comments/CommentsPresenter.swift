@@ -32,7 +32,7 @@ class CommentPresenter {
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
@@ -55,7 +55,7 @@ class CommentPresenter {
     func addComment(with newComment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.addComment(for: bookID,
                                      ownerID: ownerID,
@@ -77,7 +77,7 @@ class CommentPresenter {
     func deleteComment(for comment: CommentDTO) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.deleteComment(for: bookID,
                                         ownerID: ownerID,
@@ -98,7 +98,7 @@ class CommentPresenter {
     ///  - book: Optional Item object of the book the comment belongs to.
     func notifyUser(of newComment: String, book: ItemDTO?) {
         guard let book = book else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         messageService.sendCommentPushNotification(for: book,
                                                       message: newComment,
@@ -133,7 +133,7 @@ class CommentPresenter {
         guard let book = book,
               let ownerID = book.ownerID else { return }
         var name = String()
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.getUserDetail(for: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()

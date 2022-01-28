@@ -17,13 +17,13 @@ class CategoriesViewController: UIViewController {
     private let mainView = ListMainView()
     private let presenter: CategoryPresenter
     private let factory: Factory
-    private var settingBookCategory: Bool
+    private var isSelecting: Bool
     
-    init(settingBookCategory: Bool,
+    init(isSelecting: Bool,
          selectedCategories: [String],
          newBookDelegate: NewBookViewControllerDelegate?,
          categoryPresenter: CategoryPresenter) {
-        self.settingBookCategory = settingBookCategory
+        self.isSelecting = isSelecting
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
         self.presenter.selectedCategories = selectedCategories
@@ -63,7 +63,7 @@ class CategoriesViewController: UIViewController {
     private func configureTableView() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = dataSource
-        mainView.tableView.allowsSelection = settingBookCategory
+        mainView.tableView.allowsSelection = isSelecting
         mainView.tableView.refreshControl = mainView.refresherControl
         mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.presenter.getCategoryList()
@@ -93,7 +93,7 @@ class CategoriesViewController: UIViewController {
     }
     
     @objc private func addNewCategory() {
-        presentNewCategoryController(for: nil)
+        presentNewCategoryController()
     }
 }
 
@@ -210,7 +210,7 @@ extension CategoriesViewController: CategoryPresenterView {
         }
     }
     
-    func presentNewCategoryController(for category: CategoryDTO?) {
+    func presentNewCategoryController(with category: CategoryDTO? = nil) {
         let newCategoryViewController = factory.makeNewCategoryVC(category: category)
         if #available(iOS 15.0, *) {
             presentSheetController(newCategoryViewController, detents: [.large()])
@@ -218,14 +218,16 @@ extension CategoriesViewController: CategoryPresenterView {
             present(newCategoryViewController, animated: true, completion: nil)
         }
     }
-    
+
+    /// Highlight cell for the data saved
+    /// - Parameters: IndexPath of the data fetched
     func highlightCell(at indexPath: IndexPath) {
         DispatchQueue.main.async {
             self.mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         }
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         self.mainView.activityIndicator.startAnimating()
     }
     
@@ -239,6 +241,7 @@ extension CategoriesViewController: CategoryPresenterView {
 
 // MARK: - Search Result updating
 extension CategoriesViewController: UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {return}
         presenter.filterSearchedCategories(for: searchText)

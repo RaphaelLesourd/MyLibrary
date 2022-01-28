@@ -14,8 +14,9 @@ enum Images {
     
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)
-        
-        static let scanBarcode = UIImage(systemName: "viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let viewFider = UIImage(systemName: "viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let barCode = UIImage(systemName: "barcode.viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let scanBarcode = NavIcon.barCode ?? NavIcon.viewFider
         static let editBookIcon = UIImage(systemName: "square.and.pencil", withConfiguration: Images.NavIcon.configuration)
         static let gridLayoutMenu = UIImage(systemName: "ellipsis", withConfiguration: Images.NavIcon.configuration)
         static let addIcon = UIImage(systemName: "plus.circle.fill", withConfiguration: Images.NavIcon.configuration)

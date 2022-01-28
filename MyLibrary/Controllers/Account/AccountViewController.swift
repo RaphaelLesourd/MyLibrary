@@ -92,7 +92,7 @@ extension AccountViewController: ProfileViewDelegate {
 
 // MARK: - AccountView Delegate
 extension AccountViewController: AccountViewDelegate {
-    func signoutRequest() {
+    func presentSignOutAlert() {
         AlertManager.presentAlert(title: Text.Alert.signout,
                                   message: "",
                                   cancel: true,
@@ -120,23 +120,23 @@ extension AccountViewController: ContactViewDelegate {
 }
 
 extension AccountViewController: AccountTabPresenterView {
-    func configureView(with user: UserModelDTO) {
+    func configureMainView(with user: UserModelDTO) {
         mainView.configure(with: user)
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         mainView.activityIndicator.startAnimating()
-        mainView.profileView.loadingSpeed(true)
+        mainView.profileView.increaseLoadingAnimationSpeed(true)
     }
     
     func stopActivityIndicator() {
         DispatchQueue.main.async {
             self.mainView.activityIndicator.stopAnimating()
-            self.mainView.profileView.loadingSpeed(false)
+            self.mainView.profileView.increaseLoadingAnimationSpeed(false)
         }
     }
     
-    func animateSavebuttonIndicator(_ animate: Bool) {
-        mainView.profileView.accountView.signoutButton.displayActivityIndicator(animate)
+    func animateSavebuttonIndicator(_ on: Bool) {
+        mainView.profileView.accountView.signoutButton.toggleActivityIndicator(to: on)
     }
 }

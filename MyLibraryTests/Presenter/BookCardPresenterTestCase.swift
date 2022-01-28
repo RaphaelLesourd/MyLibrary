@@ -202,11 +202,11 @@ class BookCardPresenterViewSpy: BookCardPresenterView {
         dismissControllerWasCalled = true
     }
     
-    func playRecommendButtonIndicator(_ play: Bool) {
+    func toggleRecommendButtonIndicator(on play: Bool) {
         playRecommendButtonIndicatorWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

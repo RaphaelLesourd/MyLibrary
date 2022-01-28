@@ -60,7 +60,7 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     
@@ -68,7 +68,7 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
         stopActivityWasCalled = true
     }
     
-    func updateHeader(with title: String?) {
+    func updateSectionTitle(with title: String?) {
         updateHeaderWasCalled = true
     }
 }

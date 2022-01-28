@@ -11,11 +11,11 @@ protocol Factory {
     
     func makeAccountTabVC() -> UIViewController
     
-    func makeCategoryVC(settingCategory: Bool,
+    func makeCategoryVC(isSelecting: Bool,
                         bookCategories: [String],
                         newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     
-    func makeBookListVC(with query: BookQuery) -> UIViewController
+    func makeBookLibraryVC(with query: BookQuery?, title: String?) -> UIViewController
     
     func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController
     
@@ -23,7 +23,7 @@ protocol Factory {
                        isEditing: Bool,
                        bookCardDelegate: BookCardDelegate?) -> UIViewController
     
-    func makeBookCardVC(book: ItemDTO, type: SearchType?, factory: Factory) -> UIViewController
+    func makeBookCardVC(book: ItemDTO, factory: Factory) -> UIViewController
     
     func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController
     

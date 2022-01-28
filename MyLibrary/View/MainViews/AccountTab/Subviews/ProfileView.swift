@@ -99,7 +99,7 @@ class ProfileView: UIView {
         }), for: .touchUpInside)
     }
   
-    func loadingSpeed(_ loading: Bool) {
+    func increaseLoadingAnimationSpeed(_ loading: Bool) {
         guard loading else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.animationView.animationSpeed = 0.5

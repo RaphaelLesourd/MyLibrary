@@ -44,7 +44,7 @@ class OnboardingPresenter {
     /// - index: Int of the current collectionView position
     private func updatePageNumber(with index: Int) {
         let lastPage = index == onboardingData.count - 1
-        view?.setLastPageReached(lastPage)
+        view?.setLastPageReached(when: lastPage)
     }
 }
 extension OnboardingPresenter: OnboardingPresenting {

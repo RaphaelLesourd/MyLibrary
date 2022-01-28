@@ -8,7 +8,7 @@
 import Foundation
 
 protocol OnboardingPresenterView: AnyObject {
-    func setLastPageReached(_ lastPage: Bool)
+    func setLastPageReached(when lastPage: Bool)
     func scrollCollectionView(to indexPath: IndexPath)
     func presentWelcomeVC()
 }

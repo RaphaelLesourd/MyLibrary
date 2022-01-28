@@ -6,6 +6,6 @@
 //
 
 protocol AccountTabPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func configureView(with user: UserModelDTO)
+    func configureMainView(with user: UserModelDTO)
     func animateSavebuttonIndicator(_ animate: Bool)
 }

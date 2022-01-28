@@ -92,8 +92,8 @@ extension OnboardingViewController: OnboardingMainViewDelegate {
 }
 
 extension OnboardingViewController: OnboardingPresenterView {
-    func setLastPageReached(_ lastPage: Bool) {
-        mainView.onboardingCompleted(lastPage)
+    func setLastPageReached(when finished: Bool) {
+        mainView.setOnboardingSeen(when: finished)
     }
     
     func scrollCollectionView(to indexPath: IndexPath) {

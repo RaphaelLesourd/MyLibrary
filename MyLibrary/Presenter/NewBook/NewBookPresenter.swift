@@ -37,12 +37,12 @@ class NewBookPresenter {
     /// - imageData: Data type for the image to be saved
     func saveBook(with imageData: Data) {
         let book = makeItemDTO(from: mainView)
-        view?.showSaveButtonActivityIndicator(true)
+        view?.toggleSaveButtonActivityIndicator(to: true)
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
             guard let self = self else { return }
             
-            self.view?.showSaveButtonActivityIndicator(false)
+            self.view?.toggleSaveButtonActivityIndicator(to: false)
             if let error = error {
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return

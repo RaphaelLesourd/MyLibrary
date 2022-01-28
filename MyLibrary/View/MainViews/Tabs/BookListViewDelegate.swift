@@ -6,5 +6,5 @@
 //
 
 protocol BookListViewDelegate: AnyObject {
-    func reloadData()
+    func refreshBookList()
 }

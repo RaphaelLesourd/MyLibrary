@@ -56,7 +56,7 @@ class OnboardingPresenterViewSpy: OnboardingPresenterView {
     var scrollCollectionViewWasCalled = false
     var presentWelcomeControllerWasCalled = false
     
-    func setLastPageReached(_ lastPage: Bool) {
+    func setLastPageReached(when lastPage: Bool) {
          setLastPageReachedWasCalled = true
     }
     

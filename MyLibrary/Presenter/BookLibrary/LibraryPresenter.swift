@@ -18,9 +18,10 @@ class LibraryPresenter: BookCellMapper {
         self.libraryService = libraryService
     }
    
-    func getBooks(with query: BookQuery, nextPage: Bool = false) {
-        view?.updateHeader(with: query.listType?.title)
-        view?.showActivityIndicator()
+    func getBooks(with query: BookQuery?, nextPage: Bool = false) {
+        guard let query = query else { return }
+        view?.updateSectionTitle(with: query.listType?.title)
+        view?.startActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 40,
                                       forMore: nextPage) { [weak self] result in

@@ -10,5 +10,5 @@ protocol CategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
     func highlightCell(at indexPath: IndexPath)
     func displayDeleteAlert(for category: CategoryDTO)
-    func presentNewCategoryController(for category: CategoryDTO?)
+    func presentNewCategoryController(with category: CategoryDTO?)
 }

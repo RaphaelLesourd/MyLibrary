@@ -7,7 +7,7 @@
 
 protocol SetupAccountPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func dismissViewController()
-    func updateEmailTextField(valid: Bool)
-    func updatePasswordTextField(valid: Bool)
-    func updatePasswordConfirmationTextField(valid: Bool)
+    func validateEmailTextField(with validated: Bool)
+    func validatePasswordTextField(with validation: Bool)
+    func validatePasswordConfirmationTextField(with validation: Bool)
 }

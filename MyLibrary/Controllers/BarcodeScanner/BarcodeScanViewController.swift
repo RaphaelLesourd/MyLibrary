@@ -14,10 +14,10 @@ class BarcodeScanViewController: UIViewController {
     // MARK: - Properties
     let mainView = BarcodeControllerView()
     weak var barcodeDelegate: BarcodeScannerDelegate?
-    var fetchedBarcode: String?
+    var barcode: String?
     var flashLightIsOn = false {
         didSet {
-            toggleFlashlight(onState: flashLightIsOn)
+            toggleFlashlight(toOn: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
@@ -69,13 +69,13 @@ class BarcodeScanViewController: UIViewController {
     }
     
     // MARK: - Flashlight
-    private func toggleFlashlight(onState: Bool) {
+    private func toggleFlashlight(toOn: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }
         do {
             try device.lockForConfiguration()
-            device.torchMode = onState ? .on : .off
-            if onState {
+            device.torchMode = toOn ? .on : .off
+            if toOn {
                 try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
             }
             device.unlockForConfiguration()

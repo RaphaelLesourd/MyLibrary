@@ -51,7 +51,7 @@ class CommentsViewController: UIViewController {
         mainView.tableView.dataSource = dataSource
         configureKeyboard()
         setDelegates()
-        setTargets()
+        setRefreshControlTarget()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         presenter.getBookDetails()
@@ -70,7 +70,7 @@ class CommentsViewController: UIViewController {
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
     }
     
-    private func setTargets() {
+    private func setRefreshControlTarget() {
         mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.presenter.getComments()
         }), for: .valueChanged)
@@ -126,7 +126,8 @@ extension CommentsViewController: UITableViewDelegate {
     }
     
     /// Handles swipe gesture actions
-    private func contextMenuAction(for actionType: CellSwipeActionType, forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
+    private func contextMenuAction(for actionType: CellSwipeActionType,
+                                   forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
         guard let comment = dataSource.itemIdentifier(for: indexPath) as? CommentDTO else {
             return UIContextualAction()
         }
@@ -216,13 +217,12 @@ extension CommentsViewController: EmptyStateViewDelegate {
 // MARK: - CommentPresenter Delegate
 extension CommentsViewController: CommentsPresenterView {
     
-    /// Add comment text to the input bar to edit and save the comment.
    func addCommentToInputBar(for comment: CommentDTO) {
         mainView.inputBar.inputTextView.text = comment.message
         mainView.inputBar.inputTextView.becomeFirstResponder()
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showIndicator(self.mainView.activityIndicator)
     }
     

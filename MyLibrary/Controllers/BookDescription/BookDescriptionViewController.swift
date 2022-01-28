@@ -33,38 +33,40 @@ class BookDescriptionViewController: UIViewController {
         view.backgroundColor = .viewControllerBackgroundColor
         title = Text.ControllerTitle.description
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        observeKeyboard()
+        displayDescription()
+        mainView.delegate = self
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         mainView.textView.becomeFirstResponder()
         IQKeyboardManager.shared.enableAutoToolbar = false
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        keyboardObserver()
-        displayData()
-        mainView.delegate = self
-    }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         IQKeyboardManager.shared.enableAutoToolbar = true
-        updateData()
+        updateDescription()
     }
+
     // MARK: - Setup
-    private func keyboardObserver() {
+    private func observeKeyboard() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,
-                                       selector: #selector(adjustForKeyboard),
+                                       selector: #selector(adjustKeyboardHeight),
                                        name: UIResponder.keyboardWillHideNotification,
                                        object: nil)
         notificationCenter.addObserver(self,
-                                       selector: #selector(adjustForKeyboard),
+                                       selector: #selector(adjustKeyboardHeight),
                                        name: UIResponder.keyboardWillChangeFrameNotification,
                                        object: nil)
     }
     
-    @objc func adjustForKeyboard(notification: Notification) {
+    @objc func adjustKeyboardHeight(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
@@ -85,20 +87,20 @@ class BookDescriptionViewController: UIViewController {
         }
     }
     
-    // MARK: - Data
-    private func displayData() {
+    // MARK: - Description
+    private func displayDescription() {
         guard let text = textViewText, !text.isEmpty else { return }
         mainView.textView.text = text
     }
     
-    private func updateData() {
+    private func updateDescription() {
         newBookDelegate?.setDescription(with: mainView.textView.text)
     }
 }
 // MARK: - DescriptionViewDelegate
 extension BookDescriptionViewController: DescriptionViewDelegate {
     func saveDescription() {
-        updateData()
+        updateDescription()
         dismissController()
     }
 }

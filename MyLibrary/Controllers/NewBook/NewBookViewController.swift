@@ -108,7 +108,7 @@ class NewBookViewController: UITableViewController {
     
     // MARK: - Navigation
     @objc func returnToPreviousVC() {
-        bookCardDelegate?.fetchBookUpdate()
+        bookCardDelegate?.updateBook()
         clearData()
         navigationController?.popViewController(animated: true)
     }
@@ -123,7 +123,7 @@ class NewBookViewController: UITableViewController {
     }
     
     private func presentCategoryListVC() {
-        let categoryListVC = factory.makeCategoryVC(settingCategory: true,
+        let categoryListVC = factory.makeCategoryVC(isSelecting: true,
                                                     bookCategories: presenter.bookCategories,
                                                     newBookDelegate: self)
         showController(categoryListVC)
@@ -229,8 +229,8 @@ extension NewBookViewController: NewBookPresenterView {
         subViews.configure(with: model)
     }
     
-    func showSaveButtonActivityIndicator(_ show: Bool) {
-        subViews.saveButtonCell.actionButton.displayActivityIndicator(show)
+    func toggleSaveButtonActivityIndicator(to play: Bool) {
+        subViews.saveButtonCell.actionButton.toggleActivityIndicator(to: play)
     }
 }
 

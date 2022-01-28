@@ -26,7 +26,7 @@ class BookListMenu {
                       children: menuItems)
     }
     
-    func loadLayoutChoice() {
+    func getSavedLayout() {
         let savedChoice = UserDefaults.standard.integer(forKey: UserDefaultKey.bookListMenuLayout.rawValue)
         let gridSize = GridSize.allCases[savedChoice]
         delegate?.setLayoutFromMenu(for: gridSize)

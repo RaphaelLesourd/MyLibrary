@@ -6,5 +6,5 @@
 //
 
 protocol BookCardDelegate: AnyObject {
-    func fetchBookUpdate()
+    func updateBook()
 }

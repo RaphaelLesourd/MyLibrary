@@ -126,7 +126,7 @@ class NewCategoryPresenterViewSpy: NewCategoryPresenterView {
         dismissViewcontrollerWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

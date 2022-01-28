@@ -144,19 +144,19 @@ class SetupAccountPresenterViewSpy: SetupAccountPresenterView {
         dismissControllerWasCalled = true
     }
     
-    func updateEmailTextField(valid: Bool) {
+    func validateEmailTextField(with validated: Bool) {
         updateEmailTextFieldWasCalled = true
     }
     
-    func updatePasswordTextField(valid: Bool) {
+    func validatePasswordTextField(with validation: Bool) {
         updatePasswordTextFieldWasCalled = true
     }
     
-    func updatePasswordConfirmationTextField(valid: Bool) {
+    func validatePasswordConfirmationTextField(with validation: Bool) {
         updatePasswordConfirmationTextFieldWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

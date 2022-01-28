@@ -73,18 +73,19 @@ class ListTableViewController: UIViewController {
 extension ListTableViewController: UITableViewDelegate {
     // MARK: - Table view data source
     // Header
-   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
+        let numberOfItemsInsection = dataSource.snapshot().numberOfItems(inSection: section)
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 1,
                                           alignment: .center,
                                           font: .lightSectionTitle)
-        sectionTitleLabel.text = section.headerTitle
+        sectionTitleLabel.text = numberOfItemsInsection == 0 ? "" : section.headerTitle
         return sectionTitleLabel
     }
     
     // Footer
-     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let sectionFooterLabel = TextLabel(color: .secondaryLabel,
                                            maxLines: 2,
@@ -190,7 +191,11 @@ extension ListTableViewController: ListPresenterView {
     func setTitle(as title: String) {
         self.title = title
     }
-    
+
+    /// Highlist tableView cell for the feched data.
+    /// - Parameters:
+    /// - item: Datalist object of the data to hightlight.
+    /// - Note: To construct the IndexPath we capture the section and Index Int value  from the snapshot.
     func highlightCell(for item: DataList) {
         guard let section = dataSource.snapshot().sectionIdentifier(containingItem: item),
               let index = dataSource.snapshot().indexOfItem(item) else { return }

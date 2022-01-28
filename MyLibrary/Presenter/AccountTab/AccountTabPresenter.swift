@@ -27,7 +27,7 @@ class AccountTabPresenter {
     // MARK: - API Call
     /// fetch the user profile data from the Database.
     func getProfileData() {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         userService.retrieveUser { [weak self] result in
             self?.view?.stopActivityIndicator()
@@ -35,7 +35,7 @@ class AccountTabPresenter {
             switch result {
             case .success(let currentUser):
                 guard let currentUser = currentUser else { return }
-                self?.view?.configureView(with: currentUser)
+                self?.view?.configureMainView(with: currentUser)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -45,7 +45,7 @@ class AccountTabPresenter {
     /// Saves uer name changes in the database.
     /// - Parameters: Username  optional string
     func saveUserName(with userName: String?) {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         userService.updateUserName(with: userName) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -60,7 +60,7 @@ class AccountTabPresenter {
     /// Save user profile image in the database.
     /// - Parameters: Optional Data type for the image.
     func saveProfileImage(_ profileImageData: Data?) {
-        self.view?.showActivityIndicator()
+        self.view?.startActivityIndicator()
         
         imageService.updateUserImage(for: profileImageData) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -74,7 +74,7 @@ class AccountTabPresenter {
     
     /// Sign out of the account.
     func signoutAccount() {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         view?.animateSavebuttonIndicator(true)
         
         accountService.signOut { [weak self] error in

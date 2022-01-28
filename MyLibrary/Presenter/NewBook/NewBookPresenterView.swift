@@ -6,7 +6,7 @@
 //
 
 protocol NewBookPresenterView: AnyObject {
-    func showSaveButtonActivityIndicator(_ show: Bool)
+    func toggleSaveButtonActivityIndicator(to play: Bool)
     func returnToPreviousVC()
     func displayBook(with model: NewBookUI)
     func updateLanguageView(with language: String)

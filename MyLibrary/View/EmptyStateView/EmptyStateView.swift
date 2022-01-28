@@ -67,7 +67,7 @@ class EmptyStateView: UIView {
     }
     
     private func setupView() {
-        roundView(radius: 12, backgroundColor: .systemGray5)
+        roundView(radius: 12, backgroundColor: .emptyStateBackgroundColor)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subTitleLabel)

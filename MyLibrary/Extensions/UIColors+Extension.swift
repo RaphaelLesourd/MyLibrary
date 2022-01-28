@@ -34,6 +34,7 @@ extension UIColor {
     static let viewControllerBackgroundColor: UIColor = .secondarySystemBackground
     static let cellBackgroundColor: UIColor = UIColor.label.withAlphaComponent(0.04)
     static let appTintColor: UIColor = UIColor(named: "AccentColor") ?? .systemOrange
+    static let emptyStateBackgroundColor: UIColor = UIColor(named: "EmptyStateColor") ?? .systemGray5
     static let ratingColor: UIColor = .systemOrange
     static let favoriteColor: UIColor = .systemPink
     static let notFavorite: UIColor = .white

@@ -49,8 +49,8 @@ class AccountSetupViewController: UIViewController {
         mainView.delegate = self
     }
     
-    private func updateTextFieldState(for textField: UITextField, valid: Bool) {
-        textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
+    private func updateTextFieldBorderColor(for textField: UITextField, with: Bool) {
+        textField.layer.borderColor = with ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
     }
 }
 // MARK: - TextField Delegate
@@ -103,28 +103,28 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
 // MARK: - AccountSetup Presenter
 extension AccountSetupViewController: SetupAccountPresenterView {
     
-    func updateEmailTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.emailTextField, valid: valid)
+    func validateEmailTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.emailTextField, with: validation)
     }
     
-    func updatePasswordTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.passwordTextField, valid: valid)
+    func validatePasswordTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.passwordTextField, with: validation)
     }
     
-    func updatePasswordConfirmationTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.confirmPasswordTextField, valid: valid)
+    func validatePasswordConfirmationTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.confirmPasswordTextField, with: validation)
     }
     func dismissViewController() {
         self.dismiss(animated: true)
     }
     
-    func showActivityIndicator() {
-        mainView.finishButton.displayActivityIndicator(true)
+    func startActivityIndicator() {
+        mainView.finishButton.toggleActivityIndicator(to: true)
     }
     
     func stopActivityIndicator() {
         DispatchQueue.main.async {
-            self.mainView.finishButton.displayActivityIndicator(false)
+            self.mainView.finishButton.toggleActivityIndicator(to: false)
         }
     }
 }

@@ -11,7 +11,12 @@ class NewCategoryPresenter {
     
     // MARK: - Properties
     weak var view: NewCategoryPresenterView?
- //   var isEditing: Bool?
+    var category: CategoryDTO?
+    var selectedColor: String = "e38801" {
+        didSet {
+            updateBackgroundTintColor()
+        }
+    }
     let defaultColors: [String] = ["238099","16adb7","0abfc2","3482b7","426db3","586ba4","324376",
                                    "579188","4a8259","58a94c","59996d","8fb241","a8c81b","97a948",
                                    "858974","a4a68c","ad8587","d1a8b4","a480cf","aab03b","ac985b",
@@ -25,44 +30,38 @@ class NewCategoryPresenter {
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
-    
-    /// Display color for the current Category
-    /// - Parameters:
-    /// - colorHex:Optional String value for the current category color HEX value
-    func displayCategoryColor(with colorHex: String?) {
-        if let color = colorHex,
-           let index = defaultColors.firstIndex(of: color) {
+
+    // MARK: - Public functions
+    func displayCategory() {
+        guard let category = category else { return }
+
+        if let index = defaultColors.firstIndex(of: category.color) {
             let indexPath = IndexPath(item: index, section: 0)
-            view?.updateCategoryColor(at: indexPath, and: color)
+            view?.updateCategory(at: indexPath, color: category.color, name: category.name)
         }
+        selectedColor = category.color
     }
-    
-    /// Save or update the current Category.
-    /// - Parameters:
-    ///   - cateryModel: Category object to update
-    ///   - name: String of the category name
-    ///   - colorHex: String HEX value of the color
-    func saveCategory(with name: String?,
-                      and colorHex: String,
-                      for category: CategoryDTO? = nil) {
+
+    func updateBackgroundTintColor() {
+        view?.updateBackgroundTint(with: selectedColor)
+    }
+
+    func saveCategory(with name: String?) {
         guard let name = name else {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyComment)
             return
         }
         guard let category = category else {
-            createCategory(with: name, and: colorHex)
+            createCategory(with: name, and: selectedColor)
             return
         }
-        updateCategory(for: category, with: name, and: colorHex)
+        updateCategory(for: category, with: name, and: selectedColor)
     }
-    
-    /// Create a category in the data base
-    ///  - Parameters:
-    ///   - name: String of the category name
-    ///   - colorHex: String HEX value of the color
+
+    // MARK: - Private functions
     private func createCategory(with name: String,
                                 and colorHex: String) {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         categoryService.addCategory(for: name, color: colorHex) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -74,16 +73,11 @@ class NewCategoryPresenter {
             self?.view?.dismissViewController()
         }
     }
-    
-    /// Update the current category in the database
-    /// - Parameters:
-    ///   - categoryModel: Category object to update
-    ///   - name: String of the category name
-    ///   - colorHex: String HEX value of the color
+
     private func updateCategory(for category: CategoryDTO,
                                 with name: String?,
                                 and colorHex: String) {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         categoryService.updateCategoryName(for: category, with: name, color: colorHex) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -95,5 +89,5 @@ class NewCategoryPresenter {
             self?.view?.dismissViewController()
         }
     }
-  
+
 }

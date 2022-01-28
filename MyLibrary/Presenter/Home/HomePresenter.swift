@@ -79,7 +79,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
     /// - query: BookQuery object to fetch a list of Item
     /// - returns: Array of Item
     private func getBooks(for query: BookQuery, completion: @escaping ([ItemDTO]) -> Void) {
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 15,
                                       forMore: false) { [weak self] result in
