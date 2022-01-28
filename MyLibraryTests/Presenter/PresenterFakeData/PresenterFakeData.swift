@@ -80,7 +80,7 @@ class PresenterFakeData {
                                      fieldValue: "",
                                      descending: true)
     
-    static let listData = DataListUI(title: "test",
+    static let listData = DataList(title: "test",
                                             subtitle: "XUA",
                                             favorite: true)
 }

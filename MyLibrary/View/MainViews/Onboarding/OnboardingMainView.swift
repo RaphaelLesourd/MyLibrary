@@ -62,7 +62,7 @@ class OnboardingMainView: UIView {
     }()
     
     private let nextButton = Button(title: Text.ButtonTitle.next,
-                                    icon: Images.ButtonIcon.rightChevron,
+                                    icon: Images.ButtonIcon.rightArrow,
                                     imagePlacement: .trailing,
                                     tintColor: .systemOrange,
                                     backgroundColor: .systemOrange)

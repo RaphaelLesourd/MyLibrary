@@ -131,7 +131,7 @@ class ListPresenterViewSpy: ListPresenterView {
         applySnapshotWasCalled = true
     }
     
-    func reloadRow(for item: DataListUI) {
+    func reloadRow(for item: DataList) {
         reloadTableViewRowWasCalled = true
     }
     
@@ -147,7 +147,7 @@ class ListPresenterViewSpy: ListPresenterView {
         reloadTableViewRowWasCalled = true
     }
     
-    func highlightCell(for item: DataListUI) {
+    func highlightCell(for item: DataList) {
         highlightCellWasCalled = true
     }
 }

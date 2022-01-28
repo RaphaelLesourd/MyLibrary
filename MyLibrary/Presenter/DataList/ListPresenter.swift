@@ -10,12 +10,12 @@ class ListPresenter {
     
     // MARK: - Properties
     weak var view: ListPresenterView?
-    var data: [DataListUI] = []
+    let listDataType: ListDataType
+    var data: [DataList] = []
     var selection: String?
     var favorites: [String] = []
     
-    private var originalData: [DataListUI] = []
-    private let listDataType: ListDataType
+    private var originalData: [DataList] = []
     private let formatter: Formatter
     
     // MARK: - Initializer
@@ -47,7 +47,7 @@ class ListPresenter {
     }
     
     /// Get the selected cell data and pass it back to the relevant method according the list type
-    func getSelectedData(from data: DataListUI?) {
+    func getSelectedData(from data: DataList?) {
         guard let data = data else { return }
         selection = nil
         switch listDataType {
@@ -77,7 +77,7 @@ class ListPresenter {
     /// Add a ListRepresentable object to the Favorite array
     /// - Parameters:
     /// - data: ListRepresentable object
-    func addToFavorite(with data: DataListUI) {
+    func addToFavorite(with data: DataList) {
         favorites.append(data.subtitle)
         saveFavorites()
         updateData(favorite: true, for: data.subtitle)
@@ -87,7 +87,7 @@ class ListPresenter {
     /// Remove a ListRepresentable object from the Favorite array
     /// - Parameters:
     /// - data: ListRepresentable object
-    func removeFavorite(with data: DataListUI) {
+    func removeFavorite(with data: DataList) {
         if let index = favorites.firstIndex(where: { $0.lowercased() == data.subtitle.lowercased() }) {
             favorites.remove(at: index)
             saveFavorites()
@@ -101,11 +101,13 @@ class ListPresenter {
     /// - Parameters:
     /// - listType: ListDataType Enum case
     /// - returns: Array of ListRepresentable objects to be displayed by the cell
-    private func createList(for listType: ListDataType) -> [DataListUI] {
-        let data = listDataType.code.compactMap { documents -> DataListUI in
+    private func createList(for listType: ListDataType) -> [DataList] {
+        let data = listDataType.code.compactMap { documents -> DataList in
             let title = formatter.formatCodeToName(from: documents, type: listType)
             let isFavorite = favorites.contains(documents)
-            return DataListUI(title: title, subtitle: documents, favorite: isFavorite)
+            return DataList(title: title,
+                              subtitle: documents,
+                              favorite: isFavorite)
         }.filter({
             !$0.title.isEmpty
         })

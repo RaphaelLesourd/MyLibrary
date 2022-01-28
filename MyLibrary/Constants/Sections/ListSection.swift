@@ -12,9 +12,9 @@ enum ListSection: Int, CaseIterable {
     var headerTitle: String {
         switch self {
         case .favorite:
-            return "FAVORITES".uppercased()
+            return Text.SectionTitle.favorite.uppercased()
         case .others:
-            return "OTHERS".uppercased()
+            return Text.SectionTitle.other.uppercased()
         }
     }
     

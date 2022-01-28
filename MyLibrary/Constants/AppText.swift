@@ -82,8 +82,8 @@ enum Text {
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
         static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
         static let updateUserNameLegend = NSLocalizedString("UpdateUserNameLegend", comment: "Update UserName Legend text")
-        static let languageListHeader = NSLocalizedString("LanguageListHeader", comment: "language List Header title")
-        static let currencyListHeader = NSLocalizedString("CurrencyListHeader", comment: "currency List Header title")
+        static let favorite = NSLocalizedString("Favorite", comment: "language List Header title")
+        static let other = NSLocalizedString("Others", comment: "currency List Header title")
         static let listFooter = NSLocalizedString("ListFooter", comment: "Invite user to swipe left to add or remove to favorites")
     }
 
@@ -227,6 +227,7 @@ enum Text {
         static let categorySubtitle = NSLocalizedString("EmptyStateCategorySubtitle", comment: "")
         static let commentTitle = NSLocalizedString("EmptyStateCommentTitle", comment: "")
         static let commentSubtitle = NSLocalizedString("EmptyStateCommentSubtitle", comment: "")
+        static let listSubtitle = NSLocalizedString("EmptyStateListNoDataFound", comment: "")
     }
     
     enum Onboarding {

@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 23/10/2021.
 //
 import Foundation
+import UIKit
 
 /// Type of Code type , used mainly by Pickers in the NewBookViewController
 enum ListDataType: String {
@@ -29,12 +30,12 @@ enum ListDataType: String {
         }
     }
     
-    var sectionTitle: String {
+    var icon: UIImage {
         switch self {
         case .languages:
-            return Text.SectionTitle.languageListHeader
+            return Images.ButtonIcon.language
         case .currency:
-            return Text.SectionTitle.currencyListHeader
+            return Images.ButtonIcon.currencies
         }
     }
 }

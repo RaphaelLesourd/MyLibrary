@@ -7,9 +7,9 @@
 
 protocol ListPresenterView: AnyObject {
     func setTitle(as title: String)
-    func highlightCell(for item: DataListUI)
+    func highlightCell(for item: DataList)
     func setLanguage(with code: String)
     func setCurrency(with code: String)
     func applySnapshot(animatingDifferences: Bool)
-    func reloadRow(for item: DataListUI)
+    func reloadRow(for item: DataList)
 }

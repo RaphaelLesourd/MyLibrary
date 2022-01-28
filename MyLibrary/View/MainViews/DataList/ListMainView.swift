@@ -7,14 +7,13 @@
 
 import UIKit
 
-class CategoryControllerMainView: UIView {
+class ListMainView: UIView {
 
     // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setTableViewConstraints()
         setEmptyStateViewConstraints()
-        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -27,9 +26,11 @@ class CategoryControllerMainView: UIView {
         tableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 50, right: 0)
         tableView.backgroundColor = .clear
         tableView.allowsMultipleSelection = true
-        tableView.showsVerticalScrollIndicator = false
+        tableView.showsVerticalScrollIndicator = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.sectionHeaderHeight = 30
+        tableView.sectionFooterHeight = 50
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -40,10 +41,11 @@ class CategoryControllerMainView: UIView {
     var searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Configure
-    private func configure() {
-        emptyStateView.configure(title: Text.EmptyState.categoryTitle,
-                                 subtitle: Text.EmptyState.categorySubtitle,
-                                 icon: Images.ButtonIcon.selectedCategoryBadge)
+    func configure(with title: String, subtitle: String, icon: UIImage, hideButton: Bool) {
+        emptyStateView.configure(title: title,
+                                 subtitle: subtitle,
+                                 icon: icon,
+                                 hideButton: hideButton)
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = Text.Placeholder.search
         searchController.automaticallyShowsSearchResultsController = false
@@ -52,7 +54,7 @@ class CategoryControllerMainView: UIView {
 }
 
 // MARK: - Constraints
-extension CategoryControllerMainView {
+extension ListMainView {
     private func setTableViewConstraints() {
         addSubview(tableView)
         NSLayoutConstraint.activate([

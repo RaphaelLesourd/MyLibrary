@@ -14,7 +14,7 @@ class CategoriesViewController: UIViewController {
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
-    private let mainView = CategoryControllerMainView()
+    private let mainView = ListMainView()
     private let presenter: CategoryPresenter
     private let factory: Factory
     private var settingBookCategory: Bool
@@ -49,6 +49,7 @@ class CategoriesViewController: UIViewController {
         addNavigationBarButtons()
         addSearchController()
         configureTableView()
+        configureEmpStateView()
         applySnapshot(animatingDifferences: false)
         presenter.getCategoryList()
     }
@@ -67,6 +68,12 @@ class CategoriesViewController: UIViewController {
         mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.presenter.getCategoryList()
         }), for: .valueChanged)
+    }
+    
+    private func configureEmpStateView() {
+        mainView.emptyStateView.configure(title: Text.EmptyState.categoryTitle,
+                                          subtitle: Text.EmptyState.categorySubtitle,
+                                          icon: Images.ButtonIcon.selectedCategoryBadge)
     }
     
     private func addNavigationBarButtons() {

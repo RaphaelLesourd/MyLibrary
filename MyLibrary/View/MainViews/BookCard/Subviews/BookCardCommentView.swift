@@ -17,6 +17,7 @@ class BookCardCommentView: UIView {
         setBackgroundImageConstraints()
         setAnimationViewConstraints()
         setTitleLabelConstraints()
+        setArrowImageConstraints()
         setCommentButtonConstraints()
     }
     
@@ -49,6 +50,16 @@ class BookCardCommentView: UIView {
         view.layer.masksToBounds = true
         view.image = Images.commentViewBackground
         view.tintColor = UIColor.appTintColor.withAlphaComponent(0.2)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let arrowImage: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.layer.masksToBounds = true
+        view.image = Images.ButtonIcon.rightArrow
+        view.tintColor = .label
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -88,6 +99,16 @@ extension BookCardCommentView {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ])
+    }
+    
+    private func setArrowImageConstraints() {
+        addSubview(arrowImage)
+        NSLayoutConstraint.activate([
+            arrowImage.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),
+            arrowImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            arrowImage.heightAnchor.constraint(equalToConstant: 25),
+            arrowImage.widthAnchor.constraint(equalToConstant: 25)
         ])
     }
     

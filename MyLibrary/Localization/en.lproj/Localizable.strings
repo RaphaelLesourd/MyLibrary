@@ -209,6 +209,7 @@
 "EmptyStateCategorySubtitle" = "Categories helps finding books faster.";
 "EmptyStateCommentTitle" = "Let's add the first comment for this book!";
 "EmptyStateCommentSubtitle"  = "Start a discussion about this book with others.";
+"EmptyStateListNoDataFound" = "I could not find anything matching your search!\n\nWould like to start over?";
 
 "referenceBookTitle" = "Reference all your books";
 "referenceBookSubtitle" = "All your books are referenced\nand\norganised in one place.";
@@ -220,8 +221,8 @@
 "UpdateUserNameLegend" = "Update your username by pressing Done";
 "Modifybook" = "Modify book";
 
-"LanguageListHeader" = "Select a language";
-"CurrencyListHeader" = "Select a currency";
+"Favorite" = "Favorites";
+"Others" = "Others";
 
 "ListFooter" = "Swipe left to add to or remove from your favorites.";
 "EmptyCategoryName" = "You forgot to provide a name";

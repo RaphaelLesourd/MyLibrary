@@ -36,7 +36,7 @@ class NewBookPresenter {
     /// - Parameters:
     /// - imageData: Data type for the image to be saved
     func saveBook(with imageData: Data) {
-        let book = createBookDocument(from: mainView)
+        let book = makeItemDTO(from: mainView)
         view?.showSaveButtonActivityIndicator(true)
         
         libraryService.createBook(with: book, and: imageData) { [weak self] error in
@@ -58,7 +58,7 @@ class NewBookPresenter {
         setBookLanguage(with: book?.volumeInfo?.language)
         setBookCurrency(with: book?.saleInfo?.retailPrice?.currencyCode)
         
-        let bookRepresentable = createBookRepresentable()
+        let bookRepresentable = createNewBookUI()
         view?.displayBook(with: bookRepresentable)
     }
     
@@ -85,7 +85,7 @@ class NewBookPresenter {
     // MARK: - Private functions
     /// Uses data enterred to create a book.
     ///  - Returns: Book object of type Item
-    private func createBookDocument(from mainView: NewBookControllerSubViews?) -> ItemDTO {
+    private func makeItemDTO(from mainView: NewBookControllerSubViews?) -> ItemDTO {
         let isbn = mainView?.isbnCell.textField.text ?? "-"
         
         let volumeInfo = VolumeInfo(title: mainView?.bookTileCell.textField.text,
@@ -103,26 +103,26 @@ class NewBookPresenter {
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
                                                                currencyCode: currency ?? ""))
         return ItemDTO(bookID: book?.bookID,
-                    favorite: book?.favorite,
-                    ownerID: book?.ownerID,
-                    recommanding: book?.recommanding,
-                    volumeInfo: volumeInfo,
-                    saleInfo: saleInfo,
-                    timestamp: validator.validateTimestamp(for: book?.timestamp),
-                    category: bookCategories)
+                       favorite: book?.favorite,
+                       ownerID: book?.ownerID,
+                       recommanding: book?.recommanding,
+                       volumeInfo: volumeInfo,
+                       saleInfo: saleInfo,
+                       timestamp: validator.validateTimestamp(for: book?.timestamp),
+                       category: bookCategories)
     }
     
     /// Convert the current Book Item object to NewBookRepresentable to be displayed by the view
-    private func createBookRepresentable() -> NewBookUI {
+    private func createNewBookUI() -> NewBookUI {
         return NewBookUI(title: book?.volumeInfo?.title?.capitalized,
-                                    authors: book?.volumeInfo?.authors?.joined(separator: ", "),
-                                    rating: book?.volumeInfo?.ratingsCount,
-                                    publisher: book?.volumeInfo?.publisher?.capitalized,
-                                    publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
-                                    price: book?.saleInfo?.retailPrice?.amount,
-                                    isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
-                                    pages: book?.volumeInfo?.pageCount,
-                                    coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
+                         authors: book?.volumeInfo?.authors?.joined(separator: ", "),
+                         rating: book?.volumeInfo?.ratingsCount,
+                         publisher: book?.volumeInfo?.publisher?.capitalized,
+                         publishedDate: formatter.formatDateToYearString(for: book?.volumeInfo?.publishedDate),
+                         price: book?.saleInfo?.retailPrice?.amount,
+                         isbn: book?.volumeInfo?.industryIdentifiers?.first?.identifier,
+                         pages: book?.volumeInfo?.pageCount,
+                         coverImage: book?.volumeInfo?.imageLinks?.thumbnail)
     }
-   
+    
 }
