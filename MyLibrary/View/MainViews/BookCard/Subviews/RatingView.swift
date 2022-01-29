@@ -8,18 +8,14 @@
 import UIKit
 
 class RatingView: UIView {
-    
-    // MARK: - Properties
+
     var rating: Int = 0 {
       didSet {
-        for index in 0..<5 {
-            imageViews[index].tintColor = index < rating ? .ratingColor : UIColor.ratingColor.withAlphaComponent(0.2)
-        }
+          setImageColor()
       }
     }
     private let imageViews: [UIImageView]
-   
-    // MARK: - Initializer
+
     init() {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular, scale: .medium)
         
@@ -41,5 +37,10 @@ class RatingView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func setImageColor() {
+        for index in 0..<5 {
+            imageViews[index].tintColor = index < rating ? .ratingColor : UIColor.ratingColor.withAlphaComponent(0.2)
+        }
+    }
 }

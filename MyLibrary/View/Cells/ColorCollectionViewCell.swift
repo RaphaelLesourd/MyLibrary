@@ -9,7 +9,6 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setConstraints()

@@ -9,7 +9,6 @@ import UIKit
 
 class BookDetailView: UIView {
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

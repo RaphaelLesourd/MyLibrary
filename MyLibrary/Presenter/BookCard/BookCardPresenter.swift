@@ -9,8 +9,7 @@ import Foundation
 import FirebaseAuth
 
 class BookCardPresenter {
-    
-    // MARK: - Properties
+
     weak var view: BookCardPresenterView?
     var book: ItemDTO? {
         didSet {
@@ -29,8 +28,7 @@ class BookCardPresenter {
     private let categoryService: CategoryServiceProtocol
     private let formatter: Formatter
     private let categoryFormatter: CategoriesFormatter
-    
-    // MARK: - Initializer
+
     init(libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
          categoryService: CategoryServiceProtocol,
@@ -42,7 +40,8 @@ class BookCardPresenter {
         self.formatter = formatter
         self.categoryFormatter = categoryFormatter
     }
-    
+
+    // MARK: - Internal functions
     func deleteBook() {
         guard let book = book else { return }
         view?.startActivityIndicator()
@@ -143,6 +142,7 @@ class BookCardPresenter {
         removeFromRecommendedBooks()
     }
 
+    // MARK: - Private functions
     /// Add current book to the recommended collection in the database
     private func addToRecommendedBooks() {
         guard let book = book else { return }

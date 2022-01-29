@@ -8,12 +8,10 @@
 import UIKit
 
 class NewCategoryViewController: UIViewController {
-    
-    // MARK: Properties
+
     private let mainView = NewCategoryMainView()
     private let presenter: NewCategoryPresenter
 
-    // MARK: Initializer
     init(category: CategoryDTO?,
          presenter: NewCategoryPresenter) {
         self.presenter = presenter
@@ -25,7 +23,6 @@ class NewCategoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

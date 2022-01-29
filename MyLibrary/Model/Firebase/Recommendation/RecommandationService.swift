@@ -11,13 +11,12 @@ import FirebaseAuth
 
 class RecommandationService {
     
-    // MARK: - Properties
     let recommandationCollectionRef: CollectionReference
     let userRef: CollectionReference
     let userID: String
 
     private let db = Firestore.firestore()
-    // MARK: - Initializer
+
     init() {
         self.recommandationCollectionRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
@@ -25,7 +24,6 @@ class RecommandationService {
     }
     
     // MARK: - Private functions
-
     /// Get all userIDs for the recommanded books
     private func getUserIDs(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
         let ref = recommandationCollectionRef
@@ -79,7 +77,7 @@ class RecommandationService {
         }
     }
 }
-// MARK: - RecommandationServiceProtocol extension
+// MARK: - RecommandationService Protocol
 extension RecommandationService: RecommendationServiceProtocol {
     
     func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {

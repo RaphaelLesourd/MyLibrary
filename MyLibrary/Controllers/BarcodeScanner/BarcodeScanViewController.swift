@@ -11,7 +11,6 @@ import CloudKit
 
 class BarcodeScanViewController: UIViewController {
 
-    // MARK: - Properties
     let mainView = BarcodeControllerView()
     weak var barcodeDelegate: BarcodeScannerDelegate?
     var barcode: String?
@@ -22,8 +21,7 @@ class BarcodeScanViewController: UIViewController {
         }
     }
     private var barcodeCapture: BarcodeReader?
-    
-    // MARK: - Initializer
+
     init(barcodeDelegate: BarcodeScannerDelegate?) {
         self.barcodeDelegate = barcodeDelegate
         super.init(nibName: nil, bundle: nil)
@@ -32,8 +30,7 @@ class BarcodeScanViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecyle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -67,8 +64,7 @@ class BarcodeScanViewController: UIViewController {
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    // MARK: - Flashlight
+
     private func toggleFlashlight(toOn: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }

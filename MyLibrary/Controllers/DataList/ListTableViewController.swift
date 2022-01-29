@@ -8,16 +8,14 @@
 import UIKit
 
 class ListTableViewController: UIViewController {
-    
-    // MARK: - Properties
+
     typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, DataList>
     weak var newBookDelegate: NewBookViewControllerDelegate?
 
     private let mainView = ListMainView()
     private lazy var dataSource = makeDataSource()
     private let presenter: ListPresenter
-    
-    // MARK: - Initializer
+
     init(receivedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
          presenter: ListPresenter) {
@@ -30,9 +28,7 @@ class ListTableViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
-    
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -70,9 +66,9 @@ class ListTableViewController: UIViewController {
                                           hideButton: false)
     }
 }
+// MARK: - TableView delegate
 extension ListTableViewController: UITableViewDelegate {
-    // MARK: - Table view data source
-    // Header
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let numberOfItemsInsection = dataSource.snapshot().numberOfItems(inSection: section)
@@ -84,7 +80,7 @@ extension ListTableViewController: UITableViewDelegate {
         return sectionTitleLabel
     }
     
-    // Footer
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let sectionFooterLabel = TextLabel(color: .secondaryLabel,
@@ -95,8 +91,6 @@ extension ListTableViewController: UITableViewDelegate {
         return sectionFooterLabel
     }
     
-    // MARK: - Table view delegate
-    // Swipe menu
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         UISwipeActionsConfiguration(actions: [makeFavoriteContextualAction(forRowAt: indexPath)])

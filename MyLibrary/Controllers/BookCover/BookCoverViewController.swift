@@ -8,8 +8,7 @@
 import UIKit
 
 class BookCoverViewController: UIViewController, UIScrollViewDelegate {
-    
-    // MARK: - Properties
+
     private var image: UIImage
     private let scrollView = ImageScrollView()
     
@@ -22,7 +21,6 @@ class BookCoverViewController: UIViewController, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground

@@ -10,14 +10,13 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 class UserService {
-    // MARK: - Properties
+    
     typealias CompletionHandler = (FirebaseError?) -> Void
     private let db = Firestore.firestore()
     
     let usersCollectionRef: CollectionReference
     var userID: String
-    
-    // MARK: - Intializer
+
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         userID = Auth.auth().currentUser?.uid ?? ""
@@ -31,7 +30,7 @@ class UserService {
         }
     }
 }
-// MARK: - Extension UserServiceProtocol
+// MARK: - UserService Protocol
 extension UserService: UserServiceProtocol {
 
     // MARK: Create

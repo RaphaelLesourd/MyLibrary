@@ -8,15 +8,13 @@
 import UIKit
 
 class AccountViewController: UIViewController {
-    
-    // MARK: Properties
+
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
     private var presenter: AccountTabPresenter
     private let factory: Factory
     private var imagePicker: ImagePicker?
-    
-    // MARK: Initializer
+
     init(presenter: AccountTabPresenter,
          feedbackManager: FeedbackManagerProtocol) {
         self.presenter = presenter
@@ -29,7 +27,6 @@ class AccountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

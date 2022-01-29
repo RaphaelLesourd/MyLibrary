@@ -11,21 +11,19 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class ImageStorageService {
-    // MARK: - Properties
+
     var userID: String
     
     private let db = Firestore.firestore()
     private let usersCollectionRef: CollectionReference
     private let storageReference: StorageReference
-    
-    // MARK: - Initializer
+
     init() {
         storageReference = Storage.storage().reference()
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-    
-    // MARK: - Private functions
+
     private func addImageToStorage(for imageData: Data?, id: String,
                                    completion: @escaping (Result<String?, FirebaseError>) -> Void) {
         guard let imageData = imageData else { return }
@@ -49,9 +47,10 @@ class ImageStorageService {
         }
     }
 }
-// MARK: - Extension ImageStorageProtocol
+// MARK: - ImageStorage Protocol
 extension ImageStorageService: ImageStorageProtocol {
-    
+
+    // MARK: Add
     func saveImage(for imageData: Data?,
                    nameID: String,
                    completion: @escaping (Result<String, FirebaseError>) -> Void) {
@@ -67,7 +66,8 @@ extension ImageStorageService: ImageStorageProtocol {
             }
         }
     }
-    
+
+    // MARK: Update
     func updateUserImage(for imageData: Data?,
                          completion: @escaping (FirebaseError?) -> Void) {
 
@@ -86,7 +86,8 @@ extension ImageStorageService: ImageStorageProtocol {
             }
         }
     }
-    
+
+    // MARK: Delete
     func deleteImageFromStorage(for id: String,
                                 completion: @escaping (FirebaseError?) -> Void) {
        let imageStorageRef = storageReference

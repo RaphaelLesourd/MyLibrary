@@ -9,7 +9,6 @@ import Foundation
 
 class NewCategoryPresenter {
     
-    // MARK: - Properties
     weak var view: NewCategoryPresenterView?
     var category: CategoryDTO?
     var selectedColor: String = CategoryColors.defaultColor {
@@ -18,13 +17,12 @@ class NewCategoryPresenter {
         }
     }
     private var categoryService: CategoryServiceProtocol
-    
-    // MARK: - Initializer
+
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
 
-    // MARK: - Public functions
+    // MARK: - Internal functions
     func displayCategory() {
         guard let category = category else { return }
 

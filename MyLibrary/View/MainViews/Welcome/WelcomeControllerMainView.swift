@@ -13,7 +13,6 @@ class WelcomeControllerMainView: UIView {
     weak var delegate: WelcomeViewDelegate?
     private let device = UIDevice.current.userInterfaceIdiom
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

@@ -11,7 +11,6 @@ class CommentTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "cell"
     
-    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()

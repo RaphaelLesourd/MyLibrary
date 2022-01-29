@@ -8,8 +8,7 @@
 import Foundation
 
 class OnboardingPresenter {
-    
-    // MARK: - Properties
+
     weak var view: OnboardingPresenterView?
     var collectionViewCurrentIndex = 0 {
         didSet {

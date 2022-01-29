@@ -8,7 +8,7 @@
 import UIKit
 
 class TextFieldStaticCell: UITableViewCell {
-    // MARK: - Initializer
+   
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()

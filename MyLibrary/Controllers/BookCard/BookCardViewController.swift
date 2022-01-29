@@ -10,7 +10,6 @@ import FirebaseAuth
 
 class BookCardViewController: UIViewController {
     
-    // MARK: Properties
     private let mainView = BookCardMainView()
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -27,8 +26,7 @@ class BookCardViewController: UIViewController {
             mainView.toggleFavoriteButton(to: favoriteBook)
         }
     }
-    
-    // MARK: Intializers
+
     init(book: ItemDTO,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
@@ -44,7 +42,7 @@ class BookCardViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: Lifecycle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

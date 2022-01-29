@@ -36,7 +36,6 @@ extension PermissionManager: Permissions {
         }
     }
     
-    // MARK: - Authorization request
     /// Request user permission to access the photo library or camera.
     /// - If authotization station is undetermined, the request authorization is done again.
     /// - Parameter completion: return true or false if access is granted or not.

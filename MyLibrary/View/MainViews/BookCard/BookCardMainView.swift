@@ -12,7 +12,6 @@ class BookCardMainView: UIView {
     
     weak var delegate: BookCardMainViewDelegate?
     
-    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addButtonActions()

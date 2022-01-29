@@ -10,8 +10,7 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 class CategoryService {
-    
-    // MARK: - Properties
+
     var userID: String
 
     private var categoriesListener: ListenerRegistration?
@@ -22,8 +21,7 @@ class CategoryService {
             .document(userID)
             .collection(CollectionDocumentKey.category.rawValue)
     }
-    
-    // MARK: - Initializer
+
     init() {
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
@@ -72,6 +70,7 @@ class CategoryService {
 // MARK: - CategoryService Protocol
 extension CategoryService: CategoryServiceProtocol {
 
+    // MARK: Add
     func addCategory(for categoryName: String,
                      color: String,
                      completion: @escaping (FirebaseError?) -> Void) {
@@ -94,6 +93,7 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
 
+    // MARK: Restrieve
     func getUserCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void) {
 
         categoriesListener =  collectionRef.addSnapshotListener { (querySnapshot, error) in
@@ -116,7 +116,7 @@ extension CategoryService: CategoryServiceProtocol {
             }
         }
     }
-    
+
     func getBookCategories(for categoryIds: [String],
                            bookOwnerID: String,
                            completion: @escaping ([CategoryDTO]) -> Void) {
@@ -131,6 +131,7 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
 
+    // MARK: Update
     func updateCategoryName(for category: CategoryDTO,
                             with name: String?,
                             color: String,
@@ -150,6 +151,7 @@ extension CategoryService: CategoryServiceProtocol {
         }
     }
 
+    // MARK: Delete
     func deleteCategory(for category: CategoryDTO,
                         completion: @escaping (FirebaseError?) -> Void) {
         guard !category.uid.isEmpty else {

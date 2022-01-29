@@ -9,7 +9,6 @@ import UIKit
 
 class OnboardingCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

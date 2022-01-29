@@ -7,8 +7,7 @@
 import FirebaseAuth
 
 class CommentPresenter {
-    
-    // MARK: - Properties
+
     weak var view: CommentsPresenterView?
     var book: ItemDTO?
     var editedCommentID: String?
@@ -19,8 +18,7 @@ class CommentPresenter {
     private let messageService: MessageServiceProtocol
     private let userService: UserServiceProtocol
     private let formatter: Formatter
-    
-    // MARK: - Intializer
+
     init(commentService: CommentServiceProtocol,
          messageService: MessageServiceProtocol,
          userService: UserServiceProtocol,
@@ -31,7 +29,7 @@ class CommentPresenter {
         self.formatter = formatter
     }
     
-    // MARK: API call
+    // MARK: - Internal functions
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
@@ -164,7 +162,7 @@ class CommentPresenter {
             view?.addCommentToInputBar(for: comment)
         }
     }
-    
+    // MARK: - Private functions
     /// Convert Item object to object to be used by the view to display data it needs
     /// - Parameters:
     ///   - book: Item object

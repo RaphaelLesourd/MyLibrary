@@ -9,15 +9,13 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class MessageService {
-    
-    // MARK: - Properties
+
     private let db = Firestore.firestore()
     
     let userRef: CollectionReference
     let postNotificationService: PostNotificationService
     let userID: String
     
-    // MARK: - Initializer
     init(postNotificationService: PostNotificationService) {
         self.postNotificationService = postNotificationService
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)

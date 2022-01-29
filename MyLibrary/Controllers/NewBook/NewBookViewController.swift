@@ -8,8 +8,7 @@
 import UIKit
 
 class NewBookViewController: UITableViewController {
-    
-    // MARK: - Properties
+
     weak var bookCardDelegate: BookCardDelegate?
     let subViews = NewBookControllerSubViews()
     
@@ -37,8 +36,7 @@ class NewBookViewController: UITableViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.view = self
@@ -236,7 +234,7 @@ extension NewBookViewController: NewBookPresenterView {
     }
 }
 
-// MARK: - TableView DataSource & Delegate
+// MARK: - TableView Delegate
 extension NewBookViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

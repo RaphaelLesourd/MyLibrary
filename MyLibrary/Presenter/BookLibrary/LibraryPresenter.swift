@@ -6,14 +6,12 @@
 //
 
 class LibraryPresenter: BookCellMapper {
-    
-    // MARK: - Properties
+
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
     var bookList: [ItemDTO] = []
     private let libraryService: LibraryServiceProtocol
-   
-    // MARK: - Initializer
+
     init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
     }
@@ -22,6 +20,7 @@ class LibraryPresenter: BookCellMapper {
         guard let query = query else { return }
         view?.updateSectionTitle(with: query.listType?.title)
         view?.startActivityIndicator()
+
         libraryService.getBookList(for: query,
                                       limit: 40,
                                       forMore: nextPage) { [weak self] result in

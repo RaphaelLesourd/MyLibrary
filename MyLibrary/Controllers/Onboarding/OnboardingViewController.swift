@@ -8,13 +8,11 @@
 import UIKit
 
 class OnboardingViewController: UIViewController {
-    
-    // MARK: - Properties
+
     private let layoutComposer: OnboardingLayoutMaker
     private let mainView = OnboardingMainView()
     private var presenter: OnboardingPresenter
-    
-    // MARK: - Intializer
+
     init(layoutComposer: OnboardingLayoutMaker,
          presenter: OnboardingPresenter) {
         self.layoutComposer = layoutComposer
@@ -25,8 +23,7 @@ class OnboardingViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func loadView() {
         view = mainView
     }
@@ -38,8 +35,7 @@ class OnboardingViewController: UIViewController {
         configurePageControl()
         configureCollectionView()
     }
-    
-    // MARK: - Setup
+
     private func configureCollectionView() {
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
@@ -90,7 +86,7 @@ extension OnboardingViewController: OnboardingMainViewDelegate {
         presenter.nextButtonTapped()
     }
 }
-
+// MARK: - Onboarding presenter
 extension OnboardingViewController: OnboardingPresenterView {
     func setLastPageReached(when finished: Bool) {
         mainView.setOnboardingSeen(when: finished)

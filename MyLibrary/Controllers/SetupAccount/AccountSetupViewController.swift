@@ -9,14 +9,12 @@ import UIKit
 import FirebaseAuth
 
 class AccountSetupViewController: UIViewController {
-    
-    // MARK: - Properties
+
     private let mainView = AccountMainView()
     private let presenter: SetupAccountPresenter
     private let interfaceType: AccountInterfaceType
     private var profileImage: UIImage?
-    
-    // MARK: - Initializer
+
     init(presenter: SetupAccountPresenter,
          interfaceType: AccountInterfaceType) {
         self.presenter = presenter
@@ -28,7 +26,6 @@ class AccountSetupViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

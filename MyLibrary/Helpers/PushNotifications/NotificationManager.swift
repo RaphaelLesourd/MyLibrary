@@ -11,11 +11,11 @@ import FirebaseMessaging
 import UserNotifications
 
 class NotificationManager: NSObject {
-    // MARK: - Properties
+
     private var userService: UserServiceProtocol
     private var libraryService: LibraryServiceProtocol
     private let factory: Factory
-    // MARK: - Initializer
+
     init(userService: UserServiceProtocol,
          libraryService: LibraryServiceProtocol) {
         self.userService = userService
@@ -23,15 +23,7 @@ class NotificationManager: NSObject {
         self.factory = ViewControllerFactory()
         super.init()
     }
-    
-    // MARK: - Private functions
-    /// Update the database userInfo messaging token
-    private func updateToken() {
-        if let token = Messaging.messaging().fcmToken {
-            userService.updateFcmToken(with: token)
-        }
-    }
-    
+
     /// Handles a received push notification.
     /// - Note: Retrieve the bookID and bookOwnerID from the notification Data
     /// and fetch the book then present the commentViewController.
@@ -39,7 +31,7 @@ class NotificationManager: NSObject {
         let userInfo = notification.request.content.userInfo
         guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
               let ownerID = userInfo[DocumentKey.ownerID.rawValue] as? String else { return }
-        
+
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             switch result {
             case .success(let book):
@@ -51,6 +43,15 @@ class NotificationManager: NSObject {
             }
         }
     }
+
+    // MARK: - Private functions
+    /// Update the database userInfo messaging token
+    private func updateToken() {
+        if let token = Messaging.messaging().fcmToken {
+            userService.updateFcmToken(with: token)
+        }
+    }
+
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     /// - Parameters:
     /// - book: Book the comment belongs to.

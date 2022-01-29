@@ -8,21 +8,20 @@
 import FirebaseAuth
 
 class SetupAccountPresenter {
-    
-    // MARK: - Properties
+
     weak var view: SetupAccountPresenterView?
     var mainView: AccountMainView?
     private let accountService: AccountServiceProtocol
     private let validation: Validation
     private var userCredentials: AccountCredentials?
-    
-    // MARK: - Initializer
+
     init(accountService: AccountServiceProtocol,
          validation: Validation) {
         self.accountService = accountService
         self.validation = validation
     }
-    
+
+    // MARK: - Internal functions
     func handleAccountCredentials(for interfaceType: AccountInterfaceType) {
         switch interfaceType {
         case .login:

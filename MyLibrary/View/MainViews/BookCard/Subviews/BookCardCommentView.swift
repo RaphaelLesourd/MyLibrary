@@ -10,7 +10,6 @@ import Lottie
 
 class BookCardCommentView: UIView {
     
-    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

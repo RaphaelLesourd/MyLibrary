@@ -9,7 +9,6 @@ import UIKit
 
 class LoadingFooterSupplementaryView: UICollectionReusableView {
 
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setStackviewConstrainsts()

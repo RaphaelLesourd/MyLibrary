@@ -40,7 +40,7 @@ class AlertManager {
             controller.present(alertController, animated: true)
         }
     }
-    // MARK: - Banner
+    
     /// Present an aler Banner
     /// - Parameters:
     /// - type: Type of banner (.error, .success, or .customMessage type)

@@ -13,16 +13,14 @@ import FirebaseAuth
 import FirebaseMessaging
 
 class AccountService {
-    
-    // MARK: - Properties
+
     typealias CompletionHandler = (FirebaseError?) -> Void
     private let user = Auth.auth().currentUser
     private let userService: UserServiceProtocol
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
     private let fcmToken = Messaging.messaging().fcmToken
-    
-    // MARK: - Initializer
+
     init(userService: UserServiceProtocol,
          libraryService: LibraryServiceProtocol,
          categoryService: CategoryServiceProtocol) {
@@ -31,7 +29,6 @@ class AccountService {
         self.categoryService = categoryService
     }
     
-    // MARK: - Private functions
     private func passwordMatch(with userCredentials: AccountCredentials) -> Bool {
         return userCredentials.password == userCredentials.confirmPassword
     }

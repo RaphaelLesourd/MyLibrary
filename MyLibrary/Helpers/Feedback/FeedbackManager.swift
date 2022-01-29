@@ -10,7 +10,6 @@ import MessageUI
 
 class FeedbackManager: NSObject {
     
-    // MARK: - Properties
     private let appVersion = "\(UIApplication.appName) - \(Text.Misc.appVersion) \(UIApplication.version)"
   
 }

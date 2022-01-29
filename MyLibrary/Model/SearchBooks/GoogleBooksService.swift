@@ -8,11 +8,9 @@
 import Alamofire
 
 class GoogleBooksService {
-    // MARK: - Properties
     private let session: Session
     private let validation: ValidationProtocol
     
-    // MARK: - Initializer
     init(session: Session,
          validation: ValidationProtocol) {
         self.session = session

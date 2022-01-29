@@ -7,7 +7,6 @@
 
 class HomePresenter: BookCellMapper, UserCellMapper {
     
-    // MARK: - Properties
     weak var view: HomePresenterView?
     var categories: [CategoryDTO] = []
     var latestBooks: [ItemDTO] = []
@@ -18,8 +17,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    
-    // MARK: - Intializer
+
     init(libraryService: LibraryServiceProtocol,
          categoryService: CategoryServiceProtocol,
          recommendationService: RecommendationServiceProtocol) {
@@ -28,7 +26,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
         self.recommendationService = recommendationService
     }
     
-    // MARK: - API Calls
+    // MARK: - Internal functions
     func getCategories() {
         categoryService.getUserCategories { [weak self] result in
             switch result {
@@ -73,7 +71,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
             }
         }
     }
-    
+    // MARK: - Private functions
     /// Fetch books for the current query
     /// - Parameters:
     /// - query: BookQuery object to fetch a list of Item

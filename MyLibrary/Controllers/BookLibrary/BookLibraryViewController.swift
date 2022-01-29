@@ -9,7 +9,6 @@ import UIKit
 /// Class inherit from a common class CollectionViewController to set up a collectionView.
 class BookLibraryViewController: UIViewController {
     
-    // MARK: - Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, ItemDTO>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
@@ -26,8 +25,7 @@ class BookLibraryViewController: UIViewController {
             updateGridLayout()
         }
     }
-    
-    // MARK: - Initializer
+
     init(currentQuery: BookQuery?,
          title: String?,
          queryService: QueryService,
@@ -45,8 +43,7 @@ class BookLibraryViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

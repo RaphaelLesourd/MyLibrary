@@ -8,10 +8,9 @@
 import Alamofire
 
 class FirebaseCloudMessagingService {
-    // MARK: - Properties
+ 
     private let session: Session
 
-    // MARK: - Initializer
     init(session: Session) {
         self.session = session
     }

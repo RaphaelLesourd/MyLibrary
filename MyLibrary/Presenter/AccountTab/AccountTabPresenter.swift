@@ -9,14 +9,12 @@ import FirebaseAuth
 import Foundation
 
 class AccountTabPresenter {
-    
-    // MARK: - Properties
+
     weak var view: AccountTabPresenterView?
     private let userService: UserServiceProtocol
     private let imageService: ImageStorageProtocol
     private let accountService: AccountServiceProtocol
-    
-    // MARK: - Initializer
+
     init(userService: UserServiceProtocol,
          imageService: ImageStorageProtocol,
          accountService: AccountServiceProtocol) {
@@ -24,7 +22,7 @@ class AccountTabPresenter {
         self.imageService = imageService
         self.accountService = accountService
     }
-    // MARK: - API Call
+
     /// fetch the user profile data from the Database.
     func getProfileData() {
         view?.startActivityIndicator()
@@ -72,7 +70,6 @@ class AccountTabPresenter {
         }
     }
     
-    /// Sign out of the account.
     func signoutAccount() {
         view?.startActivityIndicator()
         view?.animateSavebuttonIndicator(true)

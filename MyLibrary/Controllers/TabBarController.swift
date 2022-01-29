@@ -10,11 +10,9 @@ import FirebaseAuth
 
 /// Setup the app Tab Bar and add a navigation controller to the ViewController of each tabs.
 class TabBarController: UITabBarController {
-    
-    // MARK: - Properties
+
     private let factory: Factory
-    
-    // MARK: - Initializer
+
     init() {
         self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
@@ -23,13 +21,13 @@ class TabBarController: UITabBarController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
         setupTableViewTabs()
     }
-    // MARK: - Setup
+
     /// Set up the tabBar appearance with standard darkmode compatible colors.
     private func setupTabBar() {
         let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()

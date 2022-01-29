@@ -8,11 +8,9 @@
 import UIKit
 import InputBarAccessoryView
 import IQKeyboardManagerSwift
-import FirebaseAuth
 
 class CommentsViewController: UIViewController {
-    
-    // MARK: - Properties
+
     typealias Snapshot = NSDiffableDataSourceSnapshot<CommentsSection, AnyHashable>
   
     private let mainView = CommentControllerView()
@@ -21,8 +19,7 @@ class CommentsViewController: UIViewController {
     private let presenter: CommentPresenter
     private lazy var dataSource = makeDataSource()
     private var book: ItemDTO?
-    
-    // MARK: - Initializer
+
     init(book: ItemDTO?,
          presenter: CommentPresenter,
          validation: ValidationProtocol) {
@@ -36,7 +33,6 @@ class CommentsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

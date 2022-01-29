@@ -8,8 +8,7 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-    
-    // MARK: - Properties
+
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, ItemDTO>
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
@@ -21,8 +20,7 @@ class SearchViewController: UIViewController {
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private lazy var dataSource = makeDataSource()
- 
-    // MARK: - Initializer
+
     init(presenter: SearchPresenter,
          layoutComposer: BookListLayoutMaker) {
         self.presenter = presenter
@@ -33,9 +31,7 @@ class SearchViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
-    
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -143,13 +139,14 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
-    
+
     func refreshBookList() {
         presenter.refreshSearchList()
     }
 }
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
+
     func displayBookFromBarCodeSearch(with book: ItemDTO?) {
         newBookDelegate?.setBookData(with: book)
     }

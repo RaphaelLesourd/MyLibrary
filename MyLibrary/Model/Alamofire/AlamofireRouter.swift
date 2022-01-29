@@ -10,12 +10,11 @@ import Alamofire
 /// This enum allows to have a centralized endpoints query.
 /// Should we need to make other type of queries in the future, new cases will just need to be added.
 enum AlamofireRouter: URLRequestConvertible {
-    // cases
+
     case withIsbn(isbn: String)
     case withKeyWord(words: String, startIndex: Int)
     case pushMessage(with: MessageModel)
-    
-    // Parameters
+
     var parameters: Parameters {
         switch self {
         case .withIsbn(isbn: let isbn):
@@ -42,8 +41,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return try URLEncoding.httpBody.encode(request, with: nil)
         }
     }
-    // MARK: - Private functions
-
+    
     private var baseURL: String {
         switch self {
         case .withIsbn, .withKeyWord:
@@ -70,8 +68,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return "send"
         }
     }
-    
-    // MARK: - Parameters
+
     private func makeBookSearch(with words: String, and startIndex: Int) -> Parameters {
         return ["q": words,
                 "startIndex": startIndex,

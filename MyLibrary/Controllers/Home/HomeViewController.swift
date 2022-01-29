@@ -9,7 +9,6 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    // MARK: - Properties
     typealias DataSource = UICollectionViewDiffableDataSource<HomeCollectionViewSections, AnyHashable>
     typealias Snapshot = NSDiffableDataSourceSnapshot<HomeCollectionViewSections, AnyHashable>
     
@@ -19,7 +18,6 @@ class HomeViewController: UIViewController {
     private let presenter: HomePresenter
     private let factory: Factory
 
-    // MARK: - Initializer
     init(presenter: HomePresenter,
          layoutComposer: HomeLayoutMaker) {
         self.presenter = presenter
@@ -31,9 +29,7 @@ class HomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
-    
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -49,7 +45,7 @@ class HomeViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
         refreshBookList()
     }
-    
+
     // MARK: - Setup
     private func configureCollectionView() {
         mainView.collectionView.collectionViewLayout = layoutComposer.makeCollectionViewLayout(dataSource: dataSource)

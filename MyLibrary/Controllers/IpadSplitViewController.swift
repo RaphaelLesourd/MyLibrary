@@ -9,10 +9,8 @@ import UIKit
 
 class IpadSplitViewController: UISplitViewController {
 
-    // MARK: - Properties
     private let factory: Factory
-    
-    // MARK: - Initializer
+
     override init(style: UISplitViewController.Style) {
         self.factory = ViewControllerFactory()
         super.init(style: style)
@@ -22,14 +20,12 @@ class IpadSplitViewController: UISplitViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
     }
     
-    // MARK: - Setup
     private func setViewControllers() {
         let tabBarController = TabBarController()
         let homeViewController = factory.makeHomeTabVC()

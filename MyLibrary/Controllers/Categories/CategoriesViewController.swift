@@ -9,7 +9,6 @@ import UIKit
 
 class CategoriesViewController: UIViewController {
     
-    // MARK: Properties
     typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryDTO>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
@@ -34,8 +33,7 @@ class CategoriesViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: Lifecycle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor

@@ -6,8 +6,7 @@
 //
 
 class SearchPresenter: BookCellMapper {
-    
-    // MARK: - Properties
+
     weak var view: SearchPresenterView?
     var searchList: [ItemDTO] = []
     var noMoreBooksFound: Bool?
@@ -19,12 +18,11 @@ class SearchPresenter: BookCellMapper {
     }
     private let apiManager: SearchBookService
     
-    // MARK: - Initializer
     init(apiManager: SearchBookService) {
         self.apiManager = apiManager
     }
     
-    // MARK: - Public functions
+    // MARK: - Internal functions
     /// Api call to get book or list of books.
     /// - Parameters:
     ///   - query: String passing search keywords, could be title, author or isbn

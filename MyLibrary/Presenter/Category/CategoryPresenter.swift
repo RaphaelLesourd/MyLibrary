@@ -8,8 +8,7 @@
 import Foundation
 
 class CategoryPresenter {
-    
-    // MARK: - Properties
+
     weak var view: CategoryPresenterView?
     var categories: [CategoryDTO] = []
     var categoriesOriginalList: [CategoryDTO] = []
@@ -17,11 +16,10 @@ class CategoryPresenter {
     
     private var categoryService: CategoryServiceProtocol
     
-    // MARK: - Initializer
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
-    
+
     /// Fetch the user categories
     func getCategoryList() {
         self.view?.startActivityIndicator()

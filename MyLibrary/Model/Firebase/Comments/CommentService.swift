@@ -10,16 +10,14 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class CommentService {
-    
-    // MARK: - Properties
+
     var userID: String
     
     private let userRef: CollectionReference
     private var commentListener: ListenerRegistration?
     private let db = Firestore.firestore()
     private let userService: UserServiceProtocol
-    
-    // MARK: - Initializer
+
     init(userService: UserService) {
         self.userService = userService
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
@@ -54,9 +52,10 @@ class CommentService {
             .collection(CollectionDocumentKey.comments.rawValue)
     }
 }
-// MARK: - Extension CommentServiceProtocol 
+// MARK: - CommentService Protocol
 extension CommentService: CommentServiceProtocol {
 
+    // MARK: Add
     func addComment(for bookID: String,
                     ownerID: String,
                     commentID: String?,
@@ -86,7 +85,8 @@ extension CommentService: CommentServiceProtocol {
             }
         }
     }
-  
+
+    // MARK: Retrieve
     func getComments(for bookID: String,
                      ownerID: String,
                      completion: @escaping (Result<[CommentDTO], FirebaseError>) -> Void) {
@@ -111,7 +111,8 @@ extension CommentService: CommentServiceProtocol {
             }
         }
     }
-    
+
+    // MARK: Delete
     func deleteComment(for bookID: String,
                        ownerID: String,
                        comment: CommentDTO,

@@ -11,7 +11,6 @@ class AccountMainView: UIView {
     
     weak var delegate: AccountCreationViewDelegate?
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

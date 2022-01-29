@@ -7,8 +7,7 @@
 import Foundation
 
 class ListPresenter {
-    
-    // MARK: - Properties
+
     weak var view: ListPresenterView?
     let listDataType: ListDataType
     var data: [DataList] = []
@@ -17,15 +16,15 @@ class ListPresenter {
     
     private var originalData: [DataList] = []
     private let formatter: Formatter
-    
-    // MARK: - Initializer
+
     init(listDataType: ListDataType,
          formatter: Formatter) {
         self.listDataType = listDataType
         self.formatter = formatter
         getFavorites()
     }
-    
+
+    // MARK: - Internal functions
     /// Get the data for the chosen list type
     func getData() {
         let list = createList(for: listDataType)

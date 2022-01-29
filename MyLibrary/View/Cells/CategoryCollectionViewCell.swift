@@ -11,7 +11,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
    
     private let colorAlpha: CGFloat = 0.2
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

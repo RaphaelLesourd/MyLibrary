@@ -10,8 +10,7 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 class LibraryService {
-    
-    // MARK: - Properties
+
     typealias CompletionHandler = (FirebaseError?) -> Void
     let usersCollectionRef: CollectionReference
     var userID: String
@@ -21,21 +20,19 @@ class LibraryService {
     private let imageService : ImageStorageProtocol
     private let db = Firestore.firestore()
     private var bookListListener: ListenerRegistration?
-    
-    // MARK: - Initializer
+
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.recommandationService = RecommandationService()
         self.imageService = ImageStorageService()
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-    
-    // MARK: - Private functions
+
+    // MARK: Private functions
     private func createBaseRef() -> DocumentReference? {
         return usersCollectionRef.document(userID)
     }
-    
-    // MARK: Save
+
     private func saveDocument<T: Codable>(for document: T,
                                           with id: String,
                                           collection: CollectionDocumentKey,
@@ -59,7 +56,7 @@ class LibraryService {
             }
         }
     }
-    // MARK: Delete
+
     private func deleteDocument(with id: String,
                                 collection: CollectionDocumentKey,
                                 completion: @escaping (Error?) -> Void) {
@@ -69,7 +66,7 @@ class LibraryService {
             completion(error)
         }
     }
-    // MARK: Update
+
     private func updateStatus(with id: String,
                               state: Bool,
                               collection: CollectionDocumentKey,
@@ -101,8 +98,7 @@ class LibraryService {
             recommandationService.removeFromRecommandation(for: book) { _ in }
         }
     }
-    
-    // MARK: Query
+
     /// Make Firestore Query for a BookQuery.
     /// - Parameters:
     /// - query: BookQuery object for the type of list of book needed to reteive.
@@ -150,7 +146,7 @@ class LibraryService {
         return UUID().uuidString
     }
 }
-// MARK: - Extension LibraryServiceProtocol
+// MARK: - LibraryService Protocol
 extension LibraryService: LibraryServiceProtocol {
     
     // MARK: Create/Update

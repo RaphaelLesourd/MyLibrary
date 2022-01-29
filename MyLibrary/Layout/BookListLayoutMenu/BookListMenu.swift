@@ -12,12 +12,11 @@ class BookListMenu {
     // MARK: - Property
     private weak var delegate: BookListMenuDelegate?
    
-    // MARK: - Initializer
     init(delegate: BookListMenuDelegate) {
         self.delegate = delegate
     }
     
-    // MARK: - Public functions
+    // MARK: - Internal functions
     func configureLayoutMenu(with filterMenuIncluded: Bool) -> UIMenu {
         let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
         return UIMenu(title: Text.ListMenu.bookListMenuTitle,

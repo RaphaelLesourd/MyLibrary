@@ -31,7 +31,8 @@ class NewBookPresenter {
         self.converter = converter
         self.validator = validator
     }
-    
+
+    // MARK: - Internal functions
     /// Save book to the database
     /// - Parameters:
     /// - imageData: Data type for the image to be saved
