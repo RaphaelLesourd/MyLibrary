@@ -13,8 +13,7 @@ class HomeTabLayout {
     
     private let device = UIDevice.current.userInterfaceIdiom
     private let edgeSpacing: CGFloat = 7
-    
-    // Categories section layout
+
     private func makeCategoryLayoutSection() -> NSCollectionLayoutSection {
        
         let size = NSCollectionLayoutSize(widthDimension: .estimated(100),
@@ -26,10 +25,10 @@ class HomeTabLayout {
                                                           top: nil,
                                                           trailing: .fixed(5),
                                                           bottom: nil)
-        return createSection(with: group,
+        return makeSection(with: group,
                              scrollType: .continuous)
     }
-    
+
     private func makeUserLayoutSection() -> NSCollectionLayoutSection {
         let size = NSCollectionLayoutSize(widthDimension: .absolute(80),
                                           heightDimension: .absolute(100))
@@ -40,12 +39,11 @@ class HomeTabLayout {
                                                           top: nil,
                                                           trailing: .fixed(10),
                                                           bottom: nil)
-        return createSection(with: group,
+        return makeSection(with: group,
                              spacing: -10,
                              scrollType: .continuousGroupLeadingBoundary)
     }
-    
-    // Horizontal scroll single cell
+
     private func makeHorizontalScrollLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
         item.contentInsets = .init(top: 0,
@@ -61,11 +59,10 @@ class HomeTabLayout {
                                                        subitem: item,
                                                        count: 1)
         group.interItemSpacing = .fixed(10)
-        return createSection(with: group,
+        return makeSection(with: group,
                              scrollType: .continuousGroupLeadingBoundary)
     }
-    
-    // Horizontal scroll layout, cell with description
+
     private func makeBookDetailLayoutSection(numberItems: Int,
                                              environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem.withEntireSize()
@@ -84,11 +81,11 @@ class HomeTabLayout {
                                                      subitem: item,
                                                      count: numberItems)
         group.interItemSpacing = .fixed(15)
-        return createSection(with: group,
+        return makeSection(with: group,
                              scrollType: .continuousGroupLeadingBoundary)
     }
     
-    private func createHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+    private func addHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
         let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                     heightDimension: .estimated(30))
         return NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
@@ -96,7 +93,7 @@ class HomeTabLayout {
                                                            alignment: .top)
     }
     
-    private func createSection(with group: NSCollectionLayoutGroup,
+    private func makeSection(with group: NSCollectionLayoutGroup,
                                spacing: CGFloat = 40,
                                scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
@@ -105,14 +102,14 @@ class HomeTabLayout {
                                       leading: edgeSpacing,
                                       bottom: spacing,
                                       trailing: edgeSpacing)
-        section.boundarySupplementaryItems = [createHeader()]
+        section.boundarySupplementaryItems = [addHeader()]
         return section
     }
 }
 // MARK: - Layout composer protocol
-extension HomeTabLayout: HomeLayoutComposer {
+extension HomeTabLayout: HomeLayoutMaker {
     
-    func setCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
+    func makeCollectionViewLayout(dataSource: DataSource) -> UICollectionViewLayout {
      
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, environement in
             let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]

@@ -6,6 +6,7 @@
 //
 import UIKit
 
+/// Makes ViewControllers with their dependncies used thru the app.
 class ViewControllerFactory {
     // MARK: Services
     private let libraryService = LibraryService()

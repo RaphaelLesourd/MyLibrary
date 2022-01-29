@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.tintColor = .label
+        window?.tintColor = .appTintColor
         
         // Listens to user Auth state and route to proper ViewContoller accordingly
         handle = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
@@ -40,7 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window?.makeKeyAndVisible()
         
-        // open the CommentViewController when app is opened from Terminated state
+        // Open the CommentViewController when app is opened from Terminated state
         if let notificationResponse = connectionOptions.notificationResponse?.notification {
             notificationManager.didReceive(notificationResponse)
         }

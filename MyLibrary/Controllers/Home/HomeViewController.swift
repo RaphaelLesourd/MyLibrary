@@ -15,13 +15,13 @@ class HomeViewController: UIViewController {
     
     private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
-    private let layoutComposer: HomeLayoutComposer
+    private let layoutComposer: HomeLayoutMaker
     private let presenter: HomePresenter
     private let factory: Factory
 
     // MARK: - Initializer
     init(presenter: HomePresenter,
-         layoutComposer: HomeLayoutComposer) {
+         layoutComposer: HomeLayoutMaker) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
         self.factory = ViewControllerFactory()
@@ -52,7 +52,7 @@ class HomeViewController: UIViewController {
     
     // MARK: - Setup
     private func configureCollectionView() {
-        mainView.collectionView.collectionViewLayout = layoutComposer.setCollectionViewLayout(dataSource: dataSource)
+        mainView.collectionView.collectionViewLayout = layoutComposer.makeCollectionViewLayout(dataSource: dataSource)
         mainView.collectionView.dataSource = dataSource
         mainView.collectionView.delegate = self
     }

@@ -9,7 +9,7 @@ import XCTest
 @testable import MyLibrary
 
 class UserServiceMock: UserServiceProtocol {
-    
+
     private var successTest: Bool
     
     init(successTest: Bool) {
@@ -20,7 +20,7 @@ class UserServiceMock: UserServiceProtocol {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func retrieveUser(completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
+    func retrieveUser(for userID: String?, completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
         if successTest {
             completion(.success(PresenterFakeData.user))
         } else {

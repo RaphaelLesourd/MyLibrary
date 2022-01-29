@@ -10,7 +10,7 @@ import Photos
 
 class PermissionManager {
     
-    private func openSettings() {
+    private func presentDeviceSettings() {
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsUrl)
         }
@@ -29,7 +29,7 @@ extension PermissionManager: Permissions {
                 completion(granted)
             }
         case .denied, .restricted:
-            openSettings()
+            presentDeviceSettings()
             completion(false)
         default:
             completion(false)
@@ -52,7 +52,7 @@ extension PermissionManager: Permissions {
                 }
             })
         case .restricted, .denied:
-            openSettings()
+            presentDeviceSettings()
             completion(false)
         @unknown default:
             completion(false)

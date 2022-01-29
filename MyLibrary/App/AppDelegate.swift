@@ -15,7 +15,7 @@ import Network
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private var currentBadgeNumber = 0
+    private var notificationBadgeNumber = 0
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         configureFiresbaseTestEnvironement()
         return true
     }
-    
+
     private func configureFiresbaseTestEnvironement() {
         // Checking if unit tests are running
         if ProcessInfo.processInfo.environment["unit_tests"] == "true" {
@@ -89,9 +89,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        currentBadgeNumber = UserDefaults.standard.integer(forKey: StorageKey.badge.rawValue)
-        currentBadgeNumber += 1
-        UIApplication.shared.applicationIconBadgeNumber = currentBadgeNumber
-        UserDefaults.standard.set(currentBadgeNumber, forKey: StorageKey.badge.rawValue)
+        notificationBadgeNumber = UserDefaults.standard.integer(forKey: StorageKey.badge.rawValue)
+        notificationBadgeNumber += 1
+        UIApplication.shared.applicationIconBadgeNumber = notificationBadgeNumber
+        UserDefaults.standard.set(notificationBadgeNumber, forKey: StorageKey.badge.rawValue)
     }
 }

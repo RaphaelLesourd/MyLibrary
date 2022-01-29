@@ -16,6 +16,7 @@ class BookCardViewController: UIViewController {
     private let recommendationService: RecommendationServiceProtocol
     private var presenter: BookCardPresenter
     private var factory: Factory
+    private let book: ItemDTO
     private var recommended = false {
         didSet {
             mainView.toggleRecommendButton(to: recommended)
@@ -35,7 +36,7 @@ class BookCardViewController: UIViewController {
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.presenter = presenter
-        self.presenter.book = book
+        self.book = book
         self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,8 +56,10 @@ class BookCardViewController: UIViewController {
         mainView.delegate = self
         mainView.showControlButtons(presenter.isBookEditable)
         presenter.view = self
+        presenter.book = book
         addNavigationBarButtons()
-        gatherBookInformation()
+        setBookRecommandStatus()
+        setBookFavoriteStatus()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,16 +83,6 @@ class BookCardViewController: UIViewController {
         navigationItem.rightBarButtonItems = presenter.isBookEditable ? indicatorOnly : itemsWithEditButton
     }
 
-    // MARK: Data display
-    private func gatherBookInformation() {
-        if let book = presenter.book {
-            presenter.mapToBookUI(from: book)
-            presenter.fetchCategoryNames()
-            setBookRecommandStatus()
-            setBookFavoriteStatus()
-        }
-    }
-    
     private func setBookFavoriteStatus() {
         if let favorite = self.presenter.book?.favorite {
             favoriteBook = favorite
@@ -123,7 +116,7 @@ class BookCardViewController: UIViewController {
 // MARK: - BookCard Delegate
 extension BookCardViewController: BookCardDelegate {
     func updateBook() {
-        presenter.updateBook()
+        presenter.fetchBookUpdate()
     }
 }
 

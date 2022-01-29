@@ -15,7 +15,7 @@ class BookLibraryViewController: UIViewController {
     
     private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
-    private let layoutComposer: BookListLayoutComposer
+    private let layoutComposer: BookListLayoutMaker
     private let queryService: QueryProtocol
     private let presenter: LibraryPresenter
     private let factory: Factory
@@ -32,7 +32,7 @@ class BookLibraryViewController: UIViewController {
          title: String?,
          queryService: QueryService,
          presenter: LibraryPresenter,
-         layoutComposer: BookListLayoutComposer) {
+         layoutComposer: BookListLayoutMaker) {
         self.currentQuery = currentQuery
         self.queryService = queryService
         self.presenter = presenter
@@ -113,7 +113,7 @@ class BookLibraryViewController: UIViewController {
     }
     
     private func updateGridLayout() {
-        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: gridSize)
+        let layout = layoutComposer.makeCollectionViewLayout(gridItemSize: gridSize)
         mainView.collectionView.setCollectionViewLayout(layout, animated: true)
         applySnapshot(animatingDifferences: true)
     }

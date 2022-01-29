@@ -19,7 +19,7 @@ class ApiManagerTestCase: XCTestCase {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         session = Session(configuration: configuration)
-        sut = ApiManager(session: session, validator: Validation())
+        sut = ApiManager(session: session, validation: Validation())
     }
     
     override func tearDown() {

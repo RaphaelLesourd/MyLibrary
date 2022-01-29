@@ -6,6 +6,6 @@
 //
 import UIKit
 
-protocol OnboardingLayoutComposer {
-    func setCollectionViewLayout() -> UICollectionViewLayout
+protocol OnboardingLayoutMaker {
+    func makeCollectionViewLayout() -> UICollectionViewLayout
 }

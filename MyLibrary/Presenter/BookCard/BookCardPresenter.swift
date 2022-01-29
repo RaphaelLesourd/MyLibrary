@@ -12,7 +12,12 @@ class BookCardPresenter {
     
     // MARK: - Properties
     weak var view: BookCardPresenterView?
-    var book: ItemDTO?
+    var book: ItemDTO? {
+        didSet {
+            mapToBookUI()
+            fetchCategoryNames()
+        }
+    }
     var isBookEditable: Bool {
         let isConnected = Networkconnectivity.shared.isReachable == false
         let isBookOwner = book?.ownerID != Auth.auth().currentUser?.uid
@@ -53,7 +58,7 @@ class BookCardPresenter {
     
     /// Fetch the current book from the database.
     /// Typically used to update the current book changes.
-    func updateBook() {
+    func fetchBookUpdate() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.startActivityIndicator()
@@ -63,8 +68,6 @@ class BookCardPresenter {
             switch result {
             case .success(let book):
                 self?.book = book
-                self?.mapToBookUI(from: book)
-                self?.fetchCategoryNames()
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -91,7 +94,9 @@ class BookCardPresenter {
    
     /// Convert a book from Item entity to BookCard representable
     /// - Parameters: Item object of the current book.
-    func mapToBookUI(from book: ItemDTO) {
+    func mapToBookUI() {
+        guard let book = book else { return}
+
         let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
         let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
         let currency = book.saleInfo?.retailPrice?.currencyCode

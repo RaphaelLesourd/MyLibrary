@@ -36,7 +36,7 @@ class BookListMenu {
     private func createMenuItems(filterOptions: Bool) -> [UIMenuElement] {
         var items: [UIMenuElement] = []
         if filterOptions == true {
-           items.append(filterMenu())
+           items.append(createFilterMenu())
         }
      
         GridSize.allCases.forEach({ gridSize in
@@ -51,7 +51,7 @@ class BookListMenu {
         return items
     }
     
-    private func filterMenu() -> UIMenu {
+    private func createFilterMenu() -> UIMenu {
         var items: [UIMenuElement] = []
         QueryType.allCases.forEach({ query in
             let item = UIAction(title: query.title,

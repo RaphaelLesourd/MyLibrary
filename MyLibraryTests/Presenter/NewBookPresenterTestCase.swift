@@ -119,7 +119,7 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
     var returnToPreviousControllerWasCalled = false
     var showSaveButtonIndicatorWasCalled = false
     
-    func toggleSaveButtonActivityIndicator(to play show: Bool) {
+    func toggleSaveButtonActivityIndicator(to play: Bool) {
         showSaveButtonIndicatorWasCalled = true
     }
     

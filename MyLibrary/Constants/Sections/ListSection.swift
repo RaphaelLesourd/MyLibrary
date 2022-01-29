@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 24/01/2022.
 //
 
+/// Data List VieController Sections
 enum ListSection: Int, CaseIterable {
     case favorite
     case others

@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 29/01/2022.
 //
 
+/// Category palette colors (HEX values)
 enum CategoryColors {
     static let defaultColor = "e38801"
     static let palette: [String] = ["238099","16adb7","0abfc2","3482b7","426db3","586ba4","324376",

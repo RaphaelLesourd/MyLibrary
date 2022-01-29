@@ -25,17 +25,19 @@ class NewCategoryTestCase: XCTestCase {
     }
     
     // MARK: - Succes
-    func test_setCategoryColor_withHexColorString() {
+    func test_displayCategory() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.displayCategoryColor(with: "426db3")
-        XCTAssertTrue(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
+        sut.category = PresenterFakeData.category
+        sut.displayCategory()
+        XCTAssertTrue(newCategoryPresenterViewSpy.updateCategoryWasCalled)
+        XCTAssertTrue(newCategoryPresenterViewSpy.updateBackgroundTintWasCalled)
     }
     
     func test_savingCategory_successfully() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -44,7 +46,7 @@ class NewCategoryTestCase: XCTestCase {
     func test_savingCategory_withCategoryModelToPass_successfully() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: "test", and: "AAAAA", for: nil)
+        sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -53,31 +55,27 @@ class NewCategoryTestCase: XCTestCase {
     func test_updatingCategory_successfully() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        sut.category = PresenterFakeData.category
+        sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
     }
     
     // MARK: - Failed
-    func test_setCategoryColor_withHexColorString_NoTPartOfDefaultColor() {
+    func test_setCategory_withNilCategory() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.displayCategoryColor(with: "AAAAAA")
-        XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
-    }
-    
-    func test_setCategoryColor_withNilHexColorString() {
-        sut = failTestPresenter
-        sut.view = newCategoryPresenterViewSpy
-        sut.displayCategoryColor(with: nil)
-        XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryColorWasCalled)
+        sut.displayCategory()
+        XCTAssertFalse(newCategoryPresenterViewSpy.updateCategoryWasCalled)
+        XCTAssertFalse(newCategoryPresenterViewSpy.updateBackgroundTintWasCalled)
     }
     
     func test_savingCategory_withCategoryModelToPass_withNoCategoryName() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: nil, and: "AAAAA", for: nil)
+        sut.category = nil
+        sut.saveCategory(with: nil)
         XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -86,7 +84,8 @@ class NewCategoryTestCase: XCTestCase {
     func test_savingCategory_withCategoryModelToPass_failed() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: "test", and: "AAAAA", for: nil)
+        sut.category = nil
+        sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -95,7 +94,8 @@ class NewCategoryTestCase: XCTestCase {
     func test_savingCategory_failed() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: "test", and: "AAAAA", for: PresenterFakeData.category)
+        sut.category = PresenterFakeData.category
+        sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -104,7 +104,8 @@ class NewCategoryTestCase: XCTestCase {
     func test_savingCategory_withNoCategoryName() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.saveCategory(with: nil, and: "AAAA", for: PresenterFakeData.category)
+        sut.category = PresenterFakeData.category
+        sut.saveCategory(with: nil)
         XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.dismissViewcontrollerWasCalled)
@@ -112,14 +113,19 @@ class NewCategoryTestCase: XCTestCase {
 }
 
 class NewCategoryPresenterViewSpy: NewCategoryPresenterView {
-    
-    var updateCategoryColorWasCalled = false
+  
+    var updateCategoryWasCalled = false
+    var updateBackgroundTintWasCalled = false
     var dismissViewcontrollerWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
     
-    func updateCategoryColor(at indexPath: IndexPath, and colorHex: String) {
-        updateCategoryColorWasCalled = true
+    func updateCategory(at indexPath: IndexPath, color: String, name: String) {
+        updateCategoryWasCalled = true
+    }
+
+    func updateBackgroundTint(with colorHex: String) {
+        updateBackgroundTintWasCalled = true
     }
     
     func dismissViewController() {

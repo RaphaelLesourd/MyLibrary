@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol HomeLayoutComposer {
-    func setCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections,
+protocol HomeLayoutMaker {
+    func makeCollectionViewLayout(dataSource: UICollectionViewDiffableDataSource<HomeCollectionViewSections,
                                  AnyHashable>) -> UICollectionViewLayout
 }

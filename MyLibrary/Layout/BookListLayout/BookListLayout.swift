@@ -55,9 +55,9 @@ class BookListLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension BookListLayout: BookListLayoutComposer {
+extension BookListLayout: BookListLayoutMaker {
     
-    func setCollectionViewLayout(gridItemSize: GridSize) -> UICollectionViewLayout {
+    func makeCollectionViewLayout(gridItemSize: GridSize) -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, environement in
             return self?.makeVerticalGridLayoutSection(gridItemSize: gridItemSize,
                                                        environment: environement)

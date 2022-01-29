@@ -14,9 +14,11 @@ class CommentPresenterTestCase: XCTestCase {
     private var commentViewSpy: CommentPresenterViewSpy!
     private let successTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: true),
                                                         messageService: MessageServiceMock(successTest: true),
+                                                        userService: UserServiceMock(successTest: true),
                                                         formatter: Formatter())
     private let failedTestPresenter = CommentPresenter(commentService: CommentServiceMock(successTest: false),
                                                        messageService: MessageServiceMock(successTest: false),
+                                                       userService: UserServiceMock(successTest: false),
                                                        formatter: Formatter())
     
     override func setUp() {

@@ -20,11 +20,11 @@ class PresenterFakeData {
     static let categories: [CategoryDTO] = [CategoryDTO(id: "1",
                                                             uid: "1",
                                                             name: "First",
-                                                            color: "TestColor"),
+                                                            color: "238099"),
                                               CategoryDTO(id: "2",
                                                             uid: "2",
                                                             name: "Second",
-                                                            color: "TestColor")]
+                                                            color: "238099")]
     
     private static let volumeInfo = VolumeInfo(title: "title",
                                 authors: [""],
@@ -55,7 +55,7 @@ class PresenterFakeData {
                                                photoURL: "testUrl",
                                                token: "TestToken")]
     
-    static let category = CategoryDTO(id: "1", uid: "1", name: "test", color: "AAAAA")
+    static let category = CategoryDTO(id: "1", uid: "1", name: "test", color: "238099")
     
     static let book: ItemDTO = ItemDTO(id: "testID",
                                  bookID: "1",

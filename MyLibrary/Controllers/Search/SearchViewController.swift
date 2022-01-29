@@ -17,14 +17,14 @@ class SearchViewController: UIViewController {
     var presenter: SearchPresenter
     
     private let mainView = BookListView()
-    private let layoutComposer: BookListLayoutComposer
+    private let layoutComposer: BookListLayoutMaker
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
     private lazy var dataSource = makeDataSource()
  
     // MARK: - Initializer
     init(presenter: SearchPresenter,
-         layoutComposer: BookListLayoutComposer) {
+         layoutComposer: BookListLayoutMaker) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -59,7 +59,7 @@ class SearchViewController: UIViewController {
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
         let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .extraLarge : .medium
-        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
+        let layout = layoutComposer.makeCollectionViewLayout(gridItemSize: size)
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource

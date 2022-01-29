@@ -5,6 +5,7 @@
 //  Created by Birkyboy on 29/01/2022.
 //
 
+/// NewBook tableView Sections
 enum NewBookSections: CaseIterable {
     case coverPicture
     case title

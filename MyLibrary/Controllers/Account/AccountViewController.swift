@@ -118,7 +118,7 @@ extension AccountViewController: ContactViewDelegate {
         feedbackManager?.presentMail(on: self)
     }
 }
-
+// MARK: - AccountTab Presenter View
 extension AccountViewController: AccountTabPresenterView {
     func configureMainView(with user: UserModelDTO) {
         mainView.configure(with: user)

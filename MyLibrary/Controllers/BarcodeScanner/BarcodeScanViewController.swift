@@ -95,7 +95,8 @@ extension BarcodeScanViewController: BarcodeReaderDelegate {
                                         subtitle: error.description)
         dismissViewController()
     }
-    
+
+    /// Receive  the baraode from the BarCodeReader and pass it on.
     func provideBarcode(with data: String?) {
         guard let data = data else { return }
         barcodeDelegate?.processBarcode(with: data)

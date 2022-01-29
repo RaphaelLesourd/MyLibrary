@@ -10,12 +10,12 @@ import UIKit
 class OnboardingViewController: UIViewController {
     
     // MARK: - Properties
-    private let layoutComposer: OnboardingLayoutComposer
+    private let layoutComposer: OnboardingLayoutMaker
     private let mainView = OnboardingMainView()
     private var presenter: OnboardingPresenter
     
     // MARK: - Intializer
-    init(layoutComposer: OnboardingLayoutComposer,
+    init(layoutComposer: OnboardingLayoutMaker,
          presenter: OnboardingPresenter) {
         self.layoutComposer = layoutComposer
         self.presenter = presenter
@@ -44,7 +44,7 @@ class OnboardingViewController: UIViewController {
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         
-        let layout = layoutComposer.setCollectionViewLayout()
+        let layout = layoutComposer.makeCollectionViewLayout()
         mainView.collectionView.setCollectionViewLayout(layout, animated: true)
         mainView.collectionView.reloadData()
     }

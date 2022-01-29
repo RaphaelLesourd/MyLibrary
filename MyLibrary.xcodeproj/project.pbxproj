@@ -219,7 +219,7 @@
 		81A7509C27900AB000CAC424 /* OnboardingMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A7509B27900AB000CAC424 /* OnboardingMainViewDelegate.swift */; };
 		81A7509E27900AE600CAC424 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A7509D27900AE600CAC424 /* OnboardingCell.swift */; };
 		81A750A127900D2100CAC424 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A027900D2100CAC424 /* OnboardingViewController.swift */; };
-		81A750A42790123400CAC424 /* OnboardingLayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A32790123400CAC424 /* OnboardingLayoutComposer.swift */; };
+		81A750A42790123400CAC424 /* OnboardingLayoutMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A32790123400CAC424 /* OnboardingLayoutMaker.swift */; };
 		81A750A62790124500CAC424 /* OnboardingLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A52790124500CAC424 /* OnboardingLayout.swift */; };
 		81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A72790160800CAC424 /* WelcomeMainViewDelegate.swift */; };
 		81A7957E27690695006E8219 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81A7958027690695006E8219 /* Localizable.strings */; };
@@ -263,8 +263,8 @@
 		81FA71D827734ECA00040BEF /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA71D727734ECA00040BEF /* Converter.swift */; };
 		81FA71DC27735F0200040BEF /* DisclosureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA71DB27735F0200040BEF /* DisclosureTableViewCell.swift */; };
 		81FA723C27745B2F00040BEF /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA723B27745B2F00040BEF /* PermissionManager.swift */; };
-		81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724427747CD300040BEF /* BookListLayoutComposer.swift */; };
-		81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724627747D0600040BEF /* HomeLayoutComposer.swift */; };
+		81FA724527747CD300040BEF /* BookListLayoutMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724427747CD300040BEF /* BookListLayoutMaker.swift */; };
+		81FA724727747D0600040BEF /* HomeLayoutMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724627747D0600040BEF /* HomeLayoutMaker.swift */; };
 		81FA724E27747E1200040BEF /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724D27747E1200040BEF /* PushNotifications.swift */; };
 		81FA725027747E3800040BEF /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA724F27747E3800040BEF /* Permissions.swift */; };
 		81FA725527747EB100040BEF /* FeedbackManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA725227747E7A00040BEF /* FeedbackManagerProtocol.swift */; };
@@ -503,7 +503,7 @@
 		81A7509B27900AB000CAC424 /* OnboardingMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingMainViewDelegate.swift; sourceTree = "<group>"; };
 		81A7509D27900AE600CAC424 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		81A750A027900D2100CAC424 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		81A750A32790123400CAC424 /* OnboardingLayoutComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLayoutComposer.swift; sourceTree = "<group>"; };
+		81A750A32790123400CAC424 /* OnboardingLayoutMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLayoutMaker.swift; sourceTree = "<group>"; };
 		81A750A52790124500CAC424 /* OnboardingLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLayout.swift; sourceTree = "<group>"; };
 		81A750A72790160800CAC424 /* WelcomeMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeMainViewDelegate.swift; sourceTree = "<group>"; };
 		81A7957A2769046E006E8219 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -561,8 +561,8 @@
 		81FA71DB27735F0200040BEF /* DisclosureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclosureTableViewCell.swift; sourceTree = "<group>"; };
 		81FA723B27745B2F00040BEF /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		81FA724127747C0D00040BEF /* GridSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSize.swift; sourceTree = "<group>"; };
-		81FA724427747CD300040BEF /* BookListLayoutComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutComposer.swift; sourceTree = "<group>"; };
-		81FA724627747D0600040BEF /* HomeLayoutComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLayoutComposer.swift; sourceTree = "<group>"; };
+		81FA724427747CD300040BEF /* BookListLayoutMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListLayoutMaker.swift; sourceTree = "<group>"; };
+		81FA724627747D0600040BEF /* HomeLayoutMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLayoutMaker.swift; sourceTree = "<group>"; };
 		81FA724D27747E1200040BEF /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
 		81FA724F27747E3800040BEF /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
 		81FA725227747E7A00040BEF /* FeedbackManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackManagerProtocol.swift; sourceTree = "<group>"; };
@@ -863,7 +863,7 @@
 		8125AD5E279946C900FB6725 /* OnboardingLayout */ = {
 			isa = PBXGroup;
 			children = (
-				81A750A32790123400CAC424 /* OnboardingLayoutComposer.swift */,
+				81A750A32790123400CAC424 /* OnboardingLayoutMaker.swift */,
 				81A750A52790124500CAC424 /* OnboardingLayout.swift */,
 			);
 			path = OnboardingLayout;
@@ -1313,6 +1313,14 @@
 			path = NewCategories;
 			sourceTree = "<group>";
 		};
+		814CC77427A5714000E65134 /* CategoryFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				8188525627785FA0002813A1 /* CategoriesFormatter.swift */,
+			);
+			path = CategoryFormatter;
+			sourceTree = "<group>";
+		};
 		8157F51F2780904F005F182A /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -1554,7 +1562,7 @@
 		81C6CCAC2724799000DE9219 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				8188525627785FA0002813A1 /* CategoriesFormatter.swift */,
+				814CC77427A5714000E65134 /* CategoryFormatter */,
 				81FA725827747F2500040BEF /* Alert */,
 				812B160D27720CFD00D65C6A /* BarcodeReader */,
 				81FA725427747E9800040BEF /* Feedback */,
@@ -1698,7 +1706,7 @@
 		81FA724327747C9600040BEF /* BookListLayout */ = {
 			isa = PBXGroup;
 			children = (
-				81FA724427747CD300040BEF /* BookListLayoutComposer.swift */,
+				81FA724427747CD300040BEF /* BookListLayoutMaker.swift */,
 				81DB8DE22752329300698B92 /* BookListLayout.swift */,
 			);
 			path = BookListLayout;
@@ -1707,7 +1715,7 @@
 		81FA724827747D1000040BEF /* HomeLayout */ = {
 			isa = PBXGroup;
 			children = (
-				81FA724627747D0600040BEF /* HomeLayoutComposer.swift */,
+				81FA724627747D0600040BEF /* HomeLayoutMaker.swift */,
 				81DB8DE12752329300698B92 /* HomeTabLayout.swift */,
 			);
 			path = HomeLayout;
@@ -1988,7 +1996,7 @@
 				811C5C2E2797F029003D11BA /* NewCategoryPresenter.swift in Sources */,
 				8125AD7827994B5400FB6725 /* AccountControllerViewDelegate.swift in Sources */,
 				8114061427A15A2100A18059 /* CommentDataSource.swift in Sources */,
-				81FA724727747D0600040BEF /* HomeLayoutComposer.swift in Sources */,
+				81FA724727747D0600040BEF /* HomeLayoutMaker.swift in Sources */,
 				81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */,
 				8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */,
 				81857C0227A2C12D000D5E9E /* NewPresenterCategoryView.swift in Sources */,
@@ -2151,14 +2159,14 @@
 				8125ADC3279C10C100FB6725 /* UserCellUI.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */,
-				81FA724527747CD300040BEF /* BookListLayoutComposer.swift in Sources */,
+				81FA724527747CD300040BEF /* BookListLayoutMaker.swift in Sources */,
 				81857BFE27A2B8E9000D5E9E /* NewBookPresenterView.swift in Sources */,
 				8188524727748E16002813A1 /* RecommendationServiceProtocol.swift in Sources */,
 				810A68C0278B0E0D00406342 /* EmptyStateViewDelegate.swift in Sources */,
 				8125ADE9279ECC7000FB6725 /* NewBookViewControllerDelegate.swift in Sources */,
 				8124B9942725CEA7004E9AE0 /* UIVIewController+Extension.swift in Sources */,
 				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
-				81A750A42790123400CAC424 /* OnboardingLayoutComposer.swift in Sources */,
+				81A750A42790123400CAC424 /* OnboardingLayoutMaker.swift in Sources */,
 				81FA727C2774848800040BEF /* FeedbackManager.swift in Sources */,
 				81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */,
 				811D5BBD2744E60C00C935B5 /* CategoryDTO.swift in Sources */,

@@ -6,7 +6,7 @@
 //
 import UIKit
 
-/// Type of action for CollectionView or TableView context menu
+/// TableViews swipe actions
 enum CellSwipeActionType {
     case delete
     case edit
