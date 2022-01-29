@@ -21,7 +21,6 @@ class BookCollectionViewCell: UICollectionViewCell {
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
 
-    
     // MARK: - Configure
     func configure(with book: BookCellUI) {
         bookCover.getImage(for: book.image) { [weak self] image in

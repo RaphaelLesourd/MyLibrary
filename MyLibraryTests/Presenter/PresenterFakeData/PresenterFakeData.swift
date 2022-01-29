@@ -10,8 +10,8 @@ import Foundation
 
 class PresenterFakeData {
     
-    static  let user: UserModelDTO = UserModelDTO(id: "",
-                                            userID: "",
+    static  let user: UserModelDTO = UserModelDTO(id: "id",
+                                            userID: "1111",
                                             displayName: "TestName",
                                             email: "TestEmail",
                                             photoURL: "PhotoURL",

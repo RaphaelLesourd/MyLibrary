@@ -79,7 +79,6 @@ extension ListTableViewController: UITableViewDelegate {
         sectionTitleLabel.text = numberOfItemsInsection == 0 ? "" : section.headerTitle
         return sectionTitleLabel
     }
-    
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]

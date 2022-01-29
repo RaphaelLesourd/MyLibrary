@@ -97,8 +97,6 @@
 		8125ADB8279C019C00FB6725 /* NewBookUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADB7279C019C00FB6725 /* NewBookUI.swift */; };
 		8125ADBB279C072C00FB6725 /* BookCardUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADBA279C072C00FB6725 /* BookCardUI.swift */; };
 		8125ADBD279C0FD700FB6725 /* BookCellUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADBC279C0FD700FB6725 /* BookCellUI.swift */; };
-		8125ADC1279C104F00FB6725 /* UserCellMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADC0279C104F00FB6725 /* UserCellMapper.swift */; };
-		8125ADC3279C10C100FB6725 /* UserCellUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADC2279C10C100FB6725 /* UserCellUI.swift */; };
 		8125ADC7279C2C1400FB6725 /* ListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADC6279C2C1400FB6725 /* ListTableViewController.swift */; };
 		8125ADCA279C61C900FB6725 /* DataList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADC9279C61C900FB6725 /* DataList.swift */; };
 		8125ADCC279C61EA00FB6725 /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8125ADCB279C61EA00FB6725 /* ListPresenter.swift */; };
@@ -125,6 +123,7 @@
 		8136D8FA27A598EE00FCE2B3 /* SearchBookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8F927A598EE00FCE2B3 /* SearchBookService.swift */; };
 		8136D8FC27A5991900FCE2B3 /* PostNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */; };
 		8136D8FE27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */; };
+		8136D90327A5BC0500FCE2B3 /* UserCellUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D90227A5BC0500FCE2B3 /* UserCellUI.swift */; };
 		8138DDE2274784D400C355C6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE1274784D400C355C6 /* Formatter.swift */; };
 		8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE32747869C00C355C6 /* FormatterTestCase.swift */; };
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
@@ -408,8 +407,6 @@
 		8125ADB7279C019C00FB6725 /* NewBookUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookUI.swift; sourceTree = "<group>"; };
 		8125ADBA279C072C00FB6725 /* BookCardUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardUI.swift; sourceTree = "<group>"; };
 		8125ADBC279C0FD700FB6725 /* BookCellUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCellUI.swift; sourceTree = "<group>"; };
-		8125ADC0279C104F00FB6725 /* UserCellMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellMapper.swift; sourceTree = "<group>"; };
-		8125ADC2279C10C100FB6725 /* UserCellUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellUI.swift; sourceTree = "<group>"; };
 		8125ADC6279C2C1400FB6725 /* ListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewController.swift; sourceTree = "<group>"; };
 		8125ADC9279C61C900FB6725 /* DataList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataList.swift; sourceTree = "<group>"; };
 		8125ADCB279C61EA00FB6725 /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
@@ -436,6 +433,7 @@
 		8136D8F927A598EE00FCE2B3 /* SearchBookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookService.swift; sourceTree = "<group>"; };
 		8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotificationService.swift; sourceTree = "<group>"; };
 		8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCloudMessagingService.swift; sourceTree = "<group>"; };
+		8136D90227A5BC0500FCE2B3 /* UserCellUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellUI.swift; sourceTree = "<group>"; };
 		8138DDE1274784D400C355C6 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		8138DDE32747869C00C355C6 /* FormatterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterTestCase.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -686,6 +684,7 @@
 				819CD6E8275B6629002A9B12 /* MessageModel.swift */,
 				813CDD472790533F000BF439 /* Onboarding.swift */,
 				8121F0B0273B1515006EAA8D /* BookQuery.swift */,
+				8136D90227A5BC0500FCE2B3 /* UserCellUI.swift */,
 			);
 			path = "Value Objects";
 			sourceTree = "<group>";
@@ -757,7 +756,6 @@
 		8125AD462799420000FB6725 /* Mappers */ = {
 			isa = PBXGroup;
 			children = (
-				8125ADBF279C103000FB6725 /* UserCell */,
 				8125ADBE279C102000FB6725 /* BookCell */,
 			);
 			path = Mappers;
@@ -1158,15 +1156,6 @@
 				8125ADBC279C0FD700FB6725 /* BookCellUI.swift */,
 			);
 			path = BookCell;
-			sourceTree = "<group>";
-		};
-		8125ADBF279C103000FB6725 /* UserCell */ = {
-			isa = PBXGroup;
-			children = (
-				8125ADC0279C104F00FB6725 /* UserCellMapper.swift */,
-				8125ADC2279C10C100FB6725 /* UserCellUI.swift */,
-			);
-			path = UserCell;
 			sourceTree = "<group>";
 		};
 		8125ADC8279C619200FB6725 /* DataList */ = {
@@ -2124,7 +2113,6 @@
 				8188524A27748E42002813A1 /* UserServiceProtocol.swift in Sources */,
 				81B91841274A772600486176 /* NewBookControllerSubViews.swift in Sources */,
 				8125AD532799442400FB6725 /* AccountMainViewDelegate.swift in Sources */,
-				8125ADC1279C104F00FB6725 /* UserCellMapper.swift in Sources */,
 				81C6CC712724769B00DE9219 /* AppDelegate.swift in Sources */,
 				81204800272ADFC500E0A45B /* ImageStaticCell.swift in Sources */,
 				812BA73E278DCF09009541E4 /* BookCover.swift in Sources */,
@@ -2146,6 +2134,7 @@
 				811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
 				810A68BB27898CF000406342 /* BookDescriptioViewDelegate.swift in Sources */,
+				8136D90327A5BC0500FCE2B3 /* UserCellUI.swift in Sources */,
 				8125ADD6279C6DC100FB6725 /* Factory.swift in Sources */,
 				81BC7ED1273056D9009A1629 /* NSDirectionalEdgeInset+Extension.swift in Sources */,
 				8147516C2727E67F0080C5BA /* AppText.swift in Sources */,
@@ -2192,7 +2181,6 @@
 				81FA72602774803C00040BEF /* QueryProtocol.swift in Sources */,
 				81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */,
 				81F692D2278497010001450D /* UserCollectionViewCell.swift in Sources */,
-				8125ADC3279C10C100FB6725 /* UserCellUI.swift in Sources */,
 				81792F672732F93F005F863B /* FirebaseError.swift in Sources */,
 				8105937B2787028800ACBA2C /* ColorCollectionViewCell.swift in Sources */,
 				81FA724527747CD300040BEF /* BookListLayoutMaker.swift in Sources */,

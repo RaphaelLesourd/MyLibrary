@@ -52,9 +52,9 @@ class BookCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.delegate = self
-        mainView.showControlButtons(presenter.isBookEditable)
         presenter.view = self
         presenter.book = book
+        mainView.showControlButtons(presenter.isBookEditable)
         addNavigationBarButtons()
         setBookRecommandStatus()
         setBookFavoriteStatus()

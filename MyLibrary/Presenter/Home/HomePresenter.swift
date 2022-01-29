@@ -5,15 +5,17 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-class HomePresenter: BookCellMapper, UserCellMapper {
-    
+import FirebaseAuth
+
+class HomePresenter: BookCellMapper {
     weak var view: HomePresenterView?
+    var currentUserID = Auth.auth().currentUser?.uid
     var categories: [CategoryDTO] = []
     var latestBooks: [ItemDTO] = []
     var favoriteBooks: [ItemDTO] = []
     var recommandedBooks: [ItemDTO] = []
     var followedUser: [UserModelDTO] = []
-    
+
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
@@ -71,6 +73,13 @@ class HomePresenter: BookCellMapper, UserCellMapper {
             }
         }
     }
+
+    func makeUserCellUI(with user: UserModelDTO) -> UserCellUI {
+        let currentUser: Bool = user.userID == currentUserID
+        return UserCellUI(userName: user.displayName.capitalized,
+                          profileImage: user.photoURL,
+                          currentUser: currentUser)
+    }
     // MARK: - Private functions
     /// Fetch books for the current query
     /// - Parameters:
@@ -86,8 +95,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
             case .success(let books):
                 completion(books)
             case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error,
-                                                subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }
