@@ -8,7 +8,7 @@
 import Foundation
 @testable import MyLibrary
 
-class ApiManagerMockWithError: ApiManagerProtocol {
+class ApiManagerMockWithError: SearchBookService {
     func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
         completion(.success([]))
         completion(.failure(ApiError.noBooks))

@@ -21,13 +21,15 @@ class ViewControllerFactory {
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
 
-    private lazy var commentService = CommentService(userService: userService)
-    private lazy var apiManager = ApiManager(session: .default, validation: validation)
+    private lazy var googleBooksService = GoogleBooksService(session: .default, validation: validation)
+    private lazy var postNotificationService = FirebaseCloudMessagingService(session: .default)
+
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
                                                      categoryService: categoryService)
-    private lazy var messageService = MessageService(apiManager: apiManager)
-    
+    private lazy var messageService = MessageService(postNotificationService: postNotificationService)
+    private lazy var commentService = CommentService(userService: userService)
+
     // MARK: Presenters
     private lazy var welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
                                                                      validation: validation)
@@ -61,7 +63,7 @@ class ViewControllerFactory {
     private let onboardingLayout = OnboardingLayout()
     
     private func makeResultViewController() -> SearchViewController {
-        SearchViewController(presenter: SearchPresenter(apiManager: apiManager),
+        SearchViewController(presenter: SearchPresenter(apiManager: googleBooksService),
                              layoutComposer: bookListLayout)
     }
 }

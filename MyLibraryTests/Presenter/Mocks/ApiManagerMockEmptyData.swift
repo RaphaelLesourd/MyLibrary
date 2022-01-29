@@ -9,7 +9,7 @@
 import Foundation
 @testable import MyLibrary
 
-class ApiManagerMockEmptyData: ApiManagerProtocol {
+class ApiManagerMockEmptyData: SearchBookService {
     func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
         completion(.success([]))
     }

@@ -23,6 +23,7 @@ class TextFieldStaticCell: UITableViewCell {
         self.init()
         titleLabel.text = placeholder
         textField.autocorrectionType = .no
+        textField.autocapitalizationType = .sentences
         textField.placeholder = placeholder
         textField.keyboardType = keyboardType
     }
@@ -30,7 +31,7 @@ class TextFieldStaticCell: UITableViewCell {
     let titleLabel = TextLabel(color: .secondaryLabel,
                                maxLines: 2,
                                alignment: .left,
-                               font: .extraSmallTitle )
+                               font: .extraSmallTitle)
     let textField = TextField()
     
     private let stackView = StackView(axis: .horizontal,

@@ -13,7 +13,7 @@ enum AlamofireRouter: URLRequestConvertible {
     // cases
     case withIsbn(isbn: String)
     case withKeyWord(words: String, startIndex: Int)
-    case sendPushMessage(payload: MessageModel)
+    case pushMessage(with: MessageModel)
     
     // Parameters
     var parameters: Parameters {
@@ -22,8 +22,8 @@ enum AlamofireRouter: URLRequestConvertible {
             return ["q": "isbn:\(isbn)"]
         case .withKeyWord(words: let words, let startIndex):
             return makeBookSearch(with: words, and: startIndex)
-        case .sendPushMessage(payload: let payload):
-            return makeMessage(with: payload)
+        case .pushMessage(with: let message):
+            return makeMessage(with: message)
         }
     }
     // Conforming to URLRequestConvertible protocol, returning URLRequest
@@ -35,7 +35,7 @@ enum AlamofireRouter: URLRequestConvertible {
         switch self {
         case .withIsbn, .withKeyWord:
             return try URLEncoding.default.encode(request, with: parameters)
-        case .sendPushMessage:
+        case .pushMessage:
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue(Keys.fcmKEY, forHTTPHeaderField: "Authorization")
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -48,7 +48,7 @@ enum AlamofireRouter: URLRequestConvertible {
         switch self {
         case .withIsbn, .withKeyWord:
             return ApiUrl.googleBooksURL
-        case .sendPushMessage:
+        case .pushMessage:
             return ApiUrl.fcmURL
         }
     }
@@ -57,7 +57,7 @@ enum AlamofireRouter: URLRequestConvertible {
         switch self {
         case .withIsbn, .withKeyWord:
             return .get
-        case .sendPushMessage:
+        case .pushMessage:
             return .post
         }
     }
@@ -66,7 +66,7 @@ enum AlamofireRouter: URLRequestConvertible {
         switch self {
         case .withIsbn, .withKeyWord:
             return "volumes"
-        case .sendPushMessage:
+        case .pushMessage:
             return "send"
         }
     }

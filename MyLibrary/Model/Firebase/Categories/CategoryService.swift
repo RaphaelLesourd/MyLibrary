@@ -105,7 +105,6 @@ extension CategoryService: CategoryServiceProtocol {
                 do {
                     return try documents.data(as: CategoryDTO.self)
                 } catch {
-                    completion(.failure(.firebaseError(error)))
                     return nil
                 }
             }

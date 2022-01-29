@@ -17,10 +17,10 @@ class SearchPresenter: BookCellMapper {
             refreshSearchList()
         }
     }
-    private let apiManager: ApiManagerProtocol
+    private let apiManager: SearchBookService
     
     // MARK: - Initializer
-    init(apiManager: ApiManagerProtocol) {
+    init(apiManager: SearchBookService) {
         self.apiManager = apiManager
     }
     

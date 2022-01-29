@@ -16,14 +16,16 @@ class DisclosureTableViewCell: UITableViewCell {
         textLabel?.textColor = .secondaryLabel
         selectionStyle = .none
         accessoryType = .disclosureIndicator
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(title: String) {
+    convenience init(title: String, icon: UIImage?) {
         self.init()
         textLabel?.text = title
+        imageView?.image = icon
     }
 }

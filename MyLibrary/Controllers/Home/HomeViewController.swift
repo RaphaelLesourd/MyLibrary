@@ -58,12 +58,15 @@ class HomeViewController: UIViewController {
     }
     
     private func addNavigationBarButtons() {
-        guard let controller = splitViewController, !controller.isCollapsed else { return }
         let accountButton = UIBarButtonItem(image: Images.NavIcon.accountIcon,
                                             style: .plain,
                                             target: self,
                                             action: #selector(presentAccountController))
         let activityIndicactor = UIBarButtonItem(customView: mainView.activityIndicator)
+        guard let controller = splitViewController, !controller.isCollapsed else {
+            navigationItem.rightBarButtonItems = [activityIndicactor]
+            return
+        }
         navigationItem.rightBarButtonItems = [accountButton, activityIndicactor]
     }
     

@@ -60,6 +60,7 @@ enum Images {
         static let rightArrow = UIImage(systemName: "arrow.up.right.circle.fill")!
         static let language = UIImage(systemName: "mouth.fill")!
         static let currencies = UIImage(systemName: "eurosign.circle.fill")!
+        static let quote = UIImage(systemName: "quote.bubble.fill")!
     }
     
     enum Onboarding {

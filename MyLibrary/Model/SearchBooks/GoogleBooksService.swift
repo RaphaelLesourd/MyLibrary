@@ -7,19 +7,14 @@
 
 import Alamofire
 
-protocol ApiManagerProtocol {
-    func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void)
-    func sendPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void)
-}
-
-class ApiManager {
+class GoogleBooksService {
     // MARK: - Properties
     private let session: Session
     private let validation: ValidationProtocol
     
     // MARK: - Initializer
-    init(session: Session = .default,
-         validation: ValidationProtocol = Validation()) {
+    init(session: Session,
+         validation: ValidationProtocol) {
         self.session = session
         self.validation = validation
     }
@@ -38,7 +33,7 @@ class ApiManager {
     }
 }
 
-extension ApiManager: ApiManagerProtocol {
+extension GoogleBooksService: SearchBookService {
     /// Fetch Book data from API
     /// - Parameters:
     ///   - query: String of the words being searched
@@ -70,27 +65,6 @@ extension ApiManager: ApiManagerProtocol {
                     completion(.success(books))
                 case .failure(let error):
                     completion(.failure(.afError(error)))
-                }
-            }
-    }
-    
-    func sendPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
-        let parameters = AlamofireRouter.sendPushMessage(payload: message)
-        session
-            .request(parameters)
-            .validate(statusCode: 200..<504)
-            .response { response in
-                switch response.result {
-                case .success(_):
-                    // Error path, present an error message corresponding to the error code
-                    guard let httpErrorCode = response.response?.statusCode else { return }
-                    guard httpErrorCode == 200 || httpErrorCode == 204 else {
-                        return completion(.httpError(httpErrorCode))
-                    }
-                    // Happy path, return no error posted notifications silently
-                    completion(nil)
-                case .failure(let error):
-                    completion(.afError(error))
                 }
             }
     }

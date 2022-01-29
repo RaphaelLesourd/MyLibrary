@@ -12,9 +12,9 @@ class SearchPresenterTestCase: XCTestCase {
 
     private var sut: SearchPresenter!
     private var searchViewSpy: SearchViewSpy!
-    private var apiManager: ApiManagerProtocol!
-    private var apiManagerEmptyData: ApiManagerProtocol!
-    private var apiManagerWithError: ApiManagerProtocol!
+    private var apiManager: SearchBookService!
+    private var apiManagerEmptyData: SearchBookService!
+    private var apiManagerWithError: SearchBookService!
     
     // MARK: - Lifecycle
     override func setUp() {

@@ -14,12 +14,12 @@ class MessageService {
     private let db = Firestore.firestore()
     
     let userRef: CollectionReference
-    let apiManager: ApiManagerProtocol
+    let postNotificationService: PostNotificationService
     let userID: String
     
     // MARK: - Initializer
-    init(apiManager: ApiManagerProtocol = ApiManager(session: .default)) {
-        self.apiManager = apiManager
+    init(postNotificationService: PostNotificationService) {
+        self.postNotificationService = postNotificationService
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
@@ -68,7 +68,7 @@ class MessageService {
     private func sendMessage(to tokens: [String], with message: String, about book: ItemDTO) {
         tokens.forEach { token in
             let message = makeMessage(with: token, and: message, about: book)
-            apiManager.sendPushNotification(with: message) { error in
+            postNotificationService.sendPushNotification(with: message) { error in
                 if let error = error {
                     print(error.localizedDescription)
                 }

@@ -94,8 +94,8 @@ class HomeTabLayout {
     }
     
     private func makeSection(with group: NSCollectionLayoutGroup,
-                               spacing: CGFloat = 40,
-                               scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
+                             spacing: CGFloat = 40,
+                             scrollType: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> NSCollectionLayoutSection {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = scrollType
         section.contentInsets = .init(top: 10,

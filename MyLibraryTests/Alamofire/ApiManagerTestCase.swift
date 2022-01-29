@@ -11,7 +11,7 @@ import Alamofire
 class ApiManagerTestCase: XCTestCase {
     
     private var session: Session!
-    private var sut: ApiManager!
+    private var sut: GoogleBooksService!
     private let url = URL(string: "myDefaultURL")!
     
     override func setUp() {
@@ -19,7 +19,7 @@ class ApiManagerTestCase: XCTestCase {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         session = Session(configuration: configuration)
-        sut = ApiManager(session: session, validation: Validation())
+        sut = GoogleBooksService(session: session, validation: Validation())
     }
     
     override func tearDown() {

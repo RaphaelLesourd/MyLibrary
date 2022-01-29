@@ -122,6 +122,9 @@
 		812BA741278DCF09009541E4 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812BA73B278DCF09009541E4 /* TextField.swift */; };
 		812BA742278DCF09009541E4 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812BA73C278DCF09009541E4 /* TextLabel.swift */; };
 		812BA744278ED0AB009541E4 /* ConverterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812BA743278ED0AB009541E4 /* ConverterTestCase.swift */; };
+		8136D8FA27A598EE00FCE2B3 /* SearchBookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8F927A598EE00FCE2B3 /* SearchBookService.swift */; };
+		8136D8FC27A5991900FCE2B3 /* PostNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */; };
+		8136D8FE27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */; };
 		8138DDE2274784D400C355C6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE1274784D400C355C6 /* Formatter.swift */; };
 		8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE32747869C00C355C6 /* FormatterTestCase.swift */; };
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
@@ -224,7 +227,7 @@
 		81A750A82790160900CAC424 /* WelcomeMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A750A72790160800CAC424 /* WelcomeMainViewDelegate.swift */; };
 		81A7957E27690695006E8219 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81A7958027690695006E8219 /* Localizable.strings */; };
 		81A9BD86272BDE2900B7DA81 /* ItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD85272BDE2900B7DA81 /* ItemDTO.swift */; };
-		81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* ApiManager.swift */; };
+		81A9BD8C272BE38400B7DA81 /* GoogleBooksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8A272BE38400B7DA81 /* GoogleBooksService.swift */; };
 		81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */; };
 		81AFE031276CA4C9009735FE /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFE030276CA4C9009735FE /* NotificationService.swift */; };
 		81AFE035276CA4C9009735FE /* RichNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 81AFE02E276CA4C9009735FE /* RichNotifications.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -430,6 +433,9 @@
 		812BA73B278DCF09009541E4 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		812BA73C278DCF09009541E4 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		812BA743278ED0AB009541E4 /* ConverterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterTestCase.swift; sourceTree = "<group>"; };
+		8136D8F927A598EE00FCE2B3 /* SearchBookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookService.swift; sourceTree = "<group>"; };
+		8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotificationService.swift; sourceTree = "<group>"; };
+		8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCloudMessagingService.swift; sourceTree = "<group>"; };
 		8138DDE1274784D400C355C6 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		8138DDE32747869C00C355C6 /* FormatterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterTestCase.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -511,7 +517,7 @@
 		81A79581276906BF006E8219 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		81A79583276A1114006E8219 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		81A9BD85272BDE2900B7DA81 /* ItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDTO.swift; sourceTree = "<group>"; };
-		81A9BD8A272BE38400B7DA81 /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		81A9BD8A272BE38400B7DA81 /* GoogleBooksService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleBooksService.swift; sourceTree = "<group>"; };
 		81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireRouter.swift; sourceTree = "<group>"; };
 		81AFE028276BB23F009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		81AFE029276C9C33009735FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -989,7 +995,6 @@
 			isa = PBXGroup;
 			children = (
 				81242D55272DB21200CB39B1 /* ApiErrors.swift */,
-				81A9BD8A272BE38400B7DA81 /* ApiManager.swift */,
 				81A9BD8B272BE38400B7DA81 /* AlamofireRouter.swift */,
 			);
 			path = Alamofire;
@@ -1304,6 +1309,24 @@
 			path = BarcodeReader;
 			sourceTree = "<group>";
 		};
+		8136D8F727A5983000FCE2B3 /* PostNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */,
+				8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */,
+			);
+			path = PostNotifications;
+			sourceTree = "<group>";
+		};
+		8136D8F827A5989500FCE2B3 /* SearchBooks */ = {
+			isa = PBXGroup;
+			children = (
+				8136D8F927A598EE00FCE2B3 /* SearchBookService.swift */,
+				81A9BD8A272BE38400B7DA81 /* GoogleBooksService.swift */,
+			);
+			path = SearchBooks;
+			sourceTree = "<group>";
+		};
 		813CDD4C27907DE6000BF439 /* NewCategories */ = {
 			isa = PBXGroup;
 			children = (
@@ -1319,6 +1342,13 @@
 				8188525627785FA0002813A1 /* CategoriesFormatter.swift */,
 			);
 			path = CategoryFormatter;
+			sourceTree = "<group>";
+		};
+		814CC77527A57D4600E65134 /* LottieJson */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LottieJson;
 			sourceTree = "<group>";
 		};
 		8157F51F2780904F005F182A /* Welcome */ = {
@@ -1576,6 +1606,7 @@
 		81C6CCAD272479A200DE9219 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				814CC77527A57D4600E65134 /* LottieJson */,
 				81C6CC7C2724769C00DE9219 /* Assets.xcassets */,
 				819CD6E6275A54E7002A9B12 /* CommentsLottieAnimation.json */,
 				81451DCF276F44B200F3C0C8 /* scanner.json */,
@@ -1587,6 +1618,8 @@
 		81C6CCAE272479B300DE9219 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8136D8F827A5989500FCE2B3 /* SearchBooks */,
+				8136D8F727A5983000FCE2B3 /* PostNotifications */,
 				8125AD612799476900FB6725 /* DTO */,
 				811C5BD927969DCB003D11BA /* Value Objects */,
 				8125AD6E279948BB00FB6725 /* Alamofire */,
@@ -2039,7 +2072,7 @@
 				819CD6E9275B6629002A9B12 /* MessageModel.swift in Sources */,
 				8157F57D2782E36F005F182A /* BookListMenu.swift in Sources */,
 				810C446D2726F007007541C0 /* WelcomeControllerMainView.swift in Sources */,
-				81A9BD8C272BE38400B7DA81 /* ApiManager.swift in Sources */,
+				81A9BD8C272BE38400B7DA81 /* GoogleBooksService.swift in Sources */,
 				818852522774BE87002813A1 /* BookDetailComponent.swift in Sources */,
 				8125ADC7279C2C1400FB6725 /* ListTableViewController.swift in Sources */,
 				819CD6EB275B7C5C002A9B12 /* MessageService.swift in Sources */,
@@ -2104,9 +2137,12 @@
 				8157F55A2781D585005F182A /* BarcodeScannerDelegate.swift in Sources */,
 				813CDD482790533F000BF439 /* Onboarding.swift in Sources */,
 				812BA73D278DCF09009541E4 /* StackView.swift in Sources */,
+				8136D8FA27A598EE00FCE2B3 /* SearchBookService.swift in Sources */,
 				81FA725A27747F6F00040BEF /* QueryTypes.swift in Sources */,
 				814CC77127A51D1400E65134 /* CategoryColors.swift in Sources */,
+				8136D8FE27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift in Sources */,
 				810A68B82788702100406342 /* NewCategoryViewDelegate.swift in Sources */,
+				8136D8FC27A5991900FCE2B3 /* PostNotificationService.swift in Sources */,
 				811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
 				810A68BB27898CF000406342 /* BookDescriptioViewDelegate.swift in Sources */,
@@ -2289,7 +2325,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2317,7 +2353,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = RichNotifications/RichNotifications.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RichNotifications/Info.plist;
@@ -2469,7 +2505,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
@@ -2510,7 +2546,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = MyLibrary/MyLibrary.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = LW66PFZQH6;
 				EXCLUDED_ARCHS = "";
 				FCM_KEY = "key=AAAAREQmmeA:APA91bHTxySL1KCgdIPC8KAlwhEI7CWCzfvnqQtmwOvbVO5UJOXeJVx3qwh97opc0wDiAT9S4S8ro_AyGayzf-ym5NeDe-6giNDvzplmHvGIghrISPCDPKr5pi2VJwJjw8hunsunjZGo";
