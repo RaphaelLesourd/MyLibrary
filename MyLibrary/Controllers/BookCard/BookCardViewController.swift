@@ -62,13 +62,11 @@ class BookCardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationItem.largeTitleDisplayMode = .never
-        makeNavigationBarClear()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationItem.largeTitleDisplayMode = .always
-        restoreNavigationDefaultBar()
     }
     
     // MARK: Setup

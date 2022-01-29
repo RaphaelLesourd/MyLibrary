@@ -69,7 +69,7 @@ class NewBookPresenter {
         guard let code = code else { return }
         language = code
         let data = formatter.formatCodeToName(from: code, type: .languages)
-        view?.updateLanguageView(with: data.capitalized)
+        view?.displayLanguage(with: data.capitalized)
     }
     
     /// Convert and set book language name from code .
@@ -79,7 +79,7 @@ class NewBookPresenter {
         guard let code = code else { return }
         currency = code
         let data = formatter.formatCodeToName(from: code, type: .currency)
-        view?.updateCurrencyView(with: data.uppercased())
+        view?.displayCurrencyView(with: data.uppercased())
     }
     
     // MARK: - Private functions

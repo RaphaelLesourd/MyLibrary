@@ -193,9 +193,9 @@
 "Letsgo" = "Let's go!";
  
 "NewBookCategoriesHeader" = "Add categories";
-"NewBookPublishingHeader" = "Set pushlishing details";
+"NewBookPublishingHeader" = "Pushlishing details";
 "NewBookDetailsHeader" = "Book details";
-"NewBookRatingHeader" = "Give a rating";
+"NewBookRatingHeader" = "Rating";
 "NewBookPriceHeader" = "Purchased price";
 "NewBookSaveFooter" = "To save a book you must include at least a title.";
 

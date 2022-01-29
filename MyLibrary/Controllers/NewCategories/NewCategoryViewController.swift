@@ -56,14 +56,14 @@ class NewCategoryViewController: UIViewController {
 extension NewCategoryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.defaultColors.count
+        return CategoryColors.palette.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.reuseIdentifier,
                                                             for: indexPath) as? ColorCollectionViewCell else {
             return UICollectionViewCell() }
-        let color = presenter.defaultColors[indexPath.row]
+        let color = CategoryColors.palette[indexPath.row]
         cell.configure(with: color)
         return cell
     }
@@ -72,7 +72,7 @@ extension NewCategoryViewController: UICollectionViewDataSource {
 // MARK: - CollectinView Delegate
 extension NewCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.selectedColor = presenter.defaultColors[indexPath.row]
+        presenter.selectedColor = CategoryColors.palette[indexPath.row]
     }
 }
 
@@ -93,6 +93,7 @@ extension NewCategoryViewController: NewCategoryViewDelegate {
 
 // MARK: - Presenter Delegate
 extension NewCategoryViewController: NewCategoryPresenterView {
+
     func updateBackgroundTint(with colorHex: String) {
         mainView.updateBackgroundColor(with: colorHex)
     }

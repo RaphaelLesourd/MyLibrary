@@ -70,7 +70,7 @@ extension ListMainView {
         emptyStateView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             emptyStateView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
+            emptyStateView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 100)
         ])
     }
 }

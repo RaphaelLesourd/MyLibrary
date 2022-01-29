@@ -135,11 +135,11 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
         displayBookWasCalled = true
     }
     
-    func updateLanguageView(with language: String) {
+    func displayLanguage(with language: String) {
         updateLanguageViewWasCalled = true
     }
     
-    func updateCurrencyView(with currency: String) {
+    func displayCurrencyView(with currency: String) {
         updateCurrencyViewWasCalled = true
     }
 }

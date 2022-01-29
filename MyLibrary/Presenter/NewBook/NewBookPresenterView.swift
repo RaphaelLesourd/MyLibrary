@@ -9,7 +9,7 @@ protocol NewBookPresenterView: AnyObject {
     func toggleSaveButtonActivityIndicator(to play: Bool)
     func returnToPreviousVC()
     func displayBook(with model: NewBookUI)
-    func updateLanguageView(with language: String)
-    func updateCurrencyView(with currency: String)
+    func displayLanguage(with language: String)
+    func displayCurrencyView(with currency: String)
     func clearData()
 }

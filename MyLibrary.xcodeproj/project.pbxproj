@@ -135,6 +135,8 @@
 		8147516C2727E67F0080C5BA /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516B2727E67F0080C5BA /* AppText.swift */; };
 		8147516E2727E9490080C5BA /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8147516D2727E9490080C5BA /* Images.swift */; };
 		814765762782E5B700B4ED12 /* NewBookControllerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */; };
+		814CC76F27A5074C00E65134 /* NewBookSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814CC76E27A5074C00E65134 /* NewBookSections.swift */; };
+		814CC77127A51D1400E65134 /* CategoryColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814CC77027A51D1400E65134 /* CategoryColors.swift */; };
 		8157F4DA277AFAFA005F182A /* BookCardMainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */; };
 		8157F50F277F4260005F182A /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F50E277F4260005F182A /* ContactView.swift */; };
 		8157F511277F448E005F182A /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157F510277F448E005F182A /* AccountView.swift */; };
@@ -441,6 +443,8 @@
 		8147516B2727E67F0080C5BA /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
 		8147516D2727E9490080C5BA /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		814765752782E5B700B4ED12 /* NewBookControllerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBookControllerViewDelegate.swift; sourceTree = "<group>"; };
+		814CC76E27A5074C00E65134 /* NewBookSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookSections.swift; sourceTree = "<group>"; };
+		814CC77027A51D1400E65134 /* CategoryColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryColors.swift; sourceTree = "<group>"; };
 		8157F4D9277AFAFA005F182A /* BookCardMainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCardMainViewDelegate.swift; sourceTree = "<group>"; };
 		8157F50E277F4260005F182A /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		8157F510277F448E005F182A /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
@@ -706,6 +710,7 @@
 			isa = PBXGroup;
 			children = (
 				8147516B2727E67F0080C5BA /* AppText.swift */,
+				814CC77027A51D1400E65134 /* CategoryColors.swift */,
 				8147516D2727E9490080C5BA /* Images.swift */,
 				81DE9C9D2733BC4700FF81C2 /* Keys.swift */,
 				8125AD732799498500FB6725 /* Types */,
@@ -1023,8 +1028,9 @@
 			children = (
 				81FA72782774837100040BEF /* CommentsSections.swift */,
 				8121F078273A9A1A006EAA8D /* HomeSections.swift */,
-				81FA72762774835700040BEF /* SingleSection.swift */,
 				8125ADEB279EF3C200FB6725 /* ListSection.swift */,
+				814CC76E27A5074C00E65134 /* NewBookSections.swift */,
+				81FA72762774835700040BEF /* SingleSection.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -2091,6 +2097,7 @@
 				813CDD482790533F000BF439 /* Onboarding.swift in Sources */,
 				812BA73D278DCF09009541E4 /* StackView.swift in Sources */,
 				81FA725A27747F6F00040BEF /* QueryTypes.swift in Sources */,
+				814CC77127A51D1400E65134 /* CategoryColors.swift in Sources */,
 				810A68B82788702100406342 /* NewCategoryViewDelegate.swift in Sources */,
 				811D5BBF2744F6FD00C935B5 /* CategoryService.swift in Sources */,
 				81C6CCA52724776900DE9219 /* TabBarController.swift in Sources */,
@@ -2115,6 +2122,7 @@
 				81A9BD8D272BE38400B7DA81 /* AlamofireRouter.swift in Sources */,
 				81BC7ED327305810009A1629 /* NSCollectionLayoutItem+Extension.swift in Sources */,
 				814765762782E5B700B4ED12 /* NewBookControllerViewDelegate.swift in Sources */,
+				814CC76F27A5074C00E65134 /* NewBookSections.swift in Sources */,
 				8188524427748DDF002813A1 /* MessageServiceProtocol.swift in Sources */,
 				8121F0B5273D0AFF006EAA8D /* ImageStorageService.swift in Sources */,
 				81DB8DFF2753AA6D00698B92 /* CommentsViewController.swift in Sources */,

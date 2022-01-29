@@ -15,7 +15,6 @@ class NewBookViewController: UITableViewController {
     
     private let resultController: SearchViewController
     private let presenter: NewBookPresenter
-    
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
     private var isEditingBook = false
@@ -63,7 +62,7 @@ class NewBookViewController: UITableViewController {
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .viewControllerBackgroundColor
-        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 50, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 40, right: 0)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
@@ -81,7 +80,7 @@ class NewBookViewController: UITableViewController {
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
-        self.navigationItem.searchController = isEditingBook ? nil : subViews.searchController
+
     }
     
     private func setDelegates() {
@@ -97,6 +96,7 @@ class NewBookViewController: UITableViewController {
         subViews.searchController.definesPresentationContext = false
         resultController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.searchController = isEditingBook ? nil : subViews.searchController
     }
     
     func clearData() {
@@ -122,23 +122,23 @@ class NewBookViewController: UITableViewController {
         }
     }
     
-    private func presentCategoryListVC() {
+    private func presentCategoryListController() {
         let categoryListVC = factory.makeCategoryVC(isSelecting: true,
                                                     bookCategories: presenter.bookCategories,
                                                     newBookDelegate: self)
         showController(categoryListVC)
     }
     
-    private func presentDescriptionVC() {
+    private func presentDescriptionController() {
         let descriptionVC = factory.makeBookDescriptionVC(description: presenter.bookDescription,
-                                                                      newBookDelegate: self)
+                                                          newBookDelegate: self)
         showController(descriptionVC)
     }
     
-    private func presentListViewVC(for listType: ListDataType, with selectedData: String?) {
+    private func presentListViewController(for listType: ListDataType, with selectedData: String?) {
         let listViewController = factory.makeListVC(for: listType,
-                                                           selectedData: selectedData,
-                                                           newBookDelegate: self)
+                                                       selectedData: selectedData,
+                                                       newBookDelegate: self)
         showController(listViewController)
     }
 }
@@ -185,13 +185,14 @@ extension NewBookViewController: ImagePickerDelegate {
 extension NewBookViewController: NewBookViewDelegate {
     
     func saveBook() {
-        guard let imageData = subViews.bookImageCell.pictureView.image?.jpegData(.high) else { return }
+        guard let imageData = subViews.bookImageCell.pictureView.image?.jpegData(.medium) else { return }
         presenter.saveBook(with: imageData)
     }
 }
 
 // MARK: - NewBookController Delegate
 extension NewBookViewController: NewBookViewControllerDelegate {
+
     func setDescription(with text: String) {
         presenter.bookDescription = text
     }
@@ -217,12 +218,13 @@ extension NewBookViewController: NewBookViewControllerDelegate {
 
 // MARK: - NewBook Presenter
 extension NewBookViewController: NewBookPresenterView {
-    func updateLanguageView(with language: String) {
-        subViews.languageCell.textLabel?.text = language
+
+    func displayLanguage(with name: String) {
+        subViews.languageCell.textLabel?.text = name
     }
     
-    func updateCurrencyView(with currency: String) {
-        subViews.currencyCell.textLabel?.text = currency
+    func displayCurrencyView(with name: String) {
+        subViews.currencyCell.textLabel?.text = name
     }
     
     func displayBook(with model: NewBookUI) {
@@ -238,22 +240,7 @@ extension NewBookViewController: NewBookPresenterView {
 extension NewBookViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 2:
-            return Text.SectionTitle.newBookCategoriesHeader
-        case 3:
-            return Text.SectionTitle.newBookPublishingHeader
-        case 4:
-            return Text.SectionTitle.newBookDetailsHeader
-        case 5:
-            return Text.Book.bookLanguage
-        case 6:
-            return Text.SectionTitle.newBookRatingHeader
-        case 7:
-            return Text.SectionTitle.newBookPriceHeader
-        default:
-            return ""
-        }
+        return NewBookSections.allCases[section].headerTitle
     }
    
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -266,7 +253,7 @@ extension NewBookViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 40
+        return 20
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -283,16 +270,16 @@ extension NewBookViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.section, indexPath.row) {
-        case (0, 0):
+        case (0,0):
             imagePicker?.present(from: subViews.bookImageCell.pictureView)
-        case (2, 0):
-            presentCategoryListVC()
-        case (4, 0):
-            presentDescriptionVC()
+        case (2,0):
+            presentCategoryListController()
+        case (4,0):
+            presentDescriptionController()
         case (5,0):
-            presentListViewVC(for: .languages, with: presenter.language)
+            presentListViewController(for: .languages, with: presenter.language)
         case (7,1):
-            presentListViewVC(for: .currency, with: presenter.currency)
+            presentListViewController(for: .currency, with: presenter.currency)
         default:
             return
         }

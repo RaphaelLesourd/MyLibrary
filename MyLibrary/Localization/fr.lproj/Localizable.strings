@@ -196,7 +196,7 @@
 "NewBookCategoriesHeader" = "Ajoutez des catégories";
 "NewBookPublishingHeader" = "Détails d'édition";
 "NewBookDetailsHeader" = "Détails du livre";
-"NewBookRatingHeader" = "Ajoutez une Note";
+"NewBookRatingHeader" = "Note";
 "NewBookPriceHeader" = "Détails du prix";
 "NewBookSaveFooter" = "Pour enregistrer ce livre, entrez au minimum un titre.";
 
