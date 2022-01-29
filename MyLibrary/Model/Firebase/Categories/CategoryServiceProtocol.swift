@@ -10,7 +10,7 @@ protocol CategoryServiceProtocol {
                      color: String,
                      completion: @escaping (FirebaseError?) -> Void)
     
-    func getCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void)
+    func getUserCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void)
     
     func getBookCategories(for categoryIds: [String],
                            bookOwnerID: String,

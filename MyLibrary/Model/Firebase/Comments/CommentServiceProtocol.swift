@@ -10,6 +10,5 @@ protocol CommentServiceProtocol {
                     completion: @escaping (FirebaseError?) -> Void)
     func getComments(for bookID: String, ownerID: String, completion: @escaping (Result<[CommentDTO], FirebaseError>) -> Void)
     func deleteComment(for bookID: String, ownerID: String, comment: CommentDTO, completion: @escaping (FirebaseError?) -> Void)
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModelDTO, FirebaseError>) -> Void)
     func removeListener()
 }

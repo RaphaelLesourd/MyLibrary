@@ -30,7 +30,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
     
     // MARK: - API Calls
     func getCategories() {
-        categoryService.getCategories { [weak self] result in
+        categoryService.getUserCategories { [weak self] result in
             switch result {
             case .success(let categories):
                 self?.categories = categories
@@ -63,7 +63,7 @@ class HomePresenter: BookCellMapper, UserCellMapper {
     }
     
     func getUsers() {
-        recommendationService.retrieveRecommendingUsers { [weak self] result in
+        recommendationService.getRecommendingUsers { [weak self] result in
             switch result {
             case .success(let users):
                 self?.followedUser = users

@@ -20,12 +20,12 @@ class NewBookPresenter {
     private let libraryService: LibraryServiceProtocol
     private let formatter: Formatter
     private let converter: ConverterProtocol
-    private let validator: ValidatorProtocol
+    private let validator: ValidationProtocol
     
     init(libraryService: LibraryServiceProtocol,
          formatter: Formatter,
          converter: ConverterProtocol,
-         validator: ValidatorProtocol) {
+         validator: ValidationProtocol) {
         self.libraryService = libraryService
         self.formatter = formatter
         self.converter = converter

@@ -14,8 +14,8 @@ extension UserCellMapper {
     func makeUserCellUI(with user: UserModelDTO) -> UserCellUI {
         let currentUser: Bool = user.userID == Auth.auth().currentUser?.uid
         return UserCellUI(userName: user.displayName.capitalized,
-                                     currentUser: currentUser,
-                                     profileImage: user.photoURL)
+                          currentUser: currentUser,
+                          profileImage: user.photoURL)
         
     }
 }

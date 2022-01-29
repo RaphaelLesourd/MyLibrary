@@ -55,7 +55,9 @@ extension ImageStorageService: ImageStorageProtocol {
     func saveImage(for imageData: Data?,
                    nameID: String,
                    completion: @escaping (Result<String, FirebaseError>) -> Void) {
+
         addImageToStorage(for: imageData, id: nameID) { result in
+
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
@@ -68,12 +70,16 @@ extension ImageStorageService: ImageStorageProtocol {
     
     func updateUserImage(for imageData: Data?,
                          completion: @escaping (FirebaseError?) -> Void) {
-       addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
+
+        addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
            guard let self = self else { return }
+
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
-                self.usersCollectionRef.document(self.userID).updateData([DocumentKey.photoURL.rawValue: imageStringURL])
+                self.usersCollectionRef
+                    .document(self.userID)
+                    .updateData([DocumentKey.photoURL.rawValue: imageStringURL])
                 completion(nil)
             case .failure(let error):
                 completion(.firebaseError(error))

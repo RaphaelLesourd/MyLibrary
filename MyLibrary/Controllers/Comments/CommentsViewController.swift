@@ -17,7 +17,7 @@ class CommentsViewController: UIViewController {
   
     private let mainView = CommentControllerView()
     private let keyboardManager = KeyboardManager()
-    private let validator: ValidatorProtocol
+    private let validation: ValidationProtocol
     private let presenter: CommentPresenter
     private lazy var dataSource = makeDataSource()
     private var book: ItemDTO?
@@ -25,10 +25,10 @@ class CommentsViewController: UIViewController {
     // MARK: - Initializer
     init(book: ItemDTO?,
          presenter: CommentPresenter,
-         validator: ValidatorProtocol) {
+         validation: ValidationProtocol) {
         self.book = book
         self.presenter = presenter
-        self.validator = validator
+        self.validation = validation
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -189,10 +189,10 @@ extension CommentsViewController {
         snapshot.appendSections(CommentsSection.allCases)
         snapshot.appendItems(presenter.bookCellRepresentable, toSection: .book)
         
-        let todayComments = presenter.commentList.filter({ validator.isTimestampToday(for: $0.timestamp) })
+        let todayComments = presenter.commentList.filter({ validation.isTimestampToday(for: $0.timestamp) })
         snapshot.appendItems(todayComments, toSection: .today)
         
-        let pastComments = presenter.commentList.filter({ !validator.isTimestampToday(for: $0.timestamp) })
+        let pastComments = presenter.commentList.filter({ !validation.isTimestampToday(for: $0.timestamp) })
         snapshot.appendItems(pastComments, toSection: .past)
        
         DispatchQueue.main.async {

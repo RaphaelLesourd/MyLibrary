@@ -25,7 +25,13 @@ class MessageService {
     }
     
     // MARK: - Private functions
-    private func getUserIds(from comments: [CommentDTO]) -> [[String]] {
+    /// Makes an array of userIds  for the comment list.
+    /// - parameters:
+    /// - comments: Array of CommentDTO objects
+    /// - returns: 2 dimensional array of strings.
+    /// - Note: Due to the limitation of firestore to retreive data matching a field only by chunks of 10 maximum.
+    /// The returned array of user ids is divided in smalled arrays of 10 ids each..
+    private func makeUserIdList(from comments: [CommentDTO]) -> [[String]] {
         let userIds = comments.compactMap { $0.userID }
         let uniqueIds = Array(Set(userIds))
         return uniqueIds.chunked(into: 10)
@@ -34,8 +40,8 @@ class MessageService {
     private func getUserMessageTokens(from comments: [CommentDTO],
                                       for bookOwnerID: String,
                                       completion: @escaping (Result<[String], FirebaseError>) -> Void) {
-        let userIds = getUserIds(from: comments)
-        
+        let userIds = makeUserIdList(from: comments)
+
         userIds.forEach { ids in
             let docRef = userRef.whereField(DocumentKey.userID.rawValue, in: ids)
             docRef.getDocuments { querySnapshot, error in
@@ -58,31 +64,31 @@ class MessageService {
             }
         }
     }
-    
+
     private func sendMessage(to tokens: [String], with message: String, about book: ItemDTO) {
         tokens.forEach { token in
-            postNotifications(with: token, and: message, about: book)
+            let message = makeMessage(with: token, and: message, about: book)
+            apiManager.sendPushNotification(with: message) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
     
-    private func postNotifications(with token: String,
-                                   and message: String,
-                                   about book: ItemDTO) {
-        guard let bookTitle = book.volumeInfo?.title,
-              let bookID = book.bookID,
-              let ownerID = book.ownerID,
-              let imageURL = book.volumeInfo?.imageLinks?.thumbnail else { return }
-        let message = MessageModel(title: bookTitle.capitalized,
-                                   body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
-                                   bookID: bookID,
-                                   ownerID: ownerID,
-                                   imageURL: imageURL,
-                                   token: token)
-        apiManager.postPushNotification(with: message) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
+    private func makeMessage(with token: String,
+                             and message: String,
+                             about book: ItemDTO) -> MessageModel {
+        let bookTitle = book.volumeInfo?.title ?? ""
+        let bookID = book.bookID ?? ""
+        let ownerID = book.ownerID ?? ""
+        let imageURL = book.volumeInfo?.imageLinks?.thumbnail ?? ""
+        return MessageModel(title: bookTitle.capitalized,
+                            body: "💬 \(Auth.auth().currentUser?.displayName?.capitalized ?? ""): \(message)",
+                            bookID: bookID,
+                            ownerID: ownerID,
+                            imageURL: imageURL,
+                            token: token)
     }
 }
 // MARK: - MessageService Protocol

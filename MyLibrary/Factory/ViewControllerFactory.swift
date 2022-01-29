@@ -14,14 +14,14 @@ class ViewControllerFactory {
     private let imageStorageService = ImageStorageService()
     private let recommendationService = RecommandationService()
     private let queryService = QueryService()
-    private let commentService = CommentService()
     private let feedbackManager = FeedbackManager()
-    private let validation = Validator()
+    private let validation = Validation()
     private let formatter = Formatter()
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
-    
-    private lazy var apiManager = ApiManager(session: .default, validator: validation)
+
+    private lazy var commentService = CommentService(userService: userService)
+    private lazy var apiManager = ApiManager(session: .default, validation: validation)
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
                                                      categoryService: categoryService)
@@ -40,6 +40,7 @@ class ViewControllerFactory {
                                                    recommendationService: recommendationService)
     private lazy var commentPresenter = CommentPresenter(commentService: commentService,
                                                          messageService: messageService,
+                                                         userService: userService,
                                                          formatter: formatter)
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
@@ -127,7 +128,7 @@ extension ViewControllerFactory: Factory {
     func makeCommentVC(with book: ItemDTO?) -> UIViewController {
         return CommentsViewController(book: book,
                                       presenter: commentPresenter,
-                                      validator: validation)
+                                      validation: validation)
     }
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController {
@@ -149,6 +150,7 @@ extension ViewControllerFactory: Factory {
     }
     
     func makeOnboardingVC() -> UIViewController {
-        return OnboardingViewController(layoutComposer: onboardingLayout, presenter: onboardingPresenter)
+        return OnboardingViewController(layoutComposer: onboardingLayout,
+                                        presenter: onboardingPresenter)
     }
 }

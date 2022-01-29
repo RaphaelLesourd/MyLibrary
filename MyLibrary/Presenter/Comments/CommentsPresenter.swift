@@ -17,14 +17,17 @@ class CommentPresenter {
     
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
+    private let userService: UserServiceProtocol
     private let formatter: Formatter
     
     // MARK: - Intializer
     init(commentService: CommentServiceProtocol,
          messageService: MessageServiceProtocol,
+         userService: UserServiceProtocol,
          formatter: Formatter) {
         self.commentService = commentService
         self.messageService = messageService
+        self.userService = userService
         self.formatter = formatter
     }
     
@@ -132,16 +135,16 @@ class CommentPresenter {
     func getBookDetails() {
         guard let book = book,
               let ownerID = book.ownerID else { return }
-        var name = String()
+        var name: String?
         view?.startActivityIndicator()
-        
-        commentService.getUserDetail(for: ownerID) { [weak self] result in
+
+        userService.retrieveUser(for: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             
             if case .success(let owner) = result {
-                name = owner.displayName
+                name = owner?.displayName
             }
-            if let data = self?.makeCommentBookCellRepresentable(with: book, and: name) {
+            if let data = self?.makeCommentBookCellUI(with: book, and: name) {
                 self?.bookCellRepresentable = [data]
                 self?.view?.applySnapshot(animatingDifferences: true)
             }
@@ -166,14 +169,14 @@ class CommentPresenter {
     /// - Parameters:
     ///   - book: Item object
     ///   - ownerName: String representing the name of the book owner
-    private func makeCommentBookCellRepresentable(with book: ItemDTO,
-                                                  and ownerName: String) -> CommentBookUI {
+    private func makeCommentBookCellUI(with book: ItemDTO,
+                                       and ownerName: String?) -> CommentBookUI {
         let title = book.volumeInfo?.title?.capitalized
         let authors = book.volumeInfo?.authors?.joined(separator: ", ")
         let image = book.volumeInfo?.imageLinks?.thumbnail
         return CommentBookUI(title: title,
-                                            authors: authors,
-                                            image: image,
-                                            ownerName: ownerName)
+                             authors: authors,
+                             image: image,
+                             ownerName: ownerName)
     }
 }

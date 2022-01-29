@@ -114,10 +114,10 @@ extension SearchViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.emptyStateView.isHidden = !presenter.searchedBooks.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.searchList.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(presenter.searchedBooks, toSection: .main)
+        snapshot.appendItems(presenter.searchList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -129,9 +129,9 @@ extension SearchViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
-        if indexPath.row == currentRow && presenter.noMoreBooks == false {
+        if indexPath.row == currentRow && presenter.noMoreBooksFound == false {
             presenter.getBooks(with: presenter.currentSearchKeywords,
-                               fromIndex: presenter.searchedBooks.count + 1)
+                               fromIndex: presenter.searchList.count + 1)
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController
@@ -145,7 +145,7 @@ extension SearchViewController: UICollectionViewDelegate {
 extension SearchViewController: BookListViewDelegate {
     
     func refreshBookList() {
-        presenter.refreshData()
+        presenter.refreshSearchList()
     }
 }
 // MARK: - SearchPresenter Delegate

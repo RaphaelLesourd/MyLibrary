@@ -10,12 +10,12 @@ import XCTest
 
 class ValidatorTestCase: XCTestCase {
 
-    var sut: ValidatorProtocol!
+    var sut: ValidationProtocol!
     
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        sut = Validator()
+        sut = Validation()
     }
     
     override func tearDown() {

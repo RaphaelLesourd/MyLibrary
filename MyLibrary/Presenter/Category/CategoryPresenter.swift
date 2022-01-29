@@ -25,7 +25,7 @@ class CategoryPresenter {
     /// Fetch the user categories
     func getCategoryList() {
         self.view?.startActivityIndicator()
-        categoryService.getCategories { [weak self] result in
+        categoryService.getUserCategories { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
             case .success(let categories):

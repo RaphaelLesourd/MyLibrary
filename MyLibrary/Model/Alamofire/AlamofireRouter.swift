@@ -21,9 +21,9 @@ enum AlamofireRouter: URLRequestConvertible {
         case .withIsbn(isbn: let isbn):
             return ["q": "isbn:\(isbn)"]
         case .withKeyWord(words: let words, let startIndex):
-            return constructBookSearch(with: words, and: startIndex)
+            return makeBookSearch(with: words, and: startIndex)
         case .sendPushMessage(payload: let payload):
-            return constructMessage(with: payload)
+            return makeMessage(with: payload)
         }
     }
     // Conforming to URLRequestConvertible protocol, returning URLRequest
@@ -31,7 +31,7 @@ enum AlamofireRouter: URLRequestConvertible {
         let url = try baseURL.asURL()
         var request = URLRequest(url: url.appendingPathComponent(path))
         request.httpMethod = method.rawValue
-       
+
         switch self {
         case .withIsbn, .withKeyWord:
             return try URLEncoding.default.encode(request, with: parameters)
@@ -42,7 +42,8 @@ enum AlamofireRouter: URLRequestConvertible {
             return try URLEncoding.httpBody.encode(request, with: nil)
         }
     }
-    // MARK: - URL build
+    // MARK: - Private functions
+
     private var baseURL: String {
         switch self {
         case .withIsbn, .withKeyWord:
@@ -51,7 +52,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return ApiUrl.fcmURL
         }
     }
-    // Http methods
+
     private var method: HTTPMethod {
         switch self {
         case .withIsbn, .withKeyWord:
@@ -60,7 +61,7 @@ enum AlamofireRouter: URLRequestConvertible {
             return .post
         }
     }
-    // Path
+
     private var path: String {
         switch self {
         case .withIsbn, .withKeyWord:
@@ -71,7 +72,7 @@ enum AlamofireRouter: URLRequestConvertible {
     }
     
     // MARK: - Parameters
-    private func constructBookSearch(with words: String, and startIndex: Int) -> Parameters {
+    private func makeBookSearch(with words: String, and startIndex: Int) -> Parameters {
         return ["q": words,
                 "startIndex": startIndex,
                 "maxResults": 40,
@@ -81,7 +82,7 @@ enum AlamofireRouter: URLRequestConvertible {
                 "img": true]
     }
     
-    private func constructMessage(with payload: MessageModel) -> Parameters {
+    private func makeMessage(with payload: MessageModel) -> Parameters {
         return ["to": payload.token,
                 "content_available": true,
                 "mutable_content": true,

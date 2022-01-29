@@ -15,7 +15,7 @@ class CategoryServiceMock: CategoryServiceProtocol {
         self.successTest = successTest
     }
     
-    func getCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void) {
+    func getUserCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void) {
         successTest ? completion(.success(PresenterFakeData.categories)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
    

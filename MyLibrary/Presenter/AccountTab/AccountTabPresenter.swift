@@ -29,7 +29,7 @@ class AccountTabPresenter {
     func getProfileData() {
         view?.startActivityIndicator()
         
-        userService.retrieveUser { [weak self] result in
+        userService.retrieveUser(for: nil) { [weak self] result in
             self?.view?.stopActivityIndicator()
             
             switch result {

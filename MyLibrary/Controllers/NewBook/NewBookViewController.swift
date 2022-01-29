@@ -165,7 +165,7 @@ extension NewBookViewController: BarcodeScannerDelegate {
 extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        resultController.presenter.searchedBooks.removeAll()
+        resultController.presenter.searchList.removeAll()
         resultController.presenter.searchType = .keywordSearch
         resultController.presenter.currentSearchKeywords = subViews.searchController.searchBar.text ?? ""
     }

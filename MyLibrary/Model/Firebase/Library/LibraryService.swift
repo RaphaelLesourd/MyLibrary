@@ -13,16 +13,14 @@ class LibraryService {
     
     // MARK: - Properties
     typealias CompletionHandler = (FirebaseError?) -> Void
+    let usersCollectionRef: CollectionReference
+    var userID: String
+    var lastBookFetched: QueryDocumentSnapshot?
     
     private let recommandationService: RecommendationServiceProtocol
     private let imageService : ImageStorageProtocol
     private let db = Firestore.firestore()
     private var bookListListener: ListenerRegistration?
-    
-    let usersCollectionRef: CollectionReference
-    
-    var userID: String
-    var lastBookFetched: QueryDocumentSnapshot?
     
     // MARK: - Initializer
     init() {
@@ -79,6 +77,7 @@ class LibraryService {
                               completion: @escaping (FirebaseError?) -> Void) {
         let baseRef = createBaseRef()
         guard let docRef = baseRef?.collection(collection.rawValue).document(id) else { return }
+
         docRef.updateData([field.rawValue : state]) { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
@@ -104,8 +103,11 @@ class LibraryService {
     }
     
     // MARK: Query
-    private func createQuery(query: BookQuery,
-                             next: Bool) -> Query? {
+    /// Make Firestore Query for a BookQuery.
+    /// - Parameters:
+    /// - query: BookQuery object for the type of list of book needed to reteive.
+    /// - returns: Query firestore object
+    private func makeQuery(query: BookQuery, next: Bool) -> Query? {
         var docRef: Query = usersCollectionRef.document(userID).collection(CollectionDocumentKey.books.rawValue)
         
         switch query.listType {
@@ -128,13 +130,19 @@ class LibraryService {
                     .whereField(DocumentKey.ownerID.rawValue, isEqualTo: ownerID)
             }
         }
-        
+
+        // add the lst book document fetch to the search query if a next page is required.
+        // mpre books will be downloaded from the last book fetched.
         if let lastBook = lastBookFetched, next == true {
             docRef = docRef.start(afterDocument: lastBook)
         }
         return docRef
     }
-    
+
+    /// Use the current book id or assign a new one if the id is nil
+    ///  - Parameters:
+    ///  - book: ItemDTO object of the current book
+    ///  - returns: String of the book id
     private func setBookId(for book: ItemDTO) -> String {
         if let bookId = book.bookID, !bookId.isEmpty {
             return bookId
@@ -158,9 +166,12 @@ extension LibraryService: LibraryServiceProtocol {
             return
         }
         var book = book
+        // Verify if book as an id
         let bookID = setBookId(for: book)
+        // adds the ownerId and userId to the book object.
         book.ownerID = userID
         book.bookID = bookID
+
         saveImage(imageData: imageData, bookID: bookID) { [weak self] storageLink in
             book.volumeInfo?.imageLinks?.thumbnail = storageLink
             
@@ -179,7 +190,7 @@ extension LibraryService: LibraryServiceProtocol {
                      limit: Int,
                      forMore: Bool,
                      completion: @escaping (Result<[ItemDTO], FirebaseError>) -> Void) {
-        guard let docRef = createQuery(query: query, next: forMore) else { return }
+        guard let docRef = makeQuery(query: query, next: forMore) else { return }
         
         bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
@@ -187,6 +198,7 @@ extension LibraryService: LibraryServiceProtocol {
                 completion(.failure(.firebaseError(error)))
                 return
             }
+            // capture the last book fetch to use to download more book from that point.
             self.lastBookFetched = querySnapshot?.documents.last
             
             let data = querySnapshot?.documents.compactMap { documents -> ItemDTO? in
@@ -229,14 +241,12 @@ extension LibraryService: LibraryServiceProtocol {
     }
     
     // MARK: Delete
-    func deleteBook(book: ItemDTO,
-                    completion: @escaping CompletionHandler) {
+    func deleteBook(book: ItemDTO, completion: @escaping CompletionHandler) {
         guard let bookID = book.bookID else { return }
         
         imageService.deleteImageFromStorage(for: bookID) {  [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
-                return
             }
             self?.deleteDocument(with: bookID, collection: .books, completion: { error in
                 if let error = error {
@@ -244,9 +254,10 @@ extension LibraryService: LibraryServiceProtocol {
                     return
                 }
                 if book.recommanding == true {
-                    self?.recommandationService.removeFromRecommandation(for: book) { _ in
+                    self?.recommandationService.removeFromRecommandation(for: book) { error in
                         if let error = error {
                             completion(.firebaseError(error))
+                            return
                         }
                     }
                 }

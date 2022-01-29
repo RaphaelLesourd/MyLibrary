@@ -24,7 +24,7 @@ class RecommendationServiceMock: RecommendationServiceProtocol {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+    func getRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
         successTest ? completion(.success(PresenterFakeData.users)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
 }

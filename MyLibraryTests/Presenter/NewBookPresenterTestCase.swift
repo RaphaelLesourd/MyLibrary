@@ -15,11 +15,11 @@ class NewBookPresenterTestCase: XCTestCase {
     private let successTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: true),
                                                         formatter: Formatter(),
                                                         converter: Converter(),
-                                                        validator: Validator())
+                                                        validator: Validation())
     private let failedTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: false),
                                                        formatter: Formatter(),
                                                        converter: Converter(),
-                                                       validator: Validator())
+                                                       validator: Validation())
     
     override func setUp() {
         newBookPresenterViewSpy = NewBookPresenterViewSpy()

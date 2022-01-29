@@ -82,5 +82,4 @@ class NewCategoryPresenter {
             self?.view?.dismissViewController()
         }
     }
-
 }

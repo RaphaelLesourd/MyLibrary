@@ -12,11 +12,11 @@ class OnboardingViewController: UIViewController {
     // MARK: - Properties
     private let layoutComposer: OnboardingLayoutComposer
     private let mainView = OnboardingMainView()
-    private var presenter: OnboardingPresenting
+    private var presenter: OnboardingPresenter
     
     // MARK: - Intializer
     init(layoutComposer: OnboardingLayoutComposer,
-         presenter: OnboardingPresenting) {
+         presenter: OnboardingPresenter) {
         self.layoutComposer = layoutComposer
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -50,19 +50,19 @@ class OnboardingViewController: UIViewController {
     }
     
     private func configurePageControl() {
-        mainView.pageControl.numberOfPages = presenter.onboardingData.count
+        mainView.pageControl.numberOfPages = Onboarding.pages.count
     }
 }
 
 // MARK: - CollectionView Datasource
 extension OnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.onboardingData.count
+        return Onboarding.pages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: OnboardingCollectionViewCell = collectionView.dequeue(for: indexPath)
-        let model = presenter.onboardingData[indexPath.item]
+        let model = Onboarding.pages[indexPath.item]
         cell.configure(with: model)
         return cell
     }

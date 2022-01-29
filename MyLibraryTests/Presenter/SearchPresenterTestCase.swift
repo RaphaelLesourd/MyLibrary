@@ -89,7 +89,7 @@ class SearchPresenterTestCase: XCTestCase {
         sut = SearchPresenter(apiManager: apiManager)
         sut.view = searchViewSpy
         sut.searchType = .keywordSearch
-        sut.searchedBooks = PresenterFakeData.books
+        sut.searchList = PresenterFakeData.books
         sut.getBooks(with: PresenterFakeData.books[0].volumeInfo?.title ?? "", fromIndex: 0)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)

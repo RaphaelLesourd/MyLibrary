@@ -12,11 +12,11 @@ import FirebaseAuth
 class RecommandationService {
     
     // MARK: - Properties
-    private let db = Firestore.firestore()
     let recommandationCollectionRef: CollectionReference
     let userRef: CollectionReference
     let userID: String
-    
+
+    private let db = Firestore.firestore()
     // MARK: - Initializer
     init() {
         self.recommandationCollectionRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
@@ -25,7 +25,9 @@ class RecommandationService {
     }
     
     // MARK: - Private functions
-    private func getUserIds(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
+
+    /// Get all userIDs for the recommanded books
+    private func getUserIDs(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
         let ref = recommandationCollectionRef
         
         ref.getDocuments { (querySnapshot, error) in
@@ -47,11 +49,12 @@ class RecommandationService {
             completion(.success(uniqueIDs))
         }
     }
-    
-    private func getUsersFromIds(with idList: [Any],
-                                 completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+
+    /// Get all users from a list of userIDs.
+    private func getUsers(from userIDs: [Any],  completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
         var users: [UserModelDTO] = []
-        let ids = idList.chunked(into: 10)
+        let ids = userIDs.chunked(into: 10)
+
         ids.forEach { user in
             let docRef = self.userRef.whereField(DocumentKey.userID.rawValue, in: user)
             
@@ -79,8 +82,7 @@ class RecommandationService {
 // MARK: - RecommandationServiceProtocol extension
 extension RecommandationService: RecommendationServiceProtocol {
     
-    func addToRecommandation(for book: ItemDTO,
-                             completion: @escaping (FirebaseError?) -> Void) {
+    func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -91,8 +93,7 @@ extension RecommandationService: RecommendationServiceProtocol {
         } catch { completion(.firebaseError(error)) }
     }
     
-    func removeFromRecommandation(for book: ItemDTO,
-                                  completion: @escaping (FirebaseError?) -> Void) {
+    func removeFromRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -105,11 +106,11 @@ extension RecommandationService: RecommendationServiceProtocol {
         }
     }
     
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
-        getUserIds { [weak self] result in
+    func getRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+        getUserIDs { [weak self] result in
             switch result {
-            case .success(let userIds):
-                self?.getUsersFromIds(with: userIds) { result in
+            case .success(let userIDs):
+                self?.getUsers(from: userIDs) { result in
                     completion(result)
                 }
             case .failure(let error):

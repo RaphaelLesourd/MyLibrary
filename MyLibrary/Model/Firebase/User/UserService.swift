@@ -46,23 +46,26 @@ extension UserService: UserServiceProtocol {
     }
     
     // MARK: Retrieve
-    func retrieveUser(completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
-        let userRef = usersCollectionRef.document(userID)
+    func retrieveUser(for userID: String?, completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
+        let currentUserID = self.userID
+        let userRef = usersCollectionRef.document(userID ?? currentUserID)
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
             do {
-                let document = try querySnapshot?.data(as: UserModelDTO.self)
+                guard let document = try querySnapshot?.data(as: UserModelDTO.self)  else {
+                    completion(.failure(.nothingFound))
+                    return
+                }
                 completion(.success(document))
             } catch { completion(.failure(.firebaseError(error))) }
         }
     }
-    
+
     // MARK: Update
-    func updateUserName(with username: String?,
-                        completion: @escaping CompletionHandler) {
+    func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
         guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return

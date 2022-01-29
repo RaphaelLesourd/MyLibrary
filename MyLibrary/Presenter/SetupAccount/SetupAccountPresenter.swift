@@ -13,17 +13,17 @@ class SetupAccountPresenter {
     weak var view: SetupAccountPresenterView?
     var mainView: AccountMainView?
     private let accountService: AccountServiceProtocol
-    private let validation: Validator
+    private let validation: Validation
     private var userCredentials: AccountCredentials?
     
     // MARK: - Initializer
     init(accountService: AccountServiceProtocol,
-         validation: Validator) {
+         validation: Validation) {
         self.accountService = accountService
         self.validation = validation
     }
     
-    func handlesAccountCredentials(for interfaceType: AccountInterfaceType) {
+    func handleAccountCredentials(for interfaceType: AccountInterfaceType) {
         switch interfaceType {
         case .login:
             loginToAccount()
@@ -39,16 +39,15 @@ class SetupAccountPresenter {
     /// - email : Optional String of the user email
     func resetPassword(with email: String?) {
         guard let email = email else {
-            AlertManager.presentAlertBanner(as: .error,
-                                            subtitle: Text.Banner.emptyEmail)
+            AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.emptyEmail)
             return
         }
         view?.startActivityIndicator()
+
         accountService.sendPasswordReset(for: email) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
-                AlertManager.presentAlertBanner(as: .error,
-                                                subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
                 return
             }
             AlertManager.presentAlertBanner(as: .customMessage(Text.Banner.resetPassordTitle),
@@ -85,7 +84,7 @@ class SetupAccountPresenter {
     private func loginToAccount() {
         view?.startActivityIndicator()
         
-        let userCredentials = setAccountCredentials()
+        let userCredentials = makeAccountCredentials()
         accountService.login(with: userCredentials) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
@@ -101,7 +100,7 @@ class SetupAccountPresenter {
     private func createAccount() {
         view?.startActivityIndicator()
         
-        let userCredentials = setAccountCredentials()
+        let userCredentials = makeAccountCredentials()
         accountService.createAccount(for: userCredentials) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
@@ -116,7 +115,7 @@ class SetupAccountPresenter {
     private func deleteAccount() {
         view?.startActivityIndicator()
         
-        let userCredentials = setAccountCredentials()
+        let userCredentials = makeAccountCredentials()
         self.accountService.deleteAccount(with: userCredentials) { [weak self] error in
             self?.view?.stopActivityIndicator()
             if let error = error {
@@ -128,7 +127,7 @@ class SetupAccountPresenter {
         }
     }
     
-    private func setAccountCredentials() -> AccountCredentials {
+    private func makeAccountCredentials() -> AccountCredentials {
         return AccountCredentials(userName: mainView?.userNameTextField.text,
                                   email: mainView?.emailTextField.text ?? "",
                                   password: mainView?.passwordTextField.text ?? "")
