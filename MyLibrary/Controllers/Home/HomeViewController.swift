@@ -94,9 +94,7 @@ class HomeViewController: UIViewController {
     }
     
     private func presentCategoryController() {
-        let categoryListVC = factory.makeCategoryVC(isSelecting: false,
-                                                    bookCategories: [],
-                                                    newBookDelegate: nil)
+        let categoryListVC = factory.makeCategoryVC()
         showController(categoryListVC)
     }
     
@@ -106,7 +104,7 @@ class HomeViewController: UIViewController {
     }
     
     private func presentBookCardController(with book: ItemDTO) {
-        let bookCardVC = factory.makeBookCardVC(book: book, factory: factory)
+        let bookCardVC = factory.makeBookCardVC(book: book)
         bookCardVC.hidesBottomBarWhenPushed = true
         showController(bookCardVC)
     }

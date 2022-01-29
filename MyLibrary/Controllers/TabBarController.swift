@@ -58,13 +58,11 @@ class TabBarController: UITabBarController {
                                  title: Text.ControllerTitle.home,
                                  image: Images.TabBarIcon.homeIcon)
 
-        let libraryTab = makeTab(for: factory.makeBookLibraryVC(with: .defaultAllBookQuery, title: nil),
+        let libraryTab = makeTab(for: factory.makeBookLibraryVC(),
                                     title: Text.ControllerTitle.myBooks,
                                     image: Images.TabBarIcon.booksIcon)
         
-        let newBookTab = makeTab(for: factory.makeNewBookVC(with: nil,
-                                                            isEditing: false,
-                                                            bookCardDelegate: nil),
+        let newBookTab = makeTab(for: factory.makeNewBookVC(),
                                     title: Text.ControllerTitle.newBook,
                                     image: Images.TabBarIcon.newBookIcon)
 

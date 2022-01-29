@@ -126,7 +126,7 @@ class BookLibraryViewController: UIViewController {
     
     // MARK: - Navigation
     func presentBookCardController(for book: ItemDTO) {
-        let bookCardVC = factory.makeBookCardVC(book: book, factory: factory)
+        let bookCardVC = factory.makeBookCardVC(book: book)
         bookCardVC.hidesBottomBarWhenPushed = true
         showController(bookCardVC)
     }

@@ -925,8 +925,8 @@
 		8125AD67279947D800FB6725 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				811D5BBE2744F6FD00C935B5 /* CategoryService.swift */,
 				8188523727748C1F002813A1 /* CategoryServiceProtocol.swift */,
+				811D5BBE2744F6FD00C935B5 /* CategoryService.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -934,8 +934,8 @@
 		8125AD68279947F300FB6725 /* Comments */ = {
 			isa = PBXGroup;
 			children = (
-				81DB8DFC275399C400698B92 /* CommentService.swift */,
 				8188523A27748D06002813A1 /* CommentServiceProtocol.swift */,
+				81DB8DFC275399C400698B92 /* CommentService.swift */,
 			);
 			path = Comments;
 			sourceTree = "<group>";
@@ -943,8 +943,8 @@
 		8125AD692799480C00FB6725 /* ImageStorage */ = {
 			isa = PBXGroup;
 			children = (
-				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
 				8188523D27748D44002813A1 /* ImageStorageProtocol.swift */,
+				8121F0B4273D0AFF006EAA8D /* ImageStorageService.swift */,
 			);
 			path = ImageStorage;
 			sourceTree = "<group>";
@@ -952,8 +952,8 @@
 		8125AD6A2799482100FB6725 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
 				8188524027748D9D002813A1 /* LibraryServiceProtocol.swift */,
+				81DE9CA527354C9800FF81C2 /* LibraryService.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -979,8 +979,8 @@
 		8125AD6D2799485500FB6725 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				813B7C702733A44F005BFBDB /* UserService.swift */,
 				8188524927748E42002813A1 /* UserServiceProtocol.swift */,
+				813B7C702733A44F005BFBDB /* UserService.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";

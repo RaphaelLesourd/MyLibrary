@@ -33,7 +33,7 @@ class IpadSplitViewController: UISplitViewController {
     private func setViewControllers() {
         let tabBarController = TabBarController()
         let homeViewController = factory.makeHomeTabVC()
-        let newBookViewController = factory.makeNewBookVC(with: nil, isEditing: false, bookCardDelegate: nil)
+        let newBookViewController = factory.makeNewBookVC()
         newBookViewController.title = Text.ControllerTitle.newBook
 
         setViewController(newBookViewController, for: .primary)

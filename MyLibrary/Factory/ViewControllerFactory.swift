@@ -113,7 +113,7 @@ extension ViewControllerFactory: Factory {
                                      resultViewController: makeResultViewController())
     }
     
-    func makeBookCardVC(book: ItemDTO, factory: Factory) -> UIViewController {
+    func makeBookCardVC(book: ItemDTO) -> UIViewController {
         return BookCardViewController(book: book,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,

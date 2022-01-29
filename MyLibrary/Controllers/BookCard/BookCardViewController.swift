@@ -113,7 +113,9 @@ class BookCardViewController: UIViewController {
     }
     
     @objc private func editBook() {
-        let newBookController = factory.makeNewBookVC(with: presenter.book, isEditing: true, bookCardDelegate: self)
+        let newBookController = factory.makeNewBookVC(with: presenter.book,
+                                                      isEditing: true,
+                                                      bookCardDelegate: self)
         navigationController?.show(newBookController, sender: nil)
     }
 }
