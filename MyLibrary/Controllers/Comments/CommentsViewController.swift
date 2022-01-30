@@ -41,17 +41,12 @@ class CommentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.view = self
-        presenter.book = book
-        IQKeyboardManager.shared.enableAutoToolbar = false
-        mainView.tableView.dataSource = dataSource
         configureKeyboard()
         setDelegates()
         setRefreshControlTarget()
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
-        presenter.getBookDetails()
-        presenter.getComments()
+        setupPresenter()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,6 +56,13 @@ class CommentsViewController: UIViewController {
     }
     
     // MARK: - Setup
+    private func setupPresenter() {
+        presenter.view = self
+        presenter.book = book
+        presenter.getBookDetails()
+        presenter.getComments()
+    }
+
     private func addNavigationBarButtons() {
         let activityIndicactorButton = UIBarButtonItem(customView: mainView.activityIndicator)
         navigationItem.rightBarButtonItems = [activityIndicactorButton]
@@ -76,9 +78,11 @@ class CommentsViewController: UIViewController {
         mainView.emptyStateView.delegate = self
         mainView.inputBar.delegate = self
         mainView.tableView.delegate = self
+        mainView.tableView.dataSource = dataSource
     }
     
     private func configureKeyboard() {
+        IQKeyboardManager.shared.enableAutoToolbar = false
         IQKeyboardManager.shared.enable = false
         keyboardManager.bind(inputAccessoryView: mainView.inputBar)
         keyboardManager.bind(to: mainView.tableView)
