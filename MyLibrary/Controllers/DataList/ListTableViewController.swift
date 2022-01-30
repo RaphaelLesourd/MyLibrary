@@ -39,15 +39,16 @@ class ListTableViewController: UIViewController {
         configureTableView()
         addSearchController()
         configureEmpStateView()
-        applySnapshot(animatingDifferences: false)
         mainView.emptyStateView.delegate = self
         presenter.view = self
+        applySnapshot(animatingDifferences: false)
         presenter.getControllerTitle()
         presenter.getData()
     }
-    
+
     // MARK: - Setup
     private func configureTableView() {
+        mainView.tableView.allowsMultipleSelection = false
         mainView.tableView.dataSource = dataSource
         mainView.tableView.delegate = self
     }
@@ -71,12 +72,11 @@ extension ListTableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
-        let numberOfItemsInsection = dataSource.snapshot().numberOfItems(inSection: section)
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 1,
                                           alignment: .center,
                                           font: .lightSectionTitle)
-        sectionTitleLabel.text = numberOfItemsInsection == 0 ? "" : section.headerTitle
+        sectionTitleLabel.text = section.headerTitle
         return sectionTitleLabel
     }
 
@@ -110,7 +110,7 @@ extension ListTableViewController: UITableViewDelegate {
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = dataSource.itemIdentifier(for: indexPath)
-        presenter.getSelectedData(from: data)
+        presenter.saveSelection(from: data)
     }
 }
 // MARK: - TableView Datasource
@@ -150,9 +150,11 @@ extension ListTableViewController {
         let others = presenter.data.filter({ $0.favorite == false })
         snapshot.appendSections([.others])
         snapshot.appendItems(others, toSection: .others)
-        
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        presenter.highlightCell()
+
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            self.presenter.highlightCell()
+        }
     }
 }
 

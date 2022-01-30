@@ -202,8 +202,7 @@ extension CategoriesViewController: CategoryPresenterView {
         let title = Text.ButtonTitle.delete + " " + category.name.capitalized
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
+                                  cancel: true) { [weak self] _ in
             self?.presenter.deleteCategory(for: category)
         }
     }

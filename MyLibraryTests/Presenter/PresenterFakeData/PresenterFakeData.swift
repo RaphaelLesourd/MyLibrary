@@ -76,6 +76,11 @@ class PresenterFakeData {
                                       timestamp: 10000)
     
     static let bookQuery = BookQuery(listType: HomeCollectionViewSections.favorites,
+                                     orderedBy: .title,
+                                     fieldValue: "",
+                                     descending: true)
+
+    static let bookQueryByCategory = BookQuery(listType: HomeCollectionViewSections.favorites,
                                      orderedBy: .category,
                                      fieldValue: "",
                                      descending: true)

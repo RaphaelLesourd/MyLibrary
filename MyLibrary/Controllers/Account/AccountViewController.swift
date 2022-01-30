@@ -92,8 +92,7 @@ extension AccountViewController: AccountViewDelegate {
     func presentSignOutAlert() {
         AlertManager.presentAlert(title: Text.Alert.signout,
                                   message: "",
-                                  cancel: true,
-                                  on: self) { _ in
+                                  cancel: true) { _ in
             self.presenter.signoutAccount()
         }
     }
@@ -101,11 +100,8 @@ extension AccountViewController: AccountViewDelegate {
     func deleteAccount() {
         AlertManager.presentAlert(title: Text.Alert.deleteAccountTitle,
                                   message: Text.Alert.deleteAccountMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
-            guard let self = self else { return }
-            self.present(self.factory.makeAccountSetupVC(for: .deleteAccount),
-                          animated: true, completion: nil)
+                                  cancel: true) { _ in
+            self.present(self.factory.makeAccountSetupVC(for: .deleteAccount), animated: true, completion: nil)
         }
     }
 }

@@ -53,29 +53,20 @@ class BookLibraryViewController: UIViewController {
         super.viewDidLoad()
         title = setViewControllerTitle()
         setDelegates()
-        configureCollectionView()
         configureNavigationBarButton()
         configureEmptyStateView()
-        
         bookListMenu?.getSavedLayout()
         presenter.bookList.removeAll()
         applySnapshot(animatingDifferences: false)
         presenter.getBooks(with: currentQuery, nextPage: false)
     }
-    
-    override func viewDidLayoutSubviews() {
-        updateSectionTitle(with: Text.ListMenu.byTitle)
-    }
-    
+
     // MARK: - Setup
     private func setDelegates() {
         mainView.emptyStateView.delegate = self
         mainView.delegate = self
         presenter.view = self
         bookListMenu = BookListMenu(delegate: self)
-    }
-    
-    private func configureCollectionView() {
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
     }
@@ -115,8 +106,7 @@ class BookLibraryViewController: UIViewController {
         applySnapshot(animatingDifferences: true)
     }
     
-    func updateSectionTitle(with title: String?) {
-        guard let title = title else { return }
+    func updateSectionTitle(with title: String) {
         let text = Text.ListMenu.bookListMenuTitle + " " + title.lowercased()
         mainView.headerView.configure(with: text, buttonTitle: "")
     }
@@ -183,12 +173,12 @@ extension BookLibraryViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        DispatchQueue.main.async {
-            self.mainView.collectionView.isHidden = self.presenter.bookList.isEmpty
-            self.mainView.emptyStateView.isHidden = !self.presenter.bookList.isEmpty
+            mainView.collectionView.isHidden = presenter.bookList.isEmpty
+            mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
             var snapshot = Snapshot()
             snapshot.appendSections([.main])
-            snapshot.appendItems(self.presenter.bookList, toSection: .main)
+            snapshot.appendItems(presenter.bookList, toSection: .main)
+        DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         }
     }
@@ -198,8 +188,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
     
     func orderList(by listType: QueryType) {
         updateSectionTitle(with: listType.title)
-        currentQuery = queryService.updateQuery(from: currentQuery,
-                                                with: listType.documentKey)
+        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
         refreshBookList()
     }
     

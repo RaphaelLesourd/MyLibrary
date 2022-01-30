@@ -7,5 +7,5 @@
 
 protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
-    func updateSectionTitle(with title: String?)
+    func updateSectionTitle(with title: String)
 }

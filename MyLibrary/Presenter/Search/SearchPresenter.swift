@@ -22,7 +22,6 @@ class SearchPresenter: BookCellMapper {
         self.apiManager = apiManager
     }
     
-    // MARK: - Internal functions
     /// Api call to get book or list of books.
     /// - Parameters:
     ///   - query: String passing search keywords, could be title, author or isbn

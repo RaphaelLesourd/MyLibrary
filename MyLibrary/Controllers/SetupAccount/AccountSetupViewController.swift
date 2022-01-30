@@ -91,8 +91,7 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
     func resetPassWordRequest() {
         AlertManager.presentAlert(title: Text.Alert.forgotPasswordTitle,
                                   message: Text.Alert.forgotPasswordMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
+                                  cancel: true) { [weak self] _ in
             self?.presenter.resetPassword(with: self?.mainView.emailTextField.text)
         }
     }

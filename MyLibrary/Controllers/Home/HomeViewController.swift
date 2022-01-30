@@ -44,6 +44,10 @@ class HomeViewController: UIViewController {
         addNavigationBarButtons()
         applySnapshot(animatingDifferences: false)
         refreshBookList()
+//        let popup = PopUp(title: Text.EmptyState.noBookTitle,
+//                          subtitle: Text.EmptyState.noBookSubtitle,
+//                          icon: Images.TabBarIcon.booksIcon)
+//        present(popup, animated: true, completion: nil)
     }
 
     // MARK: - Setup

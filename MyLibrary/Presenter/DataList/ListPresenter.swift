@@ -46,7 +46,7 @@ class ListPresenter {
     }
     
     /// Get the selected cell data and pass it back to the relevant method according the list type
-    func getSelectedData(from data: DataList?) {
+    func saveSelection(from data: DataList?) {
         guard let data = data else { return }
         selection = nil
         switch listDataType {

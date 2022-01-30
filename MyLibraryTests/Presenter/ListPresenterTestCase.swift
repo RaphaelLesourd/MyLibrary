@@ -60,7 +60,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = languageTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.getSelectedData(from: PresenterFakeData.listData)
+        sut.saveSelection(from: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setLanguageWasCalled)
     }
     
@@ -68,14 +68,14 @@ class ListPresenterTestCase: XCTestCase {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.getSelectedData(from: PresenterFakeData.listData)
+        sut.saveSelection(from: PresenterFakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setCurrencyWasCalled)
     }
     
     func test_sendData_whenDataPAssedIsNil() {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
-        sut.getSelectedData(from: nil)
+        sut.saveSelection(from: nil)
         XCTAssertFalse(listPresenterViewSpy.setCurrencyWasCalled)
     }
     

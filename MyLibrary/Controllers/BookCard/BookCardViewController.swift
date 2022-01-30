@@ -136,8 +136,7 @@ extension BookCardViewController: BookCardMainViewDelegate {
     func presentDeleteBookAlert() {
         AlertManager.presentAlert(title: Text.Alert.deleteBookTitle,
                                   message: Text.Alert.deleteBookMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
+                                  cancel: true) { [weak self] _ in
             self?.presenter.deleteBook()
         }
     }

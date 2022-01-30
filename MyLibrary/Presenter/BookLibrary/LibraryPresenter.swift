@@ -9,7 +9,7 @@ class LibraryPresenter: BookCellMapper {
 
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
-    var bookList: [ItemDTO] = []
+    var bookList: [ItemDTO] = [] 
     private let libraryService: LibraryServiceProtocol
 
     init(libraryService: LibraryServiceProtocol) {
@@ -18,7 +18,6 @@ class LibraryPresenter: BookCellMapper {
    
     func getBooks(with query: BookQuery?, nextPage: Bool = false) {
         guard let query = query else { return }
-        view?.updateSectionTitle(with: query.listType?.title)
         view?.startActivityIndicator()
 
         libraryService.getBookList(for: query,
@@ -35,9 +34,19 @@ class LibraryPresenter: BookCellMapper {
                 }
                 self?.bookList.append(contentsOf: books)
                 self?.view?.applySnapshot(animatingDifferences: true)
+                self?.setHeaderTitle(for: query)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+        }
+    }
+
+    private func setHeaderTitle(for query: BookQuery) {
+        if let index = QueryType.allCases.firstIndex(where: { $0.documentKey == query.orderedBy }) {
+            let title = QueryType.allCases[index].title
+            view?.updateSectionTitle(with: title)
+        } else {
+            view?.updateSectionTitle(with: Text.ListMenu.byTitle)
         }
     }
 }

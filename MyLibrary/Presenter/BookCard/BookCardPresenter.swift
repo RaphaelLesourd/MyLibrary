@@ -134,12 +134,8 @@ class BookCardPresenter {
   
     /// Call for the proper methods when the reommenBook button it tapped.
     /// - Parameters: Boolean value
-    func recommendBook(_ recommend: Bool) {
-        guard recommend == false else {
-            addToRecommendedBooks()
-            return
-        }
-        removeFromRecommendedBooks()
+    func recommendBook(_ recommended: Bool) {
+        recommended ? removeFromRecommendedBooks() : addToRecommendedBooks()
     }
 
     // MARK: - Private functions
@@ -147,6 +143,7 @@ class BookCardPresenter {
     private func addToRecommendedBooks() {
         guard let book = book else { return }
         view?.toggleRecommendButtonIndicator(on: true)
+
         recommendationService.addToRecommandation(for: book) { [weak self] error in
             self?.view?.toggleRecommendButtonIndicator(on: false)
             if let error = error {
@@ -157,6 +154,8 @@ class BookCardPresenter {
     /// Remove current book to the recommended collection in the database
     private func removeFromRecommendedBooks() {
         guard let book = book else { return }
+        view?.toggleRecommendButtonIndicator(on: true)
+        
         recommendationService.removeFromRecommandation(for: book) { [weak self] error in
             self?.view?.toggleRecommendButtonIndicator(on: false)
             if let error = error {
