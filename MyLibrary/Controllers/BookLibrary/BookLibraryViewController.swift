@@ -30,12 +30,13 @@ class BookLibraryViewController: UIViewController {
          title: String?,
          queryService: QueryService,
          presenter: LibraryPresenter,
-         layoutComposer: BookListLayoutMaker) {
+         layoutComposer: BookListLayoutMaker,
+         factory: Factory) {
         self.currentQuery = currentQuery
         self.queryService = queryService
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
         self.title = title
     }
@@ -47,11 +48,11 @@ class BookLibraryViewController: UIViewController {
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
+        title = setViewControllerTitle()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = setViewControllerTitle()
         setDelegates()
         configureNavigationBarButton()
         configureEmptyStateView()

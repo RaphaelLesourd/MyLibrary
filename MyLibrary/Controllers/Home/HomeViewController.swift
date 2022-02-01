@@ -19,10 +19,11 @@ class HomeViewController: UIViewController {
     private let factory: Factory
 
     init(presenter: HomePresenter,
-         layoutComposer: HomeLayoutMaker) {
+         layoutComposer: HomeLayoutMaker,
+         factory: Factory) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     

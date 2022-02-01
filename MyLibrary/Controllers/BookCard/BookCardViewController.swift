@@ -30,12 +30,13 @@ class BookCardViewController: UIViewController {
     init(book: ItemDTO,
          libraryService: LibraryServiceProtocol,
          recommendationService: RecommendationServiceProtocol,
-         presenter: BookCardPresenter) {
+         presenter: BookCardPresenter,
+         factory: Factory) {
         self.libraryService = libraryService
         self.recommendationService = recommendationService
         self.presenter = presenter
         self.book = book
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     

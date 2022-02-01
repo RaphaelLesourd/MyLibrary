@@ -17,10 +17,11 @@ class NotificationManager: NSObject {
     private let factory: Factory
 
     init(userService: UserServiceProtocol,
-         libraryService: LibraryServiceProtocol) {
+         libraryService: LibraryServiceProtocol,
+         factory: Factory) {
         self.userService = userService
         self.libraryService = libraryService
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init()
     }
 

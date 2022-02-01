@@ -540,8 +540,6 @@
 		81C6CC7C2724769C00DE9219 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81C6CC812724769C00DE9219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81C6CC862724769D00DE9219 /* MyLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		81C6CC942724769D00DE9219 /* MyLibraryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLibraryUITests.swift; sourceTree = "<group>"; };
-		81C6CC962724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLibraryUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		81C6CCA42724776900DE9219 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		81C6CCB827247A2B00DE9219 /* BookDetailComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDetailComponent.swift; sourceTree = "<group>"; };
 		81C6CCC327247A6200DE9219 /* DetailedBookCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedBookCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1490,7 +1488,6 @@
 				81C6CC6F2724769B00DE9219 /* MyLibrary */,
 				81AFE02F276CA4C9009735FE /* RichNotifications */,
 				81C6CC892724769D00DE9219 /* MyLibraryTests */,
-				81C6CC932724769D00DE9219 /* MyLibraryUITests */,
 				81C6CC6E2724769B00DE9219 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1542,15 +1539,6 @@
 				8125AD7C27996F0C00FB6725 /* Presenter */,
 			);
 			path = MyLibraryTests;
-			sourceTree = "<group>";
-		};
-		81C6CC932724769D00DE9219 /* MyLibraryUITests */ = {
-			isa = PBXGroup;
-			children = (
-				81C6CC942724769D00DE9219 /* MyLibraryUITests.swift */,
-				81C6CC962724769D00DE9219 /* MyLibraryUITestsLaunchTests.swift */,
-			);
-			path = MyLibraryUITests;
 			sourceTree = "<group>";
 		};
 		81C6CCA32724774800DE9219 /* Controllers */ = {

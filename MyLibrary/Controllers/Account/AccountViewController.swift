@@ -16,10 +16,11 @@ class AccountViewController: UIViewController {
     private var imagePicker: ImagePicker?
 
     init(presenter: AccountTabPresenter,
-         feedbackManager: FeedbackManagerProtocol) {
+         feedbackManager: FeedbackManagerProtocol,
+         factory: Factory) {
         self.presenter = presenter
         self.feedbackManager = feedbackManager
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     

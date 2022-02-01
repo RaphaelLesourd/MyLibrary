@@ -8,15 +8,13 @@
 import UIKit
 
 class BookListMenu {
-    
-    // MARK: - Property
+
     private weak var delegate: BookListMenuDelegate?
    
     init(delegate: BookListMenuDelegate) {
         self.delegate = delegate
     }
-    
-    // MARK: - Internal functions
+
     func configureLayoutMenu(with filterMenuIncluded: Bool) -> UIMenu {
         let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
         return UIMenu(title: Text.ListMenu.bookListMenuTitle,

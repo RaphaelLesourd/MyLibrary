@@ -23,13 +23,14 @@ class NewBookViewController: UITableViewController {
          isEditing: Bool,
          bookCardDelegate: BookCardDelegate?,
          presenter: NewBookPresenter,
-         resultViewController: SearchViewController) {
+         resultViewController: SearchViewController,
+         factory: Factory) {
         self.presenter = presenter
         self.presenter.book = book
         self.isEditingBook = isEditing
         self.bookCardDelegate = bookCardDelegate
         self.resultController = resultViewController
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -74,12 +74,14 @@ extension ViewControllerFactory: Factory {
     
     func makeHomeTabVC() -> UIViewController {
         return  HomeViewController(presenter: homePresenter,
-                                   layoutComposer: homeTabLayout)
+                                   layoutComposer: homeTabLayout,
+                                   factory: self)
     }
     
     func makeAccountTabVC() -> UIViewController {
         return AccountViewController(presenter: accountTabPresenter,
-                                     feedbackManager: feedbackManager)
+                                     feedbackManager: feedbackManager,
+                                     factory: self)
     }
     
     func makeCategoryVC(isSelecting: Bool,
@@ -88,7 +90,8 @@ extension ViewControllerFactory: Factory {
         return CategoriesViewController(isSelecting: isSelecting,
                                         selectedCategories: bookCategories,
                                         newBookDelegate: newBookDelegate,
-                                        categoryPresenter: categoryPresenter)
+                                        categoryPresenter: categoryPresenter,
+                                        factory: self)
     }
     
     func makeNewCategoryVC(category: CategoryDTO?) -> UIViewController {
@@ -101,7 +104,8 @@ extension ViewControllerFactory: Factory {
                                          title: title,
                                          queryService: queryService,
                                          presenter: libraryPresenter,
-                                         layoutComposer: bookListLayout)
+                                         layoutComposer: bookListLayout,
+                                         factory: self)
     }
     
     func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController {
@@ -114,14 +118,16 @@ extension ViewControllerFactory: Factory {
                                      isEditing: isEditing,
                                      bookCardDelegate: bookCardDelegate,
                                      presenter: newBookPresenter,
-                                     resultViewController: makeResultViewController())
+                                     resultViewController: makeResultViewController(),
+                                     factory: self)
     }
     
     func makeBookCardVC(book: ItemDTO) -> UIViewController {
         return BookCardViewController(book: book,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,
-                                      presenter: bookCardPresenter)
+                                      presenter: bookCardPresenter,
+                                      factory: self)
     }
     
     func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {

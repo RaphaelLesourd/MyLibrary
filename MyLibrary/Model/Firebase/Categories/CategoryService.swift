@@ -121,7 +121,7 @@ extension CategoryService: CategoryServiceProtocol {
                            bookOwnerID: String,
                            completion: @escaping ([CategoryDTO]) -> Void) {
         var categoryList: [CategoryDTO] = []
-        
+
         categoryIds.forEach {
             getCategory(for: $0, bookOwnerID: bookOwnerID) { category in
                 guard let category = category else { return }

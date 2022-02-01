@@ -27,7 +27,7 @@ class IpadSplitViewController: UISplitViewController {
     }
     
     private func setViewControllers() {
-        let tabBarController = TabBarController()
+        let tabBarController = TabBarController(factory: factory)
         let homeViewController = factory.makeHomeTabVC()
         let newBookViewController = factory.makeNewBookVC()
         newBookViewController.title = Text.ControllerTitle.newBook

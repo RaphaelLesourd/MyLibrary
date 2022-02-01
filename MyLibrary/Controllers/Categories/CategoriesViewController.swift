@@ -21,12 +21,13 @@ class CategoriesViewController: UIViewController {
     init(isSelecting: Bool,
          selectedCategories: [String],
          newBookDelegate: NewBookViewControllerDelegate?,
-         categoryPresenter: CategoryPresenter) {
+         categoryPresenter: CategoryPresenter,
+         factory: Factory) {
         self.isSelecting = isSelecting
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
         self.presenter.selectedCategories = selectedCategories
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -14,10 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var handle: AuthStateDidChangeListenerHandle?
     private let notificationManager: PushNotifications
+    private let factory = ViewControllerFactory()
 
     override init() {
         notificationManager = NotificationManager(userService: UserService(),
-                                                  libraryService: LibraryService())
+                                                  libraryService: LibraryService(),
+                                                  factory: factory)
     }
     
     func scene(_ scene: UIScene,
