@@ -21,6 +21,19 @@ extension UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
+    func showController(_ controller: UIViewController) {
+        guard UIDevice.current.userInterfaceIdiom == .pad else {
+            navigationController?.show(controller, sender: nil)
+            return
+        }
+        let controllerWithNav = UINavigationController(rootViewController: controller)
+        if #available(iOS 15.0, *) {
+            presentSheetController(controllerWithNav, detents: [.large()])
+        } else {
+            present(controllerWithNav, animated: true, completion: nil)
+        }
+    }
+    
     @available(iOS 15.0, *)
     func presentSheetController(_ controller: UIViewController, detents: [UISheetPresentationController.Detent]) {
         if let sheet = controller.sheetPresentationController {

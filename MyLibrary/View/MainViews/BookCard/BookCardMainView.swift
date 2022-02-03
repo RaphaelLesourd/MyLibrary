@@ -12,16 +12,16 @@ class BookCardMainView: UIView {
     
     weak var delegate: BookCardMainViewDelegate?
     
-    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addButtonActions()
+        setImageAnimation()
         setScrollViewConstraints()
         setBackgroundImageConstraint()
         setBookCoverConstraints()
         setupMainstackView()
         setFavoriteButtonConstraints()
-        bookCover.addShadow()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +38,7 @@ class BookCardMainView: UIView {
     let activityIndicator = UIActivityIndicatorView()
     lazy var activityIndicatorButton = UIBarButtonItem(customView: activityIndicator)
     let recommandButton = Button(title: "", icon: Images.ButtonIcon.done)
+    private let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
     
     let deleteBookButton: UIButton = {
         let button = UIButton()
@@ -104,41 +105,86 @@ class BookCardMainView: UIView {
                                           spacing: 40)
     
     // MARK: - Configure
-    func setFavoriteButtonAs(_ isFavorite: Bool) {
+    func configure(with model: BookCardUI) {
+        titleLabel.text = model.title
+        authorLabel.text = model.authors
+        ratingView.rating = model.rating ?? 0
+        descriptionLabel.text = model.description
+        bookDetailView.isbnView.infoLabel.text = model.isbn
+        bookDetailView.languageView.infoLabel.text = model.language
+        bookDetailView.publisherNameView.infoLabel.text = model.publisher
+        bookDetailView.publishedDateView.infoLabel.text = model.publishedDate
+        bookDetailView.priceView.infoLabel.text = model.price
+        if let pages = model.pages {
+            bookDetailView.numberOfPageView.infoLabel.text = String(pages)
+        }
+        bookCover.getImage(for: model.image) { [weak self] image in
+            self?.bookCover.image = image
+            self?.backgroundImage.image = image
+            self?.animator.startAnimation()
+        }
+    }
+    
+    func toggleFavoriteButton(to isFavorite: Bool) {
         favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
     }
     
-    func setRecommandedButtonAs(_ isRecommanding: Bool) {
+    func toggleRecommendButton(to isRecommanding: Bool) {
         let title = isRecommanding ? Text.ButtonTitle.stopRecommending : Text.ButtonTitle.recommend
         recommandButton.setTitle(title, for: .normal)
         commentView.isHidden = !isRecommanding
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
+
+    func showControlButtons(_ isShowing: Bool) {
+        deleteBookButton.isHidden = isShowing
+        recommandButton.isHidden = isShowing
+        favoriteButton.isHidden = isShowing
+    }
+
+    private func setupView() {
+        bookCover.addShadow()
+        toggleRecommendButton(to: false)
+        toggleFavoriteButton(to: false)
+        let mainStackSubViews: [UIView] = [titleLabel,
+                                           authorLabel,
+                                           categoryiesLabel,
+                                           ratingView,
+                                           descriptionLabel,
+                                           bookDetailView,
+                                           commentView,
+                                           recommandButton,
+                                           deleteBookButton]
+        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
+        mainStackView.setCustomSpacing(5, after: titleLabel)
+        mainStackView.setCustomSpacing(15, after: authorLabel)
+        mainStackView.setCustomSpacing(15, after: categoryiesLabel)
+        mainStackView.setCustomSpacing(60, after: ratingView)
+        mainStackView.setCustomSpacing(20, after: recommandButton)
+    }
     
-    func animateBookImage() {
+    private func setImageAnimation() {
         let transformation = CGAffineTransform.identity.scaledBy(x: 1.4, y: 1.4).translatedBy(x: 0, y: -20)
-        let animator = UIViewPropertyAnimator(duration: 7, curve: .easeOut)
         animator.addAnimations {
             self.backgroundImage.transform = transformation
         }
-        animator.startAnimation()
     }
     
     private func addButtonActions() {
         recommandButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.recommandButtonAction()
+            self?.delegate?.toggleBookRecommendation()
         }), for: .touchUpInside)
         
         deleteBookButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.deleteBookAction()
+            self?.delegate?.presentDeleteBookAlert()
         }), for: .touchUpInside)
         
         favoriteButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.favoriteButtonAction()
+            self?.delegate?.toggleFavoriteBook()
         }), for: .touchUpInside)
         
         commentView.goToCommentButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.showCommentsViewController()
+            self?.delegate?.presentCommentsViewController()
         }), for: .touchUpInside)
       
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
@@ -146,8 +192,9 @@ class BookCardMainView: UIView {
     }
   
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        delegate?.showBookCover()
+        delegate?.displayBookCover()
     }
+  
 }
 // MARK: - Constraints
 extension BookCardMainView {
@@ -186,8 +233,8 @@ extension BookCardMainView {
         NSLayoutConstraint.activate([
             bookCover.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             bookCover.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6),
-            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4)
+            bookCover.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.65),
+            bookCover.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.45)
         ])
     }
     
@@ -204,24 +251,8 @@ extension BookCardMainView {
     /// Setup the mainStackView which hold all the UI subviews.
     private func setupMainstackView() {
         contentView.addSubview(mainStackView)
-        let mainStackSubViews: [UIView] = [titleLabel,
-                                           authorLabel,
-                                           categoryiesLabel,
-                                           ratingView,
-                                           descriptionLabel,
-                                           bookDetailView,
-                                           commentView,
-                                           recommandButton,
-                                           deleteBookButton]
-        mainStackSubViews.forEach { mainStackView.addArrangedSubview($0) }
-        mainStackView.setCustomSpacing(5, after: titleLabel)
-        mainStackView.setCustomSpacing(15, after: authorLabel)
-        mainStackView.setCustomSpacing(15, after: categoryiesLabel)
-        mainStackView.setCustomSpacing(60, after: ratingView)
-        mainStackView.setCustomSpacing(20, after: recommandButton)
-        
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 20),
+            mainStackView.topAnchor.constraint(equalTo: bookCover.bottomAnchor, constant: 40),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)

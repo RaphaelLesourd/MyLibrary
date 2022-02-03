@@ -9,10 +9,8 @@ import UIKit
 
 class CommentsBookCell: UITableViewCell {
     
-    // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
-    
-    // MARK: - Initializer
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -42,18 +40,18 @@ class CommentsBookCell: UITableViewCell {
                                       spacing: 10)
     
     // MARK: - configure
-    func configure(with book: BookCellData) {
+    func configure(with book: CommentBookUI) {
         titleLabel.text = book.title
-        subtitleLabel.text = book.author
-        bookCover.image = book.image
-    }
-    
-    func configureOwnerDetails(with owner: UserModel?) {
-        guard let owner = owner else {
+        subtitleLabel.text = book.authors
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
+   
+        guard let owner = book.ownerName else {
             bookOwnerNameLabel.isHidden = true
             return
         }
-        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.displayName.capitalized
+        bookOwnerNameLabel.text = Text.Book.recommendedBy + owner.capitalized
     }
     
     private func setupView() {

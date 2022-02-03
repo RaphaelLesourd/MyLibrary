@@ -11,7 +11,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
    
     private let colorAlpha: CGFloat = 0.2
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -28,15 +27,11 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                                           font: .categoryTitle)
     
     // MARK: - Configure
-    func configure(with model: CategoryModel) {
-        if let categoryName = model.name {
-            categoryLabel.text = categoryName.uppercased()
-        }
-        if let color = model.color {
-            let categoryColor = UIColor(hexString: color)
-            contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)
-            categoryLabel.textColor = categoryColor
-        }
+    func configure(with model: CategoryDTO) {
+        categoryLabel.text = model.name.uppercased()
+        let categoryColor = UIColor(hexString: model.color)
+        contentView.backgroundColor = categoryColor.withAlphaComponent(colorAlpha)
+        categoryLabel.textColor = categoryColor
     }
     
     private func setupView() {

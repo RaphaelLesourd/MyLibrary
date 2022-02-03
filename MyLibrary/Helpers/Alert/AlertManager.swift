@@ -20,32 +20,36 @@ class AlertManager {
     static func presentAlert(title: String,
                              message: String,
                              cancel: Bool = false,
-                             on controller: UIViewController,
-                             cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                             cancelHandler: ((UIAlertAction) -> Void)? = nil,
                              actionHandler: ((UIAlertAction) -> Void)?) {
-        DispatchQueue.main.async {
-            let alertController = UIAlertController(title: title,
-                                                    message: message,
-                                                    preferredStyle: .alert)
-            let action = UIAlertAction(title: Text.ButtonTitle.okTitle,
-                                       style: .default,
-                                       handler: actionHandler)
-            alertController.addAction(action)
-            if cancel {
-                let cancelAction = UIAlertAction(title: Text.ButtonTitle.cancel,
-                                                 style: .cancel,
-                                                 handler: cancelHandler)
-                alertController.addAction(cancelAction)
+
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        let action = UIAlertAction(title: Text.ButtonTitle.okTitle,
+                                   style: .default,
+                                   handler: actionHandler)
+        alert.addAction(action)
+        if cancel {
+            let cancelAction = UIAlertAction(title: Text.ButtonTitle.cancel,
+                                             style: .cancel,
+                                             handler: cancelHandler)
+            alert.addAction(cancelAction)
+        }
+        let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+        if var topController = window?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
             }
-            controller.present(alertController, animated: true)
+            topController.present(alert, animated: true, completion: nil)
         }
     }
-    // MARK: - Banner
+
     /// Present an aler Banner
     /// - Parameters:
     /// - type: Type of banner (.error, .success, or .customMessage type)
     /// - subtitle:  Optional subtitle string, empty by default.
-    static func presentAlertBanner(as type: AlertBannerType, subtitle: String = "") {
+    static func presentAlertBanner(as type: AlertBannerType, subtitle: String? = "") {
         DispatchQueue.main.async {
             Bauly.shared.forcePresent(configurationHandler: { bauly in
                 bauly.title = type.message

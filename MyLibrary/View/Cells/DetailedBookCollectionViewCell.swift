@@ -9,7 +9,6 @@ import UIKit
 
 class DetailedBookCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -34,12 +33,14 @@ class DetailedBookCollectionViewCell: UICollectionViewCell {
                                       spacing: 10)
     
     // MARK: - Configure
-    func configure(with book: BookCellData) {
+    func configure(with book: BookCellUI) {
         titleLabel.text = book.title
         subtitleLabel.text = book.author
         descriptionLabel.text = book.description
         
-        bookCover.image = book.image
+        bookCover.getImage(for: book.image) { [weak self] image in
+            self?.bookCover.image = image
+        }
     }
     
     private func setupView() {

@@ -11,19 +11,26 @@ import CloudKit
 
 class BarcodeScanViewController: UIViewController {
 
-    // MARK: - Properties
     let mainView = BarcodeControllerView()
     weak var barcodeDelegate: BarcodeScannerDelegate?
-    var fetchedBarcode: String?
+    var barcode: String?
     var flashLightIsOn = false {
         didSet {
-            toggleFlashlight(onState: flashLightIsOn)
+            toggleFlashlight(toOn: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
     private var barcodeCapture: BarcodeReader?
+
+    init(barcodeDelegate: BarcodeScannerDelegate?) {
+        self.barcodeDelegate = barcodeDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    // MARK: - Lifecyle
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -36,12 +43,10 @@ class BarcodeScanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainView.delegate = self
         barcodeCapture = BarcodeReader(presentationController: self,
                                        delegate: self,
                                        permissions: PermissionManager())
-        mainView.flashLightButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.flashLightIsOn.toggle()
-        }), for: .touchUpInside)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,15 +64,14 @@ class BarcodeScanViewController: UIViewController {
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    // MARK: - Flashlight
-    private func toggleFlashlight(onState: Bool) {
+
+    private func toggleFlashlight(toOn: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }
         do {
             try device.lockForConfiguration()
-            device.torchMode = onState ? .on : .off
-            if onState {
+            device.torchMode = toOn ? .on : .off
+            if toOn {
                 try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
             }
             device.unlockForConfiguration()
@@ -79,7 +83,7 @@ class BarcodeScanViewController: UIViewController {
     
 }
 
-// MARK: - Extension barcode capture delegate
+// MARK: - Barcode capture delegate
 extension BarcodeScanViewController: BarcodeReaderDelegate {
  
     func presentError(with error: BarcodeReaderError) {
@@ -87,10 +91,17 @@ extension BarcodeScanViewController: BarcodeReaderDelegate {
                                         subtitle: error.description)
         dismissViewController()
     }
-    
+
+    /// Receive  the baraode from the BarCodeReader and pass it on.
     func provideBarcode(with data: String?) {
         guard let data = data else { return }
         barcodeDelegate?.processBarcode(with: data)
         dismissViewController()
+    }
+}
+// MARK: - Barcodescanner view delegate
+extension BarcodeScanViewController: BarcodeControllerViewDelegate {
+    func toggleFlashlight() {
+        flashLightIsOn.toggle()
     }
 }

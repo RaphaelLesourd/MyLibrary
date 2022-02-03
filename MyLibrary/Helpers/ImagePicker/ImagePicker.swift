@@ -16,14 +16,11 @@ protocol ImagePickerDelegate: AnyObject {
 // https://theswiftdev.com/picking-images-with-uiimagepickercontroller-in-swift-5/
 
 class ImagePicker: NSObject {
-    
-    // MARK: - Properties
+
     private let pickerController: UIImagePickerController
     private weak var presentationController: UIViewController?
     private weak var delegate: ImagePickerDelegate?
     private var permissions: Permissions
-    
-    // MARK: - Initializer
 
     /// Initialize the ImagePicker  and set properties.
     /// - Parameters:
@@ -40,7 +37,28 @@ class ImagePicker: NSObject {
         setupImagePicker()
     }
     
-    // MARK: - Picker
+    /// Present a menu to choose a source type.
+    /// - Three sources are avaiable, camera, camera roll, photo library.
+    /// - Parameter sourceView: source calling the method
+    func present(from sourceView: UIView) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if let cameraAction = self.action(for: .camera, title: Text.ButtonTitle.camera) {
+            alertController.addAction(cameraAction)
+        }
+        if let photoAction = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
+            alertController.addAction(photoAction)
+        }
+        alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: nil))
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.popoverPresentationController?.sourceView = sourceView
+            alertController.popoverPresentationController?.sourceRect = sourceView.bounds
+            alertController.popoverPresentationController?.permittedArrowDirections = [.down, .up]
+        }
+        presentationController?.present(alertController, animated: true)
+    }
+
+    // MARK: - Private functions
     private func setupImagePicker() {
         self.pickerController.delegate = self
         self.pickerController.allowsEditing = false
@@ -57,8 +75,7 @@ class ImagePicker: NSObject {
         controller.dismiss(animated: true, completion: nil)
         self.delegate?.didSelect(image: image)
     }
-    
-    // MARK: - Alert Controller
+
     /// Defines action for selected source type to be used in an UIAlertController
     ///  - A user can choose to take a photo, select from camera rool or photo library.
     /// - Parameters:
@@ -97,27 +114,6 @@ class ImagePicker: NSObject {
         DispatchQueue.main.async {
             self.presentationController?.present(self.pickerController, animated: true)
         }
-    }
-    
-    /// Present a menu to choose a source type.
-    /// - Three sources are avaiable, camera, camera roll, photo library.
-    /// - Parameter sourceView: source calling the method
-    func present(from sourceView: UIView) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if let cameraAction = self.action(for: .camera, title: Text.ButtonTitle.camera) {
-            alertController.addAction(cameraAction)
-        }
-        if let photoAction = self.action(for: .savedPhotosAlbum, title: Text.ButtonTitle.cameraRoll) {
-            alertController.addAction(photoAction)
-        }
-        alertController.addAction(UIAlertAction(title: Text.ButtonTitle.cancel, style: .cancel, handler: nil))
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alertController.popoverPresentationController?.sourceView = sourceView
-            alertController.popoverPresentationController?.sourceRect = sourceView.bounds
-            alertController.popoverPresentationController?.permittedArrowDirections = [.down, .up]
-        }
-        presentationController?.present(alertController, animated: true)
     }
 }
 // MARK: - UIImagepickerController Delegate

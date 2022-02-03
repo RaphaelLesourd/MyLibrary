@@ -29,7 +29,8 @@
       shouldUseLaunchSchemeArgsEnv = "NO"
       language = "en"
       region = "US"
-      codeCoverageEnabled = "YES">
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "unit_tests"
@@ -37,6 +38,15 @@
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "81C6CC6C2724769B00DE9219"
+            BuildableName = "MyLibrary.app"
+            BlueprintName = "MyLibrary"
+            ReferencedContainer = "container:MyLibrary.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO">

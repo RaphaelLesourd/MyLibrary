@@ -11,7 +11,7 @@ import XCTest
 class RecommandServiceTestCase: XCTestCase {
     // MARK: - Properties
     private var sut: RecommendationServiceProtocol?
-    private var book: Item!
+    private var book: ItemDTO!
     private let imageData = Data()
     
     // MARK: - Lifecycle

@@ -43,13 +43,15 @@ class NotificationService: UNNotificationServiceExtension {
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
         displayOriginalContent()
     }
-    
+
+    // MARK: - Private functions
     private func displayOriginalContent() {
         if let contentHandler = contentHandler,
            let bestAttemptContent = bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
     }
+
     /// Save the pushnotification image to disk.
     private func save(_ identifier: String, data: Data, options: [AnyHashable: Any]?) -> UNNotificationAttachment? {
         let url = URL(fileURLWithPath: NSTemporaryDirectory())

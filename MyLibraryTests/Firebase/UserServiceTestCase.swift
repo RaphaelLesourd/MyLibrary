@@ -42,7 +42,7 @@ class UserServiceTestCase: XCTestCase {
         // when
         let exp = XCTestExpectation(description: "Waiting for async operation")
        
-            self.sut.retrieveUser(completion: { result in
+        self.sut.retrieveUser(for: sut.userID, completion: { result in
                 switch result {
                 case .success(let user):
                     // then
@@ -64,7 +64,7 @@ class UserServiceTestCase: XCTestCase {
         self.sut.updateUserName(with: "updatedName", completion: { error in
             XCTAssertNil(error)
             // Then
-            self.sut.retrieveUser(completion: { result in
+            self.sut.retrieveUser(for: self.sut.userID, completion: { result in
                 switch result {
                 case .success(let user):
                     XCTAssertNotNil(user)
@@ -94,7 +94,7 @@ class UserServiceTestCase: XCTestCase {
         let exp = XCTestExpectation(description: "Waiting for async operation")
             self.sut?.userID = "12"
             // when
-            self.sut?.retrieveUser(completion: { result in
+        self.sut?.retrieveUser(for: sut.userID, completion: { result in
                 switch result {
                 case .success(let user):
                     XCTAssertNil(user)

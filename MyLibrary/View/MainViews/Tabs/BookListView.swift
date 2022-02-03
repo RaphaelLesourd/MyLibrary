@@ -27,6 +27,8 @@ class BookListView: UIView {
     // MARK: - Subviews
     let activityIndicator = UIActivityIndicatorView()
     let emptyStateView = EmptyStateView()
+    var headerView = HeaderSupplementaryView()
+    var footerView = LoadingFooterSupplementaryView()
     
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -54,21 +56,10 @@ class BookListView: UIView {
     private func configureCollectionView() {
         collectionView.refreshControl = refresherControl
     }
-    
-    private func configureEmptystateView(with title: String,
-                                         subtitle: String,
-                                         icon: UIImage,
-                                         hideButton: Bool) {
-        emptyStateView.isHidden = true
-        emptyStateView.configure(title: title,
-                                 subtitle: subtitle,
-                                 icon: icon,
-                                 hideButton: hideButton)
-    }
-    
+
     private func addButtonsAction() {
         refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.refreshData()
+            self?.delegate?.refreshBookList()
         }), for: .valueChanged)
     }
 }

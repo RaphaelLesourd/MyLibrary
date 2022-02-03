@@ -11,7 +11,6 @@ class CommentTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "cell"
     
-    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -24,7 +23,7 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     // MARK: - Subviews
-    let profileImageView: UIImageView = {
+    private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = Images.emptyStateBookImage
@@ -33,28 +32,35 @@ class CommentTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let userNameLabel = TextLabel(color: .appTintColor,
-                                  maxLines: 1,
-                                  alignment: .left,
-                                  font: .mediumSemiBoldTitle)
-    let commentLabel = TextLabel(color: .label,
-                                 maxLines: 0,
-                                 alignment: .natural,
-                                 font: .body)
-    let dateLabel = TextLabel(color: .secondaryLabel,
-                              maxLines: 1,
-                              alignment: .left,
-                              font: .lightFootnote)
+    private let userNameLabel = TextLabel(color: .appTintColor,
+                                          maxLines: 1,
+                                          alignment: .left,
+                                          font: .mediumSemiBoldTitle)
+    private let commentLabel = TextLabel(color: .label,
+                                         maxLines: 0,
+                                         alignment: .natural,
+                                         font: .body)
+    private let dateLabel = TextLabel(color: .secondaryLabel,
+                                      maxLines: 1,
+                                      alignment: .left,
+                                      font: .lightFootnote)
     private let stackView = StackView(axis: .vertical,
                                       spacing: 15)
     
     // MARK: - Configuration
+    func configure(with model: CommentUI) {
+        profileImageView.getImage(for: model.profileImage) { [weak self] image in
+            self?.profileImageView.image = image
+        }
+        userNameLabel.text = model.userName
+        dateLabel.text = model.date
+        commentLabel.text = model.message
+        profileImageView.layer.borderWidth = model.currentUser ? 3 : 0
+        profileImageView.layer.borderColor = UIColor.appTintColor.cgColor
+    }
+    
     private func setupView() {
         self.contentView.backgroundColor = .tertiarySystemBackground
-        
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        
         commentLabel.lineBreakMode = .byWordWrapping
         stackView.addArrangedSubview(userNameLabel)
         stackView.addArrangedSubview(dateLabel)

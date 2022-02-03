@@ -12,7 +12,6 @@ class NewCategoryMainView: UIView {
     weak var delegate: NewCategoryViewDelegate?
     private var collectionViewHeight = NSLayoutConstraint()
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -46,6 +45,11 @@ class NewCategoryMainView: UIView {
         return collection
     }()
     
+    let saveButton = Button(title: Text.ButtonTitle.save,
+                                    imagePlacement: .leading,
+                                    tintColor: .appTintColor,
+                                    backgroundColor: .appTintColor)
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
@@ -68,10 +72,6 @@ class NewCategoryMainView: UIView {
                                           maxLines: 4,
                                           font: .subtitle)
     private let colorSectionTitleLabel = TextLabel(font: .mediumSemiBoldTitle)
-    private let saveButton = Button(title: Text.ButtonTitle.save,
-                                    imagePlacement: .leading,
-                                    tintColor: .appTintColor,
-                                    backgroundColor: .appTintColor)
     private let mainStackView = StackView(axis: .vertical,
                                           spacing: 20)
    

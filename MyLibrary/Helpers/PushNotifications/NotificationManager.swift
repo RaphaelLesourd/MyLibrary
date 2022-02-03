@@ -11,26 +11,20 @@ import FirebaseMessaging
 import UserNotifications
 
 class NotificationManager: NSObject {
-    // MARK: - Properties
+
     private var userService: UserServiceProtocol
     private var libraryService: LibraryServiceProtocol
-    
-    // MARK: - Initializer
+    private let factory: Factory
+
     init(userService: UserServiceProtocol,
-         libraryService: LibraryServiceProtocol) {
+         libraryService: LibraryServiceProtocol,
+         factory: Factory) {
         self.userService = userService
         self.libraryService = libraryService
+        self.factory = factory
         super.init()
     }
-    
-    // MARK: - Private functions
-    /// Update the database userInfo messaging token
-    private func updateToken() {
-        if let token = Messaging.messaging().fcmToken {
-            userService.updateFcmToken(with: token)
-        }
-    }
-    
+
     /// Handles a received push notification.
     /// - Note: Retrieve the bookID and bookOwnerID from the notification Data
     /// and fetch the book then present the commentViewController.
@@ -38,7 +32,7 @@ class NotificationManager: NSObject {
         let userInfo = notification.request.content.userInfo
         guard let bookID = userInfo[DocumentKey.bookID.rawValue] as? String,
               let ownerID = userInfo[DocumentKey.ownerID.rawValue] as? String else { return }
-        
+
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             switch result {
             case .success(let book):
@@ -50,17 +44,22 @@ class NotificationManager: NSObject {
             }
         }
     }
+
+    // MARK: - Private functions
+    /// Update the database userInfo messaging token
+    private func updateToken() {
+        if let token = Messaging.messaging().fcmToken {
+            userService.updateFcmToken(with: token)
+        }
+    }
+
     /// Presents the comment ViewController with given book fetch after receiving a push notfication.
     /// - Parameters:
     /// - book: Book the comment belongs to.
-    /// - Note: Handles 2 cases when resenting the Comment viewcontroller for the iPad, presents it modally dismissi
+    /// - Note: Handles 2 cases when presenting the Comment viewcontroller for the iPad, presents it modally dismissi
     /// and for the iphone shows it thru the navigationController
-    private func presentCommentController(with book: Item) {
-        let commentController = CommentsViewController(book: book,
-                                                       commentService: CommentService(),
-                                                       messageService: MessageService(),
-                                                       validator: Validator())
-        
+    private func presentCommentController(with book: ItemDTO) {
+        let commentController = factory.makeCommentVC(with: book)
         let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
         let rootViewController = scene?.window?.rootViewController as? IpadSplitViewController
         

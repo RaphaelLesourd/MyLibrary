@@ -4,7 +4,8 @@
 //
 //  Created by Birkyboy on 23/12/2021.
 //
-/// Types Banner alert, either for and error or success message. A customMessage allows to pass in a custom title.
+/// Types Banner alert, either for and error or success message.
+/// A customMessage allows to pass in a custom title.
 enum AlertBannerType {
     case error
     case success

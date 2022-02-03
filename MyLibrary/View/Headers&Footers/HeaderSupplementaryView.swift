@@ -9,7 +9,6 @@ import UIKit
 
 class HeaderSupplementaryView: UICollectionReusableView {
 
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -23,7 +22,6 @@ class HeaderSupplementaryView: UICollectionReusableView {
     // MARK: - Subviews
     let moreButton: UIButton = {
         let button = UIButton()
-        button.setTitle(Text.ButtonTitle.seeAll, for: .normal)
         button.setTitleColor(.secondaryLabel, for: .normal)
         button.titleLabel?.font = .subtitle
         return button
@@ -34,7 +32,7 @@ class HeaderSupplementaryView: UICollectionReusableView {
                                       spacing: 0)
    
     // MARK: - Configure
-    func configure(with title: String, buttonTitle: String) {
+    func configure(with title: String, buttonTitle: String = Text.ButtonTitle.seeAll) {
         titleLabel.text = title
         moreButton.setTitle(buttonTitle, for: .normal)
     }

@@ -13,7 +13,6 @@ class WelcomeControllerMainView: UIView {
     weak var delegate: WelcomeViewDelegate?
     private let device = UIDevice.current.userInterfaceIdiom
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -98,11 +97,10 @@ extension WelcomeControllerMainView {
     
     private func setMainStackViewConstraints() {
         addSubview(mainStackView)
-        let offSet: CGFloat = device == .pad ? 0.5 : 0.9
         NSLayoutConstraint.activate([
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mainStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: offSet)
+            mainStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: 0.9)
         ])
     }
 }
