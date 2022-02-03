@@ -58,7 +58,7 @@
 		81242D51272D986100CB39B1 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4D272D986000CB39B1 /* MockURLProtocol.swift */; };
 		81242D52272D986100CB39B1 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D4E272D986000CB39B1 /* FakeData.swift */; };
 		81242D53272D986100CB39B1 /* BookFakeData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81242D4F272D986000CB39B1 /* BookFakeData.json */; };
-		81242D54272D986100CB39B1 /* ApiManagerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D50272D986100CB39B1 /* ApiManagerTestCase.swift */; };
+		81242D54272D986100CB39B1 /* SearchBooksTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D50272D986100CB39B1 /* SearchBooksTestCase.swift */; };
 		81242D56272DB21200CB39B1 /* ApiErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D55272DB21200CB39B1 /* ApiErrors.swift */; };
 		81242D8D272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */; };
 		81242D8F272EA87300CB39B1 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */; };
@@ -124,6 +124,7 @@
 		8136D8FC27A5991900FCE2B3 /* PostNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */; };
 		8136D8FE27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */; };
 		8136D90327A5BC0500FCE2B3 /* UserCellUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D90227A5BC0500FCE2B3 /* UserCellUI.swift */; };
+		8136D97927ABDA2F00FCE2B3 /* PostNotificationsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8136D97827ABDA2F00FCE2B3 /* PostNotificationsTestCase.swift */; };
 		8138DDE2274784D400C355C6 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE1274784D400C355C6 /* Formatter.swift */; };
 		8138DDE42747869C00C355C6 /* FormatterTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8138DDE32747869C00C355C6 /* FormatterTestCase.swift */; };
 		813B7C712733A44F005BFBDB /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813B7C702733A44F005BFBDB /* UserService.swift */; };
@@ -368,7 +369,7 @@
 		81242D4D272D986000CB39B1 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		81242D4E272D986000CB39B1 /* FakeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		81242D4F272D986000CB39B1 /* BookFakeData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BookFakeData.json; sourceTree = "<group>"; };
-		81242D50272D986100CB39B1 /* ApiManagerTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManagerTestCase.swift; sourceTree = "<group>"; };
+		81242D50272D986100CB39B1 /* SearchBooksTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBooksTestCase.swift; sourceTree = "<group>"; };
 		81242D55272DB21200CB39B1 /* ApiErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiErrors.swift; sourceTree = "<group>"; };
 		81242D8C272EA84C00CB39B1 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
 		81242D8E272EA87300CB39B1 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -434,6 +435,7 @@
 		8136D8FB27A5991900FCE2B3 /* PostNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotificationService.swift; sourceTree = "<group>"; };
 		8136D8FD27A5992A00FCE2B3 /* FirebaseCloudMessagingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCloudMessagingService.swift; sourceTree = "<group>"; };
 		8136D90227A5BC0500FCE2B3 /* UserCellUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellUI.swift; sourceTree = "<group>"; };
+		8136D97827ABDA2F00FCE2B3 /* PostNotificationsTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotificationsTestCase.swift; sourceTree = "<group>"; };
 		8138DDE1274784D400C355C6 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		8138DDE32747869C00C355C6 /* FormatterTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterTestCase.swift; sourceTree = "<group>"; };
 		813B7C702733A44F005BFBDB /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -1050,7 +1052,8 @@
 		8125AD79279956CC00FB6725 /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
-				81242D50272D986100CB39B1 /* ApiManagerTestCase.swift */,
+				81242D50272D986100CB39B1 /* SearchBooksTestCase.swift */,
+				8136D97827ABDA2F00FCE2B3 /* PostNotificationsTestCase.swift */,
 				81242D4E272D986000CB39B1 /* FakeData.swift */,
 				81242D4D272D986000CB39B1 /* MockURLProtocol.swift */,
 				81792F622732B970005F863B /* BookEmptyFakeData.json */,
@@ -2225,11 +2228,12 @@
 				8125ADAF279B0C4900FB6725 /* NewBookPresenterTestCase.swift in Sources */,
 				8125ADA22799C36E00FB6725 /* ApiManagerMock.swift in Sources */,
 				8125AD952799B4E900FB6725 /* MessageServiceMock.swift in Sources */,
+				8136D97927ABDA2F00FCE2B3 /* PostNotificationsTestCase.swift in Sources */,
 				81B91849274BEA0200486176 /* RecommandServiceTestCase.swift in Sources */,
 				8121F0B3273BF130006EAA8D /* LibraryServiceTestCase.swift in Sources */,
 				81B9184B274CE12200486176 /* XCTestCase+Extension.swift in Sources */,
 				81B91847274BD2F200486176 /* ValidatorTestCase.swift in Sources */,
-				81242D54272D986100CB39B1 /* ApiManagerTestCase.swift in Sources */,
+				81242D54272D986100CB39B1 /* SearchBooksTestCase.swift in Sources */,
 				8125ADD8279DB4FC00FB6725 /* ListPresenterTestCase.swift in Sources */,
 				81451DDB2770CB7A00F3C0C8 /* QueryserviceTestCase.swift in Sources */,
 				810D7FA627577F790043280E /* CommentServiceTestCase.swift in Sources */,
