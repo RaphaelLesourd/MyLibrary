@@ -24,12 +24,14 @@ class HeaderSupplementaryView: UICollectionReusableView {
         let button = UIButton()
         button.setTitleColor(.secondaryLabel, for: .normal)
         button.titleLabel?.font = .subtitle
+        button.contentHorizontalAlignment = .right
         return button
     }()
     
     private let titleLabel = TextLabel(font: .sectionTitle)
     private let stackView = StackView(axis: .horizontal,
-                                      spacing: 0)
+                                      distribution: .fillProportionally,
+                                      spacing: 10)
    
     // MARK: - Configure
     func configure(with title: String, buttonTitle: String = Text.ButtonTitle.seeAll) {
