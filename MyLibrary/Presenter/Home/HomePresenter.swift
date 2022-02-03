@@ -31,6 +31,7 @@ class HomePresenter: BookCellMapper {
     // MARK: - Internal functions
     func getCategories() {
         categoryService.getUserCategories { [weak self] result in
+            self?.view?.stopActivityIndicator()
             switch result {
             case .success(let categories):
                 self?.categories = categories
@@ -64,6 +65,7 @@ class HomePresenter: BookCellMapper {
     
     func getUsers() {
         recommendationService.getRecommendingUsers { [weak self] result in
+            self?.view?.stopActivityIndicator()
             switch result {
             case .success(let users):
                 self?.followedUser = users
@@ -99,4 +101,25 @@ class HomePresenter: BookCellMapper {
             }
         }
     }
+
+    func displayItem(for selectedItem: AnyHashable) {
+        if let category = selectedItem as? CategoryDTO {
+            let categoryQuery = BookQuery(listType: .categories,
+                                          orderedBy: .category,
+                                          fieldValue: category.uid,
+                                          descending: true)
+            view?.presentBookLibraryController(for: categoryQuery, title: category.name)
+        }
+        if let book = selectedItem as? ItemDTO {
+            view?.presentBookCardController(with: book)
+        }
+        if let followedUser = selectedItem as? UserModelDTO {
+            let query = BookQuery(listType: .users,
+                                  orderedBy: .ownerID,
+                                  fieldValue: followedUser.userID,
+                                  descending: true)
+            view?.presentBookLibraryController(for: query, title: followedUser.displayName)
+        }
+    }
 }
+
