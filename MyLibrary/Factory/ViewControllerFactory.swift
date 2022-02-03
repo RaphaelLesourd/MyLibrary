@@ -23,35 +23,46 @@ class ViewControllerFactory {
     private let categoryFormatter = CategoriesFormatter()
 
     private lazy var googleBooksService = GoogleBooksService(session: .default, validation: validation)
+
     private lazy var postNotificationService = FirebaseCloudMessagingService(session: .default)
 
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
                                                      categoryService: categoryService)
+
     private lazy var messageService = MessageService(postNotificationService: postNotificationService)
+
     private lazy var commentService = CommentService(userService: userService)
 
     // MARK: Presenters
     private lazy var welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
                                                                      validation: validation)
+
     private lazy var categoryPresenter = CategoryPresenter(categoryService: categoryService)
+
     private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService)
+
     private lazy var accountTabPresenter = AccountTabPresenter(userService: userService,
                                                                imageService: imageStorageService,
                                                                accountService: accountService)
+
     private lazy var homePresenter = HomePresenter(libraryService: libraryService,
                                                    categoryService: categoryService,
                                                    recommendationService: recommendationService)
+
     private lazy var commentPresenter = CommentPresenter(commentService: commentService,
                                                          messageService: messageService,
                                                          userService: userService,
                                                          formatter: formatter)
+
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
                                                            categoryService: categoryService,
                                                            formatter: formatter,
                                                            categoryFormatter: categoryFormatter)
+
     private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
+
     private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService,
                                                          formatter: formatter,
                                                          converter: converter,
