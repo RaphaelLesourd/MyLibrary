@@ -27,15 +27,17 @@ class NewBookControllerSubViews {
     let publishDateCell = TextFieldStaticCell(placeholder: Text.Book.publishedDate)
     let numberOfPagesCell = TextFieldStaticCell(placeholder: Text.Book.numberOfPages,
                                                 keyboardType: .numberPad)
-    let languageCell = DisclosureTableViewCell(title: Text.Book.bookLanguage)
+    let languageCell = DisclosureTableViewCell(title: Text.Book.bookLanguage,
+                                               icon: Images.ButtonIcon.language)
     
     let isbnCell = TextFieldStaticCell(placeholder: Text.Book.isbn,
                                        keyboardType: .numberPad)
     let purchasePriceCell = TextFieldStaticCell(placeholder: Text.Book.price,
                                                 keyboardType: .decimalPad)
-    let currencyCell = DisclosureTableViewCell(title: Text.Book.currency)
+    let currencyCell = DisclosureTableViewCell(title: Text.Book.currency,
+                                               icon: Images.ButtonIcon.currencies)
     
-    let ratingCell = RatingInputStaticCell(placeholder: Text.Book.rating)
+    let ratingCell = RatingInputStaticCell()
     let saveButtonCell = ButtonStaticCell(title: Text.ButtonTitle.save,
                                           systemImage: Images.ButtonIcon.done,
                                           tintColor: .appTintColor,
@@ -44,8 +46,10 @@ class NewBookControllerSubViews {
                                        tintColor: .systemRed,
                                        backgroundColor: .clear)
     
-    lazy var descriptionCell = DisclosureTableViewCell(title: Text.Book.bookDescription)
-    lazy var bookCategoryCell = DisclosureTableViewCell(title: Text.Book.bookCategories)
+    lazy var descriptionCell = DisclosureTableViewCell(title: Text.Book.bookDescription,
+                                                       icon: Images.ButtonIcon.quote)
+    lazy var bookCategoryCell = DisclosureTableViewCell(title: Text.Book.bookCategories,
+                                                        icon: Images.ButtonIcon.selectedCategoryBadge)
     
     lazy var textFields = [bookTileCell.textField,
                            bookAuthorCell.textField,
@@ -70,7 +74,7 @@ class NewBookControllerSubViews {
         ]
     }
     
-    func configure(with model: NewBookRepresentable) {
+    func configure(with model: NewBookUI) {
         bookTileCell.textField.text = model.title
         bookAuthorCell.textField.text = model.authors
         ratingCell.ratingSegmentedControl.selectedSegmentIndex = model.rating ?? 0

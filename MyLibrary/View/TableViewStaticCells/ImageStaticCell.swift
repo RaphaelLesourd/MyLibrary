@@ -9,7 +9,6 @@ import UIKit
 
 class ImageStaticCell: UITableViewCell {
     
-    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear

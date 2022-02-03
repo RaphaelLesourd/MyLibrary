@@ -7,32 +7,23 @@
 
 import Foundation
 
-protocol CategoryPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func highlightCell(at indexPath: IndexPath)
-    func displayDeleteAlert(for category: CategoryModel)
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?)
-}
-
 class CategoryPresenter {
-    
-    // MARK: - Properties
+
     weak var view: CategoryPresenterView?
-    var categories: [CategoryModel] = []
-    var categoriesOriginalList: [CategoryModel] = []
+    var categories: [CategoryDTO] = []
+    var categoriesOriginalList: [CategoryDTO] = []
     var selectedCategories: [String] = []
     
     private var categoryService: CategoryServiceProtocol
     
-    // MARK: - Initializer
     init(categoryService: CategoryServiceProtocol) {
         self.categoryService = categoryService
     }
-    
-    // MARK: - API Call
+
+    /// Fetch the user categories
     func getCategoryList() {
-        self.view?.showActivityIndicator()
-        categoryService.getCategories { [weak self] result in
+        self.view?.startActivityIndicator()
+        categoryService.getUserCategories { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
             case .success(let categories):
@@ -45,8 +36,11 @@ class CategoryPresenter {
         }
     }
     
-    func deleteCategory(for category: CategoryModel) {
-        view?.showActivityIndicator()
+    /// Delete category from the database
+    /// - Parameters:
+    /// - category:CategoryModel object
+    func deleteCategory(for category: CategoryDTO) {
+        view?.startActivityIndicator()
         
         categoryService.deleteCategory(for: category) { [weak self] error in
             self?.view?.stopActivityIndicator()
@@ -64,7 +58,8 @@ class CategoryPresenter {
     }
     
     /// Filter the recipe searched
-    /// - Parameter searchText: Pass in the text used to filter recipes.
+    /// - Parameters:
+    /// - searchText: Pass in the text used to filter recipes.
     func filterSearchedCategories(for searchText: String) {
         if searchText.isEmpty {
             categories = categoriesOriginalList
@@ -77,6 +72,9 @@ class CategoryPresenter {
         self.view?.applySnapshot(animatingDifferences: true)
     }
     
+    /// Highlight tableView cell for the category received
+    /// - Parameters:
+    /// - section: Int for the section the category is in
     func highlightBookCategories(for section: Int) {
         selectedCategories.forEach({ category in
             if let index = categories.firstIndex(where: { $0.uid == category }) {
@@ -86,11 +84,17 @@ class CategoryPresenter {
         })
     }
     
+    /// Add a selected category to the array of categories
+    /// - Parameters:
+    /// - index: Int of the category index
     func addSelectedCategory(at index: Int) {
         let categoryID = categories[index].uid
         selectedCategories.append(categoryID)
     }
     
+    /// Remove a selected category from the array of categories
+    /// - Parameters:
+    /// - index: Int of the category index
     func removeSelectedCategory(from index: Int) {
         let categoryID = categories[index].uid
         if let index = selectedCategories.firstIndex(where: { $0 == categoryID }) {
@@ -98,13 +102,17 @@ class CategoryPresenter {
         }
     }
     
+    /// Handle the cell trailing swipe actions and call the methods for the action
+    /// - Parameters:
+    ///   - action: CellSwipeActionType Enum case
+    ///   - index: Int of the category index
     func presentSwipeAction(for action: CellSwipeActionType, at index: Int) {
         let category = categories[index]
         switch action {
         case .delete:
             self.view?.displayDeleteAlert(for: category)
         case .edit:
-            self.view?.presentNewCategoryController(editing: true, for: category)
+            self.view?.presentNewCategoryController(with: category)
         }
     }
 }

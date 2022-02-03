@@ -12,7 +12,7 @@ class LibraryServiceTestCase: XCTestCase {
     // MARK: - Properties
     private var sut: LibraryService!
     private var userService: UserService!
-    private var book: Item!
+    private var book: ItemDTO!
     private let imageData = Data()
     
     // MARK: - Lifecycle
@@ -167,7 +167,7 @@ class LibraryServiceTestCase: XCTestCase {
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        let book = Item(id: "noTitle",
+        let book = ItemDTO(id: "noTitle",
                     bookID: "11111111",
                     favorite: true,
                     ownerID: "AAAAAA",

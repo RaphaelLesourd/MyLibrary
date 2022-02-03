@@ -13,9 +13,9 @@ class SetupAccountPresenterTestCase: XCTestCase {
     private var sut: SetupAccountPresenter!
     private var setupAccountPresenterViewSpy: SetupAccountPresenterViewSpy!
     private let successTestPresenter = SetupAccountPresenter(accountService: AccountServiceMock(successTest: true),
-                                                             validation: Validator())
+                                                             validation: Validation())
     private let failedTestPresenter = SetupAccountPresenter(accountService: AccountServiceMock(successTest: false),
-                                                            validation: Validator())
+                                                            validation: Validation())
     
     override func setUp() {
         setupAccountPresenterViewSpy = SetupAccountPresenterViewSpy()
@@ -30,7 +30,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenLoginToAccount() {
         sut = successTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .login)
+        sut.handleAccountCredentials(for: .login)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -39,7 +39,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenCreatingAccount() {
         sut = successTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .signup)
+        sut.handleAccountCredentials(for: .signup)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -48,7 +48,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenDeletingAccount() {
         sut = successTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .deleteAccount)
+        sut.handleAccountCredentials(for: .deleteAccount)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -88,7 +88,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenLoginToAccount_withError() {
         sut = failedTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .login)
+        sut.handleAccountCredentials(for: .login)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -97,7 +97,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenCreatingAccount_withError() {
         sut = failedTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .signup)
+        sut.handleAccountCredentials(for: .signup)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -106,7 +106,7 @@ class SetupAccountPresenterTestCase: XCTestCase {
     func test_showInterface_whenDeletingAccount_withError() {
         sut = failedTestPresenter
         sut.view = setupAccountPresenterViewSpy
-        sut.showInterface(for: .deleteAccount)
+        sut.handleAccountCredentials(for: .deleteAccount)
         XCTAssertTrue(setupAccountPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(setupAccountPresenterViewSpy.stopActivityWasCalled)
         XCTAssertFalse(setupAccountPresenterViewSpy.dismissControllerWasCalled)
@@ -144,19 +144,19 @@ class SetupAccountPresenterViewSpy: SetupAccountPresenterView {
         dismissControllerWasCalled = true
     }
     
-    func updateEmailTextField(valid: Bool) {
+    func validateEmailTextField(with validated: Bool) {
         updateEmailTextFieldWasCalled = true
     }
     
-    func updatePasswordTextField(valid: Bool) {
+    func validatePasswordTextField(with validation: Bool) {
         updatePasswordTextFieldWasCalled = true
     }
     
-    func updatePasswordConfirmationTextField(valid: Bool) {
+    func validatePasswordConfirmationTextField(with validation: Bool) {
         updatePasswordConfirmationTextFieldWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

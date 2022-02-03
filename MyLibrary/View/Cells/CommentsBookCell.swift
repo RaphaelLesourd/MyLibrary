@@ -9,10 +9,8 @@ import UIKit
 
 class CommentsBookCell: UITableViewCell {
     
-    // MARK: - Propoerties
     static let reuseIdentifier = "bookcell"
-    
-    // MARK: - Initializer
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -42,7 +40,7 @@ class CommentsBookCell: UITableViewCell {
                                       spacing: 10)
     
     // MARK: - configure
-    func configure(with book: CommentBookCellRepresentable) {
+    func configure(with book: CommentBookUI) {
         titleLabel.text = book.title
         subtitleLabel.text = book.authors
         bookCover.getImage(for: book.image) { [weak self] image in

@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// App Images
 enum Images {
     static let welcomeScreen = UIImage(named: "welcomeScreenImage")
     static let emptyStateBookImage = UIImage(named: "cover")!
@@ -14,8 +15,9 @@ enum Images {
     
     enum NavIcon {
         private static let configuration = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular, scale: .large)
-        
-        static let scanBarcode = UIImage(systemName: "viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let viewFider = UIImage(systemName: "viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let barCode = UIImage(systemName: "barcode.viewfinder", withConfiguration: Images.NavIcon.configuration)
+        static let scanBarcode = NavIcon.barCode ?? NavIcon.viewFider
         static let editBookIcon = UIImage(systemName: "square.and.pencil", withConfiguration: Images.NavIcon.configuration)
         static let gridLayoutMenu = UIImage(systemName: "ellipsis", withConfiguration: Images.NavIcon.configuration)
         static let addIcon = UIImage(systemName: "plus.circle.fill", withConfiguration: Images.NavIcon.configuration)
@@ -55,7 +57,10 @@ enum Images {
         static let done = UIImage(systemName: "hand.tap.fill")!
         static let chat = UIImage(systemName: "bubble.left.and.bubble.right.fill")!
         static let search = UIImage(systemName: "magnifyingglass")!
-        static let rightChevron = UIImage(systemName: "chevron.forward")!
+        static let rightArrow = UIImage(systemName: "arrow.up.right.circle.fill")!
+        static let language = UIImage(systemName: "mouth.fill")!
+        static let currencies = UIImage(systemName: "eurosign.circle.fill")!
+        static let quote = UIImage(systemName: "quote.bubble.fill")!
     }
     
     enum Onboarding {

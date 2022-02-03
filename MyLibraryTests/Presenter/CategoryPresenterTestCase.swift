@@ -48,7 +48,6 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_searchForCategory_searchTextIsEmpty() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categoriesOriginalList = PresenterFakeData.categories
         sut.filterSearchedCategories(for: "")
         XCTAssertTrue(categoryViewSpy.snapshotWasCalled)
     }
@@ -146,11 +145,11 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         highLightCellWasCalled = true
     }
     
-    func displayDeleteAlert(for category: CategoryModel) {
+    func displayDeleteAlert(for category: CategoryDTO) {
         displayDeleteAlertWasCalled = true
     }
     
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?) {
+    func presentNewCategoryController(with category: CategoryDTO?) {
         presentNewCategoryControllerWasCalled = true
     }
     
@@ -158,7 +157,7 @@ class CategoryPresenterViewSpy: CategoryPresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

@@ -10,32 +10,32 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 class CommentService {
-    
-    // MARK: - Properties
+
     var userID: String
     
     private let userRef: CollectionReference
     private var commentListener: ListenerRegistration?
     private let db = Firestore.firestore()
-    
-    // MARK: - Initializer
-    init() {
+    private let userService: UserServiceProtocol
+
+    init(userService: UserService) {
+        self.userService = userService
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
     
     private func saveCommentDocument(docRef: DocumentReference,
-                                     user: UserModel,
+                                     user: UserModelDTO,
                                      documentID: String,
                                      message: String,
                                      completion: @escaping (FirebaseError?) -> Void) {
         let timestamp = Date().timeIntervalSince1970
-        let comment = CommentModel(uid: documentID,
-                                   userID: self.userID,
-                                   userName: user.displayName,
-                                   userPhotoURL: user.photoURL,
-                                   message: message,
-                                   timestamp: timestamp)
+        let comment = CommentDTO(uid: documentID,
+                                 userID: self.userID,
+                                 userName: user.displayName,
+                                 userPhotoURL: user.photoURL,
+                                 message: message,
+                                 timestamp: timestamp)
         do {
             try docRef.setData(from: comment)
             completion(nil)
@@ -43,10 +43,19 @@ class CommentService {
             completion(.firebaseError(error))
         }
     }
- }
-// MARK: - Extension CommentServiceProtocol 
+
+    private func makeCollectionRef(for ownerID: String, and bookID: String) -> CollectionReference {
+        return userRef
+            .document(ownerID)
+            .collection(CollectionDocumentKey.books.rawValue)
+            .document(bookID)
+            .collection(CollectionDocumentKey.comments.rawValue)
+    }
+}
+// MARK: - CommentService Protocol
 extension CommentService: CommentServiceProtocol {
-  
+
+    // MARK: Add
     func addComment(for bookID: String,
                     ownerID: String,
                     commentID: String?,
@@ -58,16 +67,13 @@ extension CommentService: CommentServiceProtocol {
         }
         
         let documentID = commentID ?? UUID().uuidString
-        let docRef = userRef
-            .document(ownerID)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .document(bookID)
-            .collection(CollectionDocumentKey.comments.rawValue)
-            .document(documentID)
-       
-        getUserDetail(for: self.userID) { [weak self] result in
+        let docRef = makeCollectionRef(for: ownerID, and: bookID).document(documentID)
+
+        userService.retrieveUser(for: self.userID) { [weak self] result in
             switch result {
             case .success(let user):
+                guard let user = user else { return }
+
                 self?.saveCommentDocument(docRef: docRef,
                                           user: user,
                                           documentID: documentID,
@@ -79,15 +85,12 @@ extension CommentService: CommentServiceProtocol {
             }
         }
     }
-  
+
+    // MARK: Retrieve
     func getComments(for bookID: String,
                      ownerID: String,
-                     completion: @escaping (Result<[CommentModel], FirebaseError>) -> Void) {
-        let docRef = userRef
-            .document(ownerID)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .document(bookID)
-            .collection(CollectionDocumentKey.comments.rawValue)
+                     completion: @escaping (Result<[CommentDTO], FirebaseError>) -> Void) {
+        let docRef = makeCollectionRef(for: ownerID, and: bookID)
             .order(by: DocumentKey.timestamp.rawValue, descending: true)
         
         commentListener = docRef.addSnapshotListener { querySnapshot, error in
@@ -95,9 +98,9 @@ extension CommentService: CommentServiceProtocol {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> CommentModel? in
+            let data = querySnapshot?.documents.compactMap { documents -> CommentDTO? in
                 do {
-                    return try documents.data(as: CommentModel.self)
+                    return try documents.data(as: CommentDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -108,21 +111,17 @@ extension CommentService: CommentServiceProtocol {
             }
         }
     }
-    
+
+    // MARK: Delete
     func deleteComment(for bookID: String,
                        ownerID: String,
-                       comment: CommentModel,
+                       comment: CommentDTO,
                        completion: @escaping (FirebaseError?) -> Void) {
         guard !comment.uid.isEmpty else {
             completion(.nothingFound)
             return
         }
-        let docRef = userRef
-            .document(ownerID)
-            .collection(CollectionDocumentKey.books.rawValue)
-            .document(bookID)
-            .collection(CollectionDocumentKey.comments.rawValue)
-            .document(comment.uid)
+        let docRef = makeCollectionRef(for: ownerID, and: bookID).document(comment.uid)
         
         docRef.delete { error in
             if let error = error {
@@ -130,25 +129,6 @@ extension CommentService: CommentServiceProtocol {
                 return
             }
             completion(nil)
-        }
-    }
-    
-    func getUserDetail(for userID: String, completion: @escaping (Result<UserModel, FirebaseError>) -> Void) {
-        let docRef = userRef.document(userID)
-        docRef.getDocument { querySnapshot, error in
-            if let error = error {
-                completion(.failure(.firebaseError(error)))
-                return
-            }
-            do {
-                guard let document = try querySnapshot?.data(as: UserModel.self)  else {
-                    completion(.failure(.nothingFound))
-                    return
-                }
-                completion(.success(document))
-            } catch {
-               completion(.failure(.firebaseError(error)))
-            }
         }
     }
     

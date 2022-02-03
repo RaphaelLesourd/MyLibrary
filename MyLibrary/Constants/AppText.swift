@@ -62,6 +62,7 @@ enum Text {
     }
     
     enum SectionTitle {
+        static let userCategories = NSLocalizedString("UserCategories", comment: "all user categories title")
         static let latestBook = NSLocalizedString("LatestBooks", comment: "latest book title")
         static let favoritetBook = NSLocalizedString("FavoriteBooks", comment: "book title")
         static let userRecommandation = NSLocalizedString("Recommendations", comment: "book title")
@@ -81,8 +82,8 @@ enum Text {
         static let newBookSaveFooter = NSLocalizedString("NewBookSaveFooter", comment: "new Book Save Footer")
         static let searchHeader = NSLocalizedString("SearchHeaderTitle", comment: "Search book header title")
         static let updateUserNameLegend = NSLocalizedString("UpdateUserNameLegend", comment: "Update UserName Legend text")
-        static let languageListHeader = NSLocalizedString("LanguageListHeader", comment: "language List Header title")
-        static let currencyListHeader = NSLocalizedString("CurrencyListHeader", comment: "currency List Header title")
+        static let favorite = NSLocalizedString("Favorite", comment: "language List Header title")
+        static let other = NSLocalizedString("Others", comment: "currency List Header title")
         static let listFooter = NSLocalizedString("ListFooter", comment: "Invite user to swipe left to add or remove to favorites")
     }
 
@@ -180,8 +181,8 @@ enum Text {
         static let emailExist = NSLocalizedString("EmailExist", comment: "Email already in use.")
         
         static let invalidRequest = NSLocalizedString("InvalidRequest", comment: "Invalid request")
-        static let invalidEmail = NSLocalizedString("InvalidPassword", comment: "Invalid password")
-        static let invalidPassword = NSLocalizedString("InvalidEmail", comment: "Invalid email")
+        static let invalidEmail = NSLocalizedString("InvalidEmail", comment: "Invalid password")
+        static let invalidPassword = NSLocalizedString("InvalidPassword", comment: "Invalid email")
         static let accountDontExist = NSLocalizedString("AccountDontExist", comment: "No account exist with this email.")
         static let noText = NSLocalizedString("NoText", comment: "When textfield is empty")
         static let emptyQuery = NSLocalizedString("EmptyQuery", comment: "Query is empty")
@@ -190,6 +191,7 @@ enum Text {
         static let internalServerError = NSLocalizedString("InternalServerError", comment: "Http error 500")
         static let serviceUnavailable = NSLocalizedString("ServiceUnavailable", comment: "Http error 503")
         static let unknownError = NSLocalizedString("UnknowError", comment: "Http all other error")
+        static let emptyCategoryName = NSLocalizedString("EmptyCategoryName", comment: "Error message when name is present")
     }
     
     enum Misc {
@@ -225,6 +227,7 @@ enum Text {
         static let categorySubtitle = NSLocalizedString("EmptyStateCategorySubtitle", comment: "")
         static let commentTitle = NSLocalizedString("EmptyStateCommentTitle", comment: "")
         static let commentSubtitle = NSLocalizedString("EmptyStateCommentSubtitle", comment: "")
+        static let listSubtitle = NSLocalizedString("EmptyStateListNoDataFound", comment: "")
     }
     
     enum Onboarding {

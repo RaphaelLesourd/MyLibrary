@@ -11,7 +11,6 @@ class OnboardingMainView: UIView {
     
     weak var delegate: OnboardingMainViewDelegate?
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -62,7 +61,7 @@ class OnboardingMainView: UIView {
     }()
     
     private let nextButton = Button(title: Text.ButtonTitle.next,
-                                    icon: Images.ButtonIcon.rightChevron,
+                                    icon: Images.ButtonIcon.rightArrow,
                                     imagePlacement: .trailing,
                                     tintColor: .systemOrange,
                                     backgroundColor: .systemOrange)
@@ -72,7 +71,7 @@ class OnboardingMainView: UIView {
                                       spacing: 20)
     
     // MARK: - Configure
-    func onboardingCompleted(_ finished: Bool) {
+    func setOnboardingSeen(when finished: Bool) {
         let title = finished ? Text.ButtonTitle.done : Text.ButtonTitle.next
         nextButton.setTitle(title, for: .normal)
     }

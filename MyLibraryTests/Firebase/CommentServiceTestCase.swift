@@ -14,9 +14,9 @@ class CommentServiceTestCase: XCTestCase {
     private var sut: CommentService!
     private var libraryservice: LibraryService!
     private var userService: UserService!
-    private var book: Item!
+    private var book: ItemDTO!
     private let imageData  = Data()
-    private let comment = CommentModel(uid: "commentID",
+    private let comment = CommentDTO(uid: "commentID",
                                        userID: "user1",
                                        userName: "name",
                                        userPhotoURL: "",
@@ -26,7 +26,7 @@ class CommentServiceTestCase: XCTestCase {
     // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
-        sut = CommentService()
+        sut = CommentService(userService: UserService())
         userService = UserService()
         libraryservice = LibraryService()
         book = createBookDocumentData()
@@ -118,19 +118,4 @@ class CommentServiceTestCase: XCTestCase {
         })
         wait(for: [expectation], timeout: 1.0)
     }
-    
-    func test_givenComment_whenRetrivingUserDetail_thenReturnUser() {
-        let expectation = XCTestExpectation(description: "Waiting for async operation")
-        sut.getUserDetail(for: "user1") { result in
-            switch result {
-            case .success(let user):
-                XCTAssertNotNil(user)
-            case .failure(let error):
-                XCTAssertNil(error)
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-    }
-    
 }

@@ -9,11 +9,8 @@ import UIKit
 
 class IpadSplitViewController: UISplitViewController {
 
-    // MARK: - Properties
-   
     private let factory: Factory
-    
-    // MARK: - Initializer
+
     override init(style: UISplitViewController.Style) {
         self.factory = ViewControllerFactory()
         super.init(style: style)
@@ -23,19 +20,18 @@ class IpadSplitViewController: UISplitViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setViewControllers()
     }
     
-    // MARK: - Setup
     private func setViewControllers() {
-        let tabBarController = TabBarController()
+        let tabBarController = TabBarController(factory: factory)
         let homeViewController = factory.makeHomeTabVC()
-        let newBookViewController = factory.makeNewBookVC(with: nil, isEditing: false, bookCardDelegate: nil)
+        let newBookViewController = factory.makeNewBookVC()
         newBookViewController.title = Text.ControllerTitle.newBook
+
         setViewController(newBookViewController, for: .primary)
         setViewController(UINavigationController(rootViewController: homeViewController), for: .secondary)
         setViewController(tabBarController, for: .compact)

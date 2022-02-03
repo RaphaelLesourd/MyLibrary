@@ -15,11 +15,11 @@ class NewBookPresenterTestCase: XCTestCase {
     private let successTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: true),
                                                         formatter: Formatter(),
                                                         converter: Converter(),
-                                                        validator: Validator())
+                                                        validator: Validation())
     private let failedTestPresenter = NewBookPresenter(libraryService: LibraryServiceMock(successTest: false),
                                                        formatter: Formatter(),
                                                        converter: Converter(),
-                                                       validator: Validator())
+                                                       validator: Validation())
     
     override func setUp() {
         newBookPresenterViewSpy = NewBookPresenterViewSpy()
@@ -54,7 +54,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.setBookData()
+        sut.displayBook()
         XCTAssertTrue(newBookPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.updateLanguageViewWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
@@ -119,7 +119,7 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
     var returnToPreviousControllerWasCalled = false
     var showSaveButtonIndicatorWasCalled = false
     
-    func showSaveButtonActivityIndicator(_ show: Bool) {
+    func toggleSaveButtonActivityIndicator(to play: Bool) {
         showSaveButtonIndicatorWasCalled = true
     }
     
@@ -131,15 +131,15 @@ class NewBookPresenterViewSpy: NewBookPresenterView {
         clearDataWasCalled = true
     }
     
-    func displayBook(with model: NewBookRepresentable) {
+    func displayBook(with model: NewBookUI) {
         displayBookWasCalled = true
     }
     
-    func updateLanguageView(with language: String) {
+    func displayLanguage(with language: String) {
         updateLanguageViewWasCalled = true
     }
     
-    func updateCurrencyView(with currency: String) {
+    func displayCurrencyView(with currency: String) {
         updateCurrencyViewWasCalled = true
     }
 }

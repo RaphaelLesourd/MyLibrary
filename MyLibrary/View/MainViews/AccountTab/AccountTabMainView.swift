@@ -9,7 +9,6 @@ import UIKit
 
 class AccountTabMainView: UIView {
    
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setScrollViewConstraints()
@@ -48,7 +47,7 @@ class AccountTabMainView: UIView {
                                       spacing: 20)
     
     // MARK: - configuration
-    func configure(with user: UserModel) {
+    func configure(with user: UserModelDTO) {
         profileView.emailLabel.text = user.email
         profileView.userNameTextfield.text = user.displayName
         

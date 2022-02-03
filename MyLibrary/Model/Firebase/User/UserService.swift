@@ -10,14 +10,13 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 class UserService {
-    // MARK: - Properties
+    
     typealias CompletionHandler = (FirebaseError?) -> Void
     private let db = Firestore.firestore()
     
     let usersCollectionRef: CollectionReference
     var userID: String
-    
-    // MARK: - Intializer
+
     init() {
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         userID = Auth.auth().currentUser?.uid ?? ""
@@ -31,11 +30,11 @@ class UserService {
         }
     }
 }
-// MARK: - Extension UserServiceProtocol
+// MARK: - UserService Protocol
 extension UserService: UserServiceProtocol {
 
     // MARK: Create
-    func createUserInDatabase(for currentUser: UserModel?, completion: @escaping CompletionHandler) {
+    func createUserInDatabase(for currentUser: UserModelDTO?, completion: @escaping CompletionHandler) {
         guard let currentUser = currentUser else { return }
         
         let userRef = usersCollectionRef.document(currentUser.userID)
@@ -46,23 +45,26 @@ extension UserService: UserServiceProtocol {
     }
     
     // MARK: Retrieve
-    func retrieveUser(completion: @escaping (Result<UserModel?, FirebaseError>) -> Void) {
-        let userRef = usersCollectionRef.document(userID)
+    func retrieveUser(for userID: String?, completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
+        let currentUserID = self.userID
+        let userRef = usersCollectionRef.document(userID ?? currentUserID)
         userRef.getDocument { querySnapshot, error in
             if let error = error {
                 completion(.failure(.firebaseError(error)))
                 return
             }
             do {
-                let document = try querySnapshot?.data(as: UserModel.self)
+                guard let document = try querySnapshot?.data(as: UserModelDTO.self)  else {
+                    completion(.failure(.nothingFound))
+                    return
+                }
                 completion(.success(document))
             } catch { completion(.failure(.firebaseError(error))) }
         }
     }
-    
+
     // MARK: Update
-    func updateUserName(with username: String?,
-                        completion: @escaping CompletionHandler) {
+    func updateUserName(with username: String?, completion: @escaping CompletionHandler) {
         guard let username = username, !username.isEmpty else {
             completion(.noUserName)
             return

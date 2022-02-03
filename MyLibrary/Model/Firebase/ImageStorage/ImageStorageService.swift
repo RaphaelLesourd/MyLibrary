@@ -11,21 +11,19 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class ImageStorageService {
-    // MARK: - Properties
+
     var userID: String
     
     private let db = Firestore.firestore()
     private let usersCollectionRef: CollectionReference
     private let storageReference: StorageReference
-    
-    // MARK: - Initializer
+
     init() {
         storageReference = Storage.storage().reference()
         usersCollectionRef = db.collection(CollectionDocumentKey.users.rawValue)
         self.userID = Auth.auth().currentUser?.uid ?? ""
     }
-    
-    // MARK: - Private functions
+
     private func addImageToStorage(for imageData: Data?, id: String,
                                    completion: @escaping (Result<String?, FirebaseError>) -> Void) {
         guard let imageData = imageData else { return }
@@ -49,13 +47,16 @@ class ImageStorageService {
         }
     }
 }
-// MARK: - Extension ImageStorageProtocol
+// MARK: - ImageStorage Protocol
 extension ImageStorageService: ImageStorageProtocol {
-    
+
+    // MARK: Add
     func saveImage(for imageData: Data?,
                    nameID: String,
                    completion: @escaping (Result<String, FirebaseError>) -> Void) {
+
         addImageToStorage(for: imageData, id: nameID) { result in
+
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
@@ -65,22 +66,28 @@ extension ImageStorageService: ImageStorageProtocol {
             }
         }
     }
-    
+
+    // MARK: Update
     func updateUserImage(for imageData: Data?,
                          completion: @escaping (FirebaseError?) -> Void) {
-       addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
+
+        addImageToStorage(for: imageData, id: StorageKey.profileImage.rawValue) { [weak self] result in
            guard let self = self else { return }
+
             switch result {
             case .success(let imageStringURL):
                 guard let imageStringURL = imageStringURL else { return }
-                self.usersCollectionRef.document(self.userID).updateData([DocumentKey.photoURL.rawValue: imageStringURL])
+                self.usersCollectionRef
+                    .document(self.userID)
+                    .updateData([DocumentKey.photoURL.rawValue: imageStringURL])
                 completion(nil)
             case .failure(let error):
                 completion(.firebaseError(error))
             }
         }
     }
-    
+
+    // MARK: Delete
     func deleteImageFromStorage(for id: String,
                                 completion: @escaping (FirebaseError?) -> Void) {
        let imageStorageRef = storageReference

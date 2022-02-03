@@ -84,7 +84,26 @@ class HomePresenterTestCase: XCTestCase {
         // Then
         XCTAssertTrue(homeViewSpy.snapshotWasCalled)
     }
-    
+
+    func test_makeUserCellUI_fromUserModelDTO_whenUserIsCurrentUser() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.currentUserID = "1111"
+        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        XCTAssertTrue(userCellUI.currentUser)
+        XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
+        XCTAssertEqual(userCellUI.userName, "Testname")
+    }
+
+    func test_makeUserCellUI_fromUserModelDTO_whenUserIsNotCurrentUser() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.currentUserID = "0000"
+        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        XCTAssertFalse(userCellUI.currentUser)
+        XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
+        XCTAssertEqual(userCellUI.userName, "Testname")
+    }
     // MARK: - Fail
     func test_whenRetreivecategoriesAndErrorOccurs_thenReturnNoUser() {
         // Given
@@ -144,7 +163,6 @@ class HomePresenterTestCase: XCTestCase {
 }
 
 class HomeViewSpy: HomePresenterView {
-    
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
@@ -153,7 +171,7 @@ class HomeViewSpy: HomePresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

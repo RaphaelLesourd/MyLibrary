@@ -12,7 +12,6 @@ class NewCategoryMainView: UIView {
     weak var delegate: NewCategoryViewDelegate?
     private var collectionViewHeight = NSLayoutConstraint()
     
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()

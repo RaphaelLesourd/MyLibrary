@@ -63,6 +63,7 @@ identifier_name:
     - url
     - db
     - vc
+    - on
   allowed_symbols:
     - _
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging)

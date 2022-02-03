@@ -11,7 +11,6 @@ class CommentTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "cell"
     
-    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -49,13 +48,15 @@ class CommentTableViewCell: UITableViewCell {
                                       spacing: 15)
     
     // MARK: - Configuration
-    func configure(with model: CommentCellRepresentable) {
+    func configure(with model: CommentUI) {
         profileImageView.getImage(for: model.profileImage) { [weak self] image in
             self?.profileImageView.image = image
         }
         userNameLabel.text = model.userName
         dateLabel.text = model.date
         commentLabel.text = model.message
+        profileImageView.layer.borderWidth = model.currentUser ? 3 : 0
+        profileImageView.layer.borderColor = UIColor.appTintColor.cgColor
     }
     
     private func setupView() {

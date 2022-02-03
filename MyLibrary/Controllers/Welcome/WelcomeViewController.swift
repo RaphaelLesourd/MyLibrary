@@ -8,12 +8,10 @@
 import UIKit
 
 class WelcomeViewController: UIViewController {
-    
-    // MARK: - Properties
+
     private let mainView = WelcomeControllerMainView()
     private let factory: Factory
-    
-    // MARK: - Initializer
+
     init() {
         self.factory = ViewControllerFactory()
         super.init(nibName: nil, bundle: nil)
@@ -22,7 +20,7 @@ class WelcomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - Lifecycle
+    
     override func loadView() {
         view = mainView
         view.backgroundColor = .black
@@ -36,6 +34,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let onboardingShown = UserDefaults.standard.bool(forKey: UserDefaultKey.onboardingSeen.rawValue)
+
         guard onboardingShown == false else { return }
         let onboardingViewController = factory.makeOnboardingVC()
         onboardingViewController.modalPresentationStyle = .fullScreen

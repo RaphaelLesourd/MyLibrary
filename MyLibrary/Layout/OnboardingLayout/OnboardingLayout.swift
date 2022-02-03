@@ -24,9 +24,9 @@ class OnboardingLayout {
     }
 }
 // MARK: - Layout composer protocol
-extension OnboardingLayout: OnboardingLayoutComposer {
+extension OnboardingLayout: OnboardingLayoutMaker {
     
-    func setCollectionViewLayout() -> UICollectionViewLayout {
+    func makeCollectionViewLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { [weak self] _, environement in
             return self?.makeVerticalGridLayoutSection(environment: environement)
         }

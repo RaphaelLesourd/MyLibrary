@@ -6,9 +6,9 @@
 //
 
 protocol BookCardMainViewDelegate: AnyObject {
-    func recommandButtonAction()
-    func deleteBookAction()
-    func favoriteButtonAction()
-    func showCommentsViewController()
-    func showBookCover()
+    func toggleBookRecommendation()
+    func presentDeleteBookAlert()
+    func toggleFavoriteBook()
+    func presentCommentsViewController()
+    func displayBookCover()
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Validator: ValidatorProtocol {
+class Validation: ValidationProtocol {
     
     func validateEmail(_ email: String?) -> Bool {
         guard let email = email, !email.isEmpty else {

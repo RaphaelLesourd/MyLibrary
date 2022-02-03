@@ -44,7 +44,7 @@ class BarcodeReader: NSObject {
     func stopCameraLiveView() {
         captureSession.stopRunning()
     }
-
+    // MARK: - Private functions
     /// Checks if the user granted permission to use the camera
     private func checkCameraPermission() {
         permissions.requestCameraPermissions { [weak self] granted in
@@ -53,8 +53,7 @@ class BarcodeReader: NSObject {
             }
         }
     }
-    
-    // MARK: - Private functions
+
     /// Setup camera session.
     /// - captureSession is an instance of AVCaptureSession.
     /// - With an AVCaptureSession, you can manage capture activity and coordinate how data flows from input devices to capture outputs.
@@ -129,7 +128,7 @@ class BarcodeReader: NSObject {
         }
     }
 }
-// MARK: - AVCaptureDelegation
+// MARK: - AVCapture Delegate
 extension BarcodeReader: AVCaptureVideoDataOutputSampleBufferDelegate {
     /// Get an image out of sample buffer, like a page out of a flip book.
     /// - Make a new VNImageRequestHandler using that image.

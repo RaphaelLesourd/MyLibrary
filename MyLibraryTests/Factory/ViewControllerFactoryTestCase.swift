@@ -32,18 +32,18 @@ class ViewControllerFactoryTestCase: XCTestCase {
     }
     
     func test_makeCategoryVC() {
-        let controller = sut.makeCategoryVC(settingCategory: true, bookCategories: [], newBookDelegate: nil)
+        let controller = sut.makeCategoryVC(isSelecting: true, bookCategories: [], newBookDelegate: nil)
         XCTAssertTrue(controller is CategoriesViewController)
     }
     
     func test_makeNewCategoryVC() {
-        let controller = sut.makeNewCategoryVC(editing: true, category: nil)
+        let controller = sut.makeNewCategoryVC()
         XCTAssertTrue(controller is NewCategoryViewController)
     }
     
     func test_makeBookListVC() {
         let query = BookQuery(listType: .favorites, orderedBy: .category, fieldValue: nil, descending: true)
-        let controller = sut.makeBookListVC(with: query)
+        let controller = sut.makeBookLibraryVC(with: query)
         XCTAssertTrue(controller is BookLibraryViewController)
     }
     
@@ -58,7 +58,7 @@ class ViewControllerFactoryTestCase: XCTestCase {
     }
     
     func test_makeBookCardVC() {
-        let controller = sut.makeBookCardVC(book: PresenterFakeData.book, type: .keywordSearch, factory: ViewControllerFactory())
+        let controller = sut.makeBookCardVC(book: PresenterFakeData.book)
         XCTAssertTrue(controller is BookCardViewController)
     }
     

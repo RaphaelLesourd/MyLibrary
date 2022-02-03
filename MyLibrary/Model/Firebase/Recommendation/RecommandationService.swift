@@ -11,13 +11,12 @@ import FirebaseAuth
 
 class RecommandationService {
     
-    // MARK: - Properties
-    private let db = Firestore.firestore()
     let recommandationCollectionRef: CollectionReference
     let userRef: CollectionReference
     let userID: String
-    
-    // MARK: - Initializer
+
+    private let db = Firestore.firestore()
+
     init() {
         self.recommandationCollectionRef = db.collection(CollectionDocumentKey.recommanded.rawValue)
         self.userRef = db.collection(CollectionDocumentKey.users.rawValue)
@@ -25,7 +24,8 @@ class RecommandationService {
     }
     
     // MARK: - Private functions
-    private func getUserIds(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
+    /// Get all userIDs for the recommanded books
+    private func getUserIDs(completion: @escaping (Result<[Any], FirebaseError>) -> Void) {
         let ref = recommandationCollectionRef
         
         ref.getDocuments { (querySnapshot, error) in
@@ -33,9 +33,9 @@ class RecommandationService {
                 completion(.failure(.firebaseError(error)))
                 return
             }
-            let data = querySnapshot?.documents.compactMap { documents -> Item? in
+            let data = querySnapshot?.documents.compactMap { documents -> ItemDTO? in
                 do {
-                    return try documents.data(as: Item.self)
+                    return try documents.data(as: ItemDTO.self)
                 } catch {
                     completion(.failure(.firebaseError(error)))
                     return nil
@@ -47,11 +47,12 @@ class RecommandationService {
             completion(.success(uniqueIDs))
         }
     }
-    
-    private func getUsersFromIds(with idList: [Any],
-                                 completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        var users: [UserModel] = []
-        let ids = idList.chunked(into: 10)
+
+    /// Get all users from a list of userIDs.
+    private func getUsers(from userIDs: [Any],  completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+        var users: [UserModelDTO] = []
+        let ids = userIDs.chunked(into: 10)
+
         ids.forEach { user in
             let docRef = self.userRef.whereField(DocumentKey.userID.rawValue, in: user)
             
@@ -61,9 +62,9 @@ class RecommandationService {
                     return
                 }
                
-                let data = querySnapshot?.documents.compactMap { documents -> UserModel? in
+                let data = querySnapshot?.documents.compactMap { documents -> UserModelDTO? in
                     do {
-                        return try documents.data(as: UserModel.self)
+                        return try documents.data(as: UserModelDTO.self)
                     } catch {
                         completion(.failure(.firebaseError(error)))
                         return nil
@@ -76,11 +77,10 @@ class RecommandationService {
         }
     }
 }
-// MARK: - RecommandationServiceProtocol extension
+// MARK: - RecommandationService Protocol
 extension RecommandationService: RecommendationServiceProtocol {
     
-    func addToRecommandation(for book: Item,
-                             completion: @escaping (FirebaseError?) -> Void) {
+    func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -91,8 +91,7 @@ extension RecommandationService: RecommendationServiceProtocol {
         } catch { completion(.firebaseError(error)) }
     }
     
-    func removeFromRecommandation(for book: Item,
-                                  completion: @escaping (FirebaseError?) -> Void) {
+    func removeFromRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         guard let bookID = book.bookID else { return }
         
         let ref = recommandationCollectionRef.document(bookID)
@@ -105,11 +104,11 @@ extension RecommandationService: RecommendationServiceProtocol {
         }
     }
     
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
-        getUserIds { [weak self] result in
+    func getRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
+        getUserIDs { [weak self] result in
             switch result {
-            case .success(let userIds):
-                self?.getUsersFromIds(with: userIds) { result in
+            case .success(let userIDs):
+                self?.getUsers(from: userIDs) { result in
                     completion(result)
                 }
             case .failure(let error):

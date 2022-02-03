@@ -8,25 +8,14 @@
 import UIKit
 
 class NewCategoryViewController: UIViewController {
-    
-    // MARK: Properties
+
     private let mainView = NewCategoryMainView()
-    private let editingCategory: Bool
-    private let category: CategoryModel?
     private let presenter: NewCategoryPresenter
-    var chosenColor: String = "e38801" {
-        didSet {
-            mainView.updateBackgroundColor(with: chosenColor)
-        }
-    }
-    
-    // MARK: Initializer
-    init(editingCategory: Bool,
-         category: CategoryModel?,
+
+    init(category: CategoryDTO?,
          presenter: NewCategoryPresenter) {
-        self.editingCategory = editingCategory
-        self.category = category
         self.presenter = presenter
+        self.presenter.category = category
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,7 +23,6 @@ class NewCategoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -43,8 +31,7 @@ class NewCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.view = self
-        presenter.isEditing = editingCategory
-        mainView.configure(for: editingCategory)
+        mainView.configure(for: presenter.category != nil)
         mainView.delegate = self
         mainView.categoryTextField.delegate = self
         mainView.collectionView.delegate = self
@@ -53,21 +40,12 @@ class NewCategoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setEditedCategoryName()
-        presenter.setCategoryColor(with: category?.color)
+        presenter.displayCategory()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mainView.setCollectionViewHeight()
-    }
-
-    // MARK: Setup
-    private func setEditedCategoryName() {
-        guard let category = category else { return }
-        let name = category.name
-        mainView.categoryTextField.text = name.capitalized
-        
     }
 }
 
@@ -75,14 +53,14 @@ class NewCategoryViewController: UIViewController {
 extension NewCategoryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.defaultColors.count
+        return CategoryColors.palette.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.reuseIdentifier,
                                                             for: indexPath) as? ColorCollectionViewCell else {
             return UICollectionViewCell() }
-        let color = presenter.defaultColors[indexPath.row]
+        let color = CategoryColors.palette[indexPath.row]
         cell.configure(with: color)
         return cell
     }
@@ -91,7 +69,7 @@ extension NewCategoryViewController: UICollectionViewDataSource {
 // MARK: - CollectinView Delegate
 extension NewCategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        chosenColor = presenter.defaultColors[indexPath.row]
+        presenter.selectedColor = CategoryColors.palette[indexPath.row]
     }
 }
 
@@ -106,28 +84,32 @@ extension NewCategoryViewController: UITextFieldDelegate {
 // MARK: - NewCategoryView Delegate
 extension NewCategoryViewController: NewCategoryViewDelegate {
     func saveCategory() {
-        presenter.saveCategory(with: mainView.categoryTextField.text,
-                               and: chosenColor,
-                               for: category)
+        presenter.saveCategory(with: mainView.categoryTextField.text)
     }
 }
 
 // MARK: - Presenter Delegate
 extension NewCategoryViewController: NewCategoryPresenterView {
-   func updateCategoryColor(at indexPath: IndexPath, and colorHex: String) {
+
+    func updateBackgroundTint(with colorHex: String) {
+        mainView.updateBackgroundColor(with: colorHex)
+    }
+
+    func updateCategory(at indexPath: IndexPath, color: String, name: String) {
+
         mainView.collectionView.selectItem(at: indexPath,
                                            animated: false,
                                            scrollPosition: .centeredVertically)
-        chosenColor = colorHex
+        mainView.categoryTextField.text = name
     }
     
-    func showActivityIndicator() {
-        mainView.saveButton.displayActivityIndicator(true)
+    func startActivityIndicator() {
+        mainView.saveButton.toggleActivityIndicator(to: true)
     }
     
     func stopActivityIndicator() {
         DispatchQueue.main.async {
-            self.mainView.saveButton.displayActivityIndicator(false)
+            self.mainView.saveButton.toggleActivityIndicator(to: false)
         }
     }
     

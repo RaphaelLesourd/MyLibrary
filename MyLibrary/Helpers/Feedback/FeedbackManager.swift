@@ -10,14 +10,14 @@ import MessageUI
 
 class FeedbackManager: NSObject {
     
-    // MARK: - Propperties
     private let appVersion = "\(UIApplication.appName) - \(Text.Misc.appVersion) \(UIApplication.version)"
   
 }
-// MARK: - Extension MFMailCompseDelegate
+// MARK: - MFMailCompse Delegate
 extension FeedbackManager: MFMailComposeViewControllerDelegate {
    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult, error: Error?) {
         if let error = error {
             AlertManager.presentAlertBanner(as: .error, subtitle: error.localizedDescription)
             controller.dismiss(animated: true, completion: nil)
@@ -36,19 +36,18 @@ extension FeedbackManager: MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-// MARK: - Extension FeedBackSender
+// MARK: - FeedBack Sender
 extension FeedbackManager: FeedbackManagerProtocol {
- 
-    func presentMail(on controller: UIViewController) {
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([Keys.feedbackEmail])
-            mail.setMessageBody("<p>\(appVersion)</p>", isHTML: true)
 
-            controller.present(mail, animated: true)
-        } else {
+    func presentMail(on controller: UIViewController) {
+        guard MFMailComposeViewController.canSendMail() else {
             AlertManager.presentAlertBanner(as: .error, subtitle: Text.Banner.unableToOpenMailAppTitle)
+            return
         }
+        let mail = MFMailComposeViewController()
+        mail.mailComposeDelegate = self
+        mail.setToRecipients([Keys.feedbackEmail])
+        mail.setMessageBody("<p>\(appVersion)</p>", isHTML: true)
+        controller.present(mail, animated: true)
     }
 }

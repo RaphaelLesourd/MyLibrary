@@ -13,6 +13,7 @@ class BookCover: UIImageView {
         super.init(frame: .zero)
         self.contentMode = .scaleAspectFill
         self.image = Images.emptyStateBookImage
+        self.tintColor = .secondaryLabel
         self.isUserInteractionEnabled = true
         self.roundView(radius: 5, backgroundColor: .clear)
     }

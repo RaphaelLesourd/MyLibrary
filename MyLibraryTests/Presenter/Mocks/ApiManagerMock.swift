@@ -8,12 +8,12 @@
 import Foundation
 @testable import MyLibrary
 
-class ApiManagerMock: ApiManagerProtocol {
-    func getData(with query: String?, fromIndex: Int, completion: @escaping (Result<[Item], ApiError>) -> Void) {
+class ApiManagerMock: SearchBookService {
+    func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
         completion(.success(PresenterFakeData.books))
     }
     
-    func postPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
+    func sendPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {
         completion(nil)
     }
 }

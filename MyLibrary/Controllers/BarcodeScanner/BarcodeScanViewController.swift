@@ -11,19 +11,17 @@ import CloudKit
 
 class BarcodeScanViewController: UIViewController {
 
-    // MARK: - Properties
     let mainView = BarcodeControllerView()
     weak var barcodeDelegate: BarcodeScannerDelegate?
-    var fetchedBarcode: String?
+    var barcode: String?
     var flashLightIsOn = false {
         didSet {
-            toggleFlashlight(onState: flashLightIsOn)
+            toggleFlashlight(toOn: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
     private var barcodeCapture: BarcodeReader?
-    
-    // MARK: - Initializer
+
     init(barcodeDelegate: BarcodeScannerDelegate?) {
         self.barcodeDelegate = barcodeDelegate
         super.init(nibName: nil, bundle: nil)
@@ -32,8 +30,7 @@ class BarcodeScanViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecyle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -67,15 +64,14 @@ class BarcodeScanViewController: UIViewController {
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    // MARK: - Flashlight
-    private func toggleFlashlight(onState: Bool) {
+
+    private func toggleFlashlight(toOn: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }
         do {
             try device.lockForConfiguration()
-            device.torchMode = onState ? .on : .off
-            if onState {
+            device.torchMode = toOn ? .on : .off
+            if toOn {
                 try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
             }
             device.unlockForConfiguration()
@@ -95,7 +91,8 @@ extension BarcodeScanViewController: BarcodeReaderDelegate {
                                         subtitle: error.description)
         dismissViewController()
     }
-    
+
+    /// Receive  the baraode from the BarCodeReader and pass it on.
     func provideBarcode(with data: String?) {
         guard let data = data else { return }
         barcodeDelegate?.processBarcode(with: data)

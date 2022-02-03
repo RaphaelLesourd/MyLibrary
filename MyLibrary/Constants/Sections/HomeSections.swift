@@ -18,7 +18,7 @@ enum HomeCollectionViewSections: Int, CaseIterable {
         case .newEntry:
             return Text.SectionTitle.latestBook
         case .categories:
-            return Text.ControllerTitle.category
+            return Text.SectionTitle.userCategories
         case .favorites:
             return Text.SectionTitle.favoritetBook
         case .recommanding:

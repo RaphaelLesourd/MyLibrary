@@ -25,19 +25,19 @@ extension XCTestCase {
         semaphore.wait()
     }
     
-    func createUserData() -> UserModel {
+    func createUserData() -> UserModelDTO {
         let credentials = AccountCredentials(userName: "testuser",
                                              email: "testuser@test.com",
                                              password: "Test21@",
                                              confirmPassword: "Test21@")
-        return UserModel(userID: "user1",
+        return UserModelDTO(userID: "user1",
                          displayName: credentials.userName ?? "test",
                          email: credentials.email,
                          photoURL: "",
                          token: "")
     }
     
-    func createBookDocumentData() -> Item {
+    func createBookDocumentData() -> ItemDTO {
         let volumeInfo = VolumeInfo(title: "title",
                                     authors: ["author"],
                                     publisher: "publisher",
@@ -49,7 +49,7 @@ extension XCTestCase {
                                     imageLinks: ImageLinks(thumbnail: "thumbnailURL"),
                                     language: "language")
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: "CUR"))
-        return Item(id: "1111111",
+        return ItemDTO(id: "1111111",
                     bookID: "11111111",
                     favorite: true,
                     ownerID: "user1",

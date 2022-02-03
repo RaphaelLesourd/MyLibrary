@@ -5,26 +5,21 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol HomePresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-}
+import FirebaseAuth
 
-class HomePresenter: BookCellAdapter, UserCellAdapter {
-    
-    // MARK: - Properties
+class HomePresenter: BookCellMapper {
     weak var view: HomePresenterView?
-   
-    var categories: [CategoryModel] = []
-    var latestBooks: [Item] = []
-    var favoriteBooks: [Item] = []
-    var recommandedBooks: [Item] = []
-    var followedUser: [UserModel] = []
-    
+    var currentUserID = Auth.auth().currentUser?.uid
+    var categories: [CategoryDTO] = []
+    var latestBooks: [ItemDTO] = []
+    var favoriteBooks: [ItemDTO] = []
+    var recommandedBooks: [ItemDTO] = []
+    var followedUser: [UserModelDTO] = []
+
     private let libraryService: LibraryServiceProtocol
     private let categoryService: CategoryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
-    
-    // MARK: - Intializer
+
     init(libraryService: LibraryServiceProtocol,
          categoryService: CategoryServiceProtocol,
          recommendationService: RecommendationServiceProtocol) {
@@ -33,9 +28,9 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
         self.recommendationService = recommendationService
     }
     
-    // MARK: - API Calls
+    // MARK: - Internal functions
     func getCategories() {
-        categoryService.getCategories { [weak self] result in
+        categoryService.getUserCategories { [weak self] result in
             switch result {
             case .success(let categories):
                 self?.categories = categories
@@ -68,7 +63,7 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
     }
     
     func getUsers() {
-        recommendationService.retrieveRecommendingUsers { [weak self] result in
+        recommendationService.getRecommendingUsers { [weak self] result in
             switch result {
             case .success(let users):
                 self?.followedUser = users
@@ -78,10 +73,20 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
             }
         }
     }
-  
-    private func getBooks(for query: BookQuery,
-                          completion: @escaping ([Item]) -> Void) {
-        view?.showActivityIndicator()
+
+    func makeUserCellUI(with user: UserModelDTO) -> UserCellUI {
+        let currentUser: Bool = user.userID == currentUserID
+        return UserCellUI(userName: user.displayName.capitalized,
+                          profileImage: user.photoURL,
+                          currentUser: currentUser)
+    }
+    // MARK: - Private functions
+    /// Fetch books for the current query
+    /// - Parameters:
+    /// - query: BookQuery object to fetch a list of Item
+    /// - returns: Array of Item
+    private func getBooks(for query: BookQuery, completion: @escaping ([ItemDTO]) -> Void) {
+        view?.startActivityIndicator()
         libraryService.getBookList(for: query,
                                       limit: 15,
                                       forMore: false) { [weak self] result in
@@ -90,8 +95,7 @@ class HomePresenter: BookCellAdapter, UserCellAdapter {
             case .success(let books):
                 completion(books)
             case .failure(let error):
-                AlertManager.presentAlertBanner(as: .error,
-                                                subtitle: error.description)
+                AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
         }
     }

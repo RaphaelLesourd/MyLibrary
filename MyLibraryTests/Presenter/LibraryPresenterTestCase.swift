@@ -25,24 +25,52 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookList_withBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery)
+        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_getBookListByCategory_withBooksReturned() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut.view = libraryViewSpy
+        sut.getBooks(with: PresenterFakeData.bookQueryByCategory, nextPage: true)
+        XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
+        XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
+        XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(libraryViewSpy.updateHeaderWasCalled)
     }
 
     func test_getBookList_noBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: false))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery)
+        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_getBookList_withNilQuery() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut.view = libraryViewSpy
+        sut.getBooks(with: nil, nextPage: true)
+        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
+        XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)
+    }
+    
+    func test_makingBookCellRepresentable() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        let representable = sut.makeBookCellUI(for: PresenterFakeData.book)
+        XCTAssertEqual(representable.title, PresenterFakeData.book.volumeInfo?.title?.capitalized)
+        XCTAssertEqual(representable.image, PresenterFakeData.book.volumeInfo?.imageLinks?.thumbnail)
     }
 }
 
 class LibraryPresenterViewSpy: LibraryPresenterView {
-    
     
     var snapshotWasCalled = false
     var showActivityWasCalled = false
@@ -53,7 +81,7 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
         snapshotWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     
@@ -61,7 +89,7 @@ class LibraryPresenterViewSpy: LibraryPresenterView {
         stopActivityWasCalled = true
     }
     
-    func updateHeader(with title: String?) {
+    func updateSectionTitle(with title: String) {
         updateHeaderWasCalled = true
     }
 }

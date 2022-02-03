@@ -9,12 +9,10 @@ import UIKit
 
 class UserCollectionViewCell: UICollectionViewCell {
   
-    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
         setStackViewConstraints()
-        setCurrentUserIconConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -25,20 +23,13 @@ class UserCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.roundView(radius: 35, backgroundColor: .cellBackgroundColor)
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderColor = UIColor.appTintColor.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         return imageView
     }()
-    private let currentUserIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = Images.ButtonIcon.categoryBadge
-        imageView.tintColor = .appTintColor
-        imageView.addShadow()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+
     private let userNameLabel = TextLabel(color: .label,
                                           maxLines: 1,
                                           alignment: .center,
@@ -47,9 +38,9 @@ class UserCollectionViewCell: UICollectionViewCell {
                                       alignment: .center,
                                       spacing: 2)
     // MARK: - configure
-    func configure(with user: UserCellRepresentable) {
+    func configure(with user: UserCellUI) {
         userNameLabel.text = user.userName
-        currentUserIcon.isHidden = !user.currentUser
+        imageView.layer.borderWidth = user.currentUser ? 3 : 0
         imageView.getImage(for: user.profileImage) { [weak self] image in
             self?.imageView.image = image
         }
@@ -63,7 +54,6 @@ class UserCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         imageView.image = nil
         userNameLabel.text = nil
-        currentUserIcon.isHidden = true
     }
 }
 // MARK: - Constraints
@@ -75,15 +65,6 @@ extension UserCollectionViewCell {
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-    }
-    
-    private func setCurrentUserIconConstraints() {
-        contentView.addSubview(currentUserIcon)
-        NSLayoutConstraint.activate([
-            currentUserIcon.topAnchor.constraint(equalTo: contentView.topAnchor),
-            currentUserIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            currentUserIcon.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }

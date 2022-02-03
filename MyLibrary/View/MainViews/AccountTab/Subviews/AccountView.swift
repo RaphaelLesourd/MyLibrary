@@ -43,7 +43,7 @@ class AccountView: UIView {
     
     private func addButtonsAction() {
         signoutButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.signoutRequest()
+            self?.delegate?.presentSignOutAlert()
         }), for: .touchUpInside)
         deleteButton.addAction(UIAction(handler: { [weak self] _ in
             self?.delegate?.deleteAccount()

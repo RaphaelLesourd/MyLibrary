@@ -12,7 +12,6 @@ class BookCardMainView: UIView {
     
     weak var delegate: BookCardMainViewDelegate?
     
-    // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addButtonActions()
@@ -106,7 +105,7 @@ class BookCardMainView: UIView {
                                           spacing: 40)
     
     // MARK: - Configure
-    func configure(with model: BookCardRepresentable) {
+    func configure(with model: BookCardUI) {
         titleLabel.text = model.title
         authorLabel.text = model.authors
         ratingView.rating = model.rating ?? 0
@@ -126,21 +125,27 @@ class BookCardMainView: UIView {
         }
     }
     
-    func setFavoriteButtonAs(_ isFavorite: Bool) {
+    func toggleFavoriteButton(to isFavorite: Bool) {
         favoriteButton.tintColor = isFavorite ? .favoriteColor : .notFavorite
     }
     
-    func setRecommandedButtonAs(_ isRecommanding: Bool) {
+    func toggleRecommendButton(to isRecommanding: Bool) {
         let title = isRecommanding ? Text.ButtonTitle.stopRecommending : Text.ButtonTitle.recommend
         recommandButton.setTitle(title, for: .normal)
         commentView.isHidden = !isRecommanding
         isRecommanding ? commentView.animationView.play() : commentView.animationView.stop()
     }
-    
+
+    func showControlButtons(_ isShowing: Bool) {
+        deleteBookButton.isHidden = isShowing
+        recommandButton.isHidden = isShowing
+        favoriteButton.isHidden = isShowing
+    }
+
     private func setupView() {
         bookCover.addShadow()
-        setRecommandedButtonAs(false)
-        setFavoriteButtonAs(false)
+        toggleRecommendButton(to: false)
+        toggleFavoriteButton(to: false)
         let mainStackSubViews: [UIView] = [titleLabel,
                                            authorLabel,
                                            categoryiesLabel,
@@ -167,19 +172,19 @@ class BookCardMainView: UIView {
     
     private func addButtonActions() {
         recommandButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.recommandButtonAction()
+            self?.delegate?.toggleBookRecommendation()
         }), for: .touchUpInside)
         
         deleteBookButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.deleteBookAction()
+            self?.delegate?.presentDeleteBookAlert()
         }), for: .touchUpInside)
         
         favoriteButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.favoriteButtonAction()
+            self?.delegate?.toggleFavoriteBook()
         }), for: .touchUpInside)
         
         commentView.goToCommentButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.delegate?.showCommentsViewController()
+            self?.delegate?.presentCommentsViewController()
         }), for: .touchUpInside)
       
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
@@ -187,7 +192,7 @@ class BookCardMainView: UIView {
     }
   
     @objc private func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        delegate?.showBookCover()
+        delegate?.displayBookCover()
     }
   
 }

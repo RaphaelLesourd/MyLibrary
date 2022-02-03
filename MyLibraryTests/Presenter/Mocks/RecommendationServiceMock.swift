@@ -16,15 +16,15 @@ class RecommendationServiceMock: RecommendationServiceProtocol {
         self.successTest = successTest
     }
    
-    func addToRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func removeFromRecommandation(for book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    func removeFromRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func retrieveRecommendingUsers(completion: @escaping (Result<[UserModel], FirebaseError>) -> Void) {
+    func getRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
         successTest ? completion(.success(PresenterFakeData.users)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
 }

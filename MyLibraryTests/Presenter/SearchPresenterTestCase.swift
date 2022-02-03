@@ -12,9 +12,9 @@ class SearchPresenterTestCase: XCTestCase {
 
     private var sut: SearchPresenter!
     private var searchViewSpy: SearchViewSpy!
-    private var apiManager: ApiManagerProtocol!
-    private var apiManagerEmptyData: ApiManagerProtocol!
-    private var apiManagerWithError: ApiManagerProtocol!
+    private var apiManager: SearchBookService!
+    private var apiManagerEmptyData: SearchBookService!
+    private var apiManagerWithError: SearchBookService!
     
     // MARK: - Lifecycle
     override func setUp() {
@@ -89,7 +89,7 @@ class SearchPresenterTestCase: XCTestCase {
         sut = SearchPresenter(apiManager: apiManager)
         sut.view = searchViewSpy
         sut.searchType = .keywordSearch
-        sut.searchedBooks = PresenterFakeData.books
+        sut.searchList = PresenterFakeData.books
         sut.getBooks(with: PresenterFakeData.books[0].volumeInfo?.title ?? "", fromIndex: 0)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
@@ -109,11 +109,11 @@ class SearchViewSpy: SearchPresenterView {
         applySnapshotWasCalled = true
     }
     
-    func displayBookFromBarCodeSearch(with book: Item?) {
+    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
         displayBookFromCodeWasCalled = true
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

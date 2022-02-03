@@ -45,8 +45,9 @@
 "Skip" = "Skip";
 "Close" = "Close";
  
-"LatestBooks" = "Latest books";
-"FavoriteBooks" = "Favorite books";
+"UserCategories" = "Your categories";
+"LatestBooks" = "Your latest books";
+"FavoriteBooks" = "Your favorite books";
 "Recommendations" = "Recommendations";
  
 "SeeAll" = "See all";
@@ -192,9 +193,9 @@
 "Letsgo" = "Let's go!";
  
 "NewBookCategoriesHeader" = "Add categories";
-"NewBookPublishingHeader" = "Set pushlishing details";
+"NewBookPublishingHeader" = "Pushlishing details";
 "NewBookDetailsHeader" = "Book details";
-"NewBookRatingHeader" = "Give a rating";
+"NewBookRatingHeader" = "Rating";
 "NewBookPriceHeader" = "Purchased price";
 "NewBookSaveFooter" = "To save a book you must include at least a title.";
 
@@ -208,6 +209,7 @@
 "EmptyStateCategorySubtitle" = "Categories helps finding books faster.";
 "EmptyStateCommentTitle" = "Let's add the first comment for this book!";
 "EmptyStateCommentSubtitle"  = "Start a discussion about this book with others.";
+"EmptyStateListNoDataFound" = "I could not find anything matching your search!\n\nWould like to start over?";
 
 "referenceBookTitle" = "Reference all your books";
 "referenceBookSubtitle" = "All your books are referenced\nand\norganised in one place.";
@@ -219,7 +221,8 @@
 "UpdateUserNameLegend" = "Update your username by pressing Done";
 "Modifybook" = "Modify book";
 
-"LanguageListHeader" = "Select a language";
-"CurrencyListHeader" = "Select a currency";
+"Favorite" = "Favorites";
+"Others" = "Others";
 
 "ListFooter" = "Swipe left to add to or remove from your favorites.";
+"EmptyCategoryName" = "You forgot to provide a name";

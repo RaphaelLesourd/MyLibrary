@@ -105,7 +105,7 @@ class AccountPresenterViewSpy: AccountTabPresenterView {
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
     
-    func configureView(with user: UserModel) {
+    func configureMainView(with user: UserModelDTO) {
         configureViewCalled = true
     }
     
@@ -113,7 +113,7 @@ class AccountPresenterViewSpy: AccountTabPresenterView {
         animatingSaveButtonIndicatorCalled = true
     }
 
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         showActivityWasCalled = true
     }
     

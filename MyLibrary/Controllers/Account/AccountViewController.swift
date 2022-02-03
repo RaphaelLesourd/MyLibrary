@@ -8,20 +8,19 @@
 import UIKit
 
 class AccountViewController: UIViewController {
-    
-    // MARK: Properties
+
     private let feedbackManager: FeedbackManagerProtocol?
     private let mainView = AccountTabMainView()
-    private let presenter: AccountTabPresenter
+    private var presenter: AccountTabPresenter
     private let factory: Factory
     private var imagePicker: ImagePicker?
-    
-    // MARK: Initializer
+
     init(presenter: AccountTabPresenter,
-         feedbackManager: FeedbackManagerProtocol) {
+         feedbackManager: FeedbackManagerProtocol,
+         factory: Factory) {
         self.presenter = presenter
         self.feedbackManager = feedbackManager
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,7 +28,6 @@ class AccountViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -92,11 +90,10 @@ extension AccountViewController: ProfileViewDelegate {
 
 // MARK: - AccountView Delegate
 extension AccountViewController: AccountViewDelegate {
-    func signoutRequest() {
+    func presentSignOutAlert() {
         AlertManager.presentAlert(title: Text.Alert.signout,
                                   message: "",
-                                  cancel: true,
-                                  on: self) { _ in
+                                  cancel: true) { _ in
             self.presenter.signoutAccount()
         }
     }
@@ -104,11 +101,8 @@ extension AccountViewController: AccountViewDelegate {
     func deleteAccount() {
         AlertManager.presentAlert(title: Text.Alert.deleteAccountTitle,
                                   message: Text.Alert.deleteAccountMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
-            guard let self = self else { return }
-            self.present(self.factory.makeAccountSetupVC(for: .deleteAccount),
-                          animated: true, completion: nil)
+                                  cancel: true) { _ in
+            self.present(self.factory.makeAccountSetupVC(for: .deleteAccount), animated: true, completion: nil)
         }
     }
 }
@@ -118,25 +112,25 @@ extension AccountViewController: ContactViewDelegate {
         feedbackManager?.presentMail(on: self)
     }
 }
-
+// MARK: - AccountTab Presenter View
 extension AccountViewController: AccountTabPresenterView {
-    func configureView(with user: UserModel) {
+    func configureMainView(with user: UserModelDTO) {
         mainView.configure(with: user)
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         mainView.activityIndicator.startAnimating()
-        mainView.profileView.loadingSpeed(true)
+        mainView.profileView.increaseLoadingAnimationSpeed(true)
     }
     
     func stopActivityIndicator() {
         DispatchQueue.main.async {
             self.mainView.activityIndicator.stopAnimating()
-            self.mainView.profileView.loadingSpeed(false)
+            self.mainView.profileView.increaseLoadingAnimationSpeed(false)
         }
     }
     
-    func animateSavebuttonIndicator(_ animate: Bool) {
-        mainView.profileView.accountView.signoutButton.displayActivityIndicator(animate)
+    func animateSavebuttonIndicator(_ on: Bool) {
+        mainView.profileView.accountView.signoutButton.toggleActivityIndicator(to: on)
     }
 }

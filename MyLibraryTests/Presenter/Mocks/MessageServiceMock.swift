@@ -16,9 +16,9 @@ class MessageServiceMock: MessageServiceProtocol {
         self.successTest = successTest
     }
     
-    func sendCommentPushNotification(for book: Item,
+    func sendCommentPushNotification(for book: ItemDTO,
                                      message: String,
-                                     for comments: [CommentModel],
+                                     for comments: [CommentDTO],
                                      completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "2963A4B3-62EC-427F-B8ED-3BC0E3892CBA"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C5B3F0D8-4BDB-45FD-8443-F01EED4B1971"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyLibrary/Presenter/NewBook/NewBookPresenter.swift"
+            startingColumnNumber = "18"
+            endingColumnNumber = "18"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "NewBookPresenter"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

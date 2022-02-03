@@ -66,14 +66,14 @@ class Button: UIButton {
         }
     }
     
-    func displayActivityIndicator(_ state: Bool) {
+    func toggleActivityIndicator(to isOn: Bool) {
         if #available(iOS 15.0, *) {
-            self.configuration?.showsActivityIndicator = state
+            self.configuration?.showsActivityIndicator = isOn
         } else {
-            state ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+            isOn ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
             activityIndicator.hidesWhenStopped = true
-            self.alpha = state ? 0.3 : 1
-            self.isUserInteractionEnabled = !state
+            self.alpha = isOn ? 0.3 : 1
+            self.isUserInteractionEnabled = !isOn
         }
     }
 }

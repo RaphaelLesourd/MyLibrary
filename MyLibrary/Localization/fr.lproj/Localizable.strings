@@ -24,11 +24,11 @@
 "PublishedDate" = "Date de parution";
 "ISBN" = "ISBN ";
 "Pages" = "Pages";
-"Language" = "Langue";
+"Language" = "Langues";
 "Description" = "Description";
 "UserComments" = "Commentaires, avis...";
 "Price" = "Prix d'achat";
-"Currency" = "Devise";
+"Currency" = "Devises";
 "Rating" = "Note\n(0 à 5)";
 "BookSaved" = "Livre enregistré.";
 "CreateProfile" = "Créez un profil";
@@ -45,8 +45,9 @@
 "Skip" = "Passer";
 "Close" = "Fermer";
 
-"LatestBooks" = "Derniers ajouts";
-"FavoriteBooks" = "Livres favoris";
+"UserCategories" = "Vos catégories";
+"LatestBooks" = "Vos derniers ajouts";
+"FavoriteBooks" = "Vos livres favoris";
 "Recommendations" = "Recommandations";
 
 "SeeAll" = "Tout voir";
@@ -195,7 +196,7 @@
 "NewBookCategoriesHeader" = "Ajoutez des catégories";
 "NewBookPublishingHeader" = "Détails d'édition";
 "NewBookDetailsHeader" = "Détails du livre";
-"NewBookRatingHeader" = "Ajoutez une Note";
+"NewBookRatingHeader" = "Note";
 "NewBookPriceHeader" = "Détails du prix";
 "NewBookSaveFooter" = "Pour enregistrer ce livre, entrez au minimum un titre.";
 
@@ -208,7 +209,8 @@
 "EmptyStateCategoryTitle" = "Ajoutons ensemble une catégorie.";
 "EmptyStateCategorySubtitle" = "Les catégories aident à classer vos livres et à les retrouver plus facilement.";
 "EmptyStateCommentTitle" = "Ajoutons ensemble un premier commentaire.";
-"EmptyStateCommentSubtitle"  = "Partagez vos pensées sur ce livre avec les autres.";
+"EmptyStateCommentSubtitle" = "Partagez vos pensées sur ce livre avec les autres.";
+"EmptyStateListNoDataFound" = "Je n'est rien trouvé correspondant à votre recherche!\n\nVoulez-vous recommencer?";
 
 "referenceBookTitle" = "Référencez tous vos livres";
 "referenceBookSubtitle" = "Vos livres sont référencés\net\norganisés en un seul endroit.";
@@ -220,8 +222,8 @@
 "UpdateUserNameLegend" = "Mettez à jour votre nom en cliquant sur terminé";
 "Modifybook" = "Editer";
 
-"LanguageListHeader" = "Sélectionnez une langue";
-"CurrencyListHeader" = "Sélectionnez une devise";
+"Favorite" = "Favoris";
+"Others" = "Autres";
 
 "ListFooter" = "Glisser vers la gauche pour ajouter ou retirer des favoris.";
-
+"EmptyCategoryName" = "Vous avez oublié de donner un nom";

@@ -8,23 +8,21 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-    
-    // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, Item>
-    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, Item>
+
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, ItemDTO>
+    typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
-    let presenter: SearchPresenter
+    var presenter: SearchPresenter
     
     private let mainView = BookListView()
-    private let layoutComposer: BookListLayoutComposer
+    private let layoutComposer: BookListLayoutMaker
     private var headerView = HeaderSupplementaryView()
     private var footerView = LoadingFooterSupplementaryView()
-    private lazy var dataSource = createDataSource()
- 
-    // MARK: - Initializer
+    private lazy var dataSource = makeDataSource()
+
     init(presenter: SearchPresenter,
-         layoutComposer: BookListLayoutComposer) {
+         layoutComposer: BookListLayoutMaker) {
         self.presenter = presenter
         self.layoutComposer = layoutComposer
         super.init(nibName: nil, bundle: nil)
@@ -33,9 +31,7 @@ class SearchViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
-    
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -59,7 +55,7 @@ class SearchViewController: UIViewController {
     /// UICollectionView+Extension file.
     private func configureCollectionView() {
         let size: GridSize = UIDevice.current.userInterfaceIdiom == .pad ? .extraLarge : .medium
-        let layout = layoutComposer.setCollectionViewLayout(gridItemSize: size)
+        let layout = layoutComposer.makeCollectionViewLayout(gridItemSize: size)
         mainView.collectionView.collectionViewLayout = layout
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = dataSource
@@ -82,11 +78,11 @@ extension SearchViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
     /// - Returns: UICollectionViewDiffableDataSource
-    private func createDataSource() -> DataSource {
+    private func makeDataSource() -> DataSource {
         let dataSource = DataSource(collectionView: mainView.collectionView,
                                     cellProvider: { [weak self] (collectionView, indexPath, book) -> UICollectionViewCell? in
             let cell: BookCollectionViewCell = collectionView.dequeue(for: indexPath)
-            if let bookData = self?.presenter.setBookData(for: book) {
+            if let bookData = self?.presenter.makeBookCellUI(for: book) {
                 cell.configure(with: bookData)
             }
             return cell
@@ -114,10 +110,10 @@ extension SearchViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        mainView.emptyStateView.isHidden = !presenter.searchedBooks.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.searchList.isEmpty
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(presenter.searchedBooks, toSection: .main)
+        snapshot.appendItems(presenter.searchList, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
@@ -129,9 +125,9 @@ extension SearchViewController: UICollectionViewDelegate {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
-        if indexPath.row == currentRow && presenter.noMoreBooks == false {
+        if indexPath.row == currentRow && presenter.noMoreBooksFound == false {
             presenter.getBooks(with: presenter.currentSearchKeywords,
-                               fromIndex: presenter.searchedBooks.count + 1)
+                               fromIndex: presenter.searchList.count + 1)
         }
     }
     /// When a cell is selected, the selected book is passed back to the newBookViewController
@@ -143,18 +139,19 @@ extension SearchViewController: UICollectionViewDelegate {
 }
 // MARK: - BookListView Delegate
 extension SearchViewController: BookListViewDelegate {
-    
-    func reloadData() {
-        presenter.refreshData()
+
+    func refreshBookList() {
+        presenter.refreshSearchList()
     }
 }
 // MARK: - SearchPresenter Delegate
 extension SearchViewController: SearchPresenterView {
-    func displayBookFromBarCodeSearch(with book: Item?) {
+
+    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
         newBookDelegate?.setBookData(with: book)
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         footerView.displayActivityIndicator(true)
     }
     

@@ -7,70 +7,70 @@
 
 import UIKit
 
-class ListTableViewController: UITableViewController {
-    
-    // MARK: - Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, ListRepresentable>
+class ListTableViewController: UIViewController {
+
+    typealias Snapshot = NSDiffableDataSourceSnapshot<ListSection, DataList>
     weak var newBookDelegate: NewBookViewControllerDelegate?
-    
+
+    private let mainView = ListMainView()
     private lazy var dataSource = makeDataSource()
-    private let searchController = UISearchController(searchResultsController: nil)
     private let presenter: ListPresenter
-    
-    // MARK: - Initializer
+
     init(receivedData: String?,
          newBookDelegate: NewBookViewControllerDelegate?,
          presenter: ListPresenter) {
         self.newBookDelegate = newBookDelegate
         self.presenter = presenter
-        self.presenter.receivedData = receivedData
-        super.init(style: .insetGrouped)
+        self.presenter.selection = receivedData
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func loadView() {
+        view = mainView
+        view.backgroundColor = .viewControllerBackgroundColor
+    }
     
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         addSearchController()
-        applySnapshot(animatingDifferences: false)
+        configureEmpStateView()
+        mainView.emptyStateView.delegate = self
         presenter.view = self
+        applySnapshot(animatingDifferences: false)
         presenter.getControllerTitle()
         presenter.getData()
     }
-    
+
     // MARK: - Setup
     private func configureTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        tableView.allowsSelection = true
-        tableView.alwaysBounceVertical = true
-        tableView.showsVerticalScrollIndicator = true
-        tableView.backgroundColor = .viewControllerBackgroundColor
-        tableView.sectionHeaderHeight = 30
-        if #available(iOS 15.0, *) {
-            tableView.sectionHeaderTopPadding = 30
-        }
-        tableView.sectionFooterHeight = 30
-        tableView.dataSource = dataSource
+        mainView.tableView.allowsMultipleSelection = false
+        mainView.tableView.dataSource = dataSource
+        mainView.tableView.delegate = self
     }
     
     private func addSearchController() {
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = Text.Placeholder.search
-        searchController.automaticallyShowsSearchResultsController = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchResultsUpdater = self
+        mainView.searchController.searchResultsUpdater = self
+        self.navigationItem.searchController = mainView.searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.searchController = searchController
         self.definesPresentationContext = true
     }
     
-    // MARK: - Table view data source
-    // Header
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    private func configureEmpStateView() {
+        mainView.emptyStateView.configure(title: presenter.listDataType.title,
+                                          subtitle: Text.EmptyState.listSubtitle,
+                                          icon: presenter.listDataType.icon,
+                                          hideButton: false)
+    }
+}
+// MARK: - TableView delegate
+extension ListTableViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let sectionTitleLabel = TextLabel(color: .secondaryLabel,
                                           maxLines: 1,
@@ -79,9 +79,8 @@ class ListTableViewController: UITableViewController {
         sectionTitleLabel.text = section.headerTitle
         return sectionTitleLabel
     }
-    
-    // Footer
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let section = dataSource.snapshot().sectionIdentifiers[section]
         let sectionFooterLabel = TextLabel(color: .secondaryLabel,
                                            maxLines: 2,
@@ -91,10 +90,8 @@ class ListTableViewController: UITableViewController {
         return sectionFooterLabel
     }
     
-    // MARK: - Table view delegate
-    // Swipe menu
-    override func tableView(_ tableView: UITableView,
-                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         UISwipeActionsConfiguration(actions: [makeFavoriteContextualAction(forRowAt: indexPath)])
     }
     
@@ -111,16 +108,16 @@ class ListTableViewController: UITableViewController {
         return action
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = dataSource.itemIdentifier(for: indexPath)
-        presenter.getSelectedData(from: data)
+        presenter.saveSelection(from: data)
     }
 }
 // MARK: - TableView Datasource
 extension ListTableViewController {
     
     private func makeDataSource() -> ListDataSource {
-        dataSource = ListDataSource(tableView: tableView,
+        dataSource = ListDataSource(tableView: mainView.tableView,
                                     cellProvider: { (_, _, item) -> UITableViewCell? in
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.appTintColor.withAlphaComponent(0.3)
@@ -141,13 +138,23 @@ extension ListTableViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-        var snapshot = Snapshot()
-        snapshot.appendSections([.favorite, .others])
-        snapshot.appendItems(presenter.data.filter({ $0.favorite == true }), toSection: .favorite)
-        snapshot.appendItems(presenter.data.filter({ $0.favorite == false }), toSection: .others)
+        mainView.tableView.isHidden = presenter.data.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.data.isEmpty
         
-        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        presenter.highlightCell()
+        var snapshot = Snapshot()
+        
+        let favorite = presenter.data.filter({ $0.favorite == true })
+        snapshot.appendSections([.favorite])
+        snapshot.appendItems(favorite, toSection: .favorite)
+        
+        let others = presenter.data.filter({ $0.favorite == false })
+        snapshot.appendSections([.others])
+        snapshot.appendItems(others, toSection: .others)
+
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+            self.presenter.highlightCell()
+        }
     }
 }
 
@@ -161,7 +168,7 @@ extension ListTableViewController: UISearchResultsUpdating {
 
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
-    func reloadRow(for item: ListRepresentable) {
+    func reloadRow(for item: DataList) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])
         dataSource.apply(snapshot)
@@ -179,14 +186,23 @@ extension ListTableViewController: ListPresenterView {
     func setTitle(as title: String) {
         self.title = title
     }
-    
-    func highlightCell(for item: ListRepresentable) {
+
+    /// Highlist tableView cell for the feched data.
+    /// - Parameters:
+    /// - item: Datalist object of the data to hightlight.
+    /// - Note: To construct the IndexPath we capture the section and Index Int value  from the snapshot.
+    func highlightCell(for item: DataList) {
         guard let section = dataSource.snapshot().sectionIdentifier(containingItem: item),
               let index = dataSource.snapshot().indexOfItem(item) else { return }
         let indexPath = IndexPath(row: index, section: section.tag)
         DispatchQueue.main.async {
-            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+            self.mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
         }
     }
-    
+}
+// MARK: - EmptyStateView Delegate
+extension ListTableViewController: EmptyStateViewDelegate {
+    func didTapButton() {
+        mainView.searchController.searchBar.text = nil
+    }
 }

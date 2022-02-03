@@ -29,14 +29,14 @@ class OnboardingPresenterTestCase: XCTestCase {
     func test_collectionViewPageChange() {
         sut =  OnboardingPresenter()
         sut.view = onboardingViewSpy
-        sut.collectionViewCurrentIndex = sut.onboardingData.count - 1
+        sut.collectionViewCurrentIndex = Onboarding.pages.count - 1
         XCTAssertTrue(onboardingViewSpy.setLastPageReachedWasCalled)
     }
     
     func test_nextButtonTapped_lastPageNumberReached() {
         sut =  OnboardingPresenter()
         sut.view = onboardingViewSpy
-        sut.collectionViewCurrentIndex = sut.onboardingData.count - 1
+        sut.collectionViewCurrentIndex = Onboarding.pages.count - 1
         sut.nextButtonTapped()
         XCTAssertTrue(onboardingViewSpy.presentWelcomeControllerWasCalled)
     }
@@ -56,7 +56,7 @@ class OnboardingPresenterViewSpy: OnboardingPresenterView {
     var scrollCollectionViewWasCalled = false
     var presentWelcomeControllerWasCalled = false
     
-    func setLastPageReached(_ lastPage: Bool) {
+    func setLastPageReached(when lastPage: Bool) {
          setLastPageReachedWasCalled = true
     }
     

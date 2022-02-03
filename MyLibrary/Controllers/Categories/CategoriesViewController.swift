@@ -9,33 +9,32 @@ import UIKit
 
 class CategoriesViewController: UIViewController {
     
-    // MARK: Properties
-    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryModel>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<SingleSection, CategoryDTO>
     weak var newBookDelegate: NewBookViewControllerDelegate?
     
     private lazy var dataSource = makeDataSource()
-    private let mainView = CategoryControllerMainView()
+    private let mainView = ListMainView()
     private let presenter: CategoryPresenter
     private let factory: Factory
-    private var settingBookCategory: Bool
+    private var isSelecting: Bool
     
-    init(settingBookCategory: Bool,
+    init(isSelecting: Bool,
          selectedCategories: [String],
          newBookDelegate: NewBookViewControllerDelegate?,
-         categoryPresenter: CategoryPresenter) {
-        self.settingBookCategory = settingBookCategory
+         categoryPresenter: CategoryPresenter,
+         factory: Factory) {
+        self.isSelecting = isSelecting
         self.newBookDelegate = newBookDelegate
         self.presenter = categoryPresenter
         self.presenter.selectedCategories = selectedCategories
-        self.factory = ViewControllerFactory()
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: Lifecycle
+
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -49,6 +48,7 @@ class CategoriesViewController: UIViewController {
         addNavigationBarButtons()
         addSearchController()
         configureTableView()
+        configureEmpStateView()
         applySnapshot(animatingDifferences: false)
         presenter.getCategoryList()
     }
@@ -62,11 +62,17 @@ class CategoriesViewController: UIViewController {
     private func configureTableView() {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = dataSource
-        mainView.tableView.allowsSelection = settingBookCategory
+        mainView.tableView.allowsSelection = isSelecting
         mainView.tableView.refreshControl = mainView.refresherControl
         mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
             self?.presenter.getCategoryList()
         }), for: .valueChanged)
+    }
+    
+    private func configureEmpStateView() {
+        mainView.emptyStateView.configure(title: Text.EmptyState.categoryTitle,
+                                          subtitle: Text.EmptyState.categorySubtitle,
+                                          icon: Images.ButtonIcon.selectedCategoryBadge)
     }
     
     private func addNavigationBarButtons() {
@@ -86,7 +92,7 @@ class CategoriesViewController: UIViewController {
     }
     
     @objc private func addNewCategory() {
-        presentNewCategoryController(editing: false, for: nil)
+        presentNewCategoryController()
     }
 }
 
@@ -193,32 +199,33 @@ extension CategoriesViewController: EmptyStateViewDelegate {
 // MARK: - CategoryPresenter Delegate
 extension CategoriesViewController: CategoryPresenterView {
     
-    func displayDeleteAlert(for category: CategoryModel) {
+    func displayDeleteAlert(for category: CategoryDTO) {
         let title = Text.ButtonTitle.delete + " " + category.name.capitalized
         AlertManager.presentAlert(title: title,
                                   message: Text.Alert.deleteCategoryMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
+                                  cancel: true) { [weak self] _ in
             self?.presenter.deleteCategory(for: category)
         }
     }
     
-    func presentNewCategoryController(editing: Bool, for category: CategoryModel?) {
-        let newCategoryViewController = factory.makeNewCategoryVC(editing: editing, category: category)
+    func presentNewCategoryController(with category: CategoryDTO? = nil) {
+        let newCategoryViewController = factory.makeNewCategoryVC(category: category)
         if #available(iOS 15.0, *) {
             presentSheetController(newCategoryViewController, detents: [.large()])
         } else {
             present(newCategoryViewController, animated: true, completion: nil)
         }
     }
-    
+
+    /// Highlight cell for the data saved
+    /// - Parameters: IndexPath of the data fetched
     func highlightCell(at indexPath: IndexPath) {
         DispatchQueue.main.async {
             self.mainView.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
         }
     }
     
-    func showActivityIndicator() {
+    func startActivityIndicator() {
         self.mainView.activityIndicator.startAnimating()
     }
     
@@ -232,6 +239,7 @@ extension CategoriesViewController: CategoryPresenterView {
 
 // MARK: - Search Result updating
 extension CategoriesViewController: UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else {return}
         presenter.filterSearchedCategories(for: searchText)

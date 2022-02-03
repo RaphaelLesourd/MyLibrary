@@ -9,14 +9,12 @@ import UIKit
 import FirebaseAuth
 
 class AccountSetupViewController: UIViewController {
-    
-    // MARK: - Properties
+
     private let mainView = AccountMainView()
     private let presenter: SetupAccountPresenter
     private let interfaceType: AccountInterfaceType
     private var profileImage: UIImage?
-    
-    // MARK: - Initializer
+
     init(presenter: SetupAccountPresenter,
          interfaceType: AccountInterfaceType) {
         self.presenter = presenter
@@ -28,7 +26,6 @@ class AccountSetupViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
     override func loadView() {
         view = mainView
         view.backgroundColor = .viewControllerBackgroundColor
@@ -49,8 +46,8 @@ class AccountSetupViewController: UIViewController {
         mainView.delegate = self
     }
     
-    private func updateTextFieldState(for textField: UITextField, valid: Bool) {
-        textField.layer.borderColor = valid ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
+    private func updateTextFieldBorderColor(for textField: UITextField, with: Bool) {
+        textField.layer.borderColor = with ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
     }
 }
 // MARK: - TextField Delegate
@@ -88,14 +85,13 @@ extension AccountSetupViewController: UITextFieldDelegate {
 extension AccountSetupViewController: AccountCreationViewDelegate {
     
     func finishedButtonTapped() {
-        presenter.showInterface(for: interfaceType)
+        presenter.handleAccountCredentials(for: interfaceType)
     }
     
     func resetPassWordRequest() {
         AlertManager.presentAlert(title: Text.Alert.forgotPasswordTitle,
                                   message: Text.Alert.forgotPasswordMessage,
-                                  cancel: true,
-                                  on: self) { [weak self] _ in
+                                  cancel: true) { [weak self] _ in
             self?.presenter.resetPassword(with: self?.mainView.emailTextField.text)
         }
     }
@@ -103,28 +99,28 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
 // MARK: - AccountSetup Presenter
 extension AccountSetupViewController: SetupAccountPresenterView {
     
-    func updateEmailTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.emailTextField, valid: valid)
+    func validateEmailTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.emailTextField, with: validation)
     }
     
-    func updatePasswordTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.passwordTextField, valid: valid)
+    func validatePasswordTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.passwordTextField, with: validation)
     }
     
-    func updatePasswordConfirmationTextField(valid: Bool) {
-        updateTextFieldState(for: mainView.confirmPasswordTextField, valid: valid)
+    func validatePasswordConfirmationTextField(with validation: Bool) {
+        updateTextFieldBorderColor(for: mainView.confirmPasswordTextField, with: validation)
     }
     func dismissViewController() {
         self.dismiss(animated: true)
     }
     
-    func showActivityIndicator() {
-        mainView.finishButton.displayActivityIndicator(true)
+    func startActivityIndicator() {
+        mainView.finishButton.toggleActivityIndicator(to: true)
     }
     
     func stopActivityIndicator() {
         DispatchQueue.main.async {
-            self.mainView.finishButton.displayActivityIndicator(false)
+            self.mainView.finishButton.toggleActivityIndicator(to: false)
         }
     }
 }

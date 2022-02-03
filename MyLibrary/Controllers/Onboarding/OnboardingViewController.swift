@@ -8,14 +8,12 @@
 import UIKit
 
 class OnboardingViewController: UIViewController {
-    
-    // MARK: - Properties
-    private let layoutComposer: OnboardingLayoutComposer
+
+    private let layoutComposer: OnboardingLayoutMaker
     private let mainView = OnboardingMainView()
-    private let presenter: OnboardingPresenter
-    
-    // MARK: - Intializer
-    init(layoutComposer: OnboardingLayoutComposer,
+    private var presenter: OnboardingPresenter
+
+    init(layoutComposer: OnboardingLayoutMaker,
          presenter: OnboardingPresenter) {
         self.layoutComposer = layoutComposer
         self.presenter = presenter
@@ -25,8 +23,7 @@ class OnboardingViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Lifecycle
+
     override func loadView() {
         view = mainView
     }
@@ -38,31 +35,30 @@ class OnboardingViewController: UIViewController {
         configurePageControl()
         configureCollectionView()
     }
-    
-    // MARK: - Setup
+
     private func configureCollectionView() {
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         
-        let layout = layoutComposer.setCollectionViewLayout()
+        let layout = layoutComposer.makeCollectionViewLayout()
         mainView.collectionView.setCollectionViewLayout(layout, animated: true)
         mainView.collectionView.reloadData()
     }
     
     private func configurePageControl() {
-        mainView.pageControl.numberOfPages = presenter.onboardingData.count
+        mainView.pageControl.numberOfPages = Onboarding.pages.count
     }
 }
 
 // MARK: - CollectionView Datasource
 extension OnboardingViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.onboardingData.count
+        return Onboarding.pages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: OnboardingCollectionViewCell = collectionView.dequeue(for: indexPath)
-        let model = presenter.onboardingData[indexPath.item]
+        let model = Onboarding.pages[indexPath.item]
         cell.configure(with: model)
         return cell
     }
@@ -90,10 +86,10 @@ extension OnboardingViewController: OnboardingMainViewDelegate {
         presenter.nextButtonTapped()
     }
 }
-
+// MARK: - Onboarding presenter
 extension OnboardingViewController: OnboardingPresenterView {
-    func setLastPageReached(_ lastPage: Bool) {
-        mainView.onboardingCompleted(lastPage)
+    func setLastPageReached(when finished: Bool) {
+        mainView.setOnboardingSeen(when: finished)
     }
     
     func scrollCollectionView(to indexPath: IndexPath) {

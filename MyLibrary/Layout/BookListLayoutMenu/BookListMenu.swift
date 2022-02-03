@@ -8,16 +8,13 @@
 import UIKit
 
 class BookListMenu {
-    
-    // MARK: - Property
+
     private weak var delegate: BookListMenuDelegate?
    
-    // MARK: - Initializer
     init(delegate: BookListMenuDelegate) {
         self.delegate = delegate
     }
-    
-    // MARK: - Public functions
+
     func configureLayoutMenu(with filterMenuIncluded: Bool) -> UIMenu {
         let menuItems = createMenuItems(filterOptions: filterMenuIncluded)
         return UIMenu(title: Text.ListMenu.bookListMenuTitle,
@@ -26,7 +23,7 @@ class BookListMenu {
                       children: menuItems)
     }
     
-    func loadLayoutChoice() {
+    func getSavedLayout() {
         let savedChoice = UserDefaults.standard.integer(forKey: UserDefaultKey.bookListMenuLayout.rawValue)
         let gridSize = GridSize.allCases[savedChoice]
         delegate?.setLayoutFromMenu(for: gridSize)
@@ -36,7 +33,7 @@ class BookListMenu {
     private func createMenuItems(filterOptions: Bool) -> [UIMenuElement] {
         var items: [UIMenuElement] = []
         if filterOptions == true {
-           items.append(filterMenu())
+           items.append(createFilterMenu())
         }
      
         GridSize.allCases.forEach({ gridSize in
@@ -51,7 +48,7 @@ class BookListMenu {
         return items
     }
     
-    private func filterMenu() -> UIMenu {
+    private func createFilterMenu() -> UIMenu {
         var items: [UIMenuElement] = []
         QueryType.allCases.forEach({ query in
             let item = UIAction(title: query.title,

@@ -6,8 +6,8 @@
 //
 
 protocol MessageServiceProtocol {
-    func sendCommentPushNotification(for book: Item,
+    func sendCommentPushNotification(for book: ItemDTO,
                                      message: String,
-                                     for comments: [CommentModel],
+                                     for comments: [CommentDTO],
                                      completion: @escaping (FirebaseError?) -> Void)
 }

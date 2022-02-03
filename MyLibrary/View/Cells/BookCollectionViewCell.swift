@@ -8,8 +8,7 @@
 import UIKit
 
 class BookCollectionViewCell: UICollectionViewCell {
-    
-    // MARK: - Initializer
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setConstraints()
@@ -21,9 +20,9 @@ class BookCollectionViewCell: UICollectionViewCell {
    
     // MARK: - Subviews
     private let bookCover = BookCover(frame: .zero)
-    
+
     // MARK: - Configure
-    func configure(with book: BookCellRepresentable) {
+    func configure(with book: BookCellUI) {
         bookCover.getImage(for: book.image) { [weak self] image in
             self?.bookCover.image = image
         }

@@ -34,7 +34,7 @@ class ProfileView: UIView {
         button.imageView?.contentMode = .scaleAspectFill
         button.roundView(radius: 50, backgroundColor: .systemGray5)
         button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = UIColor.appTintColor.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -99,7 +99,7 @@ class ProfileView: UIView {
         }), for: .touchUpInside)
     }
   
-    func loadingSpeed(_ loading: Bool) {
+    func increaseLoadingAnimationSpeed(_ loading: Bool) {
         guard loading else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.animationView.animationSpeed = 0.5

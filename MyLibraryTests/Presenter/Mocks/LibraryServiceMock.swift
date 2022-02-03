@@ -16,16 +16,16 @@ class LibraryServiceMock: LibraryServiceProtocol {
         self.successTest = successTest
     }
     
-    func createBook(with book: Item, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
+    func createBook(with book: ItemDTO, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     
-    func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<Item, FirebaseError>) -> Void) {
+    func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<ItemDTO, FirebaseError>) -> Void) {
         successTest ? completion(.success(PresenterFakeData.book)) : completion(.failure(.firebaseError(PresenterError.fail)))
     }
     
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool,
-                     completion: @escaping (Result<[Item], FirebaseError>) -> Void) {
+                     completion: @escaping (Result<[ItemDTO], FirebaseError>) -> Void) {
         if successTest {
             completion(.success(PresenterFakeData.books))
         } else {
@@ -34,7 +34,7 @@ class LibraryServiceMock: LibraryServiceProtocol {
         }
     }
     
-    func deleteBook(book: Item, completion: @escaping (FirebaseError?) -> Void) {
+    func deleteBook(book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
         successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
     }
     

@@ -4,39 +4,36 @@
 //
 //  Created by Birkyboy on 19/01/2022.
 //
-
-protocol CommentsPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func addCommentToInputBar(for comment: CommentModel)
-}
+import FirebaseAuth
 
 class CommentPresenter {
-    
-    // MARK: - Properties
+
     weak var view: CommentsPresenterView?
-    var book: Item?
+    var book: ItemDTO?
     var editedCommentID: String?
-    var commentList: [CommentModel] = []
-    var bookCellRepresentable: [CommentBookCellRepresentable] = []
+    var commentList: [CommentDTO] = []
+    var bookCellRepresentable: [CommentBookUI] = []
     
     private let commentService: CommentServiceProtocol
     private let messageService: MessageServiceProtocol
+    private let userService: UserServiceProtocol
     private let formatter: Formatter
-    
-    // MARK: - Intializer
+
     init(commentService: CommentServiceProtocol,
          messageService: MessageServiceProtocol,
+         userService: UserServiceProtocol,
          formatter: Formatter) {
         self.commentService = commentService
         self.messageService = messageService
+        self.userService = userService
         self.formatter = formatter
     }
     
-    // MARK: - API Call
+    // MARK: - Internal functions
     func getComments() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.getComments(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
@@ -51,11 +48,15 @@ class CommentPresenter {
         }
     }
     
-    func addComment(with newComment: String,
-                    commentID: String?) {
+    /// Add comment to the database.
+    /// - Parameters:
+    ///  - newComment: String of the comment message to add
+    ///  - commentID: Optional String of the comment.
+    /// The optional allows to either use the ID to update the current comment or if nil a new ID is created for a new comment
+    func addComment(with newComment: String, commentID: String?) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.addComment(for: bookID,
                                      ownerID: ownerID,
@@ -71,10 +72,13 @@ class CommentPresenter {
         }
     }
     
-    func deleteComment(for comment: CommentModel) {
+    /// Delete comment from the database
+    /// - Parameters:
+    /// - comment: CommentModel object of the comment to delete.
+    func deleteComment(for comment: CommentDTO) {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         commentService.deleteComment(for: bookID,
                                         ownerID: ownerID,
@@ -88,11 +92,14 @@ class CommentPresenter {
         }
     }
     
-    // MARK: - Notification
-    func notifyUser(of newComment: String,
-                    book: Item?) {
+    // MARK: Notification
+    /// Notify the user of a new comment
+    /// - Parameters:
+    ///  - newComment: String of the comment message to send.
+    ///  - book: Optional Item object of the book the comment belongs to.
+    func notifyUser(of newComment: String, book: ItemDTO?) {
         guard let book = book else { return }
-        view?.showActivityIndicator()
+        view?.startActivityIndicator()
         
         messageService.sendCommentPushNotification(for: book,
                                                       message: newComment,
@@ -106,34 +113,47 @@ class CommentPresenter {
     }
     
     // MARK: - Cell
-    func makeCommentCellRepresentable(with comment: CommentModel) -> CommentCellRepresentable {
+    /// Convert a CommentModel object tp CommentCellRepresentable used to by the cell to display data.
+    /// - Parameters:
+    /// - comment: CommentModel object of the comment to convert
+    ///
+    ///  CommentModelDTO  - CommentModelUI
+    func makeCommentCellRepresentable(with comment: CommentDTO) -> CommentUI {
+        let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
-        return CommentCellRepresentable(message: comment.message,
+        return CommentUI(message: comment.message,
                                         date: date,
                                         userName: comment.userName.capitalized,
-                                        profileImage: comment.userPhotoURL)
+                                        profileImage: comment.userPhotoURL,
+                                        currentUser: isCurrentUser)
     }
     
+    /// Get book details including user name from the data base and convert book Item object and
+    /// user UserModel object to CommentBookCellRepresentable used by the cell to display data.
     func getBookDetails() {
         guard let book = book,
               let ownerID = book.ownerID else { return }
-        var name = String()
-        view?.showActivityIndicator()
-        
-        commentService.getUserDetail(for: ownerID) { [weak self] result in
+        var name: String?
+        view?.startActivityIndicator()
+
+        userService.retrieveUser(for: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             
             if case .success(let owner) = result {
-                name = owner.displayName
+                name = owner?.displayName
             }
-            if let data = self?.makeCommentBookCellRepresentable(with: book, and: name) {
+            if let data = self?.makeCommentBookCellUI(with: book, and: name) {
                 self?.bookCellRepresentable = [data]
                 self?.view?.applySnapshot(animatingDifferences: true)
             }
         }
     }
     
-    func presentSwipeAction(for comment: CommentModel, actionType: CellSwipeActionType) {
+    /// Handle the cell trailing swipe actions and call the methods for the action
+    /// - Parameters:
+    ///   - actionType: CellSwipeActionType Enum case
+    ///   - comment: CommentModel object of the current comment
+    func presentSwipeAction(for comment: CommentDTO, actionType: CellSwipeActionType) {
         switch actionType {
         case .delete:
             deleteComment(for: comment)
@@ -142,15 +162,19 @@ class CommentPresenter {
             view?.addCommentToInputBar(for: comment)
         }
     }
-    
     // MARK: - Private functions
-    private func makeCommentBookCellRepresentable(with book: Item, and ownerName: String) -> CommentBookCellRepresentable {
+    /// Convert Item object to object to be used by the view to display data it needs
+    /// - Parameters:
+    ///   - book: Item object
+    ///   - ownerName: String representing the name of the book owner
+    private func makeCommentBookCellUI(with book: ItemDTO,
+                                       and ownerName: String?) -> CommentBookUI {
         let title = book.volumeInfo?.title?.capitalized
         let authors = book.volumeInfo?.authors?.joined(separator: ", ")
         let image = book.volumeInfo?.imageLinks?.thumbnail
-        return CommentBookCellRepresentable(title: title,
-                                            authors: authors,
-                                            image: image,
-                                            ownerName: ownerName)
+        return CommentBookUI(title: title,
+                             authors: authors,
+                             image: image,
+                             ownerName: ownerName)
     }
 }

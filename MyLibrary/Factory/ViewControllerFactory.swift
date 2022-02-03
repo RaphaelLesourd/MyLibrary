@@ -6,7 +6,9 @@
 //
 import UIKit
 
+/// Makes ViewControllers with their dependncies used thru the app.
 class ViewControllerFactory {
+
     // MARK: Services
     private let libraryService = LibraryService()
     private let userService = UserService()
@@ -14,39 +16,53 @@ class ViewControllerFactory {
     private let imageStorageService = ImageStorageService()
     private let recommendationService = RecommandationService()
     private let queryService = QueryService()
-    private let commentService = CommentService()
     private let feedbackManager = FeedbackManager()
-    private let validation = Validator()
+    private let validation = Validation()
     private let formatter = Formatter()
     private let converter = Converter()
     private let categoryFormatter = CategoriesFormatter()
-    
-    private lazy var apiManager = ApiManager(session: .default, validator: validation)
+
+    private lazy var googleBooksService = GoogleBooksService(session: .default, validation: validation)
+
+    private lazy var postNotificationService = FirebaseCloudMessagingService(session: .default)
+
     private lazy var accountService = AccountService(userService: userService,
                                                      libraryService: libraryService,
                                                      categoryService: categoryService)
-    private lazy var messageService = MessageService(apiManager: apiManager)
-    
+
+    private lazy var messageService = MessageService(postNotificationService: postNotificationService)
+
+    private lazy var commentService = CommentService(userService: userService)
+
     // MARK: Presenters
     private lazy var welcomeAccountPresenter = SetupAccountPresenter(accountService: accountService,
                                                                      validation: validation)
+
     private lazy var categoryPresenter = CategoryPresenter(categoryService: categoryService)
+
     private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService)
+
     private lazy var accountTabPresenter = AccountTabPresenter(userService: userService,
                                                                imageService: imageStorageService,
                                                                accountService: accountService)
+
     private lazy var homePresenter = HomePresenter(libraryService: libraryService,
                                                    categoryService: categoryService,
                                                    recommendationService: recommendationService)
+
     private lazy var commentPresenter = CommentPresenter(commentService: commentService,
                                                          messageService: messageService,
+                                                         userService: userService,
                                                          formatter: formatter)
+
     private lazy var bookCardPresenter = BookCardPresenter(libraryService: libraryService,
                                                            recommendationService: recommendationService,
                                                            categoryService: categoryService,
                                                            formatter: formatter,
                                                            categoryFormatter: categoryFormatter)
+
     private lazy var newCategoryPresenter = NewCategoryPresenter(categoryService: categoryService)
+
     private lazy var newBookPresenter = NewBookPresenter(libraryService: libraryService,
                                                          formatter: formatter,
                                                          converter: converter,
@@ -59,7 +75,7 @@ class ViewControllerFactory {
     private let onboardingLayout = OnboardingLayout()
     
     private func makeResultViewController() -> SearchViewController {
-        SearchViewController(presenter: SearchPresenter(apiManager: apiManager),
+        SearchViewController(presenter: SearchPresenter(apiManager: googleBooksService),
                              layoutComposer: bookListLayout)
     }
 }
@@ -69,34 +85,38 @@ extension ViewControllerFactory: Factory {
     
     func makeHomeTabVC() -> UIViewController {
         return  HomeViewController(presenter: homePresenter,
-                                   layoutComposer: homeTabLayout)
+                                   layoutComposer: homeTabLayout,
+                                   factory: self)
     }
     
     func makeAccountTabVC() -> UIViewController {
         return AccountViewController(presenter: accountTabPresenter,
-                                     feedbackManager: feedbackManager)
+                                     feedbackManager: feedbackManager,
+                                     factory: self)
     }
     
-    func makeCategoryVC(settingCategory: Bool,
+    func makeCategoryVC(isSelecting: Bool,
                         bookCategories: [String],
                         newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
-        return CategoriesViewController(settingBookCategory: settingCategory,
+        return CategoriesViewController(isSelecting: isSelecting,
                                         selectedCategories: bookCategories,
                                         newBookDelegate: newBookDelegate,
-                                        categoryPresenter: categoryPresenter)
+                                        categoryPresenter: categoryPresenter,
+                                        factory: self)
     }
     
-    func makeNewCategoryVC(editing: Bool, category: CategoryModel?) -> UIViewController {
-        return NewCategoryViewController(editingCategory: editing,
-                                         category: category,
+    func makeNewCategoryVC(category: CategoryDTO?) -> UIViewController {
+        return NewCategoryViewController(category: category,
                                          presenter: newCategoryPresenter)
     }
     
-    func makeBookListVC(with query: BookQuery) -> UIViewController {
+    func makeBookLibraryVC(with query: BookQuery?, title: String?) -> UIViewController {
         return BookLibraryViewController(currentQuery: query,
+                                         title: title,
                                          queryService: queryService,
                                          presenter: libraryPresenter,
-                                         layoutComposer: bookListLayout)
+                                         layoutComposer: bookListLayout,
+                                         factory: self)
     }
     
     func makeAccountSetupVC(for type: AccountInterfaceType) -> UIViewController {
@@ -104,20 +124,21 @@ extension ViewControllerFactory: Factory {
                                           interfaceType: type)
     }
     
-    func makeNewBookVC(with book: Item?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController {
+    func makeNewBookVC(with book: ItemDTO?, isEditing: Bool, bookCardDelegate: BookCardDelegate?) -> UIViewController {
         return NewBookViewController(book: book,
                                      isEditing: isEditing,
                                      bookCardDelegate: bookCardDelegate,
                                      presenter: newBookPresenter,
-                                     resultViewController: makeResultViewController())
+                                     resultViewController: makeResultViewController(),
+                                     factory: self)
     }
     
-    func makeBookCardVC(book: Item, type: SearchType?, factory: Factory) -> UIViewController {
+    func makeBookCardVC(book: ItemDTO) -> UIViewController {
         return BookCardViewController(book: book,
-                                      searchType: type,
                                       libraryService: libraryService,
                                       recommendationService: recommendationService,
-                                      presenter: bookCardPresenter)
+                                      presenter: bookCardPresenter,
+                                      factory: self)
     }
     
     func makeBookDescriptionVC(description: String?, newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
@@ -125,10 +146,10 @@ extension ViewControllerFactory: Factory {
                                              newBookDelegate: newBookDelegate)
     }
     
-    func makeCommentVC(with book: Item?) -> UIViewController {
+    func makeCommentVC(with book: ItemDTO?) -> UIViewController {
         return CommentsViewController(book: book,
                                       presenter: commentPresenter,
-                                      validator: validation)
+                                      validation: validation)
     }
     
     func makeBookCoverDisplayVC(with image: UIImage) -> UIViewController {
@@ -150,6 +171,7 @@ extension ViewControllerFactory: Factory {
     }
     
     func makeOnboardingVC() -> UIViewController {
-        return OnboardingViewController(layoutComposer: onboardingLayout, presenter: onboardingPresenter)
+        return OnboardingViewController(layoutComposer: onboardingLayout,
+                                        presenter: onboardingPresenter)
     }
 }

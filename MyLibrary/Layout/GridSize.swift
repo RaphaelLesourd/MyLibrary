@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// CollectionView gridSize for layout.
 enum GridSize: CGFloat, CaseIterable {
     
     private static let baseSize: CGFloat =  UIDevice.current.userInterfaceIdiom == .pad ? 0.5 : 1

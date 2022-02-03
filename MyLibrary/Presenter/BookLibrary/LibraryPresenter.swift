@@ -5,29 +5,21 @@
 //  Created by Birkyboy on 18/01/2022.
 //
 
-protocol LibraryPresenterView: AcitivityIndicatorProtocol, AnyObject {
-    func applySnapshot(animatingDifferences: Bool)
-    func updateHeader(with title: String?)
-}
+class LibraryPresenter: BookCellMapper {
 
-class LibraryPresenter: BookCellAdapter {
-    
-    // MARK: - Properties
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
-    var bookList: [Item] = []
+    var bookList: [ItemDTO] = [] 
     private let libraryService: LibraryServiceProtocol
-    
-    // MARK: - Initializer
+
     init(libraryService: LibraryServiceProtocol) {
         self.libraryService = libraryService
     }
-    
-    // MARK: - API Call
-    func getBooks(with query: BookQuery,
-                  nextPage: Bool = false) {
-        view?.updateHeader(with: query.listType?.title)
-        view?.showActivityIndicator()
+   
+    func getBooks(with query: BookQuery?, nextPage: Bool = false) {
+        guard let query = query else { return }
+        view?.startActivityIndicator()
+
         libraryService.getBookList(for: query,
                                       limit: 40,
                                       forMore: nextPage) { [weak self] result in
@@ -42,9 +34,19 @@ class LibraryPresenter: BookCellAdapter {
                 }
                 self?.bookList.append(contentsOf: books)
                 self?.view?.applySnapshot(animatingDifferences: true)
+                self?.setHeaderTitle(for: query)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+        }
+    }
+
+    private func setHeaderTitle(for query: BookQuery) {
+        if let index = QueryType.allCases.firstIndex(where: { $0.documentKey == query.orderedBy }) {
+            let title = QueryType.allCases[index].title
+            view?.updateSectionTitle(with: title)
+        } else {
+            view?.updateSectionTitle(with: Text.ListMenu.byTitle)
         }
     }
 }
