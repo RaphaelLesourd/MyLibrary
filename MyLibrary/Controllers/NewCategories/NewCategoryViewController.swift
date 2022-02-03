@@ -68,6 +68,7 @@ extension NewCategoryViewController: UICollectionViewDataSource {
 
 // MARK: - CollectinView Delegate
 extension NewCategoryViewController: UICollectionViewDelegate {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter.selectedColor = CategoryColors.palette[indexPath.row]
     }
@@ -75,6 +76,7 @@ extension NewCategoryViewController: UICollectionViewDelegate {
 
 // MARK: - TextField Delegate
 extension NewCategoryViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         saveCategory()
         return true
@@ -83,6 +85,7 @@ extension NewCategoryViewController: UITextFieldDelegate {
 
 // MARK: - NewCategoryView Delegate
 extension NewCategoryViewController: NewCategoryViewDelegate {
+
     func saveCategory() {
         presenter.saveCategory(with: mainView.categoryTextField.text)
     }

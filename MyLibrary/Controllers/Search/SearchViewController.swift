@@ -13,7 +13,7 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
-    var presenter: SearchPresenter
+    private(set) var presenter: SearchPresenter
     
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutMaker
@@ -48,7 +48,7 @@ class SearchViewController: UIViewController {
         applySnapshot(animatingDifferences: false)
     }
     
-    // MARK: - Setup
+    // MARK: Setup
     /// Set up the collectionView with diffable datasource and compositional layout.
     /// Layouts are contrustructed in the Layoutcomposer class.
     /// Cell and footer resistrations are shortenend by helper extensions created in the
@@ -73,7 +73,7 @@ class SearchViewController: UIViewController {
                                           hideButton: true)
     }
 }
-// MARK: - CollectionView Datasource
+// MARK: CollectionView datasource
 extension SearchViewController {
     /// Create diffable Datasource for the collectionView.
     /// - configure the cell and in this case the footer.
@@ -117,13 +117,14 @@ extension SearchViewController {
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
-// MARK: - CollectionView Delegate
+// MARK: CollectionView delegate
 extension SearchViewController: UICollectionViewDelegate {
     /// Keeps track whe the last cell is displayed. User to load more data.
     /// In this case when the last 3 cells are displayed and the last book hasn't been reached, more data are fetched.
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
+
         let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 3
         if indexPath.row == currentRow && presenter.noMoreBooksFound == false {
             presenter.getBooks(with: presenter.currentSearchKeywords,
@@ -137,14 +138,14 @@ extension SearchViewController: UICollectionViewDelegate {
         newBookDelegate?.setBookData(with: searchBook)
     }
 }
-// MARK: - BookListView Delegate
+// MARK: BookList view delegate
 extension SearchViewController: BookListViewDelegate {
 
     func refreshBookList() {
         presenter.refreshSearchList()
     }
 }
-// MARK: - SearchPresenter Delegate
+// MARK: Search presenter delegate
 extension SearchViewController: SearchPresenterView {
 
     func displayBookFromBarCodeSearch(with book: ItemDTO?) {

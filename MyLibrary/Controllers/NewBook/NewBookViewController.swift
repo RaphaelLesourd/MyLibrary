@@ -79,7 +79,6 @@ class NewBookViewController: UITableViewController {
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
-
     }
     
     private func setDelegates() {

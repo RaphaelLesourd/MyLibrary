@@ -7,7 +7,6 @@
 
 import UIKit
 import AVFoundation
-import CloudKit
 
 class BarcodeScanViewController: UIViewController {
 
@@ -16,7 +15,7 @@ class BarcodeScanViewController: UIViewController {
     var barcode: String?
     var flashLightIsOn = false {
         didSet {
-            toggleFlashlight(toOn: flashLightIsOn)
+            toggleFlashlight(on: flashLightIsOn)
             mainView.toggleButton(onState: flashLightIsOn)
         }
     }
@@ -65,13 +64,13 @@ class BarcodeScanViewController: UIViewController {
         }
     }
 
-    private func toggleFlashlight(toOn: Bool) {
+    private func toggleFlashlight(on: Bool) {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video),
               device.hasTorch else { return }
         do {
             try device.lockForConfiguration()
-            device.torchMode = toOn ? .on : .off
-            if toOn {
+            device.torchMode = on ? .on : .off
+            if on {
                 try device.setTorchModeOn(level: AVCaptureDevice.maxAvailableTorchLevel)
             }
             device.unlockForConfiguration()

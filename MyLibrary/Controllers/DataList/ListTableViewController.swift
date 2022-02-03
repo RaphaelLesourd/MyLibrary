@@ -168,6 +168,7 @@ extension ListTableViewController: UISearchResultsUpdating {
 
 // MARK: - List Presenter View
 extension ListTableViewController: ListPresenterView {
+
     func reloadRow(for item: DataList) {
         var snapshot = dataSource.snapshot()
         snapshot.reloadItems([item])

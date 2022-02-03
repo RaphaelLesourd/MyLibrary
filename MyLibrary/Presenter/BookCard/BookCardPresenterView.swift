@@ -11,4 +11,6 @@ protocol BookCardPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func toggleRecommendButtonIndicator(on play: Bool)
     func displayBook(with data: BookCardUI)
     func displayCategories(with list: NSAttributedString)
+    func toggleRecommendButton(as recommended: Bool)
+    func toggleFavoriteButton(as favorite: Bool)
 }

@@ -122,4 +122,3 @@ class HomePresenter: BookCellMapper {
         }
     }
 }
-

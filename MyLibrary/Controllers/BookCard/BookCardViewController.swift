@@ -16,16 +16,6 @@ class BookCardViewController: UIViewController {
     private var presenter: BookCardPresenter
     private var factory: Factory
     private let book: ItemDTO
-    private var recommended = false {
-        didSet {
-            mainView.toggleRecommendButton(to: recommended)
-        }
-    }
-    private var favoriteBook = false {
-        didSet {
-            mainView.toggleFavoriteButton(to: favoriteBook)
-        }
-    }
 
     init(book: ItemDTO,
          libraryService: LibraryServiceProtocol,
@@ -57,8 +47,6 @@ class BookCardViewController: UIViewController {
         presenter.book = book
         mainView.showControlButtons(presenter.isBookEditable)
         addNavigationBarButtons()
-        setBookRecommandStatus()
-        setBookFavoriteStatus()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,18 +68,6 @@ class BookCardViewController: UIViewController {
         let itemsWithEditButton = [editButton, mainView.activityIndicatorButton]
         let indicatorOnly = [mainView.activityIndicatorButton]
         navigationItem.rightBarButtonItems = presenter.isBookEditable ? indicatorOnly : itemsWithEditButton
-    }
-
-    private func setBookFavoriteStatus() {
-        if let favorite = self.presenter.book?.favorite {
-            favoriteBook = favorite
-        }
-    }
-
-    private func setBookRecommandStatus() {
-        if let recommand = self.presenter.book?.recommanding {
-            recommended = recommand
-        }
     }
     
     // MARK: Navigation
@@ -124,14 +100,13 @@ extension BookCardViewController: BookCardDelegate {
 extension BookCardViewController: BookCardMainViewDelegate {
     
     func toggleFavoriteBook() {
-        favoriteBook.toggle()
-        presenter.updateStatus(state: favoriteBook, documentKey: .favorite)
+        presenter.favoriteBook.toggle()
+        presenter.updateStatus(state: presenter.favoriteBook, documentKey: .favorite)
     }
     
     func toggleBookRecommendation() {
-        recommended.toggle()
-        presenter.recommendBook(recommended)
-        presenter.updateStatus(state: recommended, documentKey: .recommanding)
+        presenter.recommended.toggle()
+        presenter.recommendBook()
     }
     
     func presentDeleteBookAlert() {
@@ -142,14 +117,19 @@ extension BookCardViewController: BookCardMainViewDelegate {
         }
     }
 }
-
 // MARK: - BoorkCard PresenterView
 extension BookCardViewController: BookCardPresenterView {
-   
+
+    func toggleRecommendButton(as recommended: Bool) {
+        mainView.toggleRecommendButton(to: recommended)
+    }
+
+    func toggleFavoriteButton(as favorite: Bool) {
+        mainView.toggleFavoriteButton(to: favorite)
+    }
+
     func displayBook(with data: BookCardUI) {
         mainView.configure(with: data)
-        setBookRecommandStatus()
-        setBookFavoriteStatus()
     }
     
     func displayCategories(with list: NSAttributedString) {

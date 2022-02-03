@@ -50,7 +50,8 @@ class AccountSetupViewController: UIViewController {
         textField.layer.borderColor = with ? UIColor.systemGreen.cgColor : UIColor.systemRed.cgColor
     }
 }
-// MARK: - TextField Delegate
+
+// MARK: TextField delegate
 extension AccountSetupViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField,
@@ -81,7 +82,7 @@ extension AccountSetupViewController: UITextFieldDelegate {
         return true
     }
 }
-// MARK: - AccountMainView Delegate
+// MARK: Account view delegate
 extension AccountSetupViewController: AccountCreationViewDelegate {
     
     func finishedButtonTapped() {
@@ -96,7 +97,7 @@ extension AccountSetupViewController: AccountCreationViewDelegate {
         }
     }
 }
-// MARK: - AccountSetup Presenter
+// MARK: Account setup presenter
 extension AccountSetupViewController: SetupAccountPresenterView {
     
     func validateEmailTextField(with validation: Bool) {
