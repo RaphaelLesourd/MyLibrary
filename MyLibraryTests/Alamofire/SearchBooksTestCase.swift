@@ -8,7 +8,7 @@
 import XCTest
 import Alamofire
 
-class ApiManagerTestCase: XCTestCase {
+class SearchBooksTestCase: XCTestCase {
     
     private var session: Session!
     private var sut: GoogleBooksService!
@@ -84,19 +84,6 @@ class ApiManagerTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-    
-//    func test_givenMessage_whenPosting_thenReturnNoError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertNil(error)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
     
     // MARK: - Errors
     func test_givenAnISBN_whenRequestingBookList_thenDataError() {
@@ -283,110 +270,5 @@ class ApiManagerTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-    
-//    // Message Errors
-//    func test_givenMessage_whenPostingWithRequestNoValid_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 400, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(400).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithAccessNotAuthorized_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 401, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(401).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithAccessForbidden_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 403, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(403).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithNothingFound_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(404).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithTooManyRequests_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 429, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(429).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithInternalServerError_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 500, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(500).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithServiceUnvailable_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: 503, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertEqual(error?.description, ApiError.httpError(503).description)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
-//    
-//    func test_givenMessage_whenPostingWithOtherErrors_thenReturnError() {
-//        let expectation = XCTestExpectation(description: "Wait for queue change.")
-//        MockURLProtocol.requestHandler = { [self] request in
-//            let response = HTTPURLResponse(url: url, statusCode: -1, httpVersion: nil, headerFields: nil)!
-//            return (response, nil)
-//        }
-//        sut.sendPushNotification(with: FakeData.correctMessageToPost) { error in
-//            XCTAssertNotNil(error)
-//            expectation.fulfill()
-//        }
-//        wait(for: [expectation], timeout: 1.0)
-//    }
 }
 
