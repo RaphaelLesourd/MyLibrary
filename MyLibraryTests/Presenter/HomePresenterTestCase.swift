@@ -104,6 +104,28 @@ class HomePresenterTestCase: XCTestCase {
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
         XCTAssertEqual(userCellUI.userName, "Testname")
     }
+
+    func test_displayItem_whenSelectedItemIsCategory() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: PresenterFakeData.category)
+        XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
+    }
+
+    func test_displayItem_whenSelectedItemisBookItem() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: PresenterFakeData.book)
+        XCTAssertTrue(homeViewSpy.presentBookCardControllerWasCalled)
+    }
+
+    func test_displayItem_whenSelectedItemIsUser() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: PresenterFakeData.user)
+        XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
+    }
+
     // MARK: - Fail
     func test_whenRetreivecategoriesAndErrorOccurs_thenReturnNoUser() {
         // Given
@@ -163,10 +185,21 @@ class HomePresenterTestCase: XCTestCase {
 }
 
 class HomeViewSpy: HomePresenterView {
+
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
-    
+    var presentBookLibraycontrollerWasCalled = false
+    var presentBookCardControllerWasCalled = false
+
+    func presentBookLibraryController(for query: BookQuery?, title: String?) {
+        presentBookLibraycontrollerWasCalled = true
+    }
+
+    func presentBookCardController(with book: ItemDTO) {
+        presentBookCardControllerWasCalled = true
+    }
+
     func applySnapshot(animatingDifferences: Bool) {
         snapshotWasCalled = true
     }

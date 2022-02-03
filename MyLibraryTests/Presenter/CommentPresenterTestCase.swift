@@ -96,7 +96,7 @@ class CommentPresenterTestCase: XCTestCase {
     
     func test_makeCommentCellRepresentable() {
         sut = successTestPresenter
-        let representable = sut.makeCommentCellRepresentable(with: PresenterFakeData.comment)
+        let representable = sut.makeCommentCellUI(with: PresenterFakeData.comment)
         XCTAssertEqual(representable.userName, PresenterFakeData.comment.userName.capitalized)
         XCTAssertEqual(representable.message, PresenterFakeData.comment.message)
     }

@@ -66,6 +66,16 @@ class PresenterFakeData {
                                  saleInfo: PresenterFakeData.saleInfo,
                                  timestamp: 0,
                                  category: [])
+
+    static let bookCategoriesNil: ItemDTO = ItemDTO(id: "testID",
+                                                    bookID: "1",
+                                                    favorite: true,
+                                                    ownerID: "1",
+                                                    recommanding: true,
+                                                    volumeInfo: PresenterFakeData.volumeInfo,
+                                                    saleInfo: PresenterFakeData.saleInfo,
+                                                    timestamp: 0,
+                                                    category: nil)
     
     static let comment = CommentDTO(id: "1",
                                       uid: "1",

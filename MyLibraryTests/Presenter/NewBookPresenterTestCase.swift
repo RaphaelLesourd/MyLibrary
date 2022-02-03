@@ -73,7 +73,22 @@ class NewBookPresenterTestCase: XCTestCase {
         sut.setBookCurrency(with: "USD")
         XCTAssertTrue(newBookPresenterViewSpy.updateCurrencyViewWasCalled)
     }
-    
+
+    func test_displayBook_withCategoriesAvailable() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.book = PresenterFakeData.book
+        sut.displayBook()
+        XCTAssert(newBookPresenterViewSpy.displayBookWasCalled)
+    }
+
+    func test_displayBook_withNilCategories() {
+        sut = successTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.book = PresenterFakeData.bookCategoriesNil
+        sut.displayBook()
+        XCTAssert(newBookPresenterViewSpy.displayBookWasCalled)
+    }
     // MARK: - Fail
     func test_savingNewBook_failed() {
         sut = failedTestPresenter

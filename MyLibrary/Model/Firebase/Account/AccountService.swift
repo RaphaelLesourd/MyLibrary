@@ -128,8 +128,8 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
+        removeFirestoreListeners()
         do {
-            removeFirestoreListeners()
             try Auth.auth().signOut()
             completion(nil)
         } catch {

@@ -118,7 +118,7 @@ class CommentPresenter {
     /// - comment: CommentModel object of the comment to convert
     ///
     ///  CommentModelDTO  - CommentModelUI
-    func makeCommentCellRepresentable(with comment: CommentDTO) -> CommentUI {
+    func makeCommentCellUI(with comment: CommentDTO) -> CommentUI {
         let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
         return CommentUI(message: comment.message,

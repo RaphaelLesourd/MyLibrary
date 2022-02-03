@@ -56,16 +56,21 @@ class BookCardPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.recommendBook(true)
+        sut.recommendBook()
         XCTAssertTrue(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
     
     func test_removeBookFromRecommendation_successFully() {
         sut = successTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.recommendBook(false)
+        sut.recommended = false
+        sut.recommendBook()
         XCTAssertTrue(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
     
     func test_fetchBookUpdate_successFully() {
@@ -127,29 +132,34 @@ class BookCardPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.recommendBook(true)
+        sut.recommendBook()
         XCTAssertTrue(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
     
     func test_removeBookFromRecommendation_failed() {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
         sut.book = PresenterFakeData.book
-        sut.recommendBook(false)
+        sut.recommended = false
+        sut.recommendBook()
         XCTAssertTrue(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.showActivityWasCalled)
+        XCTAssertTrue(bookCardPresenterViewSpy.stopActivityWasCalled)
     }
     
     func test_recommendBook_whenNoBookPassed_failed() {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
-        sut.recommendBook(true)
+        sut.recommendBook()
         XCTAssertFalse(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
     }
     
     func test_removeBookFromRecommendation_whenNoBookPassed_failed() {
         sut = failedTestPresenter
         sut.view = bookCardPresenterViewSpy
-        sut.recommendBook(false)
+        sut.recommendBook()
         XCTAssertFalse(bookCardPresenterViewSpy.playRecommendButtonIndicatorWasCalled)
     }
     
@@ -180,21 +190,31 @@ class BookCardPresenterTestCase: XCTestCase {
 }
 
 class BookCardPresenterViewSpy: BookCardPresenterView {
-   
- 
+
+
     var dismissControllerWasCalled = false
     var playRecommendButtonIndicatorWasCalled = false
     var displayBookWasCalled = false
     var displayCategoriesWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
-    
+    var toggleRecommendButtonwasCalled = false
+    var toggleFavoriteButtonWasCalled = false
+
+    func toggleRecommendButton(as recommended: Bool) {
+        toggleRecommendButtonwasCalled = true
+    }
+
+    func toggleFavoriteButton(as favorite: Bool) {
+        toggleFavoriteButtonWasCalled = true
+    }
+
     func displayBook(with data: BookCardUI) {
         displayBookWasCalled = true
     }
     
     func displayCategories(with list: NSAttributedString) {
-       displayCategoriesWasCalled = true
+        displayCategoriesWasCalled = true
     }
     
     func dismissController() {
