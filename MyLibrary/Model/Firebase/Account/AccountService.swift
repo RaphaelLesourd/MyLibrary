@@ -48,7 +48,8 @@ extension AccountService: AccountServiceProtocol {
             completion(.noNetwork)
             return
         }
-        guard let userCredentials = userCredentials, passwordMatch(with: userCredentials) == true else {
+        guard let userCredentials = userCredentials,
+              passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
             return
         }
@@ -128,8 +129,8 @@ extension AccountService: AccountServiceProtocol {
     
     // MARK: Sign out
     func signOut(completion: @escaping CompletionHandler) {
+        removeFirestoreListeners()
         do {
-            removeFirestoreListeners()
             try Auth.auth().signOut()
             completion(nil)
         } catch {

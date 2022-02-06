@@ -15,6 +15,8 @@ class BookCardPresenter {
         didSet {
             mapToBookUI()
             fetchCategoryNames()
+            setBookFavoriteStatus()
+            setBookRecommandStatus()
         }
     }
     var isBookEditable: Bool {
@@ -22,7 +24,17 @@ class BookCardPresenter {
         let isBookOwner = book?.ownerID != Auth.auth().currentUser?.uid
         return isConnected || isBookOwner
     }
-    
+    var recommended = false {
+        didSet {
+            view?.toggleRecommendButton(as: recommended)
+        }
+    }
+    var favoriteBook = false {
+        didSet {
+            view?.toggleFavoriteButton(as: favoriteBook)
+        }
+    }
+
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     private let categoryService: CategoryServiceProtocol
@@ -134,8 +146,9 @@ class BookCardPresenter {
   
     /// Call for the proper methods when the reommenBook button it tapped.
     /// - Parameters: Boolean value
-    func recommendBook(_ recommended: Bool) {
+    func recommendBook() {
         recommended ? removeFromRecommendedBooks() : addToRecommendedBooks()
+        updateStatus(state: recommended, documentKey: .recommanding)
     }
 
     // MARK: - Private functions
@@ -164,4 +177,15 @@ class BookCardPresenter {
         }
     }
 
+    private func setBookFavoriteStatus() {
+        if let favorite = book?.favorite {
+            favoriteBook = favorite
+        }
+    }
+
+    private func setBookRecommandStatus() {
+        if let recommand = book?.recommanding {
+            recommended = recommand
+        }
+    }
 }

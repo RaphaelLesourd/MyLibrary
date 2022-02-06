@@ -9,7 +9,10 @@ import AVFoundation
 import Photos
 
 class PermissionManager {
-    
+
+    let cameraAuthorizationstatus = AVCaptureDevice.authorizationStatus(for: .video)
+    let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+
     private func presentDeviceSettings() {
         if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(settingsUrl)
@@ -20,7 +23,6 @@ class PermissionManager {
 extension PermissionManager: Permissions {
     /// Prompt the user for permission to use the camera if not already authorized.
     func requestCameraPermissions(completion: @escaping (Bool) -> Void) {
-        let cameraAuthorizationstatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorizationstatus {
         case .authorized:
             completion(true)
@@ -40,7 +42,6 @@ extension PermissionManager: Permissions {
     /// - If authotization station is undetermined, the request authorization is done again.
     /// - Parameter completion: return true or false if access is granted or not.
     func requestPhotoPermission(completion: @escaping (Bool) -> Void) {
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
         switch photoAuthorizationStatus {
         case .authorized, .limited:
             completion(true)

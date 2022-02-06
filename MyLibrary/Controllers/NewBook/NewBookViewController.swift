@@ -12,7 +12,7 @@ class NewBookViewController: UITableViewController {
     weak var bookCardDelegate: BookCardDelegate?
     let subViews = NewBookControllerSubViews()
     
-    private let resultController: SearchViewController
+    private let searchViewController: SearchViewController
     private let presenter: NewBookPresenter
     private var imagePicker: ImagePicker?
     private var sections: [[UITableViewCell]] = [[]]
@@ -29,7 +29,7 @@ class NewBookViewController: UITableViewController {
         self.presenter.book = book
         self.isEditingBook = isEditing
         self.bookCardDelegate = bookCardDelegate
-        self.resultController = resultViewController
+        self.searchViewController = resultViewController
         self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
@@ -52,7 +52,6 @@ class NewBookViewController: UITableViewController {
         addNavigationBarButtons()
         configureSearchController()
         configureUI()
-        clearData()
         presenter.displayBook()
     }
 
@@ -79,7 +78,6 @@ class NewBookViewController: UITableViewController {
     private func configureUI() {
         view.backgroundColor = .viewControllerBackgroundColor
         title = isEditingBook ? Text.ControllerTitle.modify : Text.ControllerTitle.newBook
-
     }
     
     private func setDelegates() {
@@ -88,18 +86,18 @@ class NewBookViewController: UITableViewController {
     }
     
     private func configureSearchController() {
-        subViews.searchController = UISearchController(searchResultsController: resultController)
+        subViews.searchController = UISearchController(searchResultsController: searchViewController)
         subViews.searchController.searchBar.delegate = self
         subViews.searchController.obscuresBackgroundDuringPresentation = false
         subViews.searchController.searchBar.placeholder = Text.Placeholder.search
         subViews.searchController.definesPresentationContext = false
-        resultController.newBookDelegate = self
+        searchViewController.newBookDelegate = self
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = isEditingBook ? nil : subViews.searchController
     }
     
     func clearData() {
-        tableView.setContentOffset(.zero, animated: true)
+        tableView.setContentOffset(.zero, animated: false)
         presenter.bookCategories.removeAll()
         presenter.bookDescription = nil
         subViews.reset()
@@ -155,8 +153,8 @@ extension NewBookViewController: BarcodeScannerDelegate {
     /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
     /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
-        resultController.presenter.searchType = .barCodeSearch
-        resultController.presenter.currentSearchKeywords = code
+        searchViewController.presenter.searchType = .barCodeSearch
+        searchViewController.presenter.currentSearchKeywords = code
     }
 }
 
@@ -164,9 +162,13 @@ extension NewBookViewController: BarcodeScannerDelegate {
 extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        resultController.presenter.searchList.removeAll()
-        resultController.presenter.searchType = .keywordSearch
-        resultController.presenter.currentSearchKeywords = subViews.searchController.searchBar.text ?? ""
+        searchViewController.presenter.clearData()
+        searchViewController.presenter.searchType = .keywordSearch
+        searchViewController.presenter.currentSearchKeywords = subViews.searchController.searchBar.text ?? ""
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchViewController.presenter.clearData()
     }
 }
 

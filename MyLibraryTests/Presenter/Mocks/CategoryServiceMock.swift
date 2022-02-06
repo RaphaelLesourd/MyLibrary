@@ -16,18 +16,18 @@ class CategoryServiceMock: CategoryServiceProtocol {
     }
     
     func getUserCategories(completion: @escaping (Result<[CategoryDTO], FirebaseError>) -> Void) {
-        successTest ? completion(.success(PresenterFakeData.categories)) : completion(.failure(.firebaseError(PresenterError.fail)))
+        successTest ? completion(.success(FakeData.categories)) : completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
     }
    
     func addCategory(for categoryName: String, color: String, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
    
     
     func getBookCategories(for categoryIds: [String], bookOwnerID: String,
                            completion: @escaping ([CategoryDTO]) -> Void) {
         if successTest {
-            completion(PresenterFakeData.categories)
+            completion(FakeData.categories)
         } else {
             completion([])
         }
@@ -36,11 +36,11 @@ class CategoryServiceMock: CategoryServiceProtocol {
     func updateCategoryName(for category: CategoryDTO, with name: String?, color: String,
                             completion: @escaping (FirebaseError?) -> Void) {
         
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func deleteCategory(for category: CategoryDTO, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func removeListener() {}

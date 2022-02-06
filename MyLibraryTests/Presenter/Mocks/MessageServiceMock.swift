@@ -20,6 +20,6 @@ class MessageServiceMock: MessageServiceProtocol {
                                      message: String,
                                      for comments: [CommentDTO],
                                      completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
 }

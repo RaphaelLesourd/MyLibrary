@@ -10,7 +10,7 @@ import Foundation
 
 class ApiManagerMock: SearchBookService {
     func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
-        completion(.success(PresenterFakeData.books))
+        completion(.success(FakeData.books))
     }
     
     func sendPushNotification(with message: MessageModel, completion: @escaping (ApiError?) -> Void) {

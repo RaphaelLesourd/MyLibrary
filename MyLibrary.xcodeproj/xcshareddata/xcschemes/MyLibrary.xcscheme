@@ -68,6 +68,9 @@
                   Identifier = "LibraryServiceTestCase">
                </Test>
                <Test
+                  Identifier = "MessageServiceTestCase">
+               </Test>
+               <Test
                   Identifier = "RecommandServiceTestCase">
                </Test>
                <Test

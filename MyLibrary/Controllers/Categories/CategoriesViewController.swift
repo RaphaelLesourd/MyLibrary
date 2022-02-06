@@ -45,6 +45,7 @@ class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         presenter.view = self
         mainView.emptyStateView.delegate = self
+        mainView.delegate = self
         addNavigationBarButtons()
         addSearchController()
         configureTableView()
@@ -64,9 +65,6 @@ class CategoriesViewController: UIViewController {
         mainView.tableView.dataSource = dataSource
         mainView.tableView.allowsSelection = isSelecting
         mainView.tableView.refreshControl = mainView.refresherControl
-        mainView.refresherControl.addAction(UIAction(handler: { [weak self] _ in
-            self?.presenter.getCategoryList()
-        }), for: .valueChanged)
     }
     
     private func configureEmpStateView() {
@@ -189,14 +187,21 @@ extension CategoriesViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - EmptystateView Delegate
+// MARK: Emptystate view delegate
 extension CategoriesViewController: EmptyStateViewDelegate {
     func didTapButton() {
         addNewCategory()
     }
 }
 
-// MARK: - CategoryPresenter Delegate
+// MARK: List main view delegate
+extension CategoriesViewController: ListMainViewDelegate {
+    func refreshPulled() {
+        presenter.getCategoryList()
+    }
+}
+
+// MARK: Category presenter delegate
 extension CategoriesViewController: CategoryPresenterView {
     
     func displayDeleteAlert(for category: CategoryDTO) {

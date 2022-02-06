@@ -5,7 +5,6 @@
 //  Created by Birkyboy on 23/12/2021.
 //
 
-import UIKit
 import MessageUI
 
 class FeedbackManager: NSObject {

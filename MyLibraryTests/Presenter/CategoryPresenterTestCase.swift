@@ -38,8 +38,8 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_deleteCategory_successfully() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories.append(PresenterFakeData.category)
-        sut.deleteCategory(for: PresenterFakeData.category)
+        sut.categories.append(FakeData.category)
+        sut.deleteCategory(for: FakeData.category)
         XCTAssertTrue(categoryViewSpy.snapshotWasCalled)
         XCTAssertTrue(categoryViewSpy.showActivityWasCalled)
         XCTAssertTrue(categoryViewSpy.stopActivityWasCalled)
@@ -55,7 +55,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_searchForCategory_searchTextHasContent() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categoriesOriginalList = PresenterFakeData.categories
+        sut.categoriesOriginalList = FakeData.categories
         sut.filterSearchedCategories(for: "First")
         XCTAssertTrue(categoryViewSpy.snapshotWasCalled)
     }
@@ -63,7 +63,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_highLightCell_whenCategoryExist() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.selectedCategories = ["1"]
         sut.highlightBookCategories(for: 0)
         XCTAssertTrue(categoryViewSpy.highLightCellWasCalled)
@@ -72,7 +72,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_swipingCellAction_whenDeleting() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.presentSwipeAction(for: .delete, at: 0)
         XCTAssertTrue(categoryViewSpy.displayDeleteAlertWasCalled)
     }
@@ -80,7 +80,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_swipingCellAction_whenEdit() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.presentSwipeAction(for: .edit, at: 0)
         XCTAssertTrue(categoryViewSpy.presentNewCategoryControllerWasCalled)
     }
@@ -88,7 +88,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_addCategoryFromCategories_toSelectedCategories() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.addSelectedCategory(at: 0)
         XCTAssertEqual(sut.selectedCategories.count, 1)
     }
@@ -96,7 +96,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_removeCategoryFromSelectedCategories() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.selectedCategories = ["1"]
         sut.removeSelectedCategory(from: 0)
         XCTAssertEqual(sut.selectedCategories.count, 0)
@@ -116,7 +116,7 @@ class CategoryPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = categoryViewSpy
         
-        sut.deleteCategory(for: PresenterFakeData.category)
+        sut.deleteCategory(for: FakeData.category)
         XCTAssertFalse(categoryViewSpy.snapshotWasCalled)
         XCTAssertTrue(categoryViewSpy.showActivityWasCalled)
         XCTAssertTrue(categoryViewSpy.stopActivityWasCalled)
@@ -125,7 +125,7 @@ class CategoryPresenterTestCase: XCTestCase {
     func test_highLightCell_whenCategoryDoNotExist() {
         sut = successTestPresenter
         sut.view = categoryViewSpy
-        sut.categories = PresenterFakeData.categories
+        sut.categories = FakeData.categories
         sut.selectedCategories = ["34"]
         sut.highlightBookCategories(for: 0)
         XCTAssertFalse(categoryViewSpy.highLightCellWasCalled)

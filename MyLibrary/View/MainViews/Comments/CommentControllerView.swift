@@ -88,7 +88,7 @@ extension CommentControllerView {
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             emptyStateView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: 50)
+            emptyStateView.centerYAnchor.constraint(equalTo:centerYAnchor, constant: 100)
         ])
     }
 }

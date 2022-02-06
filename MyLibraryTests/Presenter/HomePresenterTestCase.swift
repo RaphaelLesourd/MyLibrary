@@ -88,8 +88,8 @@ class HomePresenterTestCase: XCTestCase {
     func test_makeUserCellUI_fromUserModelDTO_whenUserIsCurrentUser() {
         sut = successTestPresenter
         sut.view = homeViewSpy
-        sut.currentUserID = "1111"
-        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        sut.currentUserID = "1"
+        let userCellUI = sut.makeUserCellUI(with: FakeData.user)
         XCTAssertTrue(userCellUI.currentUser)
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
         XCTAssertEqual(userCellUI.userName, "Testname")
@@ -99,11 +99,33 @@ class HomePresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = homeViewSpy
         sut.currentUserID = "0000"
-        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        let userCellUI = sut.makeUserCellUI(with: FakeData.user)
         XCTAssertFalse(userCellUI.currentUser)
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
         XCTAssertEqual(userCellUI.userName, "Testname")
     }
+
+    func test_displayItem_whenSelectedItemIsCategory() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: FakeData.category)
+        XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
+    }
+
+    func test_displayItem_whenSelectedItemisBookItem() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: FakeData.book)
+        XCTAssertTrue(homeViewSpy.presentBookCardControllerWasCalled)
+    }
+
+    func test_displayItem_whenSelectedItemIsUser() {
+        sut = successTestPresenter
+        sut.view = homeViewSpy
+        sut.displayItem(for: FakeData.user)
+        XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
+    }
+
     // MARK: - Fail
     func test_whenRetreivecategoriesAndErrorOccurs_thenReturnNoUser() {
         // Given
@@ -163,10 +185,21 @@ class HomePresenterTestCase: XCTestCase {
 }
 
 class HomeViewSpy: HomePresenterView {
+
     var snapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
-    
+    var presentBookLibraycontrollerWasCalled = false
+    var presentBookCardControllerWasCalled = false
+
+    func presentBookLibraryController(for query: BookQuery?, title: String?) {
+        presentBookLibraycontrollerWasCalled = true
+    }
+
+    func presentBookCardController(with book: ItemDTO) {
+        presentBookCardControllerWasCalled = true
+    }
+
     func applySnapshot(animatingDifferences: Bool) {
         snapshotWasCalled = true
     }

@@ -35,6 +35,11 @@ class ViewControllerFactoryTestCase: XCTestCase {
         let controller = sut.makeCategoryVC(isSelecting: true, bookCategories: [], newBookDelegate: nil)
         XCTAssertTrue(controller is CategoriesViewController)
     }
+
+    func test_makeCategoryVC_withDefaultValues() {
+        let controller = sut.makeCategoryVC()
+        XCTAssertTrue(controller is CategoriesViewController)
+    }
     
     func test_makeNewCategoryVC() {
         let controller = sut.makeNewCategoryVC()
@@ -56,9 +61,14 @@ class ViewControllerFactoryTestCase: XCTestCase {
         let controller = sut.makeNewBookVC(with: nil, isEditing: true, bookCardDelegate: nil)
         XCTAssertTrue(controller is NewBookViewController)
     }
-    
+
+    func test_makeNewBookVC_withDefaultValues() {
+        let controller = sut.makeNewBookVC()
+        XCTAssertTrue(controller is NewBookViewController)
+    }
+
     func test_makeBookCardVC() {
-        let controller = sut.makeBookCardVC(book: PresenterFakeData.book)
+        let controller = sut.makeBookCardVC(book: FakeData.book)
         XCTAssertTrue(controller is BookCardViewController)
     }
     

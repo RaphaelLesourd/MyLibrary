@@ -116,9 +116,8 @@ class CommentPresenter {
     /// Convert a CommentModel object tp CommentCellRepresentable used to by the cell to display data.
     /// - Parameters:
     /// - comment: CommentModel object of the comment to convert
-    ///
-    ///  CommentModelDTO  - CommentModelUI
-    func makeCommentCellRepresentable(with comment: CommentDTO) -> CommentUI {
+    /// - returns: CommentUI object
+    func makeCommentCellUI(with comment: CommentDTO) -> CommentUI {
         let isCurrentUser = comment.userID == Auth.auth().currentUser?.uid
         let date = formatter.formatTimeStampToRelativeDate(for: comment.timestamp)
         return CommentUI(message: comment.message,
@@ -142,10 +141,9 @@ class CommentPresenter {
             if case .success(let owner) = result {
                 name = owner?.displayName
             }
-            if let data = self?.makeCommentBookCellUI(with: book, and: name) {
-                self?.bookCellRepresentable = [data]
-                self?.view?.applySnapshot(animatingDifferences: true)
-            }
+            guard let data = self?.makeCommentBookCellUI(with: book, and: name) else { return }
+            self?.bookCellRepresentable = [data]
+            self?.view?.applySnapshot(animatingDifferences: true)
         }
     }
     

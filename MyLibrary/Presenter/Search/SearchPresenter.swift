@@ -41,9 +41,14 @@ class SearchPresenter: BookCellMapper {
     }
     
     func refreshSearchList() {
+        clearData()
+        getBooks(with: currentSearchKeywords, fromIndex: 0)
+    }
+
+    func clearData() {
         searchList.removeAll()
         noMoreBooksFound = false
-        getBooks(with: currentSearchKeywords, fromIndex: 0)
+        view?.applySnapshot(animatingDifferences: false)
     }
     
     // MARK: - Private functions

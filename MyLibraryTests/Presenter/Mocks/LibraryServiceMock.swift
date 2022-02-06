@@ -17,29 +17,29 @@ class LibraryServiceMock: LibraryServiceProtocol {
     }
     
     func createBook(with book: ItemDTO, and imageData: Data, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func getBook(for bookID: String, ownerID: String, completion: @escaping (Result<ItemDTO, FirebaseError>) -> Void) {
-        successTest ? completion(.success(PresenterFakeData.book)) : completion(.failure(.firebaseError(PresenterError.fail)))
+        successTest ? completion(.success(FakeData.book)) : completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
     }
     
     func getBookList(for query: BookQuery, limit: Int, forMore: Bool,
                      completion: @escaping (Result<[ItemDTO], FirebaseError>) -> Void) {
         if successTest {
-            completion(.success(PresenterFakeData.books))
+            completion(.success(FakeData.books))
         } else {
             completion(.success([]))
-            completion(.failure(.firebaseError(PresenterError.fail)))
+            completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
         }
     }
     
     func deleteBook(book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func setStatus(to state: Bool, field: DocumentKey, for id: String?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func removeBookListener() {}

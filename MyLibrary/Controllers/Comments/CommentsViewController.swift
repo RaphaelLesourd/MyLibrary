@@ -169,7 +169,7 @@ extension CommentsViewController {
                                                                    for: indexPath) as? CommentTableViewCell else {
                         return UITableViewCell()
                     }
-                    if let data = self?.presenter.makeCommentCellRepresentable(with: item) {
+                    if let data = self?.presenter.makeCommentCellUI(with: item) {
                         cell.configure(with: data)
                     }
                     return cell

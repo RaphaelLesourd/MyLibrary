@@ -12,7 +12,6 @@ class LibraryServiceTestCase: XCTestCase {
     // MARK: - Properties
     private var sut: LibraryService!
     private var userService: UserService!
-    private var book: ItemDTO!
     private let imageData = Data()
     
     // MARK: - Lifecycle
@@ -20,7 +19,6 @@ class LibraryServiceTestCase: XCTestCase {
         super.setUp()
         sut = LibraryService()
         userService = UserService()
-        book = createBookDocumentData()
         Networkconnectivity.shared.status = .satisfied
         createUserInDatabase()
         createBookInDataBase()
@@ -33,12 +31,11 @@ class LibraryServiceTestCase: XCTestCase {
     }
     
     private func createUserInDatabase() {
-        let newUser = createUserData()
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        userService.createUserInDatabase(for: newUser, completion: { error in
+        userService.createUserInDatabase(for: FakeData.user, completion: { error in
             XCTAssertNil(error)
-            self.userService.userID = newUser.userID
-            self.sut.userID = newUser.userID
+            self.userService.userID = FakeData.user.userID
+            self.sut.userID = FakeData.user.userID
             exp.fulfill()
         })
         wait(for: [exp], timeout: 1.0)
@@ -46,7 +43,7 @@ class LibraryServiceTestCase: XCTestCase {
     
     private func createBookInDataBase() {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        self.sut.createBook(with: self.book, and: self.imageData, completion: { error in
+        self.sut.createBook(with: FakeData.book, and: self.imageData, completion: { error in
             XCTAssertNil(error)
             expectation.fulfill()
         })
@@ -54,23 +51,15 @@ class LibraryServiceTestCase: XCTestCase {
     }
     
     // MARK: - Success
-    func test_givenNewBook_whenAdding_thenAddedToDataBase() {
-        let expectation = XCTestExpectation(description: "Waiting for async operation")
-        self.sut.createBook(with: self.book, and: self.imageData, completion: { error in
-            XCTAssertNil(error)
-            expectation.fulfill()
-        })
-        wait(for: [expectation], timeout: 1.0)
-    }
-    
     func test_givenNewBook_whenRetriving_thenDisplayDetails() {
+        createBookInDataBase()
         let expectation = XCTestExpectation(description: "Waiting for async operation")
             self.sut.getBook(for: "11111111", ownerID: "user1", completion: { result in
                 switch result {
                 case .success(let book):
-                    XCTAssertEqual(book.volumeInfo?.title, self.book.volumeInfo?.title)
-                    XCTAssertEqual(book.volumeInfo?.authors?.first, self.book.volumeInfo?.authors?.first)
-                    XCTAssertEqual(book.volumeInfo?.language, self.book.volumeInfo?.language)
+                    XCTAssertEqual(book.volumeInfo?.title, FakeData.book.volumeInfo?.title)
+                    XCTAssertEqual(book.volumeInfo?.authors?.first, FakeData.book.volumeInfo?.authors?.first)
+                    XCTAssertEqual(book.volumeInfo?.language, FakeData.book.volumeInfo?.language)
                 case .failure(let error):
                     XCTAssertNil(error)
                 }
@@ -96,7 +85,7 @@ class LibraryServiceTestCase: XCTestCase {
     
     func test_givenBookStored_whenDeleting_thenBookNotThere() {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-            self.sut.deleteBook(book: self.book, completion: { error in
+            self.sut.deleteBook(book: FakeData.book, completion: { error in
                 XCTAssertNil(error)
                 expectation.fulfill()
             })
@@ -106,7 +95,7 @@ class LibraryServiceTestCase: XCTestCase {
     func test_givenStoredBook_whenAddingOrRemovingFavoriteList() {
         let expectation = XCTestExpectation(description: "Waiting for async operation")
     
-            self.sut.setStatus(to: true, field: .favorite, for: self.book.bookID, completion:  { error in
+            self.sut.setStatus(to: true, field: .favorite, for: FakeData.book.bookID, completion:  { error in
                 XCTAssertNil(error)
                 self.sut.getBook(for: "11111111", ownerID: "user1", completion: { result in
                     switch result {
@@ -124,7 +113,7 @@ class LibraryServiceTestCase: XCTestCase {
     
     // MARK: - Failure
     func test_givenBookID_whenRetrivingNonExisting_thenError() {
-        guard let ownerID = book.ownerID else { return }
+        guard let ownerID = FakeData.book.ownerID else { return }
         let expectation = XCTestExpectation(description: "Waiting for async operation")
         
         self.sut.getBook(for: "aaaaaa", ownerID: ownerID, completion: { result in
@@ -188,7 +177,7 @@ class LibraryServiceTestCase: XCTestCase {
     func test_givenBook_whenCreatingWithNoNetwork_thenNetWorkError() {
         Networkconnectivity.shared.status = .unsatisfied
         let expectation = XCTestExpectation(description: "Waiting for async operation")
-        self.sut.createBook(with: self.book, and: self.imageData, completion: { error in
+        self.sut.createBook(with: FakeData.book, and: self.imageData, completion: { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
             expectation.fulfill()

@@ -7,13 +7,19 @@
 
 import UIKit
 
+protocol ListMainViewDelegate: AnyObject {
+    func refreshPulled()
+}
+
 class ListMainView: UIView {
 
+    weak var delegate: ListMainViewDelegate?
     // MARK: - Initialiser
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setTableViewConstraints()
         setEmptyStateViewConstraints()
+        addRefresherControlAction()
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +56,12 @@ class ListMainView: UIView {
         searchController.searchBar.placeholder = Text.Placeholder.search
         searchController.automaticallyShowsSearchResultsController = false
         searchController.hidesNavigationBarDuringPresentation = false
+    }
+
+    private func addRefresherControlAction() {
+        refresherControl.addAction(UIAction(handler: { [weak self] _ in
+            self?.delegate?.refreshPulled()
+        }), for: .valueChanged)
     }
 }
 

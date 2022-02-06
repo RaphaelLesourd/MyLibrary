@@ -13,12 +13,12 @@ import Network
 class Networkconnectivity {
     
     static let shared = Networkconnectivity()
-    
-    private let networkMonitor = NWPathMonitor()
+
     var status: NWPath.Status = .requiresConnection
     var isReachable: Bool {
         status == .satisfied
     }
+    private let networkMonitor = NWPathMonitor()
     
     func startMonitoring() {
         networkMonitor.pathUpdateHandler = { [weak self] path in

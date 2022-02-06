@@ -50,5 +50,4 @@ extension UIImage {
     func jpegData(_ jpegQuality: JPEGQuality) -> Data? {
         return jpegData(compressionQuality: jpegQuality.rawValue)
     }
-    
 }

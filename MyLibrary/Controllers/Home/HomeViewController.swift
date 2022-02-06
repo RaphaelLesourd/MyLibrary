@@ -88,9 +88,15 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Navigation
-    private func presentBookLibraryController(for query: BookQuery?, title: String? = nil) {
+    func presentBookLibraryController(for query: BookQuery?, title: String? = nil) {
         let bookListVC = factory.makeBookLibraryVC(with: query, title: title)
         navigationController?.show(bookListVC, sender: nil)
+    }
+
+    func presentBookCardController(with book: ItemDTO) {
+        let bookCardVC = factory.makeBookCardVC(book: book)
+        bookCardVC.hidesBottomBarWhenPushed = true
+        showController(bookCardVC)
     }
     
     private func presentCategoryController() {
@@ -101,12 +107,6 @@ class HomeViewController: UIViewController {
     @objc private func presentAccountController() {
         let accountVC = factory.makeAccountTabVC()
         showController(accountVC)
-    }
-    
-    private func presentBookCardController(with book: ItemDTO) {
-        let bookCardVC = factory.makeBookCardVC(book: book)
-        bookCardVC.hidesBottomBarWhenPushed = true
-        showController(bookCardVC)
     }
 }
 
@@ -189,13 +189,10 @@ extension HomeViewController {
                 $0.displayName.lowercased() < $1.displayName.lowercased()
             }),toSection: .users)
         }
-        if !presenter.recommandedBooks.isEmpty {
-            snapshot.appendSections([.recommanding])
-            snapshot.appendItems(presenter.recommandedBooks, toSection: .recommanding)
-        }
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        }
+        snapshot.appendSections([.recommanding])
+        snapshot.appendItems(presenter.recommandedBooks, toSection: .recommanding)
+
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - CollectionView Delegate
@@ -203,24 +200,7 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else { return }
-        
-        if let category = selectedItem as? CategoryDTO {
-            let categoryQuery = BookQuery(listType: .categories,
-                                          orderedBy: .category,
-                                          fieldValue: category.uid,
-                                          descending: true)
-            presentBookLibraryController(for: categoryQuery, title: category.name)
-        }
-        if let book = selectedItem as? ItemDTO {
-            presentBookCardController(with: book)
-        }
-        if let followedUser = selectedItem as? UserModelDTO {
-            let query = BookQuery(listType: .users,
-                                  orderedBy: .ownerID,
-                                  fieldValue: followedUser.userID,
-                                  descending: true)
-            presentBookLibraryController(for: query, title: followedUser.displayName)
-        }
+        presenter.displayItem(for: selectedItem)
     }
 }
 // MARK: - BookListView Delegate

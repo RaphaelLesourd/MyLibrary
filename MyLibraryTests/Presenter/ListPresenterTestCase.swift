@@ -60,7 +60,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = languageTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.saveSelection(from: PresenterFakeData.listData)
+        sut.saveSelection(from: FakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setLanguageWasCalled)
     }
     
@@ -68,7 +68,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.saveSelection(from: PresenterFakeData.listData)
+        sut.saveSelection(from: FakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.setCurrencyWasCalled)
     }
     
@@ -99,7 +99,7 @@ class ListPresenterTestCase: XCTestCase {
         sut = currencyTestPresenter
         sut.view = listPresenterViewSpy
         sut.getData()
-        sut.addToFavorite(with: PresenterFakeData.listData)
+        sut.addToFavorite(with: FakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.reloadTableViewRowWasCalled)
     }
     
@@ -109,7 +109,7 @@ class ListPresenterTestCase: XCTestCase {
         sut.getData()
         print(sut.data[0])
         sut.favorites = ["XUA"]
-        sut.removeFavorite(with: PresenterFakeData.listData)
+        sut.removeFavorite(with: FakeData.listData)
         XCTAssertTrue(listPresenterViewSpy.reloadTableViewRowWasCalled)
     }
 }
