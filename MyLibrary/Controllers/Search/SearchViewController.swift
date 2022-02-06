@@ -13,8 +13,8 @@ class SearchViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<SingleSection, ItemDTO>
     
     weak var newBookDelegate: NewBookViewControllerDelegate?
+
     private(set) var presenter: SearchPresenter
-    
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutMaker
     private var headerView = HeaderSupplementaryView()
@@ -136,6 +136,7 @@ extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let searchBook = dataSource.itemIdentifier(for: indexPath) else { return }
         newBookDelegate?.setBookData(with: searchBook)
+        presenter.clearData()
     }
 }
 // MARK: BookList view delegate

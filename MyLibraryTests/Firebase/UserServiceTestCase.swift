@@ -9,15 +9,13 @@
 import XCTest
 
 class UserServiceTestCase: XCTestCase {
-    // MARK: - Propserties
+
     private var sut: UserService!
 
-    // MARK: - Lifecycle
     override func setUp() {
         super.setUp()
         Networkconnectivity.shared.status = .satisfied
         sut = UserService()
-        createUserInDatabase()
     }
     
     override func tearDown() {
@@ -36,31 +34,31 @@ class UserServiceTestCase: XCTestCase {
         })
         wait(for: [exp], timeout: 1.0)
     }
+
     // MARK: - Successful
     func test_givenUserStored_whenRetreivingUser_thenShowData() {
-        let newUser = createUserData()
         // when
         let exp = XCTestExpectation(description: "Waiting for async operation")
-       
-        self.sut.retrieveUser(for: sut.userID, completion: { result in
-                switch result {
-                case .success(let user):
-                    // then
-                    XCTAssertNotNil(user)
-                    XCTAssertEqual(user?.email, newUser.email)
-                    XCTAssertEqual(user?.id, newUser.id)
-                    XCTAssertEqual(user?.displayName, newUser.displayName)
-                case .failure(let error):
-                    XCTAssertNil(error)
-                }
-                exp.fulfill()
-            })
+        createUserInDatabase()
+        sut.retrieveUser(for: sut.userID, completion: { result in
+            switch result {
+            case .success(let user):
+                // then
+                XCTAssertNotNil(user)
+                XCTAssertEqual(user?.email, "testuser@test.com")
+                XCTAssertEqual(user?.displayName, "testuser")
+            case .failure(let error):
+                XCTAssertNil(error)
+            }
+            exp.fulfill()
+        })
         wait(for: [exp], timeout: 1.0)
     }
     
     func test_givenUserStored_whenUpdatingName_thenDisplayNewName() {
         // Given
         let exp = XCTestExpectation(description: "Waiting for async operation")
+        createUserInDatabase()
         self.sut.updateUserName(with: "updatedName", completion: { error in
             XCTAssertNil(error)
             // Then
@@ -81,30 +79,32 @@ class UserServiceTestCase: XCTestCase {
     func test_givenUserStored_whenDeleting_thenNoError() {
         // Given
         let exp = XCTestExpectation(description: "Waiting for async operation")
-            self.sut.deleteUser(completion: { error in
-                //then
-                XCTAssertNil(error)
-                exp.fulfill()
-            })
+        createUserInDatabase()
+        self.sut.deleteUser(completion: { error in
+            //then
+            XCTAssertNil(error)
+            exp.fulfill()
+        })
         wait(for: [exp], timeout: 1.0)
     }
     
     // MARK: - Errors
     func test_givenNoUser_whenRetrivingNonExistingUser_thenReturnError() {
         let exp = XCTestExpectation(description: "Waiting for async operation")
-            self.sut?.userID = "12"
-            // when
+        createUserInDatabase()
+        self.sut?.userID = "12"
+        // when
         self.sut?.retrieveUser(for: sut.userID, completion: { result in
-                switch result {
-                case .success(let user):
-                    XCTAssertNil(user)
-                case .failure(let error):
-                    // Then
-                    XCTAssertNotNil(error)
-                    XCTAssertEqual(error.description, FirebaseError.noUserName.description)
-                }
-                exp.fulfill()
-            })
+            switch result {
+            case .success(let user):
+                XCTAssertNil(user)
+            case .failure(let error):
+                // Then
+                XCTAssertNotNil(error)
+                XCTAssertEqual(error.description, FirebaseError.nothingFound.description)
+            }
+        })
+        exp.fulfill()
         wait(for: [exp], timeout: 1.0)
     }
     

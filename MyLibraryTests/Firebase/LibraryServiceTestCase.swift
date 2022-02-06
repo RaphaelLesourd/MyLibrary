@@ -20,7 +20,6 @@ class LibraryServiceTestCase: XCTestCase {
         super.setUp()
         sut = LibraryService()
         userService = UserService()
-        book = createBookDocumentData()
         Networkconnectivity.shared.status = .satisfied
         createUserInDatabase()
         createBookInDataBase()
@@ -45,6 +44,7 @@ class LibraryServiceTestCase: XCTestCase {
     }
     
     private func createBookInDataBase() {
+        book = createBookDocumentData()
         let expectation = XCTestExpectation(description: "Waiting for async operation")
         self.sut.createBook(with: self.book, and: self.imageData, completion: { error in
             XCTAssertNil(error)
@@ -64,6 +64,7 @@ class LibraryServiceTestCase: XCTestCase {
     }
     
     func test_givenNewBook_whenRetriving_thenDisplayDetails() {
+        createBookInDataBase()
         let expectation = XCTestExpectation(description: "Waiting for async operation")
             self.sut.getBook(for: "11111111", ownerID: "user1", completion: { result in
                 switch result {

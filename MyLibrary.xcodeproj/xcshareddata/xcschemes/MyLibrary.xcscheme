@@ -68,9 +68,6 @@
                   Identifier = "LibraryServiceTestCase">
                </Test>
                <Test
-                  Identifier = "RecommandServiceTestCase">
-               </Test>
-               <Test
                   Identifier = "UserServiceTestCase">
                </Test>
             </SkippedTests>

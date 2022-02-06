@@ -8,7 +8,7 @@
 import XCTest
 @testable import MyLibrary
 
-class NewCategoryTestCase: XCTestCase {
+class NewCategoryPresenterTestCase: XCTestCase {
     
     private var sut: NewCategoryPresenter!
     private var newCategoryPresenterViewSpy: NewCategoryPresenterViewSpy!
