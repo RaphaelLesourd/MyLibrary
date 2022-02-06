@@ -88,7 +88,7 @@ class HomePresenterTestCase: XCTestCase {
     func test_makeUserCellUI_fromUserModelDTO_whenUserIsCurrentUser() {
         sut = successTestPresenter
         sut.view = homeViewSpy
-        sut.currentUserID = "1111"
+        sut.currentUserID = "1"
         let userCellUI = sut.makeUserCellUI(with: FakeData.user)
         XCTAssertTrue(userCellUI.currentUser)
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")

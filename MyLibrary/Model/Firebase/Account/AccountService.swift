@@ -48,7 +48,8 @@ extension AccountService: AccountServiceProtocol {
             completion(.noNetwork)
             return
         }
-        guard let userCredentials = userCredentials, passwordMatch(with: userCredentials) == true else {
+        guard let userCredentials = userCredentials,
+              passwordMatch(with: userCredentials) == true else {
             completion(.passwordMismatch)
             return
         }

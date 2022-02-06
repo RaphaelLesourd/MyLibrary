@@ -11,8 +11,8 @@ class FakeData {
   // MARK Message
     static let correctMessageToPost = MessageModel(title: "Title",
                                                    body: "Body",
-                                                   bookID: "123456",
-                                                   ownerID: "11111",
+                                                   bookID: "1",
+                                                   ownerID: "1",
                                                    imageURL: "",
                                                    token: "AAAABBBCCCCDDDD")
 
@@ -44,9 +44,9 @@ class FakeData {
     private static let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: 0.0, currencyCode: ""))
 
     static let books: [ItemDTO] = [ItemDTO(id: "testID",
-                                           bookID: "",
+                                           bookID: "1",
                                            favorite: true,
-                                           ownerID: "",
+                                           ownerID: "1",
                                            recommanding: true,
                                            volumeInfo: FakeData.volumeInfo,
                                            saleInfo: FakeData.saleInfo,
@@ -152,6 +152,11 @@ class FakeData {
                                                  email: "test@test.com",
                                                  password: "Test21@",
                                                  confirmPassword: "Test21@")
+
+    static let accountCredentialsPassWordMismatch = AccountCredentials(userName: "testuser",
+                                                  email: "test@test.com",
+                                                  password: "Test21@",
+                                                  confirmPassword: "Test")
 
     // MARK: Errors
 

@@ -58,9 +58,9 @@ class AccountServiceTestCase: XCTestCase {
     }
     
     // MARK: - Failure
-    func test_givenMismatchedPasswordUserCrediential_whenCreatingAccount_thenReturnError() {
+    func test_givenMismatchedPasswordUserCredential_whenCreatingAccount_thenReturnError() {
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createAccount(for: FakeData.accountCredentials) { error in
+        sut.createAccount(for: FakeData.accountCredentialsPassWordMismatch) { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.passwordMismatch.description)
             exp.fulfill()

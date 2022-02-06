@@ -44,8 +44,8 @@ class UserServiceTestCase: XCTestCase {
             case .success(let user):
                 // then
                 XCTAssertNotNil(user)
-                XCTAssertEqual(user?.email, "testuser@test.com")
-                XCTAssertEqual(user?.displayName, "testuser")
+                XCTAssertEqual(user?.email, "TestEmail")
+                XCTAssertEqual(user?.displayName, "TestName")
             case .failure(let error):
                 XCTAssertNil(error)
             }

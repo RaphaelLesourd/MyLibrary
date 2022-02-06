@@ -37,7 +37,7 @@ class MessageServiceTestCase: XCTestCase {
     }
 
     private func createUserInDatabase() {
-        let exp = XCTestExpectation(description: "Waiting for async operation")
+       let exp = XCTestExpectation(description: "Waiting for async operation")
         userService.createUserInDatabase(for: FakeData.user, completion: { error in
             XCTAssertNil(error)
             exp.fulfill()
