@@ -129,6 +129,7 @@ class SetupAccountPresenter {
     private func makeAccountCredentials() -> AccountCredentials {
         return AccountCredentials(userName: mainView?.userNameTextField.text,
                                   email: mainView?.emailTextField.text ?? "",
-                                  password: mainView?.passwordTextField.text ?? "")
+                                  password: mainView?.passwordTextField.text ?? "",
+                                  confirmPassword: mainView?.confirmPasswordTextField.text ?? "")
     }
 }
