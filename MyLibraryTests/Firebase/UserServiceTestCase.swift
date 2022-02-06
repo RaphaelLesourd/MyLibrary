@@ -25,11 +25,10 @@ class UserServiceTestCase: XCTestCase {
     }
 
     private func createUserInDatabase() {
-        let newUser = createUserData()
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createUserInDatabase(for: newUser, completion: { error in
+        sut.createUserInDatabase(for: FakeData.user, completion: { error in
             XCTAssertNil(error)
-            self.sut.userID = newUser.userID
+            self.sut.userID = FakeData.user.userID
             exp.fulfill()
         })
         wait(for: [exp], timeout: 1.0)

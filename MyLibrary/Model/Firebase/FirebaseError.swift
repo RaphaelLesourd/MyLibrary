@@ -16,6 +16,7 @@ enum FirebaseError: Error {
     case categoryExist
     case noBookTitle
     case noComment
+    case unableToSendMessage
     case noNetwork
     case noText
     case nothingFound
@@ -46,6 +47,8 @@ enum FirebaseError: Error {
             return Text.Banner.notFound
         case .noComment:
             return Text.Banner.emptyComment
+        case .unableToSendMessage:
+            return "There was an error sending your message."
         }
     }
     

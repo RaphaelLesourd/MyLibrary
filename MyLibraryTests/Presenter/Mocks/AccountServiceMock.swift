@@ -17,22 +17,22 @@ class AccountServiceMock: AccountServiceProtocol {
     }
     
     func createAccount(for userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func deleteAccount(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func login(with userCredentials: AccountCredentials?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func signOut(completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func sendPasswordReset(for email: String, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
 }

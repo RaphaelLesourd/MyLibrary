@@ -12,11 +12,7 @@ class AccountServiceTestCase: XCTestCase {
     
     // MARK: - Properties
     private var sut: AccountService!
-    private let credentials = AccountCredentials(userName: "testuser",
-                                                 email: "test@test.com",
-                                                 password: "Test21@",
-                                                 confirmPassword: "Test21@")
-    
+
     override func setUpWithError() throws {
         Networkconnectivity.shared.status = .satisfied
         sut = AccountService(userService: UserService(),
@@ -32,8 +28,8 @@ class AccountServiceTestCase: XCTestCase {
     // MARK: - Success
     func test_givenCreatedAccountEmailAdress_whenRequestingPasswordReset_thenReturnNoError() {
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createAccount(for: credentials) { _ in
-            self.sut.sendPasswordReset(for: self.credentials.email) { error in
+        sut.createAccount(for: FakeData.accountCredentials) { _ in
+            self.sut.sendPasswordReset(for: FakeData.accountCredentials.email) { error in
                 XCTAssertNil(error)
                 exp.fulfill()
             }
@@ -43,7 +39,7 @@ class AccountServiceTestCase: XCTestCase {
     
     func test_givenUserCrediential_whenDeletingAccount_thenReturnNoError() {
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.deleteAccount(with: credentials) { error in
+        sut.deleteAccount(with: FakeData.accountCredentials) { error in
             XCTAssertNil(error)
             exp.fulfill()
         }
@@ -52,8 +48,8 @@ class AccountServiceTestCase: XCTestCase {
     
     func test_givenCreatedAccount_whenlogin_thenReturnNoError() {
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createAccount(for: credentials) { _ in
-            self.sut.login(with: self.credentials, completion: { error in
+        sut.createAccount(for: FakeData.accountCredentials) { _ in
+            self.sut.login(with: FakeData.accountCredentials, completion: { error in
                 XCTAssertNil(error)
                 exp.fulfill()
             })
@@ -63,12 +59,8 @@ class AccountServiceTestCase: XCTestCase {
     
     // MARK: - Failure
     func test_givenMismatchedPasswordUserCrediential_whenCreatingAccount_thenReturnError() {
-        let credentials = AccountCredentials(userName: "testuser",
-                                             email: "test@test.com",
-                                             password: "Test21@",
-                                             confirmPassword: "Test21")
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createAccount(for: credentials) { error in
+        sut.createAccount(for: FakeData.accountCredentials) { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.passwordMismatch.description)
             exp.fulfill()
@@ -79,7 +71,7 @@ class AccountServiceTestCase: XCTestCase {
     func test_givenNoNetworkConnection_whenCreatingAccount_thenReturnError() {
         Networkconnectivity.shared.status = .unsatisfied
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.createAccount(for: credentials) { error in
+        sut.createAccount(for: FakeData.accountCredentials) { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
             exp.fulfill()
@@ -90,7 +82,7 @@ class AccountServiceTestCase: XCTestCase {
     func test_givenNoNetworkConnection_whenDeletingAccount_thenReturnError() {
         Networkconnectivity.shared.status = .unsatisfied
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.deleteAccount(with: credentials) { error in
+        sut.deleteAccount(with: FakeData.accountCredentials) { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
             exp.fulfill()
@@ -101,7 +93,7 @@ class AccountServiceTestCase: XCTestCase {
     func test_givenNoNetworkConnection_whenRequestingPasswordReset_thenReturnError() {
         Networkconnectivity.shared.status = .unsatisfied
         let exp = XCTestExpectation(description: "Waiting for async operation")
-        sut.sendPasswordReset(for: credentials.email) { error in
+        sut.sendPasswordReset(for: FakeData.accountCredentials.email) { error in
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.description, FirebaseError.noNetwork.description)
             exp.fulfill()

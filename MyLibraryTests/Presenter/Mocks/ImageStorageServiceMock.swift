@@ -18,11 +18,11 @@ class ImageServiceMock: ImageStorageProtocol {
     
     func saveImage(for imageData: Data?, nameID: String
                    , completion: @escaping (Result<String, FirebaseError>) -> Void) {
-        successTest ? completion(.success("")) : completion(.failure(.firebaseError(PresenterError.fail)))
+        successTest ? completion(.success("")) : completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
     }
     
     func updateUserImage(for imageData: Data?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func deleteImageFromStorage(for id: String, completion: @escaping (FirebaseError?) -> Void) {

@@ -28,7 +28,7 @@ class NewCategoryPresenterTestCase: XCTestCase {
     func test_displayCategory() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.category = PresenterFakeData.category
+        sut.category = FakeData.category
         sut.displayCategory()
         XCTAssertTrue(newCategoryPresenterViewSpy.updateCategoryWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.updateBackgroundTintWasCalled)
@@ -55,7 +55,7 @@ class NewCategoryPresenterTestCase: XCTestCase {
     func test_updatingCategory_successfully() {
         sut = successTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.category = PresenterFakeData.category
+        sut.category = FakeData.category
         sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
@@ -94,7 +94,7 @@ class NewCategoryPresenterTestCase: XCTestCase {
     func test_savingCategory_failed() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.category = PresenterFakeData.category
+        sut.category = FakeData.category
         sut.saveCategory(with: "test")
         XCTAssertTrue(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertTrue(newCategoryPresenterViewSpy.stopActivityWasCalled)
@@ -104,7 +104,7 @@ class NewCategoryPresenterTestCase: XCTestCase {
     func test_savingCategory_withNoCategoryName() {
         sut = failTestPresenter
         sut.view = newCategoryPresenterViewSpy
-        sut.category = PresenterFakeData.category
+        sut.category = FakeData.category
         sut.saveCategory(with: nil)
         XCTAssertFalse(newCategoryPresenterViewSpy.showActivityWasCalled)
         XCTAssertFalse(newCategoryPresenterViewSpy.stopActivityWasCalled)

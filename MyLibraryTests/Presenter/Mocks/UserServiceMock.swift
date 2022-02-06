@@ -17,20 +17,20 @@ class UserServiceMock: UserServiceProtocol {
     }
     
     func createUserInDatabase(for user: UserModelDTO?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func retrieveUser(for userID: String?, completion: @escaping (Result<UserModelDTO?, FirebaseError>) -> Void) {
         if successTest {
-            completion(.success(PresenterFakeData.user))
+            completion(.success(FakeData.user))
         } else {
             completion(.success(nil))
-            completion(.failure(.firebaseError(PresenterError.fail)))
+            completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
         }
     }
     
     func updateUserName(with username: String?, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func deleteUser(completion: @escaping (FirebaseError?) -> Void) {}

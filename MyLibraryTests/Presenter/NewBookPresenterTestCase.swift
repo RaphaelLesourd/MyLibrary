@@ -34,7 +34,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = false
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.clearDataWasCalled)
@@ -44,7 +44,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = true
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.returnToPreviousControllerWasCalled)
@@ -53,7 +53,7 @@ class NewBookPresenterTestCase: XCTestCase {
     func test_whenSettingBookData_forDisplay() {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.displayBook()
         XCTAssertTrue(newBookPresenterViewSpy.displayBookWasCalled)
         XCTAssertTrue(newBookPresenterViewSpy.updateLanguageViewWasCalled)
@@ -77,7 +77,7 @@ class NewBookPresenterTestCase: XCTestCase {
     func test_displayBook_withCategoriesAvailable() {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.displayBook()
         XCTAssert(newBookPresenterViewSpy.displayBookWasCalled)
     }
@@ -85,7 +85,7 @@ class NewBookPresenterTestCase: XCTestCase {
     func test_displayBook_withNilCategories() {
         sut = successTestPresenter
         sut.view = newBookPresenterViewSpy
-        sut.book = PresenterFakeData.bookCategoriesNil
+        sut.book = FakeData.bookCategoriesNil
         sut.displayBook()
         XCTAssert(newBookPresenterViewSpy.displayBookWasCalled)
     }
@@ -94,7 +94,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = false
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
@@ -104,7 +104,7 @@ class NewBookPresenterTestCase: XCTestCase {
         sut = failedTestPresenter
         sut.view = newBookPresenterViewSpy
         sut.isEditing = true
-        sut.book = PresenterFakeData.book
+        sut.book = FakeData.book
         sut.saveBook(with: Data())
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)

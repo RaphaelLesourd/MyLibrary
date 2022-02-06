@@ -17,14 +17,14 @@ class RecommendationServiceMock: RecommendationServiceProtocol {
     }
    
     func addToRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func removeFromRecommandation(for book: ItemDTO, completion: @escaping (FirebaseError?) -> Void) {
-        successTest ? completion(nil) : completion(.firebaseError(PresenterError.fail))
+        successTest ? completion(nil) : completion(.firebaseError(FakeData.PresenterError.fail))
     }
     
     func getRecommendingUsers(completion: @escaping (Result<[UserModelDTO], FirebaseError>) -> Void) {
-        successTest ? completion(.success(PresenterFakeData.users)) : completion(.failure(.firebaseError(PresenterError.fail)))
+        successTest ? completion(.success(FakeData.users)) : completion(.failure(.firebaseError(FakeData.PresenterError.fail)))
     }
 }

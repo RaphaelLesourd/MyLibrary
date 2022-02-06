@@ -89,7 +89,7 @@ class HomePresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = homeViewSpy
         sut.currentUserID = "1111"
-        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        let userCellUI = sut.makeUserCellUI(with: FakeData.user)
         XCTAssertTrue(userCellUI.currentUser)
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
         XCTAssertEqual(userCellUI.userName, "Testname")
@@ -99,7 +99,7 @@ class HomePresenterTestCase: XCTestCase {
         sut = successTestPresenter
         sut.view = homeViewSpy
         sut.currentUserID = "0000"
-        let userCellUI = sut.makeUserCellUI(with: PresenterFakeData.user)
+        let userCellUI = sut.makeUserCellUI(with: FakeData.user)
         XCTAssertFalse(userCellUI.currentUser)
         XCTAssertEqual(userCellUI.profileImage, "PhotoURL")
         XCTAssertEqual(userCellUI.userName, "Testname")
@@ -108,21 +108,21 @@ class HomePresenterTestCase: XCTestCase {
     func test_displayItem_whenSelectedItemIsCategory() {
         sut = successTestPresenter
         sut.view = homeViewSpy
-        sut.displayItem(for: PresenterFakeData.category)
+        sut.displayItem(for: FakeData.category)
         XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
     }
 
     func test_displayItem_whenSelectedItemisBookItem() {
         sut = successTestPresenter
         sut.view = homeViewSpy
-        sut.displayItem(for: PresenterFakeData.book)
+        sut.displayItem(for: FakeData.book)
         XCTAssertTrue(homeViewSpy.presentBookCardControllerWasCalled)
     }
 
     func test_displayItem_whenSelectedItemIsUser() {
         sut = successTestPresenter
         sut.view = homeViewSpy
-        sut.displayItem(for: PresenterFakeData.user)
+        sut.displayItem(for: FakeData.user)
         XCTAssertTrue(homeViewSpy.presentBookLibraycontrollerWasCalled)
     }
 

@@ -68,7 +68,7 @@ class ViewControllerFactoryTestCase: XCTestCase {
     }
 
     func test_makeBookCardVC() {
-        let controller = sut.makeBookCardVC(book: PresenterFakeData.book)
+        let controller = sut.makeBookCardVC(book: FakeData.book)
         XCTAssertTrue(controller is BookCardViewController)
     }
     

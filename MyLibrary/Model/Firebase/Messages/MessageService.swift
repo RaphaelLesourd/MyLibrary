@@ -45,7 +45,7 @@ class MessageService {
     
     private func getUserMessageTokens(from comments: [CommentDTO],
                                       for bookOwnerID: String,
-                                      completion: @escaping (Result<[String], FirebaseError>) -> Void) {
+                                      completion: @escaping (Result<[String]?, FirebaseError>) -> Void) {
         let userIds = makeUserIdList(from: comments)
 
         userIds.forEach { ids in
@@ -56,17 +56,14 @@ class MessageService {
                     completion(.failure(.firebaseError(error)))
                     return
                 }
-                let data = querySnapshot?.documents.compactMap { documents -> UserModelDTO? in
-                    do {
-                        return try documents.data(as: UserModelDTO.self)
-                    } catch {
-                        completion(.failure(.firebaseError(error)))
-                        return nil
+                let data = querySnapshot?.documents
+                    .compactMap { documents -> UserModelDTO? in
+                        do {
+                            return try? documents.data(as: UserModelDTO.self)
+                        } 
                     }
-                }
-                guard let data = data else { return }
-                let tokens = data.compactMap { $0.token}
-                completion(.success(tokens))
+                    .compactMap { $0.token }
+                completion(.success(data))
             }
         }
     }
@@ -113,13 +110,19 @@ extension MessageService: MessageServiceProtocol {
                                      completion: @escaping (FirebaseError?) -> Void) {
         // Capture the book owner ID to be added to the list of userIDs
         // Allows to send comments to the book owner.
-        if let ownerID = book.ownerID {
-            bookOwnerID = ownerID
+        guard let ownerID = book.ownerID else {
+            completion(.unableToSendMessage)
+            return
         }
+        bookOwnerID = ownerID
 
-        getUserMessageTokens(from: comments, for: book.ownerID ?? "") { [weak self] result in
+        getUserMessageTokens(from: comments, for: ownerID) { [weak self] result in
             switch result {
             case .success(let tokens):
+                guard let tokens = tokens else {
+                    completion(.unableToSendMessage)
+                    return
+                }
                 self?.postMessage(to: tokens, with: message, about: book)
                 completion(nil)
             case .failure(let error):

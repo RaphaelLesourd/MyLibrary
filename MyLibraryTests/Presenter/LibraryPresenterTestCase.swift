@@ -25,7 +25,7 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookList_withBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
+        sut.getBooks(with: FakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -35,7 +35,7 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookListByCategory_withBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQueryByCategory, nextPage: true)
+        sut.getBooks(with: FakeData.bookQueryByCategory, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -45,7 +45,7 @@ class LibraryPresenterTestCase: XCTestCase {
     func test_getBookList_noBooksReturned() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: false))
         sut.view = libraryViewSpy
-        sut.getBooks(with: PresenterFakeData.bookQuery, nextPage: true)
+        sut.getBooks(with: FakeData.bookQuery, nextPage: true)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -64,9 +64,9 @@ class LibraryPresenterTestCase: XCTestCase {
     
     func test_makingBookCellRepresentable() {
         sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
-        let representable = sut.makeBookCellUI(for: PresenterFakeData.book)
-        XCTAssertEqual(representable.title, PresenterFakeData.book.volumeInfo?.title?.capitalized)
-        XCTAssertEqual(representable.image, PresenterFakeData.book.volumeInfo?.imageLinks?.thumbnail)
+        let representable = sut.makeBookCellUI(for: FakeData.book)
+        XCTAssertEqual(representable.title, FakeData.book.volumeInfo?.title?.capitalized)
+        XCTAssertEqual(representable.image, FakeData.book.volumeInfo?.imageLinks?.thumbnail)
     }
 }
 
