@@ -57,7 +57,7 @@ enum Images {
         static let done = UIImage(systemName: "hand.tap.fill")!
         static let chat = UIImage(systemName: "bubble.left.and.bubble.right.fill")!
         static let search = UIImage(systemName: "magnifyingglass")!
-        static let rightArrow = UIImage(systemName: "arrow.up.right.circle.fill")!
+        static let rightArrow = UIImage(systemName: "arrow.right.circle.fill")!
         static let language = UIImage(systemName: "mouth.fill")!
         static let currencies = UIImage(systemName: "eurosign.circle.fill")!
         static let quote = UIImage(systemName: "quote.bubble.fill")!
