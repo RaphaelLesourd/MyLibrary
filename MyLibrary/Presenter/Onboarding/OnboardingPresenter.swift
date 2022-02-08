@@ -25,17 +25,17 @@ class OnboardingPresenter {
             view?.scrollCollectionView(to: indexPath)
         } else {
             saveOnboardingSeen()
-            view?.presentWelcomeVC()
         }
     }
 
-    // MARK: - Private functions
     /// Save in Userdefault if the onboarding has been seen or skipped
-    private func saveOnboardingSeen() {
+    func saveOnboardingSeen() {
         collectionViewCurrentIndex = 0
         UserDefaults.standard.set(true, forKey: UserDefaultKey.onboardingSeen.rawValue)
+        view?.presentWelcomeVC()
     }
 
+    // MARK: - Private functions
     private func updatePageNumber(with index: Int) {
         let lastPage = index == Onboarding.pages.count - 1
         view?.setLastPageReached(when: lastPage)

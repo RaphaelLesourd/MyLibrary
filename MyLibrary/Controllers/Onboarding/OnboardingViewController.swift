@@ -79,7 +79,7 @@ extension OnboardingViewController: UICollectionViewDelegate {
 // MARK: - OnboardingView Delegate
 extension OnboardingViewController: OnboardingMainViewDelegate {
     func skip() {
-        presentWelcomeVC()
+        presenter.saveOnboardingSeen()
     }
     
     func next() {

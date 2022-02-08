@@ -125,26 +125,7 @@ class SearchBooksTestCase: XCTestCase {
         }
         wait(for: [expectation], timeout: 1.0)
     }
-    
-    func test_givenNilQuery_whenRequestingBookList_thenDataError() {
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        MockURLProtocol.requestHandler = { [self] request in
-            let response = HTTPURLResponse(url: self.url, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            return (response, FakeData.bookCorrectData)
-        }
-        
-        sut.getBooks(for: nil, fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
-            switch result {
-            case .success(let books):
-                XCTAssertNil(books)
-            case .failure(let error):
-                XCTAssertEqual(error.description, ApiError.emptyQuery.description)
-            }
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-    }
-    
+
     func test_givenKeyWords_whenRequestingBookListWithRequestNoValid_thenReturnError() {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         MockURLProtocol.requestHandler = { [self] request in
@@ -265,6 +246,24 @@ class SearchBooksTestCase: XCTestCase {
                 XCTAssertNil(books)
             case .failure(let error):
                 XCTAssertEqual(error.description, ApiError.httpError(503).description)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 1.0)
+    }
+
+    func test_givenKeyWords_whenRequestingBookList_thenReturnUnknownError() {
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        MockURLProtocol.requestHandler = { [self] request in
+            let response = HTTPURLResponse(url: url, statusCode: 402, httpVersion: nil, headerFields: nil)!
+            return (response, FakeData.bookCorrectData)
+        }
+        sut.getBooks(for: "tintin", fromIndex: 0) { (result: Result <[ItemDTO], ApiError>) in
+            switch result {
+            case .success(let books):
+                XCTAssertNil(books)
+            case .failure(let error):
+                XCTAssertEqual(error.description, ApiError.httpError(402).description)
                 expectation.fulfill()
             }
         }
