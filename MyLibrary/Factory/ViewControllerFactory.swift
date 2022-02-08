@@ -159,8 +159,7 @@ extension ViewControllerFactory: Factory {
     func makeListVC(for dataType: ListDataType,
                     selectedData: String?,
                     newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
-        let presenter = ListPresenter(listDataType: dataType,
-                                      formatter: formatter)
+        let presenter = ListPresenter(listDataType: dataType, formatter: formatter)
         return ListTableViewController(receivedData: selectedData,
                                        newBookDelegate: newBookDelegate,
                                        presenter: presenter)

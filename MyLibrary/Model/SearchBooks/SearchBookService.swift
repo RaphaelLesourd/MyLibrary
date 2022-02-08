@@ -6,5 +6,5 @@
 //
 
 protocol SearchBookService {
-    func getBooks(for query: String?, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void)
+    func getBooks(for query: String, fromIndex: Int, completion: @escaping (Result<[ItemDTO], ApiError>) -> Void)
 }

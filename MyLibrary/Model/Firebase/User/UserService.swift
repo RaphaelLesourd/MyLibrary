@@ -72,13 +72,15 @@ extension UserService: UserServiceProtocol {
         usersCollectionRef.document(userID).updateData([DocumentKey.displayName.rawValue : username]) { [weak self] error in
             if let error = error {
                 completion(.firebaseError(error))
+                return
             }
             self?.updateAuthDisplayName(with: username) { error in
                 if let error = error {
                     completion(.firebaseError(error))
+                    return
                 }
+                completion(nil)
             }
-            completion(nil)
         }
     }
 

@@ -37,10 +37,10 @@ extension GoogleBooksService: SearchBookService {
     ///   - query: String of the words being searched
     ///   - fromIndex: Int index of where the data should be fetched.
     ///   - completion: Return an array of Item of an errorogf type ApiError in case of failure
-    func getBooks(for query: String?,
+    func getBooks(for query: String,
                   fromIndex: Int,
                   completion: @escaping (Result<[ItemDTO], ApiError>) -> Void) {
-        guard let query = query, !query.isEmpty else {
+        guard !query.isEmpty else {
             completion(.failure(.emptyQuery))
             return
         }
