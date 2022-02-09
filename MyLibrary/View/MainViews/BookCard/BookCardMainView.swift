@@ -137,9 +137,9 @@ class BookCardMainView: UIView {
     }
 
     func showControlButtons(_ isShowing: Bool) {
-        deleteBookButton.isHidden = isShowing
-        recommandButton.isHidden = isShowing
-        favoriteButton.isHidden = isShowing
+        deleteBookButton.isHidden = !isShowing
+        recommandButton.isHidden = !isShowing
+        favoriteButton.isHidden = !isShowing
     }
 
     private func setupView() {
