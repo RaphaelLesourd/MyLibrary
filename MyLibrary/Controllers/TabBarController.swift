@@ -56,10 +56,6 @@ class TabBarController: UITabBarController {
                                  title: Text.ControllerTitle.home,
                                  image: Images.TabBarIcon.homeIcon)
 
-        let libraryTab = makeTab(for: factory.makeBookLibraryVC(),
-                                    title: Text.ControllerTitle.myBooks,
-                                    image: Images.TabBarIcon.booksIcon)
-        
         let newBookTab = makeTab(for: factory.makeNewBookVC(),
                                     title: Text.ControllerTitle.newBook,
                                     image: Images.TabBarIcon.newBookIcon)
@@ -67,11 +63,7 @@ class TabBarController: UITabBarController {
         let accountTab = makeTab(for: factory.makeAccountTabVC(),
                                     title: Text.ControllerTitle.account,
                                     image: Images.TabBarIcon.accountIcon)
-        setViewControllers([homeTab,
-                            libraryTab,
-                            newBookTab,
-                            accountTab],
-                           animated: true)
+        setViewControllers([homeTab, newBookTab, accountTab], animated: true)
     }
     /// Make tab with an icon image and a title.
     /// - Parameters:
