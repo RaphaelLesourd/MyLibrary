@@ -27,17 +27,14 @@ class LibraryPresenter: BookCellMapper {
             
             switch result {
             case .success(let books):
-                guard !books.isEmpty else {
-                    self?.endOfList = true
-                    self?.view?.applySnapshot(animatingDifferences: true)
-                    return
-                }
+                self?.endOfList = books.isEmpty
                 self?.bookList.append(contentsOf: books)
                 self?.view?.applySnapshot(animatingDifferences: true)
                 self?.setHeaderTitle(for: query)
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+            self?.libraryService.removeBookListener()
         }
     }
 

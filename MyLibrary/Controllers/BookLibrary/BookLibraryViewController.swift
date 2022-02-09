@@ -174,11 +174,11 @@ extension BookLibraryViewController {
     }
     
     func applySnapshot(animatingDifferences: Bool) {
-            mainView.collectionView.isHidden = presenter.bookList.isEmpty
-            mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
-            var snapshot = Snapshot()
-            snapshot.appendSections([.main])
-            snapshot.appendItems(presenter.bookList, toSection: .main)
+        mainView.collectionView.isHidden = presenter.bookList.isEmpty
+        mainView.emptyStateView.isHidden = !presenter.bookList.isEmpty
+        var snapshot = Snapshot()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(presenter.bookList, toSection: .main)
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
         }
@@ -211,7 +211,7 @@ extension BookLibraryViewController: EmptyStateViewDelegate {
     func didTapButton() {
         guard let splitController = splitViewController, !splitController.isCollapsed else {
             if let controller = tabBarController as? TabBarController {
-                controller.selectedIndex = 2
+                controller.selectedIndex = 1
             }
             return
         }
