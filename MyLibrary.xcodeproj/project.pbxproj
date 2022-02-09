@@ -277,7 +277,6 @@
 		81FA72662774813500040BEF /* FormatterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA72652774813500040BEF /* FormatterProtocol.swift */; };
 		81FA72692774817E00040BEF /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA72682774817E00040BEF /* Validation.swift */; };
 		81FA726E277482B700040BEF /* ActionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA726D277482B700040BEF /* ActionTypes.swift */; };
-		81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA7270277482EE00040BEF /* BookSearchType.swift */; };
 		81FA72752774831E00040BEF /* AccountInterfaceTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA72742774831E00040BEF /* AccountInterfaceTypes.swift */; };
 		81FA72772774835700040BEF /* SingleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA72762774835700040BEF /* SingleSection.swift */; };
 		81FA72792774837100040BEF /* CommentsSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81FA72782774837100040BEF /* CommentsSections.swift */; };
@@ -575,7 +574,6 @@
 		81FA72652774813500040BEF /* FormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatterProtocol.swift; sourceTree = "<group>"; };
 		81FA72682774817E00040BEF /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		81FA726D277482B700040BEF /* ActionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionTypes.swift; sourceTree = "<group>"; };
-		81FA7270277482EE00040BEF /* BookSearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchType.swift; sourceTree = "<group>"; };
 		81FA72742774831E00040BEF /* AccountInterfaceTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInterfaceTypes.swift; sourceTree = "<group>"; };
 		81FA72762774835700040BEF /* SingleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSection.swift; sourceTree = "<group>"; };
 		81FA72782774837100040BEF /* CommentsSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsSections.swift; sourceTree = "<group>"; };
@@ -1041,7 +1039,6 @@
 			children = (
 				81FA72742774831E00040BEF /* AccountInterfaceTypes.swift */,
 				81FA726D277482B700040BEF /* ActionTypes.swift */,
-				81FA7270277482EE00040BEF /* BookSearchType.swift */,
 				819C5DC82724811300F1F8F2 /* ListDataType.swift */,
 			);
 			path = Types;
@@ -2188,7 +2185,6 @@
 				8157F55D278201D3005F182A /* IpadSplitViewController.swift in Sources */,
 				81A750A42790123400CAC424 /* OnboardingLayoutMaker.swift in Sources */,
 				81FA727C2774848800040BEF /* FeedbackManager.swift in Sources */,
-				81FA7271277482EE00040BEF /* BookSearchType.swift in Sources */,
 				811D5BBD2744E60C00C935B5 /* CategoryDTO.swift in Sources */,
 				81FA72692774817E00040BEF /* Validation.swift in Sources */,
 				81792F5F27326BF9005F863B /* ProfileStaticCell.swift in Sources */,
