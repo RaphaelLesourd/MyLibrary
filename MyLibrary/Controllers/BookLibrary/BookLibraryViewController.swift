@@ -57,9 +57,7 @@ class BookLibraryViewController: UIViewController {
         configureNavigationBarButton()
         configureEmptyStateView()
         bookListMenu?.getSavedLayout()
-        presenter.bookList.removeAll()
-        applySnapshot(animatingDifferences: false)
-        presenter.getBooks(with: currentQuery, nextPage: false)
+        presenter.refreshBookList(with: currentQuery)
     }
 
     // MARK: - Setup
@@ -200,9 +198,7 @@ extension BookLibraryViewController: BookListMenuDelegate {
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
     func refreshBookList() {
-        presenter.bookList.removeAll()
-        presenter.endOfList = false
-        presenter.getBooks(with: currentQuery, nextPage: false)
+        presenter.refreshBookList(with: currentQuery)
     }
 }
 
