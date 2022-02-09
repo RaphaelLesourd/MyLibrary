@@ -113,6 +113,7 @@ extension NotificationManager: PushNotifications {
     func registerNotifications() {
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
+        updateToken()
         
         let options: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(options: options) { success, _ in
@@ -122,6 +123,5 @@ extension NotificationManager: PushNotifications {
                 }
             }
         }
-        updateToken()
     }
 }
