@@ -82,6 +82,7 @@ class HomePresenter: BookCellMapper {
                           profileImage: user.photoURL,
                           currentUser: currentUser)
     }
+    
     // MARK: - Private functions
     /// Fetch books for the current query
     /// - Parameters:
@@ -99,6 +100,7 @@ class HomePresenter: BookCellMapper {
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
+            self?.libraryService.removeBookListener()
         }
     }
 

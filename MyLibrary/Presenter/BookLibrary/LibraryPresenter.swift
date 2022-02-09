@@ -23,13 +23,14 @@ class LibraryPresenter: BookCellMapper {
     }
 
     func loadMoreBooks(currentIndex: Int, lastRow: Int) {
-        if lastRow == currentIndex && endOfList == false && bookList.count >= dataFetchLimit {
+        if lastRow == currentIndex && endOfList == false {
             getBooks(nextPage: true)
         }
     }
 
     func fetchBookList() {
         bookList.removeAll()
+        view?.applySnapshot(animatingDifferences: false)
         endOfList = false
         getBooks(nextPage: false)
     }
@@ -52,7 +53,7 @@ class LibraryPresenter: BookCellMapper {
             switch result {
             case .success(let books):
                 self?.endOfList = books.isEmpty
-                self?.bookList.append(contentsOf: books)
+                nextPage == false ?  self?.bookList = books : self?.bookList.append(contentsOf: books)
                 self?.view?.applySnapshot(animatingDifferences: true)
                 self?.setHeaderTitle()
             case .failure(let error):
