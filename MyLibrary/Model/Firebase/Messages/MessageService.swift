@@ -75,7 +75,6 @@ class MessageService {
     private func postMessage(to tokens: [String],
                              with message: String,
                              about book: ItemDTO) {
-        dump(tokens)
         tokens.forEach { token in
             let message = makeMessage(with: token, and: message, about: book)
             postNotificationService.sendPushNotification(with: message) { error in

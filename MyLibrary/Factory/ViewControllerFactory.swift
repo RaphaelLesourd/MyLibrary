@@ -40,7 +40,7 @@ class ViewControllerFactory {
 
     private lazy var categoryPresenter = CategoryPresenter(categoryService: categoryService)
 
-    private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService)
+    private lazy var libraryPresenter = LibraryPresenter(libraryService: libraryService, queryService: queryService)
 
     private lazy var accountTabPresenter = AccountTabPresenter(userService: userService,
                                                                imageService: imageStorageService,
@@ -113,7 +113,6 @@ extension ViewControllerFactory: Factory {
     func makeBookLibraryVC(with query: BookQuery?, title: String?) -> UIViewController {
         return BookLibraryViewController(currentQuery: query,
                                          title: title,
-                                         queryService: queryService,
                                          presenter: libraryPresenter,
                                          layoutComposer: bookListLayout,
                                          factory: self)

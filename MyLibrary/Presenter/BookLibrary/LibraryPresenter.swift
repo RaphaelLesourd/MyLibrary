@@ -9,28 +9,52 @@ class LibraryPresenter: BookCellMapper {
 
     weak var view: LibraryPresenterView?
     var endOfList: Bool = false
-    var bookList: [ItemDTO] = [] 
-    private let libraryService: LibraryServiceProtocol
+    var bookList: [ItemDTO] = []
+    var currentQuery: BookQuery?
 
-    init(libraryService: LibraryServiceProtocol) {
+    private let libraryService: LibraryServiceProtocol
+    private let queryService: QueryProtocol
+    private let dataFetchLimit = 40
+    
+    init(libraryService: LibraryServiceProtocol,
+         queryService: QueryProtocol) {
         self.libraryService = libraryService
+        self.queryService = queryService
     }
-   
-    func getBooks(with query: BookQuery?, nextPage: Bool = false) {
-        guard let query = query else { return }
+
+    func loadMoreBooks(currentIndex: Int, lastRow: Int) {
+        if lastRow == currentIndex && endOfList == false && bookList.count >= dataFetchLimit {
+            getBooks(nextPage: true)
+        }
+    }
+
+    func fetchBookList() {
+        bookList.removeAll()
+        endOfList = false
+        getBooks(nextPage: false)
+    }
+
+    func updateQuery(by listType: QueryType) {
+        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
+        fetchBookList()
+    }
+
+    // MARK: Private functions
+    private func getBooks(nextPage: Bool = false) {
+        guard let currentQuery = currentQuery else { return }
         view?.startActivityIndicator()
 
-        libraryService.getBookList(for: query,
-                                      limit: 40,
+        libraryService.getBookList(for: currentQuery,
+                                      limit: dataFetchLimit,
                                       forMore: nextPage) { [weak self] result in
             self?.view?.stopActivityIndicator()
-            
+
             switch result {
             case .success(let books):
                 self?.endOfList = books.isEmpty
                 self?.bookList.append(contentsOf: books)
                 self?.view?.applySnapshot(animatingDifferences: true)
-                self?.setHeaderTitle(for: query)
+                self?.setHeaderTitle()
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
@@ -38,14 +62,9 @@ class LibraryPresenter: BookCellMapper {
         }
     }
 
-    func refreshBookList(with currentQuery: BookQuery?) {
-        bookList.removeAll()
-        endOfList = false
-        getBooks(with: currentQuery, nextPage: false)
-    }
-
-    private func setHeaderTitle(for query: BookQuery) {
-        if let index = QueryType.allCases.firstIndex(where: { $0.documentKey == query.orderedBy }) {
+    private func setHeaderTitle() {
+        guard let currentQuery = currentQuery else { return }
+        if let index = QueryType.allCases.firstIndex(where: { $0.documentKey == currentQuery.orderedBy }) {
             let title = QueryType.allCases[index].title
             view?.updateSectionTitle(with: title)
         } else {

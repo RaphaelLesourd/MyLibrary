@@ -188,7 +188,7 @@ extension LibraryService: LibraryServiceProtocol {
                      completion: @escaping (Result<[ItemDTO], FirebaseError>) -> Void) {
         guard let docRef = makeQuery(query: query, next: forMore) else { return }
         
-       bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
+        bookListListener = docRef.limit(to: limit).addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
                 completion(.failure(.firebaseError(error)))
@@ -196,7 +196,7 @@ extension LibraryService: LibraryServiceProtocol {
             }
             // capture the last book fetch to use to download more book from that point.
             self.lastBookFetched = querySnapshot?.documents.last
-            
+
             let data = querySnapshot?.documents.compactMap { documents -> ItemDTO? in
                 do {
                     return try documents.data(as: ItemDTO.self)

@@ -15,11 +15,9 @@ class BookLibraryViewController: UIViewController {
     private lazy var dataSource = makeDataSource()
     private let mainView = BookListView()
     private let layoutComposer: BookListLayoutMaker
-    private let queryService: QueryProtocol
     private let presenter: LibraryPresenter
     private let factory: Factory
     private var bookListMenu: BookListMenu?
-    private var currentQuery: BookQuery?
     private var gridSize: GridSize = .medium {
         didSet {
             updateGridLayout()
@@ -28,13 +26,11 @@ class BookLibraryViewController: UIViewController {
 
     init(currentQuery: BookQuery?,
          title: String?,
-         queryService: QueryService,
          presenter: LibraryPresenter,
          layoutComposer: BookListLayoutMaker,
          factory: Factory) {
-        self.currentQuery = currentQuery
-        self.queryService = queryService
         self.presenter = presenter
+        self.presenter.currentQuery = currentQuery
         self.layoutComposer = layoutComposer
         self.factory = factory
         super.init(nibName: nil, bundle: nil)
@@ -57,7 +53,7 @@ class BookLibraryViewController: UIViewController {
         configureNavigationBarButton()
         configureEmptyStateView()
         bookListMenu?.getSavedLayout()
-        presenter.refreshBookList(with: currentQuery)
+        presenter.fetchBookList()
     }
 
     // MARK: - Setup
@@ -72,7 +68,7 @@ class BookLibraryViewController: UIViewController {
     
     private func configureNavigationBarButton() {
         var showFilterMenu = true
-        if currentQuery?.listType == .categories || currentQuery?.listType == .users {
+        if presenter.currentQuery?.listType == .categories || presenter.currentQuery?.listType == .users {
             showFilterMenu = false
         }
         let menuButton = UIBarButtonItem(image: Images.NavIcon.gridLayoutMenu,
@@ -93,7 +89,7 @@ class BookLibraryViewController: UIViewController {
         if let categoryTitle = title, !categoryTitle.isEmpty {
             return categoryTitle.capitalized
         }
-        if let query = currentQuery?.listType {
+        if let query = presenter.currentQuery?.listType {
             return query.title
         }
         return Text.ControllerTitle.myBooks
@@ -125,10 +121,8 @@ extension BookLibraryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
-        let currentRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
-        if indexPath.row == currentRow && presenter.endOfList == false {
-            presenter.getBooks(with: currentQuery, nextPage: true)
-        }
+        let lastRow = collectionView.numberOfItems(inSection: indexPath.section) - 1
+        presenter.loadMoreBooks(currentIndex: indexPath.row, lastRow: lastRow)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -177,18 +171,15 @@ extension BookLibraryViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(presenter.bookList, toSection: .main)
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        }
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - BookListLayout Delegate
 extension BookLibraryViewController: BookListMenuDelegate {
-    
+
     func orderList(by listType: QueryType) {
         updateSectionTitle(with: listType.title)
-        currentQuery = queryService.updateQuery(from: currentQuery, with: listType.documentKey)
-        refreshBookList()
+        presenter.updateQuery(by: listType)
     }
     
     func setLayoutFromMenu(for size: GridSize) {
@@ -197,8 +188,9 @@ extension BookLibraryViewController: BookListMenuDelegate {
 }
 // MARK: - BookListView Delegate
 extension BookLibraryViewController: BookListViewDelegate {
+
     func refreshBookList() {
-        presenter.refreshBookList(with: currentQuery)
+        presenter.fetchBookList()
     }
 }
 
