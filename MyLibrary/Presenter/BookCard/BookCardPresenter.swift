@@ -147,7 +147,7 @@ class BookCardPresenter {
     /// Call for the proper methods when the reommenBook button it tapped.
     /// - Parameters: Boolean value
     func recommendBook() {
-        recommended ? removeFromRecommendedBooks() : addToRecommendedBooks()
+        recommended ? addToRecommendedBooks() : removeFromRecommendedBooks()
         updateStatus(state: recommended, documentKey: .recommanding)
     }
 

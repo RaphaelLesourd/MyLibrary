@@ -23,9 +23,10 @@ class LibraryPresenterTestCase: XCTestCase {
     }
     
     func test_getBookList_withBooksReturned() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
         sut.view = libraryViewSpy
-        sut.getBooks(with: FakeData.bookQuery, nextPage: true)
+        sut.currentQuery =  FakeData.bookQuery
+        sut.fetchBookList()
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -33,9 +34,10 @@ class LibraryPresenterTestCase: XCTestCase {
     }
 
     func test_getBookListByCategory_withBooksReturned() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
         sut.view = libraryViewSpy
-        sut.getBooks(with: FakeData.bookQueryByCategory, nextPage: true)
+        sut.currentQuery = FakeData.bookQueryByCategory
+        sut.fetchBookList()
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -43,9 +45,10 @@ class LibraryPresenterTestCase: XCTestCase {
     }
 
     func test_getBookList_noBooksReturned() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: false))
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: false), queryService: QueryService())
         sut.view = libraryViewSpy
-        sut.getBooks(with: FakeData.bookQuery, nextPage: true)
+        sut.currentQuery = FakeData.bookQuery
+        sut.fetchBookList()
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
@@ -53,9 +56,10 @@ class LibraryPresenterTestCase: XCTestCase {
     }
 
     func test_getBookList_withNilQuery() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
         sut.view = libraryViewSpy
-        sut.getBooks(with: nil, nextPage: true)
+        sut.currentQuery = nil
+        sut.fetchBookList()
         XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
         XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
         XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
@@ -63,20 +67,68 @@ class LibraryPresenterTestCase: XCTestCase {
     }
     
     func test_makingBookCellUI() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
         let book = sut.makeBookCellUI(for: FakeData.book)
         XCTAssertEqual(book.title, FakeData.book.volumeInfo?.title?.capitalized)
         XCTAssertEqual(book.image, FakeData.book.volumeInfo?.imageLinks?.thumbnail)
     }
 
-    func test_refreshingData() {
-        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true))
+    func test_updatingQueryType() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
         sut.view = libraryViewSpy
-        sut.refreshBookList(with: FakeData.bookQuery)
+        sut.currentQuery = FakeData.bookQuery
+        sut.updateQuery(by: .title)
         XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
         XCTAssertTrue(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_loadingMoreBooks_allConitionsAreMet_returnTrue() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
+        sut.view = libraryViewSpy
+        sut.currentQuery = FakeData.bookQuery
+        sut.endOfList = false
+        sut.bookList = Array(repeating: FakeData.book, count: 40)
+        sut.loadMoreBooks(currentIndex: 40, lastRow: 40)
+        XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
+        XCTAssertTrue(libraryViewSpy.showActivityWasCalled)
+        XCTAssertTrue(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertTrue(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_loadingMoreBooks_whenWisibleRowEqualsCurrentIndex_andBookCountIsAtleastEqualToDatafetchlimit_returnFalse() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
+        sut.view = libraryViewSpy
+        sut.endOfList = false
+        sut.loadMoreBooks(currentIndex: 40, lastRow: 40)
+        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
+        XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_loadingMoreBooks_whenEndOfListIsTrue_returnFalse() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
+        sut.view = libraryViewSpy
+
+        sut.endOfList = true
+        sut.loadMoreBooks(currentIndex: 40, lastRow: 40)
+        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
+        XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)
+    }
+
+    func test_loadingMoreBooks_whenCurrentIndexIsNotLastRow_returnFalse() {
+        sut = LibraryPresenter(libraryService: LibraryServiceMock(successTest: true), queryService: QueryService())
+        sut.view = libraryViewSpy
+        sut.endOfList = false
+        sut.loadMoreBooks(currentIndex: 4, lastRow: 40)
+        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
+        XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
+        XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)
     }
 }
 
