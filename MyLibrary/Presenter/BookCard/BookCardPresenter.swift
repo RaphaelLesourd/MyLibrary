@@ -20,9 +20,9 @@ class BookCardPresenter {
         }
     }
     var isBookEditable: Bool {
-        let isConnected = Networkconnectivity.shared.isReachable == false
-        let isBookOwner = book?.ownerID != Auth.auth().currentUser?.uid
-        return isConnected || isBookOwner
+        let isConnected = Networkconnectivity.shared.isReachable == true
+        let isBookOwner = book?.ownerID == currentUserID
+        return (isConnected && isBookOwner == true)
     }
     var recommended = false {
         didSet {
@@ -34,7 +34,7 @@ class BookCardPresenter {
             view?.toggleFavoriteButton(as: favoriteBook)
         }
     }
-
+    var currentUserID = Auth.auth().currentUser?.uid
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     private let categoryService: CategoryServiceProtocol

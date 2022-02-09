@@ -90,6 +90,15 @@ class BookCardPresenterTestCase: XCTestCase {
         sut.fetchCategoryNames()
         XCTAssertTrue(bookCardPresenterViewSpy.displayCategoriesWasCalled)
     }
+
+    func test_isBookEditable_withConnection_andCurrentUserID_returnTrue() {
+         sut = successTestPresenter
+         sut.view = bookCardPresenterViewSpy
+         sut.book = FakeData.book
+         sut.currentUserID = "1"
+         Networkconnectivity.shared.status = .satisfied
+         XCTAssertTrue(sut.isBookEditable)
+     }
     
     // MARK: - Fail
     func test_DeletingBook_failed() {
@@ -187,6 +196,42 @@ class BookCardPresenterTestCase: XCTestCase {
         sut.fetchCategoryNames()
         XCTAssertFalse(bookCardPresenterViewSpy.displayCategoriesWasCalled)
     }
+
+
+    func test_isBookEditable_withNotcurrentUserID_returnFalse() {
+        sut = successTestPresenter
+        sut.view = bookCardPresenterViewSpy
+        sut.book = FakeData.book
+        sut.currentUserID = "12"
+        Networkconnectivity.shared.status = .satisfied
+        XCTAssertFalse(sut.isBookEditable)
+    }
+
+    func test_isBookEditable_withNotConnection_andCurrentUserID_returnFalse() {
+        sut = successTestPresenter
+        sut.view = bookCardPresenterViewSpy
+        sut.book = FakeData.book
+        sut.currentUserID = "1"
+        Networkconnectivity.shared.status = .unsatisfied
+        XCTAssertFalse(sut.isBookEditable)
+    }
+   func test_isBookEditable_withNotConnection_andNotCurrentUserID_returnFalse() {
+        sut = successTestPresenter
+        sut.view = bookCardPresenterViewSpy
+        sut.book = FakeData.book
+        sut.currentUserID = "12"
+        Networkconnectivity.shared.status = .unsatisfied
+        XCTAssertFalse(sut.isBookEditable)
+    }
+
+    func test_isBookEditable_withConnection_andNotCurrentUserID_returnFalse() {
+         sut = successTestPresenter
+         sut.view = bookCardPresenterViewSpy
+         sut.book = FakeData.book
+         sut.currentUserID = "12"
+         Networkconnectivity.shared.status = .satisfied
+         XCTAssertFalse(sut.isBookEditable)
+     }
 }
 
 class BookCardPresenterViewSpy: BookCardPresenterView {

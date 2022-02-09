@@ -67,7 +67,7 @@ class BookCardViewController: UIViewController {
                                          action: #selector(editBook))
         let itemsWithEditButton = [editButton, mainView.activityIndicatorButton]
         let indicatorOnly = [mainView.activityIndicatorButton]
-        navigationItem.rightBarButtonItems = presenter.isBookEditable ? indicatorOnly : itemsWithEditButton
+        navigationItem.rightBarButtonItems = presenter.isBookEditable ? itemsWithEditButton : indicatorOnly
     }
     
     // MARK: Navigation

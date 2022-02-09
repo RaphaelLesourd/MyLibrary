@@ -38,6 +38,12 @@ class LibraryPresenter: BookCellMapper {
         }
     }
 
+    func refreshBookList(with currentQuery: BookQuery?) {
+        bookList.removeAll()
+        endOfList = false
+        getBooks(with: currentQuery, nextPage: false)
+    }
+
     private func setHeaderTitle(for query: BookQuery) {
         if let index = QueryType.allCases.firstIndex(where: { $0.documentKey == query.orderedBy }) {
             let title = QueryType.allCases[index].title
