@@ -99,6 +99,16 @@ class NewBookPresenterTestCase: XCTestCase {
         XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
         XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
     }
+
+    func test_savingNewBook_withNilDta_failed() {
+        sut = failedTestPresenter
+        sut.view = newBookPresenterViewSpy
+        sut.isEditing = false
+        sut.book = FakeData.bookNilBookData
+        sut.saveBook(with: Data())
+        XCTAssertTrue(newBookPresenterViewSpy.showSaveButtonIndicatorWasCalled)
+        XCTAssertFalse(newBookPresenterViewSpy.clearDataWasCalled)
+    }
     
     func test_editingNewBook_failed() {
         sut = failedTestPresenter
