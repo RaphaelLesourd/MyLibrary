@@ -49,11 +49,10 @@ class LibraryPresenter: BookCellMapper {
                                       limit: dataFetchLimit,
                                       forMore: nextPage) { [weak self] result in
             self?.view?.stopActivityIndicator()
-
             switch result {
             case .success(let books):
                 self?.endOfList = books.isEmpty
-                nextPage == false ?  self?.bookList = books : self?.bookList.append(contentsOf: books)
+                nextPage ? self?.bookList.append(contentsOf: books) : (self?.bookList = books)
                 self?.view?.applySnapshot(animatingDifferences: true)
                 self?.setHeaderTitle()
             case .failure(let error):

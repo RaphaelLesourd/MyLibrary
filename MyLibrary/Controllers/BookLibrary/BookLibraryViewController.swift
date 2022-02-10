@@ -171,9 +171,7 @@ extension BookLibraryViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(presenter.bookList, toSection: .main)
-        DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
-        }
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }
 // MARK: - BookListLayout Delegate

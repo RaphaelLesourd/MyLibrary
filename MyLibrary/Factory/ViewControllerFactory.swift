@@ -161,6 +161,7 @@ extension ViewControllerFactory: Factory {
                     selectedData: String?,
                     newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         let presenter = ListPresenter(listDataType: dataType, formatter: formatter)
+
         return ListTableViewController(receivedData: selectedData,
                                        newBookDelegate: newBookDelegate,
                                        presenter: presenter)
