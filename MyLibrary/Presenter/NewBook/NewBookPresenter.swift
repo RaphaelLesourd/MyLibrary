@@ -104,9 +104,9 @@ class NewBookPresenter {
         let saleInfo = SaleInfo(retailPrice: SaleInfoListPrice(amount: price,
                                                                currencyCode: currency ?? ""))
         return ItemDTO(bookID: book?.bookID,
-                       favorite: book?.favorite,
+                       favorite: book?.favorite ?? false,
                        ownerID: book?.ownerID,
-                       recommanding: book?.recommanding,
+                       recommanding: book?.recommanding ?? false,
                        volumeInfo: volumeInfo,
                        saleInfo: saleInfo,
                        timestamp: validator.validateTimestamp(for: book?.timestamp),
