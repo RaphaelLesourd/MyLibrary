@@ -7,5 +7,4 @@
 
 protocol SearchPresenterView: AcitivityIndicatorProtocol, AnyObject {
     func applySnapshot(animatingDifferences: Bool)
-    func displayBookFromBarCodeSearch(with book: ItemDTO?)
 }

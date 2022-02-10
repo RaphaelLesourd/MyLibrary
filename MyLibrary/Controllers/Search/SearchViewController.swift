@@ -149,10 +149,6 @@ extension SearchViewController: BookListViewDelegate {
 // MARK: Search presenter delegate
 extension SearchViewController: SearchPresenterView {
 
-    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
-        newBookDelegate?.setBookData(with: book)
-    }
-    
     func startActivityIndicator() {
         footerView.displayActivityIndicator(true)
     }

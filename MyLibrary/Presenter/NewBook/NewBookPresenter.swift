@@ -59,8 +59,8 @@ class NewBookPresenter {
         setBookLanguage(with: book?.volumeInfo?.language)
         setBookCurrency(with: book?.saleInfo?.retailPrice?.currencyCode)
         
-        let bookRepresentable = createNewBookUI()
-        view?.displayBook(with: bookRepresentable)
+        let bookUI = createNewBookUI()
+        view?.displayBook(with: bookUI)
     }
     
     /// Convert and set book language name from code .

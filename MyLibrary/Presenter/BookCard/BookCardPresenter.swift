@@ -24,17 +24,19 @@ class BookCardPresenter {
         let isBookOwner = book?.ownerID == currentUserID
         return (isConnected && isBookOwner == true)
     }
-    var recommended = false {
+    var recommended = true {
         didSet {
+            print(recommended)
             view?.toggleRecommendButton(as: recommended)
         }
     }
-    var favoriteBook = false {
+    var favoriteBook = true {
         didSet {
             view?.toggleFavoriteButton(as: favoriteBook)
         }
     }
     var currentUserID = Auth.auth().currentUser?.uid
+
     private let libraryService: LibraryServiceProtocol
     private let recommendationService: RecommendationServiceProtocol
     private let categoryService: CategoryServiceProtocol
@@ -53,27 +55,14 @@ class BookCardPresenter {
         self.categoryFormatter = categoryFormatter
     }
 
-    // MARK: - Internal functions
-    func deleteBook() {
-        guard let book = book else { return }
-        view?.startActivityIndicator()
-        libraryService.deleteBook(book: book) { [weak self] error in
-            self?.view?.stopActivityIndicator()
-            if let error = error {
-                return AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
-            }
-            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.bookDeleted)
-            self?.view?.dismissController()
-        }
-    }
-    
+    // MARK: - Public functions
     /// Fetch the current book from the database.
     /// Typically used to update the current book changes.
     func fetchBookUpdate() {
         guard let bookID = book?.bookID,
               let ownerID = book?.ownerID else { return }
         view?.startActivityIndicator()
-        
+
         libraryService.getBook(for: bookID, ownerID: ownerID) { [weak self] result in
             self?.view?.stopActivityIndicator()
             switch result {
@@ -89,9 +78,23 @@ class BookCardPresenter {
     func fetchCategoryNames() {
         guard let categoryIds = book?.category,
               let bookOwnerID = book?.ownerID else { return }
+
         categoryService.getBookCategories(for: categoryIds, bookOwnerID: bookOwnerID) { [weak self] categories in
             let categories = categories.sorted { $0.name.lowercased() < $1.name.lowercased() }
             self?.formatCategoryList(with: categories)
+        }
+    }
+
+    func deleteBook() {
+        guard let book = book else { return }
+        view?.startActivityIndicator()
+        libraryService.deleteBook(book: book) { [weak self] error in
+            self?.view?.stopActivityIndicator()
+            if let error = error {
+                return AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
+            }
+            AlertManager.presentAlertBanner(as: .success, subtitle: Text.Banner.bookDeleted)
+            self?.view?.dismissController()
         }
     }
     
@@ -102,38 +105,13 @@ class BookCardPresenter {
         let string = categoryFormatter.formattedString(for: categories)
         view?.displayCategories(with: string)
     }
-   
-    /// Convert a book from Item entity to BookCard representable
-    /// - Parameters: Item object of the current book.
-    func mapToBookUI() {
-        guard let book = book else { return}
 
-        let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
-        let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
-        let currency = book.saleInfo?.retailPrice?.currencyCode
-        let value = book.saleInfo?.retailPrice?.amount
-        let price = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
-        
-        let data = BookCardUI(title: book.volumeInfo?.title?.capitalized,
-                            authors: book.volumeInfo?.authors?.joined(separator: ", "),
-                            rating: book.volumeInfo?.ratingsCount,
-                            description: book.volumeInfo?.volumeInfoDescription,
-                            isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier,
-                            language: language,
-                            publisher: book.volumeInfo?.publisher?.capitalized,
-                            publishedDate: publishedDate,
-                            pages: book.volumeInfo?.pageCount,
-                            price: price,
-                            image: book.volumeInfo?.imageLinks?.thumbnail)
-        view?.displayBook(with: data)
-    }
-    
     /// Update status for either Favorite or Recommended book.
     /// - Parameters
     /// - state: Boolean value to represent state of the status
     /// - documentKey: DocumentKey type for the status to update, tpyically .favorite or .recommended
-     func updateStatus(state: Bool, documentKey: DocumentKey) {
-         guard let bookID = book?.bookID else { return }
+    func updateStatus(state: Bool, documentKey: DocumentKey) {
+        guard let bookID = book?.bookID else { return }
         view?.startActivityIndicator()
         
         libraryService.setStatus(to: state, field: documentKey, for: bookID) { [weak self] error in
@@ -143,7 +121,7 @@ class BookCardPresenter {
             }
         }
     }
-  
+
     /// Call for the proper methods when the reommenBook button it tapped.
     /// - Parameters: Boolean value
     func recommendBook() {
@@ -185,7 +163,33 @@ class BookCardPresenter {
 
     private func setBookRecommandStatus() {
         if let recommand = book?.recommanding {
+            print(recommand)
             recommended = recommand
         }
+    }
+
+    /// Convert a book from Item entity to BookCard representable
+    /// - Parameters: Item object of the current book.
+  private func mapToBookUI() {
+        guard let book = book else { return}
+
+        let language = formatter.formatCodeToName(from: book.volumeInfo?.language, type: .languages).capitalized
+        let publishedDate = formatter.formatDateToYearString(for: book.volumeInfo?.publishedDate)
+        let currency = book.saleInfo?.retailPrice?.currencyCode
+        let value = book.saleInfo?.retailPrice?.amount
+        let price = formatter.formatDoubleToPrice(with: value, currencyCode: currency)
+
+        let data = BookCardUI(title: book.volumeInfo?.title?.capitalized,
+                              authors: book.volumeInfo?.authors?.joined(separator: ", "),
+                              rating: book.volumeInfo?.ratingsCount,
+                              description: book.volumeInfo?.volumeInfoDescription,
+                              isbn: book.volumeInfo?.industryIdentifiers?.first?.identifier,
+                              language: language,
+                              publisher: book.volumeInfo?.publisher?.capitalized,
+                              publishedDate: publishedDate,
+                              pages: book.volumeInfo?.pageCount,
+                              price: price,
+                              image: book.volumeInfo?.imageLinks?.thumbnail)
+        view?.displayBook(with: data)
     }
 }

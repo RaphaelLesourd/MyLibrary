@@ -51,10 +51,6 @@ extension Factory {
                              bookCardDelegate: bookCardDelegate)
     }
 
-    func makeBookLibraryVC(with query: BookQuery? = .defaultAllBookQuery, title: String? = nil) -> UIViewController {
-        return makeBookLibraryVC(with: query, title: title)
-    }
-
     func makeNewCategoryVC(category: CategoryDTO? = nil) -> UIViewController {
         return makeNewCategoryVC(category: category)
     }

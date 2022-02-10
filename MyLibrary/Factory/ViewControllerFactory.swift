@@ -68,6 +68,8 @@ class ViewControllerFactory {
                                                          converter: converter,
                                                          validator: validation)
     private let onboardingPresenter = OnboardingPresenter()
+
+    private lazy var searchPresenter = SearchPresenter(apiManager: googleBooksService)
     
     // MARK: Layout
     private let bookListLayout = BookListLayout()
@@ -75,7 +77,7 @@ class ViewControllerFactory {
     private let onboardingLayout = OnboardingLayout()
     
     private func makeResultViewController() -> SearchViewController {
-        SearchViewController(presenter: SearchPresenter(apiManager: googleBooksService),
+        SearchViewController(presenter: searchPresenter,
                              layoutComposer: bookListLayout)
     }
 }
@@ -159,6 +161,7 @@ extension ViewControllerFactory: Factory {
                     selectedData: String?,
                     newBookDelegate: NewBookViewControllerDelegate?) -> UIViewController {
         let presenter = ListPresenter(listDataType: dataType, formatter: formatter)
+
         return ListTableViewController(receivedData: selectedData,
                                        newBookDelegate: newBookDelegate,
                                        presenter: presenter)

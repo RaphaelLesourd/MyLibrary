@@ -82,6 +82,7 @@ class HomePresenter: BookCellMapper {
                           profileImage: user.photoURL,
                           currentUser: currentUser)
     }
+    
     // MARK: - Private functions
     /// Fetch books for the current query
     /// - Parameters:

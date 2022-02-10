@@ -23,13 +23,14 @@ class LibraryPresenter: BookCellMapper {
     }
 
     func loadMoreBooks(currentIndex: Int, lastRow: Int) {
-        if lastRow == currentIndex && endOfList == false && bookList.count >= dataFetchLimit {
+        if lastRow == currentIndex && endOfList == false {
             getBooks(nextPage: true)
         }
     }
 
     func fetchBookList() {
         bookList.removeAll()
+        view?.applySnapshot(animatingDifferences: false)
         endOfList = false
         getBooks(nextPage: false)
     }
@@ -43,22 +44,22 @@ class LibraryPresenter: BookCellMapper {
     private func getBooks(nextPage: Bool = false) {
         guard let currentQuery = currentQuery else { return }
         view?.startActivityIndicator()
+        // Remove any book listeners to avoid multiple calls.
+        libraryService.removeBookListener()
 
         libraryService.getBookList(for: currentQuery,
                                       limit: dataFetchLimit,
                                       forMore: nextPage) { [weak self] result in
             self?.view?.stopActivityIndicator()
-
             switch result {
             case .success(let books):
                 self?.endOfList = books.isEmpty
-                self?.bookList.append(contentsOf: books)
+                nextPage ? self?.bookList.append(contentsOf: books) : (self?.bookList = books)
                 self?.view?.applySnapshot(animatingDifferences: true)
                 self?.setHeaderTitle()
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            self?.libraryService.removeBookListener()
         }
     }
 

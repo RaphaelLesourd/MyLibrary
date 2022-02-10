@@ -29,7 +29,7 @@ class BookCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        bookCover.image = Images.emptyStateBookImage
+        bookCover.image = nil
     }
 }
 // MARK: - Constraints

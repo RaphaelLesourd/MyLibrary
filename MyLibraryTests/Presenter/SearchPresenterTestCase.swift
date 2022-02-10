@@ -33,10 +33,9 @@ class SearchPresenterTestCase: XCTestCase {
         searchViewSpy = nil
     }
 
-    func test_getBookList_withDataReturned_forKeyWordSearch() {
+    func test_getBookList_withDataReturned() {
         sut = SearchPresenter(apiManager: apiManager)
         sut.view = searchViewSpy
-        sut.searchType = .keywordSearch
         sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
         XCTAssertTrue(sut.searchList.count == 1)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
@@ -44,26 +43,24 @@ class SearchPresenterTestCase: XCTestCase {
         XCTAssertTrue(searchViewSpy.applySnapshotWasCalled)
     }
     
-    func test_getBookList_withEmptyDataReturned_forKeyWordSearch() {
+    func test_getBookList_withEmptyDataReturned() {
         sut = SearchPresenter(apiManager: apiManagerEmptyData)
         sut.view = searchViewSpy
-        sut.searchType = .keywordSearch
         sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
         XCTAssertTrue(sut.searchList.isEmpty)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
         XCTAssertFalse(searchViewSpy.applySnapshotWasCalled)
     }
-    
-    func test_getBookList_withDataReturned_forBarcodeSearch() {
+
+    func test_getBookList_withBookAlreadyInList() {
         sut = SearchPresenter(apiManager: apiManager)
         sut.view = searchViewSpy
-        sut.searchType = .barCodeSearch
-        sut.getBooks(with: "12345", fromIndex: 0)
-        XCTAssertTrue(sut.searchList.isEmpty)
+        sut.searchList = [FakeData.book]
+        sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
-        XCTAssertTrue(searchViewSpy.displayBookFromCodeWasCalled)
+        XCTAssertFalse(searchViewSpy.applySnapshotWasCalled)
     }
 
     func test_getBookList_withErrorDataReturned() {
@@ -75,23 +72,10 @@ class SearchPresenterTestCase: XCTestCase {
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
         XCTAssertFalse(searchViewSpy.applySnapshotWasCalled)
     }
-
-    func test_getBookList_withDataReturned_forKeyWordSearch_bookAlreadyExist() {
-        sut = SearchPresenter(apiManager: apiManager)
-        sut.view = searchViewSpy
-        sut.searchType = .keywordSearch
-        sut.searchList = FakeData.books
-        sut.getBooks(with: "Tintin, Hergé et les autos", fromIndex: 0)
-        XCTAssertTrue(sut.searchList.count == 1)
-        XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
-        XCTAssertTrue(searchViewSpy.showActivityWasCalled)
-        XCTAssertFalse(searchViewSpy.applySnapshotWasCalled)
-    }
     
-    func test_refreshingData_noError_forKeywordSearch() {
+    func test_refreshingData() {
         sut = SearchPresenter(apiManager: apiManager)
         sut.view = searchViewSpy
-        sut.searchType = .keywordSearch
         sut.currentSearchKeywords = "Test"
         XCTAssertTrue(searchViewSpy.stopActivityWasCalled)
         XCTAssertTrue(searchViewSpy.showActivityWasCalled)
@@ -110,18 +94,13 @@ class SearchPresenterTestCase: XCTestCase {
 
 
 class SearchViewSpy: SearchPresenterView {
-    
-    var displayBookFromCodeWasCalled = false
+
     var applySnapshotWasCalled = false
     var showActivityWasCalled = false
     var stopActivityWasCalled = false
  
     func applySnapshot(animatingDifferences: Bool) {
         applySnapshotWasCalled = true
-    }
-    
-    func displayBookFromBarCodeSearch(with book: ItemDTO?) {
-        displayBookFromCodeWasCalled = true
     }
     
     func startActivityIndicator() {

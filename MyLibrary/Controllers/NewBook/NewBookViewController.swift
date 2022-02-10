@@ -81,6 +81,7 @@ class NewBookViewController: UITableViewController {
     }
     
     private func setDelegates() {
+        searchViewController.newBookDelegate = self
         subViews.delegate = self
         subViews.textFields.forEach { $0.delegate = self }
     }
@@ -91,7 +92,7 @@ class NewBookViewController: UITableViewController {
         subViews.searchController.obscuresBackgroundDuringPresentation = false
         subViews.searchController.searchBar.placeholder = Text.Placeholder.search
         subViews.searchController.definesPresentationContext = false
-        searchViewController.newBookDelegate = self
+
         self.navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = isEditingBook ? nil : subViews.searchController
     }
@@ -153,8 +154,8 @@ extension NewBookViewController: BarcodeScannerDelegate {
     /// Uses the barcode string returned from the BarcodeScannerViewController as a search keyword
     /// and pass it the SearchViewController.
     func processBarcode(with code: String) {
-        searchViewController.presenter.searchType = .barCodeSearch
-        searchViewController.presenter.currentSearchKeywords = code
+        subViews.searchController.searchBar.becomeFirstResponder()
+        subViews.searchController.searchBar.text = code
     }
 }
 
@@ -163,7 +164,6 @@ extension NewBookViewController: UISearchBarDelegate {
     /// Pass the keyword entered int he searchBar to the SearchBookViewController.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchViewController.presenter.clearData()
-        searchViewController.presenter.searchType = .keywordSearch
         searchViewController.presenter.currentSearchKeywords = subViews.searchController.searchBar.text ?? ""
     }
 

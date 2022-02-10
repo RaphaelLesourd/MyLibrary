@@ -60,7 +60,7 @@ class LibraryPresenterTestCase: XCTestCase {
         sut.view = libraryViewSpy
         sut.currentQuery = nil
         sut.fetchBookList()
-        XCTAssertFalse(libraryViewSpy.snapshotWasCalled)
+        XCTAssertTrue(libraryViewSpy.snapshotWasCalled)
         XCTAssertFalse(libraryViewSpy.showActivityWasCalled)
         XCTAssertFalse(libraryViewSpy.stopActivityWasCalled)
         XCTAssertFalse(libraryViewSpy.updateHeaderWasCalled)

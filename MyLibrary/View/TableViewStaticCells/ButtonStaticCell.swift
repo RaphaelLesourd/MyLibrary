@@ -11,6 +11,7 @@ class ButtonStaticCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         self.backgroundColor = .viewControllerBackgroundColor
         setButtonConstraints()
     }
