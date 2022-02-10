@@ -24,7 +24,7 @@ class ListPresenter {
         getFavorites()
     }
 
-    // MARK: - Internal functions
+    // MARK: - Public functions
     /// Get the data for the chosen list type
     func getData() {
         let list = createList(for: listDataType)

@@ -44,6 +44,8 @@ class LibraryPresenter: BookCellMapper {
     private func getBooks(nextPage: Bool = false) {
         guard let currentQuery = currentQuery else { return }
         view?.startActivityIndicator()
+        // Remove any book listeners to avoid multiple calls.
+        libraryService.removeBookListener()
 
         libraryService.getBookList(for: currentQuery,
                                       limit: dataFetchLimit,
@@ -58,7 +60,6 @@ class LibraryPresenter: BookCellMapper {
             case .failure(let error):
                 AlertManager.presentAlertBanner(as: .error, subtitle: error.description)
             }
-            self?.libraryService.removeBookListener()
         }
     }
 
