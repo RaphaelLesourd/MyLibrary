@@ -23,7 +23,7 @@ class BarcodeControllerView: UIView {
         setStackViewConstraints()
         setAnimationViewConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,6 +34,7 @@ class BarcodeControllerView: UIView {
         view.roundView(radius: 12, backgroundColor: .systemBackground)
         return view
     }()
+
     let animationView: AnimationView = {
         let animationView = AnimationView()
         animationView.loopMode = .loop
@@ -43,6 +44,7 @@ class BarcodeControllerView: UIView {
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
     }()
+
     private let flashLightButton = UIButton()
     
     private let titleLabel = TextLabel(color: .label,
@@ -57,7 +59,7 @@ class BarcodeControllerView: UIView {
                                            spacing: 5)
     private let headerStackView = StackView(axis: .horizontal,
                                             distribution: .fillProportionally,
-                                            spacing: 10)
+                                            spacing: 0)
     private let stackView = StackView(axis: .vertical,
                                       distribution: .fillProportionally,
                                       spacing: 20)
@@ -81,7 +83,9 @@ class BarcodeControllerView: UIView {
         
         stackView.addArrangedSubview(headerStackView)
         stackView.addArrangedSubview(videoPreviewContainerView)
+
         toggleButton(onState: false)
+
         titleLabel.text = Text.ControllerTitle.barcodeController
         infoLabel.text = Text.ControllerTitle.barcodeControllerSubitle
     }
