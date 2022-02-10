@@ -48,7 +48,7 @@ class ViewControllerFactoryTestCase: XCTestCase {
     
     func test_makeBookListVC() {
         let query = BookQuery(listType: .favorites, orderedBy: .category, fieldValue: nil, descending: true)
-        let controller = sut.makeBookLibraryVC(with: query)
+        let controller = sut.makeBookLibraryVC(with: query, title: nil)
         XCTAssertTrue(controller is BookLibraryViewController)
     }
     
