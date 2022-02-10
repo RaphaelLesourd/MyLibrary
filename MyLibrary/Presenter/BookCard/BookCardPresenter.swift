@@ -16,7 +16,7 @@ class BookCardPresenter {
             mapToBookUI()
             fetchCategoryNames()
             setBookFavoriteStatus()
-            setBookRecommandStatus()
+            setBookRecommendStatus()
         }
     }
     var isBookEditable: Bool {
@@ -26,7 +26,6 @@ class BookCardPresenter {
     }
     var recommended = true {
         didSet {
-            print(recommended)
             view?.toggleRecommendButton(as: recommended)
         }
     }
@@ -161,10 +160,9 @@ class BookCardPresenter {
         }
     }
 
-    private func setBookRecommandStatus() {
-        if let recommand = book?.recommanding {
-            print(recommand)
-            recommended = recommand
+    private func setBookRecommendStatus() {
+        if let recommend = book?.recommanding {
+            recommended = recommend
         }
     }
 

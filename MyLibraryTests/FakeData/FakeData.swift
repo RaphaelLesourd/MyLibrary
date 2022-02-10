@@ -65,9 +65,9 @@ class FakeData {
                                        category: [])
     static let bookNilBookData: ItemDTO = ItemDTO(id: "1",
                                                   bookID: "1",
-                                                  favorite: true,
+                                                  favorite: nil,
                                                   ownerID: nil,
-                                                  recommanding: true,
+                                                  recommanding: nil,
                                                   volumeInfo: FakeData.volumeInfo,
                                                   saleInfo: FakeData.saleInfo,
                                                   timestamp: 0,
