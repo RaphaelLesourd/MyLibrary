@@ -1,12 +1,11 @@
-# MyLibrary
-OpenClassrooms P12 - Projet final.
+# OpenClassrooms P12 - Projet final.
 
 
 Créer une application iOS pour répondre à un besoin autour de vous. 
 Elle peut permettre d'adopter des chiens abandonnés, de localiser et référencer les objets trouvés pendant un festival,
 d'aider à maîtriser ses dépenses énergétiques… Prenez le temps de choisir un sujet qui vous touche et pour lequel il existe un véritable besoin.
 
-Contraintes
+## Contraintes
 Le code est sur GitHub avec un historique de commits cohérent.
 Le code est documenté avec des commentaires pour chaque fonction, propriété, classe au minimum.
 Le code est écrit en anglais : commentaires, variables, fonctions…
@@ -18,20 +17,20 @@ L'application doit supporter iOS 10 et les versions supérieures.
 Votre projet doit être diffusé publiquement avec un code source ouvert.
 
 
-MaBibliothèque
-
+# MaBibliothèque
 
 Dans le cadre du projet final du parcours iOS, la mission est de créer une application à but social et répondre à un veritable besoin.
 
 Le choix de mon sujet s’est imposé lors de conversations avec des gens autour de moi qui ont tous un large volume de livres.
 
+## Description
 J’ai proposé l’idée de construire une application pouvant répertorier leur collection. 
 S’adressant à tous les ages et tout type d’ouvrages, du livre de collection aux comics, cette application permettra d’avoir avec sois dans son téléphone ou iPad ce que l’on possède deja.
 Fini de se dire au moment d’un achat si on possède deja tel ou tel livre.
 L’utilisateur en manque d’inspiration pour faire un cadeau, pourra puiser des idées dans la section recommendation tout en se laissant guider par les commentaires et avis des autres utilisateurs.
 
+## Fonctions
 Le parcours d’un nouvel utilisateur commencera par un écran de bienvenue présentant la possibilité de se connecter à son compte ou d’en créer un.
-
 
 L’application proposera ensuite, 3 onglets principaux pour la version iPhone:
 • Un onglet Accueil centralisera les 20 derniers livres ajoutés, les favoris et les catégories de
@@ -52,7 +51,35 @@ Tous les utilisateurs ayant posté un commentaire sur le livre recevront une not
 
 L’écran des catégories, accessible depuis l’onglet Accueil ou Nouveau livre, permettra de créer, éditer, et effacer des catégories.
 
+## Langues
+• Français 
+• Anglais 
 
-L’application sera disponible en Français et en Anglais pour iPhone en orientation portrait et iPad en orientation portrait et paysage.
+## Disponibilité
+• iPhone mode portrait
+• ipad mode paysage
+
+
+## Points clés
+• MVP design pattern
+• Factory pattern
+• UI in code
+• TabBar / SplitViewController
+• Swift Package Manager
+• Xcode cloud
+• Darkmode support
+
+## SPM 
+• Alamofire
+• Kingfisher
+• Firebase (User account, data management with Firestore, Push notifications)
+• Bauly
+• Lottie
+• MessageKit (chatBar)
+
+## API
+• GoogleBooks
+
+
 
 ![1](./images/1.PNG) ![2](./images/2.PNG) ![3](./images/3.PNG) ![4](./images/4.PNG) ![5](./images/5.PNG) ![6](./images/6.PNG) ![7](./images/7.PNG) ![8](./images/8.PNG)
