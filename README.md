@@ -55,4 +55,4 @@ L’écran des catégories, accessible depuis l’onglet Accueil ou Nouveau livr
 
 L’application sera disponible en Français et en Anglais pour iPhone en orientation portrait et iPad en orientation portrait et paysage.
 
-![1](./images/1.png) ![2](./images/2.png) ![3](./images/3.png) ![4](./images/4.png) ![5](./images/5.png) ![6](./images/6.png) ![7](./images/7.png) ![8](./images/8.png)
+![1](./images/1.PNG) ![2](./images/2.PNG) ![3](./images/3.PNG) ![4](./images/4.PNG) ![5](./images/5.PNG) ![6](./images/6.PNG) ![7](./images/7.PNG) ![8](./images/8.PNG)
