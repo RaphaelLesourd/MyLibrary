@@ -52,33 +52,33 @@ Tous les utilisateurs ayant posté un commentaire sur le livre recevront une not
 L’écran des catégories, accessible depuis l’onglet Accueil ou Nouveau livre, permettra de créer, éditer, et effacer des catégories.
 
 ## Langues
-• Français 
-• Anglais 
+• Français  
+• Anglais   
 
 ## Disponibilité
-• iPhone mode portrait
-• ipad mode paysage
+• iPhone mode portrait.    
+• ipad mode paysage. 
 
 
 ## Points clés
-• MVP design pattern
-• Factory pattern
-• UI in code
-• TabBar / SplitViewController
-• Swift Package Manager
-• Xcode cloud
-• Darkmode support
+• MVP design pattern.  
+• Factory pattern.  
+• UI in code.  
+• TabBar / SplitViewController. 
+• Swift Package Manager. 
+• Xcode cloud. 
+• Darkmode support. 
 
 ## SPM 
-• Alamofire
-• Kingfisher
-• Firebase (User account, data management with Firestore, Push notifications)
-• Bauly
-• Lottie
-• MessageKit (chatBar)
+• Alamofire. 
+• Kingfisher. 
+• Firebase (User account, data management with Firestore, Push notifications). 
+• Bauly. 
+• Lottie  
+• MessageKit (chatBar). 
 
 ## API
-• GoogleBooks
+• GoogleBooks. 
 
 
 
